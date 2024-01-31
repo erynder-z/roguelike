@@ -1,0 +1,13 @@
+body {
+  margin: 0px;
+}
+
+html {
+  background: black;
+  color: cyan;
+  overflow: hidden;
+}
+
+canvas {
+  background: lightblue;
+}
