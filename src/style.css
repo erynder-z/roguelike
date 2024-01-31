@@ -1,5 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  margin: 0px;
+  margin: 0;
 }
 
 html {
@@ -10,4 +16,5 @@ html {
 
 canvas {
   background: lightblue;
+  display: block;
 }
