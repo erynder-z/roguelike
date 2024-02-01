@@ -1,4 +1,4 @@
-import { TerminalPoint } from './TerminalPoint';
+import { TerminalPoint } from '../../components/Terminal/TerminalPoint';
 
 /**
  * Represents an interface for a terminal with basic drawing capabilities.

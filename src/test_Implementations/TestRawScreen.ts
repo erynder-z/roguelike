@@ -1,5 +1,5 @@
-import { RawScreenInterface } from './RawScreenInterface';
-import { Terminal } from './Terminal';
+import { RawScreenInterface } from '../interfaces/Terminal/RawScreenInterface';
+import { Terminal } from '../components/Terminal/Terminal';
 import { TestTerminal } from './TestTerminal';
 
 /**

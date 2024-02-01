@@ -1,5 +1,5 @@
-import { Terminal } from './Terminal';
-import { TerminalInterface } from './TerminalInterface';
+import { Terminal } from '../components/Terminal/Terminal';
+import { TerminalInterface } from '../interfaces/Terminal/TerminalInterface';
 
 /**
  * Utility class for testing and demonstrating terminal functionality.

@@ -11,7 +11,7 @@ window.addEventListener('resize', handleResize);
 handleResize(); */
 
 import { EventManager } from './components/Terminal/EventManager';
-import { TestRawScreen } from './components/Terminal/TestRawScreen';
+import { TestRawScreen } from './test_Implementations/TestRawScreen';
 import './style.css';
 
 EventManager.runWithRawScreen(new TestRawScreen());

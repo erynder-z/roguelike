@@ -1,4 +1,4 @@
-import { RawScreenInterface } from './RawScreenInterface';
+import { RawScreenInterface } from '../../interfaces/Terminal/RawScreenInterface';
 import { ResizingTerminal } from './ResizingTerminal';
 
 /**
