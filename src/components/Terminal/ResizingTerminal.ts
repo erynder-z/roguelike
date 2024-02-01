@@ -9,7 +9,7 @@ export class ResizingTerminal extends Terminal {
    * Reinitializes the 2D rendering context of the canvas.
    */
   public reinitializeContext() {
-    this.context = this.initializeContext();
+    this.ctx = this.initializeContext();
   }
 
   /**

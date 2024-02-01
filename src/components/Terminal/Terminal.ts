@@ -8,7 +8,7 @@ export class Terminal implements TerminalInterface {
   /**
    * The 2D rendering context of the canvas.
    */
-  context: CanvasRenderingContext2D;
+  ctx: CanvasRenderingContext2D;
 
   /**
    * The horizontal size of each cell in the terminal grid.
@@ -35,7 +35,7 @@ export class Terminal implements TerminalInterface {
    * @param dimensions - The dimensions of the terminal grid.
    */
   constructor(public dimensions: TerminalPoint) {
-    this.context = this.initializeContext();
+    this.ctx = this.initializeContext();
   }
 
   /**
@@ -44,18 +44,18 @@ export class Terminal implements TerminalInterface {
    */
   initializeContext(): CanvasRenderingContext2D {
     const canvas = <HTMLCanvasElement>document.getElementById('canvas1');
-    const context = <CanvasRenderingContext2D>canvas.getContext('2d');
+    const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
 
     this.horizontalSide = this.sideLength * 1.0;
     this.verticalSide = this.sideLength * 1.0;
 
     const squeeze: number = this.sideLength * this.scalingFactor;
-    context.fillStyle = '#110';
-    context.strokeStyle = 'red';
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    context.font = `${squeeze}px sans-serif`;
-    return context;
+    ctx.fillStyle = '#110';
+    ctx.strokeStyle = 'red';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = `${squeeze}px sans-serif`;
+    return ctx;
   }
 
   /**
@@ -115,18 +115,18 @@ export class Terminal implements TerminalInterface {
     const px = (x + 0.5) * this.horizontalSide,
       py = (y + 0.5) * this.verticalSide;
 
-    this.context.save();
+    this.ctx.save();
     {
-      this.context.fillStyle = background;
-      this.context.fillRect(fx, fy, this.horizontalSide, this.verticalSide);
+      this.ctx.fillStyle = background;
+      this.ctx.fillRect(fx, fy, this.horizontalSide, this.verticalSide);
 
-      this.context.beginPath();
-      this.context.rect(fx, fy, this.horizontalSide, this.verticalSide);
-      this.context.clip();
+      this.ctx.beginPath();
+      this.ctx.rect(fx, fy, this.horizontalSide, this.verticalSide);
+      this.ctx.clip();
 
-      this.context.fillStyle = foreground;
-      this.context.fillText(char, px, py);
+      this.ctx.fillStyle = foreground;
+      this.ctx.fillText(char, px, py);
     }
-    this.context.restore();
+    this.ctx.restore();
   }
 }
