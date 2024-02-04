@@ -3,7 +3,7 @@ import { TerminalPoint } from '../../components/Terminal/TerminalPoint';
 /**
  * Represents an interface for a terminal with basic drawing capabilities.
  */
-export interface TerminalInterface {
+export interface DrawableTerminal {
   /**
    * The dimensions of the terminal grid represented as a TerminalPoint.
    */

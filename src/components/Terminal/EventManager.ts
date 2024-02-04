@@ -1,4 +1,4 @@
-import { RawScreenInterface } from '../../interfaces/Terminal/RawScreenInterface';
+import { InteractiveScreen } from '../../interfaces/Terminal/InteractiveScreen';
 import { ResizingTerminal } from './ResizingTerminal';
 
 /**
@@ -14,7 +14,7 @@ export class EventManager {
    */
   constructor(
     public term: ResizingTerminal,
-    public screen: RawScreenInterface,
+    public screen: InteractiveScreen,
   ) {
     // Attach event listeners to relevant elements
     const bodyElement = document.getElementById('body1');
@@ -49,7 +49,7 @@ export class EventManager {
    * @param {RawScreenInterface} rawScreen - The raw screen interface to be associated with the manager.
    * @returns The created EventManager instance.
    */
-  static runWithRawScreen(rawScreen: RawScreenInterface): EventManager {
+  static runWithInteractiveScreen(rawScreen: InteractiveScreen): EventManager {
     return new EventManager(
       ResizingTerminal.createStockResizingTerminal(),
       rawScreen,

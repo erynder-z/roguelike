@@ -1,5 +1,4 @@
-import { Terminal } from '../components/Terminal/Terminal';
-import { TerminalInterface } from '../interfaces/Terminal/TerminalInterface';
+import { DrawableTerminal } from '../interfaces/Terminal/DrawableTerminal';
 
 /**
  * Utility class for testing and demonstrating terminal functionality.
@@ -9,7 +8,7 @@ export class TestTerminal {
    * Draws a single character at the specified coordinates with the given colors for testing purposes.
    * @param terminal - The terminal interface to test.
    */
-  static drawSingleCharacterTest(terminal: TerminalInterface) {
+  static drawSingleCharacterTest(terminal: DrawableTerminal) {
     terminal.drawAt(0, 0, 'a', 'white', 'gray');
   }
 
@@ -18,7 +17,7 @@ export class TestTerminal {
    * @param terminal - The terminal to test.
    * @param additionalString - The string to be displayed at specific coordinates (2, 3).
    */
-  static drawPatternTest(terminal: Terminal, additionalString: string) {
+  static drawPatternTest(terminal: DrawableTerminal, additionalString: string) {
     for (let y = 0; y < terminal.dimensions.y; ++y) {
       for (let x = 0; x < terminal.dimensions.x; ++x) {
         const calculationFactor = 5 * y * x + 3 * x;

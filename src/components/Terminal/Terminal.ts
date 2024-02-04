@@ -1,10 +1,10 @@
 import { TerminalPoint } from './TerminalPoint'; // Renamed TPoint to Point for brevity
-import { TerminalInterface } from '../../interfaces/Terminal/TerminalInterface';
+import { DrawableTerminal } from '../../interfaces/Terminal/DrawableTerminal';
 
 /**
  * Represents a terminal for drawing text on a canvas.
  */
-export class Terminal implements TerminalInterface {
+export class Terminal implements DrawableTerminal {
   /**
    * The 2D rendering context of the canvas.
    */

@@ -1,4 +1,4 @@
-import { RawScreenInterface } from '../interfaces/Terminal/RawScreenInterface';
+import { InteractiveScreen } from '../interfaces/Terminal/InteractiveScreen';
 import { Terminal } from '../components/Terminal/Terminal';
 import { TestTerminal } from './TestTerminal';
 
@@ -6,7 +6,7 @@ import { TestTerminal } from './TestTerminal';
  * A test implementation of a raw screen for a terminal application.
  *
  */
-export class TestRawScreen implements RawScreenInterface {
+export class TestRawScreen implements InteractiveScreen {
   /**
    * The name associated with the test raw screen.
    *

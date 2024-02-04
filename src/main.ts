@@ -14,4 +14,4 @@ import { EventManager } from './components/Terminal/EventManager';
 import { TestRawScreen } from './test_Implementations/TestRawScreen';
 import './style.css';
 
-EventManager.runWithRawScreen(new TestRawScreen());
+EventManager.runWithInteractiveScreen(new TestRawScreen());
