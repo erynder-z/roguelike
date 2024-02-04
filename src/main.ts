@@ -10,8 +10,14 @@ function handleResize() {
 window.addEventListener('resize', handleResize);
 handleResize(); */
 
-import { EventManager } from './components/Terminal/EventManager';
+/* import { EventManager } from './components/Terminal/EventManager';
 import { TestRawScreen } from './test_Implementations/TestRawScreen';
 import './style.css';
 
-EventManager.runWithInteractiveScreen(new TestRawScreen());
+EventManager.runWithInteractiveScreen(new TestRawScreen()); */
+
+import { ScreenStack } from './components/Terminal/ScreenStack';
+import './style.css';
+import { TestStackScreen } from './test_Implementations/TestStackScreen';
+
+ScreenStack.run_StackScreen(new TestStackScreen());
