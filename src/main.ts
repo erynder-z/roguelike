@@ -22,7 +22,13 @@ import { TestStackScreen } from './test_Implementations/TestStackScreen';
 
 ScreenStack.run_StackScreen(new TestStackScreen()); */
 
-import { ScreenMaker_Fixed } from './components/Screen/ScreenMaker_Fixed';
+/* import { ScreenMaker_Fixed } from './components/Screen/ScreenMaker_Fixed';
 import './style.css';
 
-ScreenMaker_Fixed.run_GameOverFirstWithStockScreens();
+ScreenMaker_Fixed.run_GameOverFirstWithStockScreens(); */
+
+import './style.css';
+import { MapScreen } from './components/MapModel/MapScreen';
+import { TestMap } from './test_Implementations/TestMap';
+
+MapScreen.runMapScreen(TestMap.test());
