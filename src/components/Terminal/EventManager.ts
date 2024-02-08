@@ -21,6 +21,7 @@ export class EventManager {
     bodyElement?.addEventListener('keydown', this.handleKeyDown.bind(this));
 
     window.addEventListener('resize', this.handleResize.bind(this));
+    this.handleResize();
   }
 
   /**
