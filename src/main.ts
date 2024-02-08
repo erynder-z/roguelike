@@ -27,8 +27,14 @@ import './style.css';
 
 ScreenMaker_Fixed.run_GameOverFirstWithStockScreens(); */
 
-import './style.css';
+/* import './style.css';
 import { MapScreen } from './components/MapModel/MapScreen';
 import { TestMap } from './test_Implementations/TestMap';
 
-MapScreen.runMapScreen(TestMap.test());
+MapScreen.runMapScreen(TestMap.test()); */
+
+import { MapScreen } from './components/MapModel/MapScreen';
+import './style.css';
+import { TestMap2 } from './test_Implementations/TestMap2';
+
+MapScreen.runMapScreen(TestMap2.fullTest());
