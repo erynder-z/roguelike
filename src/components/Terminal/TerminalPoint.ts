@@ -16,7 +16,5 @@ export class TerminalPoint {
    * A static method that creates a TerminalPoint instance with stock dimensions (32, 16).
    * @returns A TerminalPoint instance with x-coordinate 32 and y-coordinate 16.
    */
-  static createStockDimensions(): TerminalPoint {
-    return new TerminalPoint(32, 16);
-  }
+  static StockDimensions = new TerminalPoint(32, 16);
 }

@@ -47,6 +47,6 @@ export class ResizingTerminal extends Terminal {
    * @returns A ResizingTerminal instance with stock dimensions.
    */
   public static createStockResizingTerminal(): ResizingTerminal {
-    return new ResizingTerminal(TerminalPoint.createStockDimensions());
+    return new ResizingTerminal(TerminalPoint.StockDimensions);
   }
 }
