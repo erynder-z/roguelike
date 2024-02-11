@@ -17,7 +17,7 @@ export class TestMap2 {
         );
         const chance = rnd.isOneIn(4);
         const wall = edge || chance;
-        m.getCell(p).env = wall ? Glyph.Wall : Glyph.Floor;
+        m.cell(p).env = wall ? Glyph.Wall : Glyph.Floor;
       }
     }
     return m;

@@ -14,7 +14,7 @@ export interface Map {
    * @param {WorldPoint} p - The world point to retrieve the cell for.
    * @returns {MapCell} The map cell at the specified world point.
    */
-  getCell(p: WorldPoint): MapCell;
+  cell(p: WorldPoint): MapCell;
 
   /**
    * Checks if the specified world point is legal on the map.

@@ -25,9 +25,7 @@ export class DrawMap {
     for (t.y = 0, w.y = vp.y; t.y < terminalDimensions.y; ++t.y, ++w.y) {
       for (t.x = 0, w.x = vp.x; t.x < terminalDimensions.x; ++t.x, ++w.x) {
         // Get the cell from the map corresponding to the world point
-        const cell: MapCell = map.isLegalPoint(w)
-          ? map.getCell(w)
-          : this.outside;
+        const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
         // Get the glyph info for the cell's glyph
         const i: GlyphInfo = GlyphMap.getGlyphInfo(cell.glyph());
         // Draw the glyph on the terminal
