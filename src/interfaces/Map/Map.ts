@@ -1,5 +1,7 @@
 import { MapCell } from '../../components/MapModel/MapCell';
 import { WorldPoint } from '../../components/MapModel/WorldPoint';
+import { Mob } from '../../components/Mobs/Mob';
+import { TurnQueue } from '../../components/TurnQueue/TurnQueue';
 
 /**
  * Represents a game map with cells and dimensions.
@@ -27,4 +29,13 @@ export interface Map {
    * The map level.
    */
   level: number;
+
+  queue: TurnQueue;
+  addNPC(m: Mob): Mob;
+
+  enterMap(player: Mob, np: WorldPoint): void;
+
+  moveMob(m: Mob, p: WorldPoint): void;
+
+  isBlocked(p: WorldPoint): boolean;
 }
