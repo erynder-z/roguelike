@@ -7,4 +7,8 @@ export enum Glyph {
   Wall,
   Floor,
   Unknown,
+  Player,
+  Pawn,
+  Knight,
+  Cat,
 }

@@ -1,3 +1,4 @@
+import { GameIF } from '../../interfaces/Builder/Game';
 import { Map } from '../../interfaces/Map/Map';
 import { DrawableTerminal } from '../../interfaces/Terminal/DrawableTerminal';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
@@ -38,4 +39,29 @@ export class DrawMap {
    * @type {MapCell}
    */
   static outside: MapCell = new MapCell(Glyph.Unknown);
+
+  /**
+   * Draw the player on the map.
+   *
+   * @param {DrawableTerminal} term - the terminal to draw on
+   * @param {Map} map - the map to draw
+   * @param {WorldPoint} player_pos - the position of the player
+   * @param {GameIF} g - the game interface
+   */
+  static drawMapPlayer(
+    term: DrawableTerminal,
+    map: Map,
+    player_pos: WorldPoint,
+    g: GameIF,
+  ) {
+    if (!player_pos) {
+      player_pos = new WorldPoint();
+    }
+
+    const viewport: WorldPoint = new WorldPoint(
+      -Math.floor(term.dimensions.x * 0.5) + player_pos.x,
+      -Math.floor(term.dimensions.y * 0.5) + player_pos.y,
+    );
+    this.drawMap(term, map, viewport);
+  }
 }

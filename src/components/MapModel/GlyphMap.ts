@@ -34,6 +34,7 @@ export class GlyphMap {
   static ensureInit: number = GlyphMap.initializeGlyphs();
   static initializeGlyphs(): number {
     const add = GlyphMap.addGlyph;
+    add('@', Glyph.Player);
     add('§', Glyph.Bad);
     add('%', Glyph.Rock);
     add('#', Glyph.Wall);
