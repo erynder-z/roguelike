@@ -45,12 +45,23 @@ export class BaseScreen implements StackScreen {
     const map = <GameMap>this.game.currentMap();
     const queue = map.queue;
     let m: Mob;
-    for (m = queue.next(); !m.isPlayer && !this.over(s); ) {
+    for (m = queue.next(); !m.isPlayer && !this.over(s); m = queue.next()) {
       this.npcTurn(m, player);
     }
   }
 
-  npcTurn(m: Mob, ply: Mob) {}
+  /**
+   * Perform the NPC's turn in the game.
+   *
+   * @param {Mob} m - the NPC performing the turn
+   * @param {Mob} ply - the player involved in the turn
+   */
+  npcTurn(m: Mob, ply: Mob) {
+    const ai = this.game.ai;
+    if (ai) {
+      ai.turn(m, ply, this.game);
+    }
+  }
 
   /**
    * Determine if the stack is over
@@ -59,7 +70,7 @@ export class BaseScreen implements StackScreen {
    * @return {boolean} true if the stack is over, false otherwise
    */
   over(s: Stack): boolean {
-    const over = this.game.player.isAlive();
+    const over = !this.game.player.isAlive();
     if (over) {
       s.pop();
       s.push(this.make.gameOver());

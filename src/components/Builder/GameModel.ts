@@ -1,3 +1,4 @@
+import { MobAI } from '../../interfaces/AI/MobAI';
 import { GameIF } from '../../interfaces/Builder/Game';
 import { Map } from '../../interfaces/Map/Map';
 import { RandomGenerator } from '../MapModel/RandomGenerator';
@@ -20,4 +21,6 @@ export class Game implements GameIF {
   }
 
   player: Mob = <Mob>(<unknown>undefined);
+
+  ai: MobAI | null = null;
 }

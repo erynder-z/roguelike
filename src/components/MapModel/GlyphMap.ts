@@ -39,6 +39,9 @@ export class GlyphMap {
     add('%', Glyph.Rock);
     add('#', Glyph.Wall);
     add('.', Glyph.Floor);
+    add('P', Glyph.Pawn);
+    add('K', Glyph.Knight);
+    add('C', Glyph.Cat);
     add('?', Glyph.Unknown);
     return GlyphMap.glyphsRegistry.length;
   }

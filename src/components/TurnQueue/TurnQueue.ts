@@ -20,7 +20,7 @@ export class TurnQueue {
    * @param {Mob} m - the mob to be pushed
    * @return {void}
    */
-  pushMob(m: Mob) {
+  pushMob(m: Mob): void {
     this.mobs.push(m);
   }
   /**
@@ -28,7 +28,7 @@ export class TurnQueue {
    *
    * @return {Mob} the first item removed from the mobs array
    */
-  popMob() {
+  popMob(): Mob {
     return <Mob>this.mobs.shift();
   }
 
@@ -40,7 +40,7 @@ export class TurnQueue {
    */
   removeMob(m: Mob): void {
     const index = this.mobs.indexOf(m);
-    if (index > -1) {
+    if (index < 0) {
       this.mobs.splice(index, 1);
     }
   }
@@ -51,7 +51,7 @@ export class TurnQueue {
    * @param {Mob} m - the mob to be pushed to the front
    * @return {void}
    */
-  pushMobToFront(m: Mob) {
+  pushMobToFront(m: Mob): void {
     this.mobs.unshift(m);
   }
 

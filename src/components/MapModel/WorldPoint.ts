@@ -66,6 +66,51 @@ export class WorldPoint {
     this.y = n.y;
   }
 
+  /**
+   * Determines the direction from the current point to another WorldPoint.
+   *
+   * @param {WorldPoint} p - The world point to calculate the direction to
+   * @return {WorldPoint} The calculated direction as a new WorldPoint
+   */
+  directionTo(p: WorldPoint): WorldPoint {
+    return new WorldPoint(Math.sign(p.x - this.x), Math.sign(p.y - this.y));
+  }
+
+  /**
+   * Calculates the distance between the current point and another WorldPoint.
+   *
+   * @param {WorldPoint} b - the WorldPoint to calculate the distance to
+   * @return {number} the distance to the given WorldPoint
+   */
+  distanceTo(b: WorldPoint): number {
+    return Math.sqrt(this.squaredDistanceTo(b));
+  }
+
+  /**
+   * Calculates the squared distance between the current point and another WorldPoint.
+   * This is more efficient than calculating the actual distance.
+   *
+   * @param {WorldPoint} point - The WorldPoint to calculate the squared distance to
+   * @return {number} The squared distance between the points
+   */
+  squaredDistanceTo(b: WorldPoint): number {
+    const d = this.minus(b);
+    return d.x * d.x + d.y * d.y;
+  }
+
+  /**
+   * Subtracts another WorldPoint from the current instance.
+   *
+   * @param {WorldPoint} pointToSubtract - The WorldPoint to subtract
+   * @return {WorldPoint} The resulting WorldPoint after subtraction
+   */
+  minus(b: WorldPoint): WorldPoint {
+    return new WorldPoint(this.x - b.x, this.y - b.y);
+  }
+
+  /**
+   * Represents the stock dimensions of the world point.
+   */
   static StockDimensions = new WorldPoint(
     TerminalPoint.StockDimensions.x,
     TerminalPoint.StockDimensions.y,

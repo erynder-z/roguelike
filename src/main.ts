@@ -39,8 +39,15 @@ import { TestMap2 } from './test_Implementations/TestMap2';
 
 MapScreen.runMapScreen(TestMap2.fullTest()); */
 
-import { Builder1 } from './components/Builder/Builder1';
+/* import { Builder1 } from './components/Builder/Builder1';
 import { ScreenMaker2_Fixed } from './components/Screen/ScreenMaker2';
 import './style.css';
 
 ScreenMaker2_Fixed.InitialGameSetup(new Builder1());
+ */
+
+import { Builder2A } from './components/Builder/Builder2';
+import { ScreenMaker2_Fixed } from './components/Screen/ScreenMaker2';
+import './style.css';
+
+ScreenMaker2_Fixed.InitialGameSetup(new Builder2A());
