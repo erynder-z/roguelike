@@ -46,8 +46,8 @@ import './style.css';
 ScreenMaker2_Fixed.InitialGameSetup(new Builder1());
  */
 
-import { Builder2A } from './components/Builder/Builder2';
+import { Builder2B } from './components/Builder/Builder2B';
 import { ScreenMaker2_Fixed } from './components/Screen/ScreenMaker2';
 import './style.css';
 
-ScreenMaker2_Fixed.InitialGameSetup(new Builder2A());
+ScreenMaker2_Fixed.InitialGameSetup(new Builder2B());

@@ -22,6 +22,9 @@ export class Mob {
   pos: WorldPoint = new WorldPoint();
   glyph: Glyph = Glyph.Unknown;
   name: string = '?';
+  hp: number = 3;
+  maxhp: number = 3;
+
   isPlayer: boolean = false;
   /**
    * A function that checks if the entity is alive.
@@ -29,6 +32,6 @@ export class Mob {
    * @return {boolean} the status of the entity
    */
   isAlive(): boolean {
-    return true;
+    return this.hp > 0;
   }
 }
