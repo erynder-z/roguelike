@@ -3,6 +3,7 @@ import { Command } from '../../interfaces/Commands/Command';
 import { Map } from '../../interfaces/Map/Map';
 import { ScreenMaker } from '../../interfaces/Screen/ScreenMaker';
 import { Stack } from '../../interfaces/Terminal/Stack';
+import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
 import { WaitCommand } from '../Commands/WaitCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
@@ -123,7 +124,7 @@ export class ParsePlayer {
       case 'Numpad5':
         return this.waitCmd();
     }
-    if (!dir.isEmpty()) return this.moveCmd(dir);
+    if (!dir.isEmpty()) return this.moveBumpCmd(dir);
     return null;
   }
 
@@ -144,5 +145,15 @@ export class ParsePlayer {
    */
   waitCmd(): Command {
     return new WaitCommand(this.player, this.game);
+  }
+
+  /**
+   * Creates a new MoveBumpCommand with the given direction, player, and game.
+   *
+   * @param {WorldPoint} dir - the direction to move
+   * @return {Command} the newly created MoveBumpCommand
+   */
+  moveBumpCmd(dir: WorldPoint): Command {
+    return new MoveBumpCommand(dir, this.player, this.game);
   }
 }

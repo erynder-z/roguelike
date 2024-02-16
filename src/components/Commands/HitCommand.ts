@@ -1,6 +1,7 @@
 import { GameIF } from '../../interfaces/Builder/Game';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
+import { HealthAdjust } from './HealthAdjust';
 
 /**
  * Represents a command to hit another mob.
@@ -25,12 +26,30 @@ export class HitCommand extends CommandBase {
    * Executes the hit command, dealing damage to the target mob.
    * @returns {boolean} Returns true if the hit was successful, false otherwise.
    */
-  execute(): boolean {
+  execute0(): boolean {
     const me = this.me.name;
     const him = this.him.name;
     const dmg = 1;
     const s = `${me} hits ${him} for ${dmg} damage.`;
     this.him.hp -= dmg;
+    console.log(s);
+    return true;
+  }
+
+  /**
+   * Executes the hit command, dealing damage to the target mob.
+   * @returns {boolean} Returns true if the hit was successful, false otherwise.
+   */
+  execute(): boolean {
+    const me = this.me.name;
+    const rand = this.game.rand;
+
+    let dmg = rand.randomIntegerClosedRange(0, 3);
+    if (dmg === 3) dmg = 1;
+    const s = dmg
+      ? `${me} hits ${this.him.name} for ${dmg} damage.`
+      : `${me} misses ${this.him.name}.`;
+    HealthAdjust.adjust(this.him, -dmg, this.game, this.me);
     console.log(s);
     return true;
   }

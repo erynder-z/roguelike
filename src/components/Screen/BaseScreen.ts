@@ -30,6 +30,7 @@ export class BaseScreen implements StackScreen {
       this.game.player.pos,
       this.game,
     );
+    DrawMap.renderStats(term, this.game);
   }
 
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {}

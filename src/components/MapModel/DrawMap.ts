@@ -64,4 +64,21 @@ export class DrawMap {
     );
     this.drawMap(term, map, viewport);
   }
+
+  /**
+   * Renders the player stats on the terminal.
+   *
+   * @param {DrawableTerminal} term - the terminal to render the stats on
+   * @param {GameIF} game - the game instance to retrieve player stats from
+   * @return {void}
+   */
+  static renderStats(term: DrawableTerminal, game: GameIF): void {
+    const player = game.player;
+    const hp = player.hp;
+    const maxhp = player.maxhp;
+
+    const hpDisplay = `HP: ${hp}/${maxhp}`;
+    const y = 1;
+    term.drawText(1, y, hpDisplay, 'yellow', 'teal');
+  }
 }
