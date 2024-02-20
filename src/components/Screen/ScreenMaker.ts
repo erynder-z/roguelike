@@ -5,6 +5,7 @@ import { StackScreen } from '../../interfaces/Terminal/StackScreen';
 import { ScreenStack } from '../Terminal/ScreenStack';
 import { GameOverScreen } from './GameOverScreen';
 import { GameScreen } from './GameScreen';
+import { MoreScreen } from './MoreScreen';
 
 /**
  * Represents a screen maker implementation for creating screens.
@@ -29,6 +30,10 @@ export class ScreenMaker2_Fixed implements ScreenMaker {
   newGame(): StackScreen {
     this.game = this.build.makeGame();
     return new GameScreen(<GameIF>this.game, this);
+  }
+
+  more(game: GameIF | null): StackScreen {
+    return new MoreScreen(<GameIF>game, this);
   }
 
   /**

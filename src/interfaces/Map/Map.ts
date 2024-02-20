@@ -37,5 +37,7 @@ export interface Map {
 
   moveMob(m: Mob, p: WorldPoint): void;
 
+  removeMob(m: Mob): void;
+
   isBlocked(p: WorldPoint): boolean;
 }

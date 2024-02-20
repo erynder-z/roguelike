@@ -40,9 +40,8 @@ export class GameScreen extends BaseScreen {
    * @return {void}
    */
   playerKeyTurn(stack: Stack, char: string, event: KeyboardEvent | null): void {
-    if (this.playerTurn(stack, char, event)) {
-      this.npcTurns(stack);
-    }
+    if (this.game.log) this.game.log.clearQueue();
+    if (this.playerTurn(stack, char, event)) this.npcTurns(stack);
   }
 
   /**

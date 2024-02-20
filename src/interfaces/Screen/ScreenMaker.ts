@@ -1,3 +1,4 @@
+import { GameIF } from '../Builder/Game';
 import { StackScreen } from '../Terminal/StackScreen';
 
 /**
@@ -17,4 +18,6 @@ export interface ScreenMaker {
    * @returns {StackScreen} A StackScreen representing the game over state.
    */
   gameOver(): StackScreen;
+
+  more(game: GameIF | null): StackScreen;
 }

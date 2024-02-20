@@ -1,6 +1,7 @@
 import { MobAI } from '../../interfaces/AI/MobAI';
 import { GameIF } from '../../interfaces/Builder/Game';
 import { Map } from '../../interfaces/Map/Map';
+import { MessageLog } from '../Messages/MessageLog';
 import { RandomGenerator } from '../MapModel/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 
@@ -23,4 +24,15 @@ export class Game implements GameIF {
   player: Mob = <Mob>(<unknown>undefined);
 
   ai: MobAI | null = null;
+
+  log: MessageLog = new MessageLog();
+
+  /**
+   * Adds a message to the message log.
+   * @param {string} s - The message to add.
+   * @returns {void}
+   */
+  message(s: string): void {
+    this.log.message(s);
+  }
 }

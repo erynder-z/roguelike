@@ -43,9 +43,11 @@ export class HealthAdjust {
   static damage(mob: Mob, amount: number, game: GameIF, attacker: Mob | null) {
     console.log('damage', amount, mob.hp);
     mob.hp -= amount;
-    console.log('damage', amount, mob.hp);
+    console.log('damage to', amount, mob.hp);
     if (mob.hp <= 0) {
-      this.mobDies(mob, game);
+      const involvesPlayer =
+        mob.isPlayer || (attacker !== null && attacker.isPlayer);
+      this.mobDies(mob, game, involvesPlayer);
     }
   }
 
@@ -54,9 +56,9 @@ export class HealthAdjust {
    * @param {Mob} mob - The mob that dies.
    * @param {GameIF} game - The game interface.
    */
-  static mobDies(mob: Mob, game: GameIF) {
+  static mobDies(mob: Mob, game: GameIF, involvesPlayer: boolean) {
     const s = `${mob.name} dies.`;
-    console.log(s);
+    if (involvesPlayer) game.message(s);
     const map = <Map>game.currentMap();
     map.removeMob(mob);
   }

@@ -22,8 +22,15 @@ export class DrawMap {
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
+    const mapOffSet = 2;
+
     // Loop through each row and column of the terminal
-    for (t.y = 0, w.y = vp.y; t.y < terminalDimensions.y; ++t.y, ++w.y) {
+    for (
+      t.y = mapOffSet, w.y = vp.y;
+      t.y < terminalDimensions.y + mapOffSet;
+      ++t.y, ++w.y
+    ) {
+      //
       for (t.x = 0, w.x = vp.x; t.x < terminalDimensions.x; ++t.x, ++w.x) {
         // Get the cell from the map corresponding to the world point
         const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
@@ -78,7 +85,51 @@ export class DrawMap {
     const maxhp = player.maxhp;
 
     const hpDisplay = `HP: ${hp}/${maxhp}`;
+
+    const s = this.extend(hpDisplay, term);
+    const x = 0;
+    const y = 0;
+    term.drawText(x, y, s, 'yellow', 'teal');
+  }
+
+  /**
+   * Renders the top message on the terminal.
+   * @param {DrawableTerminal} term - The terminal to render the message on.
+   * @param {GameIF} game - The game instance to retrieve the message from.
+   * @returns {void}
+   */
+  static renderMessage(term: DrawableTerminal, game: GameIF): void {
+    const log = game.log;
+
+    if (!log) return;
+    const line = log.top();
+    const num = log.len();
+    let s = num > 1 ? `${line} (${num} more)` : line;
+
+    s = this.extend(s, term);
+
+    const x = 0;
     const y = 1;
-    term.drawText(1, y, hpDisplay, 'yellow', 'teal');
+
+    term.drawText(x, y, s, 'cyan', 'blue');
+  }
+  /**
+   * Use an empty string as the mask.
+   * @type {string}
+   */
+  static mask: string = '';
+
+  /**
+   * Extends the given string to fit the terminal width.
+   * @param {string} s - The string to extend.
+   * @param {DrawableTerminal} term - The terminal.
+   * @returns {string} - The extended string.
+   */
+  static extend(s: string, term: DrawableTerminal): string {
+    const dimensions = term.dimensions;
+
+    if (!this.mask) this.mask = ' '.repeat(dimensions.x);
+
+    return s + this.mask.substring(0, dimensions.x - s.length);
   }
 }

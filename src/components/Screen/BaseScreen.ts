@@ -31,6 +31,7 @@ export class BaseScreen implements StackScreen {
       this.game,
     );
     DrawMap.renderStats(term, this.game);
+    DrawMap.renderMessage(term, this.game);
   }
 
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {}
@@ -49,6 +50,7 @@ export class BaseScreen implements StackScreen {
     for (m = queue.next(); !m.isPlayer && !this.over(s); m = queue.next()) {
       this.npcTurn(m, player);
     }
+    this.handleMessages(s);
   }
 
   /**
@@ -77,5 +79,15 @@ export class BaseScreen implements StackScreen {
       s.push(this.make.gameOver());
     }
     return over;
+  }
+
+  /**
+   * Handles messages in the game.
+   * @param {Stack} s - The stack of Screens.
+   * @returns {void}
+   */
+  handleMessages(s: Stack): void {
+    if (!this.game.log) return;
+    if (this.game.log.hasQueuedMessages()) s.push(this.make.more(this.game));
   }
 }

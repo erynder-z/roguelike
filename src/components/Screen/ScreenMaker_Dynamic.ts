@@ -1,16 +1,11 @@
+import { Build1 } from '../../interfaces/Builder/Builder1';
+import { GameIF } from '../../interfaces/Builder/Game';
 import { ScreenMaker } from '../../interfaces/Screen/ScreenMaker';
 import { StackScreen } from '../../interfaces/Terminal/StackScreen';
 import { ScreenStack } from '../Terminal/ScreenStack';
-import { DummyScreen } from './DummyScreen';
 import { GameOverScreen } from './GameOverScreen';
-
-export interface Game {
-  //TODO
-}
-
-export interface GameBuilder {
-  makeGame(): Game;
-}
+import { GameScreen } from './GameScreen';
+import { MoreScreen } from './MoreScreen';
 
 /**
  * Represents a dynamic screen maker that can create screens based on provided game states.
@@ -18,7 +13,7 @@ export interface GameBuilder {
  * @implements {ScreenMaker}
  */
 export class ScreenMaker_Dynamic implements ScreenMaker {
-  game: Game | null = null;
+  game: GameIF | null = null;
 
   /**
    * Creates an instance of DynamicScreenMaker.
@@ -29,9 +24,10 @@ export class ScreenMaker_Dynamic implements ScreenMaker {
    * @param {Function} init - The function to initialize screens.
    */
   constructor(
-    public builder: GameBuilder,
-    public gameScreen: (game: Game, sm: ScreenMaker) => StackScreen,
-    public overScreen: (game: Game, sm: ScreenMaker) => StackScreen,
+    public builder: Build1,
+    public gameScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
+    public overScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
+    public moreScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
     public init: (sm: ScreenMaker) => StackScreen,
   ) {}
 
@@ -42,7 +38,7 @@ export class ScreenMaker_Dynamic implements ScreenMaker {
    */
   newGame(): StackScreen {
     this.game = this.builder.makeGame();
-    return this.gameScreen(<Game>this.game, this);
+    return this.gameScreen(<GameIF>this.game, this);
   }
 
   /**
@@ -51,7 +47,11 @@ export class ScreenMaker_Dynamic implements ScreenMaker {
    * @returns {StackScreen} A StackScreen representing the game over state.
    */
   gameOver(): StackScreen {
-    return this.overScreen(<Game>this.game, this);
+    return this.overScreen(<GameIF>this.game, this);
+  }
+
+  more(game: GameIF | null): StackScreen {
+    return this.moreScreen(<GameIF>game, this);
   }
 
   /**
@@ -68,12 +68,13 @@ export class ScreenMaker_Dynamic implements ScreenMaker {
    *
    * @param {GameBuilder} builder - The builder for creating games.
    */
-  static runBuilt_GameOverFirst(builder: GameBuilder) {
+  static runBuilt_InitialGameSetup(builder: Build1) {
     const dynamicScreenMaker = new ScreenMaker_Dynamic(
       builder,
-      (g: Game, sm: ScreenMaker) => new DummyScreen(sm),
-      (g: Game, sm: ScreenMaker) => new GameOverScreen(sm),
-      (sm: ScreenMaker) => sm.gameOver(),
+      (g: GameIF, sm: ScreenMaker) => new GameScreen(g, sm),
+      (g: GameIF, sm: ScreenMaker) => new GameOverScreen(sm),
+      (g: GameIF, sm: ScreenMaker) => new MoreScreen(g, sm),
+      (sm: ScreenMaker) => sm.newGame(),
     );
     this.runDynamic(dynamicScreenMaker);
   }

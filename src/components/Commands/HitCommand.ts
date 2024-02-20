@@ -19,7 +19,7 @@ export class HitCommand extends CommandBase {
     public him: Mob,
     public game: GameIF,
   ) {
-    super();
+    super(me, game);
   }
 
   /**
@@ -42,15 +42,21 @@ export class HitCommand extends CommandBase {
    */
   execute(): boolean {
     const me = this.me.name;
+    const him = this.him.name;
     const rand = this.game.rand;
 
     let dmg = rand.randomIntegerClosedRange(0, 3);
     if (dmg === 3) dmg = 1;
+
     const s = dmg
-      ? `${me} hits ${this.him.name} for ${dmg} damage.`
-      : `${me} misses ${this.him.name}.`;
+      ? `${me} hits ${him} for ${dmg} damage.`
+      : `${me} misses ${him}.`;
+
+    if (this.me.isPlayer || this.him.isPlayer) {
+      this.game.message(s);
+    }
+
     HealthAdjust.adjust(this.him, -dmg, this.game, this.me);
-    console.log(s);
     return true;
   }
 }

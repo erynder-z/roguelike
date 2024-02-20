@@ -3,10 +3,12 @@ import { Command } from '../../interfaces/Commands/Command';
 import { Map } from '../../interfaces/Map/Map';
 import { ScreenMaker } from '../../interfaces/Screen/ScreenMaker';
 import { Stack } from '../../interfaces/Terminal/Stack';
+import { StackScreen } from '../../interfaces/Terminal/StackScreen';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
 import { WaitCommand } from '../Commands/WaitCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { LogScreen } from '../Messages/LogScreen';
 import { Mob } from '../Mobs/Mob';
 
 /**
@@ -86,6 +88,7 @@ export class ParsePlayer {
     stack: Stack,
     event: KeyboardEvent | null,
   ): Command | null {
+    let stackScreen: StackScreen | undefined;
     const dir = new WorldPoint();
     switch (char) {
       case 'ArrowLeft':
@@ -123,7 +126,16 @@ export class ParsePlayer {
       case '.':
       case 'Numpad5':
         return this.waitCmd();
+      case 'q':
+        stackScreen = new LogScreen(this.game, this.make);
+        break;
     }
+
+    if (stackScreen) {
+      stack.push(stackScreen);
+      return null;
+    }
+
     if (!dir.isEmpty()) return this.moveBumpCmd(dir);
     return null;
   }

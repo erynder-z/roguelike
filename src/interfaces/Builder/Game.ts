@@ -1,3 +1,4 @@
+import { MessageLog } from '../../components/Messages/MessageLog';
 import { RandomGenerator } from '../../components/MapModel/RandomGenerator';
 import { Mob } from '../../components/Mobs/Mob';
 import { MobAI } from '../AI/MobAI';
@@ -11,4 +12,6 @@ export interface GameIF {
   currentMap(): Map | null;
   player: Mob;
   ai: MobAI | null;
+  message(s: string): void;
+  log: MessageLog;
 }
