@@ -43,6 +43,8 @@ export class GlyphMap {
     add('K', Glyph.Knight);
     add('C', Glyph.Cat);
     add('?', Glyph.Unknown);
+    add('<', Glyph.StairsUp);
+    add('>', Glyph.StairsDown);
     return GlyphMap.glyphsRegistry.length;
   }
 

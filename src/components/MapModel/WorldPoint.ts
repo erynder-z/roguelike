@@ -109,6 +109,15 @@ export class WorldPoint {
   }
 
   /**
+   * Checks if this WorldPoint is equal to another WorldPoint.
+   * @param {WorldPoint} b - The WorldPoint to compare with
+   * @returns {boolean} true if the two WorldPoints are equal, false otherwise
+   */
+  isEqual(b: WorldPoint): boolean {
+    return b.x === this.x && b.y === this.y;
+  }
+
+  /**
    * Represents the stock dimensions of the world point.
    */
   static StockDimensions = new WorldPoint(

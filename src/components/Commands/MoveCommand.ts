@@ -1,8 +1,10 @@
 import { GameIF } from '../../interfaces/Builder/Game';
 import { Map } from '../../interfaces/Map/Map';
+import { Glyph } from '../MapModel/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
+import { StairCommand } from './StairCommand';
 
 /**
  * Represents a move command that extends the functionality of the base command.
@@ -44,7 +46,32 @@ export class MoveCommand extends CommandBase {
     const legal = !map.isBlocked(np);
     if (legal) {
       map.moveMob(this.me, np);
+      if (this.me.isPlayer) {
+        this.dealWithStairs(map, np);
+      }
     }
     return legal;
+  }
+
+  /**
+   * Deals with stairs after the move, if the player has encountered stairs.
+   * @param {Map} map - The map object.
+   * @param {WorldPoint} np - The new position after the move.
+   * @returns {void}
+   */
+  dealWithStairs(map: Map, np: WorldPoint): void {
+    let dir: number;
+
+    switch (map.cell(np).env) {
+      case Glyph.StairsDown:
+        dir = 1;
+        break;
+      case Glyph.StairsUp:
+        dir = -1;
+        break;
+      default:
+        return;
+    }
+    new StairCommand(dir, this.game).raw();
   }
 }

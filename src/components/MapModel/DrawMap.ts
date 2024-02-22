@@ -83,13 +83,18 @@ export class DrawMap {
     const player = game.player;
     const hp = player.hp;
     const maxhp = player.maxhp;
+    const lvl = game.dungeon.level;
 
-    const hpDisplay = `HP: ${hp}/${maxhp}`;
+    const hpDisplayText = `HP: ${hp}/${maxhp}`;
+    const lvlDisplayText = `LVL: ${lvl}`;
 
-    const s = this.extend(hpDisplay, term);
+    const statsDisplay = this.extend(
+      hpDisplayText + ' ' + lvlDisplayText,
+      term,
+    );
     const x = 0;
     const y = 0;
-    term.drawText(x, y, s, 'yellow', 'teal');
+    term.drawText(x, y, statsDisplay, 'yellow', 'teal');
   }
 
   /**

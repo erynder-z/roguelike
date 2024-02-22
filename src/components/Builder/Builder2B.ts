@@ -9,6 +9,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { MobAI2_Cat } from '../Mobs/MobAI2_Cat';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
+import { FindFreeSpace } from './FindFreeSpace';
 import { Game } from './GameModel';
 
 /**
@@ -22,9 +23,9 @@ export class Builder2B implements Build2 {
    */
   makeGame(): GameIF {
     const rnd = new RandomGenerator(99);
-    const game = new Game(rnd);
-    game.player = this.makePlayer();
-    game.map = this.makeLevel(rnd, 0);
+    const player = this.makePlayer();
+    const game = new Game(rnd, player, this);
+
     game.ai = this.makeAI();
     this.enterFirstLevel0(game);
 
@@ -40,6 +41,7 @@ export class Builder2B implements Build2 {
    */
   makeLevel(rnd: RandomGenerator, level: number): Map {
     const map = this.makeMap(rnd, level);
+    this.addLevelStairs(map, level, rnd);
     this.makeRingOfCats(map, rnd);
     return map;
   }
@@ -153,5 +155,53 @@ export class Builder2B implements Build2 {
     const mob = new Mob(glyph, x, y);
     map.addNPC(mob);
     return mob;
+  }
+
+  /**
+   * Adds level stairs to the map based on the level and random generator provided.
+   * @param {Map} map - The map to which stairs are being added.
+   * @param {number} level - The level for which stairs are being added.
+   * @param {RandomGenerator} rnd - The random generator used for adding stairs.
+   * @returns {void}
+   */
+  addLevelStairs(map: Map, level: number, rnd: RandomGenerator): void {
+    level === 0 ? this.addStairs0(map) : this.addStairs(map, rnd);
+  }
+
+  /**
+   * Adds stairs for level to the map at a specified position.
+   * @param {Map} map - The map to which stairs are being added.
+   * @returns {void}
+   */
+  addStairs0(map: Map): void {
+    const pos = this.centerPos(map.dimensions);
+    const x = 3;
+    const y = 0;
+    const p = new WorldPoint(x, y).addTo(pos);
+
+    map.cell(p).env = Glyph.StairsDown;
+  }
+
+  /**
+   * Adds stairs for a level to the map.
+   * @param {Map} map - The map to which stairs are being added.
+   * @returns {void}
+   */
+  addStairs(map: Map, rnd: RandomGenerator): void {
+    this.addStair(map, rnd, Glyph.StairsDown);
+    this.addStair(map, rnd, Glyph.StairsUp);
+  }
+
+  /**
+   * Adds stairs to the map based on the provided glyph and random generator.
+   * @param {Map} map - The map to which stairs are being added.
+   * @param {RandomGenerator} rnd - The random generator used for adding stairs.
+   * @param {Glyph} stair - The glyph representing the stairs.
+   * @returns {boolean} True if stairs are successfully added, otherwise false.
+   */
+  addStair(map: Map, rnd: RandomGenerator, stair: Glyph): boolean {
+    const p = <WorldPoint>FindFreeSpace.findFree(map, rnd);
+    map.cell(p).env = stair;
+    return true;
   }
 }
