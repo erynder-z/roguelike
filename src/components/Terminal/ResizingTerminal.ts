@@ -33,13 +33,17 @@ export class ResizingTerminal extends Terminal {
    */
   public handleResize() {
     const canvas = <HTMLCanvasElement>document.getElementById('canvas1');
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
+    const canvasContainer = <HTMLDivElement>(
+      document.getElementById('canvas-container')
+    );
 
-    canvas.width = windowWidth;
-    canvas.height = windowHeight;
+    const containerWidth = canvasContainer.offsetWidth;
+    const containerHeight = canvasContainer.offsetHeight;
 
-    this.resizeCanvasAndTerminal(windowWidth, windowHeight);
+    canvas.width = containerWidth;
+    canvas.height = containerHeight;
+
+    this.resizeCanvasAndTerminal(containerWidth, containerHeight);
   }
 
   /**

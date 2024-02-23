@@ -70,7 +70,7 @@ export class GameMap implements Map {
    *
    * @param {Mob} m - the mob to be moved
    * @param {WorldPoint} p - the destination world point
-   * @return {void} 
+   * @return {void}
    */
   moveMob(m: Mob, p: WorldPoint): void {
     this.cell(m.pos).mob = undefined;
@@ -95,7 +95,7 @@ export class GameMap implements Map {
    * Remove a mob from the queue and set its position to undefined.
    *
    * @param {Mob} m - The mob to be removed.
-   * @return {void} 
+   * @return {void}
    */
   removeMob(m: Mob): void {
     this.queue.removeMob(m);
@@ -107,7 +107,7 @@ export class GameMap implements Map {
    *
    * @param {Mob} player - the player to enter into the map
    * @param {WorldPoint} np - the world point where the player will enter
-   * @return {void} 
+   * @return {void}
    */
   enterMap(player: Mob, np: WorldPoint): void {
     player.pos.set(np);

@@ -22,7 +22,7 @@ export class DrawMap {
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
-    const mapOffSet = 2;
+    const mapOffSet = 0;
 
     // Loop through each row and column of the terminal
     for (
@@ -30,7 +30,7 @@ export class DrawMap {
       t.y < terminalDimensions.y + mapOffSet;
       ++t.y, ++w.y
     ) {
-      //
+      // Loop through each column of the terminal
       for (t.x = 0, w.x = vp.x; t.x < terminalDimensions.x; ++t.x, ++w.x) {
         // Get the cell from the map corresponding to the world point
         const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
@@ -92,9 +92,16 @@ export class DrawMap {
       hpDisplayText + ' ' + lvlDisplayText,
       term,
     );
+
+    /*
+    // Display stats directly on the canvas
     const x = 0;
     const y = 0;
-    term.drawText(x, y, statsDisplay, 'yellow', 'teal');
+   term.drawText(x, y, statsDisplay, 'yellow', 'teal'); */
+
+    // Display stats in a separate HTML element
+    const stats = document.getElementById('stats-container');
+    if (stats) stats.innerText = statsDisplay;
   }
 
   /**
@@ -109,14 +116,18 @@ export class DrawMap {
     if (!log) return;
     const line = log.top();
     const num = log.len();
-    let s = num > 1 ? `${line} (${num} more)` : line;
+    const s = num > 1 ? `${line} (${num} more)` : line;
 
-    s = this.extend(s, term);
-
+    /* 
+    // Display messages directly on the canvas
+     s = this.extend(s, term);
     const x = 0;
     const y = 1;
+    term.drawText(x, y, s, 'cyan', 'blue'); */
 
-    term.drawText(x, y, s, 'cyan', 'blue');
+    // Display messages in a separate HTML element
+    const messages = document.getElementById('messages-container');
+    if (messages) messages.innerText = s;
   }
   /**
    * Use an empty string as the mask.
