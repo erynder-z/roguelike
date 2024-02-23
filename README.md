@@ -1,1 +1,1 @@
-A roguelike game based on the [Make Your Own Roguelike with TypeScript Tutorial](https://github.com/pylgrym/roguelike) by Jakob Gaardsted.
+A roguelike game built with the help of the book "How to Create Your Own Roguelike with TypeScript " by Jakob Gaardsted.
