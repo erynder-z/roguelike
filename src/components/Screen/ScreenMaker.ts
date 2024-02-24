@@ -1,4 +1,4 @@
-import { Build1 } from '../../interfaces/Builder/Builder1';
+import { Build2 } from '../../interfaces/Builder/Builder2';
 import { GameIF } from '../../interfaces/Builder/Game';
 import { ScreenMaker } from '../../interfaces/Screen/ScreenMaker';
 import { StackScreen } from '../../interfaces/Terminal/StackScreen';
@@ -13,7 +13,7 @@ import { MoreScreen } from './MoreScreen';
 export class ScreenMaker2_Fixed implements ScreenMaker {
   game: GameIF | null = null;
 
-  constructor(public build: Build1) {}
+  constructor(public build: Build2) {}
   /**
    * A function that handles the game over event.
    *
@@ -52,7 +52,7 @@ export class ScreenMaker2_Fixed implements ScreenMaker {
    * @param {Build1} build - The Build1 object used to create the StockMaker.
    * @return {ScreenMaker} A new ScreenMaker object created using the provided Build1 object.
    */
-  static StockMaker(build: Build1): ScreenMaker {
+  static StockMaker(build: Build2): ScreenMaker {
     return new ScreenMaker2_Fixed(build);
   }
 
@@ -61,7 +61,7 @@ export class ScreenMaker2_Fixed implements ScreenMaker {
    * @param {Build1} build - The build instance used for game creation.
    * @return {void}
    */
-  static InitialGameSetup(build: Build1): void {
+  static InitialGameSetup(build: Build2): void {
     this.run_InitialGameSetup(this.StockMaker(build));
   }
 }

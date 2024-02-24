@@ -46,15 +46,30 @@ export class Terminal implements DrawableTerminal {
     const canvas = <HTMLCanvasElement>document.getElementById('canvas1');
     const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
 
-    this.horizontalSide = this.sideLength * 1.0;
-    this.verticalSide = this.sideLength * 1.0;
+    // Set canvas dimensions
+    canvas.width = this.dimensions.x * this.sideLength;
+    canvas.height = this.dimensions.y * this.sideLength;
 
+    // Set horizontal and vertical side lengths
+    this.horizontalSide = this.sideLength;
+    this.verticalSide = this.sideLength;
+
+    // Calculate the squeeze factor for font size
     const squeeze: number = this.sideLength * this.scalingFactor;
+
+    // Set styles
     ctx.fillStyle = '#110';
     ctx.strokeStyle = 'red';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = `${squeeze}px sans-serif`;
+
+    // Translate the context to center it inside the canvas
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+
+    // Adjust the starting point for drawing
+    ctx.translate(-canvas.width / 2, -canvas.height / 2);
+
     return ctx;
   }
 

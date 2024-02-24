@@ -17,23 +17,38 @@ html {
 canvas {
   background: lightblue;
   display: block;
-  grid-area: canvas;
 }
 
 .main-container {
   height: 100vh;
   display: grid;
-  grid-template-rows: 5% 95%;
+  grid-template-rows: 5% 75% 20%;
   grid-template-columns: 15% 85%;
   grid-template-areas:
     'stats stats'
-    'messages canvas';
+    'messages canvas'
+    'something1 something1';
+}
+
+.canvas-container {
+  background: salmon;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-area: canvas;
 }
 
 .stats-container {
+  background: navy;
   grid-area: stats;
 }
 
 .messages-container {
+  background: RebeccaPurple;
   grid-area: messages;
+}
+
+.something-container {
+  background: SteelBlue;
+  grid-area: something1;
 }
