@@ -6,6 +6,7 @@ import { Mob } from './Mob';
 
 /**
  * Represents an implementation of MobAI for a cat-type mob.
+ * Cats always move in the direction of the player.
  */
 export class MobAI2_Cat implements MobAI {
   /**
