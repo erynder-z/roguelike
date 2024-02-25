@@ -1,3 +1,5 @@
+import { WorldPoint } from './WorldPoint';
+
 /**
  * Represents a random number generator.
  */
@@ -93,4 +95,41 @@ export class RandomNumberGeneratorWrapper extends RandomNumberGenerator {
 /**
  * Represents a random generator extending the RandomNumberGeneratorWrapper class.
  */
-export class RandomGenerator extends RandomNumberGeneratorWrapper {}
+export class RandomGenerator extends RandomNumberGeneratorWrapper {
+  /**
+   * Generates a random direction for forced movement. Never returns 0,0, to prevent returning the same world point the mob is currently at.
+   * @returns {WorldPoint} A random direction represented as a WorldPoint object.
+   */
+  randomDirectionForcedMovement(): WorldPoint {
+    const a = this.randomIntegerClosedRange(-1, 1);
+    const b = this.isOneIn(2) ? 1 : -1;
+    const h = this.isOneIn(2);
+    return new WorldPoint(h ? a : b, h ? b : a);
+  }
+
+
+  /**
+   * Generates a random WorldPoint representing a random direction.
+   *
+   * @return {WorldPoint} the randomly generated WorldPoint
+   */
+  randomDirection0(): WorldPoint {
+    return new WorldPoint(
+      this.randomIntegerClosedRange(-1, 1),
+      this.randomIntegerClosedRange(-1, 1),
+    );
+  }
+
+  /**
+   * Generates a new WorldPoint object representing a random direction from the given WorldPoint.
+   *
+   * @param {WorldPoint} p - (Optional) The starting WorldPoint. Defaults to a new WorldPoint.
+   * @return {WorldPoint} A new WorldPoint object representing the random direction.
+   */
+  randomDirection(p: WorldPoint = new WorldPoint()): WorldPoint {
+    return new WorldPoint(
+      p.x + this.randomIntegerClosedRange(-1, 1),
+      p.y + this.randomIntegerClosedRange(-1, 1),
+    );
+  }
+}

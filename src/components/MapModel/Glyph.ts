@@ -11,6 +11,7 @@ export enum Glyph {
   Pawn,
   Knight,
   Cat,
+  Ant,
   StairsUp,
   StairsDown,
 }

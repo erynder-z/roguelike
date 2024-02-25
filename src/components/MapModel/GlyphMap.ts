@@ -42,6 +42,7 @@ export class GlyphMap {
     add('P', Glyph.Pawn);
     add('K', Glyph.Knight);
     add('C', Glyph.Cat);
+    add('A', Glyph.Ant);
     add('?', Glyph.Unknown);
     add('<', Glyph.StairsUp);
     add('>', Glyph.StairsDown);
