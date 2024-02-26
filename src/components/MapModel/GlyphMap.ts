@@ -46,6 +46,8 @@ export class GlyphMap {
     add('?', Glyph.Unknown);
     add('<', Glyph.StairsUp);
     add('>', Glyph.StairsDown);
+    add(',', Glyph.Door_Open);
+    add('+', Glyph.Door_Closed);
     return GlyphMap.glyphsRegistry.length;
   }
 

@@ -107,7 +107,6 @@ export class RandomGenerator extends RandomNumberGeneratorWrapper {
     return new WorldPoint(h ? a : b, h ? b : a);
   }
 
-
   /**
    * Generates a random WorldPoint representing a random direction.
    *

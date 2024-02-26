@@ -14,4 +14,6 @@ export enum Glyph {
   Ant,
   StairsUp,
   StairsDown,
+  Door_Open,
+  Door_Closed,
 }
