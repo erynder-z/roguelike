@@ -1,3 +1,4 @@
+import { WorldPoint } from '../../components/MapModel/WorldPoint';
 import { Mob } from '../../components/Mobs/Mob';
 import { GameIF } from '../Builder/Game';
 
@@ -9,6 +10,7 @@ export interface Command {
   turn(): boolean;
   raw(): boolean;
   npcTurn(): boolean;
+  setDirection(direction: WorldPoint): Command;
   me: Mob;
   g: GameIF;
 }

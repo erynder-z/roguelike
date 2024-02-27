@@ -1,12 +1,12 @@
 import { GameIF } from '../../interfaces/Builder/Game';
 import { Command } from '../../interfaces/Commands/Command';
+import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 
 /**
  * Abstract class representing a base command implementation that implements the Command interface.
  */
 export abstract class CommandBase implements Command {
-
   /**
    * Constructs a new CommandBase object.
    * @param {Mob} me - The mob performing the command.
@@ -23,6 +23,15 @@ export abstract class CommandBase implements Command {
    */
   execute(): boolean {
     throw 'no exc';
+  }
+
+  /**
+   * Sets the direction of the command.
+   * @param {WorldPoint} direction - The direction to set.
+   * @returns {Command} The command object.
+   */
+  setDirection(direction: WorldPoint): Command {
+    throw 'no setDirection';
   }
 
   /**
