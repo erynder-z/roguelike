@@ -4,12 +4,14 @@ import { Map } from '../../interfaces/Map/Map';
 import { ScreenMaker } from '../../interfaces/Screen/ScreenMaker';
 import { Stack } from '../../interfaces/Terminal/Stack';
 import { StackScreen } from '../../interfaces/Terminal/StackScreen';
+import { DoorCommand } from '../Commands/DoorCommand';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
 import { WaitCommand } from '../Commands/WaitCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { LogScreen } from '../Messages/LogScreen';
 import { Mob } from '../Mobs/Mob';
+import { CommandDirectionScreen } from './CommandDirectionScreen';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -129,6 +131,9 @@ export class ParsePlayer {
       case 'q':
         stackScreen = new LogScreen(this.game, this.make);
         break;
+      case 'c':
+        stackScreen = this.doorCommand();
+        break;
     }
 
     if (stackScreen) {
@@ -167,5 +172,16 @@ export class ParsePlayer {
    */
   moveBumpCmd(dir: WorldPoint): Command {
     return new MoveBumpCommand(dir, this.player, this.game);
+  }
+
+    /**
+   * Creates a new DoorCommand and a new CommandDirectionScreen with that command.
+   *
+   * @param {WorldPoint} dir - the direction to move
+   * @return {Command} the newly created MoveBumpCommand
+   */
+  doorCommand(): StackScreen {
+    const command = new DoorCommand(this.player, this.game);
+    return new CommandDirectionScreen(command, this.game, this.make);
   }
 }

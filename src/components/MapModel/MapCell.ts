@@ -23,11 +23,16 @@ export class MapCell {
   }
 
   /**
-   * Check if the character is blocked.
+   * Check if the cell is blocked.
    *
-   * @return {boolean} true if the character is blocked, false otherwise
+   * @return {boolean} true if the cell is blocked, false otherwise
    */
   isBlocked(): boolean {
-    return !!this.mob || this.env === Glyph.Wall;
+    return (
+      !!this.mob ||
+      this.env === Glyph.Wall ||
+      this.env === Glyph.Door_Closed ||
+      this.env === Glyph.Rock
+    );
   }
 }
