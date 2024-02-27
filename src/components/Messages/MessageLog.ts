@@ -10,9 +10,10 @@ export class MessageLog {
    * @param {string} s - The message to add.
    * @returns {void}
    */
-  message(s: string): void {
-    this.archive.push(s);
+  message(s: string, isFlashMsg: boolean): void {
+    console.log(isFlashMsg);
     this.queue.push(s);
+    if (!isFlashMsg) this.archive.push(s);
     console.log(s);
   }
   /**

@@ -15,6 +15,7 @@ export interface GameIF {
   player: Mob;
   ai: MobAI | null;
   message(s: string): void;
+  flash(s: string): void;
   log: MessageLog;
   dungeon: Dungeon;
   build: Build0;

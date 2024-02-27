@@ -37,7 +37,18 @@ export class Game implements GameIF {
    * @returns {void}
    */
   message(s: string): void {
-    this.log.message(s);
+    const isFlashMsg = false;
+    this.log.message(s, isFlashMsg);
+  }
+
+  /**
+   * Displays a flash message.
+   * @param {string} s - The message to add.
+   * @returns {void}
+   */
+  flash(s: string): void {
+    const isFlashMsg = true;
+    this.log.message(s, isFlashMsg);
   }
 
   dungeon: Dungeon = new Dungeon();
