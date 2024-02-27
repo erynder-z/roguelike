@@ -26,7 +26,7 @@ export class LogScreen extends BaseScreen {
    * @param {DrawableTerminal} term - The drawable terminal.
    * @returns {void}
    */
-  drawTerminal(term: DrawableTerminal): void {
+  drawScreen(term: DrawableTerminal): void {
     const x = 0;
     const y = 0;
     term.drawText(x, y, 'Log: ', 'yellow', 'black');

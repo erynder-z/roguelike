@@ -29,7 +29,7 @@ export class MapScreen implements StackScreen {
    * Draws the map on a drawable terminal.
    * @param {DrawableTerminal} term - The terminal to draw on.
    */
-  drawTerminal(term: DrawableTerminal): void {
+  drawScreen(term: DrawableTerminal): void {
     DrawMap.drawMap(term, this.map, new WorldPoint());
   }
 

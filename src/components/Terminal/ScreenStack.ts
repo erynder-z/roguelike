@@ -39,10 +39,10 @@ export class ScreenStack implements Stack, InteractiveScreen {
    *
    * @param {DrawableTerminal} term - the screen to be drawn
    */
-  drawTerminal(term: DrawableTerminal) {
+  drawScreen(term: DrawableTerminal) {
     const currentScreen = this.getCurrentScreen();
     if (currentScreen) {
-      currentScreen.drawTerminal(term);
+      currentScreen.drawScreen(term);
     }
   }
 

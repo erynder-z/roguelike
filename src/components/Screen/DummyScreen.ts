@@ -22,7 +22,7 @@ export class DummyScreen implements StackScreen {
    *
    * @param {DrawableTerminal} term - The terminal on which the dummy screen content is drawn.
    */
-  drawTerminal(term: DrawableTerminal): void {
+  drawScreen(term: DrawableTerminal): void {
     term.drawText(1, 1, 'Press key', 'cyan', 'blue');
   }
 

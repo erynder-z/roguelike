@@ -10,7 +10,7 @@ export interface StackScreen {
    *
    * @param {DrawableTerminal} term - The terminal on which the screen is drawn.
    */
-  drawTerminal(term: DrawableTerminal): void;
+  drawScreen(term: DrawableTerminal): void;
 
   /**
    * Handles keyboard events specific to the screen, considering the current state of the stack.

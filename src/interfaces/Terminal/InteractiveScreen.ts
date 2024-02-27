@@ -11,7 +11,7 @@ export interface InteractiveScreen {
    *
    * @param {TerminalInterface} term - The terminal interface to be rendered on the screen.
    */
-  drawTerminal(term: DrawableTerminal): void;
+  drawScreen(term: DrawableTerminal): void;
 
   /**
    * Handles keyboard events on the raw screen.

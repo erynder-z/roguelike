@@ -23,7 +23,7 @@ export class BaseScreen implements StackScreen {
    * @param {DrawableTerminal} term - the terminal to draw
    * @return {void}
    */
-  drawTerminal(term: DrawableTerminal): void {
+  drawScreen(term: DrawableTerminal): void {
     DrawMap.drawMapPlayer(
       term,
       <GameMap>this.game.currentMap(),

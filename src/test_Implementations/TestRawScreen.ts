@@ -35,7 +35,7 @@ export class TestRawScreen implements InteractiveScreen {
    *
    * @param {Terminal} term - The terminal on which the test pattern will be drawn.
    */
-  drawTerminal(term: Terminal): void {
+  drawScreen(term: Terminal): void {
     TestTerminal.drawPatternTest(term, this.key);
   }
 }

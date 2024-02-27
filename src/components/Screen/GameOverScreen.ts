@@ -22,7 +22,7 @@ export class GameOverScreen implements StackScreen {
    *
    * @param {DrawableTerminal} term - The terminal on which the game over screen content is drawn.
    */
-  drawTerminal(term: DrawableTerminal): void {
+  drawScreen(term: DrawableTerminal): void {
     term.drawText(1, 1, 'Game Over', 'yellow', 'red');
   }
 

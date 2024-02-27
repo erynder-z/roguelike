@@ -30,7 +30,7 @@ export class TestStackScreen implements StackScreen {
    *
    * @param {DrawableTerminal} term - The terminal on which the test pattern will be drawn.
    */
-  drawTerminal(term: DrawableTerminal): void {
+  drawScreen(term: DrawableTerminal): void {
     TestTerminal.drawPatternTest(term, '-');
   }
 }

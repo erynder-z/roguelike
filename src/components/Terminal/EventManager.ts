@@ -30,7 +30,7 @@ export class EventManager {
    */
   handleResize(): void {
     this.term.handleResize();
-    this.screen.drawTerminal(this.term);
+    this.screen.drawScreen(this.term);
   }
 
   /**
@@ -40,7 +40,7 @@ export class EventManager {
    */
   handleKeyDown(event: KeyboardEvent): void {
     this.screen.handleKeyDownEvent(event);
-    this.screen.drawTerminal(this.term);
+    this.screen.drawScreen(this.term);
   }
 
   /**
