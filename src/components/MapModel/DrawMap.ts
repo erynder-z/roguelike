@@ -37,7 +37,7 @@ export class DrawMap {
         // Get the glyph info for the cell's glyph
         const i: GlyphInfo = GlyphMap.getGlyphInfo(cell.glyph());
         // Draw the glyph on the terminal
-        term.drawAt(t.x, t.y, i.char, 'gray', 'light-gray');
+        term.drawAt(t.x, t.y, i.char, i.bgCol, i.fgCol);
       }
     }
   }

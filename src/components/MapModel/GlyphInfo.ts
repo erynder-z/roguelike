@@ -11,6 +11,8 @@ export class GlyphInfo {
    */
   constructor(
     public glyph: Glyph,
+    public fgCol: string,
+    public bgCol: string,
     public char: string,
   ) {}
 }

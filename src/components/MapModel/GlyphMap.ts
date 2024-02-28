@@ -14,7 +14,7 @@ export class GlyphMap {
    * Information about the default or "bad" glyph.
    * @type {GlyphInfo}
    */
-  static bad: GlyphInfo = new GlyphInfo(Glyph.Bad, '?');
+  static bad: GlyphInfo = new GlyphInfo(Glyph.Bad, 'red', 'yellow', '?');
 
   /**
    * Retrieves information about a specific glyph.
@@ -33,21 +33,23 @@ export class GlyphMap {
    */
   static ensureInit: number = GlyphMap.initializeGlyphs();
   static initializeGlyphs(): number {
+    // eslint-disable-next-line no-constant-condition
+    const bgColor = 1 ? '#eeeeee' : '#000';
     const add = GlyphMap.addGlyph;
-    add('@', Glyph.Player);
-    add('§', Glyph.Bad);
-    add('%', Glyph.Rock);
-    add('#', Glyph.Wall);
-    add('.', Glyph.Floor);
-    add('P', Glyph.Pawn);
-    add('K', Glyph.Knight);
-    add('C', Glyph.Cat);
-    add('A', Glyph.Ant);
-    add('?', Glyph.Unknown);
-    add('<', Glyph.StairsUp);
-    add('>', Glyph.StairsDown);
-    add(',', Glyph.Door_Open);
-    add('+', Glyph.Door_Closed);
+    add(bgColor, 'fireBrick', '@', Glyph.Player);
+    add('red', 'yellow', '§', Glyph.Bad);
+    add('#DarkGrey', 'DarkOliveGreen', '%', Glyph.Rock);
+    add('#DarkSlateGrey', 'CadetBlue', '#', Glyph.Wall);
+    add(bgColor, 'Olive', '.', Glyph.Floor);
+    add(bgColor, 'RoyalBlue ', 'P', Glyph.Pawn);
+    add(bgColor, 'SaddleBrown', 'K', Glyph.Knight);
+    add(bgColor, 'seaGreen', 'C', Glyph.Cat);
+    add(bgColor, 'orangeRed ', 'A', Glyph.Ant);
+    add('black', 'midnightBlue', '?', Glyph.Unknown);
+    add(bgColor, 'mediumVioletRed ', '<', Glyph.StairsUp);
+    add(bgColor, 'mediumVioletRed', '>', Glyph.StairsDown);
+    add(bgColor, 'mediumVioletRed', ',', Glyph.Door_Open);
+    add(bgColor, 'mediumVioletRed', '+', Glyph.Door_Closed);
     return GlyphMap.glyphsRegistry.length;
   }
 
@@ -56,8 +58,8 @@ export class GlyphMap {
    * @param {string} char - The character representation of the glyph.
    * @param {Glyph} glyph - The glyph to add.
    */
-  static addGlyph(char: string, glyph: Glyph) {
-    const info: GlyphInfo = new GlyphInfo(glyph, char);
+  static addGlyph(bgCol: string, fgCol: string, char: string, glyph: Glyph) {
+    const info: GlyphInfo = new GlyphInfo(glyph, bgCol, fgCol, char);
     GlyphMap.warn(glyph);
     GlyphMap.glyphsRegistry[glyph] = info;
   }
