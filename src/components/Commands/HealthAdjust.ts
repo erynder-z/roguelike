@@ -1,6 +1,7 @@
 import { GameIF } from '../../interfaces/Builder/Game';
 import { Map } from '../../interfaces/Map/Map';
 import { Mob } from '../Mobs/Mob';
+import { AutoHeal } from './AutoHeal';
 
 /**
  * A class to handle adjustments to health of a mob.
@@ -27,10 +28,9 @@ export class HealthAdjust {
   public static heal(mob: Mob, amount: number) {
     console.log(`heal ${mob.hp} + ${amount}`);
     const limit = mob.maxhp - mob.hp;
-    if (amount > limit) {
-      mob.hp += amount;
-      console.log(`heal ${mob.hp}`);
-    }
+    if (amount > limit) amount = limit;
+    mob.hp += amount;
+    console.log(`heal ${mob.hp}`);
   }
 
   /**
@@ -41,6 +41,7 @@ export class HealthAdjust {
    * @param {Mob | null} attacker - The mob causing the damage.
    */
   static damage(mob: Mob, amount: number, game: GameIF, attacker: Mob | null) {
+    AutoHeal.combatResets(mob, attacker, game);
     console.log('damage', amount, mob.hp);
     mob.hp -= amount;
     console.log('damage to', amount, mob.hp);

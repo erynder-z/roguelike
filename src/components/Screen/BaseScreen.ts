@@ -6,6 +6,7 @@ import { StackScreen } from '../../interfaces/Terminal/StackScreen';
 import { DrawMap } from '../MapModel/DrawMap';
 import { GameMap } from '../MapModel/GameMap';
 import { Mob } from '../Mobs/Mob';
+import { TurnQueue } from '../TurnQueue/TurnQueue';
 
 /**
  * Represents a base screen implementation that implements the StackScreen interface.
@@ -47,6 +48,8 @@ export class BaseScreen implements StackScreen {
     const map = <GameMap>this.game.currentMap();
     const queue = map.queue;
     let m: Mob;
+    const q = map.queue;
+    this.finishPlayerTurn(q);
     for (m = queue.next(); !m.isPlayer && !this.over(s); m = queue.next()) {
       this.npcTurn(m, player);
     }
@@ -89,5 +92,19 @@ export class BaseScreen implements StackScreen {
   handleMessages(s: Stack): void {
     if (!this.game.log) return;
     if (this.game.log.hasQueuedMessages()) s.push(this.make.more(this.game));
+  }
+
+  /**
+   * Finish the player's turn.
+   *
+   * @param {TurnQueue} q - the turn queue
+   * @return {void}
+   */
+  finishPlayerTurn(q: TurnQueue): void {
+    const player = q.currentMob();
+
+    if (!player.isPlayer) return;
+
+    if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
   }
 }

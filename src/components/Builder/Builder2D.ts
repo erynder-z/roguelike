@@ -26,9 +26,8 @@ export class Builder2D implements Build2 {
     const rnd = new RandomGenerator(99);
     const player = this.makePlayer();
     const game = new Game(rnd, player, this);
-
+    this.enterFirstLevel(game);
     game.ai = this.makeAI();
-    this.enterFirstLevel0(game);
 
     return game;
   }
@@ -86,6 +85,18 @@ export class Builder2D implements Build2 {
     map.enterMap(game.player, np);
   }
 
+  /**
+   * enter the first level of the game.
+   *
+   * @param {Game} game - the game object
+   * @return {void}
+   */
+  enterFirstLevel(game: Game): void {
+    const dungeon = game.dungeon;
+    const map = dungeon.currentMap(game);
+    const np = this.centerPos(map.dimensions);
+    game.dungeon.playerSwitchLevel(dungeon.level, np, game);
+  }
   /**
    * Calculates the center position of the given WorldPoint dimensions.
    *

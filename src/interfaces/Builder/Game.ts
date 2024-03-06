@@ -5,6 +5,7 @@ import { MobAI } from '../AI/MobAI';
 import { Map } from '../Map/Map';
 import { Build0 } from './Builder0';
 import { Dungeon } from '../../components/MapModel/Dungeon';
+import { AutoHeal } from '../../components/Commands/AutoHeal';
 
 /**
  * Represents the interface for the game.
@@ -19,4 +20,5 @@ export interface GameIF {
   log: MessageLog;
   dungeon: Dungeon;
   build: Build0;
+  autoHeal: AutoHeal | undefined;
 }

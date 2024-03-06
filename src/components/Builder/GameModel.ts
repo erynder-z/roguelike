@@ -6,6 +6,7 @@ import { RandomGenerator } from '../MapModel/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { Dungeon } from '../MapModel/Dungeon';
 import { Build0 } from '../../interfaces/Builder/Builder0';
+import { AutoHeal } from '../Commands/AutoHeal';
 
 /**
  * Represents a game instance implementing the GameIF interface.
@@ -52,4 +53,5 @@ export class Game implements GameIF {
   }
 
   dungeon: Dungeon = new Dungeon();
+  autoHeal: AutoHeal | undefined = new AutoHeal();
 }
