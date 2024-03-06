@@ -38,11 +38,11 @@ export class TurnQueue {
    * @param {Mob} m - the Mob to be removed
    * @return {void}
    */
-  removeMob(m: Mob): void {
+  removeMob(m: Mob): boolean {
     const index = this.mobs.indexOf(m);
-    if (index < 0) {
-      this.mobs.splice(index, 1);
-    }
+    if (index < 0) return false;
+    this.mobs.splice(index, 1);
+    return true;
   }
 
   /**
