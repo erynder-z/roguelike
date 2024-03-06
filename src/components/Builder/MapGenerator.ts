@@ -108,7 +108,7 @@ export class MapGenerator1 {
     for (let i = rnd.randomInteger(1, 3); i >= 0; --i) {
       const index = rnd.randomInteger(0, doorPositions.length);
       const position = doorPositions[index];
-      this.map.cell(position).env = Glyph.Door_Open;
+      this.map.cell(position).env = Glyph.Door_Closed;
     }
   }
 
