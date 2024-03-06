@@ -34,22 +34,22 @@ export class GlyphMap {
   static ensureInit: number = GlyphMap.initializeGlyphs();
   static initializeGlyphs(): number {
     // eslint-disable-next-line no-constant-condition
-    const bgColor = 1 ? '#eeeeee' : '#000';
+    const bgColor = 1 ? '#F0FFF0' : '#000';
     const add = GlyphMap.addGlyph;
     add(bgColor, 'fireBrick', '@', Glyph.Player);
     add('red', 'yellow', '§', Glyph.Bad);
-    add('#DarkGrey', 'DarkOliveGreen', '%', Glyph.Rock);
-    add('#DarkSlateGrey', 'CadetBlue', '#', Glyph.Wall);
+    add('DarkGrey', 'DarkOliveGreen', '%', Glyph.Rock);
+    add('DarkSlateGrey', 'CadetBlue', '#', Glyph.Wall);
     add(bgColor, 'Olive', '.', Glyph.Floor);
-    add(bgColor, 'RoyalBlue ', 'P', Glyph.Pawn);
-    add(bgColor, 'SaddleBrown', 'K', Glyph.Knight);
-    add(bgColor, 'seaGreen', 'C', Glyph.Cat);
-    add(bgColor, 'orangeRed ', 'A', Glyph.Ant);
+    add(bgColor, 'RoyalBlue ', '屍', Glyph.Pawn);
+    add(bgColor, 'SaddleBrown', '侍', Glyph.Knight);
+    add(bgColor, 'seaGreen', '猫', Glyph.Cat);
+    add(bgColor, 'orangeRed ', '蟻', Glyph.Ant);
     add('black', 'midnightBlue', '?', Glyph.Unknown);
     add(bgColor, 'mediumVioletRed ', '<', Glyph.StairsUp);
     add(bgColor, 'mediumVioletRed', '>', Glyph.StairsDown);
-    add(bgColor, 'mediumVioletRed', ',', Glyph.Door_Open);
-    add(bgColor, 'mediumVioletRed', '+', Glyph.Door_Closed);
+    add(bgColor, 'mediumVioletRed', '-', Glyph.Door_Open);
+    add(bgColor, 'mediumVioletRed', '‡', Glyph.Door_Closed);
     return GlyphMap.glyphsRegistry.length;
   }
 
