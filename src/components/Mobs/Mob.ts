@@ -1,5 +1,6 @@
 import { Glyph } from '../MapModel/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { Mood } from './MoodEnum';
 
 /**
  * Represents a mobile entity within the game world. Mob can be either a player or an NPC.
@@ -24,6 +25,7 @@ export class Mob {
   name: string = '?';
   hp: number = 3;
   maxhp: number = 3;
+  mood: Mood = Mood.Asleep;
 
   isPlayer: boolean = false;
   /**
