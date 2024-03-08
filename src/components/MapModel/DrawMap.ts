@@ -38,7 +38,7 @@ export class DrawMap {
         // Get the glyph info for the cell's glyph
         const i: GlyphInfo = GlyphMap.getGlyphInfo(cell.glyph());
         // Draw the glyph on the terminal
-        term.drawAt(t.x, t.y, i.char, i.bgCol, i.fgCol);
+        term.drawAt(t.x, t.y, i.char, i.fgCol, i.bgCol);
       }
     }
   }
@@ -49,7 +49,7 @@ export class DrawMap {
   static outside: MapCell = new MapCell(Glyph.Unknown);
 
   /**
-   * Draws a map with considerations for player position and if the player can see a cell or not.
+   * Draws a map with considerations for player position and lighting conditions.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
    * @param {Map} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
@@ -63,12 +63,10 @@ export class DrawMap {
     playerPos: WorldPoint,
     g: GameIF,
   ) {
-    const unlit: string = '#001';
-    const farLit: string = '#124';
+    const unlitColor: string = '#001';
+    const unlitColorSolidBg: string = '#222';
+    const farLitColor: string = '#778899';
     const farDist: number = 50;
-
-    let fg: string;
-    let bg: string;
 
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
@@ -88,27 +86,35 @@ export class DrawMap {
         const distance: number = w.squaredDistanceTo(playerPos);
         const far: boolean = distance > farDist;
 
-        const seeMob =
+        const seeMob: boolean =
           !!cell.mob &&
           !far &&
           CanSee.canSee(cell.mob.pos, playerPos, map, true);
-
         const g: Glyph = seeMob ? cell.mob!.glyph : cell.glyphEnvOnly();
-
         const index = GlyphMap.getGlyphInfo(g);
+        const glyphInfo = GlyphMap.getGlyphInfo(g);
+
+        let fg: string;
+        let bg: string;
 
         if (far) {
-          bg = unlit;
-          fg = cell.lit ? farLit : unlit;
+          bg = index.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
+          fg = cell.lit
+            ? cell.env === Glyph.Unknown
+              ? glyphInfo.bgCol // use the background color to prevent the whole outside map from popping in when coming near it
+              : farLitColor
+            : unlitColor;
         } else {
           bg = index.bgCol;
           fg = index.fgCol;
           if (!cell.lit) cell.lit = true;
         }
-        term.drawAt(t.x, t.y, index.char, bg, fg);
+
+        term.drawAt(t.x, t.y, index.char, fg, bg);
       }
     }
   }
+
   /**
    * Draw the player on the map.
    *

@@ -13,6 +13,7 @@ export class GlyphInfo {
     public glyph: Glyph,
     public fgCol: string,
     public bgCol: string,
+    public hasSolidBg: boolean,
     public char: string,
   ) {}
 }

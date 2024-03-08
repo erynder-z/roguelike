@@ -14,7 +14,7 @@ export class GlyphMap {
    * Information about the default or "bad" glyph.
    * @type {GlyphInfo}
    */
-  static bad: GlyphInfo = new GlyphInfo(Glyph.Bad, 'red', 'yellow', '?');
+  static bad: GlyphInfo = new GlyphInfo(Glyph.Bad, 'red', 'yellow', false, '?');
 
   /**
    * Retrieves information about a specific glyph.
@@ -36,20 +36,20 @@ export class GlyphMap {
     // eslint-disable-next-line no-constant-condition
     const bgColor = 1 ? '#F0FFF0' : '#000';
     const add = GlyphMap.addGlyph;
-    add(bgColor, 'fireBrick', '@', Glyph.Player);
-    add('red', 'yellow', '§', Glyph.Bad);
-    add('darkGrey', 'darkOliveGreen', '%', Glyph.Rock);
-    add('darkSlateGrey', 'cadetBlue', '#', Glyph.Wall);
-    add(bgColor, 'olive', '.', Glyph.Floor);
-    add(bgColor, 'royalBlue ', '屍', Glyph.Pawn);
-    add(bgColor, 'saddleBrown', '🦇', Glyph.Bat);
-    add(bgColor, 'seaGreen', '🐈', Glyph.Cat);
-    add(bgColor, 'orangeRed ', '🐜', Glyph.Ant);
-    add('black', 'midnightBlue', '?', Glyph.Unknown);
-    add(bgColor, 'mediumVioletRed ', '<', Glyph.StairsUp);
-    add(bgColor, 'mediumVioletRed', '>', Glyph.StairsDown);
-    add(bgColor, 'mediumVioletRed', '-', Glyph.Door_Open);
-    add(bgColor, 'mediumVioletRed', '‡', Glyph.Door_Closed);
+    add(bgColor, 'fireBrick', false, '@', Glyph.Player);
+    add('red', 'yellow', false, '§', Glyph.Bad);
+    add('darkGrey', 'darkOliveGreen', true, '%', Glyph.Rock);
+    add('darkSlateGrey', 'cadetBlue', true, '#', Glyph.Wall);
+    add(bgColor, 'olive', false, '.', Glyph.Floor);
+    add(bgColor, 'royalBlue', false, 'p', Glyph.Pawn);
+    add(bgColor, 'saddleBrown', false, 'b', Glyph.Bat);
+    add(bgColor, 'seaGreen', false, 'c', Glyph.Cat);
+    add(bgColor, 'orangeRed', false, 'a', Glyph.Ant);
+    add('black', 'midnightBlue', false, '?', Glyph.Unknown);
+    add(bgColor, 'mediumVioletRed', false, '<', Glyph.StairsUp);
+    add(bgColor, 'mediumVioletRed', false, '>', Glyph.StairsDown);
+    add(bgColor, 'mediumVioletRed', false, '-', Glyph.Door_Open);
+    add(bgColor, 'mediumVioletRed', false, '‡', Glyph.Door_Closed);
     return GlyphMap.glyphsRegistry.length;
   }
 
@@ -58,8 +58,20 @@ export class GlyphMap {
    * @param {string} char - The character representation of the glyph.
    * @param {Glyph} glyph - The glyph to add.
    */
-  static addGlyph(bgCol: string, fgCol: string, char: string, glyph: Glyph) {
-    const info: GlyphInfo = new GlyphInfo(glyph, bgCol, fgCol, char);
+  static addGlyph(
+    bgCol: string,
+    fgCol: string,
+    hasSolidBg: boolean,
+    char: string,
+    glyph: Glyph,
+  ) {
+    const info: GlyphInfo = new GlyphInfo(
+      glyph,
+      fgCol,
+      bgCol,
+      hasSolidBg,
+      char,
+    );
     GlyphMap.warn(glyph);
     GlyphMap.glyphsRegistry[glyph] = info;
   }
