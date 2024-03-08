@@ -1,8 +1,8 @@
-import { Builder2D } from './components/Builder/Builder2D';
+import { Builder2E } from './components/Builder/Builder2E';
 import { ScreenMaker2_Fixed } from './components/Screen/ScreenMaker';
 import './style.css';
 
-ScreenMaker2_Fixed.InitialGameSetup(new Builder2D());
+ScreenMaker2_Fixed.InitialGameSetup(new Builder2E());
 
 /* import { Builder2B } from './components/Builder/Builder2B';
 import { ScreenMaker_Dynamic } from './components/Screen/ScreenMaker_Dynamic';

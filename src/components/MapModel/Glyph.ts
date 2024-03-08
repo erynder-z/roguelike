@@ -9,7 +9,7 @@ export enum Glyph {
   Unknown,
   Player,
   Pawn,
-  Knight,
+  Bat,
   Cat,
   Ant,
   StairsUp,
