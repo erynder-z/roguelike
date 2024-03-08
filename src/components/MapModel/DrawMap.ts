@@ -1,6 +1,7 @@
 import { GameIF } from '../../interfaces/Builder/Game';
 import { Map } from '../../interfaces/Map/Map';
 import { DrawableTerminal } from '../../interfaces/Terminal/DrawableTerminal';
+import { CanSee } from '../Commands/CanSee';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
 import { Glyph } from './Glyph';
 import { GlyphInfo } from './GlyphInfo';
@@ -13,12 +14,12 @@ import { WorldPoint } from './WorldPoint';
  */
 export class DrawMap {
   /**
-   * Draws a map on a drawable terminal.
+   * Draws a map on a drawable terminal. The whole map is visible.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
    * @param {Map} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    */
-  static drawMap(term: DrawableTerminal, map: Map, vp: WorldPoint) {
+  static drawMap0(term: DrawableTerminal, map: Map, vp: WorldPoint) {
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
@@ -48,6 +49,67 @@ export class DrawMap {
   static outside: MapCell = new MapCell(Glyph.Unknown);
 
   /**
+   * Draws a map with considerations for player position and if the player can see a cell or not.
+   * @param {DrawableTerminal} term - The drawable terminal to draw on.
+   * @param {Map} map - The map to draw.
+   * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
+   * @param {WorldPoint} playerPos - The position of the player.
+   * @param {GameIF} g - The game interface.
+   */
+  static drawMap1(
+    term: DrawableTerminal,
+    map: Map,
+    vp: WorldPoint,
+    playerPos: WorldPoint,
+    g: GameIF,
+  ) {
+    const unlit: string = '#001';
+    const farLit: string = '#124';
+    const farDist: number = 50;
+
+    let fg: string;
+    let bg: string;
+
+    const terminalDimensions = term.dimensions;
+    const t = new TerminalPoint();
+    const w = new WorldPoint();
+    const mapOffSet = 0;
+
+    // Loop through each row and column of the terminal
+    for (
+      t.y = mapOffSet, w.y = vp.y;
+      t.y < terminalDimensions.y + mapOffSet;
+      ++t.y, ++w.y
+    ) {
+      // Loop through each column of the terminal
+      for (t.x = 0, w.x = vp.x; t.x < terminalDimensions.x; ++t.x, ++w.x) {
+        // Get the cell from the map corresponding to the world point
+        const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
+        const distance: number = w.squaredDistanceTo(playerPos);
+        const far: boolean = distance > farDist;
+
+        const seeMob =
+          !!cell.mob &&
+          !far &&
+          CanSee.canSee(cell.mob.pos, playerPos, map, true);
+
+        const g: Glyph = seeMob ? cell.mob!.glyph : cell.glyphEnvOnly();
+
+        const index = GlyphMap.getGlyphInfo(g);
+
+        if (far) {
+          bg = unlit;
+          fg = cell.lit ? farLit : unlit;
+        } else {
+          bg = index.bgCol;
+          fg = index.fgCol;
+          if (!cell.lit) cell.lit = true;
+        }
+        term.drawAt(t.x, t.y, index.char, bg, fg);
+      }
+    }
+  }
+  /**
    * Draw the player on the map.
    *
    * @param {DrawableTerminal} term - the terminal to draw on
@@ -58,18 +120,17 @@ export class DrawMap {
   static drawMapPlayer(
     term: DrawableTerminal,
     map: Map,
-    player_pos: WorldPoint,
+    playerPos: WorldPoint,
     g: GameIF,
   ) {
-    if (!player_pos) {
-      player_pos = new WorldPoint();
-    }
+    if (!playerPos) playerPos = new WorldPoint();
 
     const viewport: WorldPoint = new WorldPoint(
-      -Math.floor(term.dimensions.x * 0.5) + player_pos.x,
-      -Math.floor(term.dimensions.y * 0.5) + player_pos.y,
+      -Math.floor(term.dimensions.x * 0.5) + playerPos.x,
+      -Math.floor(term.dimensions.y * 0.5) + playerPos.y,
     );
-    this.drawMap(term, map, viewport);
+    this.drawMap1(term, map, viewport, playerPos, g);
+    /* this.drawMap0(term, map, viewport); */
   }
 
   /**
