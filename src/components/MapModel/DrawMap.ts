@@ -160,42 +160,46 @@ export class DrawMap {
       term,
     );
 
-    /*
-    // Display stats directly on the canvas
-    const x = 0;
-    const y = 0;
-   term.drawText(x, y, statsDisplay, 'yellow', 'teal'); */
-
-    // Display stats in a separate HTML element
     const stats = document.getElementById('stats-container');
     if (stats) stats.innerText = statsDisplay;
   }
 
-  /**
-   * Renders the top message on the terminal.
-   * @param {DrawableTerminal} term - The terminal to render the message on.
-   * @param {GameIF} game - The game instance to retrieve the message from.
-   * @returns {void}
-   */
-  static renderMessage(term: DrawableTerminal, game: GameIF): void {
+  //Renders directly on the canvas
+  /*  static renderMessage(term: DrawableTerminal, game: GameIF): void {
     const log = game.log;
 
-    if (!log) return;
+     if (!log) return;
     const line = log.top();
     const num = log.len();
-    const s = num > 1 ? `${line} (${num} more)` : line;
+    let s = num > 1 ? `${line} (${num} more)` : line; 
 
-    /* 
-    // Display messages directly on the canvas
      s = this.extend(s, term);
     const x = 0;
     const y = 1;
-    term.drawText(x, y, s, 'cyan', 'blue'); */
+    term.drawText(x, y, s, 'cyan', 'blue'); 
+  } */
 
-    // Display messages in a separate HTML element
-    const messages = document.getElementById('messages-container');
-    if (messages) messages.innerText = s;
+  static renderMessage(term: DrawableTerminal, game: GameIF): void {
+    const log = game.log;
+
+    const messageLog = log.archive.slice(-30);
+
+    const ulElement = document.createElement('ul');
+
+    messageLog.forEach(message => {
+      const liElement = document.createElement('li');
+      liElement.textContent = message;
+      ulElement.appendChild(liElement);
+    });
+
+    const messagesContainer = document.getElementById('messages-container');
+    while (messagesContainer?.firstChild) {
+      messagesContainer.removeChild(messagesContainer.firstChild);
+    }
+
+    messagesContainer?.appendChild(ulElement);
   }
+
   /**
    * Use an empty string as the mask.
    * @type {string}

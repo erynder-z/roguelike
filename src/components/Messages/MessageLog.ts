@@ -11,7 +11,6 @@ export class MessageLog {
    * @returns {void}
    */
   message(s: string, isFlashMsg: boolean): void {
-    console.log(isFlashMsg);
     this.queue.push(s);
     if (!isFlashMsg) this.archive.push(s);
     console.log(s);
