@@ -5,20 +5,10 @@ import { WorldPoint } from './WorldPoint';
  */
 export class RandomNumberGenerator {
   /**
-   * The seed used for generating random numbers.
-   * @type {number}
-   */
-  private seed: number;
-
-  /**
    * Creates an instance of RandomNumberGenerator.
    * @param {number} initialSeed - The initial seed for the generator.
    */
-  constructor(
-    initialSeed: number = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
-  ) {
-    this.seed = initialSeed;
-  }
+  constructor(public seed: number) {}
 
   /**
    * Gets the current seed of the generator.
@@ -41,15 +31,16 @@ export class RandomNumberGenerator {
    * @returns {number} A random number between 0 and 1.
    */
   generateRandomNumber(): number {
-    const scaledRandom = Math.sin(this.seed++) * 10000;
-    return scaledRandom - Math.floor(scaledRandom);
+    this.seed = (this.seed * 9301 + 49297) % 233280;
+    const rn = this.seed / 233280;
+    return rn;
   }
 }
 
 /**
  * Represents a wrapper for a random number generator with additional utility methods.
  */
-export class RandomNumberGeneratorWrapper extends RandomNumberGenerator {
+export class RandomNumberGeneratorBase extends RandomNumberGenerator {
   /**
    * Generates a random integer within the specified range.
    * @param {number} lower - The lower bound of the range.
@@ -95,7 +86,7 @@ export class RandomNumberGeneratorWrapper extends RandomNumberGenerator {
 /**
  * Represents a random generator extending the RandomNumberGeneratorWrapper class.
  */
-export class RandomGenerator extends RandomNumberGeneratorWrapper {
+export class RandomGenerator extends RandomNumberGeneratorBase {
   /**
    * Generates a random direction for forced movement. Never returns 0,0, to prevent returning the same world point the mob is currently at.
    * @returns {WorldPoint} A random direction represented as a WorldPoint object.
