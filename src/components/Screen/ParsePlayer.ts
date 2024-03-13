@@ -128,9 +128,9 @@ export class ParsePlayer {
       case '.':
       case 'Numpad5':
         return this.waitCmd();
-      case 'q':
+      /*  case 'q':
         stackScreen = new LogScreen(this.game, this.make);
-        break;
+        break; */
       case 'c':
         stackScreen = this.doorCommand();
         break;
@@ -174,7 +174,7 @@ export class ParsePlayer {
     return new MoveBumpCommand(dir, this.player, this.game);
   }
 
-    /**
+  /**
    * Creates a new DoorCommand and a new CommandDirectionScreen with that command.
    *
    * @param {WorldPoint} dir - the direction to move
