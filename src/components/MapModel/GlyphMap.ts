@@ -46,8 +46,8 @@ export class GlyphMap {
     add(bgColor, 'seaGreen', false, 'c', Glyph.Cat);
     add(bgColor, 'orangeRed', false, 'a', Glyph.Ant);
     add('black', 'midnightBlue', false, '?', Glyph.Unknown);
-    add(bgColor, 'mediumVioletRed', false, '<', Glyph.StairsUp);
-    add(bgColor, 'mediumVioletRed', false, '>', Glyph.StairsDown);
+    add('tomato', 'mediumVioletRed', false, '<', Glyph.StairsUp);
+    add('springGreen', 'mediumVioletRed', false, '>', Glyph.StairsDown);
     add(bgColor, 'mediumVioletRed', false, '-', Glyph.Door_Open);
     add(bgColor, 'mediumVioletRed', false, '‡', Glyph.Door_Closed);
     return GlyphMap.glyphsRegistry.length;

@@ -65,6 +65,7 @@ export class Builder2E implements Build2 {
         break;
       case 1:
         map = MapGenerator1.test(level);
+
         break;
       default:
         map = TestMap2.test(wdim, rnd, level);
@@ -113,7 +114,10 @@ export class Builder2E implements Build2 {
    * @return {Mob} a new player Mob
    */
   makePlayer(): Mob {
-    return new Mob(Glyph.Player, 20, 12);
+    const player = new Mob(Glyph.Player, 20, 12);
+    player.hp = 99;
+    player.maxhp = 99;
+    return player;
   }
 
   /**
@@ -255,8 +259,8 @@ export class Builder2E implements Build2 {
    * @returns {void}
    */
   makeBatsAndAnts(map: Map, rnd: RandomGenerator): void {
-    this.makeMobs(map, rnd, Glyph.Ant, 15);
-    this.makeMobs(map, rnd, Glyph.Bat, 15);
+    this.makeMobs(map, rnd, Glyph.Ant, 35);
+    this.makeMobs(map, rnd, Glyph.Bat, 35);
   }
 
   /**
