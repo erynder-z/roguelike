@@ -129,17 +129,6 @@ export class Builder2E implements Build2 {
     return new AISwitcher();
   }
 
-  /**
-   * A function to make a ring of pawns on the given map using the provided random generator.
-   *
-   * @param {Map} map - the map on which the ring of pawns will be created
-   * @param {RandomGenerator} rnd - the random generator used to determine the placement of the pawns
-   * @return {void}
-   */
-  makeRingOfPawns(map: Map, rnd: RandomGenerator): void {
-    this.makeRingOfMobs(Glyph.Pawn, map, rnd);
-  }
-
   makeRingOfCats(map: Map, rnd: RandomGenerator): void {
     this.makeRingOfMobs(Glyph.Cat, map, rnd);
   }

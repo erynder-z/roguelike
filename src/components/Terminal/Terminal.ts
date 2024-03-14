@@ -44,6 +44,7 @@ export class Terminal implements DrawableTerminal {
    */
   initializeContext(): CanvasRenderingContext2D {
     const canvas = <HTMLCanvasElement>document.getElementById('canvas1');
+
     const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
 
     // Set canvas dimensions
@@ -62,7 +63,7 @@ export class Terminal implements DrawableTerminal {
     ctx.strokeStyle = 'red';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = `${squeeze}px sans-serif`;
+    ctx.font = `${squeeze}px "DejaVu Sans Mono", monospace`;
 
     // Translate the context to center it inside the canvas
     ctx.translate(canvas.width / 2, canvas.height / 2);

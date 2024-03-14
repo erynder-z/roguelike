@@ -1,3 +1,8 @@
+@font-face {
+  font-family: DejaVu Sans Mono;
+  src: url(./fonts/DejaVuSansMono.ttf) format('truetype');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -12,6 +17,8 @@ html {
   background: black;
   color: cyan;
   overflow: hidden;
+  font-family: 'DejaVu Sans Mono', monospace;
+  font-size: small;
 }
 
 canvas {
