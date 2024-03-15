@@ -122,4 +122,31 @@ export class RandomGenerator extends RandomNumberGeneratorBase {
       p.y + this.randomIntegerClosedRange(-1, 1),
     );
   }
+
+  /**
+   * Increases the difficulty level by applying random adjustments.
+   * @param {number} level - The current difficulty level.
+   * @returns {number} The adjusted difficulty level.
+   */
+  increaseDifficulty(level: number): number {
+    if (this.isOneIn(3)) {
+      const delta = this.isOneIn(3) ? -1 : 1;
+      level = this.adjustLevelByDelta(level + delta, delta);
+
+      if (level < 1) level = 0;
+    }
+    return level;
+  }
+
+  /**
+   * Adjusts the level based on a random delta value.
+   * @param {number} level - The current level.
+   * @param {number} delta - The adjustment delta.
+   * @returns {number} The adjusted level.
+   */
+  adjustLevelByDelta(level: number, delta: number): number {
+    return this.isOneIn(4)
+      ? this.adjustLevelByDelta(level + delta, delta)
+      : level;
+  }
 }

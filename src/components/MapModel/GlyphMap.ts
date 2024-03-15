@@ -117,4 +117,25 @@ export class GlyphMap {
     }
     console.log(glyph, 'differs from', GlyphMap.glyphsRegistry.length);
   }
+
+  /**
+   * Converts an index to a glyph.
+   * @param {number} index - The index to convert.
+   * @returns {Glyph} The corresponding glyph.
+   * @throws {string} Throws an error if the index is negative or too large.
+   */
+  static max: number = Object.keys(GlyphMap.glyphsRegistry).length / 2;
+
+  /**
+   * Converts an index to a glyph.
+   * @param {number} index - The index to convert.
+   * @returns {Glyph} The corresponding glyph.
+   * @throws {string} Throws an error if the index is negative or too large.
+   */
+  static indexToGlyph(index: number): Glyph {
+    if (index < 0) throw `index ${index} is negative`;
+    if (index >= GlyphMap.max) throw `index ${index} is too large`;
+    const g: Glyph = <Glyph>index;
+    return g;
+  }
 }

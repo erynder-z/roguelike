@@ -1,4 +1,5 @@
 import { GameIF } from '../../interfaces/Builder/Game';
+import { RandomGenerator } from '../MapModel/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 import { HealthAdjust } from './HealthAdjust';
@@ -43,10 +44,9 @@ export class HitCommand extends CommandBase {
   execute(): boolean {
     const me = this.me.name;
     const him = this.him.name;
-    const rand = this.game.rand;
+    const rnd = this.game.rand;
 
-    let dmg = rand.randomIntegerClosedRange(0, 3);
-    if (dmg === 3) dmg = 1;
+    const dmg: number = this.calcDamage(rnd, this.me);
 
     const s = dmg
       ? `${me} hits ${him} for ${dmg} damage.`
@@ -58,5 +58,21 @@ export class HitCommand extends CommandBase {
 
     HealthAdjust.adjust(this.him, -dmg, this.game, this.me);
     return true;
+  }
+
+  /**
+   * Calculates the damage dealt by the hit command.
+   * @param {RandomGenerator} rnd - The random generator used to calculate damage.
+   * @param {Mob} me - The mob initiating the hit.
+   * @returns {number} The calculated damage.
+   */
+  calcDamage(rnd: RandomGenerator, me: Mob): number {
+    const level: number = me.level;
+    let lim = level + 1;
+
+    if (me.isPlayer) lim = 3;
+
+    const dmg = rnd.randomIntegerClosedRange(0, lim);
+    return dmg;
   }
 }

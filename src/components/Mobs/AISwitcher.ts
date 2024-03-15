@@ -13,7 +13,7 @@ export class AISwitcher implements MobAI {
   ai2_cat: MobAI = new MobAI2_Cat();
   ai3_ant: MobAI = new MobAI3_Ant();
   ai4_bat: MobAI = MoodAI.stockMood(2);
-
+  ai5_std: MobAI = MoodAI.stockMood(1);
   /**
    * Executes a turn for the mob using the appropriate AI based on the mob's type.
    * @param {Mob} me - The current mob controlled by this AI.
@@ -24,7 +24,6 @@ export class AISwitcher implements MobAI {
   turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     let ai: MobAI;
     switch (me.glyph) {
-      default:
       case Glyph.Cat:
         ai = this.ai2_cat;
         break;
@@ -34,6 +33,8 @@ export class AISwitcher implements MobAI {
       case Glyph.Bat:
         ai = this.ai4_bat;
         break;
+      default:
+        ai = this.ai5_std;
     }
     return ai.turn(me, enemy, game);
   }

@@ -52,7 +52,7 @@ export class MoodAI implements MobAI {
    *
    * @returns {MoodAI} - A new MoodAI instance with default AIs.
    */
-  static stockMood(): MobAI {
+  static stockMood(speed: number): MobAI {
     return new MoodAI(new SleepAI(), new AwakeAI());
   }
 }

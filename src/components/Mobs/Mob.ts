@@ -26,6 +26,7 @@ export class Mob {
   hp: number = 3;
   maxhp: number = 3;
   mood: Mood = Mood.Asleep;
+  level: number = 0;
 
   isPlayer: boolean = false;
   /**
