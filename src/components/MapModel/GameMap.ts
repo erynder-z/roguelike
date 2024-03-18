@@ -1,7 +1,7 @@
-import { Map } from '../../interfaces/Map/Map';
+import { Map } from './Interfaces/Map';
 import { Mob } from '../Mobs/Mob';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
-import { Glyph } from './Glyph';
+import { Glyph } from '../Glyphs/Glyph';
 import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
 

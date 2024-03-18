@@ -1,11 +1,11 @@
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Map } from '../../interfaces/Map/Map';
-import { DrawableTerminal } from '../../interfaces/Terminal/DrawableTerminal';
-import { CanSee } from '../Commands/CanSee';
+import { GameIF } from '../Builder/Interfaces/Game';
+import { Map } from './Interfaces/Map';
+import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { CanSee } from '../Utilities/CanSee';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
-import { Glyph } from './Glyph';
-import { GlyphInfo } from './GlyphInfo';
-import { GlyphMap } from './GlyphMap';
+import { Glyph } from '../Glyphs/Glyph';
+import { GlyphInfo } from '../Glyphs/GlyphInfo';
+import { GlyphMap } from '../Glyphs/GlyphMap';
 import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
 

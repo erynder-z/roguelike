@@ -1,4 +1,4 @@
-import { GameIF } from '../../interfaces/Builder/Game';
+import { GameIF } from '../Builder/Interfaces/Game';
 import { GameMap } from '../MapModel/GameMap';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';

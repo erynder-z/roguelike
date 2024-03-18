@@ -1,5 +1,5 @@
-import { MobAI } from '../../interfaces/AI/MobAI';
-import { GameIF } from '../../interfaces/Builder/Game';
+import { MobAI } from './Interfaces/MobAI';
+import { GameIF } from '../Builder/Interfaces/Game';
 import { AwakeAI } from './AwakeAI';
 import { Mob } from './Mob';
 import { Mood } from './MoodEnum';

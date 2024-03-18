@@ -1,5 +1,5 @@
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Command } from '../../interfaces/Commands/Command';
+import { GameIF } from '../Builder/Interfaces/Game';
+import { Command } from './Interfaces/Command';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 

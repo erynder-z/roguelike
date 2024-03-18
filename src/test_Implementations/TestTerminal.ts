@@ -1,4 +1,4 @@
-import { DrawableTerminal } from '../interfaces/Terminal/DrawableTerminal';
+import { DrawableTerminal } from '../components/Terminal/Interfaces/DrawableTerminal';
 
 /**
  * Utility class for testing and demonstrating terminal functionality.

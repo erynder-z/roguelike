@@ -1,8 +1,8 @@
-import { Build0 } from '../../interfaces/Builder/Builder0';
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Map } from '../../interfaces/Map/Map';
+import { Build0 } from './Interfaces/Builder0';
+import { GameIF } from './Interfaces/Game';
+import { Map } from '../MapModel/Interfaces/Map';
 import { TestMap2 } from '../../test_Implementations/TestMap2';
-import { RandomGenerator } from '../MapModel/RandomGenerator';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Game } from './GameModel';
 

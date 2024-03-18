@@ -1,8 +1,8 @@
 import { GameMap } from '../components/MapModel/GameMap';
-import { Glyph } from '../components/MapModel/Glyph';
-import { RandomGenerator } from '../components/MapModel/RandomGenerator';
+import { Glyph } from '../components/Glyphs/Glyph';
+import { RandomGenerator } from '../components/RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../components/MapModel/WorldPoint';
-import { Map } from '../interfaces/Map/Map';
+import { Map } from '../components/MapModel/Interfaces/Map';
 
 export class TestMap2 {
   static test(dim: WorldPoint, rnd: RandomGenerator, level: number): Map {

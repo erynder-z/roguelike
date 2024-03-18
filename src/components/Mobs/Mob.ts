@@ -1,4 +1,4 @@
-import { Glyph } from '../MapModel/Glyph';
+import { Glyph } from '../Glyphs/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mood } from './MoodEnum';
 

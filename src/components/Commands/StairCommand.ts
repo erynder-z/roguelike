@@ -1,6 +1,6 @@
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Map } from '../../interfaces/Map/Map';
-import { FindFreeSpace } from '../Builder/FindFreeSpace';
+import { GameIF } from '../Builder/Interfaces/Game';
+import { Map } from '../MapModel/Interfaces/Map';
+import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { CommandBase } from './CommandBase';
 

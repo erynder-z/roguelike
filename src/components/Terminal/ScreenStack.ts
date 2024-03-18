@@ -1,8 +1,8 @@
-import { DrawableTerminal } from '../../interfaces/Terminal/DrawableTerminal';
-import { InteractiveScreen } from '../../interfaces/Terminal/InteractiveScreen';
-import { Stack } from '../../interfaces/Terminal/Stack';
-import { StackScreen } from '../../interfaces/Terminal/StackScreen';
-import { EventManager } from './EventManager';
+import { DrawableTerminal } from './Interfaces/DrawableTerminal';
+import { InteractiveScreen } from './Interfaces/InteractiveScreen';
+import { Stack } from './Interfaces/Stack';
+import { StackScreen } from './Interfaces/StackScreen';
+import { EventManager } from '../Events/EventManager';
 
 /**
  * Represents a stack of interactive screens in the game.

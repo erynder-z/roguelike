@@ -1,5 +1,5 @@
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Map } from '../../interfaces/Map/Map';
+import { GameIF } from '../Builder/Interfaces/Game';
+import { Map } from './Interfaces/Map';
 import { WorldPoint } from './WorldPoint';
 
 /**

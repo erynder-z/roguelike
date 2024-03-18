@@ -1,18 +1,18 @@
-import { MobAI } from '../../interfaces/AI/MobAI';
-import { Build2 } from '../../interfaces/Builder/Builder2';
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Map } from '../../interfaces/Map/Map';
+import { MobAI } from '../Mobs/Interfaces/MobAI';
+import { Build2 } from './Interfaces/Builder2';
+import { GameIF } from './Interfaces/Game';
+import { Map } from '../MapModel/Interfaces/Map';
 import { TestMap2 } from '../../test_Implementations/TestMap2';
-import { Glyph } from '../MapModel/Glyph';
-import { GlyphMap } from '../MapModel/GlyphMap';
-import { RandomGenerator } from '../MapModel/RandomGenerator';
+import { Glyph } from '../Glyphs/Glyph';
+import { GlyphMap } from '../Glyphs/GlyphMap';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { AISwitcher } from '../Mobs/AISwitcher';
 import { Mob } from '../Mobs/Mob';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
-import { FindFreeSpace } from './FindFreeSpace';
+import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { Game } from './GameModel';
-import { MapGenerator1 } from './MapGenerator';
+import { MapGenerator1 } from '../MapGenerator/MapGenerator';
 
 /**
  * Represents a builder for creating games, levels and mobs.

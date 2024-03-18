@@ -1,11 +1,11 @@
-import { MobAI } from '../../interfaces/AI/MobAI';
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Map } from '../../interfaces/Map/Map';
+import { MobAI } from '../Mobs/Interfaces/MobAI';
+import { GameIF } from './Interfaces/Game';
+import { Map } from '../MapModel/Interfaces/Map';
 import { MessageLog } from '../Messages/MessageLog';
-import { RandomGenerator } from '../MapModel/RandomGenerator';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { Dungeon } from '../MapModel/Dungeon';
-import { Build0 } from '../../interfaces/Builder/Builder0';
+import { Build0 } from './Interfaces/Builder0';
 import { AutoHeal } from '../Commands/AutoHeal';
 
 /**

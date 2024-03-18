@@ -1,5 +1,5 @@
-import { GameIF } from '../../interfaces/Builder/Game';
-import { RandomGenerator } from '../MapModel/RandomGenerator';
+import { GameIF } from '../Builder/Interfaces/Game';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 import { HealthAdjust } from './HealthAdjust';

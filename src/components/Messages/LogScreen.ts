@@ -1,8 +1,8 @@
-import { GameIF } from '../../interfaces/Builder/Game';
-import { ScreenMaker } from '../../interfaces/Screen/ScreenMaker';
-import { DrawableTerminal } from '../../interfaces/Terminal/DrawableTerminal';
-import { Stack } from '../../interfaces/Terminal/Stack';
-import { BaseScreen } from '../Screen/BaseScreen';
+import { GameIF } from '../Builder/Interfaces/Game';
+import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { BaseScreen } from '../Screens/BaseScreen';
 
 /**
  * Represents a screen for displaying the log messages.

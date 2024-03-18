@@ -1,7 +1,7 @@
 import { GameMap } from '../components/MapModel/GameMap';
-import { Glyph } from '../components/MapModel/Glyph';
+import { Glyph } from '../components/Glyphs/Glyph';
 import { WorldPoint } from '../components/MapModel/WorldPoint';
-import { Map } from '../interfaces/Map/Map';
+import { Map } from '../components/MapModel/Interfaces/Map';
 
 export class TestMap {
   static test(): Map {

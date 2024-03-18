@@ -1,4 +1,4 @@
-import { InteractiveScreen } from '../interfaces/Terminal/InteractiveScreen';
+import { InteractiveScreen } from '../components/Terminal/Interfaces/InteractiveScreen';
 import { Terminal } from '../components/Terminal/Terminal';
 import { TestTerminal } from './TestTerminal';
 

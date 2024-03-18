@@ -1,5 +1,5 @@
 import { Builder2 } from './components/Builder/Builder2';
-import { ScreenMaker2_Fixed } from './components/Screen/ScreenMaker';
+import { ScreenMaker2_Fixed } from './components/Screens/ScreenMaker';
 import './style.css';
 
 ScreenMaker2_Fixed.InitialGameSetup(new Builder2());

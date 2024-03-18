@@ -1,9 +1,9 @@
-import { Build1 } from '../../interfaces/Builder/Builder1';
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Map } from '../../interfaces/Map/Map';
+import { Build1 } from './Interfaces/Builder1';
+import { GameIF } from './Interfaces/Game';
+import { Map } from '../MapModel/Interfaces/Map';
 import { TestMap2 } from '../../test_Implementations/TestMap2';
-import { Glyph } from '../MapModel/Glyph';
-import { RandomGenerator } from '../MapModel/RandomGenerator';
+import { Glyph } from '../Glyphs/Glyph';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { TerminalPoint } from '../Terminal/TerminalPoint';

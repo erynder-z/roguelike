@@ -1,4 +1,4 @@
-import { GameIF } from '../../interfaces/Builder/Game';
+import { GameIF } from '../Builder/Interfaces/Game';
 import { Mob } from '../Mobs/Mob';
 import { HealthAdjust } from './HealthAdjust';
 

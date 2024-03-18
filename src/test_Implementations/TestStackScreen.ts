@@ -1,5 +1,5 @@
-import { DrawableTerminal } from '../interfaces/Terminal/DrawableTerminal';
-import { StackScreen } from '../interfaces/Terminal/StackScreen';
+import { DrawableTerminal } from '../components/Terminal/Interfaces/DrawableTerminal';
+import { StackScreen } from '../components/Terminal/Interfaces/StackScreen';
 import { TestTerminal } from './TestTerminal';
 
 /**

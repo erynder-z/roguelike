@@ -1,6 +1,6 @@
-import { MobAI } from '../../interfaces/AI/MobAI';
-import { GameIF } from '../../interfaces/Builder/Game';
-import { CanSee } from '../Commands/CanSee';
+import { MobAI } from './Interfaces/MobAI';
+import { GameIF } from '../Builder/Interfaces/Game';
+import { CanSee } from '../Utilities/CanSee';
 import { GameMap } from '../MapModel/GameMap';
 import { Mob } from './Mob';
 import { Mood } from './MoodEnum';

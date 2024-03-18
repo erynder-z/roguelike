@@ -1,5 +1,5 @@
 import { Mob } from '../Mobs/Mob';
-import { Glyph } from './Glyph';
+import { Glyph } from '../Glyphs/Glyph';
 
 /**
  * Represents a cell on the game map.

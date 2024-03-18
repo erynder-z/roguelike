@@ -1,6 +1,6 @@
-import { GameIF } from '../../interfaces/Builder/Game';
-import { Map } from '../../interfaces/Map/Map';
-import { Glyph } from '../MapModel/Glyph';
+import { GameIF } from '../Builder/Interfaces/Game';
+import { Map } from '../MapModel/Interfaces/Map';
+import { Glyph } from '../Glyphs/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';

@@ -1,5 +1,5 @@
-import { MobAI } from '../../interfaces/AI/MobAI';
-import { GameIF } from '../../interfaces/Builder/Game';
+import { MobAI } from './Interfaces/MobAI';
+import { GameIF } from '../Builder/Interfaces/Game';
 import { MoveCommand } from '../Commands/MoveCommand';
 import { Mob } from './Mob';
 
