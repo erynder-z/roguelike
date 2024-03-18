@@ -38,4 +38,11 @@ export enum Glyph {
   StairsDown,
   Door_Open,
   Door_Closed,
+  Dagger,
+  Shield,
+  Cap,
+  Gloves,
+  Cape,
+  Pants,
+  Boots,
 }

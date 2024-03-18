@@ -128,7 +128,7 @@ export class RandomGenerator extends RandomNumberGeneratorBase {
    * @param {number} level - The current difficulty level.
    * @returns {number} The adjusted difficulty level.
    */
-  increaseDifficulty(level: number): number {
+  adjustLevel(level: number): number {
     if (this.isOneIn(3)) {
       const delta = this.isOneIn(3) ? -1 : 1;
       level = this.adjustLevelByDelta(level + delta, delta);

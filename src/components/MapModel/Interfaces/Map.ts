@@ -2,6 +2,7 @@ import { MapCell } from '../MapCell';
 import { WorldPoint } from '../WorldPoint';
 import { Mob } from '../../Mobs/Mob';
 import { TurnQueue } from '../../TurnQueue/TurnQueue';
+import { ItemObject } from '../../ItemObjects/ItemObject';
 
 /**
  * Represents a game map with cells and dimensions.
@@ -40,4 +41,6 @@ export interface Map {
   removeMob(m: Mob): void;
 
   isBlocked(p: WorldPoint): boolean;
+
+  addObject(o: ItemObject, p: WorldPoint): void;
 }

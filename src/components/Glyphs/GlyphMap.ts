@@ -73,6 +73,15 @@ export class GlyphMap {
     add(bgColor, '#DAA520', false, 'y', Glyph.Yeti);
     add(bgColor, '#00CED1', false, 'z', Glyph.Zombie);
 
+    // Items
+    add(bgColor, '#708090', false, '-', Glyph.Dagger);
+    add(bgColor, '#D2691E', false, '[', Glyph.Shield);
+    add(bgColor, '#8B4513', false, '!', Glyph.Cap);
+    add(bgColor, '#800080', false, '(', Glyph.Gloves);
+    add(bgColor, '#800000', false, '}', Glyph.Cape);
+    add(bgColor, '#2E8B57', false, '{', Glyph.Pants);
+    add(bgColor, '#4682B4', false, '[', Glyph.Boots);
+
     // Other glyphs
     add('#000000', '#191970', false, '?', Glyph.Unknown);
     add('#FF6347', '#C71585', false, '<', Glyph.StairsUp);

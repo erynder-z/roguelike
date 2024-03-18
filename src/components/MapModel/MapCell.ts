@@ -1,5 +1,6 @@
 import { Mob } from '../Mobs/Mob';
 import { Glyph } from '../Glyphs/Glyph';
+import { ItemObject } from '../ItemObjects/ItemObject';
 
 /**
  * Represents a cell on the game map.
@@ -13,6 +14,7 @@ export class MapCell {
 
   mob: Mob | undefined;
   lit: boolean | undefined = false;
+  obj: ItemObject | undefined;
 
   /**
    * Return the glyph of the mob if it exists, otherwise return the environment glyph.
@@ -30,6 +32,15 @@ export class MapCell {
    */
   glyphEnvOnly(): Glyph {
     return this.env;
+  }
+
+  /**
+   * Returns object Glyph, if it exists and the environment Glyph otherwise.
+   *
+   * @return {Glyph} the Glyph object
+   */
+  glyphObjOrEnv(): Glyph {
+    return this.obj ? this.obj.glyph : this.env;
   }
 
   /**

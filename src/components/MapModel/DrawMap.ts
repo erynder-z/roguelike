@@ -90,7 +90,7 @@ export class DrawMap {
           !!cell.mob &&
           !far &&
           CanSee.canSee(cell.mob.pos, playerPos, map, true);
-        const g: Glyph = seeMob ? cell.mob!.glyph : cell.glyphEnvOnly();
+        const g: Glyph = seeMob ? cell.mob!.glyph : cell.glyphObjOrEnv();
         const index = GlyphMap.getGlyphInfo(g);
         const glyphInfo = GlyphMap.getGlyphInfo(g);
 

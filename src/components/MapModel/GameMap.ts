@@ -4,6 +4,7 @@ import { TurnQueue } from '../TurnQueue/TurnQueue';
 import { Glyph } from '../Glyphs/Glyph';
 import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
+import { ItemObject } from '../ItemObjects/ItemObject';
 
 /**
  * Represents the game map implementing the Map interface.
@@ -127,5 +128,16 @@ export class GameMap implements Map {
     }
     const c = this.cell(p);
     return c.isBlocked();
+  }
+
+  /**
+   * Adds a new object to the game at the specified world point.
+   *
+   * @param {ItemObject} o - the object to be added
+   * @param {WorldPoint} np - the world point where the player will enter
+   * @return {void}
+   */
+  addObject(o: ItemObject, p: WorldPoint): void {
+    this.cell(p).obj = o;
   }
 }

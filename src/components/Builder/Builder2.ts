@@ -13,6 +13,7 @@ import { TerminalPoint } from '../Terminal/TerminalPoint';
 import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { Game } from './GameModel';
 import { MapGenerator1 } from '../MapGenerator/MapGenerator';
+import { ObjectTypes } from '../ItemObjects/ObjectTypes';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -43,6 +44,7 @@ export class Builder2 implements Build2 {
   makeLevel(rnd: RandomGenerator, level: number): Map {
     const map = this.makeMap(rnd, level);
     this.addLevelStairs(map, level, rnd);
+    this.addItems(map, rnd);
     this.addMobsToLevel(map, rnd);
     return map;
   }
@@ -292,7 +294,7 @@ export class Builder2 implements Build2 {
     rnd: RandomGenerator,
   ): Mob {
     const baseLevel = map.level;
-    let level = rnd.increaseDifficulty(baseLevel);
+    let level = rnd.adjustLevel(baseLevel);
 
     if (level < 1) level = 1;
 
@@ -313,5 +315,25 @@ export class Builder2 implements Build2 {
     const g = GlyphMap.indexToGlyph(glyph_index);
 
     return g;
+  }
+
+  /**
+   * Adds items to the map.
+   *
+   * @param {Map} map - The map to which the mob is being added.
+   * @param {RandomGenerator} rnd - The random generator used for adjusting the level.
+   */
+  addItems(map: Map, rnd: RandomGenerator): void {
+    for (let p = new WorldPoint(); p.y < map.dimensions.y; ++p.y) {
+      for (p.x = 0; p.x < map.dimensions.x; ++p.x) {
+        if (map.isBlocked(p)) {
+          continue;
+        }
+        if (!rnd.isOneIn(40)) {
+          continue;
+        }
+        ObjectTypes.addRandomObjectForLevel(p, map, rnd, map.level);
+      }
+    }
   }
 }
