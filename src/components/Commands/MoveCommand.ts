@@ -5,6 +5,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 import { StairCommand } from './StairCommand';
+import { ItemObject } from '../ItemObjects/ItemObject';
 
 /**
  * Represents a move command that extends the functionality of the base command.
@@ -48,6 +49,7 @@ export class MoveCommand extends CommandBase {
       map.moveMob(this.me, np);
       if (this.me.isPlayer) {
         this.dealWithStairs(map, np);
+        this.flashIfItem();
       }
     }
     return legal;
@@ -73,5 +75,17 @@ export class MoveCommand extends CommandBase {
         return;
     }
     new StairCommand(dir, this.game).raw();
+  }
+
+  flashIfItem(): void {
+    const map: Map = <Map>this.game.currentMap();
+    const np: WorldPoint = this.game.player.pos;
+    const o: ItemObject | undefined = map.cell(np).obj;
+
+    if (o) {
+      const msg = `${o.description()} is lying here`;
+      this.game.message(msg);
+      /*  this.game.flash(msg); */
+    }
   }
 }
