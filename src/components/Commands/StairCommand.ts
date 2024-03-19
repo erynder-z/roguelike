@@ -17,7 +17,7 @@ export class StairCommand extends CommandBase {
     public levelDir: number,
     public game: GameIF,
   ) {
-    super();
+    super(game.player, game);
   }
 
   /**

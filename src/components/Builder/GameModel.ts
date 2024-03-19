@@ -7,6 +7,7 @@ import { Mob } from '../Mobs/Mob';
 import { Dungeon } from '../MapModel/Dungeon';
 import { Build0 } from './Interfaces/Builder0';
 import { AutoHeal } from '../Commands/AutoHeal';
+import { Inventory } from '../Inventory/Inventory';
 
 /**
  * Represents a game instance implementing the GameIF interface.
@@ -17,8 +18,6 @@ export class Game implements GameIF {
     public player: Mob,
     public build: Build0,
   ) {}
-  map: Map | null = null;
-
   /**
    * Retrieve the current map.
    *
@@ -54,4 +53,5 @@ export class Game implements GameIF {
 
   dungeon: Dungeon = new Dungeon();
   autoHeal: AutoHeal | undefined = new AutoHeal();
+  inventory = new Inventory();
 }

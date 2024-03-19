@@ -22,7 +22,7 @@ export class MoveBumpCommand extends CommandBase {
     public mob: Mob,
     public game: GameIF,
   ) {
-    super();
+    super(game.player, game);
   }
 
   /**

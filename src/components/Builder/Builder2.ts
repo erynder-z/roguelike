@@ -14,6 +14,9 @@ import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { Game } from './GameModel';
 import { MapGenerator1 } from '../MapGenerator/MapGenerator';
 import { ObjectTypes } from '../ItemObjects/ObjectTypes';
+import { Inventory } from '../Inventory/Inventory';
+import { ItemObject } from '../ItemObjects/ItemObject';
+import { Slot } from '../ItemObjects/Slot';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -28,8 +31,10 @@ export class Builder2 implements Build2 {
     const rnd = new RandomGenerator(99);
     const player = this.makePlayer();
     const game = new Game(rnd, player, this);
+    game.dungeon.level = 1;
     this.enterFirstLevel(game);
     game.ai = this.makeAI();
+    this.initLevel1(game);
 
     return game;
   }
@@ -335,5 +340,27 @@ export class Builder2 implements Build2 {
         ObjectTypes.addRandomObjectForLevel(p, map, rnd, map.level);
       }
     }
+  }
+
+  initLevel1(game: Game): void {
+    const L1 = game.dungeon.getLevel(1, game);
+    this.addItemToPlayerInventory(<Inventory>game.inventory);
+    this.addItemNextToPlayer(game.player, L1);
+  }
+
+  addItemNextToPlayer(player: Mob, map: Map): void {
+    const a = player.pos;
+
+    let p = new WorldPoint(a.x + 1, a.y);
+    map.addObject(new ItemObject(Glyph.Shield, Slot.OffHand), p);
+    map.cell(p).env = Glyph.Floor;
+
+    p = new WorldPoint(a.x, a.y + 1);
+    map.addObject(new ItemObject(Glyph.Shield, Slot.OffHand), p);
+    map.cell(p).env = Glyph.Floor;
+  }
+
+  addItemToPlayerInventory(inv: Inventory): void {
+    inv.add(new ItemObject(Glyph.Dagger, Slot.MainHand));
   }
 }

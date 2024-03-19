@@ -12,6 +12,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 import { LogScreen } from '../Messages/LogScreen';
 import { Mob } from '../Mobs/Mob';
 import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
+import { PickupCommand } from '../Commands/PickupCommand';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -133,6 +134,9 @@ export class ParsePlayer {
         break; */
       case 'c':
         stackScreen = this.doorCommand();
+        break;
+      case 'g':
+        if (this.game.inventory) return new PickupCommand(this.game);
         break;
     }
 
