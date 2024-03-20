@@ -107,4 +107,14 @@ export class BaseScreen implements StackScreen {
 
     if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
   }
+
+  /**
+   * Removes the current screen and runs the NPC loop.
+   * @param {Stack} s - The stack of Screens.
+   * @returns {void}
+   */
+  pop_and_runNPCLoop(s: Stack): void {
+    s.pop();
+    this.npcTurns(s);
+  }
 }
