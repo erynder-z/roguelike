@@ -36,7 +36,7 @@ export class PickupCommand extends CommandBase {
     inventory.add(item);
 
     const msg = `You picked up ${item.description()}.`;
-    game.flash(msg);
+    game.message(msg);
 
     return true;
   }
