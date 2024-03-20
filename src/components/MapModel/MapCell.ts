@@ -44,6 +44,15 @@ export class MapCell {
   }
 
   /**
+   * Checks if the current cell has an object on it
+   *
+   * @return {boolean} Returns true if the object property is truthy, false otherwise.
+   */
+  hasObject(): boolean {
+    return !!this.obj;
+  }
+
+  /**
    * Check if the cell is blocked.
    *
    * @return {boolean} true if the cell is blocked, false otherwise
