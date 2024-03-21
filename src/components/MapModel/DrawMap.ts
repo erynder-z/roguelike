@@ -200,6 +200,19 @@ export class DrawMap {
     messagesContainer?.appendChild(ulElement);
   }
 
+  static renderFlash(term: DrawableTerminal, game: GameIF): void {
+    const log = game.log;
+
+    if (!log) return;
+
+    let s = log.top();
+    s = this.extend(s, term);
+
+    const x = 0;
+    const y = 0;
+    term.drawText(x, y, s, 'yellow', '#00000000');
+  }
+
   /**
    * Use an empty string as the mask.
    * @type {string}

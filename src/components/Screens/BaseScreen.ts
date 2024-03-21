@@ -33,6 +33,7 @@ export class BaseScreen implements StackScreen {
     );
     DrawMap.renderStats(term, this.game);
     DrawMap.renderMessage(term, this.game);
+    DrawMap.renderFlash(term, this.game);
   }
 
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {}
