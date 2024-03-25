@@ -1,4 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/Game';
+import { EquipCommand } from '../Commands/EquipCommand';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { DrawMap } from '../MapModel/DrawMap';
@@ -13,6 +14,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  */
 export class ItemScreen extends BaseScreen {
   name: string = 'ItemScreen';
+  isEquipped: boolean;
 
   /**
    * Constructs an instance of ItemScreen.
@@ -28,6 +30,7 @@ export class ItemScreen extends BaseScreen {
     maker: ScreenMaker,
   ) {
     super(game, maker);
+    this.isEquipped = !!game.equipment;
   }
 
   /**
@@ -63,7 +66,9 @@ export class ItemScreen extends BaseScreen {
       case 'd':
         this.dropItem(stack);
         break;
-
+      case 'w':
+        this.canWear(stack);
+        break;
       default:
         stack.pop();
     }
@@ -97,5 +102,13 @@ export class ItemScreen extends BaseScreen {
     inventory.removeIndex(this.index);
     game.message(`Dropped ${this.obj.description()}.`);
     return true;
+  }
+
+  canWear(stack: Stack): boolean {
+    if (!this.isEquipped) return false;
+
+    const ok = new EquipCommand(this.obj, this.index, this.game).turn();
+    if (ok) this.pop_and_runNPCLoop(stack);
+    return ok;
   }
 }

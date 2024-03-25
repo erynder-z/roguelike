@@ -7,6 +7,7 @@ import { Build0 } from './Builder0';
 import { Dungeon } from '../../MapModel/Dungeon';
 import { AutoHeal } from '../../Commands/AutoHeal';
 import { Inventory } from '../../Inventory/Inventory';
+import { Equipment } from '../../Inventory/Equipment';
 
 /**
  * Represents the interface for the game.
@@ -23,4 +24,5 @@ export interface GameIF {
   build: Build0;
   autoHeal: AutoHeal | undefined;
   inventory: Inventory | undefined;
+  equipment: Equipment | undefined;
 }
