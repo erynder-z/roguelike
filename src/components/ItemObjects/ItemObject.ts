@@ -23,7 +23,7 @@ export class ItemObject {
    */
   description(): string {
     const label = this.name();
-    return `${label} ${this.level}`;
+    return `${label} lvl: ${this.level}`;
   }
 
   /**
