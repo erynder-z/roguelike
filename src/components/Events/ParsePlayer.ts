@@ -14,6 +14,7 @@ import { Mob } from '../Mobs/Mob';
 import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
 import { PickupCommand } from '../Commands/PickupCommand';
 import { InventoryScreen } from '../Screens/InventoryScreen';
+import { EquipmentScreen } from '../Screens/EquipmentScreen';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -142,6 +143,10 @@ export class ParsePlayer {
       case 'i':
         if (this.game.inventory)
           stackScreen = new InventoryScreen(this.game, this.make);
+        break;
+      case 'u':
+        if (this.game.equipment)
+          stackScreen = new EquipmentScreen(this.game, this.make);
         break;
     }
 
