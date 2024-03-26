@@ -82,7 +82,7 @@ export class EquipCommand extends CommandBase {
     if (overlap) {
       this.game.flash(`Must first unequip${inHand!.name()}!`);
     }
-    return true;
+    return overlap;
   }
 
   /**
