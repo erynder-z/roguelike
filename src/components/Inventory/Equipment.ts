@@ -83,6 +83,28 @@ export class Equipment {
   }
 
   /**
+   * Calculates the total armor class provided by all equipped items.
+   * @returns {number} The total armor class.
+   */
+  armorClass(): number {
+    let ac: number = 0;
+    for (const [, v] of this._objs) {
+      ac += v.level * 2;
+    }
+    return ac;
+  }
+
+  /**
+   * Calculates the reduction factor for armor class.
+   * @returns {number} The reduction factor.
+   */
+  armorClass_reduce(): number {
+    const ac: number = this.armorClass();
+    const reduce = 1.0 * (ac * 0.1 + 1.0);
+    return reduce;
+  }
+
+  /**
    * Array of slots considered as weapon slots.
    */
   public static weapons: Slot[] = [Slot.MainHand, Slot.OffHand, Slot.BothHands];
@@ -105,5 +127,15 @@ export class Equipment {
       if (this.has(slot)) return this.get(slot);
     }
     return undefined;
+  }
+
+  /**
+   * Calculates the damage provided by the equipped weapon.
+   * @returns {number} The weapon damage.
+   */
+  weaponDamage(): number {
+    const weapon: ItemObject | undefined = this.weapon();
+    if (weapon) return weapon.level + 1;
+    return 2;
   }
 }

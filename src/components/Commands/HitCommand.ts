@@ -3,6 +3,7 @@ import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 import { HealthAdjust } from './HealthAdjust';
+import { Equipment } from '../Inventory/Equipment';
 
 /**
  * Represents a command to hit another mob.
@@ -27,34 +28,26 @@ export class HitCommand extends CommandBase {
    * Executes the hit command, dealing damage to the target mob.
    * @returns {boolean} Returns true if the hit was successful, false otherwise.
    */
-  execute0(): boolean {
-    const me = this.me.name;
-    const him = this.him.name;
-    const dmg = 1;
-    const s = `${me} hits ${him} for ${dmg} damage.`;
-    this.him.hp -= dmg;
-    console.log(s);
-    return true;
-  }
-
-  /**
-   * Executes the hit command, dealing damage to the target mob.
-   * @returns {boolean} Returns true if the hit was successful, false otherwise.
-   */
   execute(): boolean {
     const me = this.me.name;
     const him = this.him.name;
     const rnd = this.game.rand;
 
-    const dmg: number = this.calcDamage(rnd, this.me);
+    let dmg: number = this.calcDamage(rnd, this.me);
 
-    const s = dmg
-      ? `${me} hits ${him} for ${dmg} damage.`
-      : `${me} misses ${him}.`;
-
-    if (this.me.isPlayer || this.him.isPlayer) {
-      this.game.message(s);
+    if (this.him.isPlayer) {
+      const orig = dmg;
+      const factor = this.game.equipment!.armorClass_reduce();
+      dmg = Math.ceil(dmg * factor);
+      console.log(`${orig} → ${dmg} (${factor})`);
     }
+
+    const rest = this.him.hp - dmg;
+    const s = dmg
+      ? `${me} hits ${him} for ${dmg}→${rest}`
+      : `${me} misses ${him}`;
+
+    if (this.me.isPlayer || this.him.isPlayer) this.game.message(s);
 
     HealthAdjust.adjust(this.him, -dmg, this.game, this.me);
     return true;
@@ -67,12 +60,53 @@ export class HitCommand extends CommandBase {
    * @returns {number} The calculated damage.
    */
   calcDamage(rnd: RandomGenerator, me: Mob): number {
-    const level: number = me.level;
-    let lim = level + 1;
+    return rnd.randomInteger(0, this.power(me));
+  }
 
-    if (me.isPlayer) lim = 3;
+  /**
+   * Calculates the power of the mob initiating the hit.
+   * @param {Mob} me - The mob initiating the hit.
+   * @returns {number} The power of the mob.
+   */
+  power(me: Mob): number {
+    return me.isPlayer ? this.playerPower(me) : this.npcPower(me);
+  }
 
-    const dmg = rnd.randomIntegerClosedRange(0, lim);
-    return dmg;
+  /**
+   * Calculates the power of an NPC.
+   * @param {Mob} m - The NPC mob.
+   * @returns {number} The power of the NPC.
+   */
+  npcPower(m: Mob): number {
+    return m.level + 1;
+  }
+
+  /**
+   * Returns the base power for an unarmed hit.
+   * @returns {number} The base power for an unarmed hit.
+   */
+  unarmed(): number {
+    return 3;
+  }
+
+  /**
+   * Calculates the power of a player.
+   * @param {Mob} player - The player mob.
+   * @returns {number} The power of the player.
+   */
+  playerPower(player: Mob): number {
+    const g = this.g;
+    if (g.equipment) return this.equipmentPower(g, g.equipment);
+    return this.unarmed();
+  }
+
+  /**
+   * Calculates the power of a player based on their equipment.
+   * @param {GameIF} g - The game interface.
+   * @param {Equipment} eq - The equipment of the player.
+   * @returns {number} The power of the player based on their equipment.
+   */
+  equipmentPower(g: GameIF, eq: Equipment): number {
+    return eq.weapon() ? eq.weaponDamage() : this.unarmed();
   }
 }

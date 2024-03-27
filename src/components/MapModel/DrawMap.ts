@@ -151,14 +151,17 @@ export class DrawMap {
     const hp = player.hp;
     const maxhp = player.maxhp;
     const lvl = game.dungeon.level;
+    const nEA = game.equipment?.armorClass_reduce().toFixed(2);
+    const nAC = game.equipment?.armorClass();
+    const nAP = game.equipment?.weaponDamage();
 
     const hpDisplayText = `HP: ${hp}/${maxhp}`;
     const lvlDisplayText = `LVL: ${lvl}`;
+    const nEADisplayText = `nEA: ${nEA}`;
+    const nACDisplayText = `nAC: ${nAC}`;
+    const nAPDisplayText = `nAP: ${nAP}`;
 
-    const statsDisplay = this.extend(
-      hpDisplayText + ' ' + lvlDisplayText,
-      term,
-    );
+    const statsDisplay = `${hpDisplayText} ${nEADisplayText} ${nACDisplayText} ${nAPDisplayText} ${lvlDisplayText}`;
 
     const stats = document.getElementById('stats-container');
     if (stats) stats.innerText = statsDisplay;
