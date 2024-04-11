@@ -4,6 +4,7 @@ import { AwakeAI } from './AwakeAI';
 import { Mob } from './Mob';
 import { Mood } from './MoodEnum';
 import { SleepAI } from './SleepAI';
+import { SpellAI } from './SpellAI';
 
 /**
  * An AI implementation that delegates behavior based on a Mob's mood.
@@ -53,6 +54,10 @@ export class MoodAI implements MobAI {
    * @returns {MoodAI} - A new MoodAI instance with default AIs.
    */
   static stockMood(speed: number): MobAI {
-    return new MoodAI(new SleepAI(), new AwakeAI());
+    return new MoodAI(new SleepAI(), new AwakeAI(speed));
+  }
+
+  static stockMoodSpellCaster(speed: number, spellRate: number): MobAI {
+    return new MoodAI(new SleepAI(), new SpellAI(speed, spellRate));
   }
 }

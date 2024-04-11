@@ -10,10 +10,10 @@ import { MoodAI } from './MoodAI';
  * Represents an AI switcher that selects the appropriate AI implementation based on the type of mob.
  */
 export class AISwitcher implements MobAI {
+  constructor(public ai5_std: MobAI) {}
   ai2_cat: MobAI = new MobAI2_Cat();
   ai3_ant: MobAI = new MobAI3_Ant();
   ai4_bat: MobAI = MoodAI.stockMood(2);
-  ai5_std: MobAI = MoodAI.stockMood(1);
   /**
    * Executes a turn for the mob using the appropriate AI based on the mob's type.
    * @param {Mob} me - The current mob controlled by this AI.

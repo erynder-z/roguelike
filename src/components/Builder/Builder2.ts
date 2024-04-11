@@ -17,6 +17,7 @@ import { ObjectTypes } from '../ItemObjects/ObjectTypes';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
+import { MoodAI } from '../Mobs/MoodAI';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -133,7 +134,7 @@ export class Builder2 implements Build2 {
    * @return {MobAI | null} The created MobAI instance, or null if unable to create one.
    */
   makeAI(): MobAI | null {
-    return new AISwitcher();
+    return new AISwitcher(MoodAI.stockMoodSpellCaster(1, 8));
   }
 
   makeRingOfCats(map: Map, rnd: RandomGenerator): void {
