@@ -11,6 +11,7 @@ import { SleepAI } from './SleepAI';
  *
  */
 export class AwakeAI implements MobAI {
+  constructor(public speed: number) {}
   aiTargetedMovement: MobAI = new MobAI2_Cat();
   aiRandomMovement: MobAI = new MobAI3_Ant();
 
@@ -25,7 +26,7 @@ export class AwakeAI implements MobAI {
    */
   turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     const r = game.rand;
-    for (let i = 0; i < 2; ++i) {
+    for (let i = 0; i < this.speed; ++i) {
       const ai = r.isOneIn(2) ? this.aiTargetedMovement : this.aiRandomMovement;
       ai.turn(me, enemy, game);
     }
