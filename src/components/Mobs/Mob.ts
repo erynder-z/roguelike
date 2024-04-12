@@ -1,3 +1,4 @@
+import { ActiveBuffs } from '../Buffs/ActiveBuffs';
 import { Glyph } from '../Glyphs/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mood } from './MoodEnum';
@@ -27,6 +28,8 @@ export class Mob {
   maxhp: number = 3;
   mood: Mood = Mood.Asleep;
   level: number = 0;
+
+  buffs: ActiveBuffs = new ActiveBuffs();
 
   isPlayer: boolean = false;
   /**
