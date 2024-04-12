@@ -11,7 +11,7 @@ export enum Glyph {
   Ant,
   Bat,
   Cat,
-  Dog,
+  Druid,
   Ectoplasm,
   Frog,
   Gargoyle,

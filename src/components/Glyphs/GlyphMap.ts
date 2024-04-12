@@ -49,7 +49,7 @@ export class GlyphMap {
     add(bgColor, '#8A3324', false, 'a', Glyph.Ant);
     add(bgColor, '#0000FF', false, 'b', Glyph.Bat);
     add(bgColor, '#2E8B57', false, 'c', Glyph.Cat);
-    add(bgColor, '#D2691E', false, 'd', Glyph.Dog);
+    add(bgColor, '#D2691E', false, 'd', Glyph.Druid);
     add(bgColor, '#9932CC', false, 'e', Glyph.Ectoplasm);
     add(bgColor, '#8FBC8F', false, 'f', Glyph.Frog);
     add(bgColor, '#708090', false, 'g', Glyph.Gargoyle);
