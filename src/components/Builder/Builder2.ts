@@ -69,14 +69,11 @@ export class Builder2 implements Build2 {
     let map;
 
     switch (level) {
-      case 0:
-        map = TestMap2.test(wdim, rnd, level);
-        break;
       case 1:
         map = MapGenerator1.test(level);
         break;
       default:
-        map = MapGenerator1.test(level);
+        map = TestMap2.test(wdim, rnd, level);
         break;
     }
     return map;
