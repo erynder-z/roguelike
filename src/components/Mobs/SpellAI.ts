@@ -7,7 +7,8 @@ import { Mood } from './MoodEnum';
 import { SleepAI } from './SleepAI';
 import { GameMap } from '../MapModel/GameMap';
 import { CanSee } from '../Utilities/CanSee';
-import { Buff } from '../Buffs/BuffEnun';
+import { Buff } from '../Buffs/BuffEnum';
+import { BuffCommand } from '../Commands/BuffCommand';
 
 /**
  * An AI implementation for Mobs in an cast spells.
@@ -42,6 +43,14 @@ export class SpellAI implements MobAI {
     return true;
   }
 
+  /**
+   * A function to potentially cast a spell between two mobs in the game.
+   *
+   * @param {Mob} me - the casting mob
+   * @param {Mob} enemy - the target mob
+   * @param {GameIF} game - the game interface
+   * @return {boolean} true if the spell was cast, false otherwise
+   */
   maybeCastSpell(me: Mob, enemy: Mob, game: GameIF): boolean {
     const map = <GameMap>game.currentMap();
     if (!CanSee.canSee2(me, enemy, map, true)) return false;
@@ -52,12 +61,28 @@ export class SpellAI implements MobAI {
 
     return this.cast(buff, me, enemy, game);
   }
-
+  /**
+   * A function that picks a buff for a given mob.
+   *
+   * @param {Mob} me - the mob for which to pick the buff
+   * @param {any} r - a parameter whose role is unclear
+   * @return {Buff} the chosen buff for the mob
+   */
   pickBuff(me: Mob, r: any): Buff {
     // TODO: Implement buff choosing
     return Buff.Confuse;
   }
 
+
+  /**
+   * Casts a spell on the enemy mob using the given buff, current mob, enemy mob, and game interface.
+   *
+   * @param {number} buff - the buff to cast
+   * @param {Mob} me - the current mob
+   * @param {Mob} enemy - the enemy mob
+   * @param {GameIF} game - the game interface
+   * @return {boolean} the result of the spell cast
+   */
   cast(buff: number, me: Mob, enemy: Mob, game: GameIF): boolean {
     const spell = new BuffCommand(buff, enemy, game, me);
     return spell.npcTurn();
