@@ -68,6 +68,7 @@ export class BaseScreen implements StackScreen {
     if (ai) {
       ai.turn(m, ply, this.game);
     }
+    this.finishTurn(m);
   }
 
   /**
@@ -93,6 +94,27 @@ export class BaseScreen implements StackScreen {
   handleMessages(s: Stack): void {
     if (!this.game.log) return;
     if (this.game.log.hasQueuedMessages()) s.push(this.make.more(this.game));
+  }
+
+  /**
+   * tickBuffs - A function to handle ticking buffs for a mob.
+   *
+   * @param {Mob} m - The mob to tick buffs for
+   * @return {void}
+   */
+  tickBuffs(m: Mob): void {
+    if (!m.buffs) return;
+    m.buffs.ticks(m, this.game);
+  }
+
+  /**
+   * A method to finish the turn for a given mob.
+   *
+   * @param {Mob} m - the mob to finish the turn for
+   * @return {void}
+   */
+  finishTurn(m: Mob): void {
+    this.tickBuffs(m);
   }
 
   /**
