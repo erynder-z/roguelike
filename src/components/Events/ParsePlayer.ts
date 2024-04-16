@@ -1,6 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/Game';
 import { Command } from '../Commands/Interfaces/Command';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
@@ -21,7 +21,7 @@ import { EquipmentScreen } from '../Screens/EquipmentScreen';
  */
 export class ParsePlayer {
   public player: Mob;
-  public map: Map;
+  public map: MapIF;
   /**
    * Constructor for initializing game and screen maker.
    *
@@ -33,7 +33,7 @@ export class ParsePlayer {
     public make: ScreenMaker,
   ) {
     this.player = <Mob>game.player;
-    this.map = <Map>game.currentMap();
+    this.map = <MapIF>game.currentMap();
   }
 
   /**

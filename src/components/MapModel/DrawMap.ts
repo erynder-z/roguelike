@@ -1,5 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/Game';
-import { Map } from './Interfaces/Map';
+import { MapIF } from './Interfaces/MapIF';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { CanSee } from '../Utilities/CanSee';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
@@ -8,6 +8,9 @@ import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
+import { Buff } from '../Buffs/BuffEnum';
+import { BuffIF } from '../Buffs/Interfaces/BuffIF';
+import { ActiveBuffs } from '../Buffs/ActiveBuffs';
 
 /**
  * Represents a utility class for drawing a map on a drawable terminal.
@@ -16,10 +19,10 @@ export class DrawMap {
   /**
    * Draws a map on a drawable terminal. The whole map is visible.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
-   * @param {Map} map - The map to draw.
+   * @param {MapIF} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    */
-  static drawMap0(term: DrawableTerminal, map: Map, vp: WorldPoint) {
+  static drawMap0(term: DrawableTerminal, map: MapIF, vp: WorldPoint) {
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
@@ -51,14 +54,14 @@ export class DrawMap {
   /**
    * Draws a map with considerations for player position and lighting conditions.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
-   * @param {Map} map - The map to draw.
+   * @param {MapIF} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    * @param {WorldPoint} playerPos - The position of the player.
    * @param {GameIF} g - The game interface.
    */
   static drawMap1(
     term: DrawableTerminal,
-    map: Map,
+    map: MapIF,
     vp: WorldPoint,
     playerPos: WorldPoint,
     g: GameIF,
@@ -119,13 +122,13 @@ export class DrawMap {
    * Draw the player on the map.
    *
    * @param {DrawableTerminal} term - the terminal to draw on
-   * @param {Map} map - the map to draw
+   * @param {MapIF} map - the map to draw
    * @param {WorldPoint} player_pos - the position of the player
    * @param {GameIF} g - the game interface
    */
   static drawMapPlayer(
     term: DrawableTerminal,
-    map: Map,
+    map: MapIF,
     playerPos: WorldPoint,
     g: GameIF,
   ) {

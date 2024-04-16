@@ -1,6 +1,6 @@
 import { Build1 } from './Interfaces/Builder1';
 import { GameIF } from './Interfaces/Game';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { TestMap2 } from '../../test_Implementations/TestMap2';
 import { Glyph } from '../Glyphs/Glyph';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
@@ -32,9 +32,9 @@ export class Builder1 implements Build1 {
    *
    * @param {RandomGenerator} rnd - the random generator to use
    * @param {number} level - the level number
-   * @return {Map} the generated map
+   * @return {MapIF} the generated map
    */
-  makeLevel(rnd: RandomGenerator, level: number): Map {
+  makeLevel(rnd: RandomGenerator, level: number): MapIF {
     const map = this.makeMap(rnd, level);
     return map;
   }
@@ -44,9 +44,9 @@ export class Builder1 implements Build1 {
    *
    * @param {RandomGenerator} rnd - the random generator to use
    * @param {number} level - the level for the map
-   * @return {Map} the generated map
+   * @return {MapIF} the generated map
    */
-  makeMap(rnd: RandomGenerator, level: number): Map {
+  makeMap(rnd: RandomGenerator, level: number): MapIF {
     const dim = TerminalPoint.StockDimensions;
     const wdim = new WorldPoint(dim.x, dim.y);
     return TestMap2.test(wdim, rnd, level);
@@ -59,7 +59,7 @@ export class Builder1 implements Build1 {
    * @return {void}
    */
   enterFirstLevel0(game: Game): void {
-    const map = <Map>game.currentMap();
+    const map = <MapIF>game.currentMap();
     const np = this.centerPos(map.dimensions);
     map.enterMap(game.player, np);
   }

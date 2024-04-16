@@ -3,7 +3,7 @@ import { EquipCommand } from '../Commands/EquipCommand';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { DrawMap } from '../MapModel/DrawMap';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
@@ -89,7 +89,7 @@ export class ItemScreen extends BaseScreen {
    */
   dropInventoryItem(): boolean {
     const game = this.game;
-    const map = <Map>this.game.currentMap();
+    const map = <MapIF>this.game.currentMap();
     const player = game.player;
     const c = map.cell(player.pos);
     if (c.hasObject()) {

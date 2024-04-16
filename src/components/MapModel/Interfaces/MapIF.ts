@@ -7,7 +7,7 @@ import { ItemObject } from '../../ItemObjects/ItemObject';
 /**
  * Represents a game map with cells and dimensions.
  */
-export interface Map {
+export interface MapIF {
   /**
    * The dimensions of the map.
    */

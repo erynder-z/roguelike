@@ -1,6 +1,6 @@
 import { MobAI } from '../Mobs/Interfaces/MobAI';
 import { GameIF } from './Interfaces/Game';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { MessageLog } from '../Messages/MessageLog';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
@@ -22,9 +22,9 @@ export class Game implements GameIF {
   /**
    * Retrieve the current map.
    *
-   * @return {Map | null} The current map, or null if not available.
+   * @return {MapIF | null} The current map, or null if not available.
    */
-  currentMap(): Map | null {
+  currentMap(): MapIF | null {
     return this.dungeon.currentMap(this);
   }
 

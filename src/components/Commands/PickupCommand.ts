@@ -1,6 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/Game';
 import { Inventory } from '../Inventory/Inventory';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -21,7 +21,7 @@ export class PickupCommand extends CommandBase {
    */
   execute(): boolean {
     const game = this.game;
-    const map = <Map>game.currentMap();
+    const map = <MapIF>game.currentMap();
     const player = game.player;
     const inventory = <Inventory>game.inventory;
     const c = map.cell(player.pos);

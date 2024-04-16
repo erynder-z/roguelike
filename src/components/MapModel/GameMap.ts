@@ -1,4 +1,4 @@
-import { Map } from './Interfaces/Map';
+import { MapIF } from './Interfaces/MapIF';
 import { Mob } from '../Mobs/Mob';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
 import { Glyph } from '../Glyphs/Glyph';
@@ -7,9 +7,9 @@ import { WorldPoint } from './WorldPoint';
 import { ItemObject } from '../ItemObjects/ItemObject';
 
 /**
- * Represents the game map implementing the Map interface.
+ * Represents the game map implementing the MapIF interface.
  */
-export class GameMap implements Map {
+export class GameMap implements MapIF {
   /**
    * 2D array of map cells representing the game map.
    */

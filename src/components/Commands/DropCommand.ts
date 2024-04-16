@@ -1,7 +1,7 @@
 import { GameIF } from '../Builder/Interfaces/Game';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -28,7 +28,7 @@ export class DropCommand extends CommandBase {
    */
   execute(): boolean {
     const game = this.game;
-    const map = <Map>game.currentMap();
+    const map = <MapIF>game.currentMap();
     const player = game.player;
     const c = map.cell(player.pos);
 

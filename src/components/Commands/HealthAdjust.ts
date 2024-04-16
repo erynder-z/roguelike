@@ -1,5 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/Game';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Mob } from '../Mobs/Mob';
 import { AutoHeal } from './AutoHeal';
 
@@ -60,7 +60,7 @@ export class HealthAdjust {
   static mobDies(mob: Mob, game: GameIF, involvesPlayer: boolean) {
     const s = `${mob.name} dies.`;
     if (involvesPlayer) game.message(s);
-    const map = <Map>game.currentMap();
+    const map = <MapIF>game.currentMap();
     map.removeMob(mob);
   }
 }

@@ -1,5 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/Game';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { CommandBase } from './CommandBase';
@@ -28,7 +28,7 @@ export class StairCommand extends CommandBase {
     const game = this.game;
     const dungeon = game.dungeon;
     const newLevel = dungeon.level + this.levelDir;
-    const newMap: Map = dungeon.getLevel(newLevel, game);
+    const newMap: MapIF = dungeon.getLevel(newLevel, game);
     const newPos = FindFreeSpace.findFree(newMap, game.rand);
     const direction = this.levelDir != -1 ? 'descends' : 'ascends';
     this.game.message(`Player ${direction} to level ${newLevel}.`);

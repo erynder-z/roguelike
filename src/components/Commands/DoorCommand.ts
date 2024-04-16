@@ -1,6 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/Game';
 import { Command } from './Interfaces/Command';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
@@ -41,7 +41,7 @@ export class DoorCommand extends CommandBase {
   execute(): boolean {
     const p = this.me.pos;
     const door = p.plus(this.direction);
-    const map = <Map>this.game.currentMap();
+    const map = <MapIF>this.game.currentMap();
     const cell = map.cell(door);
     switch (cell.env) {
       case Glyph.Door_Closed:

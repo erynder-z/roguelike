@@ -1,5 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/Game';
-import { Map } from './Interfaces/Map';
+import { MapIF } from './Interfaces/MapIF';
 import { WorldPoint } from './WorldPoint';
 
 /**
@@ -7,14 +7,14 @@ import { WorldPoint } from './WorldPoint';
  */
 export class Dungeon {
   level: number = 0;
-  maps: Map[] = [];
+  maps: MapIF[] = [];
 
   /**
    * Retrieves the current map of the dungeon based on the current level.
    * @param {GameIF} g - The game interface.
-   * @returns {Map} The current map.
+   * @returns {MapIF} The current map.
    */
-  currentMap(g: GameIF): Map {
+  currentMap(g: GameIF): MapIF {
     return this.getLevel(this.level, g);
   }
 
@@ -23,9 +23,9 @@ export class Dungeon {
    * If the level does not exist, it is generated.
    * @param {number} l - The level number.
    * @param {GameIF} g - The game interface.
-   * @returns {Map} The map of the specified level.
+   * @returns {MapIF} The map of the specified level.
    */
-  getLevel(l: number, g: GameIF): Map {
+  getLevel(l: number, g: GameIF): MapIF {
     if (!this.hasLevel(l)) {
       const map = g.build.makeLevel(g.rand, l);
       this.add(map, l);
@@ -44,11 +44,11 @@ export class Dungeon {
 
   /**
    * Adds a map to a specified level of the dungeon.
-   * @param {Map} map - The map to add.
+   * @param {MapIF} map - The map to add.
    * @param {number} l - The level number where the map should be added.
    * @returns {void}
    */
-  add(map: Map, l: number): void {
+  add(map: MapIF, l: number): void {
     if (l >= this.maps.length) {
       this.extendMaps(l + 1);
     }

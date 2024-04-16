@@ -1,6 +1,6 @@
 import { Build0 } from './Interfaces/Builder0';
 import { GameIF } from './Interfaces/Game';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { TestMap2 } from '../../test_Implementations/TestMap2';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
@@ -26,9 +26,9 @@ export class Builder0 implements Build0 {
    *
    * @param {RandomGenerator} rnd - the random generator to use
    * @param {number} level - the level number
-   * @return {Map} the created level map
+   * @return {MapIF} the created level map
    */
-  makeLevel(rnd: RandomGenerator, level: number): Map {
+  makeLevel(rnd: RandomGenerator, level: number): MapIF {
     return this.makeMap(rnd, level);
   }
   /**
@@ -36,9 +36,9 @@ export class Builder0 implements Build0 {
    *
    * @param {RandomGenerator} rnd - the random generator
    * @param {number} level - the level for the map
-   * @return {Map} the generated map
+   * @return {MapIF} the generated map
    */
-  makeMap(rnd: RandomGenerator, level: number): Map {
+  makeMap(rnd: RandomGenerator, level: number): MapIF {
     const wdim = WorldPoint.StockDimensions;
     return TestMap2.test(wdim, rnd, level);
   }

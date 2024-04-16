@@ -1,5 +1,5 @@
 import { Glyph } from '../Glyphs/Glyph';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { ObjTypesIF } from './Interfaces/ObjTypesIF';
@@ -32,7 +32,7 @@ export class ObjectTypes {
   /**
    * Adds an object of a specified type to the map at a given position.
    * @param {WorldPoint} p - The position to add the object.
-   * @param {Map} map - The map to add the object to.
+   * @param {MapIF} map - The map to add the object to.
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
    * @param {Glyph} objType - The glyph representing the object type.
    * @param {number} level - The level of the object.
@@ -40,7 +40,7 @@ export class ObjectTypes {
    */
   static addObjTypeToMap(
     p: WorldPoint,
-    map: Map,
+    map: MapIF,
     rnd: RandomGenerator,
     objType: Glyph,
     level: number,
@@ -55,14 +55,14 @@ export class ObjectTypes {
   /**
    * Adds a random object of a specified level to the map at a given position.
    * @param {WorldPoint} p - The position to add the object.
-   * @param {Map} map - The map to add the object to.
+   * @param {MapIF} map - The map to add the object to.
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
    * @param {number} level - The level of the object.
    * @returns {ItemObject} The added object.
    */
   static addRandomObjectForLevel(
     p: WorldPoint,
-    map: Map,
+    map: MapIF,
     rnd: RandomGenerator,
     level: number,
   ): ItemObject {

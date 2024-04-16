@@ -1,5 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/Game';
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
@@ -31,7 +31,7 @@ export class MoveCommand extends CommandBase {
    * @returns {boolean} Always returns true.
    */
   execute0(): boolean {
-    const map = <Map>this.game.currentMap();
+    const map = <MapIF>this.game.currentMap();
     const np = this.dir.plus(this.me.pos);
     map.moveMob(this.me, np);
     return true;
@@ -42,7 +42,7 @@ export class MoveCommand extends CommandBase {
    * @returns {boolean} True if the move is legal and executed successfully, otherwise false.
    */
   execute(): boolean {
-    const map = <Map>this.game.currentMap();
+    const map = <MapIF>this.game.currentMap();
     const np = this.dir.plus(this.me.pos);
     const legal = !map.isBlocked(np);
     if (legal) {
@@ -57,11 +57,11 @@ export class MoveCommand extends CommandBase {
 
   /**
    * Deals with stairs after the move, if the player has encountered stairs.
-   * @param {Map} map - The map object.
+   * @param {MapIF} map - The map object.
    * @param {WorldPoint} np - The new position after the move.
    * @returns {void}
    */
-  dealWithStairs(map: Map, np: WorldPoint): void {
+  dealWithStairs(map: MapIF, np: WorldPoint): void {
     let dir: number;
 
     switch (map.cell(np).env) {
@@ -78,7 +78,7 @@ export class MoveCommand extends CommandBase {
   }
 
   flashIfItem(): void {
-    const map: Map = <Map>this.game.currentMap();
+    const map: MapIF = <MapIF>this.game.currentMap();
     const np: WorldPoint = this.game.player.pos;
     const o: ItemObject | undefined = map.cell(np).obj;
 

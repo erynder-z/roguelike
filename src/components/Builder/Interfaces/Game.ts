@@ -2,7 +2,7 @@ import { MessageLog } from '../../Messages/MessageLog';
 import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
 import { Mob } from '../../Mobs/Mob';
 import { MobAI } from '../../Mobs/Interfaces/MobAI';
-import { Map } from '../../MapModel/Interfaces/Map';
+import { MapIF } from '../../MapModel/Interfaces/MapIF';
 import { Build0 } from './Builder0';
 import { Dungeon } from '../../MapModel/Dungeon';
 import { AutoHeal } from '../../Commands/AutoHeal';
@@ -14,7 +14,7 @@ import { Equipment } from '../../Inventory/Equipment';
  */
 export interface GameIF {
   rand: RandomGenerator;
-  currentMap(): Map | null;
+  currentMap(): MapIF | null;
   player: Mob;
   ai: MobAI | null;
   message(s: string): void;

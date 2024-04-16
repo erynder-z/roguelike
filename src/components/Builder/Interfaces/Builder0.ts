@@ -1,5 +1,5 @@
 import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
-import { Map } from '../../MapModel/Interfaces/Map';
+import { MapIF } from '../../MapModel/Interfaces/MapIF';
 import { GameIF } from './Game';
 
 /**
@@ -7,6 +7,6 @@ import { GameIF } from './Game';
  */
 export interface Build0 {
   makeGame(): GameIF;
-  makeLevel(rnd: RandomGenerator, level: number): Map;
-  makeMap(rnd: RandomGenerator, level: number): Map;
+  makeLevel(rnd: RandomGenerator, level: number): MapIF;
+  makeMap(rnd: RandomGenerator, level: number): MapIF;
 }

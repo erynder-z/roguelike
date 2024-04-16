@@ -1,4 +1,4 @@
-import { Map } from '../MapModel/Interfaces/Map';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
@@ -10,13 +10,13 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * Represents a screen displaying a map within a terminal.
  */
 export class MapScreen implements StackScreen {
-  name = 'Map';
+  name = 'MapIF';
 
   /**
    * Creates an instance of MapScreen.
-   * @param {Map} map - The map to display on the screen.
+   * @param {MapIF} map - The map to display on the screen.
    */
-  constructor(public map: Map) {}
+  constructor(public map: MapIF) {}
 
   /**
    * Handles key down events for the map screen.
@@ -35,9 +35,9 @@ export class MapScreen implements StackScreen {
 
   /**
    * Runs the map screen with the specified map.
-   * @param {Map} map - The map to display.
+   * @param {MapIF} map - The map to display.
    */
-  static runMapScreen(map: Map) {
+  static runMapScreen(map: MapIF) {
     ScreenStack.run_StackScreen(new MapScreen(map));
   }
 }

@@ -2,10 +2,10 @@ import { GameMap } from '../components/MapModel/GameMap';
 import { Glyph } from '../components/Glyphs/Glyph';
 import { RandomGenerator } from '../components/RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../components/MapModel/WorldPoint';
-import { Map } from '../components/MapModel/Interfaces/Map';
+import { MapIF } from '../components/MapModel/Interfaces/MapIF';
 
 export class TestMap2 {
-  static test(dim: WorldPoint, rnd: RandomGenerator, level: number): Map {
+  static test(dim: WorldPoint, rnd: RandomGenerator, level: number): MapIF {
     const m = new GameMap(dim, Glyph.Wall, level);
     for (let p = new WorldPoint(); p.y < dim.y; p.y++) {
       for (p.x = 0; p.x < dim.x; p.x++) {
@@ -23,7 +23,7 @@ export class TestMap2 {
     return m;
   }
 
-  static fullTest(): Map {
+  static fullTest(): MapIF {
     const wdim = new WorldPoint(32, 16);
     const rnd = new RandomGenerator(42);
     return TestMap2.test(wdim, rnd, 0);
