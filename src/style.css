@@ -58,4 +58,16 @@ canvas {
 .something-container {
   background: SteelBlue;
   grid-area: something1;
+  display: grid;
+  grid-template-columns: 2;
+}
+
+.buffs-container {
+  background: darkslateblue;
+  grid-column: 1;
+}
+
+.equipment-container {
+  background: darkslategray;
+  grid-column: 2;
 }

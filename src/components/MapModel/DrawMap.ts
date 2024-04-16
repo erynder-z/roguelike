@@ -168,23 +168,50 @@ export class DrawMap {
 
     const stats = document.getElementById('stats-container');
     if (stats) stats.innerText = statsDisplay;
+
+    this.renderBuffs(term, game);
   }
 
-  //Renders directly on the canvas
-  /*  static renderMessage(term: DrawableTerminal, game: GameIF): void {
-    const log = game.log;
+  static remain(b: BuffIF): number {
+    return b.time;
+  }
 
-     if (!log) return;
-    const line = log.top();
-    const num = log.len();
-    let s = num > 1 ? `${line} (${num} more)` : line; 
+  /**
+   * Renders the active buffs of the player on the terminal.
+   *
+   * @param {DrawableTerminal} term - the terminal to render the stats on
+   * @param {GameIF} game - the game instance to retrieve player stats from
+   * @return {void}
+   */
+  static renderBuffs(term: DrawableTerminal, game: GameIF): void {
+    const player = game.player;
+    const buffs: ActiveBuffs = player.buffs;
+    const bMap: Map<Buff, BuffIF> = buffs._map;
+    const entries: [Buff, BuffIF][] = Array.from(bMap.entries());
 
-     s = this.extend(s, term);
-    const x = 0;
-    const y = 1;
-    term.drawText(x, y, s, 'cyan', 'blue'); 
-  } */
+    const ulElement = document.createElement('ul');
 
+    for (const [buff, buffIF] of entries) {
+      const liElement = document.createElement('li');
+      liElement.textContent = `${Buff[buff]}: ${this.remain(buffIF)}`;
+      ulElement.appendChild(liElement);
+    }
+
+    const buffsContainer = document.getElementById('buffs-display');
+    while (buffsContainer?.firstChild) {
+      buffsContainer.removeChild(buffsContainer.firstChild);
+    }
+
+    buffsContainer?.appendChild(ulElement);
+  }
+
+  /**
+   * Renders the log messages on the terminal.
+   *
+   * @param {DrawableTerminal} term - the terminal to render the stats on
+   * @param {GameIF} game - the game instance to retrieve player stats from
+   * @return {void}
+   */
   static renderMessage(term: DrawableTerminal, game: GameIF): void {
     const log = game.log;
 
