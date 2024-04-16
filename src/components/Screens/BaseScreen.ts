@@ -127,7 +127,7 @@ export class BaseScreen implements StackScreen {
     const player = q.currentMob();
 
     if (!player.isPlayer) return;
-
+    this.finishTurn(player);
     if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
   }
 
