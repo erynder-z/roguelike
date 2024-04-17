@@ -1,5 +1,5 @@
 import { MobAI } from '../Mobs/Interfaces/MobAI';
-import { Build2, BuildIF } from './Interfaces/BuildIF';
+import { BuildIF } from './Interfaces/BuildIF';
 import { GameIF } from './Interfaces/Game';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { TestMap2 } from '../../test_Implementations/TestMap2';
@@ -18,6 +18,7 @@ import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
 import { MoodAI } from '../Mobs/MoodAI';
+import { Overworld } from '../../staticMaps/Overworld';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -32,10 +33,10 @@ export class Builder implements BuildIF {
     const rnd = new RandomGenerator(99);
     const player = this.makePlayer();
     const game = new Game(rnd, player, this);
-    game.dungeon.level = 1;
+    game.dungeon.level = 0;
     this.enterFirstLevel(game);
     game.ai = this.makeAI();
-    this.initLevel1(game);
+    this.initLevel0(game);
 
     return game;
   }
@@ -50,8 +51,8 @@ export class Builder implements BuildIF {
   makeLevel(rnd: RandomGenerator, level: number): MapIF {
     const map = this.makeMap(rnd, level);
     this.addLevelStairs(map, level, rnd);
-    this.addItems(map, rnd);
     this.addMobsToLevel(map, rnd);
+    if (level !== 0) this.addItems(map, rnd);
     return map;
   }
 
@@ -69,6 +70,9 @@ export class Builder implements BuildIF {
     let map;
 
     switch (level) {
+      case 0:
+        map = Overworld.test(wdim, rnd, level);
+        break;
       case 1:
         map = MapGenerator1.test(level);
         break;
@@ -239,7 +243,7 @@ export class Builder implements BuildIF {
   addMobsToLevel(map: MapIF, rnd: RandomGenerator): void {
     switch (map.level) {
       case 0:
-        this.makeRingOfCats(map, rnd);
+        //TODO this.makeFriendlyNPCs(map, rnd);
         break;
       default:
         this.makeMobs(map, rnd, 15);
@@ -328,12 +332,25 @@ export class Builder implements BuildIF {
     }
   }
 
-  initLevel1(game: Game): void {
-    const L1 = game.dungeon.getLevel(1, game);
+  /**
+   * Initializes level 0 of the game.
+   *
+   * @param {Game} game - The game object.
+   * @return {void} No return value.
+   */
+  initLevel0(game: Game): void {
+    const L0 = game.dungeon.getLevel(0, game);
     this.addItemToPlayerInventory(<Inventory>game.inventory);
-    this.addItemNextToPlayer(game.player, L1);
+    this.addItemNextToPlayer(game.player, L0);
   }
 
+  /**
+   * Adds items next to the player on the map.
+   *
+   * @param {Mob} player - The player object.
+   * @param {MapIF} map - The map where items are added.
+   * @return {void} No return value.
+   */
   addItemNextToPlayer(player: Mob, map: MapIF): void {
     const a = player.pos;
 
@@ -346,6 +363,12 @@ export class Builder implements BuildIF {
     map.cell(p).env = Glyph.Floor;
   }
 
+  /**
+   * Adds items to the player's inventory.
+   *
+   * @param {Inventory} inv - The inventory to add the item to.
+   * @return {void} This function does not return anything.
+   */
   addItemToPlayerInventory(inv: Inventory): void {
     inv.add(new ItemObject(Glyph.Dagger, Slot.MainHand));
   }
