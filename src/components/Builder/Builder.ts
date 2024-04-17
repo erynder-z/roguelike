@@ -1,5 +1,5 @@
 import { MobAI } from '../Mobs/Interfaces/MobAI';
-import { Build2 } from './Interfaces/Builder2';
+import { Build2, BuildIF } from './Interfaces/BuildIF';
 import { GameIF } from './Interfaces/Game';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { TestMap2 } from '../../test_Implementations/TestMap2';
@@ -22,7 +22,7 @@ import { MoodAI } from '../Mobs/MoodAI';
 /**
  * Represents a builder for creating games, levels and mobs.
  */
-export class Builder2 implements Build2 {
+export class Builder implements BuildIF {
   /**
    * Create and return a new GameIF instance.
    *
@@ -77,18 +77,6 @@ export class Builder2 implements Build2 {
         break;
     }
     return map;
-  }
-
-  /**
-   * enterFirstLevel0 function enters the first level of the game.
-   *
-   * @param {Game} game - the game object
-   * @return {void}
-   */
-  enterFirstLevel0(game: Game): void {
-    const map = <MapIF>game.currentMap();
-    const np = this.centerPos(map.dimensions);
-    map.enterMap(game.player, np);
   }
 
   /**
