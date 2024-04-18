@@ -181,30 +181,28 @@ export class DrawMap {
   /**
    * Renders the active buffs of the player on the terminal.
    *
-   * @param {DrawableTerminal} term - the terminal to render the stats on
-   * @param {GameIF} game - the game instance to retrieve player stats from
+   * @param {DrawableTerminal} terminal - the terminal to render the buffs on
+   * @param {GameIF} game - the game instance containing the player's buffs
    * @return {void}
    */
-  static renderBuffs(term: DrawableTerminal, game: GameIF): void {
-    const player = game.player;
-    const buffs: ActiveBuffs = player.buffs;
-    const bMap: Map<Buff, BuffIF> = buffs._map;
-    const entries: [Buff, BuffIF][] = Array.from(bMap.entries());
+  static renderBuffs(terminal: DrawableTerminal, game: GameIF): void {
+    const playerBuffs = game.player.buffs;
+    const buffMap = playerBuffs._map;
 
-    const ulElement = document.createElement('ul');
+    const buffList = document.createElement('ul');
 
-    for (const [buff, buffIF] of entries) {
-      const liElement = document.createElement('li');
-      liElement.textContent = `${Buff[buff]}: ${this.remain(buffIF)}`;
-      ulElement.appendChild(liElement);
-    }
+    buffMap.forEach((buff, key) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${Buff[key]}: ${this.remain(buff)}`;
+      buffList.appendChild(listItem);
+    });
 
     const buffsContainer = document.getElementById('buffs-display');
     while (buffsContainer?.firstChild) {
       buffsContainer.removeChild(buffsContainer.firstChild);
     }
 
-    buffsContainer?.appendChild(ulElement);
+    buffsContainer?.appendChild(buffList);
   }
 
   /**
