@@ -168,7 +168,7 @@ export class DrawMap {
 
     const statsDisplay = `${hpDisplayText} ${nEADisplayText} ${nACDisplayText} ${nAPDisplayText} ${lvlDisplayText}`;
 
-    const stats = document.getElementById('stats-container');
+    const stats = document.getElementById('stats-display');
     if (stats) stats.innerText = statsDisplay;
 
     this.renderBuffs(term, game);
@@ -245,7 +245,7 @@ export class DrawMap {
       ulElement.appendChild(liElement);
     });
 
-    const messagesContainer = document.getElementById('messages-container');
+    const messagesContainer = document.getElementById('messages-display');
     while (messagesContainer?.firstChild) {
       messagesContainer.removeChild(messagesContainer.firstChild);
     }

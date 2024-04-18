@@ -48,6 +48,13 @@ canvas {
 .stats-container {
   background: navy;
   grid-area: stats;
+  display: flex;
+  gap: 1rem;
+}
+
+.stats-display {
+  font-size: large;
+  margin: auto;
 }
 
 .messages-container {
