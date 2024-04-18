@@ -11,6 +11,8 @@ import { WorldPoint } from './WorldPoint';
 import { Buff } from '../Buffs/BuffEnum';
 import { BuffIF } from '../Buffs/Interfaces/BuffIF';
 import { ActiveBuffs } from '../Buffs/ActiveBuffs';
+import { Slot } from '../ItemObjects/Slot';
+import { ItemObject } from '../ItemObjects/ItemObject';
 
 /**
  * Represents a utility class for drawing a map on a drawable terminal.
@@ -203,6 +205,26 @@ export class DrawMap {
     }
 
     buffsContainer?.appendChild(ulElement);
+  }
+
+  /**
+   * Renders the equipment on the terminal based on the provided game state.
+   *
+   * @param {DrawableTerminal} term - the terminal to render the equipment on
+   * @param {GameIF} game - the game instance containing the equipment state
+   * @return {void}
+   */
+  static renderEquipment(term: DrawableTerminal, game: GameIF): void {
+    const equipment = game.equipment;
+
+    for (let slot = Slot.MainHand; slot < Slot.Last; slot++) {
+      const slotElement = document.getElementById(Slot[slot]);
+      const itemDescription = equipment?.get(slot)?.description() ?? '';
+
+      if (slotElement) {
+        slotElement.textContent = itemDescription ? itemDescription : 'empty';
+      }
+    }
   }
 
   /**

@@ -71,3 +71,7 @@ canvas {
   background: darkslategray;
   grid-column: 2;
 }
+
+.equipment-slot {
+  display: flex;
+}
