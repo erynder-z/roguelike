@@ -261,8 +261,8 @@ export class DrawMap {
     let s = log.top();
     s = this.extend(s, term);
 
-    const x = 0;
-    const y = 0;
+    const x = term.dimensions.x - s.length;
+    const y = term.dimensions.y - 1;
     term.drawText(x, y, s, 'yellow', '#00000000');
   }
 
