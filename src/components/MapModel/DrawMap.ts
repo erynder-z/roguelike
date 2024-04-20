@@ -10,9 +10,7 @@ import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
 import { Buff } from '../Buffs/BuffEnum';
 import { BuffIF } from '../Buffs/Interfaces/BuffIF';
-import { ActiveBuffs } from '../Buffs/ActiveBuffs';
 import { Slot } from '../ItemObjects/Slot';
-import { ItemObject } from '../ItemObjects/ItemObject';
 
 /**
  * Represents a utility class for drawing a map on a drawable terminal.

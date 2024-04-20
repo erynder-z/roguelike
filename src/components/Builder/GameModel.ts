@@ -5,7 +5,7 @@ import { MessageLog } from '../Messages/MessageLog';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { Dungeon } from '../MapModel/Dungeon';
-import { Build0 } from './Interfaces/Builder0';
+import { Builder } from './Interfaces/BuildIF';
 import { AutoHeal } from '../Commands/AutoHeal';
 import { Inventory } from '../Inventory/Inventory';
 import { Equipment } from '../Inventory/Equipment';
@@ -17,7 +17,7 @@ export class Game implements GameIF {
   constructor(
     public rand: RandomGenerator,
     public player: Mob,
-    public build: Build0,
+    public build: Builder,
   ) {}
   /**
    * Retrieve the current map.
