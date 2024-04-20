@@ -11,9 +11,9 @@ export class MessageLog {
    * @returns {void}
    */
   message(s: string, isFlashMsg: boolean): void {
-    this.queue.push(s);
+    /*    this.queue.push(s); */
     if (!isFlashMsg) this.archive.push(s);
-    if (isFlashMsg) console.log(s);
+    if (isFlashMsg) this.queue.push(s);
   }
   /**
    * Removes the oldest message from the queue.
