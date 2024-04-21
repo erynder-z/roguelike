@@ -1,6 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/Game';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from '../Screens/BaseScreen';
 
@@ -8,7 +7,7 @@ import { BaseScreen } from '../Screens/BaseScreen';
  * Represents a screen for displaying the log messages.
  */
 export class LogScreen extends BaseScreen {
-  name: string = 'LogScreen';
+  name: string = 'log-screen';
   messageLog: string[];
 
   /**
@@ -23,15 +22,13 @@ export class LogScreen extends BaseScreen {
 
   /**
    * Draws the log screen on the terminal.
-   * @param {DrawableTerminal} term - The drawable terminal.
    * @returns {void}
    */
-  drawScreen(term: DrawableTerminal): void {
+  drawScreen(): void {
     const existingLogScreen = document.getElementById('log-screen');
     if (existingLogScreen) {
       return;
     }
-
     const logScreen = document.createElement('div');
     logScreen.id = 'log-screen';
     logScreen.classList.add('log-screen');
@@ -62,13 +59,10 @@ export class LogScreen extends BaseScreen {
    */
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     if (event.key === 'q') {
-      const logScreen = document.getElementById('log-screen');
-      if (logScreen) {
-        logScreen.remove();
-        stack.pop();
-        return true;
-      }
+      stack.pop();
+      return true;
     }
+
     return false;
   }
 }

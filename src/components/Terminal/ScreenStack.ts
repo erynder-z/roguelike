@@ -15,6 +15,7 @@ export class ScreenStack implements Stack, InteractiveScreen {
    * Remove the last element from the currentScreen array.
    */
   pop() {
+    this.removeScreen();
     this.currentScreen.pop();
   }
   /**
@@ -44,6 +45,12 @@ export class ScreenStack implements Stack, InteractiveScreen {
     if (currentScreen) {
       currentScreen.drawScreen(term);
     }
+  }
+
+  removeScreen() {
+    const currentScreenName = this.getCurrentScreen().name;
+    const screen = document.getElementById(currentScreenName);
+    screen?.remove();
   }
 
   /**
