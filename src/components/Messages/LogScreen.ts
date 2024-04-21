@@ -27,22 +27,31 @@ export class LogScreen extends BaseScreen {
    * @returns {void}
    */
   drawScreen(term: DrawableTerminal): void {
-    const x = 0;
-    const y = 0;
-    term.drawText(x, y, 'Log: ', 'yellow', 'black');
-
-    const log = this.messageLog;
-    let range = term.dimensions.y - 1;
-    if (log.length < range) range = log.length;
-
-    const offset = log.length - range;
-
-    for (let p = 0; p < range; ++p) {
-      const pos = offset + p;
-      if (pos < 0) continue;
-      const row = log[pos];
-      term.drawText(0, 1 + p, `${p} ${row}`, 'yellow', 'black');
+    const existingLogScreen = document.getElementById('log-screen');
+    if (existingLogScreen) {
+      return;
     }
+
+    const logScreen = document.createElement('div');
+    logScreen.id = 'log-screen';
+    logScreen.classList.add('log-screen');
+
+    const h1Element = document.createElement('h1');
+    h1Element.innerText = 'Log: (Showing last 100 messages. Press q to close.)';
+    logScreen.appendChild(h1Element);
+
+    const olElement = document.createElement('ul');
+    logScreen.appendChild(olElement);
+
+    const last100Messages = this.messageLog.slice(-100);
+    last100Messages.forEach(msg => {
+      const listItem = document.createElement('li');
+      listItem.textContent = msg;
+      olElement.appendChild(listItem);
+    });
+
+    const canvasContainer = document.getElementById('canvas-container');
+    canvasContainer?.appendChild(logScreen);
   }
 
   /**
@@ -52,7 +61,14 @@ export class LogScreen extends BaseScreen {
    * @returns {boolean} - True if the event was handled successfully, otherwise false.
    */
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
-    stack.pop();
-    return true;
+    if (event.key === 'q') {
+      const logScreen = document.getElementById('log-screen');
+      if (logScreen) {
+        logScreen.remove();
+        stack.pop();
+        return true;
+      }
+    }
+    return false;
   }
 }

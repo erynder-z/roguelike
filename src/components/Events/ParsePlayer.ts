@@ -131,9 +131,9 @@ export class ParsePlayer {
       case '.':
       case 'Numpad5':
         return this.waitCmd();
-      /*  case 'q':
+      case 'q':
         stackScreen = new LogScreen(this.game, this.make);
-        break; */
+        break;
       case 'c':
         stackScreen = this.doorCommand();
         break;

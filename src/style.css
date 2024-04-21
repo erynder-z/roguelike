@@ -38,7 +38,8 @@ canvas {
 }
 
 .canvas-container {
-  background: salmon;
+  position: relative;
+  background: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,4 +82,15 @@ canvas {
 
 .equipment-slot {
   display: flex;
+}
+
+.log-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: black;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
