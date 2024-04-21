@@ -1,3 +1,4 @@
+import 'animate.css';
 import { Builder } from './components/Builder/Builder';
 import { ScreenMaker2_Fixed } from './components/Screens/ScreenMaker';
 import './cssReset.css';

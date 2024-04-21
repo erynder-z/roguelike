@@ -31,7 +31,12 @@ export class LogScreen extends BaseScreen {
     }
     const logScreen = document.createElement('div');
     logScreen.id = 'log-screen';
-    logScreen.classList.add('log-screen');
+    logScreen.classList.add(
+      'log-screen',
+      'animate__animated',
+      'animate__fadeIn',
+      'animate__faster',
+    );
 
     const h1Element = document.createElement('h1');
     h1Element.innerText = 'Log: (Showing last 100 messages. Press q to close.)';

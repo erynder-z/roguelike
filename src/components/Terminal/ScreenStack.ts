@@ -48,9 +48,17 @@ export class ScreenStack implements Stack, InteractiveScreen {
   }
 
   removeScreen() {
-    const currentScreenName = this.getCurrentScreen().name;
-    const screen = document.getElementById(currentScreenName);
-    screen?.remove();
+    const currentScreenElement = document.getElementById(
+      this.getCurrentScreen().name,
+    );
+    if (currentScreenElement) {
+      currentScreenElement.classList.add('animate__fadeOut');
+      currentScreenElement.addEventListener(
+        'animationend',
+        () => currentScreenElement.remove(),
+        { once: true },
+      );
+    }
   }
 
   /**
