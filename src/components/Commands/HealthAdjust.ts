@@ -78,7 +78,7 @@ export class HealthAdjust {
    * @return {string} The message describing the level of damage.
    */
   static generateDamageMessage(mob: Mob, amount: number): string {
-    const damagePercentage = Math.round((amount / mob.maxhp) * 100);
+    const damagePercentage = Math.round((amount / mob.hp) * 100);
     let message = '';
 
     if (damagePercentage >= 100) {
