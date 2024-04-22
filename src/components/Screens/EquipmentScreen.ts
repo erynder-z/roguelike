@@ -65,7 +65,11 @@ export class EquipmentScreen extends BaseScreen {
       'animate__faster',
     );
 
-    equipmentScreen.appendChild(this.createEquipmentList());
+    const titleElement = this.createTitleElement();
+    const equipmentListElement = this.createEquipmentList();
+
+    equipmentScreen.appendChild(titleElement);
+    equipmentScreen.appendChild(equipmentListElement);
 
     return equipmentScreen;
   }
@@ -96,6 +100,17 @@ export class EquipmentScreen extends BaseScreen {
   private getItemDescription(slot: Slot): string {
     const item = this.equipment.get(slot);
     return item ? item.description() : 'none';
+  }
+
+  /**
+   * Creates an HTML heading element with the text content 'Inventory:'.
+   *
+   * @return {HTMLHeadingElement} The created HTML heading element.
+   */
+  private createTitleElement(): HTMLHeadingElement {
+    const titleElement = document.createElement('h1');
+    titleElement.textContent = 'Equipped items: (press u to close.)';
+    return titleElement;
   }
 
   /**

@@ -85,7 +85,7 @@ export class InventoryScreen extends BaseScreen {
    */
   private createTitleElement(): HTMLHeadingElement {
     const titleElement = document.createElement('h1');
-    titleElement.textContent = 'Inventory:';
+    titleElement.textContent = 'Inventory: (press i to close.)';
     return titleElement;
   }
 
