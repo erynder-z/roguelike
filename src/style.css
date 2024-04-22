@@ -84,7 +84,8 @@ canvas {
   display: flex;
 }
 
-.log-screen {
+.log-screen,
+.inventory-screen {
   position: absolute;
   top: 0;
   left: 0;

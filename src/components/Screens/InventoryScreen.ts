@@ -11,7 +11,7 @@ import { ItemScreen } from './ItemScreen';
  * Represents an inventory screen.
  */
 export class InventoryScreen extends BaseScreen {
-  name: string = 'InventoryScreen';
+  name: string = 'inventory-screen';
   inventory: Inventory;
 
   /**
@@ -48,15 +48,39 @@ export class InventoryScreen extends BaseScreen {
 
   /**
    * Draws the inventory screen.
-   * @param {DrawableTerminal} term - The terminal to draw on.
    */
-  drawScreen(term: DrawableTerminal) {
-    term.drawText(0, 0, 'Inventory', 'yellow', 'black');
-    let pos = 0;
-    for (const o of this.inventory.items) {
-      const c = this.positionToCharacter(pos);
-      term.drawText(0, 1 + pos++, c + ': ' + o.description(), 'white', 'black');
+  drawScreen() {
+    const existingLogScreen = document.getElementById('inventory-screen');
+    if (existingLogScreen) {
+      return;
     }
+    const invScreen = document.createElement('div');
+    invScreen.id = 'inventory-screen';
+    invScreen.classList.add(
+      'inventory-screen',
+      'animate__animated',
+      'animate__fadeIn',
+      'animate__faster',
+    );
+
+    const h1Element = document.createElement('h1');
+    h1Element.innerText = 'Inventory:';
+    invScreen.appendChild(h1Element);
+
+    const olElement = document.createElement('ul');
+    invScreen.appendChild(olElement);
+
+    const inventoryItems = this.inventory.items;
+    inventoryItems.forEach(item => {
+      const listItem = document.createElement('li');
+
+      const c = this.positionToCharacter(inventoryItems.indexOf(item));
+      listItem.textContent = `${c}: ${item.description()}`;
+      olElement.appendChild(listItem);
+    });
+
+    const canvasContainer = document.getElementById('canvas-container');
+    canvasContainer?.appendChild(invScreen);
   }
 
   /**
@@ -69,7 +93,9 @@ export class InventoryScreen extends BaseScreen {
     if (pos >= 0) {
       this.itemMenu(pos, stack);
     } else {
-      stack.pop();
+      if (event.key === 'i') {
+        stack.pop();
+      }
     }
   }
 
