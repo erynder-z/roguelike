@@ -1,10 +1,7 @@
 import { GameIF } from '../Builder/Interfaces/Game';
 import { UnequipCommand } from '../Commands/UnequipCommand';
 import { Equipment } from '../Inventory/Equipment';
-import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
-import { DrawMap } from '../MapModel/DrawMap';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
@@ -13,7 +10,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen displaying the player's equipment.
  */
 export class EquipmentScreen extends BaseScreen {
-  name: string = 'EquipmentScreen';
+  name: string = 'equipment-screen';
   equipment: Equipment;
 
   /**
@@ -47,21 +44,81 @@ export class EquipmentScreen extends BaseScreen {
 
   /**
    * Draws the equipment screen.
-   * @param {DrawableTerminal} term - The drawable terminal object.
    */
-  drawScreen(term: DrawableTerminal): void {
-    let y: number = 1;
-    term.drawText(0, y++, `Wearing: `, 'yellow', 'black');
-    for (let slot = Slot.MainHand; slot < Slot.Last; ++slot) {
-      const c: string = this.slotToCharacter(slot);
-      const label: string = Slot[slot];
-      const wornItem: ItemObject | undefined = this.equipment.get(slot);
-      const item: string = wornItem ? wornItem.description() : '';
-      const fg: string = wornItem ? 'yellow' : 'darkGray';
-
-      term.drawText(0, y++, `${c}: ${item} ${label}`, fg, 'black');
+  drawScreen(): void {
+    const existingEquipmentScreen = document.getElementById('equipment-screen');
+    if (existingEquipmentScreen) {
+      return;
     }
-    DrawMap.renderMessage(term, this.game);
+    const equipmentScreen = this.createEquipmentScreen();
+    const canvasContainer = document.getElementById('canvas-container');
+    canvasContainer?.appendChild(equipmentScreen);
+  }
+
+  private createEquipmentScreen(): HTMLDivElement {
+    const equipmentScreen = document.createElement('div');
+    equipmentScreen.id = 'equipment-screen';
+    equipmentScreen.classList.add(
+      'equipment-screen',
+      'animate__animated',
+      'animate__fadeIn',
+      'animate__faster',
+    );
+
+    equipmentScreen.appendChild(this.createEquipmentList());
+
+    return equipmentScreen;
+  }
+
+  /**
+   * Creates an HTML unordered list element containing a list of equipment items.
+   *
+   * @return {HTMLUListElement} The created equipment list element.
+   */
+  private createEquipmentList(): HTMLUListElement {
+    const equipmentList = document.createElement('ul');
+
+    for (let slot = Slot.MainHand; slot < Slot.Last; ++slot) {
+      const itemDescription = this.getItemDescription(slot);
+      const listItem = this.createListItem(slot, itemDescription);
+      equipmentList.appendChild(listItem);
+    }
+
+    return equipmentList;
+  }
+
+  /**
+   * Retrieves the description of the item in the specified slot.
+   *
+   * @param {Slot} slot - The slot to retrieve the item from.
+   * @return {string} The description of the item, or 'none' if the slot is empty.
+   */
+  private getItemDescription(slot: Slot): string {
+    const item = this.equipment.get(slot);
+    return item ? item.description() : 'none';
+  }
+
+  /**
+   * Creates a list item element with the given slot and item description.
+   *
+   * @param {Slot} slot - The slot to get the character for.
+   * @param {string} itemDescription - The description of the item.
+   * @return {HTMLLIElement} The created list item element.
+   */
+  private createListItem(slot: Slot, itemDescription: string): HTMLLIElement {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${this.getStringCharacter(slot)} - ${Slot[slot]}: ${itemDescription}`;
+    return listItem;
+  }
+
+  /**
+   * Returns the character corresponding to the given slot.
+   *
+   * @param {Slot} slot - The slot to get the character for.
+   * @return {string} The character corresponding to the given slot.
+   */
+  private getStringCharacter(slot: Slot): string {
+    return String.fromCharCode(65 + (slot - Slot.MainHand));
   }
 
   /**
@@ -72,7 +129,8 @@ export class EquipmentScreen extends BaseScreen {
    */
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     const slot = this.CharacterToSlot(event.key);
-    if (slot === Slot.NotWorn || this.unequip(slot)) stack.pop();
+
+    if (event.key === 'u' || this.unequip(slot)) stack.pop();
     return true;
   }
 

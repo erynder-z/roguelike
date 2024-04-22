@@ -85,7 +85,8 @@ canvas {
 }
 
 .log-screen,
-.inventory-screen {
+.inventory-screen,
+.equipment-screen {
   position: absolute;
   top: 0;
   left: 0;
