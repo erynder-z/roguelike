@@ -1,7 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/Game';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
@@ -50,37 +49,74 @@ export class InventoryScreen extends BaseScreen {
    * Draws the inventory screen.
    */
   drawScreen() {
-    const existingLogScreen = document.getElementById('inventory-screen');
-    if (existingLogScreen) {
+    const existingInventoryScreen = document.getElementById('inventory-screen');
+    if (existingInventoryScreen) {
       return;
     }
-    const invScreen = document.createElement('div');
-    invScreen.id = 'inventory-screen';
-    invScreen.classList.add(
+
+    const inventoryScreenElement = this.createInventoryScreenElement();
+    const canvasContainer = document.getElementById('canvas-container');
+    canvasContainer?.appendChild(inventoryScreenElement);
+  }
+
+  private createInventoryScreenElement(): HTMLDivElement {
+    const inventoryScreenElement = document.createElement('div');
+    inventoryScreenElement.id = 'inventory-screen';
+    inventoryScreenElement.classList.add(
       'inventory-screen',
       'animate__animated',
       'animate__fadeIn',
       'animate__faster',
     );
 
-    const h1Element = document.createElement('h1');
-    h1Element.innerText = 'Inventory:';
-    invScreen.appendChild(h1Element);
+    const titleElement = this.createTitleElement();
+    const inventoryListElement = this.createInventoryListElement();
 
-    const olElement = document.createElement('ul');
-    invScreen.appendChild(olElement);
+    inventoryScreenElement.appendChild(titleElement);
+    inventoryScreenElement.appendChild(inventoryListElement);
 
-    const inventoryItems = this.inventory.items;
-    inventoryItems.forEach(item => {
-      const listItem = document.createElement('li');
+    return inventoryScreenElement;
+  }
 
-      const c = this.positionToCharacter(inventoryItems.indexOf(item));
-      listItem.textContent = `${c}: ${item.description()}`;
-      olElement.appendChild(listItem);
+  /**
+   * Creates an HTML heading element with the text content 'Inventory:'.
+   *
+   * @return {HTMLHeadingElement} The created HTML heading element.
+   */
+  private createTitleElement(): HTMLHeadingElement {
+    const titleElement = document.createElement('h1');
+    titleElement.textContent = 'Inventory:';
+    return titleElement;
+  }
+
+  /**
+   * Creates an HTML unordered list element containing a list of inventory items.
+   *
+   * @return {HTMLUListElement} The created inventory list element.
+   */
+  private createInventoryListElement(): HTMLUListElement {
+    const inventoryListElement = document.createElement('ul');
+
+    this.inventory.items.forEach((item, index) => {
+      const listItem = this.createListElement(item, index);
+      inventoryListElement.appendChild(listItem);
     });
 
-    const canvasContainer = document.getElementById('canvas-container');
-    canvasContainer?.appendChild(invScreen);
+    return inventoryListElement;
+  }
+
+  /**
+   * Creates a list element for the inventory list.
+   *
+   * @param {ItemObject} item - The item object to display.
+   * @param {number} index - The index of the item in the list.
+   * @return {HTMLLIElement} The created list element.
+   */
+  private createListElement(item: ItemObject, index: number): HTMLLIElement {
+    const listItem = document.createElement('li');
+    const character = this.positionToCharacter(index);
+    listItem.textContent = `${character}: ${item.description()}`;
+    return listItem;
   }
 
   /**

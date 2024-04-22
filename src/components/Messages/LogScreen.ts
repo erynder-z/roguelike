@@ -21,14 +21,24 @@ export class LogScreen extends BaseScreen {
   }
 
   /**
-   * Draws the log screen on the terminal.
-   * @returns {void}
+   * Renders the log screen on the terminal.
    */
   drawScreen(): void {
-    const existingLogScreen = document.getElementById('log-screen');
-    if (existingLogScreen) {
-      return;
-    }
+    const container = document.getElementById(
+      'canvas-container',
+    ) as HTMLDivElement;
+    if (container.querySelector('#log-screen')) return;
+
+    const logScreen = this.createLogScreen();
+    container.appendChild(logScreen);
+  }
+
+  /**
+   * Creates a log screen element.
+   *
+   * @return {HTMLDivElement} The created log screen element.
+   */
+  private createLogScreen(): HTMLDivElement {
     const logScreen = document.createElement('div');
     logScreen.id = 'log-screen';
     logScreen.classList.add(
@@ -38,22 +48,39 @@ export class LogScreen extends BaseScreen {
       'animate__faster',
     );
 
-    const h1Element = document.createElement('h1');
-    h1Element.innerText = 'Log: (Showing last 100 messages. Press q to close.)';
-    logScreen.appendChild(h1Element);
+    const heading = this.createHeading();
+    logScreen.appendChild(heading);
 
-    const olElement = document.createElement('ul');
-    logScreen.appendChild(olElement);
+    const messageList = this.createMessageList();
+    logScreen.appendChild(messageList);
 
-    const last100Messages = this.messageLog.slice(-100);
-    last100Messages.forEach(msg => {
+    return logScreen;
+  }
+
+  /**
+   * Creates a new HTML heading element with the text content 'Log: (Showing last 100 messages. Press q to close.)'.
+   *
+   * @return {HTMLHeadingElement} The newly created heading element.
+   */
+  private createHeading(): HTMLHeadingElement {
+    const heading = document.createElement('h1');
+    heading.textContent = 'Log: (Showing last 100 messages. Press q to close.)';
+    return heading;
+  }
+
+  /**
+   * Creates an HTML unordered list element containing the last 100 messages from the message log.
+   *
+   * @return {HTMLUListElement} The created message list element.
+   */
+  private createMessageList(): HTMLUListElement {
+    const messageList = document.createElement('ul');
+    this.messageLog.slice(-100).forEach(message => {
       const listItem = document.createElement('li');
-      listItem.textContent = msg;
-      olElement.appendChild(listItem);
+      listItem.textContent = message;
+      messageList.appendChild(listItem);
     });
-
-    const canvasContainer = document.getElementById('canvas-container');
-    canvasContainer?.appendChild(logScreen);
+    return messageList;
   }
 
   /**
