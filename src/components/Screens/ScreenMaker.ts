@@ -10,7 +10,7 @@ import { MoreScreen } from './MoreScreen';
 /**
  * Represents a screen maker implementation for creating screens.
  */
-export class ScreenMaker2_Fixed implements ScreenMaker {
+export class ScreenMaker_Fixed implements ScreenMaker {
   game: GameIF | null = null;
 
   constructor(public build: BuildIF) {}
@@ -53,7 +53,7 @@ export class ScreenMaker2_Fixed implements ScreenMaker {
    * @return {ScreenMaker} A new ScreenMaker object created using the provided Build1 object.
    */
   static StockMaker(build: BuildIF): ScreenMaker {
-    return new ScreenMaker2_Fixed(build);
+    return new ScreenMaker_Fixed(build);
   }
 
   /**

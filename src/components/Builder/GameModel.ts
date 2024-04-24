@@ -5,7 +5,7 @@ import { MessageLog } from '../Messages/MessageLog';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { Dungeon } from '../MapModel/Dungeon';
-import { Builder } from './Interfaces/BuildIF';
+import { Builder } from './Builder';
 import { AutoHeal } from '../Commands/AutoHeal';
 import { Inventory } from '../Inventory/Inventory';
 import { Equipment } from '../Inventory/Equipment';

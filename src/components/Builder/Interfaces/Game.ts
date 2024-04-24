@@ -3,7 +3,7 @@ import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
 import { Mob } from '../../Mobs/Mob';
 import { MobAI } from '../../Mobs/Interfaces/MobAI';
 import { MapIF } from '../../MapModel/Interfaces/MapIF';
-import { Build0 } from './Builder0';
+import { Builder } from '../Builder';
 import { Dungeon } from '../../MapModel/Dungeon';
 import { AutoHeal } from '../../Commands/AutoHeal';
 import { Inventory } from '../../Inventory/Inventory';
@@ -21,7 +21,7 @@ export interface GameIF {
   flash(s: string): void;
   log: MessageLog;
   dungeon: Dungeon;
-  build: Build0;
+  build: Builder;
   autoHeal: AutoHeal | undefined;
   inventory: Inventory | undefined;
   equipment: Equipment | undefined;
