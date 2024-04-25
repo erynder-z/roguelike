@@ -74,6 +74,18 @@ export class ScreenStack implements Stack, InteractiveScreen {
   }
 
   /**
+   * A method that determines if the screen should be updated based on time.
+   *
+   * @return {boolean} Returns `true` if the screen should be updated, `false` otherwise.
+   */
+  onTime(): boolean {
+    let change = false;
+    const s = this.getCurrentScreen();
+    if (s) change = s.onTime(this);
+    return change;
+  }
+
+  /**
    * Runs the StackScreen by pushing it onto the ScreenStack and running it with the EventManager.
    *
    * @param {StackScreen} sScreen - the StackScreen to be run

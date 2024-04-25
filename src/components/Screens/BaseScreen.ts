@@ -40,6 +40,16 @@ export class BaseScreen implements StackScreen {
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {}
 
   /**
+   * Determines if the screen should be updated based on time.
+   *
+   * @param {Stack} stack - The stack of screens.
+   * @return {boolean} Returns `true` if the screen should be updated, `false` otherwise.
+   */
+  onTime(stack: Stack): boolean {
+    return false;
+  }
+
+  /**
    * Process the non-player character's turns.
    *
    * @param {Stack} s - the stack to be processed

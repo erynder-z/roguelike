@@ -21,6 +21,11 @@ export interface InteractiveScreen {
   handleKeyDownEvent(event: KeyboardEvent): void;
 
   /**
+   * Handles time-based events on the raw screen.
+   *
+   */
+  onTime(): boolean;
+  /**
    * The name associated with the raw screen. This provides a unique identifier for the screen.
    *
    */

@@ -22,6 +22,7 @@ export class EventManager {
 
     window.addEventListener('resize', this.handleResize.bind(this));
     this.handleResize();
+    this.initTimer();
   }
 
   /**
@@ -41,6 +42,27 @@ export class EventManager {
   handleKeyDown(event: KeyboardEvent): void {
     this.screen.handleKeyDownEvent(event);
     this.screen.drawScreen(this.term);
+  }
+
+  /**
+   * Initializes a timer that calls the onTimer method at a specified interval.
+   *
+   * @return {void} No return value.
+   */
+  initTimer() {
+    const interval_ms = 100;
+    setInterval(this.onTimer.bind(this), interval_ms);
+  }
+
+  /**
+   * Executes the onTime method of the screen and redraws the screen if there is a change.
+   *
+   */
+  onTimer() {
+    const change: boolean = this.screen.onTime();
+    if (change) {
+      this.screen.drawScreen(this.term);
+    }
   }
 
   /**

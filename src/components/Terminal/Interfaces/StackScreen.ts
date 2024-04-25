@@ -21,6 +21,12 @@ export interface StackScreen {
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void;
 
   /**
+   * Handles time-based events on the stack screen.
+   *
+   */
+  onTime(stack: Stack): boolean;
+
+  /**
    * The name associated with the screen. This provides a unique identifier for the screen.
    *
    * @type {string}
