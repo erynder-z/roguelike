@@ -149,4 +149,14 @@ export class RandomGenerator extends RandomNumberGeneratorBase {
       ? this.adjustLevelByDelta(level + delta, delta)
       : level;
   }
+
+  /**
+   * Determines if a success event occurred based on the given rate.
+   *
+   * @param {number} rate - The rate at which a success event occurs.
+   * @return {boolean} Returns true if a success event occurred, false otherwise.
+   */
+  determineSuccess(rate: number): boolean {
+    return this.randomInteger(100) < rate;
+  }
 }
