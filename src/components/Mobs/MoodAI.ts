@@ -3,8 +3,9 @@ import { GameIF } from '../Builder/Interfaces/Game';
 import { AwakeAI } from './AwakeAI';
 import { Mob } from './Mob';
 import { Mood } from './MoodEnum';
-import { SleepAI } from './SleepAI';
+import { SimpleSleepAI } from './SimpleSleepAI';
 import { SpellAI } from './SpellAI';
+import { VisibilityAwareSleepAI } from './VisibilityAwareSleepAI';
 
 /**
  * An AI implementation that delegates behavior based on a Mob's mood.
@@ -48,16 +49,16 @@ export class MoodAI implements MobAI {
   }
 
   /**
-   * Creates a default MoodAI instance with a SleepAI for asleep and AwakeAI for awake.
+   * Creates a default MoodAI instance with a SimpleSleepAI for asleep and AwakeAI for awake.
    *
    *
    * @returns {MoodAI} - A new MoodAI instance with default AIs.
    */
   static stockMood(speed: number): MobAI {
-    return new MoodAI(new SleepAI(), new AwakeAI(speed));
+    return new MoodAI(new VisibilityAwareSleepAI(), new AwakeAI(speed));
   }
 
   static stockMoodSpellCaster(speed: number, spellRate: number): MobAI {
-    return new MoodAI(new SleepAI(), new SpellAI(speed, spellRate));
+    return new MoodAI(new SimpleSleepAI(), new SpellAI(speed, spellRate));
   }
 }

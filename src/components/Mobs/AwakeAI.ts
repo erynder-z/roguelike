@@ -4,7 +4,7 @@ import { Mob } from './Mob';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { Mood } from './MoodEnum';
-import { SleepAI } from './SleepAI';
+import { SimpleSleepAI } from './SimpleSleepAI';
 
 /**
  * An AI implementation for Mobs in an awake state.
@@ -30,7 +30,7 @@ export class AwakeAI implements MobAI {
       const ai = r.isOneIn(2) ? this.aiTargetedMovement : this.aiRandomMovement;
       ai.turn(me, enemy, game);
     }
-    const far = SleepAI.isNear(me, enemy);
+    const far = SimpleSleepAI.isNear(me, enemy);
     if (far) me.mood = r.isOneIn(3) ? Mood.Asleep : Mood.Awake;
     return true;
   }

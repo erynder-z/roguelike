@@ -4,7 +4,7 @@ import { Mob } from './Mob';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { Mood } from './MoodEnum';
-import { SleepAI } from './SleepAI';
+import { SimpleSleepAI } from './SimpleSleepAI';
 import { GameMap } from '../MapModel/GameMap';
 import { CanSee } from '../Utilities/CanSee';
 import { Buff } from '../Buffs/BuffEnum';
@@ -38,7 +38,7 @@ export class SpellAI implements MobAI {
       const ai = r.isOneIn(2) ? this.aiTargetedMovement : this.aiRandomMovement;
       ai.turn(me, enemy, game);
     }
-    const far = SleepAI.isNear(me, enemy);
+    const far = SimpleSleepAI.isNear(me, enemy);
     if (far) me.mood = r.isOneIn(3) ? Mood.Asleep : Mood.Awake;
     return true;
   }
@@ -72,7 +72,6 @@ export class SpellAI implements MobAI {
     // TODO: Implement buff choosing
     return Buff.Confuse;
   }
-
 
   /**
    * Casts a spell on the enemy mob using the given buff, current mob, enemy mob, and game interface.

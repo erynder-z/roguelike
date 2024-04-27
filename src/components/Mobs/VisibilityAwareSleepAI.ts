@@ -1,5 +1,7 @@
 import { MobAI } from './Interfaces/MobAI';
 import { GameIF } from '../Builder/Interfaces/Game';
+import { CanSee } from '../Utilities/CanSee';
+import { GameMap } from '../MapModel/GameMap';
 import { Mob } from './Mob';
 import { Mood } from './MoodEnum';
 
@@ -9,9 +11,9 @@ import { Mood } from './MoodEnum';
  *
  * @implements {MobAI}
  */
-export class SleepAI implements MobAI {
+export class VisibilityAwareSleepAI implements MobAI {
   /**
-   * Takes a turn for the Mob in a sleep state.
+   * Takes a turn for the Mob in a sleep state. Checks if the player is near and can see the enemy. If so, there is a 33% chance that the Mob will become awake.
    *
    *
    * @param {Mob} me - The Mob making the turn.
@@ -20,9 +22,12 @@ export class SleepAI implements MobAI {
    * @returns {boolean} - Always `true`.
    */
   turn(me: Mob, enemy: Mob, game: GameIF): boolean {
-    if (SleepAI.isNear(me, enemy)) {
-      me.mood = game.rand.isOneIn(3) ? Mood.Awake : Mood.Asleep;
-    }
+    if (!VisibilityAwareSleepAI.isNear(me, enemy)) return true;
+    const map = <GameMap>game.currentMap();
+    const canSee = CanSee.canSee2(me, enemy, map, true);
+    if (!canSee) return true;
+
+    me.mood = game.rand.isOneIn(3) ? Mood.Awake : Mood.Asleep;
     return true;
   }
 
