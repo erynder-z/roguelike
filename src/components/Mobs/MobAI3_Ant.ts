@@ -18,6 +18,6 @@ export class MobAI3_Ant implements MobAI {
   turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     const r = game.rand;
     const dir = r.randomDirectionForcedMovement();
-    return new MoveBumpCommand(dir, me, game).execute();
+    return new MoveBumpCommand(dir, me, game).npcTurn();
   }
 }

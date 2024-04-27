@@ -77,7 +77,7 @@ export class ParsePlayer {
     event: KeyboardEvent | null,
   ): boolean {
     const cmd = this.parseKeyCommand(char, stack, event);
-    return cmd ? cmd.execute() : false;
+    return cmd ? cmd.turn() : false;
   }
 
   /**

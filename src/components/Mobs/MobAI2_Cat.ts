@@ -22,6 +22,6 @@ export class MobAI2_Cat implements MobAI {
     if (r.isOneIn(3)) return false;
     const dir = me.pos.directionTo(enemy.pos);
     const cmd = new MoveBumpCommand(dir, me, game);
-    return cmd.execute();
+    return cmd.npcTurn();
   }
 }
