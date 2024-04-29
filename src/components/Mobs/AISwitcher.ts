@@ -5,6 +5,7 @@ import { Mob } from './Mob';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { MoodAI } from './MoodAI';
+import { MobAI5_Druid } from './MobAI5_Druid';
 
 /**
  * Represents an AI switcher that selects the appropriate AI implementation based on the type of mob.
@@ -14,7 +15,9 @@ export class AISwitcher implements MobAI {
   ai2_cat: MobAI = new MobAI2_Cat();
   ai3_ant: MobAI = new MobAI3_Ant();
   ai4_bat: MobAI = MoodAI.stockMood(2);
-  ai5_druid: MobAI = MoodAI.stockMoodSpellCaster(1, 8);
+  ai5_druid: MobAI = new MobAI5_Druid(1, 5);
+  ai_spell: MobAI = MoodAI.stockMoodSpellCaster(1, 8);
+  ai_default: MobAI = MoodAI.stockMood(1);
 
   /**
    * Executes a turn for the mob using the appropriate AI based on the mob's type.

@@ -17,7 +17,7 @@ export class ActiveBuffs {
    */
   add(b: BuffIF, game: GameIF, mob: Mob): void {
     this._map.set(b.buff, b);
-    game.flash('You feel confused...');
+    /*     game.flash(`You are ${Buff[b.buff]}!`); */
     game.message(`${mob.name} is ${Buff[b.buff]}!`);
   }
 

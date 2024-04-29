@@ -6,11 +6,13 @@ import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 import { StairCommand } from './StairCommand';
 import { ItemObject } from '../ItemObjects/ItemObject';
+import { Act } from './Act';
 
 /**
  * Represents a move command that extends the functionality of the base command.
  */
 export class MoveCommand extends CommandBase {
+  act: Act = Act.Move;
   /**
    * Constructor for initializing the class with the given parameters.
    *
@@ -46,6 +48,7 @@ export class MoveCommand extends CommandBase {
     const np = this.dir.plus(this.me.pos);
     const legal = !map.isBlocked(np);
     if (legal) {
+      this.me.sinceMove = 0;
       map.moveMob(this.me, np);
       if (this.me.isPlayer) {
         this.dealWithStairs(map, np);

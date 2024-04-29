@@ -66,6 +66,9 @@ export class DrawMap {
     playerPos: WorldPoint,
     g: GameIF,
   ) {
+    //TODO: Clean up
+    const buffs = g.player.buffs;
+    const blind = buffs && buffs.is(Buff.Blind);
     const unlitColor: string = '#001';
     const unlitColorSolidBg: string = '#222';
     const farLitColor: string = '#778899';
@@ -87,11 +90,12 @@ export class DrawMap {
         // Get the cell from the map corresponding to the world point
         const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
         const distance: number = w.squaredDistanceTo(playerPos);
-        const far: boolean = distance > farDist;
+        const far: boolean = distance > farDist && !blind;
 
         const seeMob: boolean =
           !!cell.mob &&
           !far &&
+          (!blind || cell.mob.isPlayer) &&
           CanSee.canSee(cell.mob.pos, playerPos, map, true);
         const g: Glyph = seeMob ? cell.mob!.glyph : cell.glyphObjOrEnv();
         const index = GlyphMap.getGlyphInfo(g);
@@ -108,9 +112,20 @@ export class DrawMap {
               : farLitColor
             : unlitColor;
         } else {
-          bg = index.bgCol;
-          fg = index.fgCol;
-          if (!cell.lit) cell.lit = true;
+          if (!blind) {
+            bg = index.bgCol;
+            fg = index.fgCol;
+          } else {
+            bg = index.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
+            fg =
+              cell.lit || cell.mob?.isPlayer
+                ? cell.env === Glyph.Unknown
+                  ? glyphInfo.bgCol
+                  : farLitColor
+                : unlitColor;
+          }
+
+          if (!cell.lit && !blind) cell.lit = true;
         }
 
         term.drawAt(t.x, t.y, index.char, fg, bg);

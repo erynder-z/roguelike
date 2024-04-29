@@ -2,6 +2,7 @@ import { GameIF } from '../Builder/Interfaces/Game';
 import { GameMap } from '../MapModel/GameMap';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
+import { Able } from './Able';
 import { CommandBase } from './CommandBase';
 import { HitCommand } from './HitCommand';
 import { MoveCommand } from './MoveCommand';
@@ -19,10 +20,22 @@ export class MoveBumpCommand extends CommandBase {
    */
   constructor(
     public dir: WorldPoint,
-    public mob: Mob,
+    public me: Mob,
     public game: GameIF,
   ) {
-    super(game.player, game);
+    super(me, game);
+  }
+
+  /**
+   * Determines if a mob is able to perform a certain action.
+   *
+   * @param {Mob} m - The mob performing the action.
+   * @param {GameIF} g - The game interface.
+   * @param {Act} act - The action being performed.
+   * @returns {Able} An object indicating if the mob is able to perform the action and if it uses a turn.
+   */
+  able(m: Mob, g: GameIF, act: Act): Able {
+    return { isAble: true, usesTurn: false };
   }
 
   /**
@@ -31,12 +44,12 @@ export class MoveBumpCommand extends CommandBase {
    * @return {boolean} the result of the function execution
    */
   execute(): boolean {
-    const np = this.dir.plus(this.mob.pos);
+    const np = this.dir.plus(this.me.pos);
     const map = <GameMap>this.game.currentMap();
     if (!map.isLegalPoint(np)) return false;
     const cell = map.cell(np);
     return cell.mob
-      ? new HitCommand(this.mob, cell.mob, this.game).execute()
-      : new MoveCommand(this.dir, this.mob, this.game).execute();
+      ? new HitCommand(this.me, cell.mob, this.game).turn()
+      : new MoveCommand(this.dir, this.me, this.game).turn();
   }
 }

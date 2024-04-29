@@ -156,6 +156,33 @@ export class Builder implements BuildIF {
       }
     }
   }
+
+  makeTestMob(map: MapIF, ply: Mob): void {
+    const mob = Glyph.Druid;
+    const pos = ply.pos;
+
+    const p = new WorldPoint(pos.x, pos.y);
+    let x = pos.x;
+    let y = pos.y;
+
+    // Place the mob next to the player
+    if (Math.random() < 0.5) {
+      x += 1; // Place to the right of the player
+    } else {
+      x -= 1; // Place to the left of the player
+    }
+
+    if (Math.random() < 0.5) {
+      y += 1; // Place below the player
+    } else {
+      y -= 1; // Place above the player
+    }
+
+    p.x = x;
+    p.y = y;
+
+    this.addNPC(mob, p.x, p.y, map, 1);
+  }
   /**
    * Adds a new non-playable character to the map at the specified position and level.
    *
@@ -342,6 +369,7 @@ export class Builder implements BuildIF {
     const L0 = game.dungeon.getLevel(0, game);
     this.addItemToPlayerInventory(<Inventory>game.inventory);
     this.addItemNextToPlayer(game.player, L0);
+    this.makeTestMob(L0, game.player);
   }
 
   /**

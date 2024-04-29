@@ -2,14 +2,18 @@ import { GameIF } from '../Builder/Interfaces/Game';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
-import { HealthAdjust } from './HealthAdjust';
 import { Equipment } from '../Inventory/Equipment';
+import { Act } from './Act';
+import { Buff } from '../Buffs/BuffEnum';
+import { HealthAdjust } from './HealthAdjust';
 
 /**
  * Represents a command to hit another mob.
  * @extends CommandBase
  */
 export class HitCommand extends CommandBase {
+  act: Act = Act.Hit;
+
   /**
    * Creates an instance of HitCommand.
    * @param {Mob} me - The mob initiating the hit.
@@ -29,28 +33,83 @@ export class HitCommand extends CommandBase {
    * @returns {boolean} Returns true if the hit was successful, false otherwise.
    */
   execute(): boolean {
-    const me = this.me.name;
-    const him = this.him.name;
-    const rnd = this.game.rand;
+    const g = this.game;
+    const m = this.me;
+    const rnd = g.rand;
 
-    let dmg: number = this.calcDamage(rnd, this.me);
+    let dmg: number = this.calcDamage(rnd, m);
 
-    if (this.him.isPlayer) {
-      const orig = dmg;
-      const factor = this.game.equipment!.armorClass_reduce();
-      dmg = Math.ceil(dmg * factor);
-      console.log(`${orig} → ${dmg} (${factor})`);
+    let back: number = 0;
+
+    if (m.is(Buff.Shock) && rnd.isOneIn(2)) {
+      dmg = this.shockDmg(dmg);
+      back = rnd.randomIntegerClosedRange(2, 3);
     }
 
-    const rest = this.him.hp - dmg;
+    const me = m.name;
+    const him = this.him.name;
+
+    this.doDmg(dmg, this.him, m, g, me, him);
+
+    if (back > 0) this.doDmg(back, m, m, g, 'SHOCK', me);
+
+    this.clearCharm(g);
+    return true;
+  }
+
+  /**
+   * Calculates the shock damage based on the given damage.
+   *
+   * @param {number} dmg - The damage value.
+   * @return {number} The calculated shock damage.
+   */
+  shockDmg(dmg: number): number {
+    return Math.floor(dmg * 1.5);
+  }
+
+  /**
+   * Deals damage to the target mob, taking into account armor class reduction for player targets.
+   *
+   * @param {number} dmg - The amount of damage to deal.
+   * @param {Mob} target - The mob to receive the damage.
+   * @param {Mob} attacker - The mob causing the damage.
+   * @param {GameIF} g - The game interface.
+   * @param {string} me - The name of the attacking mob.
+   * @param {string} him - The name of the target mob.
+   */
+  doDmg(
+    dmg: number,
+    target: Mob,
+    attacker: Mob,
+    g: GameIF,
+    me: string,
+    him: string,
+  ) {
+    if (target.isPlayer) {
+      const orig = dmg;
+      const factor = this.g.equipment!.armorClass_reduce();
+      dmg = Math.ceil(dmg * factor);
+      console.log(`${orig}→ ${dmg} (${factor})`);
+    }
+
+    const rest = target.hp - dmg;
     const s = dmg
       ? `${me} hits ${him} for ${dmg}→${rest}`
       : `${me} misses ${him}`;
+    if (attacker.isPlayer || target.isPlayer) g.message(s);
+    if (dmg) HealthAdjust.adjust(target, -dmg, g, attacker);
+  }
 
-    if (this.me.isPlayer || this.him.isPlayer) this.game.message(s);
+  /**
+   * Clears the Charm buff from the target mob.
+   *
+   * @param {GameIF} g - The game interface.
+   */
+  clearCharm(g: GameIF) {
+    const h = this.him;
 
-    HealthAdjust.adjust(this.him, -dmg, this.game, this.me);
-    return true;
+    if (!h.is(Buff.Charm)) return;
+    h.buffs.cleanse(Buff.Charm, this.g, h);
   }
 
   /**
@@ -107,6 +166,14 @@ export class HitCommand extends CommandBase {
    * @returns {number} The power of the player based on their equipment.
    */
   equipmentPower(g: GameIF, eq: Equipment): number {
-    return eq.weapon() ? eq.weaponDamage() : this.unarmed();
+    const disarm = g.player.is(Buff.Disarm);
+    if (eq.weapon()) {
+      if (disarm) {
+        g.message('Attacking with your bare hands!');
+      } else {
+        return eq.weaponDamage();
+      }
+    }
+    return this.unarmed();
   }
 }

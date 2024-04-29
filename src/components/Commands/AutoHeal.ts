@@ -1,3 +1,4 @@
+import { Buff } from '../Buffs/BuffEnum';
 import { GameIF } from '../Builder/Interfaces/Game';
 import { Mob } from '../Mobs/Mob';
 import { HealthAdjust } from './HealthAdjust';
@@ -25,9 +26,23 @@ export class AutoHeal {
    * @param game - The game interface.
    */
   public static combatReset(mob: Mob, game: GameIF) {
+    this.clearSleep(mob, game);
     const ah = game.autoHeal;
 
     if (mob.isPlayer && ah) ah.resetHeal();
+  }
+
+  /**
+   * Clears the sleep buff from a mob if it exists and the mob is a player,
+   * and displays a message indicating that the player has woken up.
+   *
+   * @param {Mob} mob - The mob to clear the sleep buff from.
+   * @param {GameIF} game - The game interface to display the message on.
+   */
+  static clearSleep(mob: Mob, game: GameIF) {
+    if (!mob.is(Buff.Sleep)) return;
+    mob.buffs.cleanse(Buff.Sleep, game, mob);
+    if (mob.isPlayer) game.message('You wake up!');
   }
 
   /**

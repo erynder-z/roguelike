@@ -11,6 +11,7 @@ import { Buff } from '../Buffs/BuffEnum';
  */
 export abstract class CommandBase implements Command {
   act: Act = Act.Act;
+
   /**
    * Constructs a new CommandBase object.
    * @param {Mob} me - The mob performing the command.
@@ -60,7 +61,7 @@ export abstract class CommandBase implements Command {
   able(m: Mob, g: GameIF, act: Act): Able {
     const cant = { isAble: false, usesTurn: false };
     const negate = { isAble: false, usesTurn: true };
-    const able = { isAble: true, usesTurn: true };
+    const able = { isAble: true, usesTurn: false };
 
     const hit = act == Act.Hit;
     const move = act == Act.Move;
@@ -81,6 +82,7 @@ export abstract class CommandBase implements Command {
 
   /**
    * Checks if the given mob is afraid and flashes a message if it is the player.
+   *  If afraid, the player can not attack.
    *
    * @param {Mob} me - The mob to check for fear.
    * @param {GameIF} g - The game interface for flashing messages.
@@ -88,12 +90,13 @@ export abstract class CommandBase implements Command {
    */
   afraid(me: Mob, g: GameIF): boolean {
     const afraid = me.is(Buff.Afraid);
-    if (afraid && me.isPlayer) g.flash('You are afraid!');
+    if (afraid && me.isPlayer) g.flash('You are too afraid!');
     return afraid;
   }
 
   /**
    * Checks if the given mob is charmed and if it is a player. If it is, flashes a message to the game interface.
+   * If charmed, the player can not attack. Charmed status is cleared if the charming spellcaster attacks the player.
    *
    * @param {Mob} me - The mob to check for charm.
    * @param {GameIF} g - The game interface to flash the message to.
@@ -107,6 +110,7 @@ export abstract class CommandBase implements Command {
 
   /**
    * Checks if the given mob is rooted and if it is a player, flashes a message to the game interface.
+   * If rooted, the player can not move.
    *
    * @param {Mob} me - The mob to check for root.
    * @param {GameIF} g - The game interface to flash the message to.
@@ -120,6 +124,7 @@ export abstract class CommandBase implements Command {
 
   /**
    * Checks if the given mob is levitating and flashes a message if it is the player.
+   * If levitating, the player can not move or attack with melee weapons.
    *
    * @param {Mob} me - The mob to check for levitation.
    * @param {GameIF} g - The game interface for flashing messages.
@@ -133,6 +138,7 @@ export abstract class CommandBase implements Command {
 
   /**
    * Checks if the given mob is paralyzed and flashes a message if it is the player.
+   * If paralyzed, the player's actions have to pass a dice roll check in order to perform them.
    *
    * @param {Mob} me - The mob to check for paralysis.
    * @param {GameIF} g - The game interface for flashing messages.
@@ -166,6 +172,7 @@ export abstract class CommandBase implements Command {
 
   /**
    * Checks if the given mob is asleep and flashes a message if it is the player.
+   * If asleep, the player can not move or attack. Sleep status is cleared when receiving damage.
    *
    * @param {Mob} me - The mob to check for sleep.
    * @param {GameIF} g - The game interface to flash the message to.
@@ -179,6 +186,7 @@ export abstract class CommandBase implements Command {
 
   /**
    * Checks if the given mob is slowed and flashes a message if it is the player.
+   * If slowed, half of the player's actions have a 50% chance to fail.
    *
    * @param {Mob} me - The mob to check for being slowed.
    * @param {GameIF} g - The game interface for checking conditions and displaying messages.
@@ -200,6 +208,7 @@ export abstract class CommandBase implements Command {
    * @returns {boolean} - Whether the mob is frozen or not.
    */
   freeze(me: Mob, g: GameIF, move: boolean): boolean {
+    //TODO: add damage
     if (!me.is(Buff.Freeze)) return false;
     if (move && g.rand.isOneIn(2)) return false;
     if (me.isPlayer) g.flash('You are frozen!');
@@ -214,7 +223,9 @@ export abstract class CommandBase implements Command {
    * @returns {boolean} Whether the mob is confused or not.
    */
   confused(g: GameIF, dir: WorldPoint): boolean {
+    //TODO: Fix
     if (!this.me.is(Buff.Confuse)) return false;
+    console.log('cofused');
     const r = g.rand;
     if (r.isOneIn(2)) return false;
     if (this.me.isPlayer) g.flash('You are confused!');
