@@ -1,5 +1,6 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { BuffIF, TickIF } from '../Buffs/Interfaces/BuffIF';
+import { PoisonTick } from '../Buffs/PoisonTick';
 import { GameIF } from '../Builder/Interfaces/Game';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
@@ -21,11 +22,12 @@ export class BuffCommand extends CommandBase {
    * @returns {boolean} Always returns true.
    */
   execute(): boolean {
-    const effect: TickIF | undefined = undefined;
-
+    const m = this.target;
+    const g = this.g;
+    let effect: TickIF | undefined = undefined;
     switch (this.buff) {
       case Buff.Poison:
-        /*   effect = new PoisonTick(m, g); */
+        effect = new PoisonTick(m, g);
         break;
     }
 

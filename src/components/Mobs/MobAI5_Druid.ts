@@ -71,7 +71,7 @@ export class MobAI5_Druid implements MobAI {
    */
   pickBuff(me: Mob, r: any): Buff {
     // TODO: Implement buff choosing
-    return Buff.Blind;
+    return Buff.Poison;
   }
 
   /**
