@@ -22,7 +22,7 @@ export class CanSee {
     onlyEnv: boolean,
   ): boolean {
     const i: BresenhamIterator = BresenhamIterator.BresIter1(a, b);
-    for (; i.done(); ) {
+    for (; !i.done(); ) {
       const p: WorldPoint = i.next();
       const cell = map.cell(p);
       if (cell.isOpaque()) return false;

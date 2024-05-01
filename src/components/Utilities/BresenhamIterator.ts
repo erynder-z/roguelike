@@ -152,16 +152,20 @@ export class BresenhamIterator {
   public next(): WorldPoint {
     const currentPoint: WorldPoint = new WorldPoint(this.x, this.y);
     this.pixels.push(currentPoint);
+    let nextX = this.x;
+    let nextY = this.y;
     this.numerator += this.shortest;
     if (!(this.numerator < this.longest)) {
       this.numerator -= this.longest;
-      this.x += this.dx1;
-      this.y += this.dy1;
+      nextX += this.dx1;
+      nextY += this.dy1;
     } else {
-      this.x += this.dx2;
-      this.y += this.dy2;
+      nextX += this.dx2;
+      nextY += this.dy2;
     }
     ++this.i;
+    this.x = nextX;
+    this.y = nextY;
     return currentPoint;
   }
 }
