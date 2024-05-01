@@ -21,7 +21,7 @@ export class CanSee {
     map: MapIF,
     onlyEnv: boolean,
   ): boolean {
-    const i: BresenhamIterator = BresenhamIterator.BresIter1(a, b);
+    const i: BresenhamIterator = BresenhamIterator.createFromWorldPoint(a, b);
     for (; !i.done(); ) {
       const p: WorldPoint = i.next();
       const cell = map.cell(p);

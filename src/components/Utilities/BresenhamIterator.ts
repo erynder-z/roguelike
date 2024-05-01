@@ -70,8 +70,8 @@ export class BresenhamIterator {
   /**
    * Iterates through all points along the line.
    */
-  iterAll1(): void {
-    for (this.i = 0; this.i < this.longest; this.i++) {
+  iterateAllPoints(): void {
+    for (let index = 0; index < this.length; index++) {
       this.next();
     }
   }
@@ -79,7 +79,7 @@ export class BresenhamIterator {
   /**
    * Iterates through all points along the line.
    */
-  iterAll2(): void {
+  iterateAllPoints2(): void {
     let p: WorldPoint;
 
     do {
@@ -90,13 +90,18 @@ export class BresenhamIterator {
   }
 
   /**
-   * Initializes a BresenhamIterator instance with two WorldPoint objects.
-   * @param {WorldPoint} p1 - The starting point.
-   * @param {WorldPoint} p2 - The ending point.
-   * @returns {BresenhamIterator} - A BresenhamIterator instance.
+   * Creates a BresenhamIterator instance with specified start and end points.
+   * @param start The starting point.
+   * @param end The ending point.
+   * @returns A BresenhamIterator instance.
    */
-  public static BresIter1(p1: WorldPoint, p2: WorldPoint): BresenhamIterator {
-    return new BresenhamIterator().init(p1.x, p1.y, p2.x, p2.y);
+  public static createFromWorldPoint(
+    start: WorldPoint,
+    end: WorldPoint,
+  ): BresenhamIterator {
+    const iterator = new BresenhamIterator();
+    iterator.init(start.x, start.y, end.x, end.y);
+    return iterator;
   }
 
   /**
@@ -107,7 +112,7 @@ export class BresenhamIterator {
    * @param {number} y2 - The y-coordinate of the ending point.
    * @returns {BresenhamIterator} - A BresenhamIterator instance.
    */
-  public static BresIter2(
+  public static createFromCoordinates(
     x1: number,
     y1: number,
     x2: number,
