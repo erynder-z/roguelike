@@ -125,6 +125,7 @@ export class BaseScreen implements StackScreen {
    * @return {void}
    */
   finishTurn(m: Mob): void {
+    ++m.sinceMove;
     this.tickBuffs(m);
   }
 

@@ -1,5 +1,9 @@
+import { BleedTick } from '../Buffs/BleedTick';
 import { Buff } from '../Buffs/BuffEnum';
+import { BurnTick } from '../Buffs/BurnTick';
+import { FreezeTick } from '../Buffs/FreezeTick';
 import { BuffIF, TickIF } from '../Buffs/Interfaces/BuffIF';
+import { PetrifyTick } from '../Buffs/PetrifyTick';
 import { PoisonTick } from '../Buffs/PoisonTick';
 import { GameIF } from '../Builder/Interfaces/Game';
 import { Mob } from '../Mobs/Mob';
@@ -28,6 +32,18 @@ export class BuffCommand extends CommandBase {
     switch (this.buff) {
       case Buff.Poison:
         effect = new PoisonTick(m, g);
+        break;
+      case Buff.Burn:
+        effect = new BurnTick(m, g);
+        break;
+      case Buff.Freeze:
+        effect = new FreezeTick(m, g);
+        break;
+      case Buff.Bleed:
+        effect = new BleedTick(m, g);
+        break;
+      case Buff.Petrify:
+        effect = new PetrifyTick(m, g);
         break;
     }
 

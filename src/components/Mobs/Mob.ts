@@ -30,11 +30,11 @@ export class Mob {
   mood: Mood = Mood.Asleep;
   level: number = 0;
   buffs: ActiveBuffs = new ActiveBuffs();
-is(buff: Buff): boolean {
-  return this.buffs.is(buff);
-}
+  is(buff: Buff): boolean {
+    return this.buffs.is(buff);
+  }
 
-sinceMove:number = 0;
+  sinceMove: number = 0;
 
   isPlayer: boolean = false;
   /**

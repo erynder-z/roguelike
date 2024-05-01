@@ -44,6 +44,9 @@ export class MoveBumpCommand extends CommandBase {
    * @return {boolean} the result of the function execution
    */
   execute(): boolean {
+    const g = this.game;
+    this.confused(g, this.dir);
+
     const np = this.dir.plus(this.me.pos);
     const map = <GameMap>this.game.currentMap();
     if (!map.isLegalPoint(np)) return false;

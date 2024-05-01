@@ -208,7 +208,6 @@ export abstract class CommandBase implements Command {
    * @returns {boolean} - Whether the mob is frozen or not.
    */
   freeze(me: Mob, g: GameIF, move: boolean): boolean {
-    //TODO: add damage
     if (!me.is(Buff.Freeze)) return false;
     if (move && g.rand.isOneIn(2)) return false;
     if (me.isPlayer) g.flash('You are frozen!');
