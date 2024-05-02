@@ -15,6 +15,7 @@ import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
 import { PickupCommand } from '../Commands/PickupCommand';
 import { InventoryScreen } from '../Screens/InventoryScreen';
 import { EquipmentScreen } from '../Screens/EquipmentScreen';
+import { DigCommand } from '../Commands/DigCommand';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -93,6 +94,7 @@ export class ParsePlayer {
     stack: Stack,
     event: KeyboardEvent | null,
   ): Command | null {
+    const alt = event?.altKey;
     let stackScreen: StackScreen | undefined;
     const dir = new WorldPoint();
     switch (char) {
@@ -154,9 +156,21 @@ export class ParsePlayer {
       stack.push(stackScreen);
       return null;
     }
+    if (!dir.isEmpty())
+      return alt ? this.digInDirection(dir) : this.moveBumpCmd(dir);
 
-    if (!dir.isEmpty()) return this.moveBumpCmd(dir);
     return null;
+  }
+
+  /**
+   * Creates a new DigCommand with the given direction and player/game objects,
+
+   *
+   * @param {WorldPoint} dir - The direction in which to dig.
+   * @return {Command} A new DigCommand object.
+   */
+  digInDirection(dir: WorldPoint): Command {
+    return new DigCommand(dir, this.player, this.game);
   }
 
   /**

@@ -21,7 +21,7 @@ export class WorldPoint {
    * @return {boolean} true if both x and y are zero, false otherwise
    */
   isEmpty(): boolean {
-    return this.x === 0 && this.y === 0;
+    return this.x == 0 && this.y == 0;
   }
 
   /**

@@ -369,7 +369,7 @@ export class Builder implements BuildIF {
     const L0 = game.dungeon.getLevel(0, game);
     this.addItemToPlayerInventory(<Inventory>game.inventory);
     this.addItemNextToPlayer(game.player, L0);
-    this.makeTestMob(L0, game.player);
+    /*    this.makeTestMob(L0, game.player); */
   }
 
   /**
