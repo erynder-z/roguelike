@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { UnequipCommand } from '../Commands/UnequipCommand';
 import { Equipment } from '../Inventory/Equipment';
 import { Slot } from '../ItemObjects/Slot';

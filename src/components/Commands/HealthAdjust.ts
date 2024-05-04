@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Mob } from '../Mobs/Mob';
 import { AutoHeal } from './AutoHeal';

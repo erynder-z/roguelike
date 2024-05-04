@@ -1,5 +1,5 @@
 import { Build1 } from '../Builder/Interfaces/Builder1';
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
 import { ScreenStack } from '../Terminal/ScreenStack';

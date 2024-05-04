@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';

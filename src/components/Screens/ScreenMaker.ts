@@ -1,5 +1,5 @@
 import { BuildIF } from '../Builder/Interfaces/BuildIF';
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
 import { ScreenStack } from '../Terminal/ScreenStack';
@@ -34,6 +34,11 @@ export class ScreenMaker_Fixed implements ScreenMaker {
 
   more(game: GameIF | null): StackScreen {
     return new MoreScreen(<GameIF>game, this);
+  }
+
+  loadGame(gameState: GameIF): StackScreen {
+    this.game = gameState;
+    return new GameScreen(<GameIF>this.game, this);
   }
 
   /**

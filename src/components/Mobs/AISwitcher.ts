@@ -1,5 +1,5 @@
 import { MobAI } from './Interfaces/MobAI';
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { Mob } from './Mob';
 import { MobAI2_Cat } from './MobAI2_Cat';

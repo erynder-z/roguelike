@@ -5,7 +5,7 @@ import { FreezeTick } from '../Buffs/FreezeTick';
 import { BuffIF, TickIF } from '../Buffs/Interfaces/BuffIF';
 import { PetrifyTick } from '../Buffs/PetrifyTick';
 import { PoisonTick } from '../Buffs/PoisonTick';
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 

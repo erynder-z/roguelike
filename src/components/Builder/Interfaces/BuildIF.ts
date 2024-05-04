@@ -2,7 +2,7 @@ import { MapIF } from '../../MapModel/Interfaces/MapIF';
 import { MobAI } from '../../Mobs/Interfaces/MobAI';
 import { Mob } from '../../Mobs/Mob';
 import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
-import { GameIF } from './Game';
+import { GameIF } from './GameIF';
 
 /**
  * Represents an extended version of Build1 interface with additional method to make MobAI.

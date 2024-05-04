@@ -1,6 +1,6 @@
 import { WorldPoint } from '../../MapModel/WorldPoint';
 import { Mob } from '../../Mobs/Mob';
-import { GameIF } from '../../Builder/Interfaces/Game';
+import { GameIF } from '../../Builder/Interfaces/GameIF';
 
 /**
  * Interface representing a command that can be executed.

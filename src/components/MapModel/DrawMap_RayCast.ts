@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MapIF } from './Interfaces/MapIF';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { CanSee } from '../Utilities/CanSee';

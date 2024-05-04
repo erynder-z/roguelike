@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from '../Screens/BaseScreen';

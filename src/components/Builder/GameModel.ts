@@ -1,5 +1,5 @@
 import { MobAI } from '../Mobs/Interfaces/MobAI';
-import { GameIF } from './Interfaces/Game';
+import { GameIF } from './Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { MessageLog } from '../Messages/MessageLog';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';

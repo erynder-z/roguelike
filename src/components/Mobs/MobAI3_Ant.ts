@@ -1,5 +1,5 @@
 import { MobAI } from './Interfaces/MobAI';
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { Mob } from './Mob';
 

@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Command } from '../Commands/Interfaces/Command';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';

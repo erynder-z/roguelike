@@ -1,5 +1,5 @@
 import { Buff } from '../Buffs/BuffEnum';
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Mob } from '../Mobs/Mob';
 import { HealthAdjust } from './HealthAdjust';
 

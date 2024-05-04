@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Mob } from '../Mobs/Mob';
 import { Buff } from './BuffEnum';
 import { BuffIF } from './Interfaces/BuffIF';

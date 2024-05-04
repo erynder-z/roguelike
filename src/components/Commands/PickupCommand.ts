@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Inventory } from '../Inventory/Inventory';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { CommandBase } from './CommandBase';

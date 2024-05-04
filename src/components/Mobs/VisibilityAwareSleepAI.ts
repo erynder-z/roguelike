@@ -1,5 +1,5 @@
 import { MobAI } from './Interfaces/MobAI';
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { CanSee } from '../Utilities/CanSee';
 import { GameMap } from '../MapModel/GameMap';
 import { Mob } from './Mob';

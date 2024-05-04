@@ -26,6 +26,10 @@ export class GameOverScreen implements StackScreen {
     term.drawText(1, 1, 'Game Over', 'yellow', 'red');
   }
 
+  onTime(): boolean {
+    return false;
+  }
+
   /**
    * Handles keyboard events specific to the game over screen.
    * Pops the current screen from the stack and pushes a new game screen.

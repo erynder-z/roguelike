@@ -1,6 +1,6 @@
 import { MobAI } from '../Mobs/Interfaces/MobAI';
 import { BuildIF } from './Interfaces/BuildIF';
-import { GameIF } from './Interfaces/Game';
+import { GameIF } from './Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { TestMap2 } from '../../test_Implementations/TestMap2';
 import { Glyph } from '../Glyphs/Glyph';

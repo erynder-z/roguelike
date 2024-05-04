@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Equipment } from '../Inventory/Equipment';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
@@ -15,7 +15,7 @@ export class UnequipCommand extends CommandBase {
     super(game.player, game);
   }
 
-    /**
+  /**
    * Executes the unequip command.
    * @returns {boolean} True if the command executed successfully, false otherwise.
    */
