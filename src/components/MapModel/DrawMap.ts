@@ -1,7 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MapIF } from './Interfaces/MapIF';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { CanSee } from '../Utilities/CanSee';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
@@ -11,6 +10,7 @@ import { WorldPoint } from './WorldPoint';
 import { Buff } from '../Buffs/BuffEnum';
 import { BuffIF } from '../Buffs/Interfaces/BuffIF';
 import { Slot } from '../ItemObjects/Slot';
+import { MapRenderer } from './MapRenderer';
 
 /**
  * Represents a utility class for drawing a map on a drawable terminal.
@@ -59,88 +59,19 @@ export class DrawMap {
    * @param {WorldPoint} playerPos - The position of the player.
    * @param {GameIF} g - The game interface.
    */
-  static drawMap1(
+  static drawMap(
     term: DrawableTerminal,
     map: MapIF,
     vp: WorldPoint,
     playerPos: WorldPoint,
     g: GameIF,
   ) {
-    //TODO: Clean up
+    const currentMap = g.currentMap();
+    const isInOverworld = currentMap && currentMap.level === 0;
 
-    // Colors
-    const unlitColor: string = '#001';
-    const unlitColorSolidBg: string = '#222';
-    const farLitColor: string = '#778899';
-
-    // Constants
-    const farDist: number = 50;
-    const terminalDimensions = term.dimensions;
-    const t = new TerminalPoint();
-    const w = new WorldPoint();
-    const mapOffSet = 0;
-    const buffs = g.player.buffs;
-    const blind = buffs && buffs.is(Buff.Blind);
-
-    // Loop through each row and column of the terminal
-    for (
-      t.y = mapOffSet, w.y = vp.y;
-      t.y < terminalDimensions.y + mapOffSet;
-      ++t.y, ++w.y
-    ) {
-      // Loop through each column of the terminal
-      for (t.x = 0, w.x = vp.x; t.x < terminalDimensions.x; ++t.x, ++w.x) {
-        // Get the cell from the map corresponding to the world point
-        const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
-        const distance: number = w.squaredDistanceTo(playerPos);
-        const far: boolean = distance > farDist && !blind;
-
-        // Check if the cell contains a visible entity
-        const isEntityVisible: boolean =
-          !!cell.mob &&
-          !far &&
-          (!blind || cell.mob.isPlayer) &&
-          CanSee.canSee(cell.mob.pos, playerPos, map, true);
-
-        // Determine the glyph based on visibility
-        const glyph: Glyph = isEntityVisible
-          ? cell.mob!.glyph
-          : cell.glyphObjOrEnv();
-        const glyphInfo = GlyphMap.getGlyphInfo(glyph);
-
-        // Determine foreground and background colors
-        let fg: string;
-        let bg: string;
-
-        if (far) {
-          bg =
-            glyphInfo.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
-          fg = cell.lit
-            ? cell.env === Glyph.Unknown
-              ? glyphInfo.bgCol // use the background color to prevent the whole outside map from popping in when coming near it
-              : farLitColor
-            : unlitColor;
-        } else {
-          if (!blind) {
-            bg = glyphInfo.bgCol;
-            fg = glyphInfo.fgCol;
-          } else {
-            bg =
-              glyphInfo.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
-            fg =
-              cell.lit || cell.mob?.isPlayer
-                ? cell.env === Glyph.Unknown
-                  ? glyphInfo.bgCol
-                  : farLitColor
-                : unlitColor;
-          }
-
-          if (!cell.lit && !blind) cell.lit = true;
-        }
-
-        term.drawAt(t.x, t.y, glyphInfo.char, fg, bg);
-      }
-    }
+    isInOverworld
+      ? MapRenderer.drawMap_Normal(term, map, vp, playerPos, g)
+      : MapRenderer.drawMap_RayCast(term, map, vp, playerPos, g);
   }
 
   /**
@@ -163,8 +94,7 @@ export class DrawMap {
       -Math.floor(term.dimensions.x * 0.5) + playerPos.x,
       -Math.floor(term.dimensions.y * 0.5) + playerPos.y,
     );
-    this.drawMap1(term, map, viewport, playerPos, g);
-    /* this.drawMap0(term, map, viewport); */
+    this.drawMap(term, map, viewport, playerPos, g);
   }
 
   /**
