@@ -67,17 +67,20 @@ export class DrawMap {
     g: GameIF,
   ) {
     //TODO: Clean up
-    const buffs = g.player.buffs;
-    const blind = buffs && buffs.is(Buff.Blind);
+
+    // Colors
     const unlitColor: string = '#001';
     const unlitColorSolidBg: string = '#222';
     const farLitColor: string = '#778899';
-    const farDist: number = 50;
 
+    // Constants
+    const farDist: number = 50;
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
     const mapOffSet = 0;
+    const buffs = g.player.buffs;
+    const blind = buffs && buffs.is(Buff.Blind);
 
     // Loop through each row and column of the terminal
     for (
@@ -92,20 +95,26 @@ export class DrawMap {
         const distance: number = w.squaredDistanceTo(playerPos);
         const far: boolean = distance > farDist && !blind;
 
-        const seeMob: boolean =
+        // Check if the cell contains a visible entity
+        const isEntityVisible: boolean =
           !!cell.mob &&
           !far &&
           (!blind || cell.mob.isPlayer) &&
           CanSee.canSee(cell.mob.pos, playerPos, map, true);
-        const g: Glyph = seeMob ? cell.mob!.glyph : cell.glyphObjOrEnv();
-        const index = GlyphMap.getGlyphInfo(g);
-        const glyphInfo = GlyphMap.getGlyphInfo(g);
 
+        // Determine the glyph based on visibility
+        const glyph: Glyph = isEntityVisible
+          ? cell.mob!.glyph
+          : cell.glyphObjOrEnv();
+        const glyphInfo = GlyphMap.getGlyphInfo(glyph);
+
+        // Determine foreground and background colors
         let fg: string;
         let bg: string;
 
         if (far) {
-          bg = index.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
+          bg =
+            glyphInfo.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
           fg = cell.lit
             ? cell.env === Glyph.Unknown
               ? glyphInfo.bgCol // use the background color to prevent the whole outside map from popping in when coming near it
@@ -113,10 +122,11 @@ export class DrawMap {
             : unlitColor;
         } else {
           if (!blind) {
-            bg = index.bgCol;
-            fg = index.fgCol;
+            bg = glyphInfo.bgCol;
+            fg = glyphInfo.fgCol;
           } else {
-            bg = index.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
+            bg =
+              glyphInfo.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
             fg =
               cell.lit || cell.mob?.isPlayer
                 ? cell.env === Glyph.Unknown
@@ -128,7 +138,7 @@ export class DrawMap {
           if (!cell.lit && !blind) cell.lit = true;
         }
 
-        term.drawAt(t.x, t.y, index.char, fg, bg);
+        term.drawAt(t.x, t.y, glyphInfo.char, fg, bg);
       }
     }
   }

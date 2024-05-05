@@ -71,7 +71,7 @@ export class BresenhamIterator {
    * Iterates through all points along the line.
    */
   iterateAllPoints(): void {
-    for (let index = 0; index < this.length; index++) {
+    for (this.i = 0; this.i <= this.longest; this.i++) {
       this.next();
     }
   }
@@ -132,20 +132,40 @@ export class BresenhamIterator {
   init(x1: number, y1: number, x2: number, y2: number): BresenhamIterator {
     this.x = x1;
     this.y = y1;
-    const dx = x2 - x1;
-    const dy = y2 - y1;
-    this.dx1 = dx > 0 ? 1 : dx < 0 ? -1 : 0;
-    this.dy1 = dy > 0 ? 1 : dy < 0 ? -1 : 0;
-
-    const absDx = Math.abs(dx);
-    const absDy = Math.abs(dy);
-    this.longest = absDy > absDx ? absDy : absDx;
-    this.shortest = absDx > absDy ? absDx : absDy;
-
-    this.dx2 = this.longest === absDy ? -this.dx1 : 0;
-    this.dy2 = this.longest === absDy ? (dy > 0 ? -1 : 1) : this.dy1;
-
-    this.numerator = Math.floor(this.longest / 2);
+    const w: number = x2 - this.x;
+    const h: number = y2 - this.y;
+    this.dx1 = 0;
+    this.dy1 = 0;
+    this.dx2 = 0;
+    this.dy2 = 0;
+    if (w < 0) {
+      this.dx1 = -1;
+    } else if (w > 0) {
+      this.dx1 = 1;
+    }
+    if (h < 0) {
+      this.dy1 = -1;
+    } else if (h > 0) {
+      this.dy1 = 1;
+    }
+    if (w < 0) {
+      this.dx2 = -1;
+    } else if (w > 0) {
+      this.dx2 = 1;
+    }
+    this.longest = Math.abs(w);
+    this.shortest = Math.abs(h);
+    if (!(this.longest > this.shortest)) {
+      this.longest = Math.abs(h);
+      this.shortest = Math.abs(w);
+      if (h < 0) {
+        this.dy2 = -1;
+      } else if (h > 0) {
+        this.dy2 = 1;
+      }
+      this.dx2 = 0;
+    }
+    this.numerator = Math.floor(this.longest * 0.5);
     this.i = 0;
     return this;
   }
@@ -155,22 +175,18 @@ export class BresenhamIterator {
    * @returns {WorldPoint} - The next point in the iteration.
    */
   public next(): WorldPoint {
-    const currentPoint: WorldPoint = new WorldPoint(this.x, this.y);
-    this.pixels.push(currentPoint);
-    let nextX = this.x;
-    let nextY = this.y;
+    const curPoint: WorldPoint = new WorldPoint(this.x, this.y);
+    this.pixels.push(curPoint);
     this.numerator += this.shortest;
     if (!(this.numerator < this.longest)) {
       this.numerator -= this.longest;
-      nextX += this.dx1;
-      nextY += this.dy1;
+      this.x += this.dx1;
+      this.y += this.dy1;
     } else {
-      nextX += this.dx2;
-      nextY += this.dy2;
+      this.x += this.dx2;
+      this.y += this.dy2;
     }
     ++this.i;
-    this.x = nextX;
-    this.y = nextY;
-    return currentPoint;
+    return curPoint;
   }
 }
