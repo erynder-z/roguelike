@@ -3,7 +3,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
-import { DrawMap } from '../MapModel/DrawMap';
+import { DrawMap } from '../MapModel/DrawMap_RayCast';
 import { GameMap } from '../MapModel/GameMap';
 import { Mob } from '../Mobs/Mob';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
