@@ -68,7 +68,7 @@ export class MapRenderer {
         // Determine the glyph based on visibility
         const glyph: Glyph = isEntityVisible
           ? cell.mob!.glyph
-          : cell.glyphObjOrEnv();
+          : cell.glyphSpriteOrObjOrEnv();
         const glyphInfo = GlyphMap.getGlyphInfo(glyph);
 
         // Determine foreground and background colors
@@ -158,7 +158,7 @@ export class MapRenderer {
         // Determine the glyph based on visibility
         const glyph: Glyph = isEntityVisible
           ? cell.mob!.glyph
-          : cell.glyphObjOrEnv();
+          : cell.glyphSpriteOrObjOrEnv();
         const glyphInfo = GlyphMap.getGlyphInfo(glyph);
 
         // Determine foreground and background colors

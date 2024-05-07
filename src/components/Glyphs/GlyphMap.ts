@@ -89,6 +89,7 @@ export class GlyphMap {
     add(bgColor, '#C71585', false, "'", Glyph.Door_Open);
     add(bgColor, '#C71585', false, '+', Glyph.Door_Closed);
     add('#FF6347', '#FF0000', false, '§', Glyph.Bad);
+    add(bgColor, 'red', false, '⋄', Glyph.Bullet);
 
     return GlyphMap.glyphsRegistry.length;
   }

@@ -15,6 +15,7 @@ export class MapCell {
   mob: Mob | undefined;
   lit: boolean | undefined = false;
   obj: ItemObject | undefined;
+  public sprite: Glyph | undefined;
 
   /**
    * Return the glyph of the mob if it exists, otherwise return the environment glyph.
@@ -40,6 +41,19 @@ export class MapCell {
    * @return {Glyph} the Glyph object
    */
   glyphObjOrEnv(): Glyph {
+    return this.obj ? this.obj.glyph : this.env;
+  }
+
+  /**
+   * Returns the sprite glyph if it exists, otherwise returns the glyph of the object if it exists,
+   * otherwise returns the environment glyph.
+   *
+   * @return {Glyph} The sprite glyph, object glyph, or environment glyph.
+   */
+  glyphSpriteOrObjOrEnv(): Glyph {
+    if (this.sprite) {
+      return this.sprite;
+    }
     return this.obj ? this.obj.glyph : this.env;
   }
 

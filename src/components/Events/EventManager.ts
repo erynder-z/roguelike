@@ -49,7 +49,7 @@ export class EventManager {
    *
    * @return {void} No return value.
    */
-  initTimer() {
+  initTimer(): void {
     const interval_ms = 100;
     setInterval(this.onTimer.bind(this), interval_ms);
   }

@@ -16,6 +16,7 @@ import { PickupCommand } from '../Commands/PickupCommand';
 import { InventoryScreen } from '../Screens/InventoryScreen';
 import { EquipmentScreen } from '../Screens/EquipmentScreen';
 import { DigCommand } from '../Commands/DigCommand';
+import { BulletCommand } from '../Commands/BulletCommand';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -142,6 +143,9 @@ export class ParsePlayer {
       case 'g':
         if (this.game.inventory) return new PickupCommand(this.game);
         break;
+      case 'f':
+        stackScreen = this.bulletCommand(stack);
+        break;
       case 'i':
         if (this.game.inventory)
           stackScreen = new InventoryScreen(this.game, this.make);
@@ -210,6 +214,29 @@ export class ParsePlayer {
    */
   doorCommand(): StackScreen {
     const command = new DoorCommand(this.player, this.game);
+    return new CommandDirectionScreen(command, this.game, this.make);
+  }
+
+  /**
+   * Executes a bullet command by creating a new BulletCommand instance with the provided stack,
+   * and passing it to the direction method. The direction method returns a StackScreen.
+   *
+   * @param {Stack} stack - The stack object used by the BulletCommand.
+   * @return {StackScreen} The StackScreen returned by the direction method.
+   */
+  bulletCommand(stack: Stack): StackScreen {
+    return this.direction(
+      new BulletCommand(this.player, this.game, stack, this.make),
+    );
+  }
+
+  /**
+   * Creates a new CommandDirectionScreen with the given command and returns it as a StackScreen.
+   *
+   * @param {Command} command - The command to be executed.
+   * @return {StackScreen} The newly created CommandDirectionScreen.
+   */
+  direction(command: Command): StackScreen {
     return new CommandDirectionScreen(command, this.game, this.make);
   }
 }
