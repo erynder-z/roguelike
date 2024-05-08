@@ -1,5 +1,8 @@
 import { Glyph } from './Glyph';
 import { GlyphInfo } from './GlyphInfo';
+import * as mobsData from '../Mobs/MobData/mobs.json';
+import * as itemData from '../ItemObjects/ItemData/items.json';
+import * as environmentData from '../Environment/EnvironmentData/environment.json';
 
 /**
  * Represents a map of glyphs and their corresponding information.
@@ -32,64 +35,47 @@ export class GlyphMap {
    * @returns {number} The number of glyphs initialized.
    */
   static ensureInit: number = GlyphMap.initializeGlyphs();
+
   static initializeGlyphs(): number {
-    // eslint-disable-next-line no-constant-condition
-    const bgColor = 1 ? '#F8F8FF' : '#000';
-    const add = GlyphMap.addGlyph;
+    const addGlyph = (info: {
+      bgCol: string;
+      fgCol: string;
+      char: string;
+      hasSolidBg: boolean;
+      name: string;
+    }) => {
+      const glyph = Glyph[info.name as keyof typeof Glyph];
+      const glyphInfo = new GlyphInfo(
+        glyph,
+        info.fgCol,
+        info.bgCol,
+        info.hasSolidBg,
+        info.char,
+      );
+      GlyphMap.glyphsRegistry[glyph] = glyphInfo;
+    };
 
-    // Player
-    add(bgColor, '#B22222', false, '@', Glyph.Player);
+    // add default glyph
+    addGlyph({
+      char: '?',
+      bgCol: '#000000',
+      fgCol: '#191970',
+      hasSolidBg: false,
+      name: 'Unknown',
+    });
 
-    // Terrain
-    add(bgColor, '#696969', false, '.', Glyph.Floor);
-    add('#A9A9A9', '#808080', true, '%', Glyph.Rock);
-    add('#2F4F4F', '#556B2F', true, '#', Glyph.Wall);
+    // add player glyph
+    addGlyph({
+      char: '@',
+      bgCol: '#F8F8FF',
+      fgCol: '#B22222',
+      hasSolidBg: false,
+      name: 'Player',
+    });
 
-    // Monsters
-    add(bgColor, '#8A3324', false, 'a', Glyph.Ant);
-    add(bgColor, '#0000FF', false, 'b', Glyph.Bat);
-    add(bgColor, '#2E8B57', false, 'c', Glyph.Cat);
-    add(bgColor, '#D2691E', false, 'd', Glyph.Druid);
-    add(bgColor, '#9932CC', false, 'e', Glyph.Ectoplasm);
-    add(bgColor, '#8FBC8F', false, 'f', Glyph.Frog);
-    add(bgColor, '#708090', false, 'g', Glyph.Gargoyle);
-    add(bgColor, '#4682B4', false, 'h', Glyph.Harpy);
-    add(bgColor, '#FF4500', false, 'i', Glyph.Imp);
-    add(bgColor, '#8B4513', false, 'j', Glyph.Jackal);
-    add(bgColor, '#20B2AA', false, 'k', Glyph.Kappa);
-    add(bgColor, '#FFA07A', false, 'l', Glyph.Lama);
-    add(bgColor, '#800080', false, 'm', Glyph.Mutant);
-    add(bgColor, '#A0522D', false, 'n', Glyph.Nook);
-    add(bgColor, '#556B2F', false, 'o', Glyph.Ogre);
-    add(bgColor, '#FF69B4', false, 'p', Glyph.Pig);
-    add(bgColor, '#FFD700', false, 'q', Glyph.Qilin);
-    add(bgColor, '#696969', false, 'r', Glyph.Rat);
-    add(bgColor, '#8B008B', false, 's', Glyph.Succubus);
-    add(bgColor, '#FF6347', false, 't', Glyph.Tengu);
-    add(bgColor, '#FF00FF', false, 'u', Glyph.Unicorn);
-    add(bgColor, '#800000', false, 'v', Glyph.Vampire);
-    add(bgColor, '#FF0000', false, 'w', Glyph.Wyrm);
-    add(bgColor, '#00FF00', false, 'x', Glyph.Xelhua);
-    add(bgColor, '#DAA520', false, 'y', Glyph.Yeti);
-    add(bgColor, '#00CED1', false, 'z', Glyph.Zombie);
-
-    // Items
-    add(bgColor, '#708090', false, '-', Glyph.Dagger);
-    add(bgColor, '#D2691E', false, '[', Glyph.Shield);
-    add(bgColor, '#8B4513', false, '!', Glyph.Cap);
-    add(bgColor, '#800080', false, '(', Glyph.Gloves);
-    add(bgColor, '#800000', false, '}', Glyph.Cape);
-    add(bgColor, '#2E8B57', false, '{', Glyph.Pants);
-    add(bgColor, '#4682B4', false, '[', Glyph.Boots);
-
-    // Other glyphs
-    add('#000000', '#191970', false, '?', Glyph.Unknown);
-    add('#FF6347', '#C71585', false, '<', Glyph.StairsUp);
-    add('#00FF7F', '#C71585', false, '>', Glyph.StairsDown);
-    add(bgColor, '#C71585', false, "'", Glyph.Door_Open);
-    add(bgColor, '#C71585', false, '+', Glyph.Door_Closed);
-    add('#FF6347', '#FF0000', false, '§', Glyph.Bad);
-    add(bgColor, 'red', false, '⋄', Glyph.Bullet);
+    environmentData['environment'].forEach(env => addGlyph(env));
+    mobsData['mobs'].forEach(mob => addGlyph(mob));
+    itemData['items'].forEach(item => addGlyph(item));
 
     return GlyphMap.glyphsRegistry.length;
   }

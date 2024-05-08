@@ -1,0 +1,186 @@
+{
+  "mobs": [
+    {
+      "char": "a",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#8A3324",
+      "hasSolidBg": false,
+      "name": "Ant"
+    },
+    {
+      "char": "b",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#0000FF",
+      "hasSolidBg": false,
+      "name": "Bat"
+    },
+    {
+      "char": "c",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#2E8B57",
+      "hasSolidBg": false,
+      "name": "Cat"
+    },
+    {
+      "char": "d",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#D2691E",
+      "hasSolidBg": false,
+      "name": "Druid"
+    },
+    {
+      "char": "e",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#9932CC",
+      "hasSolidBg": false,
+      "name": "Ectoplasm"
+    },
+    {
+      "char": "f",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#8FBC8F",
+      "hasSolidBg": false,
+      "name": "Frog"
+    },
+    {
+      "char": "g",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#708090",
+      "hasSolidBg": false,
+      "name": "Gargoyle"
+    },
+    {
+      "char": "h",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#4682B4",
+      "hasSolidBg": false,
+      "name": "Harpy"
+    },
+    {
+      "char": "i",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FF4500",
+      "hasSolidBg": false,
+      "name": "Imp"
+    },
+    {
+      "char": "j",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#8B4513",
+      "hasSolidBg": false,
+      "name": "Jackal"
+    },
+    {
+      "char": "k",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#20B2AA",
+      "hasSolidBg": false,
+      "name": "Kappa"
+    },
+    {
+      "char": "l",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FFA07A",
+      "hasSolidBg": false,
+      "name": "Lama"
+    },
+    {
+      "char": "m",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#800080",
+      "hasSolidBg": false,
+      "name": "Mutant"
+    },
+    {
+      "char": "n",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#A0522D",
+      "hasSolidBg": false,
+      "name": "Nook"
+    },
+    {
+      "char": "o",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#556B2F",
+      "hasSolidBg": false,
+      "name": "Ogre"
+    },
+    {
+      "char": "p",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FF69B4",
+      "hasSolidBg": false,
+      "name": "Pig"
+    },
+    {
+      "char": "q",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FFD700",
+      "hasSolidBg": false,
+      "name": "Qilin"
+    },
+    {
+      "char": "r",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#696969",
+      "hasSolidBg": false,
+      "name": "Rat"
+    },
+    {
+      "char": "s",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#8B008B",
+      "hasSolidBg": false,
+      "name": "Succubus"
+    },
+    {
+      "char": "t",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FF6347",
+      "hasSolidBg": false,
+      "name": "Tengu"
+    },
+    {
+      "char": "u",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FF00FF",
+      "hasSolidBg": false,
+      "name": "Unicorn"
+    },
+    {
+      "char": "v",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#800000",
+      "hasSolidBg": false,
+      "name": "Vampire"
+    },
+    {
+      "char": "w",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FF0000",
+      "hasSolidBg": false,
+      "name": "Wyrm"
+    },
+    {
+      "char": "x",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FF0000",
+      "hasSolidBg": false,
+      "name": "Xelhua"
+    },
+    {
+      "char": "y",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#DAA520",
+      "hasSolidBg": false,
+      "name": "Yeti"
+    },
+    {
+      "char": "z",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#00CED1",
+      "hasSolidBg": false,
+      "name": "Zombie"
+    }
+  ]
+}

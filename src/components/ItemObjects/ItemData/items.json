@@ -1,0 +1,53 @@
+{
+  "items": [
+    {
+      "char": "-",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#708090",
+      "hasSolidBg": false,
+      "name": "Dagger"
+    },
+    {
+      "char": "[",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#D2691E",
+      "hasSolidBg": false,
+      "name": "Shield"
+    },
+    {
+      "char": "!",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#8B4513",
+      "hasSolidBg": false,
+      "name": "Cap"
+    },
+    {
+      "char": "(",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#800080",
+      "hasSolidBg": false,
+      "name": "Gloves"
+    },
+    {
+      "char": "}",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#800000",
+      "hasSolidBg": false,
+      "name": "Cape"
+    },
+    {
+      "char": "{",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#2E8B57",
+      "hasSolidBg": false,
+      "name": "Pants"
+    },
+    {
+      "char": "[",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#4682B4",
+      "hasSolidBg": false,
+      "name": "Boots"
+    }
+  ]
+}

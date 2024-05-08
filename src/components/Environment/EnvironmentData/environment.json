@@ -1,0 +1,67 @@
+{
+  "environment": [
+    {
+      "char": ".",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#696969",
+      "hasSolidBg": false,
+      "name": "Floor"
+    },
+    {
+      "char": "%",
+      "bgCol": "#A9A9A9",
+      "fgCol": "#808080",
+      "hasSolidBg": true,
+      "name": "Rock"
+    },
+    {
+      "char": "#",
+      "bgCol": "#2F4F4F",
+      "fgCol": "#556B2F",
+      "hasSolidBg": true,
+      "name": "Wall"
+    },
+    {
+      "char": "<",
+      "bgCol": "#FF6347",
+      "fgCol": "#C71585",
+      "hasSolidBg": false,
+      "name": "StairsUp"
+    },
+    {
+      "char": ">",
+      "bgCol": "#00FF7F",
+      "fgCol": "#C71585",
+      "hasSolidBg": false,
+      "name": "StairsDown"
+    },
+    {
+      "char": "'",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#C71585",
+      "hasSolidBg": false,
+      "name": "Door_Open"
+    },
+    {
+      "char": "+",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#C71585",
+      "hasSolidBg": false,
+      "name": "Door_Closed"
+    },
+    {
+      "char": "§",
+      "bgCol": "#FF6347",
+      "fgCol": "#FF0000",
+      "hasSolidBg": false,
+      "name": "Bad"
+    },
+    {
+      "char": "⋄",
+      "bgCol": "F8F8FF",
+      "fgCol": "red",
+      "hasSolidBg": false,
+      "name": "Bullet"
+    }
+  ]
+}
