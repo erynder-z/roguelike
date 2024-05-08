@@ -58,7 +58,7 @@
     },
     {
       "char": "⋄",
-      "bgCol": "F8F8FF",
+      "bgCol": "#F8F8FF",
       "fgCol": "red",
       "hasSolidBg": false,
       "name": "Bullet"
