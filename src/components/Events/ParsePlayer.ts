@@ -95,7 +95,7 @@ export class ParsePlayer {
     stack: Stack,
     event: KeyboardEvent | null,
   ): Command | null {
-    const alt = event?.altKey;
+    const alt = event?.ctrlKey;
     let stackScreen: StackScreen | undefined;
     const dir = new WorldPoint();
     switch (char) {
