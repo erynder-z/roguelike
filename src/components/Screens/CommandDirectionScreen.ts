@@ -28,24 +28,31 @@ export class CommandDirectionScreen extends BaseScreen {
 
   /**
    * Draws a message asking for input.
-   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @param {DrawableTerminal} terminal - The terminal to draw on.
    */
-  drawScreen(term: DrawableTerminal) {
-    term.drawText(0, 0, 'Which direction?', 'yellow', 'black');
-    const R = [
-      '4 left',
-      '6 right',
-      '8 up',
-      '2 down',
-      '7 up and left',
-      '9 up and right',
-      '1 down and left',
-      '3 down and right',
+  drawScreen(terminal: DrawableTerminal) {
+    terminal.drawText(0, 0, 'Which direction?', 'yellow', 'black');
+
+    const table = [
+      ['↖', ' ', '↑', ' ', '↗'],
+      [' ', '7', '8', '9', ' '],
+      ['←', '4', ' ', '6', '→'],
+      [' ', '1', '2', '3', ' '],
+      ['↙', ' ', '↓', ' ', '↘'],
     ];
 
-    for (let i = 0; i < R.length; ++i) {
-      term.drawText(0, i + 1, R[i], 'white', 'black');
-    }
+    const startX = 0;
+    const startY = 2;
+    const cellWidth = 1;
+    const cellHeight = 1;
+
+    table.forEach((row, rowIndex) => {
+      row.forEach((cell, cellIndex) => {
+        const x = cellIndex * cellWidth + startX;
+        const y = rowIndex * cellHeight + startY;
+        terminal.drawText(x, y, cell, 'white', '#025');
+      });
+    });
   }
 
   /**
