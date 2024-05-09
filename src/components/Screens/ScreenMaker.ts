@@ -67,6 +67,23 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    * @return {void}
    */
   static InitialGameSetup(build: BuildIF): void {
+    this.activateMenuButtons();
     this.run_InitialGameSetup(this.StockMaker(build));
+  }
+
+  /**
+   * Activates the menu buttons functionality.
+   *
+   */
+  static activateMenuButtons(): void {
+    const mainContainer = document.getElementById('main-container');
+    const scanLineBtn = document.getElementById('scanlines-button');
+    scanLineBtn?.addEventListener('click', () => {
+      mainContainer?.classList.toggle('scanlines');
+      scanLineBtn.textContent =
+        scanLineBtn.textContent === 'Scanlines ON'
+          ? 'Scanlines OFF'
+          : 'Scanlines ON';
+    });
   }
 }

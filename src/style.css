@@ -68,11 +68,11 @@ li {
   height: 100vh;
   display: grid;
   grid-template-rows: 5% 80% 15%;
-  grid-template-columns: 15% 15% 70%;
+  grid-template-columns: 15% 85%;
   grid-template-areas:
-    'stats stats stats'
-    'messages canvas canvas'
-    'image buffs equipment';
+    'stats stats'
+    'messages canvas'
+    'bottom bottom';
 }
 
 .canvas-container {
@@ -127,6 +127,14 @@ li {
   background-color: var(--whiteTransparent);
 }
 
+.bottom-container {
+  grid-area: bottom;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 15% 20% 60% 5%;
+  grid-template-areas: 'image buffs equipment option';
+}
+
 .image-container {
   grid-area: image;
   grid-column: 1;
@@ -157,6 +165,32 @@ li {
 
 .equipment-slot {
   display: flex;
+}
+
+.options-container {
+  grid-area: option;
+  grid-column: 4;
+  display: flex;
+}
+
+.bottom-container button {
+  flex-grow: 1;
+  border-radius: 0;
+  height: 4rem;
+  background-color: var(--whiteTransparent);
+  color: var(--white);
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.bottom-container button:hover {
+  background-color: var(--accent);
+}
+
+.bottom-container button:focus {
+  border: none;
+  outline: none;
 }
 
 .log-screen,
