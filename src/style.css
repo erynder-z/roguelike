@@ -3,10 +3,27 @@
   src: url(./fonts/DejaVuSansMono.ttf) format('truetype');
 }
 
+:root {
+  --background1: #111a24;
+  --accent: #017f9e;
+  --white: #ffffff;
+  --whiteTransparent: rgba(255, 255, 255, 0.1);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--white) var(--background1);
+}
+
+::selection {
+  color: var(--white);
+  background-color: var(--accent);
 }
 
 body {
@@ -14,40 +31,42 @@ body {
 }
 
 html {
-  background: black;
-  color: cyan;
+  background: var(--background1);
+  color: var(--white);
   overflow: hidden;
   font-family: 'DejaVu Sans Mono', monospace;
   font-size: small;
 }
 
 canvas {
-  background: lightblue;
   display: block;
+}
+
+li {
+  list-style: none;
 }
 
 .main-container {
   height: 100vh;
   display: grid;
-  grid-template-rows: 5% 75% 20%;
-  grid-template-columns: 15% 85%;
+  grid-template-rows: 5% 80% 15%;
+  grid-template-columns: 15% 15% 70%;
   grid-template-areas:
-    'stats stats'
-    'messages canvas'
-    'something1 something1';
+    'stats stats stats'
+    'messages canvas canvas'
+    'image buffs equipment';
 }
 
 .canvas-container {
   position: relative;
-  background: black;
   display: flex;
   justify-content: center;
   align-items: center;
   grid-area: canvas;
+  border: solid var(--white) 1px;
 }
 
 .stats-container {
-  background: navy;
   grid-area: stats;
   display: flex;
   gap: 1rem;
@@ -59,25 +78,63 @@ canvas {
 }
 
 .messages-container {
-  background: RebeccaPurple;
   grid-area: messages;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 0.5rem;
 }
 
-.something-container {
-  background: SteelBlue;
-  grid-area: something1;
-  display: grid;
-  grid-template-columns: 2;
+.messages-container h1,
+.buffs-container h1,
+.equipment-container h1 {
+  text-align: center;
 }
 
-.buffs-container {
-  background: darkslateblue;
+.messages-container .messages-display,
+.buffs-container .buffs-display {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.messages-container .messages-display ul,
+.buffs-container .buffs-display ul {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-container .messages-display ul li:nth-child(odd),
+.buffs-container .buffs-display ul li:nth-child(odd) {
+  background-color: var(--whiteTransparent);
+}
+
+.image-container {
+  grid-area: image;
   grid-column: 1;
 }
 
-.equipment-container {
-  background: darkslategray;
+.buffs-container {
+  grid-area: buffs;
   grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+.equipment-container {
+  grid-area: equipment;
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+.equipment-container .equipment-display {
+  flex-grow: 1;
+  overflow: auto;
+  display: flex;
+  gap: 5rem;
 }
 
 .equipment-slot {
@@ -87,12 +144,24 @@ canvas {
 .log-screen,
 .inventory-screen,
 .equipment-screen {
+  background: var(--background1);
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: black;
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 2rem;
+}
+
+.log-screen h1,
+.inventory-screen h1,
+.equipment-screen h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.log-screen ul li:nth-child(odd) {
+  background-color: var(--whiteTransparent);
 }

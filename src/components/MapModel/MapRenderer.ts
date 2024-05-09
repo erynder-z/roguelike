@@ -32,7 +32,7 @@ export class MapRenderer {
     g: GameIF,
   ) {
     // Colors
-    const unlitColor: string = '#001';
+    const unlitColor: string = '#111a24';
     const unlitColorSolidBg: string = '#222';
     const farLitColor: string = '#778899';
 
@@ -122,7 +122,7 @@ export class MapRenderer {
     g: GameIF,
   ) {
     // Colors
-    const unlitColor: string = '#001';
+    const unlitColor: string = '#111a24';
     const unlitColorSolidBg: string = '#222';
     const farLitColor: string = '#778899';
 

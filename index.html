@@ -4,62 +4,78 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Roguelike</title>
+    <title>Meikai: Roguelike Journey to the Center of the Earth</title>
   </head>
   <body id="body1">
     <div id="main-container" class="main-container">
       <div id="stats-container" class="stats-container">
-        <h1>Stats</h1>
         <div id="stats-display" class="stats-display"></div>
       </div>
+      <!-- Messages Start -->
       <div id="messages-container" class="messages-container">
         <h1>Messages</h1>
         <div id="messages-display" class="messages-display"></div>
       </div>
+      <!-- Messages End -->
+      <!-- Canvas Start -->
       <div id="canvas-container" class="canvas-container">
         <canvas id="canvas1" class="canvas1"></canvas>
       </div>
-      <div id="something-container" class="something-container">
-        <div class="buffs-container">
-          <h1>Buffs</h1>
-          <div id="buffs-display"></div>
-        </div>
-        <div class="equipment-container">
-          <h1 class>Equipment</h1>
-          <div class="equipment-slot">
-            <div>Main hand:&nbsp;</div>
-            <div id="MainHand">empty</div>
+      <!-- Canvas End -->
+      <!-- Image Start -->
+      <div class="image-container">
+        <div id="image1">Image</div>
+      </div>
+      <!-- Image End -->
+      <!-- Buffs Start -->
+      <div class="buffs-container">
+        <h1>Buffs</h1>
+        <div id="buffs-display"></div>
+      </div>
+      <!-- Buffs End -->
+      <!-- Equipment Start -->
+      <div class="equipment-container">
+        <h1 class>Equipment</h1>
+        <div class="equipment-display">
+          <!-- Hans Start -->
+          <div class="hands">
+            <div class="equipment-slot">
+              <div>Main hand:&nbsp;</div>
+              <div id="MainHand">empty</div>
+            </div>
+            <div class="equipment-slot">
+              <div>Off hand:&nbsp;</div>
+              <div id="OffHand">empty</div>
+            </div>
           </div>
-          <div class="equipment-slot">
-            <div>Off hand:&nbsp;</div>
-            <div id="OffHand">empty</div>
+          <!-- Hans End -->
+          <!-- Body Start -->
+          <div class="body">
+            <div class="equipment-slot">
+              <div>Head:&nbsp;</div>
+              <div id="Head">empty</div>
+            </div>
+            <div class="equipment-slot">
+              <div>Hands:&nbsp;</div>
+              <div id="Hands">empty</div>
+            </div>
+            <div class="equipment-slot">
+              <div>Back:&nbsp;</div>
+              <div id="Back">empty</div>
+            </div>
+            <div class="equipment-slot">
+              <div>Legs:&nbsp;</div>
+              <div id="Legs">empty</div>
+            </div>
+            <div class="equipment-slot">
+              <div>Feet:&nbsp;</div>
+              <div id="Feet">empty</div>
+            </div>
           </div>
-          <div class="equipment-slot">
-            <div>Both hands:&nbsp;</div>
-            <div id="BothHands">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Head:&nbsp;</div>
-            <div id="Head">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Hands:&nbsp;</div>
-            <div id="Hands">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Back:&nbsp;</div>
-            <div id="Back">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Legs:&nbsp;</div>
-            <div id="Legs">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Feet:&nbsp;</div>
-            <div id="Feet">empty</div>
-          </div>
+          <!-- Body End -->
         </div>
       </div>
+      <!-- Equipment End -->
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

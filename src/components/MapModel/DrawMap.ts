@@ -154,7 +154,6 @@ export class DrawMap {
     while (buffsContainer?.firstChild) {
       buffsContainer.removeChild(buffsContainer.firstChild);
     }
-
     buffsContainer?.appendChild(buffList);
   }
 
