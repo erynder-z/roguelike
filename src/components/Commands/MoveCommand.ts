@@ -7,6 +7,8 @@ import { CommandBase } from './CommandBase';
 import { StairCommand } from './StairCommand';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Act } from './Act';
+import { ImageHandler } from '../ImageHandler/ImageHandler';
+import runningImages from '../ImageHandler/runningImages';
 
 /**
  * Represents a move command that extends the functionality of the base command.
@@ -55,6 +57,12 @@ export class MoveCommand extends CommandBase {
         this.flashIfItem();
       }
     }
+
+    const m = this.me;
+    const g = this.game;
+
+    if (m.isPlayer) this.displayActionImage(g);
+
     return legal;
   }
 
@@ -90,5 +98,26 @@ export class MoveCommand extends CommandBase {
       this.game.message(msg);
       /*  this.game.flash(msg); */
     }
+  }
+
+  /**
+   * Displays a random "running" image on the game screen.
+   *
+   * @param {GameIF} game - The game instance.
+   */
+  displayActionImage(game: GameIF) {
+    const r = game.rand;
+
+    const randomImage = r.getRandomImageFromArray(runningImages);
+    const image = new Image();
+    image.src = randomImage;
+    const imageHandler = ImageHandler.getInstance();
+
+    const shouldDrawImage =
+      imageHandler.getCurrentImageDataAttribute() !== 'running';
+
+    if (!shouldDrawImage) return;
+
+    imageHandler.displayImage(image, 'running');
   }
 }

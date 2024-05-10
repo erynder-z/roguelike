@@ -6,6 +6,8 @@ import { ScreenStack } from '../Terminal/ScreenStack';
 import { GameOverScreen } from './GameOverScreen';
 import { GameScreen } from './GameScreen';
 import { MoreScreen } from './MoreScreen';
+import { ImageHandler } from '../ImageHandler/ImageHandler';
+import neutralImages from '../ImageHandler/neutralImages';
 
 /**
  * Represents a screen maker implementation for creating screens.
@@ -68,6 +70,7 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    */
   static InitialGameSetup(build: BuildIF): void {
     this.activateMenuButtons();
+    this.activateImageHandler();
     this.run_InitialGameSetup(this.StockMaker(build));
   }
 
@@ -85,5 +88,20 @@ export class ScreenMaker_Fixed implements ScreenMaker {
           ? 'Scanlines OFF'
           : 'Scanlines ON';
     });
+  }
+
+  /**
+   * Activates the image handler and displays a random neutral image.
+   *
+   * @return {void} This function does not return anything.
+   */
+  static activateImageHandler(): void {
+    const randomImage =
+      neutralImages[Math.floor(Math.random() * neutralImages.length)];
+
+    const imageHandler = ImageHandler.getInstance();
+    const image = new Image();
+    image.src = randomImage;
+    imageHandler.displayImage(image, 'neutral');
   }
 }

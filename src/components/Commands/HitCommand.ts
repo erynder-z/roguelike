@@ -6,6 +6,8 @@ import { Equipment } from '../Inventory/Equipment';
 import { Act } from './Act';
 import { Buff } from '../Buffs/BuffEnum';
 import { HealthAdjust } from './HealthAdjust';
+import { ImageHandler } from '../ImageHandler/ImageHandler';
+import attackImages from '../ImageHandler/attackImages';
 
 /**
  * Represents a command to hit another mob.
@@ -98,6 +100,7 @@ export class HitCommand extends CommandBase {
       : `${me} misses ${him}`;
     if (attacker.isPlayer || target.isPlayer) g.message(s);
     if (dmg) HealthAdjust.adjust(target, -dmg, g, attacker);
+    if (attacker.isPlayer) this.displayActionImage(g);
   }
 
   /**
@@ -175,5 +178,31 @@ export class HitCommand extends CommandBase {
       }
     }
     return this.unarmed();
+  }
+
+  /**
+   * Displays an action image on the screen.
+   *
+   * @param {GameIF} game - The game information containing the necessary data.
+   */
+  displayActionImage(game: GameIF) {
+    const r = game.rand;
+    const randomImage = r.getRandomImageFromArray(attackImages);
+    const image = new Image();
+    image.src = randomImage;
+    const imageHandler = ImageHandler.getInstance();
+
+    const shouldDrawImage =
+      imageHandler.getCurrentImageDataAttribute() !== 'attack';
+
+    const maybeDrawImage = r.randomIntegerClosedRange(0, 2) === 0;
+
+    if (shouldDrawImage) {
+      // If not currently attacking, display the image
+      imageHandler.displayImage(image, 'attack');
+    } else {
+      // There's a 1/3 chance of displaying a different image. If not, the current image remains shown.
+      if (maybeDrawImage) imageHandler.displayImage(image, 'attack');
+    }
   }
 }

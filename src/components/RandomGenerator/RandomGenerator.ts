@@ -159,4 +159,14 @@ export class RandomGenerator extends RandomNumberGeneratorBase {
   determineSuccess(rate: number): boolean {
     return this.randomInteger(100) < rate;
   }
+
+  /**
+   * Retrieves a random image from the given array of strings.
+   *
+   * @param {string[]} array - The array of strings from which to select a random image.
+   * @return {string} The randomly selected image from the array.
+   */
+  getRandomImageFromArray(array: string[]): string {
+    return array[this.randomIntegerClosedRange(0, array.length - 1)];
+  }
 }
