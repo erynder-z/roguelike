@@ -6,10 +6,12 @@ import { LogMessage, MessageCategory } from './LogMessage';
 export class MessageLog {
   queue: LogMessage[] = [];
   archive: LogMessage[] = [];
+  currentEvent: LogMessage = new LogMessage('', MessageCategory.unknown);
 
   /**
    * Adds a message to the log.
-   * @param {string} s - The message to add.
+   * @param {LogMessage} msg - The message to add.
+   * @param {boolean} isFlashMsg - True if the message is a flash message, otherwise false.
    * @returns {void}
    */
   message(msg: LogMessage, isFlashMsg: boolean): void {
@@ -65,5 +67,22 @@ export class MessageLog {
    */
   empty(): boolean {
     return !this.queue.length;
+  }
+  /**
+   * Sets the current event.
+   * @param {LogMessage} msg - The message be set as the current event.
+   * @returns {void}
+   */
+  addCurrentEvent(msg: LogMessage): void {
+    this.currentEvent = msg;
+  }
+
+  /**
+   * Removes the current event by setting it to a new LogMessage with an empty message and unknown category.
+   *
+   * @return {void} This function does not return a value.
+   */
+  removeCurrentEvent(): void {
+    this.currentEvent = new LogMessage('', MessageCategory.unknown);
   }
 }

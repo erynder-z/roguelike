@@ -2,9 +2,6 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Mob } from '../Mobs/Mob';
 import { AutoHeal } from './AutoHeal';
-import { ImageHandler } from '../ImageHandler/ImageHandler';
-import hurtImages from '../ImageHandler/hurtImages';
-import smileImages from '../ImageHandler/smileImages';
 import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 
 /**
@@ -52,13 +49,13 @@ export class HealthAdjust {
 
     const s = this.generateDamageMessage(mob, amount);
     const msg = new LogMessage(s, MessageCategory.playerDamage);
-    if (mob.isPlayer) game.flash(msg);
+    if (mob.isPlayer) {
+      game.flash(msg);
+      game.addCurrentEvent(msg);
+    }
 
     const involvesPlayer =
       mob.isPlayer || (attacker !== null && attacker.isPlayer);
-
-    const isPlayer = mob.isPlayer;
-    if (isPlayer) this.displayActionImage(game, 'hurt');
 
     if (mob.hp <= 0) this.mobDies(mob, game, involvesPlayer);
   }
@@ -77,11 +74,10 @@ export class HealthAdjust {
     if (involvesPlayer) {
       game.message(msg);
       game.flash(msg);
+      game.addCurrentEvent(msg);
     }
     const map = <MapIF>game.currentMap();
     map.removeMob(mob);
-
-    if (!mob.isPlayer) this.displayActionImage(game, 'smile');
   }
 
   /**
@@ -110,30 +106,5 @@ export class HealthAdjust {
     }
 
     return message;
-  }
-
-  /**
-   * Displays a random image on the game screen depending on the event.
-   *
-   * @param {GameIF} game - The game instance.
-   */
-  static displayActionImage(game: GameIF, category: string) {
-    const r = game.rand;
-
-    const imgs: string[] | null =
-      category === 'hurt'
-        ? hurtImages
-        : category === 'smile'
-          ? smileImages
-          : null;
-
-    if (imgs) {
-      const randomImage = r.getRandomImageFromArray(imgs);
-      const image = new Image();
-      image.src = randomImage;
-      const imageHandler = ImageHandler.getInstance();
-
-      imageHandler.displayImage(image, category);
-    }
   }
 }

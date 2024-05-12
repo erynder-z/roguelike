@@ -53,6 +53,10 @@ export class Game implements GameIF {
     this.log.message(msg, isFlashMsg);
   }
 
+  addCurrentEvent(msg: LogMessage): void {
+    this.log.addCurrentEvent(msg);
+  }
+
   dungeon: Dungeon = new Dungeon();
   autoHeal: AutoHeal | undefined = new AutoHeal();
   inventory = new Inventory();

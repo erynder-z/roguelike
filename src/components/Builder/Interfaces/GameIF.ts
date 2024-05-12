@@ -20,6 +20,7 @@ export interface GameIF {
   ai: MobAI | null;
   message(msg: LogMessage): void;
   flash(msg: LogMessage): void;
+  addCurrentEvent(msg: LogMessage): void;
   log: MessageLog;
   dungeon: Dungeon;
   build: Builder;

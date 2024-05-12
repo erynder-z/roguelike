@@ -11,7 +11,6 @@ import { Stack } from '../Terminal/Interfaces/Stack';
 import { CommandBase } from './CommandBase';
 import { Command } from './Interfaces/Command';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
-import pistolImages from '../ImageHandler/pistolImages';
 
 /**
  * Represents a command to fire a ranged weapon.
@@ -63,24 +62,12 @@ export class BulletCommand extends CommandBase {
     step.setDirection(this.direction);
     this.stack.push(new StepScreen(g, this.make, step));
 
-    if (m.isPlayer) this.displayActionImage(g);
+    if (m.isPlayer) {
+      const imageHandler = ImageHandler.getInstance();
+
+      imageHandler.handlePistolImageDisplay(g);
+    }
 
     return false;
-  }
-
-  /**
-   * Displays a random action image from the pistolImages array on the game screen.
-   *
-   * @param {GameIF} game - The game instance.
-   * @return {void}
-   */
-  displayActionImage(game: GameIF) {
-    const r = game.rand;
-    const randomImage = r.getRandomImageFromArray(pistolImages);
-    const image = new Image();
-    image.src = randomImage;
-    const imageHandler = ImageHandler.getInstance();
-
-    imageHandler.displayImage(image, 'pistol');
   }
 }

@@ -11,6 +11,8 @@ import { Buff } from '../Buffs/BuffEnum';
 import { BuffIF } from '../Buffs/Interfaces/BuffIF';
 import { Slot } from '../ItemObjects/Slot';
 import { MapRenderer } from './MapRenderer';
+import { MessageCategory } from '../Messages/LogMessage';
+import { ImageHandler } from '../ImageHandler/ImageHandler';
 
 /**
  * Represents a utility class for drawing a map on a drawable terminal.
@@ -100,11 +102,10 @@ export class DrawMap {
   /**
    * Renders the player stats on the terminal.
    *
-   * @param {DrawableTerminal} term - the terminal to render the stats on
    * @param {GameIF} game - the game instance to retrieve player stats from
    * @return {void}
    */
-  static renderStats(term: DrawableTerminal, game: GameIF): void {
+  static renderStats(game: GameIF): void {
     const player = game.player;
     const hp = player.hp;
     const maxhp = player.maxhp;
@@ -124,7 +125,7 @@ export class DrawMap {
     const stats = document.getElementById('stats-display');
     if (stats) stats.innerText = statsDisplay;
 
-    this.renderBuffs(term, game);
+    this.renderBuffs(game);
   }
 
   static remain(b: BuffIF): number {
@@ -134,11 +135,10 @@ export class DrawMap {
   /**
    * Renders the active buffs of the player on the terminal.
    *
-   * @param {DrawableTerminal} terminal - the terminal to render the buffs on
    * @param {GameIF} game - the game instance containing the player's buffs
    * @return {void}
    */
-  static renderBuffs(terminal: DrawableTerminal, game: GameIF): void {
+  static renderBuffs(game: GameIF): void {
     const playerBuffs = game.player.buffs;
     const buffMap = playerBuffs._map;
 
@@ -160,11 +160,10 @@ export class DrawMap {
   /**
    * Renders the equipment on the terminal based on the provided game state.
    *
-   * @param {DrawableTerminal} term - the terminal to render the equipment on
    * @param {GameIF} game - the game instance containing the equipment state
    * @return {void}
    */
-  static renderEquipment(term: DrawableTerminal, game: GameIF): void {
+  static renderEquipment(game: GameIF): void {
     const equipment = game.equipment;
 
     for (let slot = Slot.MainHand; slot < Slot.Last; slot++) {
@@ -180,11 +179,10 @@ export class DrawMap {
   /**
    * Renders the log messages on the terminal.
    *
-   * @param {DrawableTerminal} term - the terminal to render the stats on
    * @param {GameIF} game - the game instance to retrieve player stats from
    * @return {void}
    */
-  static renderMessage(term: DrawableTerminal, game: GameIF): void {
+  static renderMessage(game: GameIF): void {
     const log = game.log;
 
     const messageLog = log.archive.slice(-30);
@@ -203,6 +201,38 @@ export class DrawMap {
     }
 
     messagesContainer?.appendChild(ulElement);
+  }
+
+  static renderActionImage(game: GameIF): void {
+    const imageHandler = ImageHandler.getInstance();
+
+    const currentEventCategory = game.log.currentEvent.category;
+
+    switch (currentEventCategory) {
+      case MessageCategory.attack:
+        imageHandler.handleAttackImageDisplay(game);
+        break;
+      case MessageCategory.mobDamage:
+        imageHandler.handleAttackImageDisplay(game);
+        break;
+      case MessageCategory.playerDamage:
+        imageHandler.handleHurtImageDisplay(game);
+        break;
+      case MessageCategory.mobDeath:
+        imageHandler.handleSmileImageDisplay(game);
+        break;
+      case MessageCategory.moving:
+        imageHandler.handleMovingImageDisplay(game);
+        break;
+      case MessageCategory.rangedAttack:
+        imageHandler.handlePistolImageDisplay(game);
+        break;
+      case MessageCategory.wait:
+        imageHandler.handleNeutralImageDisplay(game);
+        break;
+      default:
+        break;
+    }
   }
 
   static renderFlash(term: DrawableTerminal, game: GameIF): void {

@@ -15,6 +15,9 @@ export enum MessageCategory {
   layingObject,
   pickup,
   lvlChange,
+  moving,
+  rangedAttack,
+  wait,
 }
 export class LogMessage {
   constructor(
