@@ -1,5 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from '../Commands/HealthAdjust';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
@@ -24,8 +25,13 @@ export class PetrifyTick implements TickIF {
       sinceLastMove,
       sinceLastMove * 2,
     );
-    if (this.mob.isPlayer)
-      this.game.message(`You are being petrified and take ${dmg} damage!`);
+    if (this.mob.isPlayer) {
+      const msg = new LogMessage(
+        `You are being petrified and take ${dmg} damage!`,
+        MessageCategory.playerDamage,
+      );
+      this.game.message(msg);
+    }
 
     HealthAdjust.damage(this.mob, dmg, this.game, null);
   }

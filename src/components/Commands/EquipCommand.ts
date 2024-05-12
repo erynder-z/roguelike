@@ -2,6 +2,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Equipment } from '../Inventory/Equipment';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -38,7 +39,11 @@ export class EquipCommand extends CommandBase {
 
     game.inventory!.removeIndex(this.index);
     this.equipment.add(item);
-    this.game.message(`${item.description()} is now equipped.`);
+    const msg = new LogMessage(
+      "You've equipped " + item.description() + '.',
+      MessageCategory.equip,
+    );
+    this.game.message(msg);
     return true;
   }
 
@@ -49,7 +54,11 @@ export class EquipCommand extends CommandBase {
    */
   isEquippable(item: ItemObject): boolean {
     const canEquip = item.slot != Slot.NotWorn;
-    if (!canEquip) this.game.flash(`${item.description()} is not equippable.`);
+    const msg = new LogMessage(
+      "You can't equip " + item.description() + '.',
+      MessageCategory.unable,
+    );
+    if (!canEquip) this.game.flash(msg);
     return canEquip;
   }
 
@@ -62,7 +71,11 @@ export class EquipCommand extends CommandBase {
     const alreadyEquipped = this.equipment.has(item.slot);
     if (alreadyEquipped) {
       const label = Slot[item.slot];
-      this.game.flash(`${label} is already equipped.`);
+      const msg = new LogMessage(
+        `${label} is already equipped.`,
+        MessageCategory.unable,
+      );
+      this.game.flash(msg);
     }
     return alreadyEquipped;
   }
@@ -80,7 +93,11 @@ export class EquipCommand extends CommandBase {
     if (!inHand) return false;
     const overlap = this.doesOverlap(item.slot, inHand!.slot);
     if (overlap) {
-      this.game.flash(`Must first unequip${inHand!.name()}!`);
+      const msg = new LogMessage(
+        `Must first unequip${inHand!.name()}!`,
+        MessageCategory.unable,
+      );
+      this.game.flash(msg);
     }
     return overlap;
   }

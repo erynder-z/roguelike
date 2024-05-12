@@ -1,5 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from '../Commands/HealthAdjust';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
@@ -20,8 +21,13 @@ export class BleedTick implements TickIF {
     if (time % 2) return;
     const resting = this.mob.sinceMove > 2;
     const dmg = resting ? 1 : this.game.rand.randomIntegerClosedRange(2, 5);
-    if (this.mob.isPlayer)
-      this.game.message(`You take ${dmg} damage because of the bleeding!`);
+    if (this.mob.isPlayer) {
+      const msg = new LogMessage(
+        `You take ${dmg} damage because of the bleeding!`,
+        MessageCategory.playerDamage,
+      );
+      this.game.message(msg);
+    }
 
     HealthAdjust.damage(this.mob, dmg, this.game, null);
   }

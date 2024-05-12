@@ -1,5 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from '../Commands/HealthAdjust';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
@@ -19,8 +20,13 @@ export class PoisonTick implements TickIF {
   tick(time: number): void {
     if (time % 2) return;
     const dmg = 1;
-    if (this.mob.isPlayer)
-      this.game.message(`You take ${dmg} damage because of the poison!`);
+    if (this.mob.isPlayer) {
+      const msg = new LogMessage(
+        `You take ${dmg} damage because of the poison!`,
+        MessageCategory.playerDamage,
+      );
+      this.game.message(msg);
+    }
 
     HealthAdjust.damage(this.mob, dmg, this.game, null);
   }

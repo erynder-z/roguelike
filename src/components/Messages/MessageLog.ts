@@ -1,19 +1,21 @@
+import { LogMessage, MessageCategory } from './LogMessage';
+
 /**
  * Represents a message log for storing and managing messages.
  */
 export class MessageLog {
-  queue: string[] = [];
-  archive: string[] = [];
+  queue: LogMessage[] = [];
+  archive: LogMessage[] = [];
 
   /**
    * Adds a message to the log.
    * @param {string} s - The message to add.
    * @returns {void}
    */
-  message(s: string, isFlashMsg: boolean): void {
+  message(msg: LogMessage, isFlashMsg: boolean): void {
     /*    this.queue.push(s); */
-    if (!isFlashMsg) this.archive.push(s);
-    if (isFlashMsg) this.queue.push(s);
+    if (!isFlashMsg) this.archive.push(msg);
+    if (isFlashMsg) this.queue.push(msg);
   }
   /**
    * Removes the oldest message from the queue.
@@ -25,10 +27,12 @@ export class MessageLog {
 
   /**
    * Retrieves the oldest message from the queue.
-   * @returns {string} - The oldest message in the queue, or '-' if the queue is empty.
+   * @returns {LogMessage} - The oldest message in the queue, or '-' if the queue is empty.
    */
-  top(): string {
-    return this.empty() ? '' : this.queue[0];
+  top(): LogMessage {
+    return this.empty()
+      ? new LogMessage('', MessageCategory.unknown)
+      : this.queue[0];
   }
 
   /**

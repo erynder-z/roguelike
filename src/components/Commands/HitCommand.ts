@@ -8,6 +8,7 @@ import { Buff } from '../Buffs/BuffEnum';
 import { HealthAdjust } from './HealthAdjust';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 import attackImages from '../ImageHandler/attackImages';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a command to hit another mob.
@@ -98,7 +99,11 @@ export class HitCommand extends CommandBase {
     const s = dmg
       ? `${me} hits ${him} for ${dmg}→${rest}`
       : `${me} misses ${him}`;
-    if (attacker.isPlayer || target.isPlayer) g.message(s);
+    const msg1 = new LogMessage(s, MessageCategory.mobDamage);
+    const msg2 = new LogMessage(s, MessageCategory.playerDamage);
+    if (attacker.isPlayer) g.message(msg1);
+    if (target.isPlayer) g.message(msg2);
+
     if (dmg) HealthAdjust.adjust(target, -dmg, g, attacker);
     if (attacker.isPlayer) this.displayActionImage(g);
   }
@@ -172,7 +177,11 @@ export class HitCommand extends CommandBase {
     const disarm = g.player.is(Buff.Disarm);
     if (eq.weapon()) {
       if (disarm) {
-        g.message('Attacking with your bare hands!');
+        const msg = new LogMessage(
+          'Attacking with your bare hands!',
+          MessageCategory.attack,
+        );
+        g.message(msg);
       } else {
         return eq.weaponDamage();
       }

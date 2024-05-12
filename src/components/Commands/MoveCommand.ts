@@ -9,6 +9,7 @@ import { ItemObject } from '../ItemObjects/ItemObject';
 import { Act } from './Act';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 import runningImages from '../ImageHandler/runningImages';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a move command that extends the functionality of the base command.
@@ -94,7 +95,10 @@ export class MoveCommand extends CommandBase {
     const o: ItemObject | undefined = map.cell(np).obj;
 
     if (o) {
-      const msg = `${o.description()} is lying here`;
+      const msg = new LogMessage(
+        `${o.description()} is lying here`,
+        MessageCategory.layingObject,
+      );
       this.game.message(msg);
       /*  this.game.flash(msg); */
     }

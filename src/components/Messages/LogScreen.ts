@@ -2,13 +2,14 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from '../Screens/BaseScreen';
+import { LogMessage } from './LogMessage';
 
 /**
  * Represents a screen for displaying the log messages.
  */
 export class LogScreen extends BaseScreen {
   name: string = 'log-screen';
-  messageLog: string[];
+  messageLog: LogMessage[];
 
   /**
    * Creates an instance of LogScreen.
@@ -75,9 +76,9 @@ export class LogScreen extends BaseScreen {
    */
   private createMessageList(): HTMLUListElement {
     const messageList = document.createElement('ul');
-    this.messageLog.slice(-100).forEach(message => {
+    this.messageLog.slice(-100).forEach(m => {
       const listItem = document.createElement('li');
-      listItem.textContent = message;
+      listItem.textContent = m.message;
       messageList.appendChild(listItem);
     });
     return messageList;

@@ -5,6 +5,7 @@ import { AutoHeal } from './AutoHeal';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 import hurtImages from '../ImageHandler/hurtImages';
 import smileImages from '../ImageHandler/smileImages';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 
 /**
  * A class to handle adjustments to health of a mob.
@@ -49,7 +50,8 @@ export class HealthAdjust {
     mob.hp -= amount;
     /*     console.log('damage to', amount, mob.hp); */
 
-    const msg = this.generateDamageMessage(mob, amount);
+    const s = this.generateDamageMessage(mob, amount);
+    const msg = new LogMessage(s, MessageCategory.playerDamage);
     if (mob.isPlayer) game.flash(msg);
 
     const involvesPlayer =
@@ -68,9 +70,13 @@ export class HealthAdjust {
    */
   static mobDies(mob: Mob, game: GameIF, involvesPlayer: boolean) {
     const s = `${mob.name} dies.`;
+    const t = <MessageCategory>MessageCategory.mobDeath;
+
+    const msg = new LogMessage(s, t);
+
     if (involvesPlayer) {
-      game.message(s);
-      game.flash(s);
+      game.message(msg);
+      game.flash(msg);
     }
     const map = <MapIF>game.currentMap();
     map.removeMob(mob);

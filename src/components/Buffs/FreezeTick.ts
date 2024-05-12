@@ -1,5 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from '../Commands/HealthAdjust';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
@@ -20,8 +21,13 @@ export class FreezeTick implements TickIF {
     if (time % 2) return;
     if (this.mob.sinceMove < 2) return;
     const dmg = this.game.rand.randomIntegerClosedRange(0, 2);
-    if (this.mob.isPlayer)
-      this.game.message(`You take ${dmg} damage because you are freezing!`);
+    if (this.mob.isPlayer) {
+      const msg = new LogMessage(
+        `You take ${dmg} damage because you are freezing!`,
+        MessageCategory.playerDamage,
+      );
+      this.game.message(msg);
+    }
 
     HealthAdjust.damage(this.mob, dmg, this.game, null);
   }

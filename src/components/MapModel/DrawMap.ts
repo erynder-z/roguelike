@@ -191,9 +191,9 @@ export class DrawMap {
 
     const ulElement = document.createElement('ul');
 
-    messageLog.forEach(message => {
+    messageLog.forEach(m => {
       const liElement = document.createElement('li');
-      liElement.textContent = message;
+      liElement.textContent = m.message;
       ulElement.appendChild(liElement);
     });
 
@@ -210,7 +210,9 @@ export class DrawMap {
 
     if (!log) return;
 
-    let s = log.top();
+    const topMessage = log.top();
+    let s = topMessage ? topMessage.message : '';
+
     s = this.extend(s, term);
 
     const x = term.dimensions.x - s.length;

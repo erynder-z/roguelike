@@ -9,6 +9,7 @@ import { Builder } from './Builder';
 import { AutoHeal } from '../Commands/AutoHeal';
 import { Inventory } from '../Inventory/Inventory';
 import { Equipment } from '../Inventory/Equipment';
+import { LogMessage } from '../Messages/LogMessage';
 
 /**
  * Represents a game instance implementing the GameIF interface.
@@ -37,9 +38,9 @@ export class Game implements GameIF {
    * @param {string} s - The message to add.
    * @returns {void}
    */
-  message(s: string): void {
+  message(msg: LogMessage): void {
     const isFlashMsg = false;
-    this.log.message(s, isFlashMsg);
+    this.log.message(msg, isFlashMsg);
   }
 
   /**
@@ -47,9 +48,9 @@ export class Game implements GameIF {
    * @param {string} s - The message to add.
    * @returns {void}
    */
-  flash(s: string): void {
+  flash(msg: LogMessage): void {
     const isFlashMsg = true;
-    this.log.message(s, isFlashMsg);
+    this.log.message(msg, isFlashMsg);
   }
 
   dungeon: Dungeon = new Dungeon();

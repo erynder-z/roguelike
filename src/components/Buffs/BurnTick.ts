@@ -1,5 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from '../Commands/HealthAdjust';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
@@ -19,8 +20,13 @@ export class BurnTick implements TickIF {
   tick(time: number): void {
     if (time % 2) return;
     const dmg = this.game.rand.randomIntegerClosedRange(2, 4);
-    if (this.mob.isPlayer)
-      this.game.message(`You take ${dmg} damage because you are on fire!`);
+    if (this.mob.isPlayer) {
+      const msg = new LogMessage(
+        `You take ${dmg} damage because of the burn!`,
+        MessageCategory.playerDamage,
+      );
+      this.game.message(msg);
+    }
 
     HealthAdjust.damage(this.mob, dmg, this.game, null);
   }

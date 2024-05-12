@@ -8,6 +8,7 @@ import { Dungeon } from '../../MapModel/Dungeon';
 import { AutoHeal } from '../../Commands/AutoHeal';
 import { Inventory } from '../../Inventory/Inventory';
 import { Equipment } from '../../Inventory/Equipment';
+import { LogMessage } from '../../Messages/LogMessage';
 
 /**
  * Represents the interface for the game.
@@ -17,8 +18,8 @@ export interface GameIF {
   currentMap(): MapIF | null;
   player: Mob;
   ai: MobAI | null;
-  message(s: string): void;
-  flash(s: string): void;
+  message(msg: LogMessage): void;
+  flash(msg: LogMessage): void;
   log: MessageLog;
   dungeon: Dungeon;
   build: Builder;

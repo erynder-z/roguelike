@@ -2,6 +2,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -33,7 +34,11 @@ export class DropCommand extends CommandBase {
     const c = map.cell(player.pos);
 
     if (c.hasObject()) {
-      game.flash('No room to drop here!');
+      const msg = new LogMessage(
+        'No room to drop here!',
+        MessageCategory.unable,
+      );
+      game.flash(msg);
       return false;
     }
 
@@ -41,7 +46,12 @@ export class DropCommand extends CommandBase {
     const inventory = <Inventory>game.inventory;
     inventory.removeIndex(this.index);
 
-    game.message(`Dropped ${this.item.description()}.`);
+    const msg = new LogMessage(
+      `Dropped ${this.item.description()}.`,
+      MessageCategory.drop,
+    );
+
+    game.message(msg);
     return true;
   }
 }

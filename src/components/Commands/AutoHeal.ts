@@ -1,5 +1,6 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { GameIF } from '../Builder/Interfaces/GameIF';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { HealthAdjust } from './HealthAdjust';
 
@@ -42,7 +43,9 @@ export class AutoHeal {
   static clearSleep(mob: Mob, game: GameIF) {
     if (!mob.is(Buff.Sleep)) return;
     mob.buffs.cleanse(Buff.Sleep, game, mob);
-    if (mob.isPlayer) game.message('You wake up!');
+
+    const msg = new LogMessage("You've woken up!", MessageCategory.buff);
+    if (mob.isPlayer) game.message(msg);
   }
 
   /**
@@ -99,7 +102,12 @@ export class AutoHeal {
    * @param game - The game interface.
    */
   healTick(player: Mob, game: GameIF) {
-    game.message(`auto-healing ${this.amount} hp`);
+    const msg = new LogMessage(
+      `auto-healing ${this.amount} hp`,
+      MessageCategory.heal,
+    );
+    game.message(msg);
+
     HealthAdjust.heal(player, this.amount);
     ++this.amount;
     if (this.nextWait > 1) --this.nextWait;

@@ -1,6 +1,7 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Inventory } from '../Inventory/Inventory';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -28,14 +29,21 @@ export class PickupCommand extends CommandBase {
     const item = c.obj;
 
     if (!item) {
-      game.flash('There is nothing here to pick up.');
+      const msg = new LogMessage(
+        'There is nothing here to pick up.',
+        MessageCategory.unable,
+      );
+      game.flash(msg);
       return false;
     }
 
     c.obj = undefined;
     inventory.add(item);
 
-    const msg = `You picked up ${item.description()}.`;
+    const msg = new LogMessage(
+      `You picked up ${item.description()}.`,
+      MessageCategory.pickup,
+    );
     game.message(msg);
 
     return true;

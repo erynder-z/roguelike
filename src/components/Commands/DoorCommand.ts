@@ -5,6 +5,7 @@ import { Glyph } from '../Glyphs/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a command for interacting with doors in the game.
@@ -43,6 +44,12 @@ export class DoorCommand extends CommandBase {
     const door = p.plus(this.direction);
     const map = <MapIF>this.game.currentMap();
     const cell = map.cell(door);
+
+    const defaultMsg = new LogMessage(
+      'There is no door there.',
+      MessageCategory.unable,
+    );
+
     switch (cell.env) {
       case Glyph.Door_Closed:
         cell.env = Glyph.Door_Open;
@@ -52,7 +59,7 @@ export class DoorCommand extends CommandBase {
         break;
 
       default:
-        this.game.flash("There's no door there.");
+        this.game.flash(defaultMsg);
         return false;
     }
     this.message(cell.env);
@@ -68,6 +75,11 @@ export class DoorCommand extends CommandBase {
     const action = open ? 'opens' : 'closes';
     const who = this.me.name;
 
-    this.game.message(`${who} ${action} the door.`);
+    const msg = new LogMessage(
+      `${who} ${action} the door.`,
+      MessageCategory.door,
+    );
+
+    this.game.message(msg);
   }
 }

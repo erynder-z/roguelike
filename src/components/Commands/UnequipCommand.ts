@@ -2,6 +2,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Equipment } from '../Inventory/Equipment';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -28,7 +29,11 @@ export class UnequipCommand extends CommandBase {
 
     if (!equipment.has(slot)) {
       const label = Slot[slot];
-      this.game.flash(`${label} is not equipped.`);
+      const msg = new LogMessage(
+        `${label} is not equipped.`,
+        MessageCategory.unable,
+      );
+      this.game.flash(msg);
       return false;
     }
     const obj: ItemObject | undefined = equipment.get(slot);
@@ -36,7 +41,11 @@ export class UnequipCommand extends CommandBase {
 
     equipment.remove(slot);
     game.inventory!.add(obj);
-    game.message(`${obj.description()} is now unequipped.`);
+    const msg = new LogMessage(
+      `${obj.description()} is now unequipped.`,
+      MessageCategory.equip,
+    );
+    game.message(msg);
     return true;
   }
 }
