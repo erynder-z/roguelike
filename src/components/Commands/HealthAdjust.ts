@@ -2,6 +2,9 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Mob } from '../Mobs/Mob';
 import { AutoHeal } from './AutoHeal';
+import { ImageHandler } from '../ImageHandler/ImageHandler';
+import hurtImages from '../ImageHandler/hurtImages';
+import smileImages from '../ImageHandler/smileImages';
 
 /**
  * A class to handle adjustments to health of a mob.
@@ -52,6 +55,9 @@ export class HealthAdjust {
     const involvesPlayer =
       mob.isPlayer || (attacker !== null && attacker.isPlayer);
 
+    const isPlayer = mob.isPlayer;
+    if (isPlayer) this.displayActionImage(game, 'hurt');
+
     if (mob.hp <= 0) this.mobDies(mob, game, involvesPlayer);
   }
 
@@ -68,6 +74,8 @@ export class HealthAdjust {
     }
     const map = <MapIF>game.currentMap();
     map.removeMob(mob);
+
+    if (!mob.isPlayer) this.displayActionImage(game, 'smile');
   }
 
   /**
@@ -96,5 +104,30 @@ export class HealthAdjust {
     }
 
     return message;
+  }
+
+  /**
+   * Displays a random image on the game screen depending on the event.
+   *
+   * @param {GameIF} game - The game instance.
+   */
+  static displayActionImage(game: GameIF, category: string) {
+    const r = game.rand;
+
+    const imgs: string[] | null =
+      category === 'hurt'
+        ? hurtImages
+        : category === 'smile'
+          ? smileImages
+          : null;
+
+    if (imgs) {
+      const randomImage = r.getRandomImageFromArray(imgs);
+      const image = new Image();
+      image.src = randomImage;
+      const imageHandler = ImageHandler.getInstance();
+
+      imageHandler.displayImage(image, category);
+    }
   }
 }
