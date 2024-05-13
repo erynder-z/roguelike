@@ -32,7 +32,7 @@ export class DigCommand extends CommandBase {
     const e = cell.env;
 
     if (e != Glyph.Wall && e != Glyph.Rock) {
-      const msg = new LogMessage('Cannot dog there!', EventCategory.unable);
+      const msg = new LogMessage('Cannot dig there!', EventCategory.unable);
       game.flash(msg);
       return false;
     }
