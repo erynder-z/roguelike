@@ -11,7 +11,7 @@ import { Buff } from '../Buffs/BuffEnum';
 import { BuffIF } from '../Buffs/Interfaces/BuffIF';
 import { Slot } from '../ItemObjects/Slot';
 import { MapRenderer } from './MapRenderer';
-import { MessageCategory } from '../Messages/LogMessage';
+import { EventCategory } from '../Messages/LogMessage';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 
 /**
@@ -209,25 +209,25 @@ export class DrawMap {
     const currentEventCategory = game.log.currentEvent;
 
     switch (currentEventCategory) {
-      case MessageCategory.attack:
+      case EventCategory.attack:
         imageHandler.handleAttackImageDisplay(game);
         break;
-      case MessageCategory.mobDamage:
+      case EventCategory.mobDamage:
         imageHandler.handleAttackImageDisplay(game);
         break;
-      case MessageCategory.playerDamage:
+      case EventCategory.playerDamage:
         imageHandler.handleHurtImageDisplay(game);
         break;
-      case MessageCategory.mobDeath:
+      case EventCategory.mobDeath:
         imageHandler.handleSmileImageDisplay(game);
         break;
-      case MessageCategory.moving:
+      case EventCategory.moving:
         imageHandler.handleMovingImageDisplay(game);
         break;
-      case MessageCategory.rangedAttack:
+      case EventCategory.rangedAttack:
         imageHandler.handlePistolImageDisplay(game);
         break;
-      case MessageCategory.wait:
+      case EventCategory.wait:
         imageHandler.handleNeutralImageDisplay(game);
         break;
       default:

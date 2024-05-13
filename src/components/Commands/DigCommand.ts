@@ -2,7 +2,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 
@@ -32,7 +32,7 @@ export class DigCommand extends CommandBase {
     const e = cell.env;
 
     if (e != Glyph.Wall && e != Glyph.Rock) {
-      const msg = new LogMessage('Cannot dog there!', MessageCategory.unable);
+      const msg = new LogMessage('Cannot dog there!', EventCategory.unable);
       game.flash(msg);
       return false;
     }
@@ -44,11 +44,11 @@ export class DigCommand extends CommandBase {
       cell.env = Glyph.Floor;
       const msg = new LogMessage(
         'You broke through the rock!',
-        MessageCategory.dig,
+        EventCategory.dig,
       );
       game.message(msg);
     } else {
-      const msg = new LogMessage('Digging...', MessageCategory.dig);
+      const msg = new LogMessage('Digging...', EventCategory.dig);
       game.flash(msg);
     }
     return true;

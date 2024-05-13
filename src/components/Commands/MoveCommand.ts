@@ -7,7 +7,7 @@ import { CommandBase } from './CommandBase';
 import { StairCommand } from './StairCommand';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Act } from './Act';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a move command that extends the functionality of the base command.
@@ -59,7 +59,7 @@ export class MoveCommand extends CommandBase {
 
     const m = this.me;
 
-    if (m.isPlayer) this.game.addCurrentEvent(MessageCategory.moving);
+    if (m.isPlayer) this.game.addCurrentEvent(EventCategory.moving);
 
     return legal;
   }
@@ -94,7 +94,7 @@ export class MoveCommand extends CommandBase {
     if (o) {
       const msg = new LogMessage(
         `${o.description()} is lying here`,
-        MessageCategory.layingObject,
+        EventCategory.layingObject,
       );
       this.game.message(msg);
       /*  this.game.flash(msg); */

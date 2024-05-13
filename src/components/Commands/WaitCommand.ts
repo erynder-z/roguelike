@@ -1,5 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MessageCategory } from '../Messages/LogMessage';
+import { EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 
@@ -20,7 +20,7 @@ export class WaitCommand extends CommandBase {
   execute(): boolean {
     const g = this.game;
 
-    g.addCurrentEvent(MessageCategory.wait);
+    g.addCurrentEvent(EventCategory.wait);
 
     console.log('wait');
 

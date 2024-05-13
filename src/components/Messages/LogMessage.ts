@@ -1,4 +1,4 @@
-export enum MessageCategory {
+export enum EventCategory {
   buff,
   mobDamage,
   mobDeath,
@@ -23,6 +23,6 @@ export enum MessageCategory {
 export class LogMessage {
   constructor(
     public message: string,
-    public category: MessageCategory,
+    public category: EventCategory,
   ) {}
 }

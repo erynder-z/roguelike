@@ -5,7 +5,7 @@ import { Mob } from '../Mobs/Mob';
 import { Act } from './Act';
 import { Able } from './Able';
 import { Buff } from '../Buffs/BuffEnum';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
  * Abstract class representing a base command implementation that implements the Command interface.
@@ -91,7 +91,7 @@ export abstract class CommandBase implements Command {
    */
   afraid(me: Mob, g: GameIF): boolean {
     const afraid = me.is(Buff.Afraid);
-    const msg = new LogMessage('You are too afraid!', MessageCategory.buff);
+    const msg = new LogMessage('You are too afraid!', EventCategory.buff);
     if (afraid && me.isPlayer) g.flash(msg);
     return afraid;
   }
@@ -106,7 +106,7 @@ export abstract class CommandBase implements Command {
    */
   charmed(me: Mob, g: GameIF): boolean {
     const charmed = me.is(Buff.Charm);
-    const msg = new LogMessage("It's too cute!", MessageCategory.buff);
+    const msg = new LogMessage("It's too cute!", EventCategory.buff);
     if (charmed && me.isPlayer) g.flash(msg);
     return charmed;
   }
@@ -121,7 +121,7 @@ export abstract class CommandBase implements Command {
    */
   rooted(me: Mob, g: GameIF): boolean {
     const rooted = me.is(Buff.Root);
-    const msg = new LogMessage("You can't move!", MessageCategory.buff);
+    const msg = new LogMessage("You can't move!", EventCategory.buff);
     if (rooted && me.isPlayer) g.flash(msg);
     return rooted;
   }
@@ -136,7 +136,7 @@ export abstract class CommandBase implements Command {
    */
   levitate(me: Mob, g: GameIF): boolean {
     const levitate = me.is(Buff.Levitate);
-    const msg = new LogMessage('You are hovering!', MessageCategory.buff);
+    const msg = new LogMessage('You are hovering!', EventCategory.buff);
     if (levitate && me.isPlayer) g.flash(msg);
     return levitate;
   }
@@ -167,7 +167,7 @@ export abstract class CommandBase implements Command {
     const paralyzed = !g.rand.determineSuccess(rate);
 
     if (paralyzed) {
-      const msg = new LogMessage('You are paralyzed!', MessageCategory.buff);
+      const msg = new LogMessage('You are paralyzed!', EventCategory.buff);
       if (me.isPlayer) g.flash(msg);
     } else {
       const buff = me.buffs.get(Buff.Paralyze);
@@ -186,7 +186,7 @@ export abstract class CommandBase implements Command {
    */
   asleep(me: Mob, g: GameIF): boolean {
     if (!me.is(Buff.Sleep)) return false;
-    const msg = new LogMessage('You are asleep!', MessageCategory.buff);
+    const msg = new LogMessage('You are asleep!', EventCategory.buff);
     if (me.isPlayer) g.flash(msg);
     return true;
   }
@@ -202,7 +202,7 @@ export abstract class CommandBase implements Command {
   slow(me: Mob, g: GameIF): boolean {
     if (!me.is(Buff.Slow)) return false;
     if (g.rand.isOneIn(2)) return false;
-    const msg = new LogMessage('You are slowed!', MessageCategory.buff);
+    const msg = new LogMessage('You are slowed!', EventCategory.buff);
     if (me.isPlayer) g.flash(msg);
     return true;
   }
@@ -218,7 +218,7 @@ export abstract class CommandBase implements Command {
   freeze(me: Mob, g: GameIF, move: boolean): boolean {
     if (!me.is(Buff.Freeze)) return false;
     if (move && g.rand.isOneIn(2)) return false;
-    const msg = new LogMessage('You are frozen!', MessageCategory.buff);
+    const msg = new LogMessage('You are frozen!', EventCategory.buff);
     if (me.isPlayer) g.flash(msg);
     return true;
   }
@@ -236,7 +236,7 @@ export abstract class CommandBase implements Command {
     console.log('cofused');
     const r = g.rand;
     if (r.isOneIn(2)) return false;
-    const msg = new LogMessage('You are confused!', MessageCategory.buff);
+    const msg = new LogMessage('You are confused!', EventCategory.buff);
     if (this.me.isPlayer) g.flash(msg);
 
     const cd = r.randomDirectionForcedMovement();

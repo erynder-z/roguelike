@@ -3,7 +3,7 @@ import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { CommandBase } from './CommandBase';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a command for handling stair movements in the game.
@@ -34,7 +34,7 @@ export class StairCommand extends CommandBase {
     const direction = this.levelDir != -1 ? 'descends' : 'ascends';
     const msg = new LogMessage(
       `Player ${direction} to level ${newLevel}.`,
-      MessageCategory.lvlChange,
+      EventCategory.lvlChange,
     );
     this.game.message(msg);
     dungeon.playerSwitchLevel(newLevel, <WorldPoint>newPos, game);

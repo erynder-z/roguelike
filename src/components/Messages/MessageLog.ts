@@ -1,4 +1,4 @@
-import { LogMessage, MessageCategory } from './LogMessage';
+import { LogMessage, EventCategory } from './LogMessage';
 
 /**
  * Represents a message log for storing and managing messages.
@@ -6,7 +6,7 @@ import { LogMessage, MessageCategory } from './LogMessage';
 export class MessageLog {
   queue: LogMessage[] = [];
   archive: LogMessage[] = [];
-  currentEvent: MessageCategory = MessageCategory.none;
+  currentEvent: EventCategory = EventCategory.none;
 
   /**
    * Adds a message to the log.
@@ -33,7 +33,7 @@ export class MessageLog {
    */
   top(): LogMessage {
     return this.empty()
-      ? new LogMessage('', MessageCategory.none)
+      ? new LogMessage('', EventCategory.none)
       : this.queue[0];
   }
 
@@ -73,7 +73,7 @@ export class MessageLog {
    * @param {LogMessage} msg - The message be set as the current event.
    * @returns {void}
    */
-  addCurrentEvent(evt: MessageCategory): void {
+  addCurrentEvent(evt: EventCategory): void {
     this.currentEvent = evt;
   }
 
@@ -83,6 +83,6 @@ export class MessageLog {
    * @return {void} This function does not return a value.
    */
   removeCurrentEvent(): void {
-    this.currentEvent = MessageCategory.none;
+    this.currentEvent = EventCategory.none;
   }
 }

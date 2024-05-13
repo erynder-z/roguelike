@@ -5,7 +5,7 @@ import { Glyph } from '../Glyphs/Glyph';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a command for interacting with doors in the game.
@@ -47,7 +47,7 @@ export class DoorCommand extends CommandBase {
 
     const defaultMsg = new LogMessage(
       'There is no door there.',
-      MessageCategory.unable,
+      EventCategory.unable,
     );
 
     switch (cell.env) {
@@ -77,7 +77,7 @@ export class DoorCommand extends CommandBase {
 
     const msg = new LogMessage(
       `${who} ${action} the door.`,
-      MessageCategory.door,
+      EventCategory.door,
     );
 
     this.game.message(msg);

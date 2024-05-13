@@ -2,7 +2,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Mob } from '../Mobs/Mob';
 import { AutoHeal } from './AutoHeal';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
  * A class to handle adjustments to health of a mob.
@@ -48,7 +48,7 @@ export class HealthAdjust {
     /*     console.log('damage to', amount, mob.hp); */
 
     const s = this.generateDamageMessage(mob, amount);
-    const msg = new LogMessage(s, MessageCategory.playerDamage);
+    const msg = new LogMessage(s, EventCategory.playerDamage);
     if (mob.isPlayer) {
       game.flash(msg);
       game.addCurrentEvent(msg);
@@ -67,7 +67,7 @@ export class HealthAdjust {
    */
   static mobDies(mob: Mob, game: GameIF, involvesPlayer: boolean) {
     const s = `${mob.name} dies.`;
-    const t = <MessageCategory>MessageCategory.mobDeath;
+    const t = <EventCategory>EventCategory.mobDeath;
 
     const msg = new LogMessage(s, t);
 

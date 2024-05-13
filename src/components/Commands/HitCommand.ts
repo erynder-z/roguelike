@@ -6,7 +6,7 @@ import { Equipment } from '../Inventory/Equipment';
 import { Act } from './Act';
 import { Buff } from '../Buffs/BuffEnum';
 import { HealthAdjust } from './HealthAdjust';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a command to hit another mob.
@@ -97,15 +97,15 @@ export class HitCommand extends CommandBase {
     const s = dmg
       ? `${me} hits ${him} for ${dmg}→${rest}`
       : `${me} misses ${him}`;
-    const msg1 = new LogMessage(s, MessageCategory.mobDamage);
-    const msg2 = new LogMessage(s, MessageCategory.playerDamage);
+    const msg1 = new LogMessage(s, EventCategory.mobDamage);
+    const msg2 = new LogMessage(s, EventCategory.playerDamage);
     if (attacker.isPlayer) {
       g.message(msg1);
-      g.addCurrentEvent(MessageCategory.playerDamage);
+      g.addCurrentEvent(EventCategory.playerDamage);
     }
     if (target.isPlayer) {
       g.message(msg2);
-      g.addCurrentEvent(MessageCategory.mobDamage);
+      g.addCurrentEvent(EventCategory.mobDamage);
     }
 
     if (dmg) HealthAdjust.adjust(target, -dmg, g, attacker);
@@ -182,7 +182,7 @@ export class HitCommand extends CommandBase {
       if (disarm) {
         const msg = new LogMessage(
           'Attacking with your bare hands!',
-          MessageCategory.attack,
+          EventCategory.attack,
         );
         g.message(msg);
       } else {

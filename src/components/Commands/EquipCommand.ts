@@ -2,7 +2,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Equipment } from '../Inventory/Equipment';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -41,7 +41,7 @@ export class EquipCommand extends CommandBase {
     this.equipment.add(item);
     const msg = new LogMessage(
       "You've equipped " + item.description() + '.',
-      MessageCategory.equip,
+      EventCategory.equip,
     );
     this.game.message(msg);
     return true;
@@ -56,7 +56,7 @@ export class EquipCommand extends CommandBase {
     const canEquip = item.slot != Slot.NotWorn;
     const msg = new LogMessage(
       "You can't equip " + item.description() + '.',
-      MessageCategory.unable,
+      EventCategory.unable,
     );
     if (!canEquip) this.game.flash(msg);
     return canEquip;
@@ -73,7 +73,7 @@ export class EquipCommand extends CommandBase {
       const label = Slot[item.slot];
       const msg = new LogMessage(
         `${label} is already equipped.`,
-        MessageCategory.unable,
+        EventCategory.unable,
       );
       this.game.flash(msg);
     }
@@ -95,7 +95,7 @@ export class EquipCommand extends CommandBase {
     if (overlap) {
       const msg = new LogMessage(
         `Must first unequip${inHand!.name()}!`,
-        MessageCategory.unable,
+        EventCategory.unable,
       );
       this.game.flash(msg);
     }

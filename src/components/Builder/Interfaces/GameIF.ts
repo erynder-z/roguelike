@@ -8,7 +8,7 @@ import { Dungeon } from '../../MapModel/Dungeon';
 import { AutoHeal } from '../../Commands/AutoHeal';
 import { Inventory } from '../../Inventory/Inventory';
 import { Equipment } from '../../Inventory/Equipment';
-import { LogMessage, MessageCategory } from '../../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../../Messages/LogMessage';
 
 /**
  * Represents the interface for the game.
@@ -20,7 +20,7 @@ export interface GameIF {
   ai: MobAI | null;
   message(msg: LogMessage): void;
   flash(msg: LogMessage): void;
-  addCurrentEvent(evt: MessageCategory): void;
+  addCurrentEvent(evt: EventCategory): void;
   log: MessageLog;
   dungeon: Dungeon;
   build: Builder;

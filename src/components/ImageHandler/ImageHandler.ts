@@ -5,7 +5,7 @@ import smileImages from './smileImages';
 import movingImages from './movingImages';
 import pistolImages from './pistolImages';
 import neutralImages from './neutralImages';
-import { MessageCategory } from '../Messages/LogMessage';
+import { EventCategory } from '../Messages/LogMessage';
 
 /**
  * Handles displaying action images on the screen.
@@ -71,7 +71,7 @@ export class ImageHandler {
    */
   handleAttackImageDisplay(game: GameIF) {
     const r = game.rand;
-    const evt = MessageCategory[game.log.currentEvent];
+    const evt = EventCategory[game.log.currentEvent];
     const randomImage = r.getRandomImageFromArray(attackImages);
     const image = new Image();
     image.src = randomImage;
@@ -99,7 +99,7 @@ export class ImageHandler {
    */
   handleHurtImageDisplay(game: GameIF) {
     const r = game.rand;
-    const evt = MessageCategory[game.log.currentEvent];
+    const evt = EventCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(hurtImages);
     const image = new Image();
@@ -116,7 +116,7 @@ export class ImageHandler {
    */
   handleSmileImageDisplay(game: GameIF) {
     const r = game.rand;
-    const evt = MessageCategory[game.log.currentEvent];
+    const evt = EventCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(smileImages);
     const image = new Image();
@@ -133,7 +133,7 @@ export class ImageHandler {
    */
   handleMovingImageDisplay(game: GameIF) {
     const r = game.rand;
-    const evt = MessageCategory[game.log.currentEvent];
+    const evt = EventCategory[game.log.currentEvent];
 
     const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving';
 
@@ -155,7 +155,7 @@ export class ImageHandler {
    */
   handlePistolImageDisplay(game: GameIF): void {
     const r = game.rand;
-    const evt = MessageCategory[game.log.currentEvent];
+    const evt = EventCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(pistolImages);
     const image = new Image();
@@ -167,7 +167,7 @@ export class ImageHandler {
 
   handleNeutralImageDisplay(game: GameIF): void {
     const r = game.rand;
-    const evt = MessageCategory[game.log.currentEvent];
+    const evt = EventCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(neutralImages);
     const image = new Image();

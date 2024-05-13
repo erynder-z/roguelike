@@ -2,7 +2,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Equipment } from '../Inventory/Equipment';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -31,7 +31,7 @@ export class UnequipCommand extends CommandBase {
       const label = Slot[slot];
       const msg = new LogMessage(
         `${label} is not equipped.`,
-        MessageCategory.unable,
+        EventCategory.unable,
       );
       this.game.flash(msg);
       return false;
@@ -43,7 +43,7 @@ export class UnequipCommand extends CommandBase {
     game.inventory!.add(obj);
     const msg = new LogMessage(
       `${obj.description()} is now unequipped.`,
-      MessageCategory.equip,
+      EventCategory.equip,
     );
     game.message(msg);
     return true;

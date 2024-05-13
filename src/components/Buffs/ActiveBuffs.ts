@@ -1,5 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { Buff } from './BuffEnum';
 import { BuffIF } from './Interfaces/BuffIF';
@@ -20,7 +20,7 @@ export class ActiveBuffs {
     this._map.set(b.buff, b);
     const msg = new LogMessage(
       `${mob.name} is ${Buff[b.buff]}!`,
-      MessageCategory.buff,
+      EventCategory.buff,
     );
     game.message(msg);
   }
@@ -35,7 +35,7 @@ export class ActiveBuffs {
     this._map.delete(b.buff);
     const msg = new LogMessage(
       `You are no longer ${Buff[b.buff]}!`,
-      MessageCategory.buff,
+      EventCategory.buff,
     );
     if (mob.isPlayer) game.message(msg);
   }

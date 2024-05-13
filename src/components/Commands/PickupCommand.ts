@@ -1,7 +1,7 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Inventory } from '../Inventory/Inventory';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { LogMessage, MessageCategory } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**
@@ -31,7 +31,7 @@ export class PickupCommand extends CommandBase {
     if (!item) {
       const msg = new LogMessage(
         'There is nothing here to pick up.',
-        MessageCategory.unable,
+        EventCategory.unable,
       );
       game.flash(msg);
       return false;
@@ -42,7 +42,7 @@ export class PickupCommand extends CommandBase {
 
     const msg = new LogMessage(
       `You picked up ${item.description()}.`,
-      MessageCategory.pickup,
+      EventCategory.pickup,
     );
     game.message(msg);
 
