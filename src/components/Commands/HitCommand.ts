@@ -101,11 +101,11 @@ export class HitCommand extends CommandBase {
     const msg2 = new LogMessage(s, MessageCategory.playerDamage);
     if (attacker.isPlayer) {
       g.message(msg1);
-      g.addCurrentEvent(msg2);
+      g.addCurrentEvent(MessageCategory.playerDamage);
     }
     if (target.isPlayer) {
       g.message(msg2);
-      g.addCurrentEvent(msg1);
+      g.addCurrentEvent(MessageCategory.mobDamage);
     }
 
     if (dmg) HealthAdjust.adjust(target, -dmg, g, attacker);

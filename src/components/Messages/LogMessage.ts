@@ -18,6 +18,7 @@ export enum MessageCategory {
   moving,
   rangedAttack,
   wait,
+  none,
 }
 export class LogMessage {
   constructor(

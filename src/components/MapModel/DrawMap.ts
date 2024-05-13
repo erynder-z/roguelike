@@ -206,7 +206,7 @@ export class DrawMap {
   static renderActionImage(game: GameIF): void {
     const imageHandler = ImageHandler.getInstance();
 
-    const currentEventCategory = game.log.currentEvent.category;
+    const currentEventCategory = game.log.currentEvent;
 
     switch (currentEventCategory) {
       case MessageCategory.attack:

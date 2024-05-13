@@ -59,11 +59,7 @@ export class MoveCommand extends CommandBase {
 
     const m = this.me;
 
-    /*  if (m.isPlayer) this.displayActionImage(g); */
-    if (m.isPlayer)
-      this.game.addCurrentEvent(
-        new LogMessage(`${m.name} moves`, MessageCategory.moving),
-      );
+    if (m.isPlayer) this.game.addCurrentEvent(MessageCategory.moving);
 
     return legal;
   }

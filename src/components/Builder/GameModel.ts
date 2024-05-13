@@ -9,7 +9,7 @@ import { Builder } from './Builder';
 import { AutoHeal } from '../Commands/AutoHeal';
 import { Inventory } from '../Inventory/Inventory';
 import { Equipment } from '../Inventory/Equipment';
-import { LogMessage } from '../Messages/LogMessage';
+import { LogMessage, MessageCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a game instance implementing the GameIF interface.
@@ -53,8 +53,8 @@ export class Game implements GameIF {
     this.log.message(msg, isFlashMsg);
   }
 
-  addCurrentEvent(msg: LogMessage): void {
-    this.log.addCurrentEvent(msg);
+  addCurrentEvent(evt: MessageCategory): void {
+    this.log.addCurrentEvent(evt);
   }
 
   dungeon: Dungeon = new Dungeon();

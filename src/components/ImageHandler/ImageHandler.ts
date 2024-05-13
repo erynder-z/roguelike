@@ -71,8 +71,7 @@ export class ImageHandler {
    */
   handleAttackImageDisplay(game: GameIF) {
     const r = game.rand;
-    const category = game.log.currentEvent.category;
-    const s = MessageCategory[category];
+    const evt = MessageCategory[game.log.currentEvent];
     const randomImage = r.getRandomImageFromArray(attackImages);
     const image = new Image();
     image.src = randomImage;
@@ -85,10 +84,10 @@ export class ImageHandler {
 
     if (shouldDrawImage) {
       // If not currently attacking, display the image
-      this.displayImage(image, s);
+      this.displayImage(image, evt);
     } else {
       // There's a 1/3 chance of displaying a different image. If not, the current image remains shown.
-      if (maybeDrawImage) this.displayImage(image, s);
+      if (maybeDrawImage) this.displayImage(image, evt);
     }
     game.log.removeCurrentEvent();
   }
@@ -100,14 +99,13 @@ export class ImageHandler {
    */
   handleHurtImageDisplay(game: GameIF) {
     const r = game.rand;
-    const category = game.log.currentEvent.category;
-    const s = MessageCategory[category];
+    const evt = MessageCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(hurtImages);
     const image = new Image();
     image.src = randomImage;
 
-    this.displayImage(image, s);
+    this.displayImage(image, evt);
     game.log.removeCurrentEvent();
   }
 
@@ -118,14 +116,13 @@ export class ImageHandler {
    */
   handleSmileImageDisplay(game: GameIF) {
     const r = game.rand;
-    const category = game.log.currentEvent.category;
-    const s = MessageCategory[category];
+    const evt = MessageCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(smileImages);
     const image = new Image();
     image.src = randomImage;
 
-    this.displayImage(image, s);
+    this.displayImage(image, evt);
     game.log.removeCurrentEvent();
   }
 
@@ -136,8 +133,7 @@ export class ImageHandler {
    */
   handleMovingImageDisplay(game: GameIF) {
     const r = game.rand;
-    const category = game.log.currentEvent.category;
-    const s = MessageCategory[category];
+    const evt = MessageCategory[game.log.currentEvent];
 
     const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving';
 
@@ -147,7 +143,7 @@ export class ImageHandler {
     const image = new Image();
     image.src = randomImage;
 
-    this.displayImage(image, s);
+    this.displayImage(image, evt);
     game.log.removeCurrentEvent();
   }
 
@@ -159,26 +155,24 @@ export class ImageHandler {
    */
   handlePistolImageDisplay(game: GameIF): void {
     const r = game.rand;
-    const category = game.log.currentEvent.category;
-    const s = MessageCategory[category];
+    const evt = MessageCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(pistolImages);
     const image = new Image();
     image.src = randomImage;
 
-    this.displayImage(image, s);
+    this.displayImage(image, evt);
     game.log.removeCurrentEvent();
   }
 
   handleNeutralImageDisplay(game: GameIF): void {
     const r = game.rand;
-    const category = game.log.currentEvent.category;
-    const s = MessageCategory[category];
+    const evt = MessageCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(neutralImages);
     const image = new Image();
     image.src = randomImage;
-    this.displayImage(image, s);
+    this.displayImage(image, evt);
     game.log.removeCurrentEvent();
   }
 }
