@@ -46,4 +46,5 @@ export enum Glyph {
   Pants,
   Boots,
   Bullet,
+  Water,
 }

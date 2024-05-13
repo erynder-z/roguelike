@@ -62,6 +62,13 @@
       "fgCol": "red",
       "hasSolidBg": false,
       "name": "Bullet"
+    },
+    {
+      "char": "~",
+      "bgCol": "#318ce7",
+      "fgCol": "#b0c4de",
+      "hasSolidBg": false,
+      "name": "Water"
     }
   ]
 }

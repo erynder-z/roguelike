@@ -72,7 +72,7 @@ export class MapCell {
    * @return {boolean} true if the cell is blocked, false otherwise
    */
   isBlocked(): boolean {
-    return !!this.mob || this.isOpaque();
+    return !!this.mob || this.env === Glyph.Water || this.isOpaque();
   }
 
   /**
