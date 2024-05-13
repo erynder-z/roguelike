@@ -118,6 +118,22 @@ export class WorldPoint {
   }
 
   /**
+   * Get the neighboring points (including diagonals) of this point.
+   * @returns {WorldPoint[]} An array of neighboring points
+   */
+  getNeighbors(): WorldPoint[] {
+    const neighbors: WorldPoint[] = [];
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        if (dx === 0 && dy === 0) continue; // Skip the current point
+        const neighbor = new WorldPoint(this.x + dx, this.y + dy);
+        neighbors.push(neighbor);
+      }
+    }
+    return neighbors;
+  }
+
+  /**
    * Represents the stock dimensions of the world point.
    */
   static StockDimensions = new WorldPoint(

@@ -112,6 +112,58 @@ export class MapGenerator1 {
   }
 
   /**
+   * Generates an irregular shape area using cellular automata.
+   *
+   * @param {WorldPoint} dim - The dimensions of the area.
+   * @param {RandomGenerator} rnd - The random number generator.
+   * @param {number} iter - The number of iterations.
+   * @return {Set<WorldPoint>} - The set of points representing the irregular shape area.
+   */
+  static generateIrregularShapeArea(
+    dim: WorldPoint,
+    rnd: RandomGenerator,
+    iter: number,
+  ): Set<WorldPoint> {
+    const lake = new Set<WorldPoint>();
+
+    // Initialize the lake with a random starting point
+    const start = new WorldPoint(
+      rnd.randomInteger(dim.x),
+      rnd.randomInteger(dim.y),
+    );
+    lake.add(start);
+
+    // Use cellular automata to grow the lake
+    const iterations = iter; // Adjust the number of iterations as needed
+    const maxLakeSize = (dim.x * dim.y) / 4; // Set a maximum lake size to prevent excessive growth
+
+    for (let i = 0; i < iterations && lake.size < maxLakeSize; i++) {
+      const newLake = new Set<WorldPoint>(lake);
+      for (const p of lake) {
+        const neighbors = p.getNeighbors();
+        for (const neighbor of neighbors) {
+          // Add neighboring points with a certain probability and if they're within the map bounds
+          if (
+            rnd.isOneIn(3) &&
+            neighbor.x >= 1 &&
+            neighbor.x < dim.x &&
+            neighbor.y >= 1 &&
+            neighbor.y < dim.y
+          ) {
+            newLake.add(neighbor);
+          }
+        }
+      }
+      lake.clear();
+      for (const p of newLake) {
+        lake.add(p);
+      }
+    }
+
+    return lake;
+  }
+
+  /**
    * Generates a map and returns it.
    * @param {number} level The level of the map.
    * @returns {MapIF} The generated map.

@@ -3,6 +3,7 @@ import { Glyph } from '../components/Glyphs/Glyph';
 import { RandomGenerator } from '../components/RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../components/MapModel/WorldPoint';
 import { MapIF } from '../components/MapModel/Interfaces/MapIF';
+import { MapGenerator1 } from '../components/MapGenerator/MapGenerator';
 
 export class Overworld {
   static test(dim: WorldPoint, rnd: RandomGenerator, level: number): MapIF {
@@ -20,6 +21,12 @@ export class Overworld {
         m.cell(p).env = wall ? Glyph.Wall : Glyph.Floor;
       }
     }
+
+    const lake = MapGenerator1.generateIrregularShapeArea(dim, rnd, 10);
+    for (const p of lake) {
+      m.cell(p).env = Glyph.Water;
+    }
+
     return m;
   }
 
