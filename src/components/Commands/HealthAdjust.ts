@@ -51,7 +51,7 @@ export class HealthAdjust {
     const msg = new LogMessage(s, EventCategory.playerDamage);
     if (mob.isPlayer) {
       game.flash(msg);
-      game.addCurrentEvent(msg);
+      game.addCurrentEvent(EventCategory.playerDamage);
     }
 
     const involvesPlayer =
@@ -74,7 +74,7 @@ export class HealthAdjust {
     if (involvesPlayer) {
       game.message(msg);
       game.flash(msg);
-      game.addCurrentEvent(msg);
+      game.addCurrentEvent(EventCategory.mobDeath);
     }
     const map = <MapIF>game.currentMap();
     map.removeMob(mob);
