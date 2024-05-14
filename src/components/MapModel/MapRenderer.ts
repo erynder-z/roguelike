@@ -1,6 +1,7 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
+import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
@@ -15,6 +16,9 @@ export class MapRenderer {
    * @type {MapCell}
    */
   static outside: MapCell = new MapCell(Glyph.Unknown);
+  private static unlitColor: string = '#111a24';
+  private static unlitColorSolidBg: string = '#222';
+  private static farLitColor: string = '#778899';
 
   /**
    * Draws a map with considerations for player position and lighting conditions.
@@ -31,11 +35,6 @@ export class MapRenderer {
     playerPos: WorldPoint,
     g: GameIF,
   ) {
-    // Colors
-    const unlitColor: string = '#111a24';
-    const unlitColorSolidBg: string = '#222';
-    const farLitColor: string = '#778899';
-
     // Constants
     const farDist: number = 50;
     const terminalDimensions = term.dimensions;
@@ -77,27 +76,16 @@ export class MapRenderer {
         let bg: string;
 
         if (far) {
-          bg =
-            glyphInfo.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
-          fg = cell.lit
-            ? cell.env === Glyph.Unknown
-              ? glyphInfo.bgCol // use the background color to prevent the whole outside map from popping in when coming near it
-              : farLitColor
-            : unlitColor;
+          bg = this.getFarBgCol(cell, glyphInfo);
+          fg = this.getFarFgCol(cell, glyphInfo);
         } else {
-          if (!blind) {
+          if (blind) {
+            bg = this.getBlindBgCol(cell, glyphInfo);
+            fg = this.getBlindFgCol(cell, glyphInfo);
+          } else {
             // fg color based on mob/item and bg color based on env
             bg = envOnlyGlyphInfo.bgCol;
             fg = glyphInfo.fgCol;
-          } else {
-            bg =
-              glyphInfo.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
-            fg =
-              cell.lit || cell.mob?.isPlayer
-                ? cell.env === Glyph.Unknown
-                  ? glyphInfo.bgCol
-                  : farLitColor
-                : unlitColor;
           }
 
           if (!cell.lit && !blind) cell.lit = true;
@@ -123,11 +111,6 @@ export class MapRenderer {
     playerPos: WorldPoint,
     g: GameIF,
   ) {
-    // Colors
-    const unlitColor: string = '#111a24';
-    const unlitColorSolidBg: string = '#222';
-    const farLitColor: string = '#778899';
-
     // Constants
     const farDist: number = 50;
     const terminalDimensions = term.dimensions;
@@ -162,46 +145,25 @@ export class MapRenderer {
           ? cell.mob!.glyph
           : cell.glyphSpriteOrObjOrEnv();
         const glyphInfo = GlyphMap.getGlyphInfo(glyph);
-        const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
 
         // Determine foreground and background colors
         let fg: string;
         let bg: string;
 
         if (far) {
-          bg =
-            glyphInfo.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
-          fg = cell.lit
-            ? cell.env === Glyph.Unknown
-              ? glyphInfo.bgCol // use the background color to prevent the whole outside map from popping in when coming near it
-              : farLitColor
-            : unlitColor;
+          bg = this.getFarBgCol(cell, glyphInfo);
+
+          fg = this.getFarFgCol(cell, glyphInfo);
         } else {
-          if (!blind) {
+          if (blind) {
+            bg = this.getBlindBgCol(cell, glyphInfo);
+            fg = this.getBlindFgCol(cell, glyphInfo);
+          } else {
             if (!cell.lit && !blind) cell.lit = true;
             // Check if the cell is visible to the player using raycasting LOS
             const isVisible: boolean = this.rayCastLOS(playerPos, w, map);
-            bg = isVisible
-              ? envOnlyGlyphInfo.bgCol
-              : glyphInfo.hasSolidBg && cell.lit
-                ? unlitColorSolidBg
-                : unlitColor;
-            fg = isVisible
-              ? glyphInfo.fgCol
-              : cell.lit || cell.mob?.isPlayer
-                ? cell.env === Glyph.Unknown
-                  ? glyphInfo.bgCol
-                  : farLitColor
-                : unlitColor;
-          } else {
-            bg =
-              glyphInfo.hasSolidBg && cell.lit ? unlitColorSolidBg : unlitColor;
-            fg =
-              cell.lit || cell.mob?.isPlayer
-                ? cell.env === Glyph.Unknown
-                  ? glyphInfo.bgCol
-                  : farLitColor
-                : unlitColor;
+            bg = this.getRayCastBgCol(isVisible, cell, glyphInfo);
+            fg = this.getRayCastFgCol(isVisible, cell, glyphInfo);
           }
         }
 
@@ -211,13 +173,116 @@ export class MapRenderer {
   }
 
   /**
+   * Calculates the background color for a cell based on its properties.
+   *
+   * @param {MapCell} cell - The cell for which to determine the background color.
+   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
+   * @return {string} The calculated background color for the cell.
+   */
+  private static getFarBgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
+    return glyphInfo.hasSolidBg && cell.lit
+      ? this.unlitColorSolidBg
+      : this.unlitColor;
+  }
+
+  /**
+   * Calculates the foreground color for a cell that is far from the player, based on its properties.
+   *
+   * @param {MapCell} cell - The cell for which to determine the foreground color.
+   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
+   * @return {string} The calculated foreground color for the cell.
+   */
+  private static getFarFgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
+    return cell.lit
+      ? cell.env === Glyph.Unknown
+        ? glyphInfo.bgCol
+        : this.farLitColor
+      : this.unlitColor;
+  }
+
+  /**
+   * Calculates the background color for a cell when the player is blind, based on its properties.
+   *
+   * @param {MapCell} cell - The cell for which to determine the background color.
+   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
+   * @return {string} The calculated background color for the cell.
+   */
+  private static getBlindBgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
+    return glyphInfo.hasSolidBg && cell.lit
+      ? this.unlitColorSolidBg
+      : this.unlitColor;
+  }
+
+  /**
+   * Returns the foreground color for a cell when the player is blind.
+   *
+   * @param {MapCell} cell - The cell for which to determine the foreground color.
+   * @param {GlyphInfo} glyphInfo - Information about the glyph.
+   * @return {string} The foreground color for the cell.
+   */
+  private static getBlindFgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
+    return cell.lit || cell.mob?.isPlayer
+      ? cell.env === Glyph.Unknown
+        ? glyphInfo.bgCol
+        : this.farLitColor
+      : this.unlitColor;
+  }
+
+  /**
+   * Calculates the background color for a cell based on its properties.
+   *
+   * @param {boolean} isVisible - Indicates if the cell is visible.
+   * @param {MapCell} cell - The cell for which to determine the background color.
+   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
+   * @return {string} The calculated background color for the cell.
+   */
+  private static getRayCastBgCol(
+    isVisible: boolean,
+    cell: MapCell,
+    glyphInfo: GlyphInfo,
+  ): string {
+    const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
+    return isVisible
+      ? envOnlyGlyphInfo.bgCol
+      : glyphInfo.hasSolidBg && cell.lit
+        ? this.unlitColorSolidBg
+        : this.unlitColor;
+  }
+
+  /**
+   * Calculates the foreground color for a cell based on its properties during ray casting.
+   *
+   * @param {boolean} isVisible - Indicates if the cell is visible.
+   * @param {MapCell} cell - The cell for which to determine the foreground color.
+   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
+   * @return {string} The calculated foreground color for the cell.
+   */
+  private static getRayCastFgCol(
+    isVisible: boolean,
+    cell: MapCell,
+    glyphInfo: GlyphInfo,
+  ) {
+    return isVisible
+      ? glyphInfo.fgCol
+      : cell.lit || cell.mob?.isPlayer
+        ? cell.env === Glyph.Unknown
+          ? glyphInfo.bgCol
+          : this.farLitColor
+        : this.unlitColor;
+  }
+
+  /**
    * Performs raycasting to determine line of sight between two points on the map.
    * @param {WorldPoint} start - The starting point of the LOS check.
    * @param {WorldPoint} end - The ending point of the LOS check.
    * @param {MapIF} map - The map object.
    * @returns {boolean} - True if there is line of sight, otherwise false.
    */
-  static rayCastLOS(start: WorldPoint, end: WorldPoint, map: MapIF): boolean {
+  private static rayCastLOS(
+    start: WorldPoint,
+    end: WorldPoint,
+    map: MapIF,
+  ): boolean {
     // Get the differences in coordinates between the start and end points
     const dx = Math.abs(end.x - start.x);
     const dy = Math.abs(end.y - start.y);
