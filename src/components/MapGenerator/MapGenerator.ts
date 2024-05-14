@@ -124,22 +124,22 @@ export class MapGenerator1 {
     rnd: RandomGenerator,
     iter: number,
   ): Set<WorldPoint> {
-    const lake = new Set<WorldPoint>();
+    const shape = new Set<WorldPoint>();
 
-    // Initialize the lake with a random starting point
+    // Initialize the shape with a random starting point
     const start = new WorldPoint(
       rnd.randomInteger(dim.x),
       rnd.randomInteger(dim.y),
     );
-    lake.add(start);
+    shape.add(start);
 
-    // Use cellular automata to grow the lake
+    // Use cellular automata to grow the shape
     const iterations = iter; // Adjust the number of iterations as needed
-    const maxLakeSize = (dim.x * dim.y) / 4; // Set a maximum lake size to prevent excessive growth
+    const maxShapeSize = (dim.x * dim.y) / 4; // Set a maximum shape size to prevent excessive growth
 
-    for (let i = 0; i < iterations && lake.size < maxLakeSize; i++) {
-      const newLake = new Set<WorldPoint>(lake);
-      for (const p of lake) {
+    for (let i = 0; i < iterations && shape.size < maxShapeSize; i++) {
+      const newLake = new Set<WorldPoint>(shape);
+      for (const p of shape) {
         const neighbors = p.getNeighbors();
         for (const neighbor of neighbors) {
           // Add neighboring points with a certain probability and if they're within the map bounds
@@ -154,13 +154,13 @@ export class MapGenerator1 {
           }
         }
       }
-      lake.clear();
+      shape.clear();
       for (const p of newLake) {
-        lake.add(p);
+        shape.add(p);
       }
     }
 
-    return lake;
+    return shape;
   }
 
   /**
