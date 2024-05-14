@@ -70,6 +70,7 @@ export class MapRenderer {
           ? cell.mob!.glyph
           : cell.glyphSpriteOrObjOrEnv();
         const glyphInfo = GlyphMap.getGlyphInfo(glyph);
+        const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
 
         // Determine foreground and background colors
         let fg: string;
@@ -85,7 +86,8 @@ export class MapRenderer {
             : unlitColor;
         } else {
           if (!blind) {
-            bg = glyphInfo.bgCol;
+            // fg color based on mob/item and bg color based on env
+            bg = envOnlyGlyphInfo.bgCol;
             fg = glyphInfo.fgCol;
           } else {
             bg =
@@ -160,6 +162,7 @@ export class MapRenderer {
           ? cell.mob!.glyph
           : cell.glyphSpriteOrObjOrEnv();
         const glyphInfo = GlyphMap.getGlyphInfo(glyph);
+        const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
 
         // Determine foreground and background colors
         let fg: string;
@@ -179,7 +182,7 @@ export class MapRenderer {
             // Check if the cell is visible to the player using raycasting LOS
             const isVisible: boolean = this.rayCastLOS(playerPos, w, map);
             bg = isVisible
-              ? glyphInfo.bgCol
+              ? envOnlyGlyphInfo.bgCol
               : glyphInfo.hasSolidBg && cell.lit
                 ? unlitColorSolidBg
                 : unlitColor;
