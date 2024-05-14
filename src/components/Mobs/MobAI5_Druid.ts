@@ -34,11 +34,11 @@ export class MobAI5_Druid implements MobAI {
   turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     if (this.maybeCastSpell(me, enemy, game)) return true;
     const r = game.rand;
-    for (let i = 0; i < 2; ++i) {
+    for (let i = 0; i < this.speed; ++i) {
       const ai = r.isOneIn(2) ? this.aiTargetedMovement : this.aiRandomMovement;
       ai.turn(me, enemy, game);
     }
-    const far = SimpleSleepAI.isNear(me, enemy);
+    const far = !SimpleSleepAI.isNear(me, enemy);
     if (far) me.mood = r.isOneIn(3) ? Mood.Asleep : Mood.Awake;
     return true;
   }

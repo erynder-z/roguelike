@@ -61,8 +61,8 @@ export class BaseScreen implements StackScreen {
     const map = <GameMap>this.game.currentMap();
     const queue = map.queue;
     let m: Mob;
-    const q = map.queue;
-    this.finishPlayerTurn(q);
+
+    this.finishPlayerTurn(queue);
     for (m = queue.next(); !m.isPlayer && !this.over(s); m = queue.next()) {
       this.npcTurn(m, player);
     }
@@ -77,9 +77,7 @@ export class BaseScreen implements StackScreen {
    */
   npcTurn(m: Mob, ply: Mob) {
     const ai = this.game.ai;
-    if (ai) {
-      ai.turn(m, ply, this.game);
-    }
+    if (ai) ai.turn(m, ply, this.game);
     this.finishTurn(m);
   }
 
