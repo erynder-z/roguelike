@@ -135,15 +135,20 @@ export class ImageHandler {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
-    const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving';
-
-    if (!shouldDrawImage) return;
-
     const randomImage = r.getRandomImageFromArray(movingImages);
     const image = new Image();
     image.src = randomImage;
 
-    this.displayImage(image, evt);
+    const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving';
+    const maybeDrawImage = r.randomIntegerClosedRange(0, 9) === 0;
+
+    if (shouldDrawImage) {
+      // If not currently moving, display the image
+      this.displayImage(image, evt);
+    } else {
+      // There's a 10% chance of displaying a different image. If not, the current image remains shown.
+      if (maybeDrawImage) this.displayImage(image, evt);
+    }
     game.log.removeCurrentEvent();
   }
 
@@ -165,6 +170,12 @@ export class ImageHandler {
     game.log.removeCurrentEvent();
   }
 
+  /**
+   * Displays a random action image from the neutralmages array on the game screen.
+   *
+   * @param {GameIF} game - The game instance.
+   * @return {void}
+   */
   handleNeutralImageDisplay(game: GameIF): void {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];

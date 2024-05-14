@@ -11,6 +11,7 @@ import { Stack } from '../Terminal/Interfaces/Stack';
 import { CommandBase } from './CommandBase';
 import { Command } from './Interfaces/Command';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
+import { EventCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a command to fire a ranged weapon.
@@ -63,6 +64,8 @@ export class BulletCommand extends CommandBase {
     this.stack.push(new StepScreen(g, this.make, step));
 
     if (m.isPlayer) {
+      console.log('test');
+      this.game.addCurrentEvent(EventCategory.rangedAttack);
       const imageHandler = ImageHandler.getInstance();
 
       imageHandler.handlePistolImageDisplay(g);
