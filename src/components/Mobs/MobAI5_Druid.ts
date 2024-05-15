@@ -84,7 +84,8 @@ export class MobAI5_Druid implements MobAI {
    * @return {boolean} the result of the spell cast
    */
   cast(buff: number, me: Mob, enemy: Mob, game: GameIF): boolean {
-    const spell = new BuffCommand(buff, enemy, game, me);
+    const buffTime = 5;
+    const spell = new BuffCommand(buff, enemy, game, me, buffTime);
     return spell.npcTurn();
   }
 }

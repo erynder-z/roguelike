@@ -18,6 +18,7 @@ export class BuffCommand extends CommandBase {
     public target: Mob,
     game: GameIF,
     me: Mob,
+    public time: number = 8,
   ) {
     super(me, game);
   }
@@ -49,7 +50,7 @@ export class BuffCommand extends CommandBase {
 
     const active: BuffIF = {
       buff: this.buff,
-      time: 8,
+      time: this.time,
       effect: effect,
     };
 
