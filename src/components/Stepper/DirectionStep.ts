@@ -51,7 +51,7 @@ export class DirectionStep extends TimedStep {
     if (!map.isLegalPoint(p)) return null;
 
     const cell = map.cell(p);
-    const done = cell.isBlocked() && cell.env !== Glyph.Water;
+    const done = cell.isBlocked() && cell.env !== Glyph.DeepWater;
 
     if (!done) {
       cell.sprite = this.sprite;

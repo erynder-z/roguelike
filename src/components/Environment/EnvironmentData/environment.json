@@ -65,10 +65,17 @@
     },
     {
       "char": "~",
-      "bgCol": "#318ce7",
-      "fgCol": "#b0c4de",
+      "bgCol": "#0077c0",
+      "fgCol": "#87CEFA",
       "hasSolidBg": false,
-      "name": "Water"
+      "name": "DeepWater"
+    },
+    {
+      "char": "~",
+      "bgCol": "#87CEFA",
+      "fgCol": "#0077c0",
+      "hasSolidBg": false,
+      "name": "ShallowWater"
     }
   ]
 }

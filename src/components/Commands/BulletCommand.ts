@@ -64,7 +64,6 @@ export class BulletCommand extends CommandBase {
     this.stack.push(new StepScreen(g, this.make, step));
 
     if (m.isPlayer) {
-      console.log('test');
       this.game.addCurrentEvent(EventCategory.rangedAttack);
       const imageHandler = ImageHandler.getInstance();
 

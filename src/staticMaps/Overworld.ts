@@ -24,7 +24,12 @@ export class Overworld {
 
     const lake = MapGenerator1.generateIrregularShapeArea(dim, rnd, 10);
     for (const p of lake) {
-      m.cell(p).env = Glyph.Water;
+      m.cell(p).env = Glyph.DeepWater;
+    }
+
+    const puddle = MapGenerator1.generateIrregularShapeArea(dim, rnd, 10);
+    for (const p of puddle) {
+      m.cell(p).env = Glyph.ShallowWater;
     }
 
     return m;

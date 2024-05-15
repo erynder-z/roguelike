@@ -72,7 +72,7 @@ export class MapCell {
    * @return {boolean} true if the cell is blocked, false otherwise
    */
   isBlocked(): boolean {
-    return !!this.mob || this.env === Glyph.Water || this.isOpaque();
+    return !!this.mob || this.env === Glyph.DeepWater || this.isOpaque();
   }
 
   /**
@@ -86,5 +86,14 @@ export class MapCell {
       this.env === Glyph.Wall ||
       this.env === Glyph.Door_Closed
     );
+  }
+
+  /**
+   * Check if the cell is slowing due to the environment.
+   *
+   * @return {boolean} true if the cell is slowing, false otherwise
+   */
+  isSlowing(): boolean {
+    return this.env === Glyph.ShallowWater;
   }
 }

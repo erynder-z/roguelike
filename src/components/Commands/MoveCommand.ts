@@ -8,6 +8,8 @@ import { StairCommand } from './StairCommand';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Act } from './Act';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { Buff } from '../Buffs/BuffEnum';
+import { BuffCommand } from './BuffCommand';
 
 /**
  * Represents a move command that extends the functionality of the base command.
@@ -48,7 +50,11 @@ export class MoveCommand extends CommandBase {
     const map = <MapIF>this.game.currentMap();
     const np = this.dir.plus(this.me.pos);
     const legal = !map.isBlocked(np);
+    const slowing = map.cell(np).isSlowing();
     if (legal) {
+      slowing &&
+        new BuffCommand(Buff.Slow, this.me, this.game, this.me, 2).execute();
+
       this.me.sinceMove = 0;
       map.moveMob(this.me, np);
       if (this.me.isPlayer) {
