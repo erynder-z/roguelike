@@ -134,28 +134,29 @@ export class MapGenerator1 {
     shape.add(start);
 
     // Use cellular automata to grow the shape
-    const iterations = iter; // Adjust the number of iterations as needed
-    const maxShapeSize = (dim.x * dim.y) / 4; // Set a maximum shape size to prevent excessive growth
+    const iterations = iter;
+    const maxShapeSize = (dim.x * dim.y) / 4;
+    const offset = 2;
 
     for (let i = 0; i < iterations && shape.size < maxShapeSize; i++) {
-      const newLake = new Set<WorldPoint>(shape);
+      const newShape = new Set<WorldPoint>(shape);
       for (const p of shape) {
         const neighbors = p.getNeighbors();
         for (const neighbor of neighbors) {
           // Add neighboring points with a certain probability and if they're within the map bounds
           if (
             rnd.isOneIn(3) &&
-            neighbor.x >= 1 &&
+            neighbor.x >= offset &&
             neighbor.x < dim.x &&
-            neighbor.y >= 1 &&
+            neighbor.y >= offset &&
             neighbor.y < dim.y
           ) {
-            newLake.add(neighbor);
+            newShape.add(neighbor);
           }
         }
       }
       shape.clear();
-      for (const p of newLake) {
+      for (const p of newShape) {
         shape.add(p);
       }
     }
