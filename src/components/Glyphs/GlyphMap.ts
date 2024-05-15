@@ -58,7 +58,7 @@ export class GlyphMap {
     // add default glyph
     addGlyph({
       char: '?',
-      bgCol: '#000000',
+      bgCol: '',
       fgCol: '#191970',
       hasSolidBg: false,
       name: 'Unknown',
