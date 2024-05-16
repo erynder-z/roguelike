@@ -1,5 +1,3 @@
-import { TerminalPoint } from '../Terminal/TerminalPoint';
-
 /**
  * Represents a point in the world with x and y coordinates.
  */
@@ -132,12 +130,4 @@ export class WorldPoint {
     }
     return neighbors;
   }
-
-  /**
-   * Represents the stock dimensions of the world point.
-   */
-  static StockDimensions = new WorldPoint(
-    TerminalPoint.StockDimensions.x,
-    TerminalPoint.StockDimensions.y,
-  );
 }

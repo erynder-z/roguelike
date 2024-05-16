@@ -79,7 +79,7 @@ export class Terminal implements DrawableTerminal {
    * @returns A Terminal instance with stock dimensions.
    */
   public static createStockTerminal(): Terminal {
-    return new Terminal(TerminalPoint.StockDimensions);
+    return new Terminal(TerminalPoint.TerminalDimensions);
   }
 
   /**

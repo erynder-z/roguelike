@@ -81,21 +81,12 @@ export class MapGenerator_Maze {
     return array;
   }
 
-  public static test(level: number): GameMap {
+  public static test(rnd: RandomGenerator, level: number): GameMap {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
     const map = new GameMap(mapDimensions, Glyph.Wall, level);
 
-    const generateRandomInteger = () => {
-      const min = 1;
-      const max = 9999;
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-
-    const randomSeed = generateRandomInteger();
-
-    const rnd = new RandomGenerator(randomSeed);
     const generator = new MapGenerator_Maze(map, rnd);
 
     return generator.generate();

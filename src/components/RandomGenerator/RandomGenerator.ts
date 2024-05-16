@@ -6,7 +6,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export class RandomNumberGenerator {
   /**
    * Creates an instance of RandomNumberGenerator.
-   * @param {number} initialSeed - The initial seed for the generator.
+   * @param {number} seed - The initial seed for the generator.
    */
   constructor(public seed: number) {}
 

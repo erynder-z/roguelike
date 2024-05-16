@@ -10,7 +10,7 @@ export class MapGenerator_Cave {
     public rnd: RandomGenerator,
   ) {}
 
-  public generate(map: MapIF, rnd: RandomGenerator): MapIF {
+  public createCave(map: MapIF, rnd: RandomGenerator): MapIF {
     // Clear map
     this.clearMap();
 
@@ -80,23 +80,14 @@ export class MapGenerator_Cave {
     return directions[Math.floor(Math.random() * directions.length)];
   }
 
-  public static test(level: number): MapIF {
+  public static generate(rnd: RandomGenerator, level: number): MapIF {
     const mapDimensionsX = 128;
     const mapDimensionsY = 64;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
     const map = new GameMap(mapDimensions, Glyph.Rock, level);
 
-    const generateRandomInteger = () => {
-      const min = 1;
-      const max = 9999;
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-
-    const randomSeed = generateRandomInteger();
-
-    const rnd = new RandomGenerator(randomSeed);
     const generator = new MapGenerator_Cave(map, rnd);
 
-    return generator.generate(map, rnd);
+    return generator.createCave(map, rnd);
   }
 }

@@ -122,10 +122,10 @@ export class MapGenerator1 {
   static generateIrregularShapeArea(
     dim: WorldPoint,
     rnd: RandomGenerator,
+    maxSize: number,
     iter: number,
   ): Set<WorldPoint> {
     const shape = new Set<WorldPoint>();
-
     // Initialize the shape with a random starting point
     const start = new WorldPoint(
       rnd.randomInteger(dim.x),
@@ -135,7 +135,7 @@ export class MapGenerator1 {
 
     // Use cellular automata to grow the shape
     const iterations = iter;
-    const maxShapeSize = (dim.x * dim.y) / 4;
+    const maxShapeSize = maxSize;
     const offset = 2;
 
     for (let i = 0; i < iterations && shape.size < maxShapeSize; i++) {
@@ -166,28 +166,22 @@ export class MapGenerator1 {
 
   /**
    * Generates a map and returns it.
-   * @param {number} level The level of the map.
-   * @returns {MapIF} The generated map.
+   *
+   * @param {WorldPoint} dim - The dimensions of the map.
+   * @param {RandomGenerator} rnd - The random generator object.
+   * @param {number} level - The level of the map.
+   * @return {MapIF} The generated map.
    */
-  public static test(level: number): MapIF {
-    const mapDimensionsX = 96;
-    const mapDimensionsY = 48;
+  public static generate(
+    dim: WorldPoint,
+    rnd: RandomGenerator,
+    level: number,
+  ): MapIF {
+    const mapDimensionsX = dim.x;
+    const mapDimensionsY = dim.y;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
     const map = new GameMap(mapDimensions, Glyph.Rock, level);
 
-    /**
-     * Generates a random integer within a range.
-     * @returns {number} The generated random integer.
-     */
-    const generateRandomInteger = () => {
-      const min = 1;
-      const max = 9999;
-      return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-
-    const randomSeed = generateRandomInteger();
-
-    const rnd = new RandomGenerator(randomSeed);
     const generator = new MapGenerator1(map, rnd);
 
     return generator.loop(map, rnd);

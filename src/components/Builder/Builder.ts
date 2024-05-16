@@ -2,7 +2,6 @@ import { MobAI } from '../Mobs/Interfaces/MobAI';
 import { BuildIF } from './Interfaces/BuildIF';
 import { GameIF } from './Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { TestMap2 } from '../../test_Implementations/TestMap2';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
@@ -19,6 +18,7 @@ import { ItemObject } from '../ItemObjects/ItemObject';
 import { Slot } from '../ItemObjects/Slot';
 import { MoodAI } from '../Mobs/MoodAI';
 import { Overworld } from '../../staticMaps/Overworld';
+import { MapGenerator_Cave } from '../MapGenerator/MapGenerator_Cave';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -64,20 +64,20 @@ export class Builder implements BuildIF {
    * @return {MapIF} the generated map
    */
   makeMap(rnd: RandomGenerator, level: number): MapIF {
-    const dim = TerminalPoint.StockDimensions;
+    const dim = TerminalPoint.MapDimensions;
     const wdim = new WorldPoint(dim.x, dim.y);
 
     let map;
 
     switch (level) {
       case 0:
-        map = Overworld.test(wdim, rnd, level);
+        map = Overworld.generate(wdim, rnd, level);
         break;
       case 1:
-        map = MapGenerator1.test(level);
+        map = MapGenerator1.generate(wdim, rnd, level);
         break;
       default:
-        map = TestMap2.test(wdim, rnd, level);
+        map = MapGenerator_Cave.generate(rnd, level);
         break;
     }
     return map;
