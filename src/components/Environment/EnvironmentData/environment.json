@@ -76,6 +76,13 @@
       "fgCol": "#0077c0",
       "hasSolidBg": false,
       "name": "ShallowWater"
+    },
+    {
+      "char": "×",
+      "bgCol": "#FF4500",
+      "fgCol": "#FFD700",
+      "hasSolidBg": false,
+      "name": "Lava"
     }
   ]
 }

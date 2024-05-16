@@ -48,4 +48,5 @@ export enum Glyph {
   Bullet,
   DeepWater,
   ShallowWater,
+  Lava,
 }

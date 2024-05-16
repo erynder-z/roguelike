@@ -9,6 +9,11 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 
+const BURN_DMG_MIN = 2;
+const BURN_DMG_MAX = 4;
+const LAVA_DMG_MIN = 5;
+const LAVA_DMG_MAX = 10;
+
 /**
  * Represents the buff command that adds a buff to a mob.
  */
@@ -35,7 +40,7 @@ export class BuffCommand extends CommandBase {
         effect = new PoisonTick(m, g);
         break;
       case Buff.Burn:
-        effect = new BurnTick(m, g);
+        effect = new BurnTick(m, g, BURN_DMG_MIN, BURN_DMG_MAX);
         break;
       case Buff.Freeze:
         effect = new FreezeTick(m, g);
@@ -45,6 +50,9 @@ export class BuffCommand extends CommandBase {
         break;
       case Buff.Petrify:
         effect = new PetrifyTick(m, g);
+        break;
+      case Buff.Lava:
+        effect = new BurnTick(m, g, LAVA_DMG_MIN, LAVA_DMG_MAX);
         break;
     }
 

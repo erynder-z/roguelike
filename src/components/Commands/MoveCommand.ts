@@ -51,10 +51,12 @@ export class MoveCommand extends CommandBase {
     const np = this.dir.plus(this.me.pos);
     const legal = !map.isBlocked(np);
     const slowing = map.cell(np).isSlowing();
+    const burning = map.cell(np).isBurning();
     if (legal) {
       slowing &&
         new BuffCommand(Buff.Slow, this.me, this.game, this.me, 2).execute();
-
+      burning &&
+        new BuffCommand(Buff.Lava, this.me, this.game, this.me).execute();
       this.me.sinceMove = 0;
       map.moveMob(this.me, np);
       if (this.me.isPlayer) {

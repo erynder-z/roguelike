@@ -96,4 +96,13 @@ export class MapCell {
   isSlowing(): boolean {
     return this.env === Glyph.ShallowWater;
   }
+
+  /**
+   * Check if the cell causes burn due to the environment.
+   *
+   * @return {boolean} true if the cell is causing burn, false otherwise
+   */
+  isBurning(): boolean {
+    return this.env === Glyph.Lava;
+  }
 }

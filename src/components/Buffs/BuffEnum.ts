@@ -17,4 +17,5 @@ export enum Buff {
   Silence = 15,
   Disarm = 16,
   Levitate = 17,
+  Lava = 18,
 }

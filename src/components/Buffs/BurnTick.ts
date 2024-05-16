@@ -8,6 +8,8 @@ export class BurnTick implements TickIF {
   constructor(
     public mob: Mob,
     public game: GameIF,
+    public minDmg: number = 2,
+    public maxDmg: number = 4,
   ) {}
 
   /**
@@ -19,7 +21,10 @@ export class BurnTick implements TickIF {
    */
   tick(time: number): void {
     if (time % 2) return;
-    const dmg = this.game.rand.randomIntegerClosedRange(2, 4);
+    const dmg = this.game.rand.randomIntegerClosedRange(
+      this.minDmg,
+      this.maxDmg,
+    );
     if (this.mob.isPlayer) {
       const msg = new LogMessage(
         `You take ${dmg} damage because of the burn!`,

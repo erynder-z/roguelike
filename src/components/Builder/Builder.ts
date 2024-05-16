@@ -71,7 +71,7 @@ export class Builder implements BuildIF {
 
     switch (level) {
       case 0:
-        map = Overworld.generate(wdim, rnd, level);
+        map = Overworld.generate(rnd, level);
         break;
       case 1:
         map = MapGenerator1.generate(wdim, rnd, level);
