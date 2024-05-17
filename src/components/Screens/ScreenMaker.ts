@@ -88,10 +88,11 @@ export class ScreenMaker_Fixed implements ScreenMaker {
 
     scanLineBtn?.addEventListener('click', () => {
       mainContainer?.classList.toggle('scanlines');
-      scanLineBtn.textContent =
-        scanLineBtn.textContent === 'Scanlines ON'
-          ? 'Scanlines OFF'
-          : 'Scanlines ON';
+      const hasScanLinesClass = mainContainer?.classList.contains('scanlines');
+
+      scanLineBtn.textContent = hasScanLinesClass
+        ? 'Scanlines ON'
+        : 'Scanlines OFF';
     });
   }
 
