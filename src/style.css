@@ -125,45 +125,44 @@ li {
 
 .bottom-container {
   grid-area: bottom;
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 15% 20% 60% 5%;
-  grid-template-areas: 'image buffs equipment option';
+  display: flex;
 }
 
 .image-container {
-  grid-area: image;
-  grid-column: 1;
-  overflow: auto;
+  display: flex;
+  width: 15%;
 }
 
 .hud-image {
   max-width: 100%;
-  max-height: 100%;
+  max-height: auto;
   object-fit: contain;
 }
 
 .buffs-container {
-  grid-area: buffs;
-  grid-column: 2;
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
+  width: 20%;
 }
 
 .equipment-container {
-  grid-area: equipment;
-  grid-column: 3;
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
+  width: 60%;
 }
 
 .equipment-container .equipment-display {
-  flex-grow: 1;
   overflow: auto;
   display: flex;
   gap: 5rem;
+}
+
+.equipment-container .buffs-display .hands,
+.equipment-container .buffs-display .body {
+  display: flex;
+  flex-direction: column;
 }
 
 .equipment-slot {
@@ -171,9 +170,8 @@ li {
 }
 
 .options-container {
-  grid-area: option;
-  grid-column: 4;
   display: flex;
+  width: auto;
 }
 
 .bottom-container button {
