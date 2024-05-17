@@ -4,6 +4,7 @@ import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { DrawMap } from '../MapModel/DrawMap';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
@@ -50,7 +51,7 @@ export class ItemScreen extends BaseScreen {
     term.drawText(0, y++, `t throw`, fg, bg);
     term.drawText(0, y++, `w wear`, fg, bg);
 
-    DrawMap.renderMessage(term, this.game);
+    DrawMap.renderMessage(this.game);
   }
 
   /**
@@ -93,14 +94,19 @@ export class ItemScreen extends BaseScreen {
     const player = game.player;
     const c = map.cell(player.pos);
     if (c.hasObject()) {
-      game.flash('No room to drop here!');
+      const msg = new LogMessage('No room to drop here!', EventCategory.unable);
+      game.flash(msg);
       return false;
     }
     c.obj = this.obj;
 
     const inventory = <Inventory>game.inventory;
     inventory.removeIndex(this.index);
-    game.message(`Dropped ${this.obj.description()}.`);
+    const msg = new LogMessage(
+      `Dropped ${this.obj.description()}.`,
+      EventCategory.drop,
+    );
+    game.message(msg);
     return true;
   }
 
