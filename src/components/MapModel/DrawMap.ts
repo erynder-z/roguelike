@@ -7,12 +7,14 @@ import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
-import { Buff } from '../Buffs/BuffEnum';
 import { BuffIF } from '../Buffs/Interfaces/BuffIF';
-import { Slot } from '../ItemObjects/Slot';
 import { MapRenderer } from './MapRenderer';
 import { EventCategory } from '../Messages/LogMessage';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
+import { StatsDisplay } from '../UI/StatsDisplay';
+import { MessagesDisplay } from '../UI/MessagesDisplay';
+import { BuffsDisplay } from '../UI/BuffsDisplay';
+import { EquipmentDisplay } from '../UI/EquipmentDisplay';
 
 /**
  * Represents a utility class for drawing a map on a drawable terminal.
@@ -120,10 +122,12 @@ export class DrawMap {
     const nACDisplayText = `nAC: ${nAC}`;
     const nAPDisplayText = `nAP: ${nAP}`;
 
-    const statsDisplay = `${hpDisplayText} ${nEADisplayText} ${nACDisplayText} ${nAPDisplayText} ${lvlDisplayText}`;
+    const display = `${hpDisplayText} ${nEADisplayText} ${nACDisplayText} ${nAPDisplayText} ${lvlDisplayText}`;
 
-    const stats = document.getElementById('stats-display');
-    if (stats) stats.innerText = statsDisplay;
+    const statsDisplay = document.querySelector(
+      'stats-display',
+    ) as StatsDisplay;
+    if (statsDisplay) statsDisplay.setStats(display);
 
     this.renderBuffs(game);
   }
@@ -142,19 +146,10 @@ export class DrawMap {
     const playerBuffs = game.player.buffs;
     const buffMap = playerBuffs._map;
 
-    const buffList = document.createElement('ul');
-
-    buffMap.forEach((buff, key) => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `${Buff[key]}: ${this.remain(buff)}`;
-      buffList.appendChild(listItem);
-    });
-
-    const buffsContainer = document.getElementById('buffs-display');
-    while (buffsContainer?.firstChild) {
-      buffsContainer.removeChild(buffsContainer.firstChild);
-    }
-    buffsContainer?.appendChild(buffList);
+    const buffsDisplay = document.querySelector(
+      'buffs-display',
+    ) as BuffsDisplay;
+    if (buffsDisplay) buffsDisplay.setBuffs(buffMap);
   }
 
   /**
@@ -165,15 +160,10 @@ export class DrawMap {
    */
   static renderEquipment(game: GameIF): void {
     const equipment = game.equipment;
-
-    for (let slot = Slot.MainHand; slot < Slot.Last; slot++) {
-      const slotElement = document.getElementById(Slot[slot]);
-      const itemDescription = equipment?.get(slot)?.description() ?? '';
-
-      if (slotElement) {
-        slotElement.textContent = itemDescription ? itemDescription : 'empty';
-      }
-    }
+    const equipmentDisplay = document.querySelector(
+      'equipment-display',
+    ) as EquipmentDisplay;
+    if (equipmentDisplay) equipmentDisplay.setEquipment(equipment);
   }
 
   /**
@@ -184,23 +174,12 @@ export class DrawMap {
    */
   static renderMessage(game: GameIF): void {
     const log = game.log;
-
     const messageLog = log.archive.slice(-30);
 
-    const ulElement = document.createElement('ul');
-
-    messageLog.forEach(m => {
-      const liElement = document.createElement('li');
-      liElement.textContent = m.message;
-      ulElement.appendChild(liElement);
-    });
-
-    const messagesContainer = document.getElementById('messages-display');
-    while (messagesContainer?.firstChild) {
-      messagesContainer.removeChild(messagesContainer.firstChild);
-    }
-
-    messagesContainer?.appendChild(ulElement);
+    const messagesDisplay = document.querySelector(
+      'messages-display',
+    ) as MessagesDisplay;
+    if (messagesDisplay) messagesDisplay.setMessages(messageLog);
   }
 
   static renderActionImage(game: GameIF): void {

@@ -8,6 +8,7 @@ import { GameScreen } from './GameScreen';
 import { MoreScreen } from './MoreScreen';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 import neutralImages from '../ImageHandler/neutralImages';
+import { OptionsDisplay } from '../UI/OptionsDisplay';
 
 /**
  * Represents a screen maker implementation for creating screens.
@@ -80,7 +81,11 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    */
   static activateMenuButtons(): void {
     const mainContainer = document.getElementById('main-container');
-    const scanLineBtn = document.getElementById('scanlines-button');
+    const optionsDisplay = document.querySelector(
+      'options-display',
+    ) as OptionsDisplay;
+    const scanLineBtn = optionsDisplay?.getScanlinesButton();
+
     scanLineBtn?.addEventListener('click', () => {
       mainContainer?.classList.toggle('scanlines');
       scanLineBtn.textContent =

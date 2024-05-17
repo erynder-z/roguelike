@@ -8,13 +8,14 @@
   </head>
   <body id="body1">
     <div id="main-container" class="main-container scanlines">
+      <!-- Stats Start -->
       <div id="stats-container" class="stats-container">
-        <div id="stats-display" class="stats-display"></div>
+        <stats-display></stats-display>
       </div>
+      <!-- Stats End -->
       <!-- Messages Start -->
       <div id="messages-container" class="messages-container">
-        <h1>Messages</h1>
-        <div id="messages-display" class="messages-display"></div>
+        <messages-display></messages-display>
       </div>
       <!-- Messages End -->
       <!-- Canvas Start -->
@@ -29,59 +30,47 @@
         <!-- Image End -->
         <!-- Buffs Start -->
         <div class="buffs-container">
-          <h1>Buffs</h1>
-          <div id="buffs-display"></div>
+          <buffs-display></buffs-display>
         </div>
         <!-- Buffs End -->
         <!-- Equipment Start -->
         <div class="equipment-container">
-          <h1 class>Equipment</h1>
-          <div class="equipment-display">
-            <!-- HandEq Start -->
-            <div class="hands">
-              <div class="equipment-slot">
-                <div>Main hand:&nbsp;</div>
-                <div id="MainHand">empty</div>
-              </div>
-              <div class="equipment-slot">
-                <div>Off hand:&nbsp;</div>
-                <div id="OffHand">empty</div>
-              </div>
-            </div>
-            <!-- HandEq End -->
-            <!-- BodyEq Start -->
-            <div class="body">
-              <div class="equipment-slot">
-                <div>Head:&nbsp;</div>
-                <div id="Head">empty</div>
-              </div>
-              <div class="equipment-slot">
-                <div>Hands:&nbsp;</div>
-                <div id="Hands">empty</div>
-              </div>
-              <div class="equipment-slot">
-                <div>Back:&nbsp;</div>
-                <div id="Back">empty</div>
-              </div>
-              <div class="equipment-slot">
-                <div>Legs:&nbsp;</div>
-                <div id="Legs">empty</div>
-              </div>
-              <div class="equipment-slot">
-                <div>Feet:&nbsp;</div>
-                <div id="Feet">empty</div>
-              </div>
-            </div>
-            <!-- BodyEq End -->
-          </div>
+          <equipment-display> </equipment-display>
         </div>
         <!-- Equipment End -->
+        <!-- Options Start -->
         <div class="options-container">
-          <button id="scanlines-button">Scanlines ON</button>
+          <options-display> </options-display>
         </div>
+        <!-- Options End -->
         <!-- Bottom End -->
       </div>
     </div>
-    <script type="module" src="/src/main.ts"></script>
+    <script
+      defer
+      type="module"
+      src="/src/components/UI/StatsDisplay.ts"
+    ></script>
+    <script
+      defer
+      type="module"
+      src="/src/components/UI/MessagesDisplay.ts"
+    ></script>
+    <script
+      defer
+      type="module"
+      src="/src/components/UI/BuffsDisplay.ts"
+    ></script>
+    <script
+      defer
+      type="module"
+      src="/src/components/UI/EquipmentDisplay.ts"
+    ></script>
+    <script
+      defer
+      type="module"
+      src="/src/components/UI/OptionsDisplay.ts"
+    ></script>
+    <script defer type="module" src="/src/main.ts"></script>
   </body>
 </html>

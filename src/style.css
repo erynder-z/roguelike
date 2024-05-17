@@ -83,12 +83,9 @@ li {
 .stats-container {
   grid-area: stats;
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
-}
-
-.stats-display {
-  font-size: large;
-  margin: auto;
 }
 
 .messages-container {
@@ -99,28 +96,8 @@ li {
   padding: 0 0.5rem;
 }
 
-.messages-container h1,
-.buffs-container h1,
 .equipment-container h1 {
   text-align: center;
-}
-
-.messages-container .messages-display,
-.buffs-container .buffs-display {
-  flex-grow: 1;
-  overflow: auto;
-}
-
-.messages-container .messages-display ul,
-.buffs-container .buffs-display ul {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.messages-container .messages-display ul li:nth-child(odd),
-.buffs-container .buffs-display ul li:nth-child(odd) {
-  background-color: var(--whiteTransparent);
 }
 
 .bottom-container {
@@ -153,45 +130,9 @@ li {
   width: 60%;
 }
 
-.equipment-container .equipment-display {
-  overflow: auto;
-  display: flex;
-  gap: 5rem;
-}
-
-.equipment-container .buffs-display .hands,
-.equipment-container .buffs-display .body {
-  display: flex;
-  flex-direction: column;
-}
-
-.equipment-slot {
-  display: flex;
-}
-
 .options-container {
   display: flex;
-  width: auto;
-}
-
-.bottom-container button {
-  flex-grow: 1;
-  border-radius: 0;
-  height: 4rem;
-  background-color: var(--whiteTransparent);
-  color: var(--white);
-  border: none;
-  padding: 1rem;
-  cursor: pointer;
-}
-
-.bottom-container button:hover {
-  background-color: var(--accent);
-}
-
-.bottom-container button:focus {
-  border: none;
-  outline: none;
+  width: min-content;
 }
 
 .log-screen,
