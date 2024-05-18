@@ -8,22 +8,30 @@
   --accent: #017f9e;
   --white: #ffffff;
   --whiteTransparent: rgba(255, 255, 255, 0.1);
+  --margin: 0;
+  --padding: 0;
+  --box-sizing: border-box;
+  --scrollbar-width: thin;
+  --scrollbar-foreground: var(--white);
+  --scrollbar-background: var(--background1);
+  --selection-color: var(--white);
+  --selection-background: var(--accent);
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: var(--margin);
+  padding: var(--padding);
+  box-sizing: var(--box-sizing);
 }
 
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--white) var(--background1);
+  scrollbar-width: var(--scrollbar-width);
+  scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 }
 
 ::selection {
-  color: var(--white);
-  background-color: var(--accent);
+  color: var(--selection-color);
+  background-color: var(--selection-background);
 }
 
 html {
@@ -91,13 +99,9 @@ li {
 .messages-container {
   grid-area: messages;
   display: flex;
-  flex-direction: column;
+  /*   flex-direction: column;
   gap: 1rem;
-  padding: 0 0.5rem;
-}
-
-.equipment-container h1 {
-  text-align: center;
+  padding: 0 0.5rem; */
 }
 
 .bottom-container {
