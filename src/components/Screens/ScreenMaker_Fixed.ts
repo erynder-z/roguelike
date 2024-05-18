@@ -38,11 +38,6 @@ export class ScreenMaker_Fixed implements ScreenMaker {
     return new MoreScreen(<GameIF>game, this);
   }
 
-  loadGame(gameState: GameIF): StackScreen {
-    this.game = gameState;
-    return new GameScreen(<GameIF>this.game, this);
-  }
-
   /**
    * run_InitialGameSetup function runs the initial setup for the game.
    *
@@ -56,7 +51,7 @@ export class ScreenMaker_Fixed implements ScreenMaker {
   /**
    * Static method to create a StockMaker object using the provided Build1 object.
    *
-   * @param {Build1} build - The Build1 object used to create the StockMaker.
+   * @param {BuildIF} build - The Build object used to create the StockMaker.
    * @return {ScreenMaker} A new ScreenMaker object created using the provided Build1 object.
    */
   static StockMaker(build: BuildIF): ScreenMaker {
@@ -65,7 +60,7 @@ export class ScreenMaker_Fixed implements ScreenMaker {
 
   /**
    * Initializes and displays the initial game setup screen.
-   * @param {Build1} build - The build instance used for game creation.
+   * @param {BuildIF} build - The build instance used for game creation.
    * @return {void}
    */
   static InitialGameSetup(build: BuildIF): void {

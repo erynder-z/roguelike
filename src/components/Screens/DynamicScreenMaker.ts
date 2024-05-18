@@ -1,4 +1,4 @@
-import { Build1 } from '../Builder/Interfaces/Builder1';
+import { BuildIF } from '../Builder/Interfaces/BuildIF';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
@@ -6,13 +6,15 @@ import { ScreenStack } from '../Terminal/ScreenStack';
 import { GameOverScreen } from './GameOverScreen';
 import { GameScreen } from './GameScreen';
 import { MoreScreen } from './MoreScreen';
+import { ImageHandler } from '../ImageHandler/ImageHandler';
+import neutralImages from '../ImageHandler/neutralImages';
 
 /**
  * Represents a dynamic screen maker that can create screens based on provided game states.
  *
  * @implements {ScreenMaker}
  */
-export class ScreenMaker_Dynamic implements ScreenMaker {
+export class DynamicScreenMaker implements ScreenMaker {
   game: GameIF | null = null;
 
   /**
@@ -24,7 +26,7 @@ export class ScreenMaker_Dynamic implements ScreenMaker {
    * @param {Function} init - The function to initialize screens.
    */
   constructor(
-    public builder: Build1,
+    public builder: BuildIF,
     public gameScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
     public overScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
     public moreScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
@@ -59,7 +61,7 @@ export class ScreenMaker_Dynamic implements ScreenMaker {
    *
    * @param {ScreenMaker_Dynamic} dynamicScreenMaker - The dynamic screen maker instance to run.
    */
-  static runDynamic(dynamicScreenMaker: ScreenMaker_Dynamic) {
+  static runDynamic(dynamicScreenMaker: DynamicScreenMaker) {
     ScreenStack.run_StackScreen(dynamicScreenMaker.init(dynamicScreenMaker));
   }
 
@@ -68,14 +70,30 @@ export class ScreenMaker_Dynamic implements ScreenMaker {
    *
    * @param {GameBuilder} builder - The builder for creating games.
    */
-  static runBuilt_InitialGameSetup(builder: Build1) {
-    const dynamicScreenMaker = new ScreenMaker_Dynamic(
+  static runBuilt_InitialGameSetup(builder: BuildIF) {
+    const dynamicScreenMaker = new DynamicScreenMaker(
       builder,
       (g: GameIF, sm: ScreenMaker) => new GameScreen(g, sm),
       (g: GameIF, sm: ScreenMaker) => new GameOverScreen(sm),
       (g: GameIF, sm: ScreenMaker) => new MoreScreen(g, sm),
       (sm: ScreenMaker) => sm.newGame(),
     );
+    this.activateImageHandler();
     this.runDynamic(dynamicScreenMaker);
+  }
+
+  /**
+   * Activates the image handler and displays a random neutral image.
+   *
+   * @return {void} This function does not return anything.
+   */
+  static activateImageHandler(): void {
+    const randomImage =
+      neutralImages[Math.floor(Math.random() * neutralImages.length)];
+
+    const imageHandler = ImageHandler.getInstance();
+    const image = new Image();
+    image.src = randomImage;
+    imageHandler.displayImage(image, 'neutral');
   }
 }
