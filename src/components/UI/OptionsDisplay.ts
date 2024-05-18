@@ -7,10 +7,14 @@ export class OptionsDisplay extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
+        :host {
+          display: flex;
+          flex-direction: column;
+        }
+
         button {
-          flex-grow: 1;
+          flex: 1;
           border-radius: 0;
-          height: 4rem;
           background-color: var(--whiteTransparent);
           color: var(--white);
           border: none;
@@ -28,16 +32,55 @@ export class OptionsDisplay extends HTMLElement {
         }
       </style>
 
-      <button id="scanlines-button">
-        Scanlines ON
-      </button>
+      <button id="scanlines-button">Scanlines ON</button>
+      <button id="help-button">Help</button>
+      <button id="menu-button">Menu</button>
     `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  getScanlinesButton() {
-    return this.shadowRoot?.getElementById('scanlines-button');
+  connectedCallback() {
+    this.activateScanlinesButtons();
+    this.activateHelpButton();
+    this.activateMenuButton();
+  }
+
+  /**
+   * Activates the scanlines buttons by adding an event listener to the 'scanlines-button' element.
+   * When the button is clicked, it toggles the 'scanlines' class on the 'main-container' element.
+   * It also updates the text content of the 'scanlines-button' element based on whether the 'scanlines' class is present or not.
+   *
+   * @return {void} This function does not return anything.
+   */
+  activateScanlinesButtons(): void {
+    const mainContainer = document.getElementById('main-container');
+    const scanLineBtn = this.shadowRoot?.getElementById('scanlines-button');
+
+    scanLineBtn?.addEventListener('click', () => {
+      mainContainer?.classList.toggle('scanlines');
+      const hasScanLinesClass = mainContainer?.classList.contains('scanlines');
+
+      scanLineBtn.textContent = hasScanLinesClass
+        ? 'Scanlines ON'
+        : 'Scanlines OFF';
+    });
+  }
+
+  activateHelpButton(): void {
+    const helpBtn = this.shadowRoot?.getElementById('help-button');
+
+    helpBtn?.addEventListener('click', () => {
+      alert('Help');
+    });
+  }
+
+  activateMenuButton(): void {
+    const helpBtn = this.shadowRoot?.getElementById('menu-button');
+
+    helpBtn?.addEventListener('click', () => {
+      alert('Menu');
+    });
   }
 }
 

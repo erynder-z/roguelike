@@ -103,6 +103,7 @@ li {
 .bottom-container {
   grid-area: bottom;
   display: flex;
+  justify-content: space-between;
 }
 
 .image-container {
@@ -132,6 +133,7 @@ li {
 
 .options-container {
   display: flex;
+  height: 100%;
   width: min-content;
 }
 
