@@ -6,7 +6,7 @@ This roadmap outlines the progress and future tasks for the development of this 
 
 - [ ] ==In Progress==
 - [x] Implemented
-- [o] Needs Improvement
+- [x] _Needs Improvement (!)_
 - [ ] Planned
 
 ## Features
@@ -19,11 +19,11 @@ This roadmap outlines the progress and future tasks for the development of this 
 - [x] Procedural Dungeon Generation
 - [x] Turn-based Movement System
 - [x] Melee Combat System
-- [o] Healing
-- [o] Inventory System
-- [o] Equipment System
-- [o] Buff/Spell System
-- [o] Ranged Combat
+- [x] _Healing (!)_
+- [x] _Inventory System (!)_
+- [x] _Equipment System (!)_
+- [x] _Buff/Spell System (!)_
+- [x] _Ranged Combat (!)_
 - [ ] Save and Load Game
 - [ ] ==Look System==
 
@@ -36,13 +36,14 @@ This roadmap outlines the progress and future tasks for the development of this 
 
 - [x] Basic Enemy AI
 - [x] Progressively Stronger Enemies
-- [o] Enemy Variety
+- [x] _Enemy Variety (!)_
 - [x] Enemy Abilities and Spells
 - [ ] Boss(es)
 
 ### Items and Loot
 
 - [x] Random Item Generation
+- [ ] Weapon and Item Variety
 - [ ] Item Rarities
 - [ ] Starting Equipment Selection
 
@@ -60,10 +61,10 @@ This roadmap outlines the progress and future tasks for the development of this 
 ### World and Environment
 
 - [x] Basic Dungeon Environment
-- [ ] (Horizontal) Digging Mechanic
+- [x] (Horizontal) Digging Mechanic
 - [ ] ==Diverse Biomes==
 - [ ] Environmental Hazards (traps, poison)
-- [o] Generators for Different Map Types (Cave, Labyrinth, City, etc...)
+- [x] _Generators for Different Map Types (Cave, Labyrinth, City, etc...) (!)_
 - [ ] Static Maps for Story Purposes
 
 ### Sound and Music
