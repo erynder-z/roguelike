@@ -29,7 +29,7 @@ export class InventoryScreen extends BaseScreen {
    * @returns {string} The corresponding character.
    */
   positionToCharacter(pos: number): string {
-    return String.fromCharCode(65 + pos);
+    return String.fromCharCode(97 + pos);
   }
 
   /**
