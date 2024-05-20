@@ -30,6 +30,7 @@ export class MessagesDisplay extends HTMLElement {
           flex-direction: column;
           gap: 1rem;
           padding: 0 0.5rem;
+          width: 100%;
         }
 
         .messages-display {
