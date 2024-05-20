@@ -95,9 +95,14 @@ export class ParsePlayer {
     stack: Stack,
     event: KeyboardEvent | null,
   ): Command | null {
-    const alt = event?.ctrlKey;
+    const alt = event?.altKey;
     let stackScreen: StackScreen | undefined;
     const dir = new WorldPoint();
+
+    if (event && alt) {
+      event.preventDefault();
+    }
+
     switch (char) {
       case 'ArrowLeft':
       case 'Numpad4':
