@@ -133,7 +133,7 @@ export class EquipmentScreen extends BaseScreen {
    * @return {string} The character corresponding to the given slot.
    */
   private getStringCharacter(slot: Slot): string {
-    return String.fromCharCode(65 + (slot - Slot.MainHand));
+    return String.fromCharCode(97 + (slot - Slot.MainHand));
   }
 
   /**
