@@ -46,6 +46,7 @@ This roadmap outlines the progress and future tasks for the development of this 
 - [ ] Weapon and Item Variety
 - [ ] Item Rarities
 - [ ] Starting Equipment Selection
+- [ ] Containers / Stashes
 
 ### User Interface
 
