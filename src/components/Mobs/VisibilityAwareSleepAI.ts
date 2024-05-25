@@ -24,7 +24,7 @@ export class VisibilityAwareSleepAI implements MobAI {
   turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     if (!VisibilityAwareSleepAI.isNear(me, enemy)) return true;
     const map = <GameMap>game.currentMap();
-    const canSee = CanSee.checkMobLOS(me, enemy, map, true);
+    const canSee = CanSee.checkMobLOS_Bresenham(me, enemy, map, true);
     if (!CanSee) return true;
 
     me.mood = game.rand.isOneIn(3) ? Mood.Awake : Mood.Asleep;
