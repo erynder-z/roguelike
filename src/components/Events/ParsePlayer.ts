@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/Game';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Command } from '../Commands/Interfaces/Command';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
