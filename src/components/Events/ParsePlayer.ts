@@ -17,6 +17,7 @@ import { InventoryScreen } from '../Screens/InventoryScreen';
 import { EquipmentScreen } from '../Screens/EquipmentScreen';
 import { DigCommand } from '../Commands/DigCommand';
 import { BulletCommand } from '../Commands/BulletCommand';
+import { LookScreen } from '../Screens/LookScreen';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -159,6 +160,8 @@ export class ParsePlayer {
         if (this.game.equipment)
           stackScreen = new EquipmentScreen(this.game, this.make);
         break;
+      case 'l':
+        stackScreen = new LookScreen(this.game, this.make);
     }
 
     if (stackScreen) {

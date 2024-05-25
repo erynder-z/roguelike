@@ -70,12 +70,14 @@ export class DrawMap {
     playerPos: WorldPoint,
     g: GameIF,
   ) {
-    const currentMap = g.currentMap();
+    /*const currentMap = g.currentMap();
     const isInOverworld = currentMap && currentMap.level === 0;
 
-    isInOverworld
+     isInOverworld
       ? MapRenderer.drawMap_Normal(term, map, vp, playerPos, g)
-      : MapRenderer.drawMap_RayCast(term, map, vp, playerPos, g);
+      : MapRenderer.drawMap_RayCast(term, map, vp, playerPos, g); */
+
+    MapRenderer.drawMap_RayCast(term, map, vp, playerPos, g);
   }
 
   /**

@@ -18,6 +18,7 @@ export enum EventCategory {
   moving,
   rangedAttack,
   wait,
+  look,
   none,
 }
 export class LogMessage {
