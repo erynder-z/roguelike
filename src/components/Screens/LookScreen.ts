@@ -11,6 +11,9 @@ import { Buff } from '../Buffs/BuffEnum';
 import { CanSee } from '../Utilities/CanSee';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 
+/**
+ * Represents a screen for looking at the player's surroundings.
+ */
 export class LookScreen extends BaseScreen {
   name = 'look-screen';
 
@@ -28,6 +31,12 @@ export class LookScreen extends BaseScreen {
     this.lookPos = this.playerPos;
   }
 
+  /**
+   * Draws the screen on the provided drawable terminal.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @return {void} No return value.
+   */
   drawScreen(term: DrawableTerminal): void {
     super.drawScreen(term);
     term.drawAt(
@@ -41,54 +50,68 @@ export class LookScreen extends BaseScreen {
     if (s) this.displayInfo(s, term);
   }
 
-  checkVisibility(
+  /**
+   * Determines if a point is visible on the map based on player position, game stats, and visibility buffs.
+   *
+   * @param {WorldPoint} pos - The position of the point to check for visibility.
+   * @param {MapIF} map - The map object containing the point.
+   * @param {WorldPoint} playerPos - The position of the player.
+   * @param {GameIF} game - The game object containing the player and game stats.
+   * @return {boolean} Returns true if the point is visible, false otherwise.
+   */
+  isPointVisible(
     pos: WorldPoint,
     map: MapIF,
     playerPos: WorldPoint,
-    g: GameIF,
+    game: GameIF,
   ): boolean {
-    const buffs = g.player.buffs;
-    const blind = buffs && buffs.is(Buff.Blind);
-    const farDist = this.game.stats.visRange;
-    const distance: number = pos.squaredDistanceTo(playerPos);
-    const far: boolean = distance > farDist && !blind;
+    const { buffs } = game.player;
+    const { stats } = game;
+    const isBlind = buffs && buffs.is(Buff.Blind);
+    const isFar = pos.squaredDistanceTo(playerPos) > stats.visRange && !isBlind;
 
-    const isEntityVisible: boolean =
-      !far && !blind && CanSee.checkPointLOS_RayCast(playerPos, pos, map);
-
-    return isEntityVisible;
+    return (
+      !isFar && !isBlind && CanSee.checkPointLOS_RayCast(playerPos, pos, map)
+    );
   }
 
+  /**
+   * Retrieves information about a cell at the specified coordinates.
+   *
+   * @param {number} x - The x-coordinate of the cell.
+   * @param {number} y - The y-coordinate of the cell.
+   * @return {string | null} The information about the cell. Returns 'Not visible!' if the cell is not visible.
+   */
   getCellInfo(x: number, y: number): string | null {
     const pos = new WorldPoint(x, y);
     const map = this.game.currentMap()!;
+    const playerPos = this.game.player.pos;
 
-    const isVisible = this.checkVisibility(
-      pos,
-      map,
-      this.game.player.pos,
-      this.game,
-    );
+    const isVisible = this.isPointVisible(pos, map, playerPos, this.game);
 
     if (isVisible) {
-      const cell = this.game?.currentMap()?.cell(new WorldPoint(x, y));
-      const mobInfo = (): string | null =>
-        cell?.mob ? `A lvl ${cell.mob?.level} ${cell.mob?.name}.` : null;
+      const cell = map.cell(pos);
+      const mob = cell?.mob;
+      const item = cell?.obj;
+      const env = cell?.env ? Glyph[cell.env] : '';
 
-      const itemInfo = (): string | null =>
-        cell?.hasObject() ? `A ${cell.obj?.description()}.` : null;
-
-      const envInfo = (): string => {
-        const env = cell?.env ? Glyph[cell.env] : '';
-        return `${env}.`;
-      };
-
-      return cell?.mob ? mobInfo() : cell?.obj ? itemInfo() : envInfo();
+      return mob
+        ? `A lvl ${mob.level} ${mob.name}.`
+        : item
+          ? `A ${item.description()}.`
+          : env;
     } else {
       return 'Not visible!';
     }
   }
 
+  /**
+   * Displays the provided information on the screen.
+   *
+   * @param {string} s - The information to display.
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @return {void} No return value.
+   */
   displayInfo(s: string, term: DrawableTerminal): void {
     this.game.log.clearQueue();
     const msg = new LogMessage(s, EventCategory.look);
@@ -97,6 +120,13 @@ export class LookScreen extends BaseScreen {
     DrawMap.renderFlash(term, this.game);
   }
 
+  /**
+   * Handles key down events and moves the cursor and look position accordingly.
+   *
+   * @param {KeyboardEvent} event - The keyboard event that triggered the function.
+   * @param {Stack} stack - The stack of screens.
+   * @return {void} This function does not return anything.
+   */
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
     const moveCursor = (dx: number, dy: number) => {
       this.cursorPos.x += dx;
