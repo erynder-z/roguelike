@@ -54,18 +54,18 @@ export class LookScreen extends BaseScreen {
     const far: boolean = distance > farDist && !blind;
 
     const isEntityVisible: boolean =
-      !far && !blind && CanSee.checkPointLOS(pos, playerPos, map, true);
+      !far && !blind && CanSee.checkPointLOS_RayCast(playerPos, pos, map);
 
     return isEntityVisible;
   }
 
   getCellInfo(x: number, y: number): string | null {
     const pos = new WorldPoint(x, y);
-    const map = this.game.currentMap();
+    const map = this.game.currentMap()!;
 
     const isVisible = this.checkVisibility(
       pos,
-      map!,
+      map,
       this.game.player.pos,
       this.game,
     );
