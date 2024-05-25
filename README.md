@@ -25,7 +25,7 @@ This roadmap outlines the progress and future tasks for the development of this 
 - [x] _Buff/Spell System (!)_
 - [x] _Ranged Combat (!)_
 - [ ] Save and Load Game
-- [ ] ==Look System==
+- [x] _Look System (!)_
 
 ### Player Character
 
