@@ -53,7 +53,7 @@ export class SpellAI implements MobAI {
    */
   maybeCastSpell(me: Mob, enemy: Mob, game: GameIF): boolean {
     const map = <GameMap>game.currentMap();
-    if (!CanSee.canSee2(me, enemy, map, true)) return false;
+    if (!CanSee.checkMobLOS(me, enemy, map, true)) return false;
 
     const r = game.rand;
     if (!r.isOneIn(this.spellRate)) return false;

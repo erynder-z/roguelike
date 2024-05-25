@@ -62,7 +62,7 @@ export class MapRenderer {
           !!cell.mob &&
           !far &&
           (!blind || cell.mob.isPlayer) &&
-          CanSee.canSee(cell.mob.pos, playerPos, map, true);
+          CanSee.checkPointLOS(cell.mob.pos, playerPos, map, true);
 
         // Determine the glyph based on visibility
         const glyph: Glyph = isEntityVisible
@@ -138,7 +138,7 @@ export class MapRenderer {
           !!cell.mob &&
           !far &&
           (!blind || cell.mob.isPlayer) &&
-          CanSee.canSee(cell.mob.pos, playerPos, map, true);
+          CanSee.checkPointLOS(cell.mob.pos, playerPos, map, true);
 
         // Determine the glyph based on visibility
         const glyph: Glyph = isEntityVisible

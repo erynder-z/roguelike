@@ -15,7 +15,7 @@ export class CanSee {
    * @param {boolean} onlyEnv - Indicates whether to consider only environmental obstacles.
    * @returns {boolean} - True if there is a line of sight, otherwise false.
    */
-  public static canSee(
+  public static checkPointLOS(
     a: WorldPoint,
     b: WorldPoint,
     map: MapIF,
@@ -38,7 +38,12 @@ export class CanSee {
    * @param {boolean} onlyEnv - Indicates whether to consider only environmental obstacles.
    * @returns {boolean} - True if there is a line of sight, otherwise false.
    */
-  public static canSee2(a: Mob, b: Mob, map: MapIF, onlyEnv: boolean): boolean {
-    return this.canSee(a.pos, b.pos, map, onlyEnv);
+  public static checkMobLOS(
+    a: Mob,
+    b: Mob,
+    map: MapIF,
+    onlyEnv: boolean,
+  ): boolean {
+    return this.checkPointLOS(a.pos, b.pos, map, onlyEnv);
   }
 }
