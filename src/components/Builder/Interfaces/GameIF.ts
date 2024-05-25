@@ -27,4 +27,5 @@ export interface GameIF {
   autoHeal: AutoHeal | undefined;
   inventory: Inventory | undefined;
   equipment: Equipment | undefined;
+  stats: { visRange: number };
 }

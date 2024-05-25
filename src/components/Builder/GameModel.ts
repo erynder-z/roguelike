@@ -61,4 +61,5 @@ export class Game implements GameIF {
   autoHeal: AutoHeal | undefined = new AutoHeal();
   inventory = new Inventory();
   equipment = new Equipment();
+  stats = { visRange: 50 };
 }
