@@ -62,7 +62,7 @@ export class MapRenderer {
           !!cell.mob &&
           !far &&
           (!blind || cell.mob.isPlayer) &&
-          CanSee.checkPointLOS(cell.mob.pos, playerPos, map, true);
+          CanSee.checkPointLOS_Bresenham(cell.mob.pos, playerPos, map, true);
 
         // Determine the glyph based on visibility
         const glyph: Glyph = isEntityVisible
@@ -138,7 +138,7 @@ export class MapRenderer {
           !!cell.mob &&
           !far &&
           (!blind || cell.mob.isPlayer) &&
-          CanSee.checkPointLOS(cell.mob.pos, playerPos, map, true);
+          CanSee.checkPointLOS_Bresenham(cell.mob.pos, playerPos, map, true);
 
         // Determine the glyph based on visibility
         const glyph: Glyph = isEntityVisible
@@ -161,7 +161,11 @@ export class MapRenderer {
           } else {
             if (!cell.lit && !blind) cell.lit = true;
             // Check if the cell is visible to the player using raycasting LOS
-            const isVisible: boolean = this.rayCastLOS(playerPos, w, map);
+            const isVisible: boolean = CanSee.checkPointLOS_RayCast(
+              playerPos,
+              w,
+              map,
+            );
             bg = this.getRayCastBgCol(isVisible, cell, glyphInfo);
             fg = this.getRayCastFgCol(isVisible, cell, glyphInfo);
           }
@@ -269,61 +273,5 @@ export class MapRenderer {
           ? glyphInfo.bgCol
           : this.farLitColor
         : this.unlitColor;
-  }
-
-  /**
-   * Performs raycasting to determine line of sight between two points on the map.
-   * @param {WorldPoint} start - The starting point of the LOS check.
-   * @param {WorldPoint} end - The ending point of the LOS check.
-   * @param {MapIF} map - The map object.
-   * @returns {boolean} - True if there is line of sight, otherwise false.
-   */
-  private static rayCastLOS(
-    start: WorldPoint,
-    end: WorldPoint,
-    map: MapIF,
-  ): boolean {
-    // Get the differences in coordinates between the start and end points
-    const dx = Math.abs(end.x - start.x);
-    const dy = Math.abs(end.y - start.y);
-
-    // Determine the direction of movement for the ray (1 or -1)
-    const sx = start.x < end.x ? 1 : -1;
-    const sy = start.y < end.y ? 1 : -1;
-
-    // Error accumulator for adjusting the y coordinate when moving in the x direction
-    let err = dx - dy;
-
-    // Current position of the ray
-    let x = start.x;
-    let y = start.y;
-
-    // Perform raycasting
-    while (x !== end.x || y !== end.y) {
-      // Check if the current position is inside the map bounds
-      if (!map.isLegalPoint(new WorldPoint(x, y))) {
-        return false; // Hit map boundary, LOS blocked
-      }
-
-      // Check if the current cell blocks LOS
-      const cell = map.cell(new WorldPoint(x, y));
-      if (cell.isOpaque()) {
-        return false; // Cell blocks LOS
-      }
-
-      // Adjust the position of the ray based on the error accumulator
-      const e2 = 2 * err;
-      if (e2 > -dy) {
-        err -= dy;
-        x += sx;
-      }
-      if (e2 < dx) {
-        err += dx;
-        y += sy;
-      }
-    }
-
-    // No obstacles encountered, LOS is clear
-    return true;
   }
 }
