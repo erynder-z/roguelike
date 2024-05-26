@@ -16,6 +16,7 @@ export class MapCell {
   lit: boolean | undefined = false;
   obj: ItemObject | undefined;
   public sprite: Glyph | undefined;
+  envDesc: string | undefined;
 
   /**
    * Return the glyph of the mob if it exists, otherwise return the environment glyph.

@@ -5,6 +5,7 @@ import { Glyph } from '../Glyphs/Glyph';
 import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
 import { ItemObject } from '../ItemObjects/ItemObject';
+import { GlyphMap } from '../Glyphs/GlyphMap';
 
 /**
  * Represents the game map implementing the MapIF interface.
@@ -87,6 +88,7 @@ export class GameMap implements MapIF {
    * @return {Mob} the added NPC
    */
   addNPC(m: Mob): Mob {
+    m.description = GlyphMap.getGlyphDescription(m.glyph, 'mob');
     this.cell(m.pos).mob = m;
     this.queue.pushMob(m);
     return m;
@@ -138,6 +140,30 @@ export class GameMap implements MapIF {
    * @return {void}
    */
   addObject(o: ItemObject, p: WorldPoint): void {
+    o.desc = GlyphMap.getGlyphDescription(o.glyph, 'object');
     this.cell(p).obj = o;
+  }
+
+  /**
+   * Loops over every cell in the game map and performs the given action.
+   * @param {Function} action - The action to perform on each cell.
+   */
+  forEachCell(action: (cell: MapCell, p: WorldPoint) => void): void {
+    const p: WorldPoint = new WorldPoint();
+    for (p.y = 0; p.y < this.dimensions.y; ++p.y) {
+      for (p.x = 0; p.x < this.dimensions.x; ++p.x) {
+        action(this.cell(p), new WorldPoint(p.x, p.y));
+      }
+    }
+  }
+
+  /**
+   * Sets the environment description for every cell.
+   */
+  setEnvironmentDescriptions(): void {
+    this.forEachCell(cell => {
+      const glyph = cell.glyphEnvOnly();
+      cell.envDesc = GlyphMap.getGlyphDescription(glyph, 'environment');
+    });
   }
 }

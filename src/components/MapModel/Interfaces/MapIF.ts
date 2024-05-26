@@ -43,4 +43,8 @@ export interface MapIF {
   isBlocked(p: WorldPoint): boolean;
 
   addObject(o: ItemObject, p: WorldPoint): void;
+
+  forEachCell(action: (cell: MapCell, p: WorldPoint) => void): void;
+
+  setEnvironmentDescriptions(): void;
 }

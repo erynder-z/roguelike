@@ -80,6 +80,9 @@ export class Builder implements BuildIF {
         map = MapGenerator_Cave.generate(rnd, level);
         break;
     }
+
+    map.setEnvironmentDescriptions();
+
     return map;
   }
 
