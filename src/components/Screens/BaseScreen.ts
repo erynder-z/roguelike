@@ -34,7 +34,7 @@ export class BaseScreen implements StackScreen {
     DrawMap.renderStats(this.game);
     DrawMap.renderEquipment(this.game);
     DrawMap.renderMessage(this.game);
-    DrawMap.renderFlash(term, this.game);
+    DrawMap.renderFlash(this.game);
     DrawMap.renderActionImage(this.game);
   }
 
