@@ -9,12 +9,13 @@ import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
 import { BuffIF } from '../Buffs/Interfaces/BuffIF';
 import { MapRenderer } from './MapRenderer';
-import { EventCategory } from '../Messages/LogMessage';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 import { StatsDisplay } from '../UI/StatsDisplay';
 import { MessagesDisplay } from '../UI/MessagesDisplay';
 import { BuffsDisplay } from '../UI/BuffsDisplay';
 import { EquipmentDisplay } from '../UI/EquipmentDisplay';
+import { FlashDisplay } from '../UI/FlashDisplay';
 
 /**
  * Represents a utility class for drawing a map on a drawable terminal.
@@ -216,19 +217,32 @@ export class DrawMap {
     }
   }
 
-  static renderFlash(term: DrawableTerminal, game: GameIF): void {
+  /**
+   * Renders a flash message on the screen.
+   *
+   * @param {GameIF} game - The game instance to retrieve the flash message from.
+   * @return {void} This function does not return anything.
+   */
+  static renderFlash(game: GameIF): void {
     const log = game.log;
 
     if (!log) return;
 
     const topMessage = log.top();
-    let s = topMessage ? topMessage.message : '';
+    const s = topMessage ? topMessage.message : '';
 
-    s = this.extend(s, term);
+    const flashDisplay = document.querySelector(
+      'flash-display',
+    ) as FlashDisplay;
+    const msg = new LogMessage(s, EventCategory.none);
+    if (flashDisplay) flashDisplay.setFlash(msg);
+  }
 
-    const x = term.dimensions.x - s.length;
-    const y = term.dimensions.y - 1;
-    term.drawText(x, y, s, 'yellow', '#00000000');
+  static clearFlash(game: GameIF): void {
+    const flashDisplay = document.querySelector(
+      'flash-display',
+    ) as FlashDisplay;
+    if (flashDisplay) flashDisplay.clearFlash(game);
   }
 
   /**

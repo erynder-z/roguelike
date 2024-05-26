@@ -47,7 +47,7 @@ export class LookScreen extends BaseScreen {
       '#00000000',
     );
     const s = this.getCellInfo(this.lookPos.x, this.lookPos.y);
-    if (s) this.displayInfo(s, term);
+    if (s) this.displayInfo(s);
   }
 
   /**
@@ -112,12 +112,13 @@ export class LookScreen extends BaseScreen {
    * @param {DrawableTerminal} term - The terminal to draw on.
    * @return {void} No return value.
    */
-  displayInfo(s: string, term: DrawableTerminal): void {
-    this.game.log.clearQueue();
+  displayInfo(s: string): void {
+    DrawMap.clearFlash(this.game);
+
     const msg = new LogMessage(s, EventCategory.look);
     this.game.flash(msg);
 
-    DrawMap.renderFlash(term, this.game);
+    DrawMap.renderFlash(this.game);
   }
 
   /**
@@ -164,7 +165,9 @@ export class LookScreen extends BaseScreen {
         moveCursor(1, 1);
         break;
       case 'KeyL':
+        DrawMap.clearFlash(this.game);
         stack.pop();
+
         break;
     }
   }
