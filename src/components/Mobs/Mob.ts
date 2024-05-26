@@ -25,6 +25,7 @@ export class Mob {
   pos: WorldPoint = new WorldPoint();
   glyph: Glyph = Glyph.Unknown;
   name: string = '?';
+  description: string = '';
   hp: number = 3;
   maxhp: number = 3;
   mood: Mood = Mood.Asleep;

@@ -5,182 +5,208 @@
       "bgCol": "#F8F8FF",
       "fgCol": "#8A3324",
       "hasSolidBg": false,
-      "name": "Ant"
+      "name": "Ant",
+      "desc": "A small and industrious insect known for its strength and teamwork."
     },
     {
       "char": "b",
       "bgCol": "#F8F8FF",
       "fgCol": "#0000FF",
       "hasSolidBg": false,
-      "name": "Bat"
+      "name": "Bat",
+      "desc": "A nocturnal creature that uses echolocation to navigate the darkness."
     },
     {
       "char": "c",
       "bgCol": "#F8F8FF",
       "fgCol": "#2E8B57",
       "hasSolidBg": false,
-      "name": "Cat"
+      "name": "Cat",
+      "desc": "A stealthy and agile animal with sharp claws and keen senses."
     },
     {
       "char": "d",
       "bgCol": "#F8F8FF",
       "fgCol": "#D2691E",
       "hasSolidBg": false,
-      "name": "Druid"
+      "name": "Druid",
+      "desc": "A mystical being with the power to communicate with nature and transform into animals."
     },
     {
       "char": "e",
       "bgCol": "#F8F8FF",
       "fgCol": "#9932CC",
       "hasSolidBg": false,
-      "name": "Ectoplasm"
+      "name": "Ectoplasm",
+      "desc": "A ghostly substance often associated with spirits and the paranormal."
     },
     {
       "char": "f",
       "bgCol": "#F8F8FF",
       "fgCol": "#8FBC8F",
       "hasSolidBg": false,
-      "name": "Frog"
+      "name": "Frog",
+      "desc": "A small amphibian known for its jumping ability and croaking sound."
     },
     {
       "char": "g",
       "bgCol": "#F8F8FF",
       "fgCol": "#708090",
       "hasSolidBg": false,
-      "name": "Gargoyle"
+      "name": "Gargoyle",
+      "desc": "A stone creature that comes to life, often serving as a guardian."
     },
     {
       "char": "h",
       "bgCol": "#F8F8FF",
       "fgCol": "#4682B4",
       "hasSolidBg": false,
-      "name": "Harpy"
+      "name": "Harpy",
+      "desc": "A mythical creature with the body of a bird and the face of a woman, known for its vicious nature."
     },
     {
       "char": "i",
       "bgCol": "#F8F8FF",
       "fgCol": "#FF4500",
       "hasSolidBg": false,
-      "name": "Imp"
+      "name": "Imp",
+      "desc": "A small mischievous demon often causing trouble and playing tricks."
     },
     {
       "char": "j",
       "bgCol": "#F8F8FF",
       "fgCol": "#8B4513",
       "hasSolidBg": false,
-      "name": "Jackal"
+      "name": "Jackal",
+      "desc": "A cunning and opportunistic scavenger found in deserts and savannas."
     },
     {
       "char": "k",
       "bgCol": "#F8F8FF",
       "fgCol": "#20B2AA",
       "hasSolidBg": false,
-      "name": "Kappa"
+      "name": "Kappa",
+      "desc": "A water spirit from Japanese folklore known for its trickery and love of cucumbers."
     },
     {
       "char": "l",
       "bgCol": "#F8F8FF",
       "fgCol": "#FFA07A",
       "hasSolidBg": false,
-      "name": "Lama"
+      "name": "Lama",
+      "desc": "A peaceful and wise monk often found in remote mountain temples."
     },
     {
       "char": "m",
       "bgCol": "#F8F8FF",
       "fgCol": "#800080",
       "hasSolidBg": false,
-      "name": "Mutant"
+      "name": "Mutant",
+      "desc": "A creature altered by radiation or genetic experiments, possessing unusual powers."
     },
     {
       "char": "n",
       "bgCol": "#F8F8FF",
       "fgCol": "#A0522D",
       "hasSolidBg": false,
-      "name": "Nook"
+      "name": "Nook",
+      "desc": "A mysterious and elusive creature that dwells in hidden corners of the world."
     },
     {
       "char": "o",
       "bgCol": "#F8F8FF",
       "fgCol": "#556B2F",
       "hasSolidBg": false,
-      "name": "Ogre"
+      "name": "Ogre",
+      "desc": "A large and brutish monster known for its strength and appetite for destruction."
     },
     {
       "char": "p",
       "bgCol": "#F8F8FF",
       "fgCol": "#FF69B4",
       "hasSolidBg": false,
-      "name": "Pig"
+      "name": "Pig",
+      "desc": "A domesticated animal known for its intelligence and fondness for mud."
     },
     {
       "char": "q",
       "bgCol": "#F8F8FF",
       "fgCol": "#FFD700",
       "hasSolidBg": false,
-      "name": "Qilin"
+      "name": "Qilin",
+      "desc": "A mythical creature from East Asian culture symbolizing prosperity and serenity."
     },
     {
       "char": "r",
       "bgCol": "#F8F8FF",
       "fgCol": "#696969",
       "hasSolidBg": false,
-      "name": "Rat"
+      "name": "Rat",
+      "desc": "A resourceful rodent often found in urban areas, known for its survival skills."
     },
     {
       "char": "s",
       "bgCol": "#F8F8FF",
       "fgCol": "#8B008B",
       "hasSolidBg": false,
-      "name": "Succubus"
+      "name": "Succubus",
+      "desc": "A demoness that seduces her victims, feeding off their life force."
     },
     {
       "char": "t",
       "bgCol": "#F8F8FF",
       "fgCol": "#FF6347",
       "hasSolidBg": false,
-      "name": "Tengu"
+      "name": "Tengu",
+      "desc": "A mythical bird-like creature from Japanese folklore, known for its martial prowess and trickery."
     },
     {
       "char": "u",
       "bgCol": "#F8F8FF",
       "fgCol": "#FF00FF",
       "hasSolidBg": false,
-      "name": "Unicorn"
+      "name": "Unicorn",
+      "desc": "A majestic and magical horse with a single horn, symbolizing purity and grace."
     },
     {
       "char": "v",
       "bgCol": "#F8F8FF",
       "fgCol": "#800000",
       "hasSolidBg": false,
-      "name": "Vampire"
+      "name": "Vampire",
+      "desc": "An undead creature that feeds on the blood of the living, often feared and hunted."
     },
     {
       "char": "w",
       "bgCol": "#F8F8FF",
       "fgCol": "#FF0000",
       "hasSolidBg": false,
-      "name": "Wyrm"
+      "name": "Wyrm",
+      "desc": "A serpentine dragon known for its cunning and hoarding of treasure."
     },
     {
       "char": "x",
       "bgCol": "#F8F8FF",
       "fgCol": "#FF0000",
       "hasSolidBg": false,
-      "name": "Xelhua"
+      "name": "Xelhua",
+      "desc": "A giant from Aztec mythology, known for its immense strength and size."
     },
     {
       "char": "y",
       "bgCol": "#F8F8FF",
       "fgCol": "#DAA520",
       "hasSolidBg": false,
-      "name": "Yeti"
+      "name": "Yeti",
+      "desc": "A large and hairy creature said to inhabit the snowy mountains, often called the Abominable Snowman."
     },
     {
       "char": "z",
       "bgCol": "#F8F8FF",
       "fgCol": "#00CED1",
       "hasSolidBg": false,
-      "name": "Zombie"
+      "name": "Zombie",
+      "desc": "An undead being driven by an insatiable hunger for flesh, often found in hordes."
     }
   ]
 }
