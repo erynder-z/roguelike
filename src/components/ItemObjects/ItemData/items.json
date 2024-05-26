@@ -5,49 +5,56 @@
       "bgCol": "#F8F8FF",
       "fgCol": "#708090",
       "hasSolidBg": false,
-      "name": "Dagger"
+      "name": "Dagger",
+      "desc": "A small, sharp blade, perfect for quick and deadly strikes."
     },
     {
       "char": "[",
       "bgCol": "#F8F8FF",
       "fgCol": "#D2691E",
       "hasSolidBg": false,
-      "name": "Shield"
+      "name": "Shield",
+      "desc": "A sturdy shield offering excellent protection in combat."
     },
     {
       "char": "!",
       "bgCol": "#F8F8FF",
       "fgCol": "#8B4513",
       "hasSolidBg": false,
-      "name": "Cap"
+      "name": "Cap",
+      "desc": "A simple cap that offers minimal protection to the head."
     },
     {
       "char": "(",
       "bgCol": "#F8F8FF",
       "fgCol": "#800080",
       "hasSolidBg": false,
-      "name": "Gloves"
+      "name": "Gloves",
+      "desc": "A pair of gloves that improve grip and provide some defense."
     },
     {
       "char": "}",
       "bgCol": "#F8F8FF",
       "fgCol": "#800000",
       "hasSolidBg": false,
-      "name": "Cape"
+      "name": "Cape",
+      "desc": "A flowing cape that offers protection and a touch of style."
     },
     {
       "char": "{",
       "bgCol": "#F8F8FF",
       "fgCol": "#2E8B57",
       "hasSolidBg": false,
-      "name": "Pants"
+      "name": "Pants",
+      "desc": "A pair of durable pants providing basic leg protection."
     },
     {
       "char": "[",
       "bgCol": "#F8F8FF",
       "fgCol": "#4682B4",
       "hasSolidBg": false,
-      "name": "Boots"
+      "name": "Boots",
+      "desc": "A sturdy pair of boots that offer good foot protection and comfort."
     }
   ]
 }

@@ -19,7 +19,6 @@ import { Slot } from '../ItemObjects/Slot';
 import { MoodAI } from '../Mobs/MoodAI';
 import { Overworld } from '../../staticMaps/Overworld';
 import { MapGenerator_Cave } from '../MapGenerator/MapGenerator_Cave';
-import * as mobsData from '../Mobs/MobData/mobs.json';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -81,6 +80,9 @@ export class Builder implements BuildIF {
         map = MapGenerator_Cave.generate(rnd, level);
         break;
     }
+
+    map.setEnvironmentDescriptions();
+
     return map;
   }
 
@@ -196,21 +198,9 @@ export class Builder implements BuildIF {
    */
   addNPC(glyph: Glyph, x: number, y: number, map: MapIF, level: number): Mob {
     const mob = new Mob(glyph, x, y);
-    mob.description = this.getMobDescription(glyph);
     this.setLevelStats(mob, level);
     map.addNPC(mob);
     return mob;
-  }
-
-  /**
-   * Retrieves the description of a mob based on its glyph.
-   *
-   * @param {Glyph} glyph - The glyph representing the mob.
-   * @return {string} The description of the mob. Returns 'no description' if no description is found.
-   */
-  getMobDescription(glyph: Glyph): string {
-    const m = mobsData.mobs.find(mob => mob.name === Glyph[glyph]);
-    return m?.desc || 'no description';
   }
 
   /**

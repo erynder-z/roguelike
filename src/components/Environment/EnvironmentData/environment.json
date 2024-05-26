@@ -5,84 +5,96 @@
       "bgCol": "#F8F8FF",
       "fgCol": "#696969",
       "hasSolidBg": false,
-      "name": "Floor"
+      "name": "Floor",
+      "desc": "Regular ground. Nothing special here."
     },
     {
       "char": "%",
       "bgCol": "#A9A9A9",
       "fgCol": "#808080",
       "hasSolidBg": true,
-      "name": "Rock"
+      "name": "Rock",
+      "desc": "Solid rock. Solid, but can be dug through."
     },
     {
       "char": "#",
       "bgCol": "#2F4F4F",
       "fgCol": "#556B2F",
       "hasSolidBg": true,
-      "name": "Wall"
+      "name": "Wall",
+      "desc": "A sturdy wall blocking the path, providing protection and boundaries."
     },
     {
       "char": "<",
       "bgCol": "#FF6347",
       "fgCol": "#C71585",
       "hasSolidBg": false,
-      "name": "StairsUp"
+      "name": "StairsUp",
+      "desc": "Stairs leading upwards to a higher level, offering a way to ascend."
     },
     {
       "char": ">",
       "bgCol": "#00FF7F",
       "fgCol": "#C71585",
       "hasSolidBg": false,
-      "name": "StairsDown"
+      "name": "StairsDown",
+      "desc": "Stairs descending to a lower level, providing a path to explore deeper."
     },
     {
       "char": "'",
       "bgCol": "#F8F8FF",
       "fgCol": "#C71585",
       "hasSolidBg": false,
-      "name": "Door_Open"
+      "name": "Door_Open",
+      "desc": "An open door, allowing easy passage between rooms."
     },
     {
       "char": "+",
       "bgCol": "#F8F8FF",
       "fgCol": "#C71585",
       "hasSolidBg": false,
-      "name": "Door_Closed"
+      "name": "Door_Closed",
+      "desc": "A closed door, blocking the way until it is opened."
     },
     {
       "char": "§",
       "bgCol": "#FF6347",
       "fgCol": "#FF0000",
       "hasSolidBg": false,
-      "name": "Bad"
+      "name": "Bad",
+      "desc": "A harmful area that can damage or hinder anyone who steps on it."
     },
     {
       "char": "⋄",
       "bgCol": "#F8F8FF",
       "fgCol": "red",
       "hasSolidBg": false,
-      "name": "Bullet"
+      "name": "Bullet",
+      "desc": "A projectile in motion."
     },
     {
       "char": "~",
       "bgCol": "#0077c0",
       "fgCol": "#87CEFA",
       "hasSolidBg": false,
-      "name": "DeepWater"
+      "name": "DeepWater",
+      "desc": "Impassable water surface."
     },
     {
       "char": "~",
       "bgCol": "#87CEFA",
       "fgCol": "#0077c0",
       "hasSolidBg": false,
-      "name": "ShallowWater"
+      "name": "ShallowWater",
+      "desc": "Shallow water that can be crossed, though it may slow movement."
     },
     {
       "char": "×",
       "bgCol": "#FF4500",
       "fgCol": "#FFD700",
       "hasSolidBg": false,
-      "name": "Lava"
+      "name": "Lava",
+      "desc": "Molten lava that is extremely dangerous and will cause severe burns."
     }
   ]
 }

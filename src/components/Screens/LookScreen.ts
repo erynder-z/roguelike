@@ -91,6 +91,7 @@ export class LookScreen extends BaseScreen {
 
     if (isVisible) {
       const cell = map.cell(pos);
+      console.log(cell);
       const mob = cell?.mob;
       const item = cell?.obj;
       const env = cell?.env ? Glyph[cell.env] : '';

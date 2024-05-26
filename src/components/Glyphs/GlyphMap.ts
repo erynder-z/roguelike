@@ -134,4 +134,42 @@ export class GlyphMap {
     const g: Glyph = <Glyph>index;
     return g;
   }
+
+  /**
+   * Retrieves the description of a glyph based on its category.
+   *
+   * @param {Glyph} glyph - The glyph to retrieve the description for.
+   * @param {'mob' | 'environment' | 'item'} category - The category of the glyph.
+   * @return {string} The description of the glyph, or 'no description' if not found.
+   */
+  static getGlyphDescription(
+    glyph: Glyph,
+    category: 'mob' | 'environment' | 'object',
+  ): string {
+    let description = 'no description';
+
+    switch (category) {
+      case 'mob': {
+        const mob = mobsData.mobs.find(mob => mob.name === Glyph[glyph]);
+        description = mob?.desc || description;
+        break;
+      }
+      case 'environment': {
+        const environment = environmentData.environment.find(
+          env => env.name === Glyph[glyph],
+        );
+        description = environment?.desc || description;
+        break;
+      }
+      case 'object': {
+        const object = itemData.items.find(item => item.name === Glyph[glyph]);
+        description = object?.desc || description;
+        break;
+      }
+      default:
+        break;
+    }
+
+    return description;
+  }
 }

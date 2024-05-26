@@ -6,6 +6,7 @@ import { Slot } from './Slot';
  */
 export class ItemObject {
   level: number = 0;
+  desc: string = '';
 
   /**
    * Creates an instance of ItemObject.
