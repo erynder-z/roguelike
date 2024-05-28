@@ -49,4 +49,7 @@ export enum Glyph {
   DeepWater,
   ShallowWater,
   Lava,
+  Potion,
+  TeleportRune,
+  Pistol,
 }

@@ -384,8 +384,7 @@ export class Builder implements BuildIF {
    */
   addItemNextToPlayer(player: Mob, map: MapIF): void {
     const a = player.pos;
-
-    let p = new WorldPoint(a.x + 1, a.y);
+    let p = new WorldPoint(a.x, a.y + 2);
     map.addObject(new ItemObject(Glyph.Shield, Slot.OffHand), p);
     map.cell(p).env = Glyph.Floor;
 
@@ -402,5 +401,15 @@ export class Builder implements BuildIF {
    */
   addItemToPlayerInventory(inv: Inventory): void {
     inv.add(new ItemObject(Glyph.Dagger, Slot.MainHand));
+
+    inv.add(new ItemObject(Glyph.Potion, Slot.NotWorn));
+
+    const rune = new ItemObject(Glyph.TeleportRune, Slot.NotWorn);
+    rune.charges = 2;
+    inv.add(rune);
+
+    const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn);
+    pistol.charges = 10;
+    inv.add(pistol);
   }
 }

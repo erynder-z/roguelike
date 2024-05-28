@@ -6,12 +6,17 @@ import { Act } from './Act';
 import { Able } from './Able';
 import { Buff } from '../Buffs/BuffEnum';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { Cost } from './Interfaces/Cost';
 
 /**
  * Abstract class representing a base command implementation that implements the Command interface.
  */
 export abstract class CommandBase implements Command {
   act: Act = Act.Act;
+  cost: Cost | undefined;
+  setCost(cost: Cost | undefined) {
+    this.cost = cost;
+  }
 
   /**
    * Constructs a new CommandBase object.
@@ -41,6 +46,16 @@ export abstract class CommandBase implements Command {
   }
 
   /**
+   * Returns true, if an items has no associated cost. If it has a cost, calls pay on that item.
+   *
+   * @return {boolean} True if the cost can be paid, false otherwise.
+   */
+  pay(): boolean {
+    if (!this.cost) return true;
+    return this.cost.pay();
+  }
+
+  /**
    * Executes a turn for the mob if it is able to do so.
    * @returns {boolean} The result of executing the command.
    */
@@ -48,6 +63,7 @@ export abstract class CommandBase implements Command {
     const r = this.able(<Mob>this.me, <GameIF>this.g, this.act);
 
     if (!r.isAble) return r.usesTurn;
+    if (!this.pay()) return true;
     return this.execute();
   }
 

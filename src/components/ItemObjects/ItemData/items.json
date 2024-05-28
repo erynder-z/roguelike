@@ -55,6 +55,30 @@
       "hasSolidBg": false,
       "name": "Boots",
       "desc": "A sturdy pair of boots that offer good foot protection and comfort."
+    },
+    {
+      "char": "!",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#4169E1",
+      "hasSolidBg": false,
+      "name": "Potion",
+      "desc": "A potion that heals some hp."
+    },
+    {
+      "char": "ᛪ",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#C71585",
+      "hasSolidBg": false,
+      "name": "TeleportRune",
+      "desc": "A rune for a teleportation spell."
+    },
+    {
+      "char": "┌",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#800080",
+      "hasSolidBg": false,
+      "name": "Pistol",
+      "desc": "This is my boomstick!"
     }
   ]
 }
