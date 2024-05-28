@@ -43,10 +43,18 @@ This roadmap outlines the progress and future tasks for the development of this 
 ### Items and Loot
 
 - [x] Random Item Generation
+- [x] _Consumable Items (!)_
 - [ ] Weapon and Item Variety
 - [ ] Item Rarities
 - [ ] Starting Equipment Selection
 - [ ] Containers / Stashes
+
+### Spells and Buffs
+
+- [x] Negative Buff Spells
+- [ ] Positive Buff Spells
+- [x] _Spell Costs (!)_
+- [ ] Unified Player/Monster Spell System
 
 ### User Interface
 
