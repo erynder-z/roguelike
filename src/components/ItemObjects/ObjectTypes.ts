@@ -18,6 +18,9 @@ export class ObjectTypes {
     { g: Glyph.Cape, s: Slot.Back },
     { g: Glyph.Pants, s: Slot.Legs },
     { g: Glyph.Boots, s: Slot.Feet },
+    { g: Glyph.Potion, s: Slot.NotWorn },
+    { g: Glyph.TeleportRune, s: Slot.NotWorn },
+    { g: Glyph.Pistol, s: Slot.NotWorn },
   ];
 
   /**
@@ -98,6 +101,8 @@ export class ObjectTypes {
     const objectLevel = rnd.adjustLevel(level);
     const object = new ItemObject(template.g, template.s);
     object.level = objectLevel;
+    if (object.glyph == Glyph.Pistol)
+      object.charges = rnd.randomInteger(10 + level);
     return object;
   }
 

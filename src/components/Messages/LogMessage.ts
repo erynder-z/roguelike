@@ -20,6 +20,8 @@ export enum EventCategory {
   wait,
   look,
   none,
+  teleport,
+  use,
 }
 export class LogMessage {
   constructor(

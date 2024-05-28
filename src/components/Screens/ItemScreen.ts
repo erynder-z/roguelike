@@ -1,12 +1,16 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
+import { CommandBase } from '../Commands/CommandBase';
 import { EquipCommand } from '../Commands/EquipCommand';
+import { Command } from '../Commands/Interfaces/Command';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { DrawMap } from '../MapModel/DrawMap';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { FindObjectSpell } from '../Spells/FindObjectSpells';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
+import { StackScreen } from '../Terminal/Interfaces/StackScreen';
 import { BaseScreen } from './BaseScreen';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 
@@ -70,6 +74,9 @@ export class ItemScreen extends BaseScreen {
       case 'w':
         this.canWear(stack);
         break;
+      case 'u':
+        this.useItem(stack);
+        break;
       default:
         stack.pop();
     }
@@ -110,11 +117,46 @@ export class ItemScreen extends BaseScreen {
     return true;
   }
 
+  /**
+   * Checks if the item can be worn.
+   *
+   * @param {Stack} stack - The stack of screens.
+   * @return {boolean} Returns true if the item can be worn, false otherwise.
+   */
   canWear(stack: Stack): boolean {
     if (!this.isEquipped) return false;
 
     const ok = new EquipCommand(this.obj, this.index, this.game).turn();
     if (ok) this.pop_and_runNPCLoop(stack);
     return ok;
+  }
+
+  /**
+   * Uses an item by finding the matching item/spell and executing it.
+   *
+   * @param {Stack} stack - The stack to push the spell screen onto if necessary.
+   * @return {void} This function does not return anything.
+   */
+  useItem(stack: Stack): void {
+    const g = this.game;
+    const finder = new FindObjectSpell(
+      this.obj,
+      this.index,
+      g,
+      stack,
+      this.make,
+    );
+    const spell: Command | StackScreen | null = finder.find();
+
+    if (spell == null) return;
+    stack.pop();
+
+    if (spell instanceof CommandBase) {
+      // If the spell is a command, execute it.
+      if (spell.turn()) this.npcTurns(stack);
+    } else {
+      // Otherwise, if the spell is a screen, push the screen onto the stack.
+      stack.push(<StackScreen>spell);
+    }
   }
 }
