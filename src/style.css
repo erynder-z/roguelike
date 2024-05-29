@@ -5,6 +5,7 @@
 
 :root {
   --background1: #111a24;
+  --background1Transparent: rgba(17, 26, 36, 0.75);
   --accent: #017f9e;
   --white: #ffffff;
   --whiteTransparent: rgba(255, 255, 255, 0.1);
@@ -145,7 +146,8 @@ li {
 .log-screen,
 .inventory-screen,
 .equipment-screen {
-  background: var(--background1);
+  background: var(--background1Transparent);
+  backdrop-filter: blur(5px);
   position: absolute;
   top: 0;
   left: 0;
