@@ -42,12 +42,7 @@ export class LogScreen extends BaseScreen {
   private createLogScreen(): HTMLDivElement {
     const logScreen = document.createElement('div');
     logScreen.id = 'log-screen';
-    logScreen.classList.add(
-      'log-screen',
-      'animate__animated',
-      'animate__fadeIn',
-      'animate__faster',
-    );
+    logScreen.classList.add('log-screen', 'fade-in');
 
     const heading = this.createHeading();
     logScreen.appendChild(heading);
@@ -56,6 +51,12 @@ export class LogScreen extends BaseScreen {
     logScreen.appendChild(messageList);
 
     return logScreen;
+  }
+
+  private fadeOutLoqScreen(): void {
+    const inventoryScreenElement = document.getElementById('log-screen');
+    if (inventoryScreenElement)
+      inventoryScreenElement.classList.add('fade-out');
   }
 
   /**
@@ -92,6 +93,7 @@ export class LogScreen extends BaseScreen {
    */
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     if (event.key === 'q') {
+      this.fadeOutLoqScreen();
       stack.pop();
       return true;
     }

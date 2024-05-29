@@ -166,3 +166,29 @@ li {
 .log-screen ul li:nth-child(odd) {
   background-color: var(--whiteTransparent);
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 100ms;
+}
+
+.fade-out {
+  animation: fadeOut 100ms;
+}
