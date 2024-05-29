@@ -62,12 +62,7 @@ export class InventoryScreen extends BaseScreen {
   private createInventoryScreenElement(): HTMLDivElement {
     const inventoryScreenElement = document.createElement('div');
     inventoryScreenElement.id = 'inventory-screen';
-    inventoryScreenElement.classList.add(
-      'inventory-screen',
-      'animate__animated',
-      'animate__fadeIn',
-      'animate__faster',
-    );
+    inventoryScreenElement.classList.add('inventory-screen', 'fade-in');
 
     const titleElement = this.createTitleElement();
     const inventoryListElement = this.createInventoryListElement();
@@ -76,6 +71,17 @@ export class InventoryScreen extends BaseScreen {
     inventoryScreenElement.appendChild(inventoryListElement);
 
     return inventoryScreenElement;
+  }
+
+  /**
+   * Fades out the inventory screen by adding the 'fade-out' class to the element with the ID 'inventory-screen'.
+   *
+   * @return {void} This function does not return anything.
+   */
+  private fadeOutInventoryScreen(): void {
+    const inventoryScreenElement = document.getElementById('inventory-screen');
+    if (inventoryScreenElement)
+      inventoryScreenElement.classList.add('fade-out');
   }
 
   /**
@@ -123,16 +129,21 @@ export class InventoryScreen extends BaseScreen {
    * Handles key down events.
    * @param {KeyboardEvent} event - The keyboard event.
    * @param {Stack} stack - The stack interface.
+   * @returns {boolean} - True if the event was handled successfully, otherwise false.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
+  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     const pos = this.characterToPosition(event.key);
     if (pos >= 0) {
+      this.fadeOutInventoryScreen();
       this.itemMenu(pos, stack);
     } else {
       if (event.key === 'i') {
+        this.fadeOutInventoryScreen();
         stack.pop();
+        return true;
       }
     }
+    return false;
   }
 
   /**

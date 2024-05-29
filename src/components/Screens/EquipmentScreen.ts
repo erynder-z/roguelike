@@ -58,12 +58,7 @@ export class EquipmentScreen extends BaseScreen {
   private createEquipmentScreen(): HTMLDivElement {
     const equipmentScreen = document.createElement('div');
     equipmentScreen.id = 'equipment-screen';
-    equipmentScreen.classList.add(
-      'equipment-screen',
-      'animate__animated',
-      'animate__fadeIn',
-      'animate__faster',
-    );
+    equipmentScreen.classList.add('equipment-screen', 'fade-in');
 
     const titleElement = this.createTitleElement();
     const equipmentListElement = this.createEquipmentList();
@@ -72,6 +67,17 @@ export class EquipmentScreen extends BaseScreen {
     equipmentScreen.appendChild(equipmentListElement);
 
     return equipmentScreen;
+  }
+
+  /**
+   * Fades out the equipment screen by adding the 'fade-out' class to the element with the ID 'equipment-screen'.
+   *
+   * @return {void} This function does not return anything.
+   */
+  private fadeOutEquipmentScreen(): void {
+    const inventoryScreenElement = document.getElementById('equipment-screen');
+    if (inventoryScreenElement)
+      inventoryScreenElement.classList.add('fade-out');
   }
 
   /**
@@ -140,13 +146,17 @@ export class EquipmentScreen extends BaseScreen {
    * Handles the key down event.
    * @param {KeyboardEvent} event - The keyboard event.
    * @param {Stack} stack - The stack object.
-   * @returns {boolean} Whether the event was handled.
+   * @returns {boolean} - True if the event was handled successfully, otherwise false.
    */
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     const slot = this.CharacterToSlot(event.key);
 
-    if (event.key === 'u' || this.unequip(slot)) stack.pop();
-    return true;
+    if (event.key === 'u' || this.unequip(slot)) {
+      this.fadeOutEquipmentScreen();
+      stack.pop();
+      return true;
+    }
+    return false;
   }
 
   /**

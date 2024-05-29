@@ -1,4 +1,3 @@
-import 'animate.css';
 import { Builder } from './components/Builder/Builder';
 import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 import './cssReset.css';
