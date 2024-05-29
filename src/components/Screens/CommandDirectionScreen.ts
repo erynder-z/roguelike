@@ -28,10 +28,11 @@ export class CommandDirectionScreen extends BaseScreen {
 
   /**
    * Draws a message asking for input.
-   * @param {DrawableTerminal} terminal - The terminal to draw on.
+   * @param {DrawableTerminal} term - The terminal to draw on.
    */
-  drawScreen(terminal: DrawableTerminal) {
-    terminal.drawText(0, 0, 'Which direction?', 'yellow', 'black');
+  drawScreen(term: DrawableTerminal) {
+    super.drawScreen(term);
+    term.drawText(0, 0, 'Which direction?', 'yellow', 'black');
 
     const table = [
       ['↖', ' ', '↑', ' ', '↗'],
@@ -50,7 +51,7 @@ export class CommandDirectionScreen extends BaseScreen {
       row.forEach((cell, cellIndex) => {
         const x = cellIndex * cellWidth + startX;
         const y = rowIndex * cellHeight + startY;
-        terminal.drawText(x, y, cell, 'white', '#025');
+        term.drawText(x, y, cell, 'white', '#025');
       });
     });
   }
