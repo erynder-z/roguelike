@@ -300,9 +300,21 @@ export class Builder implements BuildIF {
         if (!rnd.isOneIn(rate)) {
           continue;
         }
-        this.addMobToMapWithAdjustedLevel(p, map, rnd);
+        this.addMapLevel_Mob(p, map, rnd);
       }
     }
+  }
+
+  /**
+   * Adds a mob to the map with an adjusted level.
+   *
+   * @param {WorldPoint} p - The position where the mob is added.
+   * @param {MapIF} map - The map to which the mob is being added.
+   * @param {RandomGenerator} rnd - The random generator used for adjusting the level.
+   * @return {void} This function does not return anything.
+   */
+  addMapLevel_Mob(p: WorldPoint, map: MapIF, rnd: RandomGenerator): void {
+    this.addMobToMapWithAdjustedLevel(p, map, rnd);
   }
 
   /**
