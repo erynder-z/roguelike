@@ -18,6 +18,7 @@ import { EquipmentScreen } from '../Screens/EquipmentScreen';
 import { DigCommand } from '../Commands/DigCommand';
 import { BulletCommand } from '../Commands/BulletCommand';
 import { LookScreen } from '../Screens/LookScreen';
+import { SpellScreen } from '../Screens/SpellScreen';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -149,9 +150,9 @@ export class ParsePlayer {
       case 'g':
         if (this.game.inventory) return new PickupCommand(this.game);
         break;
-      case 'f':
+      /* case 'f':
         stackScreen = this.bulletCommand(stack);
-        break;
+        break; */
       case 'i':
         if (this.game.inventory)
           stackScreen = new InventoryScreen(this.game, this.make);
@@ -162,6 +163,10 @@ export class ParsePlayer {
         break;
       case 'l':
         stackScreen = new LookScreen(this.game, this.make);
+        break;
+      case 's':
+        stackScreen = new SpellScreen(this.game, this.make);
+        break;
     }
 
     if (stackScreen) {

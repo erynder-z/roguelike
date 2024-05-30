@@ -17,6 +17,7 @@ export abstract class CommandBase implements Command {
   setCost(cost: Cost | undefined) {
     this.cost = cost;
   }
+  target?: Mob;
 
   /**
    * Constructs a new CommandBase object.
@@ -43,6 +44,16 @@ export abstract class CommandBase implements Command {
    */
   setDirection(direction: WorldPoint): Command {
     throw 'no setDirection';
+  }
+
+    /**
+   * Sets the target of the function to the specified Mob.
+   *
+   * @param {Mob | undefined} target - The Mob object to set as the target.
+   * @return {void} This function does not return anything.
+   */
+  setTarget(target?: Mob | undefined): void {
+    this.target = target;
   }
 
   /**
