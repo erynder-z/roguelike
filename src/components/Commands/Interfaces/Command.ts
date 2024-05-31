@@ -16,4 +16,6 @@ export interface Command {
   g: GameIF;
   cost?: Cost;
   setCost(cost?: Cost): void;
+  target?: Mob;
+  setTarget(target?: Mob): void;
 }
