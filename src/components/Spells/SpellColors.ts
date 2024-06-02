@@ -1,0 +1,28 @@
+export class SpellColors {
+  static c: string[][] = [
+    ['red', 'red'],
+    ['blue', 'blue'],
+    ['green', 'green'],
+    ['yellow', 'yellow'],
+    ['purple', 'purple'],
+    ['orange', 'orange'],
+    ['pink', 'pink'],
+    ['cyan', 'cyan'],
+    ['magenta', 'magenta'],
+    ['lime', 'lime'],
+    ['maroon', 'maroon'],
+    ['navy', 'navy'],
+    ['olive', 'olive'],
+    ['teal', 'teal'],
+    ['aqua', 'aqua'],
+    ['fuchsia', 'fuchsia'],
+    ['coral', 'coral'],
+    ['crimson', 'crimson'],
+    ['gold', 'gold'],
+    ['indigo', 'indigo'],
+    ['lavender', 'lavender'],
+    ['plum', 'plum'],
+    ['violet', 'violet'],
+    ['turquoise', 'turquoise'],
+  ];
+}

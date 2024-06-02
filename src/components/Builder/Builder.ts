@@ -19,6 +19,7 @@ import { Slot } from '../ItemObjects/Slot';
 import { MoodAI } from '../Mobs/MoodAI';
 import { Overworld } from '../../staticMaps/Overworld';
 import { MapGenerator_Cave } from '../MapGenerator/MapGenerator_Cave';
+import { Spell } from '../Spells/Spell';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -52,7 +53,8 @@ export class Builder implements BuildIF {
     const map = this.makeMap(rnd, level);
     this.addLevelStairs(map, level, rnd);
     this.addMobsToLevel(map, rnd);
-    if (level !== 0) this.addItems(map, rnd);
+    /*    if (level !== 0) this.addItems(map, rnd); */
+    this.addItems(map, rnd);
     return map;
   }
 
@@ -401,7 +403,7 @@ export class Builder implements BuildIF {
     map.cell(p).env = Glyph.Floor;
 
     p = new WorldPoint(a.x, a.y + 1);
-    map.addObject(new ItemObject(Glyph.Shield, Slot.OffHand), p);
+    map.addObject(new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Poison), p);
     map.cell(p).env = Glyph.Floor;
   }
 
@@ -414,14 +416,17 @@ export class Builder implements BuildIF {
   addItemToPlayerInventory(inv: Inventory): void {
     inv.add(new ItemObject(Glyph.Dagger, Slot.MainHand));
 
-    inv.add(new ItemObject(Glyph.Potion, Slot.NotWorn));
+    inv.add(new ItemObject(Glyph.Potion, Slot.NotWorn, Spell.Heal));
 
-    const rune = new ItemObject(Glyph.TeleportRune, Slot.NotWorn);
-    rune.charges = 2;
-    inv.add(rune);
+    const rune1 = new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Teleport);
+    rune1.charges = 2;
+    inv.add(rune1);
 
-    const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn);
+    const rune2 = new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Missile);
+    inv.add(rune2);
+
+    /*     const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn);
     pistol.charges = 10;
-    inv.add(pistol);
+    inv.add(pistol); */
   }
 }

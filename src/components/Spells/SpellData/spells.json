@@ -1,0 +1,104 @@
+{
+  "spells": [
+    {
+      "name": "Heal",
+      "desc": "Heals some hp."
+    },
+    {
+      "name": "Charm",
+      "desc": "Charms the target."
+    },
+    {
+      "name": "Slow",
+      "desc": "Slows the target."
+    },
+    {
+      "name": "Afraid",
+      "desc": "Instills fear in the target."
+    },
+    {
+      "name": "Missile",
+      "desc": "Launches a magical missile."
+    },
+    {
+      "name": "Poison",
+      "desc": "Poisons the target."
+    },
+    {
+      "name": "Confuse",
+      "desc": "Confuses the target."
+    },
+    {
+      "name": "Silence",
+      "desc": "Silences the target."
+    },
+    {
+      "name": "Cleanse",
+      "desc": "Removes negative effects."
+    },
+    {
+      "name": "Stun",
+      "desc": "Stuns the target."
+    },
+    {
+      "name": "Burn",
+      "desc": "Sets the target on fire."
+    },
+    {
+      "name": "Blind",
+      "desc": "Blinds the target."
+    },
+    {
+      "name": "Multiply",
+      "desc": "Multiplies the caster."
+    },
+    {
+      "name": "Freeze",
+      "desc": "Freezes the target."
+    },
+    {
+      "name": "Root",
+      "desc": "Roots the target in place."
+    },
+    {
+      "name": "Shock",
+      "desc": "Electrocutes the target."
+    },
+    {
+      "name": "Teleport",
+      "desc": "Teleports the caster."
+    },
+    {
+      "name": "Paralyze",
+      "desc": "Paralyzes the target."
+    },
+    {
+      "name": "Sleep",
+      "desc": "Puts the target to sleep."
+    },
+    {
+      "name": "Petrify",
+      "desc": "Turns the target to stone."
+    },
+    {
+      "name": "Summon",
+      "desc": "Summons a creature."
+    },
+    {
+      "name": "Bleed",
+      "desc": "Makes the target bleed."
+    },
+    {
+      "name": "Levitate",
+      "desc": "Levitates the target."
+    },
+    {
+      "name": "Disarm",
+      "desc": "Disarms the target."
+    },
+    {
+      "name": "None",
+      "desc": "No effect."
+    }
+  ]
+}

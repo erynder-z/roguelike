@@ -3,6 +3,8 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
+import { Spell } from '../Spells/Spell';
+import { SpellColors } from '../Spells/SpellColors';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
 import { CanSee } from '../Utilities/CanSee';
@@ -245,12 +247,19 @@ export class MapRenderer {
     cell: MapCell,
     glyphInfo: GlyphInfo,
   ): string {
+    let bg: string;
     const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
-    return isVisible
-      ? envOnlyGlyphInfo.bgCol
-      : glyphInfo.hasSolidBg && cell.lit
-        ? this.unlitColorSolidBg
-        : this.unlitColor;
+
+    if (isVisible) {
+      bg = envOnlyGlyphInfo.bgCol;
+    } else {
+      bg =
+        glyphInfo.hasSolidBg && cell.lit
+          ? this.unlitColorSolidBg
+          : this.unlitColor;
+    }
+
+    return bg;
   }
 
   /**
@@ -265,13 +274,21 @@ export class MapRenderer {
     isVisible: boolean,
     cell: MapCell,
     glyphInfo: GlyphInfo,
-  ) {
-    return isVisible
-      ? glyphInfo.fgCol
-      : cell.lit || cell.mob?.isPlayer
-        ? cell.env === Glyph.Unknown
-          ? glyphInfo.bgCol
-          : this.farLitColor
-        : this.unlitColor;
+  ): string {
+    let fg: string;
+
+    if (isVisible) {
+      fg = glyphInfo.fgCol;
+      if (cell.obj && cell.obj.spell != Spell.None)
+        fg = SpellColors.c[cell.obj.spell][0];
+    } else {
+      if (cell.lit || cell.mob?.isPlayer) {
+        fg = cell.env === Glyph.Unknown ? glyphInfo.bgCol : this.farLitColor;
+      } else {
+        fg = this.unlitColor;
+      }
+    }
+
+    return fg;
   }
 }

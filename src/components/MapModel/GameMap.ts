@@ -6,6 +6,8 @@ import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { GlyphMap } from '../Glyphs/GlyphMap';
+import { Spell } from '../Spells/Spell';
+import { ObjectTypes } from '../ItemObjects/ObjectTypes';
 
 /**
  * Represents the game map implementing the MapIF interface.
@@ -141,6 +143,9 @@ export class GameMap implements MapIF {
    */
   addObject(o: ItemObject, p: WorldPoint): void {
     o.desc = GlyphMap.getGlyphDescription(o.glyph, 'object');
+    if (o.spell != Spell.None)
+      o.desc = ObjectTypes.getSpellDescription(o.spell);
+
     this.cell(p).obj = o;
   }
 
