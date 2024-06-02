@@ -50,6 +50,7 @@ export enum Glyph {
   ShallowWater,
   Lava,
   Potion,
-  TeleportRune,
   Pistol,
+  Rune,
+  Scroll,
 }

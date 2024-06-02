@@ -1,17 +1,13 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { BulletCommand } from '../Commands/BulletCommand';
-import { HealCommand } from '../Commands/HealCommand';
 import { Command } from '../Commands/Interfaces/Command';
-import { TeleportCommand } from '../Commands/TeleportCommand';
-import { Glyph } from '../Glyphs/Glyph';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { MultipleUseItemCost } from '../ItemObjects/MultipleUseItemCost';
-import { Slot } from '../ItemObjects/Slot';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { Spell } from './Spell';
+import { SpellFinder } from './SpellFinder';
 
 /**
  * Helper-class that provides methods for returning a Command or a StackScreen for a item.
@@ -26,51 +22,39 @@ export class FindObjectSpell {
   ) {}
 
   /**
-   * Checks if the given ItemObject is usable.
+   * Checks if an ItemObject is usable. Objects that have no spell associated are not usable.
    *
    * @param {ItemObject} obj - The ItemObject to check.
-   * @return {boolean} Returns true if the ItemObject is usable, false otherwise.
+   * @param {GameIF} game - The GameIF instance.
+   * @return {boolean} True if the ItemObject is usable, false otherwise.
    */
-  isUsable(obj: ItemObject): boolean {
-    const canUse = obj.slot == Slot.NotWorn;
-    const msg = new LogMessage(
-      `${obj.description()} is not usable!`,
-      EventCategory.unable,
-    );
-    if (!canUse) this.game.flash(msg);
+  isUsable(obj: ItemObject, game: GameIF): boolean {
+    const canUse = obj.spell != Spell.None;
+
+    if (!canUse) {
+      const msg = new LogMessage(
+        `${obj.description()} is not usable!`,
+        EventCategory.unable,
+      );
+      game.flash(msg);
+    }
     return canUse;
   }
 
   /**
-   * Finds and returns a Command or StackScreen based on the provided ItemObject.
+   * Finds a Command, StackScreen, or null based on the given ItemObject and GameIF.
    *
-   * @return {Command | StackScreen | null} The found Command or StackScreen, or null if the ItemObject is not usable.
+   * @return {Command | StackScreen | null} The found Command, StackScreen, or null if the ItemObject is not usable.
    */
   find(): Command | StackScreen | null {
+    const g = this.game;
     const obj: ItemObject = this.obj;
 
-    if (!this.isUsable(obj)) return null;
+    if (!this.isUsable(obj, g)) return null;
 
-    const g = this.game;
-    const me = g.player;
-    let s: StackScreen | null = null;
-    let cmd: Command | null = null;
+    const finder = new SpellFinder(g, this.stack, this.make);
+    const cost = new MultipleUseItemCost(g, obj, this.index);
 
-    switch (obj.glyph) {
-      case Glyph.Potion:
-        cmd = new HealCommand(obj.level + 4, me, g);
-        break;
-      case Glyph.TeleportRune:
-        cmd = new TeleportCommand(6, me, g);
-        break;
-      case Glyph.Pistol:
-        cmd = new BulletCommand(g.player, g, this.stack, this.make);
-        s = new CommandDirectionScreen(cmd, g, this.make);
-        break;
-      default:
-        return null;
-    }
-    cmd.setCost(new MultipleUseItemCost(g, this.obj, this.index));
-    return s ? s : cmd;
+    return finder.find(obj.spell, cost);
   }
 }

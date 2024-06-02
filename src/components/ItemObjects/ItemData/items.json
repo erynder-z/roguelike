@@ -17,7 +17,7 @@
       "desc": "A sturdy shield offering excellent protection in combat."
     },
     {
-      "char": "!",
+      "char": "^",
       "bgCol": "#F8F8FF",
       "fgCol": "#8B4513",
       "hasSolidBg": false,
@@ -62,7 +62,7 @@
       "fgCol": "#4169E1",
       "hasSolidBg": false,
       "name": "Potion",
-      "desc": "A potion that heals some hp."
+      "desc": "A magic potion that heals some hp."
     },
     {
       "char": "ᛪ",
@@ -79,6 +79,22 @@
       "hasSolidBg": false,
       "name": "Pistol",
       "desc": "This is my boomstick!"
+    },
+    {
+      "char": "ᚱ",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#FF4500",
+      "hasSolidBg": false,
+      "name": "Rune",
+      "desc": "A rune that can cast magic."
+    },
+    {
+      "char": "§",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#483D8B",
+      "hasSolidBg": false,
+      "name": "Scroll",
+      "desc": "A scroll that can cast magic."
     }
   ]
 }
