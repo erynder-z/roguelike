@@ -177,7 +177,7 @@ export class DrawMap {
    */
   static renderMessage(game: GameIF): void {
     const log = game.log;
-    const messageLog = log.archive.slice(-30);
+    const messageLog = log.archive.slice(-25);
 
     const messagesDisplay = document.querySelector(
       'messages-display',
