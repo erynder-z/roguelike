@@ -235,6 +235,31 @@ export class MapRenderer {
   }
 
   /**
+   * Darkens a hex color by a given factor.
+   *
+   * @param {string} hexColor - The hex color to darken.
+   * @param {number} factor - The factor by which to darken the color.
+   * @return {string} The darkened hex color.
+   */
+  private static darkenColor(hexColor: string, factor: number): string {
+    if (hexColor.startsWith('#')) {
+      hexColor = hexColor.slice(1);
+    }
+
+    let r = parseInt(hexColor.slice(0, 2), 16);
+    let g = parseInt(hexColor.slice(2, 4), 16);
+    let b = parseInt(hexColor.slice(4, 6), 16);
+
+    r = Math.floor(r * (1 - factor));
+    g = Math.floor(g * (1 - factor));
+    b = Math.floor(b * (1 - factor));
+
+    const darkenedColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+
+    return darkenedColor;
+  }
+
+  /**
    * Calculates the background color for a cell based on its properties.
    *
    * @param {boolean} isVisible - Indicates if the cell is visible.
@@ -256,7 +281,7 @@ export class MapRenderer {
       bg =
         glyphInfo.hasSolidBg && cell.lit
           ? this.unlitColorSolidBg
-          : this.unlitColor;
+          : this.darkenColor(envOnlyGlyphInfo.bgCol, 0.3);
     }
 
     return bg;
@@ -283,7 +308,10 @@ export class MapRenderer {
         fg = SpellColors.c[cell.obj.spell][0];
     } else {
       if (cell.lit || cell.mob?.isPlayer) {
-        fg = cell.env === Glyph.Unknown ? glyphInfo.bgCol : this.farLitColor;
+        fg =
+          cell.env === Glyph.Unknown
+            ? glyphInfo.bgCol
+            : this.darkenColor(glyphInfo.fgCol, 0.0);
       } else {
         fg = this.unlitColor;
       }

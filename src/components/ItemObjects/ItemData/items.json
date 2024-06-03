@@ -3,7 +3,7 @@
     {
       "char": "-",
       "bgCol": "#F8F8FF",
-      "fgCol": "#708090",
+      "fgCol": "#FFD700",
       "hasSolidBg": false,
       "name": "Dagger",
       "desc": "A small, sharp blade, perfect for quick and deadly strikes."
@@ -11,7 +11,7 @@
     {
       "char": "[",
       "bgCol": "#F8F8FF",
-      "fgCol": "#D2691E",
+      "fgCol": "#FF8C00",
       "hasSolidBg": false,
       "name": "Shield",
       "desc": "A sturdy shield offering excellent protection in combat."
@@ -19,7 +19,7 @@
     {
       "char": "^",
       "bgCol": "#F8F8FF",
-      "fgCol": "#8B4513",
+      "fgCol": "#8B0000",
       "hasSolidBg": false,
       "name": "Cap",
       "desc": "A simple cap that offers minimal protection to the head."
@@ -35,7 +35,7 @@
     {
       "char": "}",
       "bgCol": "#F8F8FF",
-      "fgCol": "#800000",
+      "fgCol": "#FF1493",
       "hasSolidBg": false,
       "name": "Cape",
       "desc": "A flowing cape that offers protection and a touch of style."
@@ -43,7 +43,7 @@
     {
       "char": "{",
       "bgCol": "#F8F8FF",
-      "fgCol": "#2E8B57",
+      "fgCol": "#32CD32",
       "hasSolidBg": false,
       "name": "Pants",
       "desc": "A pair of durable pants providing basic leg protection."
@@ -51,7 +51,7 @@
     {
       "char": "[",
       "bgCol": "#F8F8FF",
-      "fgCol": "#4682B4",
+      "fgCol": "#1E90FF",
       "hasSolidBg": false,
       "name": "Boots",
       "desc": "A sturdy pair of boots that offer good foot protection and comfort."
@@ -59,7 +59,7 @@
     {
       "char": "!",
       "bgCol": "#F8F8FF",
-      "fgCol": "#4169E1",
+      "fgCol": "#DC143C",
       "hasSolidBg": false,
       "name": "Potion",
       "desc": "A magic potion that heals some hp."
@@ -67,7 +67,7 @@
     {
       "char": "ᛪ",
       "bgCol": "#F8F8FF",
-      "fgCol": "#C71585",
+      "fgCol": "#FF69B4",
       "hasSolidBg": false,
       "name": "TeleportRune",
       "desc": "A rune for a teleportation spell."
@@ -75,7 +75,7 @@
     {
       "char": "┌",
       "bgCol": "#F8F8FF",
-      "fgCol": "#800080",
+      "fgCol": "#FF4500",
       "hasSolidBg": false,
       "name": "Pistol",
       "desc": "This is my boomstick!"
@@ -83,7 +83,7 @@
     {
       "char": "ᚱ",
       "bgCol": "#F8F8FF",
-      "fgCol": "#FF4500",
+      "fgCol": "#00FF7F",
       "hasSolidBg": false,
       "name": "Rune",
       "desc": "A rune that can cast magic."
@@ -91,7 +91,7 @@
     {
       "char": "§",
       "bgCol": "#F8F8FF",
-      "fgCol": "#483D8B",
+      "fgCol": "#9400D3",
       "hasSolidBg": false,
       "name": "Scroll",
       "desc": "A scroll that can cast magic."

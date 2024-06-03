@@ -59,8 +59,8 @@ export class Terminal implements DrawableTerminal {
     const squeeze: number = this.sideLength * this.scalingFactor;
 
     // Set styles
-    ctx.fillStyle = '#110';
-    ctx.strokeStyle = 'red';
+    ctx.fillStyle = '#111a24';
+    ctx.strokeStyle = 'white';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = `${squeeze}px "DejaVu Sans Mono", monospace`;

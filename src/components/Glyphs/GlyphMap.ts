@@ -55,20 +55,11 @@ export class GlyphMap {
       GlyphMap.glyphsRegistry[glyph] = glyphInfo;
     };
 
-    // add default glyph
-    addGlyph({
-      char: '?',
-      bgCol: '',
-      fgCol: '#191970',
-      hasSolidBg: false,
-      name: 'Unknown',
-    });
-
     // add player glyph
     addGlyph({
       char: '@',
-      bgCol: '#F8F8FF',
-      fgCol: '#B22222',
+      bgCol: '#4B5A52',
+      fgCol: '#FFD700',
       hasSolidBg: false,
       name: 'Player',
     });
