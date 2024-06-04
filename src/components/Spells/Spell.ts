@@ -4,7 +4,7 @@ export enum Spell {
   Charm, // Tier 2
   Slow, // Tier 3
   Afraid, // Tier 4
-  Missile, // Tier 5
+  Bullet, // Tier 5
   Poison, // Tier 6
   Confuse, // Tier 7
   Silence, // Tier 8
