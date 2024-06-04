@@ -20,7 +20,7 @@ export class MapRenderer {
   static outside: MapCell = new MapCell(Glyph.Unknown);
   private static unlitColor: string = '#111a24';
   private static unlitColorSolidBg: string = '#222';
-  private static farLitColor: string = '#778899';
+  private static farLitColor: string = '#485460';
 
   /**
    * Draws a map with considerations for player position and lighting conditions.
@@ -88,6 +88,8 @@ export class MapRenderer {
             // fg color based on mob/item and bg color based on env
             bg = envOnlyGlyphInfo.bgCol;
             fg = glyphInfo.fgCol;
+            if (!cell.mob && cell.obj && cell.obj.spell != Spell.None)
+              fg = SpellColors.c[cell.obj.spell][0];
           }
 
           if (!cell.lit && !blind) cell.lit = true;
@@ -304,7 +306,7 @@ export class MapRenderer {
 
     if (isVisible) {
       fg = glyphInfo.fgCol;
-      if (cell.obj && cell.obj.spell != Spell.None)
+      if (!cell.mob && cell.obj && cell.obj.spell != Spell.None)
         fg = SpellColors.c[cell.obj.spell][0];
     } else {
       if (cell.lit || cell.mob?.isPlayer) {

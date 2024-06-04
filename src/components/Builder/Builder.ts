@@ -422,7 +422,7 @@ export class Builder implements BuildIF {
     rune1.charges = 2;
     inv.add(rune1);
 
-    const rune2 = new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Missile);
+    const rune2 = new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Bullet);
     inv.add(rune2);
 
     /*     const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn);

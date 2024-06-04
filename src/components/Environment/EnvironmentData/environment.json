@@ -17,7 +17,7 @@
     },
     {
       "char": "%",
-      "bgCol": "#7D7D7D",
+      "bgCol": "#3B3B3B",
       "fgCol": "#5F5F5F",
       "hasSolidBg": true,
       "name": "Rock",

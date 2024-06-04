@@ -55,7 +55,7 @@ export class SpellFinder {
       case Spell.Afraid:
         ({ screen, cmd } = b(Buff.Afraid, me));
         break;
-      case Spell.Missile:
+      case Spell.Bullet:
         screen = this.dir(
           (cmd = new BulletCommand(g.player, g, this.stack, this.make)),
         );

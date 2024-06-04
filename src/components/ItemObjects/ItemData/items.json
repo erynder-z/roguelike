@@ -2,96 +2,96 @@
   "items": [
     {
       "char": "-",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#FFD700",
+      "bgCol": "#4B5A52",
+      "fgCol": "#B0A084",
       "hasSolidBg": false,
       "name": "Dagger",
       "desc": "A small, sharp blade, perfect for quick and deadly strikes."
     },
     {
       "char": "[",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#FF8C00",
+      "bgCol": "#4B5A52",
+      "fgCol": "#8F8C79",
       "hasSolidBg": false,
       "name": "Shield",
       "desc": "A sturdy shield offering excellent protection in combat."
     },
     {
       "char": "^",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#8B0000",
+      "bgCol": "#4B5A52",
+      "fgCol": "#A67F66",
       "hasSolidBg": false,
       "name": "Cap",
       "desc": "A simple cap that offers minimal protection to the head."
     },
     {
       "char": "(",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#800080",
+      "bgCol": "#4B5A52",
+      "fgCol": "#887F72",
       "hasSolidBg": false,
       "name": "Gloves",
       "desc": "A pair of gloves that improve grip and provide some defense."
     },
     {
       "char": "}",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#FF1493",
+      "bgCol": "#4B5A52",
+      "fgCol": "#947E82",
       "hasSolidBg": false,
       "name": "Cape",
       "desc": "A flowing cape that offers protection and a touch of style."
     },
     {
       "char": "{",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#32CD32",
+      "bgCol": "#4B5A52",
+      "fgCol": "#889E7C",
       "hasSolidBg": false,
       "name": "Pants",
       "desc": "A pair of durable pants providing basic leg protection."
     },
     {
       "char": "[",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#1E90FF",
+      "bgCol": "#4B5A52",
+      "fgCol": "#7C8C8A",
       "hasSolidBg": false,
       "name": "Boots",
       "desc": "A sturdy pair of boots that offer good foot protection and comfort."
     },
     {
       "char": "!",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#DC143C",
+      "bgCol": "#4B5A52",
+      "fgCol": "#8B7D7A",
       "hasSolidBg": false,
       "name": "Potion",
       "desc": "A magic potion that heals some hp."
     },
     {
       "char": "ᛪ",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#FF69B4",
+      "bgCol": "#4B5A52",
+      "fgCol": "#8B7A83",
       "hasSolidBg": false,
       "name": "TeleportRune",
       "desc": "A rune for a teleportation spell."
     },
     {
       "char": "┌",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#FF4500",
+      "bgCol": "#4B5A52",
+      "fgCol": "#8A8C76",
       "hasSolidBg": false,
       "name": "Pistol",
       "desc": "This is my boomstick!"
     },
     {
       "char": "ᚱ",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#00FF7F",
+      "bgCol": "#4B5A52",
+      "fgCol": "#7F9278",
       "hasSolidBg": false,
       "name": "Rune",
       "desc": "A rune that can cast magic."
     },
     {
       "char": "§",
-      "bgCol": "#F8F8FF",
-      "fgCol": "#9400D3",
+      "bgCol": "#4B5A52",
+      "fgCol": "#8A758E",
       "hasSolidBg": false,
       "name": "Scroll",
       "desc": "A scroll that can cast magic."

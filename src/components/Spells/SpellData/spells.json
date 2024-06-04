@@ -17,8 +17,8 @@
       "desc": "Instills fear in the target."
     },
     {
-      "name": "Missile",
-      "desc": "Launches a magical missile."
+      "name": "Bullet",
+      "desc": "A pistol round."
     },
     {
       "name": "Poison",

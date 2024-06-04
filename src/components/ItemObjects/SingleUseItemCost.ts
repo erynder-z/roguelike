@@ -23,7 +23,6 @@ export class SingleUseItemCost implements Cost {
       `You use ${this.obj.name()}.`,
       EventCategory.use,
     );
-    console.log('test');
     this.g.message(msg);
     this.g.inventory!.removeIndex(this.objectIndex);
 

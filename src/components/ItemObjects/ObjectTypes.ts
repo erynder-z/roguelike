@@ -144,17 +144,21 @@ export class ObjectTypes {
     const object = new ItemObject(template.g, template.s);
     object.level = objectLevel;
 
-    if (object.glyph == Glyph.Pistol)
-      object.charges = rnd.randomInteger(10 + level);
-
-    if (object.glyph == Glyph.Rune)
-      object.charges = rnd.randomInteger(1 + level);
-
     switch (object.glyph) {
-      /*       case Glyph.Potion: */
+      case Glyph.Potion:
+        this.setSpecificSpell(object, Spell.Heal);
+        break;
       case Glyph.Rune:
+        this.setItemSpell(object, rnd);
+        this.setCharges(object, 1, rnd, level);
+        break;
       case Glyph.Scroll:
         this.setItemSpell(object, rnd);
+        break;
+      case Glyph.Pistol:
+        this.setSpecificSpell(object, Spell.Bullet);
+        object.charges = rnd.randomInteger(10, level);
+        break;
     }
 
     return object;
@@ -183,6 +187,34 @@ export class ObjectTypes {
     return s;
   }
 
+  /**
+   * Sets the specific spell for the given ItemObject.
+   *
+   * @param {ItemObject} object - The ItemObject to set the spell for.
+   * @param {Spell} spell - The specific spell to set.
+   * @return {void} This function does not return a value.
+   */
+  static setSpecificSpell(object: ItemObject, spell: Spell): void {
+    object.spell = spell;
+  }
+
+  /**
+   * Sets the charges of an ItemObject using a random integer within a specified range.
+   *
+   * @param {ItemObject} object - The ItemObject to set the charges for.
+   * @param {number} charges - The maximum number of charges.
+   * @param {RandomGenerator} rnd - The random number generator used to generate a random integer.
+   * @param {number} level - The level used to adjust the maximum number of charges.
+   * @return {void} This function does not return a value.
+   */
+  static setCharges(
+    object: ItemObject,
+    charges: number,
+    rnd: RandomGenerator,
+    level: number,
+  ): void {
+    object.charges = rnd.randomInteger(charges, level);
+  }
   /**
    * Retrieves a template object type based on its index.
    * @param {number} index - The index of the template.

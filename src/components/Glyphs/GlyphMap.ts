@@ -59,7 +59,7 @@ export class GlyphMap {
     addGlyph({
       char: '@',
       bgCol: '#4B5A52',
-      fgCol: '#FFD700',
+      fgCol: '#ffffff',
       hasSolidBg: false,
       name: 'Player',
     });
