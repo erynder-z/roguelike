@@ -143,7 +143,7 @@ export class ObjectTypes {
     const objectLevel = rnd.adjustLevel(level);
     const object = new ItemObject(template.g, template.s);
     object.level = objectLevel;
-
+    // TODO: Pistols are currently not usable!!!
     if (object.glyph == Glyph.Pistol)
       object.charges = rnd.randomInteger(10 + level);
 

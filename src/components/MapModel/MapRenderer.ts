@@ -20,7 +20,7 @@ export class MapRenderer {
   static outside: MapCell = new MapCell(Glyph.Unknown);
   private static unlitColor: string = '#111a24';
   private static unlitColorSolidBg: string = '#222';
-  private static farLitColor: string = '#778899';
+  private static farLitColor: string = '#485460';
 
   /**
    * Draws a map with considerations for player position and lighting conditions.
