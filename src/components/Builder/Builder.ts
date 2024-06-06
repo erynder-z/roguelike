@@ -117,8 +117,8 @@ export class Builder implements BuildIF {
    */
   makePlayer(): Mob {
     const player = new Mob(Glyph.Player, 20, 12);
-    player.hp = 69;
-    player.maxhp = 69;
+    player.hp = 99999;
+    player.maxhp = 99999;
     return player;
   }
 
@@ -128,7 +128,7 @@ export class Builder implements BuildIF {
    * @return {MobAI | null} The created MobAI instance, or null if unable to create one.
    */
   makeAI(): MobAI | null {
-    return new AISwitcher(MoodAI.stockMoodSpellCaster(1, 8));
+    return new AISwitcher(MoodAI.stockMoodShootAI(1, 8));
   }
 
   makeRingOfCats(map: MapIF, rnd: RandomGenerator): void {

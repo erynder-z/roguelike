@@ -65,7 +65,7 @@ export class BaseScreen implements StackScreen {
     this.finishPlayerTurn(queue, s);
     if (queue.mobs.length <= 0) return;
     for (m = queue.next(); !m.isPlayer && !this.over(s); m = queue.next()) {
-      this.npcTurn(m, player);
+      this.npcTurn(m, player, s);
     }
     this.handleMessages(s);
   }
@@ -76,9 +76,9 @@ export class BaseScreen implements StackScreen {
    * @param {Mob} m - the NPC performing the turn
    * @param {Mob} ply - the player involved in the turn
    */
-  npcTurn(m: Mob, ply: Mob) {
+  npcTurn(m: Mob, ply: Mob, stack: Stack): void {
     const ai = this.game.ai;
-    if (ai) ai.turn(m, ply, this.game);
+    if (ai) ai.turn(m, ply, this.game, stack, this.make);
     this.finishTurn(m);
   }
 
