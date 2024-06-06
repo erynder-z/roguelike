@@ -9,6 +9,8 @@ import { GameMap } from '../MapModel/GameMap';
 import { CanSee } from '../Utilities/CanSee';
 import { Buff } from '../Buffs/BuffEnum';
 import { BuffCommand } from '../Commands/BuffCommand';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 
 /**
  * An AI implementation for Mobs in an cast spells.
@@ -29,14 +31,22 @@ export class SpellAI implements MobAI {
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
    * @param {GameIF} game - The game instance.
+   * @param {Stack} stack - The screen stack.
+   * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - Always `true`.
    */
-  turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  turn(
+    me: Mob,
+    enemy: Mob,
+    game: GameIF,
+    stack: Stack,
+    make: ScreenMaker,
+  ): boolean {
     if (this.maybeCastSpell(me, enemy, game)) return true;
     const r = game.rand;
     for (let i = 0; i < this.speed; ++i) {
       const ai = r.isOneIn(2) ? this.aiTargetedMovement : this.aiRandomMovement;
-      ai.turn(me, enemy, game);
+      ai.turn(me, enemy, game, stack, make);
     }
     const far = !SimpleSleepAI.isNear(me, enemy);
     if (far) me.mood = r.isOneIn(3) ? Mood.Asleep : Mood.Awake;

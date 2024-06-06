@@ -6,6 +6,9 @@ import { Mood } from './MoodEnum';
 import { SimpleSleepAI } from './SimpleSleepAI';
 import { SpellAI } from './SpellAI';
 import { VisibilityAwareSleepAI } from './VisibilityAwareSleepAI';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { ShootAI } from './ShootAI';
 
 /**
  * An AI implementation that delegates behavior based on a Mob's mood.
@@ -30,9 +33,17 @@ export class MoodAI implements MobAI {
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
    * @param {GameIF} game - The game instance.
+   * @param {Stack} stack - The screen stack.
+   * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - The result of the delegated turn action.
    */
-  turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  turn(
+    me: Mob,
+    enemy: Mob,
+    game: GameIF,
+    stack: Stack,
+    make: ScreenMaker,
+  ): boolean {
     let ai: MobAI;
     switch (me.mood) {
       case Mood.Asleep:
@@ -45,7 +56,7 @@ export class MoodAI implements MobAI {
         ai = this.asleep;
         break;
     }
-    return ai!.turn(me, enemy, game);
+    return ai!.turn(me, enemy, game, stack, make);
   }
 
   /**
@@ -60,5 +71,9 @@ export class MoodAI implements MobAI {
 
   static stockMoodSpellCaster(speed: number, spellRate: number): MobAI {
     return new MoodAI(new SimpleSleepAI(), new SpellAI(speed, spellRate));
+  }
+
+  static stockMoodShootAI(speed: number, spellRate: number): MobAI {
+    return new MoodAI(new SimpleSleepAI(), new ShootAI(speed, spellRate));
   }
 }
