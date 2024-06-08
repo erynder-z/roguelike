@@ -57,9 +57,14 @@ export class Game implements GameIF {
     this.log.addCurrentEvent(evt);
   }
 
+  resetPlayerDmgCount(): void {
+    this.playerDmgCount = 0;
+  }
+
   dungeon: Dungeon = new Dungeon();
   autoHeal: AutoHeal | undefined = new AutoHeal();
   inventory = new Inventory();
   equipment = new Equipment();
   stats = { visRange: 50 };
+  playerDmgCount = 0;
 }

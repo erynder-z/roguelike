@@ -1,5 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { LogMessage } from '../Messages/LogMessage';
+import { MessageLog } from '../Messages/MessageLog';
 
 export class FlashDisplay extends HTMLElement {
   constructor() {
@@ -37,6 +38,10 @@ export class FlashDisplay extends HTMLElement {
           color: var(--yellow);
           font-size: 1.25rem;
         }
+
+        .more-span {
+          font-weight: bold;
+        }
       </style>
       <div class="flash-display"></div>
     `;
@@ -44,12 +49,29 @@ export class FlashDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  setFlash(msg: LogMessage) {
-    const flashDisplay = this.shadowRoot?.querySelector('.flash-display');
+  setFlash(msg: LogMessage, log: MessageLog) {
+    const flashDisplay = <HTMLElement>(
+      this.shadowRoot?.querySelector('.flash-display')
+    );
+
     if (flashDisplay) {
       flashDisplay.innerHTML = '';
       flashDisplay.textContent = msg.message;
+
+      if (log.hasQueuedMessages()) this.addMoreSpanToElement(flashDisplay, log);
     }
+  }
+
+  addMoreSpanToElement(element: HTMLElement, log: MessageLog) {
+    const numberOfQueueMessages: number = log.len() - 1;
+    const s =
+      numberOfQueueMessages >= 2
+        ? `(+${numberOfQueueMessages} more messages)`
+        : `(+${numberOfQueueMessages} more message)`;
+    const moreSpan = document.createElement('span');
+    moreSpan.textContent = s;
+    moreSpan.classList.add('more-span');
+    element.appendChild(moreSpan);
   }
 
   clearFlash(game: GameIF) {

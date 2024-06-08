@@ -235,7 +235,7 @@ export class DrawMap {
       'flash-display',
     ) as FlashDisplay;
     const msg = new LogMessage(s, EventCategory.none);
-    if (flashDisplay) flashDisplay.setFlash(msg);
+    if (flashDisplay) flashDisplay.setFlash(msg, log);
   }
 
   static clearFlash(game: GameIF): void {

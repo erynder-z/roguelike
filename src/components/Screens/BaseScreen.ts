@@ -7,6 +7,7 @@ import { GameMap } from '../MapModel/GameMap';
 import { Mob } from '../Mobs/Mob';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
 import { DrawMap } from '../MapModel/DrawMap';
+import { HealthAdjust } from '../Commands/HealthAdjust';
 
 /**
  * Represents a base screen implementation that implements the StackScreen interface.
@@ -68,6 +69,7 @@ export class BaseScreen implements StackScreen {
       this.npcTurn(m, player, s);
     }
     this.handleMessages(s);
+    if (this.game.playerDmgCount >= 0) this.game.resetPlayerDmgCount();
   }
 
   /**
@@ -98,12 +100,20 @@ export class BaseScreen implements StackScreen {
   }
 
   /**
-   * Handles messages in the game.
+   * Handle flash messages. Independent from the the Messages-Display component.
    * @param {Stack} s - The stack of Screens.
    * @returns {void}
    */
   handleMessages(s: Stack): void {
     if (!this.game.log) return;
+
+    if (this.game.playerDmgCount >= 1)
+      HealthAdjust.handlePlayerDamageMessage(
+        this.game.player,
+        this.game.playerDmgCount,
+        this.game,
+      );
+
     if (this.game.log.hasQueuedMessages()) s.push(this.make.more(this.game));
   }
 

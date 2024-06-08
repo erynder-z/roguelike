@@ -52,8 +52,7 @@ export class AISwitcher implements MobAI {
 
         break;
       case Glyph.Druid:
-        /*   ai = this.ai5_druid; */
-        ai = this.ai1_std;
+        ai = this.ai5_druid;
         break;
       default:
         ai = this.ai1_std;
