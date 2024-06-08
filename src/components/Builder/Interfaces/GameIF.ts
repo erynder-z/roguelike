@@ -21,6 +21,7 @@ export interface GameIF {
   message(msg: LogMessage): void;
   flash(msg: LogMessage): void;
   addCurrentEvent(evt: EventCategory): void;
+  resetPlayerDmgCount(): void;
   log: MessageLog;
   dungeon: Dungeon;
   build: Builder;
@@ -28,4 +29,5 @@ export interface GameIF {
   inventory: Inventory | undefined;
   equipment: Equipment | undefined;
   stats: { visRange: number };
+  playerDmgCount: number;
 }

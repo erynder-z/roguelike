@@ -56,16 +56,9 @@ export class HealthAdjust {
     attacker: Mob | null,
   ): void {
     AutoHeal.combatResets(mob, attacker, game);
-    /*  console.log('damage', amount, mob.hp); */
     mob.hp -= amount;
-    /*     console.log('damage to', amount, mob.hp); */
 
-    const s = this.generateDamageMessage(mob, amount);
-    const msg = new LogMessage(s, EventCategory.playerDamage);
-    if (mob.isPlayer) {
-      game.flash(msg);
-      game.addCurrentEvent(EventCategory.playerDamage);
-    }
+    if (mob.isPlayer) game.playerDmgCount += amount;
 
     const involvesPlayer =
       mob.isPlayer || (attacker !== null && attacker.isPlayer);
@@ -134,6 +127,29 @@ export class HealthAdjust {
       game.message(msg);
     }
   }
+
+  /**
+   * Handles the player damage message by generating a damage message based on the player and amount,
+   * creating a new LogMessage with the generated message and playerDamage EventCategory, flashing the message
+   * and adding the playerDamage event to the game.
+   *
+   * @param {Mob} player - The player involved in the damage.
+   * @param {number} amount - The amount of damage dealt to the player.
+   * @param {GameIF} game - The game interface.
+   * @return {void} This function does not return anything.
+   */
+  static handlePlayerDamageMessage(
+    player: Mob,
+    amount: number,
+    game: GameIF,
+  ): void {
+    const s = this.generateDamageMessage(player, amount);
+    const msg = new LogMessage(s, EventCategory.playerDamage);
+
+    game.flash(msg);
+    game.addCurrentEvent(EventCategory.playerDamage);
+  }
+
   /**
    * Generates a message based on the damage percentage inflicted on the mob.
    *
@@ -144,7 +160,6 @@ export class HealthAdjust {
   static generateDamageMessage(mob: Mob, amount: number): string {
     const damagePercentage = Math.round((amount / mob.hp) * 100);
     let message = '';
-
     if (damagePercentage >= 100) {
       message = `Everything around you begins to fade...`;
     } else if (damagePercentage >= 75) {
