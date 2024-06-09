@@ -40,7 +40,7 @@ export class AwakeAI implements MobAI {
       const ai = r.isOneIn(2) ? this.aiTargetedMovement : this.aiRandomMovement;
       ai.turn(me, enemy, game, stack, make);
     }
-    const far = SimpleSleepAI.isNear(me, enemy);
+    const far = !SimpleSleepAI.isNear(me, enemy);
     if (far) me.mood = r.isOneIn(3) ? Mood.Asleep : Mood.Awake;
     return true;
   }
