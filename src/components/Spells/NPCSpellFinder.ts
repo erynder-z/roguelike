@@ -127,10 +127,10 @@ export class NPCSpellFinder {
   /**
    * Sets the direction of the command based on the player's position and returns the updated command.
    *
-   * @param {Command} cmd - The command to be updated.
+   * @param {BulletCommand} cmd - The command to be updated.
    * @return {Command} The updated command with the direction set.
    */
-  aim(cmd: Command): Command {
+  aim(cmd: BulletCommand): Command {
     const dir = cmd.me.pos.directionTo(this.player.pos);
     return cmd.setDirection(dir);
   }

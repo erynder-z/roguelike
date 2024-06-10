@@ -2,6 +2,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from '../Commands/HealthAdjust';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { StepIF } from './Interfaces/StepIF';
 import { TimedStep } from './TimedStep';
@@ -12,7 +13,6 @@ import { TimedStep } from './TimedStep';
 export class DamageStep extends TimedStep {
   target: Mob | null = null;
   pos: WorldPoint | null = null;
-  rangedWeaponType = RangedWeaponType[this._rangedWeaponType];
 
   constructor(
     public amount: number,
@@ -52,11 +52,13 @@ export class DamageStep extends TimedStep {
     let tgt = this.target;
     if (!tgt) tgt = this.targetFromPosition();
     if (tgt) {
-      const rangedWeaponType = RangedWeaponType[this._rangedWeaponType];
-
-      this.game.message(
-        ` ${tgt.name} gets hit by a ${rangedWeaponType}for ${this.amount} damage`,
+      const msg = new LogMessage(
+        ` ${tgt.name} gets hit by a ranged weapon for ${this.amount} damage`,
+        EventCategory.none,
       );
+
+      this.game.message(msg);
+
       HealthAdjust.damage(tgt, this.amount, this.game, this.actor);
     } else {
       console.log('did not hit any target');
@@ -76,6 +78,15 @@ export class DamageStep extends TimedStep {
       if (cell.mob) return cell.mob;
     }
     return null;
+  }
+
+  /**
+   * Returns the type of ranged weapon used in this step.
+   *
+   * @return {RangedWeaponType} The type of ranged weapon.
+   */
+  rangedWeaponType(): RangedWeaponType {
+    return this._rangedWeaponType;
   }
 }
 
