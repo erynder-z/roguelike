@@ -17,5 +17,5 @@ export interface Command {
   cost?: Cost;
   setCost(cost?: Cost): void;
   target?: Mob;
-  setTarget(target?: Mob): void;
+  setTarget(target: Mob): void;
 }
