@@ -45,14 +45,16 @@ export class MoveBumpCommand extends CommandBase {
    */
   execute(): boolean {
     const g = this.game;
+    const m = this.me;
     this.confused(g, this.dir);
 
-    const np = this.dir.plus(this.me.pos);
-    const map = <GameMap>this.game.currentMap();
+    const np = this.dir.plus(m.pos);
+    const map = <GameMap>g.currentMap();
     if (!map.isLegalPoint(np)) return false;
     const cell = map.cell(np);
+
     return cell.mob
-      ? new HitCommand(this.me, cell.mob, this.game).turn()
-      : new MoveCommand(this.dir, this.me, this.game).turn();
+      ? new HitCommand(m, cell.mob, g).turn()
+      : new MoveCommand(this.dir, m, g).turn();
   }
 }

@@ -14,7 +14,7 @@ import { Cost } from './Interfaces/Cost';
 export abstract class CommandBase implements Command {
   act: Act = Act.Act;
   cost: Cost | undefined;
-  setCost(cost: Cost | undefined) {
+  setCost(cost?: Cost) {
     this.cost = cost;
   }
   target?: Mob;
@@ -46,7 +46,7 @@ export abstract class CommandBase implements Command {
     throw 'no setDirection';
   }
 
-    /**
+  /**
    * Sets the target of the function to the specified Mob.
    *
    * @param {Mob | undefined} target - The Mob object to set as the target.
