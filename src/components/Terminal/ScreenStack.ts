@@ -12,11 +12,11 @@ export class ScreenStack implements Stack, InteractiveScreen {
   name: string = 'stack';
   currentScreen: StackScreen[] = [];
   /**
-   * Remove the last element from the currentScreen array.
+   * Remove and return the last element from the currentScreen array, as well as remove the screen from the DOM.
    */
   pop() {
     this.removeScreen();
-    this.currentScreen.pop();
+    return this.currentScreen.pop();
   }
   /**
    * Push a new screen onto the stack.
