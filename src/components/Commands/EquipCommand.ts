@@ -9,21 +9,13 @@ import { CommandBase } from './CommandBase';
  * Represents a command to equip an item in a game.
  */
 export class EquipCommand extends CommandBase {
-  equipment: Equipment;
-
-  /**
-   * Creates an instance of EquipCommand.
-   * @param {ItemObject} item The item to equip.
-   * @param {number} index The index of the item in the inventory.
-   * @param {GameIF} game The game interface.
-   */
   constructor(
     public item: ItemObject,
     public index: number,
     public game: GameIF,
+    public equipment: Equipment = <Equipment>game.equipment,
   ) {
     super(game.player, game);
-    this.equipment = <Equipment>game.equipment;
   }
 
   /**

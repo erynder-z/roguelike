@@ -15,13 +15,13 @@ import { Command } from './Interfaces/Command';
  * Represents a command fires a given payload-command in a specified direction.
  */
 export class PayloadCommand extends CommandBase {
-  dir: WorldPoint = new WorldPoint();
   constructor(
     public me: Mob,
     public g: GameIF,
     public stack: Stack,
     public make: ScreenMaker,
     public payload: Command,
+    public dir: WorldPoint = new WorldPoint(),
   ) {
     super(me, g);
   }

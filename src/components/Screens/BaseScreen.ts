@@ -13,7 +13,7 @@ import { HealthAdjust } from '../Commands/HealthAdjust';
  * Represents a base screen implementation that implements the StackScreen interface.
  */
 export class BaseScreen implements StackScreen {
-  name: string = 'BaseScreen';
+  name = 'BaseScreen';
   constructor(
     public game: GameIF,
     public make: ScreenMaker,

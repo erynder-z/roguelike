@@ -19,7 +19,7 @@ export class AISwitcher implements MobAI {
   ai4_bat: MobAI = MoodAI.stockMood(2);
   ai5_druid: MobAI = new MobAI5_Druid(1, 5);
   ai_spell: MobAI = MoodAI.stockMoodSpellCaster(1, 8);
-  ai_shooter = MoodAI.stockMoodShootAI(1, 8);
+  ai_shooter = MoodAI.stockMoodShootAI(1, 5);
   ai_default: MobAI = MoodAI.stockMood(1);
 
   /**
@@ -52,7 +52,8 @@ export class AISwitcher implements MobAI {
 
         break;
       case Glyph.Druid:
-        ai = this.ai5_druid;
+        /* ai = this.ai5_druid; */
+        ai = this.ai_shooter;
         break;
       default:
         ai = this.ai1_std;

@@ -13,21 +13,12 @@ import { ObjectTypes } from '../ItemObjects/ObjectTypes';
  * Represents the game map implementing the MapIF interface.
  */
 export class GameMap implements MapIF {
-  /**
-   * 2D array of map cells representing the game map.
-   */
-  cells: MapCell[][];
-  queue: TurnQueue = new TurnQueue();
-  /**
-   * Creates an instance of GameMap.
-   * @param {WorldPoint} dimensions - The dimensions of the game map.
-   * @param {Glyph} g_empty - The default glyph for empty cells.
-   * @param {number} level - The level of the game map.
-   */
   constructor(
     public dimensions: WorldPoint,
     g_empty: Glyph,
     public level: number,
+    public cells: MapCell[][] = [],
+    public queue: TurnQueue = new TurnQueue(),
   ) {
     this.cells = this.allocateMap(g_empty);
   }

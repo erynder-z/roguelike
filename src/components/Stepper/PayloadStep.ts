@@ -10,13 +10,12 @@ import { TimedStep } from './TimedStep';
  * Represents a payload step that fires a payload command in a specified direction.
  */
 export class PayloadStep extends TimedStep {
-  target: Mob | null = null;
-  pos: WorldPoint | null = null;
-
   constructor(
     public actor: Mob,
     public game: GameIF,
     public payload: Command,
+    public target: Mob | null = null,
+    public pos: WorldPoint | null = null,
   ) {
     super();
   }

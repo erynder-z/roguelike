@@ -8,13 +8,13 @@ import { HealthAdjust } from './HealthAdjust';
  * Represents an AutoHeal system for a game.
  */
 export class AutoHeal {
-  amountToHealMin: number = 1;
-  timeToHealMax: number = 5;
-  nextWait: number = 0;
-  amount: number = 0;
-  countdown: number = 0;
-
-  constructor() {
+  constructor(
+    public amountToHealMin: number = 1,
+    public timeToHealMax: number = 5,
+    public nextWait: number = 0,
+    public amount: number = 0,
+    public countdown: number = 0,
+  ) {
     /**
      * Resets the healing parameters.
      */

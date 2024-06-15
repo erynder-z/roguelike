@@ -4,10 +4,6 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * Represents a random number generator.
  */
 export class RandomNumberGenerator {
-  /**
-   * Creates an instance of RandomNumberGenerator.
-   * @param {number} seed - The initial seed for the generator.
-   */
   constructor(public seed: number) {}
 
   /**

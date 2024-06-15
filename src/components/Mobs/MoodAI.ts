@@ -15,12 +15,6 @@ import { ShootAI } from './ShootAI';
  *
  */
 export class MoodAI implements MobAI {
-  /**
-   * Creates a new MoodAI instance.
-   *
-   * @param {MobAI} asleep - The AI to use when the Mob is asleep.
-   * @param {MobAI} awake - The AI to use when the Mob is awake.
-   */
   constructor(
     public asleep: MobAI,
     public awake: MobAI,

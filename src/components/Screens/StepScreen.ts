@@ -9,7 +9,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen that displays a timed step that damages a mob at its current position.
  */
 export class StepScreen extends BaseScreen {
-  name: string = 'step-screen';
+  name = 'step-screen';
   constructor(
     game: GameIF,
     make: ScreenMaker,
@@ -38,7 +38,6 @@ export class StepScreen extends BaseScreen {
   drawScreen(term: DrawableTerminal): void {
     super.drawScreen(term);
   }
-
 
   /**
    * Executes the onTime function.

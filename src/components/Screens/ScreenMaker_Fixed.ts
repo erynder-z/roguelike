@@ -13,9 +13,10 @@ import neutralImages from '../ImageHandler/neutralImages';
  * Represents a screen maker implementation for creating screens.
  */
 export class ScreenMaker_Fixed implements ScreenMaker {
-  game: GameIF | null = null;
-
-  constructor(public build: BuildIF) {}
+  constructor(
+    public build: BuildIF,
+    public game: GameIF | null = null,
+  ) {}
   /**
    * A function that handles the game over event.
    *

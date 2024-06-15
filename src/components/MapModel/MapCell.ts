@@ -6,10 +6,6 @@ import { ItemObject } from '../ItemObjects/ItemObject';
  * Represents a cell on the game map.
  */
 export class MapCell {
-  /**
-   * Creates an instance of MapCell.
-   * @param {Glyph} env - The environment glyph of the cell.
-   */
   constructor(public env: Glyph) {}
 
   mob: Mob | undefined;

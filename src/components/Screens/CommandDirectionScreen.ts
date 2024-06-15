@@ -10,14 +10,7 @@ import { BaseScreen } from './BaseScreen';
  * Represents a screen for selecting a direction for a command.
  */
 export class CommandDirectionScreen extends BaseScreen {
-  name = 'CommandDirectionScreen';
-
-  /**
-   * Creates an instance of CommandDirectionScreen.
-   * @param {Command} command - The command to be executed with the selected direction.
-   * @param {GameIF} game - The game interface.
-   * @param {ScreenMaker} make - The screen maker.
-   */
+  name = 'command-direction-screen';
   constructor(
     public command: Command,
     game: GameIF,

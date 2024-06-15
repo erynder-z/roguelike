@@ -9,11 +9,6 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
  * Represents a command for handling stair movements in the game.
  */
 export class StairCommand extends CommandBase {
-  /**
-   * Creates an instance of StairCommand.
-   * @param {number} levelDir - The direction of the level change (1 for descending, -1 for ascending).
-   * @param {GameIF} game - The game interface.
-   */
   constructor(
     public levelDir: number,
     public game: GameIF,

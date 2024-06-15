@@ -9,12 +9,6 @@ import { CommandBase } from './CommandBase';
  * Represents a command to drop an item from the player's inventory.
  */
 export class DropCommand extends CommandBase {
-  /**
-   * Constructs a DropCommand instance.
-   * @param {ItemObject} item - The item to drop.
-   * @param {number} index - The index of the item in the inventory.
-   * @param {GameIF} game - The game interface.
-   */
   constructor(
     public item: ItemObject,
     public index: number,

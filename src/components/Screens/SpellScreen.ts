@@ -14,7 +14,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen for choosing spells.
  */
 export class SpellScreen extends BaseScreen {
-  name: string = 'spell-screen';
+  name = 'spell-screen';
   constructor(
     public game: GameIF,
     public make: ScreenMaker,

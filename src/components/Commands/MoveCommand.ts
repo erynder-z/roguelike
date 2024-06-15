@@ -15,18 +15,11 @@ import { BuffCommand } from './BuffCommand';
  * Represents a move command that extends the functionality of the base command.
  */
 export class MoveCommand extends CommandBase {
-  act: Act = Act.Move;
-  /**
-   * Constructor for initializing the class with the given parameters.
-   *
-   * @param {WorldPoint} dir - the world point
-   * @param {Mob} me - the mob
-   * @param {GameIF} game - the game interface
-   */
   constructor(
     public dir: WorldPoint,
     public me: Mob,
     public game: GameIF,
+    public act: Act = Act.Move,
   ) {
     super(me, game);
   }

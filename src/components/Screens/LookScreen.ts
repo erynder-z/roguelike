@@ -22,10 +22,13 @@ export class LookScreen extends BaseScreen {
     this.game.player.pos.x,
     this.game.player.pos.y,
   );
-  private cursorPos: WorldPoint;
-  private lookPos: WorldPoint;
 
-  constructor(game: GameIF, make: ScreenMaker) {
+  constructor(
+    game: GameIF,
+    make: ScreenMaker,
+    private cursorPos: WorldPoint,
+    private lookPos: WorldPoint,
+  ) {
     super(game, make);
     this.cursorPos = this.neutralPos;
     this.lookPos = this.playerPos;

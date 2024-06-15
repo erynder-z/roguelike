@@ -18,24 +18,15 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen for interacting with items.
  */
 export class ItemScreen extends BaseScreen {
-  name: string = 'ItemScreen';
-  isEquipped: boolean;
-
-  /**
-   * Constructs an instance of ItemScreen.
-   * @param {ItemObject} obj - The item object.
-   * @param {number} index - The index of the item in the inventory.
-   * @param {GameIF} game - The game interface.
-   * @param {ScreenMaker} maker - The screen maker interface.
-   */
+  name = 'item-screen';
   constructor(
     public obj: ItemObject,
     public index: number,
     game: GameIF,
     maker: ScreenMaker,
+    public isEquipped: boolean = !!game.equipment,
   ) {
     super(game, maker);
-    this.isEquipped = !!game.equipment;
   }
 
   /**

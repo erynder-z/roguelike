@@ -12,12 +12,6 @@ import { MoveCommand } from './MoveCommand';
  * @extends CommandBase
  */
 export class MoveBumpCommand extends CommandBase {
-  /**
-   * Creates an instance of MoveBumpCommand.
-   * @param {WorldPoint} dir - The direction to move in.
-   * @param {Mob} mob - The mobile entity performing the move.
-   * @param {GameIF} game - The game interface.
-   */
   constructor(
     public dir: WorldPoint,
     public me: Mob,

@@ -8,13 +8,7 @@ import { Mood } from './MoodEnum';
  * Represents a mobile entity within the game world. Mob can be either a player or an NPC.
  */
 export class Mob {
-  /**
-   * Constructor for creating a new instance of the class.
-   *
-   * @param {Glyph} g - the glyph to be assigned
-   * @param {number} x - the x-coordinate
-   * @param {number} y - the y-coordinate
-   */
+
   constructor(g: Glyph, x: number, y: number) {
     this.isPlayer = g == Glyph.Player;
     this.glyph = g;

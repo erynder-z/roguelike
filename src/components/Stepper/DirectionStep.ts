@@ -9,18 +9,16 @@ import { TimedStep } from './TimedStep';
  * Represents a timed step that moves an object in a specified direction.
  */
 export class DirectionStep extends TimedStep {
-  map: MapIF;
-  direction: WorldPoint | null = null;
-
   constructor(
     public effect: StepIF | null,
     public next: StepIF | null,
     public sprite: Glyph,
     public pos: WorldPoint,
     public g: GameIF,
+    public map: MapIF = <MapIF>g.currentMap(),
+    public direction: WorldPoint | null = null,
   ) {
     super();
-    this.map = <MapIF>g.currentMap();
   }
 
   /**
