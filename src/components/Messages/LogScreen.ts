@@ -8,15 +8,12 @@ import { LogMessage } from './LogMessage';
  * Represents a screen for displaying the log messages.
  */
 export class LogScreen extends BaseScreen {
-  name: string = 'log-screen';
-  messageLog: LogMessage[];
-
-  /**
-   * Creates an instance of LogScreen.
-   * @param {GameIF} game - The game interface.
-   * @param {ScreenMaker} make - The screen maker.
-   */
-  constructor(game: GameIF, make: ScreenMaker) {
+  constructor(
+    game: GameIF,
+    make: ScreenMaker,
+    public name: string = 'log-screen',
+    public messageLog: LogMessage[] = [],
+  ) {
     super(game, make);
     this.messageLog = game.log.archive;
   }

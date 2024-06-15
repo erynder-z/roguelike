@@ -15,22 +15,13 @@ import neutralImages from '../ImageHandler/neutralImages';
  * @implements {ScreenMaker}
  */
 export class DynamicScreenMaker implements ScreenMaker {
-  game: GameIF | null = null;
-
-  /**
-   * Creates an instance of DynamicScreenMaker.
-   *
-   * @param {GameBuilder} builder - The builder for creating games.
-   * @param {Function} gameScreen - The function to create a game screen.
-   * @param {Function} overScreen - The function to create a game over screen.
-   * @param {Function} init - The function to initialize screens.
-   */
   constructor(
     public builder: BuildIF,
     public gameScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
     public overScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
     public moreScreen: (game: GameIF, sm: ScreenMaker) => StackScreen,
     public init: (sm: ScreenMaker) => StackScreen,
+    public game: GameIF | null = null,
   ) {}
 
   /**

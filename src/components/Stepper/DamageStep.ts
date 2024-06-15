@@ -11,14 +11,13 @@ import { TimedStep } from './TimedStep';
  * Represents a timed step that damages a mob at its current position.
  */
 export class DamageStep extends TimedStep {
-  target: Mob | null = null;
-  pos: WorldPoint | null = null;
-
   constructor(
     public amount: number,
     public _rangedWeaponType: RangedWeaponType,
     public actor: Mob,
     public game: GameIF,
+    public target: Mob | null = null,
+    public pos: WorldPoint | null = null,
   ) {
     super();
   }

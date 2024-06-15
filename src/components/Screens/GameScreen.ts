@@ -8,14 +8,7 @@ import { ParsePlayer } from '../Events/ParsePlayer';
  * Represents a game screen that extends the functionality of the base screen.
  */
 export class GameScreen extends BaseScreen {
-  name: string = 'GameScreen';
-
-  /**
-   * Constructor for creating a new instance of the class.
-   *
-   * @param {GameIF} game - the game interface
-   * @param {ScreenMaker} make - the screen maker
-   */
+  name = 'game-screen';
   constructor(game: GameIF, make: ScreenMaker) {
     super(game, make);
   }

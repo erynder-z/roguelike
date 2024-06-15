@@ -24,21 +24,12 @@ import { SpellScreen } from '../Screens/SpellScreen';
  * Class responsible for parsing player input and converting it into game commands.
  */
 export class ParsePlayer {
-  public player: Mob;
-  public map: MapIF;
-  /**
-   * Constructor for initializing game and screen maker.
-   *
-   * @param {GameIF} game - the game interface
-   * @param {ScreenMaker} make - the screen maker
-   */
   constructor(
     public game: GameIF,
     public make: ScreenMaker,
-  ) {
-    this.player = <Mob>game.player;
-    this.map = <MapIF>game.currentMap();
-  }
+    public player: Mob = <Mob>game.player,
+    public map: MapIF = <MapIF>game.currentMap(),
+  ) {}
 
   /**
    * Converts the keyboard event to the corresponding code, taking into account specific cases for arrow and numpad keys.

@@ -17,13 +17,12 @@ import { EventCategory } from '../Messages/LogMessage';
  * Represents a command to fire a ranged weapon.
  */
 export class BulletCommand extends CommandBase {
-  direction = new WorldPoint();
-
   constructor(
     public me: Mob,
     public game: GameIF,
     public stack: Stack,
     public make: ScreenMaker,
+    public direction: WorldPoint = new WorldPoint(),
   ) {
     super(me, game);
   }

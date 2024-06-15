@@ -8,10 +8,6 @@ import { CommandBase } from './CommandBase';
  * Represents a command to pick up an item from the game map and add it to the player's inventory.
  */
 export class PickupCommand extends CommandBase {
-  /**
-   * Creates an instance of PickupCommand.
-   * @param {GameIF} game - The game interface.
-   */
   constructor(public game: GameIF) {
     super(game.player, game);
   }

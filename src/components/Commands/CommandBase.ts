@@ -12,22 +12,17 @@ import { Cost } from './Interfaces/Cost';
  * Abstract class representing a base command implementation that implements the Command interface.
  */
 export abstract class CommandBase implements Command {
-  act: Act = Act.Act;
-  cost: Cost | undefined;
-  setCost(cost?: Cost) {
-    this.cost = cost;
-  }
-  target?: Mob;
-
-  /**
-   * Constructs a new CommandBase object.
-   * @param {Mob} me - The mob performing the command.
-   * @param {GameIF} g - The game interface.
-   */
   constructor(
     public me: Mob,
     public g: GameIF,
+    public act: Act = Act.Act,
+    public cost?: Cost,
+    public target?: Mob,
   ) {}
+
+  setCost(cost?: Cost) {
+    this.cost = cost;
+  }
 
   /**
    * Executes the command.
@@ -52,7 +47,7 @@ export abstract class CommandBase implements Command {
    * @param {Mob | undefined} target - The Mob object to set as the target.
    * @return {void} This function does not return anything.
    */
-  setTarget(target?: Mob | undefined): void {
+  setTarget(target: Mob): void {
     this.target = target;
   }
 

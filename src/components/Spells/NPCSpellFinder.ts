@@ -19,14 +19,12 @@ import { Spell } from './Spell';
  * Helper-class that provides methods for returning a spells to be used by npc-mobs.
  */
 export class NPCSpellFinder {
-  player: Mob;
   constructor(
     public game: GameIF,
     public stack: Stack,
     public make: ScreenMaker,
-  ) {
-    this.player = game.player;
-  }
+    public player: Mob = game.player,
+  ) {}
 
   /**
    * Finds and returns a Command or StackScreen based on the provided spell and optional cost.

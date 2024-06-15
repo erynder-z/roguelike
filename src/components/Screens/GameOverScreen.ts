@@ -8,13 +8,7 @@ import { StackScreen } from '../Terminal/Interfaces/StackScreen';
  *
  */
 export class GameOverScreen implements StackScreen {
-  name: string = 'gameover';
-
-  /**
-   * Create an instance of the GameOverScreen class.
-   *
-   * @type {ScreenMaker}
-   */
+  name = 'gameover';
   constructor(public make: ScreenMaker) {}
 
   /**

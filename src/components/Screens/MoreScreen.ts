@@ -9,11 +9,6 @@ import { BaseScreen } from './BaseScreen';
 export class MoreScreen extends BaseScreen {
   name = 'MoreScreen';
 
-  /**
-   * Creates an instance of MoreScreen.
-   * @param {GameIF} game - The game interface.
-   * @param {ScreenMaker} make - The screen maker.
-   */
   constructor(game: GameIF, make: ScreenMaker) {
     super(game, make);
   }

@@ -5,36 +5,14 @@ import { DrawableTerminal } from './Interfaces/DrawableTerminal';
  * Represents a terminal for drawing text on a canvas.
  */
 export class Terminal implements DrawableTerminal {
-  /**
-   * The 2D rendering context of the canvas.
-   */
-  ctx: CanvasRenderingContext2D;
-
-  /**
-   * The horizontal size of each cell in the terminal grid.
-   */
-  horizontalSide: number = 1;
-
-  /**
-   * The vertical size of each cell in the terminal grid.
-   */
-  verticalSide: number = 1;
-
-  /**
-   * The length of each side of a cell in the terminal grid (in pixels).
-   */
-  sideLength: number = 40;
-
-  /**
-   * The scaling factor for adjusting the font size within each cell.
-   */
-  scalingFactor: number = 0.8;
-
-  /**
-   * Creates a new instance of the Terminal class.
-   * @param dimensions - The dimensions of the terminal grid.
-   */
-  constructor(public dimensions: TerminalPoint) {
+  constructor(
+    public dimensions: TerminalPoint,
+    public ctx: CanvasRenderingContext2D,
+    public horizontalSide: number = 1,
+    public verticalSide: number = 1,
+    public sideLength: number = 40,
+    public scalingFactor: number = 0.8,
+  ) {
     this.ctx = this.initializeContext();
   }
 

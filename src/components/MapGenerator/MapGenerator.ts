@@ -8,11 +8,6 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * Class for generating maps.
  */
 export class MapGenerator1 {
-  /**
-   * Constructs a MapGenerator_Test object.
-   * @param {MapIF} map The map object to generate.
-   * @param {RandomGenerator} rnd The random generator object.
-   */
   constructor(
     public map: MapIF,
     public rnd: RandomGenerator,

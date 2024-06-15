@@ -13,18 +13,11 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
  * @extends CommandBase
  */
 export class HitCommand extends CommandBase {
-  act: Act = Act.Hit;
-
-  /**
-   * Creates an instance of HitCommand.
-   * @param {Mob} me - The mob initiating the hit.
-   * @param {Mob} him - The mob being hit.
-   * @param {GameIF} game - The game interface.
-   */
   constructor(
     public me: Mob,
     public him: Mob,
     public game: GameIF,
+    public act: Act = Act.Hit,
   ) {
     super(me, game);
   }

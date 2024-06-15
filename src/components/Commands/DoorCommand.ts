@@ -11,16 +11,10 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
  * Represents a command for interacting with doors in the game.
  */
 export class DoorCommand extends CommandBase {
-  direction: WorldPoint = new WorldPoint();
-
-  /**
-   * Creates an instance of DoorCommand.
-   * @param {Mob} me - The mob performing the command.
-   * @param {GameIF} game - The game interface.
-   */
   constructor(
     public me: Mob,
     public game: GameIF,
+    public direction: WorldPoint = new WorldPoint(),
   ) {
     super(me, game);
   }

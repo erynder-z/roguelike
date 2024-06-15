@@ -10,15 +10,13 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen displaying the player's equipment.
  */
 export class EquipmentScreen extends BaseScreen {
-  name: string = 'equipment-screen';
-  equipment: Equipment;
+  name = 'equipment-screen';
+  constructor(
+    game: GameIF,
+    make: ScreenMaker,
 
-  /**
-   * Creates an instance of EquipmentScreen.
-   * @param {GameIF} game - The game interface object.
-   * @param {ScreenMaker} make - The screen maker interface object.
-   */
-  constructor(game: GameIF, make: ScreenMaker) {
+    public equipment: Equipment = <Equipment>game.equipment,
+  ) {
     super(game, make);
     this.equipment = <Equipment>game.equipment;
   }

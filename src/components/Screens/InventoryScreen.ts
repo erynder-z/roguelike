@@ -10,15 +10,12 @@ import { ItemScreen } from './ItemScreen';
  * Represents an inventory screen.
  */
 export class InventoryScreen extends BaseScreen {
-  name: string = 'inventory-screen';
-  inventory: Inventory;
-
-  /**
-   * Constructs an instance of InventoryScreen.
-   * @param {GameIF} game - The game interface.
-   * @param {ScreenMaker} make - Screen maker interface.
-   */
-  constructor(game: GameIF, make: ScreenMaker) {
+  name = 'inventory-screen';
+  constructor(
+    game: GameIF,
+    make: ScreenMaker,
+    public inventory: Inventory = <Inventory>game.inventory,
+  ) {
     super(game, make);
     this.inventory = <Inventory>game.inventory;
   }
