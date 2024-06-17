@@ -1,0 +1,118 @@
+{
+  "Buffs": [
+    {
+      "buff": "Confuse",
+      "textColor": "#FFFF00",
+      "noun": "confusion",
+      "adjective": "confused"
+    },
+    {
+      "buff": "Afraid",
+      "textColor": "#FFA500",
+      "noun": "fear",
+      "adjective": "afraid"
+    },
+    {
+      "buff": "Root",
+      "textColor": "#00FF00",
+      "noun": "rooted",
+      "adjective": "rooted"
+    },
+    {
+      "buff": "Blind",
+      "textColor": "#FFFFFF",
+      "noun": "blind",
+      "adjective": "blinded"
+    },
+    {
+      "buff": "Paralyze",
+      "textColor": "#FFD700",
+      "noun": "paralysis",
+      "adjective": "paralyzed"
+    },
+    {
+      "buff": "Slow",
+      "textColor": "#00CED1",
+      "noun": "slow",
+      "adjective": "slowed"
+    },
+    {
+      "buff": "Freeze",
+      "textColor": "#00BFFF",
+      "noun": "freeze",
+      "adjective": "frozen"
+    },
+    {
+      "buff": "Petrify",
+      "textColor": "#808080",
+      "noun": "petrify",
+      "adjective": "petrified"
+    },
+    {
+      "buff": "Burn",
+      "textColor": "#FF4500",
+      "noun": "burn",
+      "adjective": "burning"
+    },
+    {
+      "buff": "Poison",
+      "textColor": "#ADFF2F",
+      "noun": "poison",
+      "adjective": "poisoned"
+    },
+    {
+      "buff": "Shock",
+      "textColor": "#7FFF00",
+      "noun": "shock",
+      "adjective": "shocked"
+    },
+    {
+      "buff": "Charm",
+      "textColor": "#FF69B4",
+      "noun": "charm",
+      "adjective": "charmed"
+    },
+    {
+      "buff": "Sleep",
+      "textColor": "#BA55D3",
+      "noun": "sleep",
+      "adjective": "asleep"
+    },
+    {
+      "buff": "Stun",
+      "textColor": "#FF6347",
+      "noun": "stun",
+      "adjective": "stunned"
+    },
+    {
+      "buff": "Bleed",
+      "textColor": "#FF0000",
+      "noun": "bleed",
+      "adjective": "bleeding"
+    },
+    {
+      "buff": "Silence",
+      "textColor": "#A9A9A9",
+      "noun": "silence",
+      "adjective": "silenced"
+    },
+    {
+      "buff": "Disarm",
+      "textColor": "#8B0000",
+      "noun": "disarm",
+      "adjective": "disarmed"
+    },
+    {
+      "buff": "Levitate",
+      "textColor": "#7B68EE",
+      "noun": "levitate",
+      "adjective": "levitating"
+    },
+    {
+      "buff": "Lava",
+      "textColor": "#FF8C00",
+      "noun": "burn",
+      "adjective": "burning"
+    }
+  ]
+}
