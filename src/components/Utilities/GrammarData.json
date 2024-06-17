@@ -1,0 +1,99 @@
+{
+  "Buffs": [
+    {
+      "buff": "Confuse",
+      "noun": "confusion",
+      "adjective": "confused"
+    },
+    {
+      "buff": "Afraid",
+      "noun": "fear",
+      "adjective": "afraid"
+    },
+    {
+      "buff": "Root",
+      "noun": "rooted",
+      "adjective": "rooted"
+    },
+    {
+      "buff": "Blind",
+      "noun": "blind",
+      "adjective": "blinded"
+    },
+    {
+      "buff": "Paralyze",
+      "noun": "paralysis",
+      "adjective": "paralyzed"
+    },
+    {
+      "buff": "Slow",
+      "noun": "slow",
+      "adjective": "slowed"
+    },
+    {
+      "buff": "Freeze",
+      "noun": "freeze",
+      "adjective": "frozen"
+    },
+    {
+      "buff": "Petrify",
+      "noun": "petrify",
+      "adjective": "petrified"
+    },
+    {
+      "buff": "Burn",
+      "noun": "burn",
+      "adjective": "burning"
+    },
+    {
+      "buff": "Poison",
+      "noun": "poison",
+      "adjective": "poisoned"
+    },
+    {
+      "buff": "Shock",
+      "noun": "shock",
+      "adjective": "shocked"
+    },
+    {
+      "buff": "Charm",
+      "noun": "charm",
+      "adjective": "charmed"
+    },
+    {
+      "buff": "Sleep",
+      "noun": "sleep",
+      "adjective": "asleep"
+    },
+    {
+      "buff": "Stun",
+      "noun": "stun",
+      "adjective": "stunned"
+    },
+    {
+      "buff": "Bleed",
+      "noun": "bleed",
+      "adjective": "bleeding"
+    },
+    {
+      "buff": "Silence",
+      "noun": "silence",
+      "adjective": "silenced"
+    },
+    {
+      "buff": "Disarm",
+      "noun": "disarm",
+      "adjective": "disarmed"
+    },
+    {
+      "buff": "Levitate",
+      "noun": "levitate",
+      "adjective": "levitating"
+    },
+    {
+      "buff": "Lava",
+      "noun": "burn",
+      "adjective": "burning"
+    }
+  ]
+}

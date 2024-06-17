@@ -1,6 +1,7 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
+import { GrammarHandler } from '../Utilities/GrammarHandler';
 import { Buff } from './BuffEnum';
 import { BuffIF } from './Interfaces/BuffIF';
 
@@ -18,10 +19,12 @@ export class ActiveBuffs {
    */
   add(b: BuffIF, game: GameIF, mob: Mob): void {
     this._map.set(b.buff, b);
+    const buffAdj = GrammarHandler.BuffToAdjective(b.buff) || b.buff;
     const msg = new LogMessage(
-      `${mob.name} is ${Buff[b.buff]}!`,
+      `${mob.name} is ${buffAdj}!`,
       EventCategory.buff,
     );
+
     game.message(msg);
   }
 
@@ -33,8 +36,9 @@ export class ActiveBuffs {
    */
   delete(b: BuffIF, game: GameIF, mob: Mob): void {
     this._map.delete(b.buff);
+    const buffAdj = GrammarHandler.BuffToAdjective(b.buff) || b.buff;
     const msg = new LogMessage(
-      `You are no longer ${Buff[b.buff]}!`,
+      `You are no longer ${buffAdj}!`,
       EventCategory.buff,
     );
     if (mob.isPlayer) game.message(msg);
