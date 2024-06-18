@@ -1,8 +1,12 @@
 import { LogMessage } from '../Messages/LogMessage';
+import { BuffColors } from './BuffColors';
 
 export class MessagesDisplay extends HTMLElement {
+  private colorizer: BuffColors;
+
   constructor() {
     super();
+    this.colorizer = new BuffColors();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -58,7 +62,6 @@ export class MessagesDisplay extends HTMLElement {
         li:nth-child(odd) {
           background-color: var(--whiteTransparent);
         }
-
       </style>
 
       <h1>Messages</h1>
@@ -70,19 +73,21 @@ export class MessagesDisplay extends HTMLElement {
 
   setMessages(messageLog: LogMessage[]) {
     const messagesDisplay = this.shadowRoot?.querySelector('.messages-display');
-    if (messagesDisplay) {
-      messagesDisplay.innerHTML = '';
+    if (!messagesDisplay) return;
 
-      const ulElement = document.createElement('ul');
+    const ulElement = document.createElement('ul');
+    const fragment = document.createDocumentFragment();
 
-      messageLog.forEach(m => {
-        const liElement = document.createElement('li');
-        liElement.textContent = m.message;
-        ulElement.appendChild(liElement);
-      });
+    messageLog.forEach(m => {
+      const liElement = document.createElement('li');
+      liElement.textContent = m.message;
+      this.colorizer.colorBuffs(liElement);
+      fragment.appendChild(liElement);
+    });
 
-      if (messagesDisplay) messagesDisplay.appendChild(ulElement);
-    }
+    ulElement.appendChild(fragment);
+    messagesDisplay.innerHTML = '';
+    messagesDisplay.appendChild(ulElement);
   }
 }
 

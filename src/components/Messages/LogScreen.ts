@@ -3,11 +3,13 @@ import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from '../Screens/BaseScreen';
 import { LogMessage } from './LogMessage';
+import { BuffColors } from '../UI/BuffColors';
 
 /**
  * Represents a screen for displaying the log messages.
  */
 export class LogScreen extends BaseScreen {
+  private colorizer: BuffColors;
   constructor(
     game: GameIF,
     make: ScreenMaker,
@@ -16,6 +18,7 @@ export class LogScreen extends BaseScreen {
   ) {
     super(game, make);
     this.messageLog = game.log.archive;
+    this.colorizer = new BuffColors();
   }
 
   /**
@@ -50,7 +53,7 @@ export class LogScreen extends BaseScreen {
     return logScreen;
   }
 
-  private fadeOutLoqScreen(): void {
+  private fadeOutLogScreen(): void {
     const inventoryScreenElement = document.getElementById('log-screen');
     if (inventoryScreenElement)
       inventoryScreenElement.classList.add('fade-out');
@@ -77,6 +80,7 @@ export class LogScreen extends BaseScreen {
     this.messageLog.slice(-100).forEach(m => {
       const listItem = document.createElement('li');
       listItem.textContent = m.message;
+      this.colorizer.colorBuffs(listItem);
       messageList.appendChild(listItem);
     });
     return messageList;
@@ -90,7 +94,7 @@ export class LogScreen extends BaseScreen {
    */
   handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     if (event.key === 'q') {
-      this.fadeOutLoqScreen();
+      this.fadeOutLogScreen();
       stack.pop();
       return true;
     }
