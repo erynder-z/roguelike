@@ -1,9 +1,12 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { BuffIF } from '../Buffs/Interfaces/BuffIF';
+import { BuffColors } from './BuffColors';
 
 export class BuffsDisplay extends HTMLElement {
+  private colorizer: BuffColors;
   constructor() {
     super();
+    this.colorizer = new BuffColors();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -67,6 +70,8 @@ export class BuffsDisplay extends HTMLElement {
         const listItem = document.createElement('li');
         const remainTime = buff.time;
         listItem.textContent = `${Buff[key]}: ${remainTime}`;
+
+        this.colorizer.colorBuffs(listItem);
         ulElement.appendChild(listItem);
       });
 
