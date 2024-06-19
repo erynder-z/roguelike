@@ -65,6 +65,7 @@ export class BuffsDisplay extends HTMLElement {
       buffsDisplay.innerHTML = '';
 
       const ulElement = document.createElement('ul');
+      const fragment = document.createDocumentFragment();
 
       buffMap.forEach((buff, key) => {
         const listItem = document.createElement('li');
@@ -72,12 +73,13 @@ export class BuffsDisplay extends HTMLElement {
         listItem.textContent = `${Buff[key]}: ${remainTime}`;
 
         this.colorizer.colorBuffs(listItem);
-        ulElement.appendChild(listItem);
+        fragment.appendChild(listItem);
       });
 
-      if (buffsDisplay) buffsDisplay.appendChild(ulElement);
+      ulElement.appendChild(fragment);
+      buffsDisplay.appendChild(ulElement);
     }
   }
-}
+} 
 
 customElements.define('buffs-display', BuffsDisplay);
