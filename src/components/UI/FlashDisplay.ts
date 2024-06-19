@@ -34,7 +34,7 @@ export class FlashDisplay extends HTMLElement {
         }
 
         .flash-display {
-          padding:1rem 1.5rem;
+          padding: 1rem 1.5rem;
           color: var(--yellow);
           font-size: 1.25rem;
         }
@@ -58,11 +58,15 @@ export class FlashDisplay extends HTMLElement {
       flashDisplay.innerHTML = '';
       flashDisplay.textContent = msg.message;
 
-      if (log.hasQueuedMessages()) this.addMoreSpanToElement(flashDisplay, log);
+      if (log.hasQueuedMessages()) {
+        const fragment = document.createDocumentFragment();
+        this.addMoreSpanToFragment(fragment, log);
+        flashDisplay.appendChild(fragment);
+      }
     }
   }
 
-  addMoreSpanToElement(element: HTMLElement, log: MessageLog) {
+  addMoreSpanToFragment(fragment: DocumentFragment, log: MessageLog) {
     const numberOfQueueMessages: number = log.len() - 1;
     const s =
       numberOfQueueMessages >= 2
@@ -71,7 +75,7 @@ export class FlashDisplay extends HTMLElement {
     const moreSpan = document.createElement('span');
     moreSpan.textContent = s;
     moreSpan.classList.add('more-span');
-    element.appendChild(moreSpan);
+    fragment.appendChild(moreSpan);
   }
 
   clearFlash(game: GameIF) {

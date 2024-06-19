@@ -1,8 +1,8 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
-import { BaseScreen } from '../Screens/BaseScreen';
-import { LogMessage } from './LogMessage';
+import { BaseScreen } from './BaseScreen';
+import { LogMessage } from '../Messages/LogMessage';
 import { BuffColors } from '../UI/BuffColors';
 
 /**
@@ -35,7 +35,7 @@ export class LogScreen extends BaseScreen {
   }
 
   /**
-   * Creates a log screen element.
+   * Creates a log screen element using a DocumentFragment.
    *
    * @return {HTMLDivElement} The created log screen element.
    */
@@ -44,19 +44,20 @@ export class LogScreen extends BaseScreen {
     logScreen.id = 'log-screen';
     logScreen.classList.add('log-screen', 'fade-in');
 
+    const fragment = document.createDocumentFragment();
     const heading = this.createHeading();
-    logScreen.appendChild(heading);
-
     const messageList = this.createMessageList();
-    logScreen.appendChild(messageList);
+
+    fragment.appendChild(heading);
+    fragment.appendChild(messageList);
+    logScreen.appendChild(fragment);
 
     return logScreen;
   }
 
   private fadeOutLogScreen(): void {
-    const inventoryScreenElement = document.getElementById('log-screen');
-    if (inventoryScreenElement)
-      inventoryScreenElement.classList.add('fade-out');
+    const logScreenElement = document.getElementById('log-screen');
+    if (logScreenElement) logScreenElement.classList.add('fade-out');
   }
 
   /**
@@ -77,12 +78,16 @@ export class LogScreen extends BaseScreen {
    */
   private createMessageList(): HTMLUListElement {
     const messageList = document.createElement('ul');
+    const fragment = document.createDocumentFragment();
+
     this.messageLog.slice(-100).forEach(m => {
       const listItem = document.createElement('li');
       listItem.textContent = m.message;
       this.colorizer.colorBuffs(listItem);
-      messageList.appendChild(listItem);
+      fragment.appendChild(listItem);
     });
+
+    messageList.appendChild(fragment);
     return messageList;
   }
 

@@ -14,7 +14,6 @@ export class EquipmentScreen extends BaseScreen {
   constructor(
     game: GameIF,
     make: ScreenMaker,
-
     public equipment: Equipment = <Equipment>game.equipment,
   ) {
     super(game, make);
@@ -58,11 +57,13 @@ export class EquipmentScreen extends BaseScreen {
     equipmentScreen.id = 'equipment-screen';
     equipmentScreen.classList.add('equipment-screen', 'fade-in');
 
+    const fragment = document.createDocumentFragment();
     const titleElement = this.createTitleElement();
     const equipmentListElement = this.createEquipmentList();
 
-    equipmentScreen.appendChild(titleElement);
-    equipmentScreen.appendChild(equipmentListElement);
+    fragment.appendChild(titleElement);
+    fragment.appendChild(equipmentListElement);
+    equipmentScreen.appendChild(fragment);
 
     return equipmentScreen;
   }

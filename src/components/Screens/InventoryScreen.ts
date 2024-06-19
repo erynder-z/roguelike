@@ -61,11 +61,13 @@ export class InventoryScreen extends BaseScreen {
     inventoryScreenElement.id = 'inventory-screen';
     inventoryScreenElement.classList.add('inventory-screen', 'fade-in');
 
+    const fragment = document.createDocumentFragment();
     const titleElement = this.createTitleElement();
     const inventoryListElement = this.createInventoryListElement();
 
-    inventoryScreenElement.appendChild(titleElement);
-    inventoryScreenElement.appendChild(inventoryListElement);
+    fragment.appendChild(titleElement);
+    fragment.appendChild(inventoryListElement);
+    inventoryScreenElement.appendChild(fragment);
 
     return inventoryScreenElement;
   }
