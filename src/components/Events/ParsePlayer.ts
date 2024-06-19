@@ -9,7 +9,7 @@ import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
 import { WaitCommand } from '../Commands/WaitCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { LogScreen } from '../Messages/LogScreen';
+import { LogScreen } from '../Screens/LogScreen';
 import { Mob } from '../Mobs/Mob';
 import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
 import { PickupCommand } from '../Commands/PickupCommand';

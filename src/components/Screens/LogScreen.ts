@@ -1,8 +1,8 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
-import { BaseScreen } from '../Screens/BaseScreen';
-import { LogMessage } from './LogMessage';
+import { BaseScreen } from './BaseScreen';
+import { LogMessage } from '../Messages/LogMessage';
 import { BuffColors } from '../UI/BuffColors';
 
 /**
