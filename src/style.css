@@ -3,6 +3,11 @@
   src: url(./fonts/DejaVuSansMono.ttf) format('truetype');
 }
 
+@font-face {
+  font-family: UASQUARE;
+  src: url(./fonts/UASQUARE.ttf) format('truetype');
+}
+
 :root {
   --background1: #111a24;
   --background1Transparent: rgba(17, 26, 36, 0.75);
