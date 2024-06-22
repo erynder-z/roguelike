@@ -16,29 +16,30 @@ export class TitleScreen extends HTMLElement {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: start;
             height: 100%;
-            width: 100%;
+            width: 100%;        
             background: var(--background1);
             color: var(--white);
             z-index: 1;
             overflow: hidden;
           }
-          .title-screen::before {
-            content: "";
+          .background-image {
             position: absolute;
             top: 0;
             left: 0;
             height: 100%;
             width: 100%;
             background-image: url('${img}');
-            background-size: 150%; 
-            background-position: left center; 
-            animation: pan 25s infinite alternate linear;
+            background-size: cover; /* Maintain aspect ratio */
+            background-position: left;
+            animation: pan 25s infinite linear;
             z-index: -1;
           }
           .title-screen h1 {
-            margin-bottom: 2rem;
+            margin-top: 12rem;  
+            text-align: center;
+            z-index: 1;
           }
           .title-screen button {
             font-family: 'UASQUARE';
@@ -62,21 +63,28 @@ export class TitleScreen extends HTMLElement {
 
           @keyframes pan {
             0% {
-              background-position: left center;
+              background-position: left;
+            }
+            50% {
+              background-position: right;
             }
             100% {
-              background-position: right center;
+              background-position: left;
             }
           }
 
           .buttons-container {
+            position: absolute;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            height: 100%;
             gap: 0.5rem;
           }
         </style>
   
         <div class="title-screen">
+          <div class="background-image"></div>
           <h1>Meikai: Roguelike Journey to the Center of the Earth</h1>
           <div class="buttons-container">
             <button id="new-game-button"><span class="underline">N</span>ew Game</button>
@@ -100,7 +108,7 @@ export class TitleScreen extends HTMLElement {
       .getElementById('help-button')
       ?.addEventListener('click', this.showHelp);
     shadowRoot
-      .getElementById('about-button')
+      .getElementById('about-window-button')
       ?.addEventListener('click', this.showAbout);
     document.addEventListener('keydown', this.handleKeyPress);
   }
