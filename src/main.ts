@@ -3,7 +3,7 @@ import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 import './cssReset.css';
 import './style.css';
 
-const SHOW_MENU = true;
+const SHOW_MENU = false;
 
 const showTitleScreen = () => {
   document.addEventListener('DOMContentLoaded', () => {
