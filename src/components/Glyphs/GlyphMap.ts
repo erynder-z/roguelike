@@ -17,7 +17,21 @@ export class GlyphMap {
    * Information about the default or "bad" glyph.
    * @type {GlyphInfo}
    */
-  static bad: GlyphInfo = new GlyphInfo(Glyph.Bad, 'red', 'yellow', false, '?');
+  static bad: GlyphInfo = new GlyphInfo(
+    Glyph.Bad,
+    'red',
+    'yellow',
+    false,
+    '?',
+    'bad',
+    'an unknown glyph',
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  );
 
   /**
    * Retrieves information about a specific glyph.
@@ -37,13 +51,7 @@ export class GlyphMap {
   static ensureInit: number = GlyphMap.initializeGlyphs();
 
   static initializeGlyphs(): number {
-    const addGlyph = (info: {
-      bgCol: string;
-      fgCol: string;
-      char: string;
-      hasSolidBg: boolean;
-      name: string;
-    }) => {
+    const addGlyph = (info: GlyphInfo) => {
       const glyph = Glyph[info.name as keyof typeof Glyph];
       const glyphInfo = new GlyphInfo(
         glyph,
@@ -51,17 +59,32 @@ export class GlyphMap {
         info.bgCol,
         info.hasSolidBg,
         info.char,
+        info.name,
+        info.description,
+        info.isOpaque,
+        info.isBlockingMovement,
+        info.isBlockingProjectiles,
+        info.isDiggable,
+        info.isSlowing,
+        info.isBurning,
       );
       GlyphMap.glyphsRegistry[glyph] = glyphInfo;
     };
 
     // add player glyph
-    addGlyph({
+    addGlyph(<GlyphInfo>{
       char: '@',
       bgCol: '#4B5A52',
       fgCol: '#ffffff',
       hasSolidBg: false,
       name: 'Player',
+      description: 'The player character. You are here.',
+      isOpaque: false,
+      isBlockingMovement: true,
+      isBlockingProjectiles: false,
+      isDiggable: false,
+      isSlowing: false,
+      isBurning: false,
     });
 
     environmentData['environment'].forEach(env => addGlyph(env));
@@ -82,6 +105,14 @@ export class GlyphMap {
     hasSolidBg: boolean,
     char: string,
     glyph: Glyph,
+    name: string,
+    desc: string,
+    isOpaque: boolean,
+    isBlockingMovement: boolean,
+    isBlockingProjectiles: boolean,
+    isDiggable: boolean,
+    isSlowing: boolean,
+    isBurning: boolean,
   ) {
     const info: GlyphInfo = new GlyphInfo(
       glyph,
@@ -89,6 +120,14 @@ export class GlyphMap {
       bgCol,
       hasSolidBg,
       char,
+      name,
+      desc,
+      isOpaque,
+      isBlockingMovement,
+      isBlockingProjectiles,
+      isDiggable,
+      isSlowing,
+      isBurning,
     );
     GlyphMap.warn(glyph);
     GlyphMap.glyphsRegistry[glyph] = info;

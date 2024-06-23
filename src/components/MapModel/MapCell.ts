@@ -1,6 +1,8 @@
 import { Mob } from '../Mobs/Mob';
 import { Glyph } from '../Glyphs/Glyph';
 import { ItemObject } from '../ItemObjects/ItemObject';
+import { GlyphMap } from '../Glyphs/GlyphMap';
+import { GlyphInfo } from '../Glyphs/GlyphInfo';
 
 /**
  * Represents a cell on the game map.
@@ -13,6 +15,15 @@ export class MapCell {
   obj: ItemObject | undefined;
   public sprite: Glyph | undefined;
   envDesc: string | undefined;
+
+  /**
+   * Dynamically retrieves the glyph information based on the current environment.
+   *
+   * @return {GlyphInfo} the glyph information
+   */
+  private get glyphInfo(): GlyphInfo {
+    return GlyphMap.getGlyphInfo(this.env);
+  }
 
   /**
    * Return the glyph of the mob if it exists, otherwise return the environment glyph.
@@ -69,7 +80,8 @@ export class MapCell {
    * @return {boolean} true if the cell is blocked, false otherwise
    */
   isBlocked(): boolean {
-    return !!this.mob || this.env === Glyph.DeepWater || this.isOpaque();
+    const isBlockingEnv = this.glyphInfo.isBlockingMovement || false;
+    return !!this.mob || isBlockingEnv;
   }
 
   /**
@@ -78,11 +90,7 @@ export class MapCell {
    * @return {boolean} true if the environment is opaque, false otherwise
    */
   isOpaque(): boolean {
-    return (
-      this.env === Glyph.Rock ||
-      this.env === Glyph.Wall ||
-      this.env === Glyph.Door_Closed
-    );
+    return this.glyphInfo.isOpaque || false;
   }
 
   /**
@@ -91,7 +99,7 @@ export class MapCell {
    * @return {boolean} true if the cell is slowing, false otherwise
    */
   isSlowing(): boolean {
-    return this.env === Glyph.ShallowWater;
+    return this.glyphInfo.isSlowing || false;
   }
 
   /**
@@ -100,6 +108,6 @@ export class MapCell {
    * @return {boolean} true if the cell is causing burn, false otherwise
    */
   isBurning(): boolean {
-    return this.env === Glyph.Lava;
+    return this.glyphInfo.isBurning || false;
   }
 }

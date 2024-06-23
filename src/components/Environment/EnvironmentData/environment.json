@@ -5,7 +5,14 @@
       "bgCol": "",
       "fgCol": "red",
       "hasSolidBg": false,
-      "name": "Unknown"
+      "name": "Unknown",
+      "description": "",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "·",
@@ -13,7 +20,13 @@
       "fgCol": "#6C7D6B",
       "hasSolidBg": false,
       "name": "Floor",
-      "desc": "Regular ground. Nothing special here."
+      "description": "Regular ground. Nothing special here.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "%",
@@ -21,7 +34,13 @@
       "fgCol": "#5F5F5F",
       "hasSolidBg": true,
       "name": "Rock",
-      "desc": "Solid rock. Solid, but can be dug through."
+      "description": "Solid rock. Solid, but can be dug through.",
+      "isOpaque": true,
+      "isBlockingMovement": true,
+      "isBlockingProjectiles": true,
+      "isDiggable": true,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "#",
@@ -29,7 +48,13 @@
       "fgCol": "#4F625B",
       "hasSolidBg": true,
       "name": "Wall",
-      "desc": "A sturdy wall blocking the path, providing protection and boundaries."
+      "description": "A sturdy wall blocking the path, providing protection and boundaries.",
+      "isOpaque": true,
+      "isBlockingMovement": true,
+      "isBlockingProjectiles": true,
+      "isDiggable": true,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "<",
@@ -37,7 +62,13 @@
       "fgCol": "#8A2B4B",
       "hasSolidBg": false,
       "name": "StairsUp",
-      "desc": "Stairs leading upwards to a higher level, offering a way to ascend."
+      "description": "Stairs leading upwards to a higher level, offering a way to ascend.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": true,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": ">",
@@ -45,7 +76,13 @@
       "fgCol": "#8A2B4B",
       "hasSolidBg": false,
       "name": "StairsDown",
-      "desc": "Stairs descending to a lower level, providing a path to explore deeper."
+      "description": "Stairs descending to a lower level, providing a path to explore deeper.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "'",
@@ -53,7 +90,13 @@
       "fgCol": "#1f2626",
       "hasSolidBg": false,
       "name": "Door_Open",
-      "desc": "An open door, allowing easy passage between rooms."
+      "description": "An open door, allowing easy passage between rooms.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "+",
@@ -61,7 +104,13 @@
       "fgCol": "#1f2626",
       "hasSolidBg": false,
       "name": "Door_Closed",
-      "desc": "A closed door, blocking the way until it is opened."
+      "description": "A closed door, blocking the way until it is opened.",
+      "isOpaque": true,
+      "isBlockingMovement": true,
+      "isBlockingProjectiles": true,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "§",
@@ -69,7 +118,13 @@
       "fgCol": "#B22222",
       "hasSolidBg": false,
       "name": "Bad",
-      "desc": "A harmful area that can damage or hinder anyone who steps on it."
+      "description": "A harmful area that can damage or hinder anyone who steps on it.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "⋄",
@@ -77,7 +132,13 @@
       "fgCol": "#B22222",
       "hasSolidBg": false,
       "name": "Bullet",
-      "desc": "A projectile in motion."
+      "description": "A projectile in motion.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "~",
@@ -85,7 +146,13 @@
       "fgCol": "#5A9FCF",
       "hasSolidBg": false,
       "name": "DeepWater",
-      "desc": "Impassable water surface."
+      "description": "Impassable water surface.",
+      "isOpaque": false,
+      "isBlockingMovement": true,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     },
     {
       "char": "~",
@@ -93,7 +160,13 @@
       "fgCol": "#003366",
       "hasSolidBg": false,
       "name": "ShallowWater",
-      "desc": "Shallow water that can be crossed, though it may slow movement."
+      "description": "Shallow water that can be crossed, though it may slow movement.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": true,
+      "isBurning": false
     },
     {
       "char": "×",
@@ -101,7 +174,13 @@
       "fgCol": "#fffe00",
       "hasSolidBg": false,
       "name": "Lava",
-      "desc": "Molten lava that is extremely dangerous and will cause severe burns."
+      "description": "Molten lava that is extremely dangerous and will cause severe burns.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": true
     }
   ]
 }

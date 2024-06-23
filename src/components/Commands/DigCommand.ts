@@ -1,5 +1,6 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
+import { GlyphMap } from '../Glyphs/GlyphMap';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
@@ -30,8 +31,9 @@ export class DigCommand extends CommandBase {
     const np = player.pos.plus(this.dir);
     const cell = map.cell(np);
     const e = cell.env;
+    const isDiggable = GlyphMap.getGlyphInfo(e).isDiggable;
 
-    if (e != Glyph.Wall && e != Glyph.Rock) {
+    if (!isDiggable) {
       const msg = new LogMessage('Cannot dig there!', EventCategory.unable);
       game.flash(msg);
       return false;
