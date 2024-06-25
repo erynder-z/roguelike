@@ -53,4 +53,5 @@ export enum Glyph {
   Pistol,
   Rune,
   Scroll,
+  Obsidian,
 }
