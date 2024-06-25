@@ -3,6 +3,7 @@ import { GameMap } from '../MapModel/GameMap';
 import { Glyph } from '../Glyphs/Glyph';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { RockGenerator } from './RockGenerator';
 
 /**
  * Class for generating maps.
@@ -28,7 +29,7 @@ export class MapGenerator1 {
     for (let n = 0; n < numIterations; ++n) {
       this.pickRandomPosition(upperLeft, roomDimensions);
       const filled = rnd.isOneIn(3);
-      this.drawRoom(upperLeft, roomDimensions, filled);
+      this.drawRoom(upperLeft, roomDimensions, filled, rnd);
     }
     return map;
   }
@@ -65,6 +66,7 @@ export class MapGenerator1 {
     upperLeft: WorldPoint,
     dimensions: WorldPoint,
     filled: boolean,
+    rnd: RandomGenerator,
   ): void {
     const centerGlyph = filled ? Glyph.Wall : Glyph.Floor;
     const x2 = dimensions.x - 1;
@@ -82,7 +84,7 @@ export class MapGenerator1 {
         const glyph = isEdge
           ? Glyph.Floor
           : isSecondLayer
-            ? Glyph.Wall
+            ? RockGenerator.getRandomRockType(rnd)
             : centerGlyph;
         this.map.cell(currentPoint).env = glyph;
         if (isSecondLayer) {

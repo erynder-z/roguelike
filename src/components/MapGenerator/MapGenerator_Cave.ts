@@ -3,6 +3,7 @@ import { GameMap } from '../MapModel/GameMap';
 import { Glyph } from '../Glyphs/Glyph';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { RockGenerator } from './RockGenerator';
 
 export class MapGenerator_Cave {
   constructor(
@@ -51,7 +52,8 @@ export class MapGenerator_Cave {
             rnd.generateRandomNumber() < wallProbability &&
             this.map.cell(new WorldPoint(x + dx, y + dy)).env !== Glyph.Floor
           ) {
-            this.map.cell(new WorldPoint(x + dx, y + dy)).env = Glyph.Rock;
+            this.map.cell(new WorldPoint(x + dx, y + dy)).env =
+              RockGenerator.getRandomRockType(rnd);
           }
         }
       }
