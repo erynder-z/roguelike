@@ -20,6 +20,7 @@ import { MoodAI } from '../Mobs/MoodAI';
 import { Overworld } from '../../staticMaps/Overworld';
 import { MapGenerator_Cave } from '../MapGenerator/MapGenerator_Cave';
 import { Spell } from '../Spells/Spell';
+import { MapGenerator_Maze } from '../MapGenerator/MapGenerator_Maze';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -35,7 +36,7 @@ export class Builder implements BuildIF {
     const player = this.makePlayer();
     const game = new Game(rnd, player, this);
     game.dungeon.level = 0;
-    this.enterFirstLevel(game);
+    this.enterFirstLevel(game, rnd);
     game.ai = this.makeAI();
     this.initLevel0(game);
 
@@ -78,8 +79,14 @@ export class Builder implements BuildIF {
       case 1:
         map = MapGenerator1.generate(wdim, rnd, level);
         break;
-      default:
+      case 2:
         map = MapGenerator_Cave.generate(rnd, level);
+        break;
+      case 3:
+        map = MapGenerator_Maze.generate(rnd, level);
+        break;
+      default:
+        map = MapGenerator1.generate(wdim, rnd, level);
         break;
     }
 
@@ -94,10 +101,13 @@ export class Builder implements BuildIF {
    * @param {Game} game - the game object
    * @return {void}
    */
-  enterFirstLevel(game: Game): void {
+  enterFirstLevel(game: Game, rnd: RandomGenerator): void {
     const dungeon = game.dungeon;
     const map = dungeon.currentMap(game);
-    const np = this.centerPos(map.dimensions);
+    /*     const np = this.centerPos(map.dimensions); */
+
+    const np = <WorldPoint>FindFreeSpace.findFree(map, rnd);
+
     game.dungeon.playerSwitchLevel(dungeon.level, np, game);
   }
   /**

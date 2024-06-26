@@ -181,6 +181,20 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": true
+    },
+    {
+      "char": "ͷ",
+      "bgCol": "#3e0a3d",
+      "fgCol": "#714f6e",
+      "hasSolidBg": false,
+      "name": "Obsidian",
+      "description": "Molten lava that is extremely dangerous and will cause severe burns.",
+      "isOpaque": true,
+      "isBlockingMovement": true,
+      "isBlockingProjectiles": true,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false
     }
   ]
 }
