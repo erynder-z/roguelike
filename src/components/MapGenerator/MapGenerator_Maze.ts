@@ -21,7 +21,7 @@ export class MapGenerator_Maze {
     // Initialize the maze with walls
     for (let y = 0; y < map.dimensions.y; y++) {
       for (let x = 0; x < map.dimensions.x; x++) {
-        map.cell(new WorldPoint(x, y)).env = Glyph.Wall;
+        map.cell(new WorldPoint(x, y)).env = Glyph.Obsidian;
       }
     }
 
@@ -55,7 +55,7 @@ export class MapGenerator_Maze {
         nx < map.dimensions.x - 1 &&
         ny > 0 &&
         ny < map.dimensions.y - 1 &&
-        map.cell(dir).env === Glyph.Wall
+        map.cell(dir).env === Glyph.Obsidian
       ) {
         // Carve passage to the neighbor
         const midX = (x + nx) / 2;
@@ -81,11 +81,11 @@ export class MapGenerator_Maze {
     return array;
   }
 
-  public static test(rnd: RandomGenerator, level: number): GameMap {
+  public static generate(rnd: RandomGenerator, level: number): GameMap {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
-    const map = new GameMap(mapDimensions, Glyph.Wall, level);
+    const map = new GameMap(mapDimensions, Glyph.Obsidian, level);
 
     const generator = new MapGenerator_Maze(map, rnd);
 

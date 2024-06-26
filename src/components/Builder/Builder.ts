@@ -20,6 +20,7 @@ import { MoodAI } from '../Mobs/MoodAI';
 import { Overworld } from '../../staticMaps/Overworld';
 import { MapGenerator_Cave } from '../MapGenerator/MapGenerator_Cave';
 import { Spell } from '../Spells/Spell';
+import { MapGenerator_Maze } from '../MapGenerator/MapGenerator_Maze';
 
 /**
  * Represents a builder for creating games, levels and mobs.
@@ -78,8 +79,14 @@ export class Builder implements BuildIF {
       case 1:
         map = MapGenerator1.generate(wdim, rnd, level);
         break;
-      default:
+      case 2:
         map = MapGenerator_Cave.generate(rnd, level);
+        break;
+      case 3:
+        map = MapGenerator_Maze.generate(rnd, level);
+        break;
+      default:
+        map = MapGenerator1.generate(wdim, rnd, level);
         break;
     }
 

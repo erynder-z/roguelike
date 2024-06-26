@@ -83,8 +83,8 @@ export class MapGenerator_Cave {
   }
 
   public static generate(rnd: RandomGenerator, level: number): MapIF {
-    const mapDimensionsX = 128;
-    const mapDimensionsY = 64;
+    const mapDimensionsX = 64;
+    const mapDimensionsY = 32;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
     const map = new GameMap(mapDimensions, Glyph.Rock, level);
 
