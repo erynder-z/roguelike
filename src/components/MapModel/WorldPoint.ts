@@ -1,3 +1,5 @@
+import { MapIF } from './Interfaces/MapIF';
+
 /**
  * Represents a point in the world with x and y coordinates.
  */
@@ -111,17 +113,34 @@ export class WorldPoint {
 
   /**
    * Get the neighboring points (including diagonals) of this point.
+   * @param {number} radius The radius within which to find neighboring points
    * @returns {WorldPoint[]} An array of neighboring points
    */
-  getNeighbors(): WorldPoint[] {
+  getNeighbors(radius: number = 1): WorldPoint[] {
     const neighbors: WorldPoint[] = [];
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
+    for (let dy = -radius; dy <= radius; dy++) {
+      for (let dx = -radius; dx <= radius; dx++) {
         if (dx === 0 && dy === 0) continue; // Skip the current point
         const neighbor = new WorldPoint(this.x + dx, this.y + dy);
         neighbors.push(neighbor);
       }
     }
     return neighbors;
+  }
+
+  /**
+   * Checks if the given position is out of bounds on the map.
+   *
+   * @param {WorldPoint} position - The position to check.
+   * @param {MapIF} map - The map interface containing dimensions for comparison.
+   * @return {boolean} True if the position is out of bounds, false otherwise.
+   */
+  isPositionOutOfBounds(position: WorldPoint, map: MapIF): boolean {
+    return (
+      position.x < 0 ||
+      position.y < 0 ||
+      position.x >= map.dimensions.x ||
+      position.y >= map.dimensions.y
+    );
   }
 }

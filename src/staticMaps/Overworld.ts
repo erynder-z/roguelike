@@ -5,6 +5,7 @@ import { WorldPoint } from '../components/MapModel/WorldPoint';
 import { MapIF } from '../components/MapModel/Interfaces/MapIF';
 import { MapGenerator1 } from '../components/MapGenerator/MapGenerator';
 import { RockGenerator } from '../components/MapGenerator/RockGenerator';
+import { FindFreeSpace } from '../components/Utilities/FindFreeSpace';
 
 export class Overworld {
   static generate(rnd: RandomGenerator, level: number): MapIF {
@@ -49,6 +50,10 @@ export class Overworld {
     for (const p of lavaPool) {
       m.cell(p).env = Glyph.Lava;
     }
+
+    const freeSpace = FindFreeSpace.findFree(m, rnd);
+
+    if (freeSpace) m.cell(freeSpace).env = Glyph.Magnetite;
 
     return m;
   }

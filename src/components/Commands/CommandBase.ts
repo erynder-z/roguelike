@@ -253,9 +253,8 @@ export abstract class CommandBase implements Command {
    * @returns {boolean} Whether the mob is confused or not.
    */
   confused(g: GameIF, dir: WorldPoint): boolean {
-    //TODO: Fix
     if (!this.me.is(Buff.Confuse)) return false;
-    console.log('cofused');
+
     const r = g.rand;
     if (r.isOneIn(2)) return false;
     const msg = new LogMessage('You are confused!', EventCategory.buff);

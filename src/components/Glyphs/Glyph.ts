@@ -54,4 +54,5 @@ export enum Glyph {
   Rune,
   Scroll,
   Obsidian,
+  Magnetite,
 }

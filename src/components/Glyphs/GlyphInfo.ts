@@ -18,5 +18,6 @@ export class GlyphInfo {
     public isDiggable: boolean,
     public isSlowing: boolean,
     public isBurning: boolean,
+    public isMagnetic: boolean,
   ) {}
 }
