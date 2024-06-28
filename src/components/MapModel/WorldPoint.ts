@@ -112,20 +112,18 @@ export class WorldPoint {
   }
 
   /**
-   * Get the neighboring points (including diagonals) of this point.
-   * @param {number} radius The radius within which to find neighboring points
-   * @returns {WorldPoint[]} An array of neighboring points
+   * Generates a generator that yields all neighboring points within the given radius.
+   *
+   * @param {number} radius - The radius within which to find neighboring points. Defaults to 1.
+   * @returns {Generator<WorldPoint>} A generator that yields WorldPoint instances.
    */
-  getNeighbors(radius: number = 1): WorldPoint[] {
-    const neighbors: WorldPoint[] = [];
+  *getNeighbors(radius: number = 1): Generator<WorldPoint> {
     for (let dy = -radius; dy <= radius; dy++) {
       for (let dx = -radius; dx <= radius; dx++) {
         if (dx === 0 && dy === 0) continue; // Skip the current point
-        const neighbor = new WorldPoint(this.x + dx, this.y + dy);
-        neighbors.push(neighbor);
+        yield new WorldPoint(this.x + dx, this.y + dy);
       }
     }
-    return neighbors;
   }
 
   /**
