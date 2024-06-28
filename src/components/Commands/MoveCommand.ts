@@ -12,7 +12,7 @@ import { Buff } from '../Buffs/BuffEnum';
 import { BuffCommand } from './BuffCommand';
 
 /**
- * Represents a move command that extends the functionality of the base command.
+ * Represents a move command that moves a mob in the game.
  */
 export class MoveCommand extends CommandBase {
   constructor(
@@ -23,82 +23,119 @@ export class MoveCommand extends CommandBase {
   ) {
     super(me, game);
   }
-
   /**
-   * Executes the move command without checking for obstacles.
-   * @returns {boolean} Always returns true.
-   */
-  execute0(): boolean {
-    const map = <MapIF>this.game.currentMap();
-    const np = this.dir.plus(this.me.pos);
-    map.moveMob(this.me, np);
-    return true;
-  }
-
-  /**
-   * Executes the move command, checking for obstacles.
-   * @returns {boolean} True if the move is legal and executed successfully, otherwise false.
+   * Executes the move command for the mob.
+   *
+   * @returns {boolean} Whether the move was successful or not.
    */
   execute(): boolean {
+    const newPosition = this.dir.plus(this.me.pos);
     const map = <MapIF>this.game.currentMap();
-    const np = this.dir.plus(this.me.pos);
-    const legal = !map.isBlocked(np);
-    const slowing = map.cell(np).isSlowing();
-    const burning = map.cell(np).isBurning();
-    if (legal) {
-      slowing &&
-        new BuffCommand(Buff.Slow, this.me, this.game, this.me, 2).execute();
-      burning &&
-        new BuffCommand(Buff.Lava, this.me, this.game, this.me).execute();
-      this.me.sinceMove = 0;
-      map.moveMob(this.me, np);
-      if (this.me.isPlayer) {
-        this.dealWithStairs(map, np);
-        this.flashIfItem();
-      }
+
+    if (this.isMoveLegal(map, newPosition)) {
+      this.applyCellEffects(map, newPosition);
+
+      this.moveAndHandleExtras(map, newPosition);
     }
 
-    const m = this.me;
+    if (this.me.isPlayer) {
+      this.game.addCurrentEvent(EventCategory.moving);
+    }
 
-    if (m.isPlayer) this.game.addCurrentEvent(EventCategory.moving);
-
-    return legal;
+    return !map.isBlocked(newPosition);
   }
 
   /**
-   * Deals with stairs after the move, if the player has encountered stairs.
-   * @param {MapIF} map - The map object.
-   * @param {WorldPoint} np - The new position after the move.
-   * @returns {void}
+   * Checks if a move is legal based on the provided map and position.
+   *
+   * @param {MapIF} map - The map object representing the game world.
+   * @param {WorldPoint} position - The position to check if it is legal to move to.
+   * @return {boolean} Returns true if the move is legal, false otherwise.
    */
-  dealWithStairs(map: MapIF, np: WorldPoint): void {
-    let dir: number;
-
-    switch (map.cell(np).env) {
-      case Glyph.StairsDown:
-        dir = 1;
-        break;
-      case Glyph.StairsUp:
-        dir = -1;
-        break;
-      default:
-        return;
-    }
-    new StairCommand(dir, this.game).raw();
+  private isMoveLegal(map: MapIF, position: WorldPoint): boolean {
+    return !map.isBlocked(position);
   }
 
-  flashIfItem(): void {
-    const map: MapIF = <MapIF>this.game.currentMap();
-    const np: WorldPoint = this.game.player.pos;
-    const o: ItemObject | undefined = map.cell(np).obj;
+  /**
+   * Applies cell effects based on the given map and position.
+   *
+   * @param {MapIF} map - The map interface to apply cell effects on.
+   * @param {WorldPoint} position - The position on the map to apply effects to.
+   */
+  private applyCellEffects(map: MapIF, position: WorldPoint): void {
+    if (map.cell(position).isSlowing()) {
+      new BuffCommand(Buff.Slow, this.me, this.game, this.me, 2).execute();
+    }
+    if (map.cell(position).isBurning()) {
+      new BuffCommand(Buff.Lava, this.me, this.game, this.me).execute();
+    }
+  }
 
-    if (o) {
-      const msg = new LogMessage(
-        `${o.description()} is lying here`,
+  /**
+   * Moves the mob to the specified position and handles any additional actions if the mob is a player.
+   *
+   * @param {MapIF} map - The map interface representing the game world.
+   * @param {WorldPoint} position - The position to move the mob to.
+   * @return {void} This function does not return a value.
+   */
+  private moveAndHandleExtras(map: MapIF, position: WorldPoint): void {
+    this.moveMobAndResetCounter(map, position);
+    if (this.me.isPlayer) {
+      this.dealWithStairs(map, position);
+      this.flashIfItem();
+    }
+  }
+
+  /**
+   * Moves the mob to the specified position and resets the counter for the number of turns since the last move.
+   *
+   * @param {MapIF} map - The map interface representing the game world.
+   * @param {WorldPoint} position - The position to move the mob to.
+   * @return {void} This function does not return a value.
+   */
+  private moveMobAndResetCounter(map: MapIF, position: WorldPoint): void {
+    this.me.sinceMove = 0;
+    map.moveMob(this.me, position);
+  }
+
+  /**
+   * Deals with stairs in the map.
+   *
+   * @param {MapIF} map - The map interface representing the game world.
+   * @param {WorldPoint} position - The position to check for stairs.
+   * @return {void} This function does not return a value.
+   */
+  private dealWithStairs(map: MapIF, position: WorldPoint): void {
+    const cell = map.cell(position);
+    let direction: number | null = null;
+
+    if (cell.env === Glyph.StairsDown) {
+      direction = 1;
+    } else if (cell.env === Glyph.StairsUp) {
+      direction = -1;
+    }
+
+    if (direction !== null) {
+      new StairCommand(direction, this.game).raw();
+    }
+  }
+
+  /**
+   * Checks if there is an item at the player's current position and flashes a message if there is.
+   *
+   * @return {void} This function does not return anything.
+   */
+  private flashIfItem(): void {
+    const map: MapIF = <MapIF>this.game.currentMap();
+    const playerPosition: WorldPoint = this.game.player.pos;
+    const item: ItemObject | undefined = map.cell(playerPosition).obj;
+
+    if (item) {
+      const message = new LogMessage(
+        `${item.description()} is lying here`,
         EventCategory.layingObject,
       );
-      this.game.message(msg);
-      /*  this.game.flash(msg); */
+      this.game.message(message);
     }
   }
 }

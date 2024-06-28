@@ -31,6 +31,7 @@ export class GlyphMap {
     false,
     false,
     false,
+    false,
   );
 
   /**
@@ -67,6 +68,7 @@ export class GlyphMap {
         info.isDiggable,
         info.isSlowing,
         info.isBurning,
+        info.isMagnetic,
       );
       GlyphMap.glyphsRegistry[glyph] = glyphInfo;
     };
@@ -85,6 +87,7 @@ export class GlyphMap {
       isDiggable: false,
       isSlowing: false,
       isBurning: false,
+      isMagnetic: false,
     });
 
     environmentData['environment'].forEach(env => addGlyph(env));
@@ -113,6 +116,7 @@ export class GlyphMap {
     isDiggable: boolean,
     isSlowing: boolean,
     isBurning: boolean,
+    isMagnetic: boolean,
   ) {
     const info: GlyphInfo = new GlyphInfo(
       glyph,
@@ -128,6 +132,7 @@ export class GlyphMap {
       isDiggable,
       isSlowing,
       isBurning,
+      isMagnetic,
     );
     GlyphMap.warn(glyph);
     GlyphMap.glyphsRegistry[glyph] = info;

@@ -110,4 +110,13 @@ export class MapCell {
   isBurning(): boolean {
     return this.glyphInfo.isBurning || false;
   }
+
+  /**
+   * Check if the cell is magnetic.
+   *
+   * @return {boolean} true if the cell is magnetic, false otherwise
+   */
+  isMagnetic(): boolean {
+    return this.glyphInfo.isMagnetic || false;
+  }
 }

@@ -12,7 +12,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "·",
@@ -26,7 +27,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "%",
@@ -40,7 +42,8 @@
       "isBlockingProjectiles": true,
       "isDiggable": true,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "#",
@@ -54,7 +57,8 @@
       "isBlockingProjectiles": true,
       "isDiggable": true,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "<",
@@ -68,7 +72,8 @@
       "isBlockingProjectiles": true,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": ">",
@@ -82,7 +87,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "'",
@@ -96,7 +102,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "+",
@@ -110,7 +117,8 @@
       "isBlockingProjectiles": true,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "§",
@@ -124,7 +132,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "⋄",
@@ -138,7 +147,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "~",
@@ -152,7 +162,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "~",
@@ -166,7 +177,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": true,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "×",
@@ -180,7 +192,8 @@
       "isBlockingProjectiles": false,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": true
+      "isBurning": true,
+      "isMagnetic": false
     },
     {
       "char": "ͷ",
@@ -188,13 +201,29 @@
       "fgCol": "#714f6e",
       "hasSolidBg": false,
       "name": "Obsidian",
-      "description": "Molten lava that is extremely dangerous and will cause severe burns.",
+      "description": "An extremely hard, indestructible rock.",
       "isOpaque": true,
       "isBlockingMovement": true,
       "isBlockingProjectiles": true,
       "isDiggable": false,
       "isSlowing": false,
-      "isBurning": false
+      "isBurning": false,
+      "isMagnetic": false
+    },
+    {
+      "char": "ϕ",
+      "bgCol": "#076141",
+      "fgCol": "#a1f8d9",
+      "hasSolidBg": false,
+      "name": "Magnetite",
+      "description": "A magnetic rock that attracts objects.",
+      "isOpaque": true,
+      "isBlockingMovement": true,
+      "isBlockingProjectiles": true,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": true
     }
   ]
 }

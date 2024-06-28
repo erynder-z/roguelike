@@ -138,7 +138,8 @@ export class MapGenerator1 {
     for (let i = 0; i < iterations && shape.size < maxShapeSize; i++) {
       const newShape = new Set<WorldPoint>(shape);
       for (const p of shape) {
-        const neighbors = p.getNeighbors();
+        const range = 1;
+        const neighbors = p.getNeighbors(range);
         for (const neighbor of neighbors) {
           // Add neighboring points with a certain probability and if they're within the map bounds
           if (
