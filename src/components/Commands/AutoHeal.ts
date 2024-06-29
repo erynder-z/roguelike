@@ -5,7 +5,7 @@ import { Mob } from '../Mobs/Mob';
 import { HealthAdjust } from './HealthAdjust';
 
 /**
- * Represents an AutoHeal system for a game.
+ * Manages auto healing for a mob.
  */
 export class AutoHeal {
   constructor(
@@ -15,9 +15,6 @@ export class AutoHeal {
     public amount: number = 0,
     public countdown: number = 0,
   ) {
-    /**
-     * Resets the healing parameters.
-     */
     this.resetHeal();
   }
 
@@ -62,7 +59,7 @@ export class AutoHeal {
   /**
    * Reset the healing parameters to their initial values.
    */
-  resetHeal() {
+  private resetHeal() {
     this.nextWait = this.timeToHealMax;
     this.amount = this.amountToHealMin;
     this.countdown = this.nextWait;
@@ -73,7 +70,7 @@ export class AutoHeal {
    * @param player - The player mob.
    * @param game - The game interface.
    */
-  turn(player: Mob, game: GameIF) {
+  public turn(player: Mob, game: GameIF) {
     if (this.isAtFullHealth(player)) return;
     this.step_timeToHeal(player, game);
   }
@@ -83,7 +80,7 @@ export class AutoHeal {
    * @param mob - The mob to check.
    * @return {boolean} if at full health
    */
-  isAtFullHealth(mob: Mob): boolean {
+  private isAtFullHealth(mob: Mob): boolean {
     return mob.hp >= mob.maxhp;
   }
 
@@ -92,7 +89,7 @@ export class AutoHeal {
    * @param player - The player mob.
    * @param game - The game interface.
    */
-  step_timeToHeal(player: Mob, game: GameIF) {
+  private step_timeToHeal(player: Mob, game: GameIF) {
     this.countdown > 0 ? --this.countdown : this.healTick(player, game);
   }
 
@@ -101,7 +98,7 @@ export class AutoHeal {
    * @param player - The player mob.
    * @param game - The game interface.
    */
-  healTick(player: Mob, game: GameIF) {
+  private healTick(player: Mob, game: GameIF) {
     const msg = new LogMessage(
       `auto-healing ${this.amount} hp`,
       EventCategory.heal,

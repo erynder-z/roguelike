@@ -4,7 +4,7 @@ import { MapCell } from '../MapModel/MapCell';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { MagnetismHandler } from '../Utilities/MagnetismHandler';
-import { Able } from './Able';
+import { Able } from './Interfaces/Able';
 import { CommandBase } from './CommandBase';
 import { HitCommand } from './HitCommand';
 import { MoveCommand } from './MoveCommand';

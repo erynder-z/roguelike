@@ -21,7 +21,7 @@ export class CleanseBuffCommand extends CommandBase {
    *
    * @return {boolean} Returns true if the command was executed successfully.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const g = this.game;
     const me = this.me;
 

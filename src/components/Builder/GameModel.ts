@@ -12,7 +12,7 @@ import { Equipment } from '../Inventory/Equipment';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
- * Represents a game instance implementing the GameIF interface.
+ * The game instance that holds the game state.
  */
 export class Game implements GameIF {
   constructor(
@@ -20,25 +20,31 @@ export class Game implements GameIF {
     public player: Mob,
     public build: Builder,
   ) {}
+
+  ai: MobAI | null = null;
+  log: MessageLog = new MessageLog();
+  dungeon: Dungeon = new Dungeon();
+  autoHeal: AutoHeal | undefined = new AutoHeal();
+  inventory = new Inventory();
+  equipment = new Equipment();
+  stats = { visRange: 50 };
+  playerDmgCount = 0;
+
   /**
    * Retrieve the current map.
    *
    * @return {MapIF | null} The current map, or null if not available.
    */
-  currentMap(): MapIF | null {
+  public currentMap(): MapIF | null {
     return this.dungeon.currentMap(this);
   }
-
-  ai: MobAI | null = null;
-
-  log: MessageLog = new MessageLog();
 
   /**
    * Adds a message to the message log.
    * @param {string} s - The message to add.
    * @returns {void}
    */
-  message(msg: LogMessage): void {
+  public message(msg: LogMessage): void {
     const isFlashMsg = false;
     this.log.message(msg, isFlashMsg);
   }
@@ -48,23 +54,16 @@ export class Game implements GameIF {
    * @param {string} s - The message to add.
    * @returns {void}
    */
-  flash(msg: LogMessage): void {
+  public flash(msg: LogMessage): void {
     const isFlashMsg = true;
     this.log.message(msg, isFlashMsg);
   }
 
-  addCurrentEvent(evt: EventCategory): void {
+  public addCurrentEvent(evt: EventCategory): void {
     this.log.addCurrentEvent(evt);
   }
 
-  resetPlayerDmgCount(): void {
+  public resetPlayerDmgCount(): void {
     this.playerDmgCount = 0;
   }
-
-  dungeon: Dungeon = new Dungeon();
-  autoHeal: AutoHeal | undefined = new AutoHeal();
-  inventory = new Inventory();
-  equipment = new Equipment();
-  stats = { visRange: 50 };
-  playerDmgCount = 0;
 }

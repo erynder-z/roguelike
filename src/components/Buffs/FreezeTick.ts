@@ -4,6 +4,9 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
+/**
+ * Handles a freeze tick.
+ */
 export class FreezeTick implements TickIF {
   constructor(
     public mob: Mob,
@@ -17,7 +20,7 @@ export class FreezeTick implements TickIF {
    * @param {number} time - The current time of the game.
    * @return {void} This function does not return anything.
    */
-  tick(time: number): void {
+  public tick(time: number): void {
     if (time % 2) return;
     if (this.mob.sinceMove < 2) return;
     const dmg = this.game.rand.randomIntegerClosedRange(0, 2);

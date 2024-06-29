@@ -33,7 +33,7 @@ export class BulletCommand extends CommandBase {
    * @param {WorldPoint} direction - The direction to set.
    * @return {Command} The command object.
    */
-  setDirection(direction: WorldPoint): Command {
+  public setDirection(direction: WorldPoint): Command {
     this.direction = direction;
     return this;
   }
@@ -43,7 +43,7 @@ export class BulletCommand extends CommandBase {
    *
    * @return {boolean} The result of the function execution.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const g = this.game;
     const m = this.me;
     const dmg = 4;

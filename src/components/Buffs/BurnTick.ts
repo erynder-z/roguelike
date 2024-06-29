@@ -4,6 +4,9 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
+/**
+ * Handles a burn tick.
+ */
 export class BurnTick implements TickIF {
   constructor(
     public mob: Mob,
@@ -19,7 +22,7 @@ export class BurnTick implements TickIF {
    * @param {number} time - The current time of the game.
    * @return {void} This function does not return anything.
    */
-  tick(time: number): void {
+  public tick(time: number): void {
     if (time % 2) return;
     const dmg = this.game.rand.randomIntegerClosedRange(
       this.minDmg,

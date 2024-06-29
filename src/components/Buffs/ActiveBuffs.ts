@@ -6,7 +6,7 @@ import { Buff } from './BuffEnum';
 import { BuffIF } from './Interfaces/BuffIF';
 
 /**
- * Represents a collection of active buffs applied to a mob in the game.
+ * Handles managing buffs on a mob.
  */
 export class ActiveBuffs {
   _map: Map<Buff, BuffIF> = new Map();
@@ -17,7 +17,7 @@ export class ActiveBuffs {
    * @param {GameIF} game - The game interface.
    * @param {Mob} mob - The mob to apply the buff to.
    */
-  add(b: BuffIF, game: GameIF, mob: Mob): void {
+  public add(b: BuffIF, game: GameIF, mob: Mob): void {
     this._map.set(b.buff, b);
     const buffAdj = GrammarHandler.BuffToAdjective(b.buff) || b.buff;
     const msg = new LogMessage(
@@ -34,7 +34,7 @@ export class ActiveBuffs {
    * @param {GameIF} game - The game interface.
    * @param {Mob} mob - The mob to remove the buff from.
    */
-  delete(b: BuffIF, game: GameIF, mob: Mob): void {
+  public delete(b: BuffIF, game: GameIF, mob: Mob): void {
     this._map.delete(b.buff);
     const buffAdj = GrammarHandler.BuffToAdjective(b.buff) || b.buff;
     const msg = new LogMessage(
@@ -49,7 +49,7 @@ export class ActiveBuffs {
    * @param {Buff} buff - The buff to check.
    * @returns {boolean} - True if the buff is active, false otherwise.
    */
-  is(buff: Buff): boolean {
+  public is(buff: Buff): boolean {
     return this._map.has(buff);
   }
 
@@ -58,7 +58,7 @@ export class ActiveBuffs {
    * @param {Buff} buff - The buff to get information for.
    * @returns {BuffIF | undefined} - The information of the buff if active, otherwise undefined.
    */
-  get(buff: Buff): BuffIF | undefined {
+  public get(buff: Buff): BuffIF | undefined {
     return this._map.get(buff);
   }
 
@@ -68,7 +68,7 @@ export class ActiveBuffs {
    * @param {GameIF} game - The game interface.
    * @param {Mob} mob - The mob to cleanse the buff from.
    */
-  cleanse(buff: Buff, game: GameIF, mob: Mob): void {
+  public cleanse(buff: Buff, game: GameIF, mob: Mob): void {
     const b = mob.buffs.get(buff);
     if (b) this.delete(b, game, mob);
   }
@@ -78,7 +78,7 @@ export class ActiveBuffs {
    * @param {Mob} mob - The mob to process active buffs for.
    * @param {GameIF} game - The game interface.
    */
-  ticks(mob: Mob, game: GameIF): void {
+  public ticks(mob: Mob, game: GameIF): void {
     for (const b of this._map.values()) {
       --b.time;
       if (b.effect) b.effect.tick(b.time);
