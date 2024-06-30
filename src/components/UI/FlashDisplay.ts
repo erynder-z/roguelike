@@ -49,7 +49,7 @@ export class FlashDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  setFlash(msg: LogMessage, log: MessageLog) {
+  public setFlash(msg: LogMessage, log: MessageLog) {
     const flashDisplay = <HTMLElement>(
       this.shadowRoot?.querySelector('.flash-display')
     );
@@ -66,7 +66,7 @@ export class FlashDisplay extends HTMLElement {
     }
   }
 
-  addMoreSpanToFragment(fragment: DocumentFragment, log: MessageLog) {
+  private addMoreSpanToFragment(fragment: DocumentFragment, log: MessageLog) {
     const numberOfQueueMessages: number = log.len() - 1;
     const s =
       numberOfQueueMessages >= 2
@@ -78,7 +78,7 @@ export class FlashDisplay extends HTMLElement {
     fragment.appendChild(moreSpan);
   }
 
-  clearFlash(game: GameIF) {
+  public clearFlash(game: GameIF) {
     game.log.clearQueue();
 
     const flashDisplay = this.shadowRoot?.querySelector('.flash-display');

@@ -4,6 +4,9 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
+/**
+ * Handles a poison tick.
+ */
 export class PoisonTick implements TickIF {
   constructor(
     public mob: Mob,
@@ -17,7 +20,7 @@ export class PoisonTick implements TickIF {
    * @param {number} time - The current time of the game.
    * @return {void} This function does not return anything.
    */
-  tick(time: number): void {
+  public tick(time: number): void {
     if (time % 2) return;
     const dmg = 1;
     if (this.mob.isPlayer) {

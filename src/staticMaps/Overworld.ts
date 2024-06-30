@@ -8,7 +8,7 @@ import { RockGenerator } from '../components/MapGenerator/RockGenerator';
 import { FindFreeSpace } from '../components/Utilities/FindFreeSpace';
 
 export class Overworld {
-  static generate(rnd: RandomGenerator, level: number): MapIF {
+  public static generate(rnd: RandomGenerator, level: number): MapIF {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const dim = new WorldPoint(mapDimensionsX, mapDimensionsY);

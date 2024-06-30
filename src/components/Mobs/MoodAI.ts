@@ -31,7 +31,7 @@ export class MoodAI implements MobAI {
    * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - The result of the delegated turn action.
    */
-  turn(
+  public turn(
     me: Mob,
     enemy: Mob,
     game: GameIF,
@@ -59,15 +59,15 @@ export class MoodAI implements MobAI {
    *
    * @returns {MoodAI} - A new MoodAI instance with default AIs.
    */
-  static stockMood(speed: number): MobAI {
+  public static stockMood(speed: number): MobAI {
     return new MoodAI(new VisibilityAwareSleepAI(), new AwakeAI(speed));
   }
 
-  static stockMoodSpellCaster(speed: number, spellRate: number): MobAI {
+  public static stockMoodSpellCaster(speed: number, spellRate: number): MobAI {
     return new MoodAI(new SimpleSleepAI(), new SpellAI(speed, spellRate));
   }
 
-  static stockMoodShootAI(speed: number, spellRate: number): MobAI {
+  public static stockMoodShootAI(speed: number, spellRate: number): MobAI {
     return new MoodAI(new SimpleSleepAI(), new ShootAI(speed, spellRate));
   }
 }

@@ -49,7 +49,7 @@ export class HealthAdjust {
    * @param {GameIF} game - The game interface.
    * @param {Mob | null} attacker - The mob causing the damage.
    */
-  static damage(
+  public static damage(
     mob: Mob,
     amount: number,
     game: GameIF,
@@ -71,7 +71,11 @@ export class HealthAdjust {
    * @param {Mob} mob - The mob that dies.
    * @param {GameIF} game - The game interface.
    */
-  static mobDies(mob: Mob, game: GameIF, involvesPlayer: boolean): void {
+  private static mobDies(
+    mob: Mob,
+    game: GameIF,
+    involvesPlayer: boolean,
+  ): void {
     const s = `${mob.name} dies.`;
     const t = <EventCategory>EventCategory.mobDeath;
 
@@ -93,7 +97,7 @@ export class HealthAdjust {
    * @param {Mob} mob - The mob for which loot may be dropped.
    * @param {GameIF} game - The game interface used to determine success.
    */
-  static maybeDropLoot(mob: Mob, game: GameIF): void {
+  private static maybeDropLoot(mob: Mob, game: GameIF): void {
     if (game.rand.isOneIn(10)) this.dropLoot(mob.pos, game, mob.level);
   }
 
@@ -104,7 +108,7 @@ export class HealthAdjust {
    * @param {GameIF} game - The game interface.
    * @param {number} level - The level of the loot.
    */
-  static dropLoot(pos: WorldPoint, game: GameIF, level: number): void {
+  private static dropLoot(pos: WorldPoint, game: GameIF, level: number): void {
     const map = <MapIF>game.currentMap();
     const lootCell = map.cell(pos);
     const canDrop = EnvironmentChecker.canItemsBeDropped(lootCell);
@@ -138,7 +142,7 @@ export class HealthAdjust {
    * @param {GameIF} game - The game interface.
    * @return {void} This function does not return anything.
    */
-  static handlePlayerDamageMessage(
+  public static handlePlayerDamageMessage(
     player: Mob,
     amount: number,
     game: GameIF,
@@ -157,7 +161,7 @@ export class HealthAdjust {
    * @param {number} amount - The amount of damage inflicted.
    * @return {string} The message describing the level of damage.
    */
-  static generateDamageMessage(mob: Mob, amount: number): string {
+  private static generateDamageMessage(mob: Mob, amount: number): string {
     const damagePercentage = Math.round((amount / mob.hp) * 100);
     let message = '';
     if (damagePercentage >= 100) {

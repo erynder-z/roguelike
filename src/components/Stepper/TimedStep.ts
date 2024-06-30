@@ -6,14 +6,14 @@ import { StepIF } from './Interfaces/StepIF';
  * Represents a timed step that draws a step screen for a given amount of time. Most methods are placeholders to be implemented in subclasses.
  */
 export class TimedStep implements StepIF {
-  time: number = 0;
+  public time: number = 0;
 
   /**
    * Executes the step.
    *
    * @return {StepIF | null} The function always throws an error.
    */
-  executeStep(): StepIF | null {
+  public executeStep(): StepIF | null {
     throw 'no executeStep';
   }
 
@@ -23,7 +23,7 @@ export class TimedStep implements StepIF {
    * @param {WorldPoint} pos - The world point to set the position to.
    * @return {void} This function does not return anything.
    */
-  setPos(pos: WorldPoint): void {
+  public setPos(pos: WorldPoint): void {
     throw 'no setPos';
   }
 
@@ -33,7 +33,7 @@ export class TimedStep implements StepIF {
    * @param {WorldPoint} dir - The world point to set the direction to.
    * @return {void} This function does not return anything.
    */
-  setDirection(dir: WorldPoint): void {
+  public setDirection(dir: WorldPoint): void {
     throw 'no setDir';
   }
 
@@ -43,7 +43,7 @@ export class TimedStep implements StepIF {
    * @param {Mob} tgt - The Mob object to set as the target.
    * @return {void} This function does not return anything.
    */
-  setTarget(tgt: Mob): void {
+  public setTarget(tgt: Mob): void {
     throw 'no setTarget';
   }
 
@@ -53,7 +53,7 @@ export class TimedStep implements StepIF {
    * @param {number} time - The time value to be set.
    * @return {void} This function does not return anything.
    */
-  setTime(time: number): void {
+  public setTime(time: number): void {
     this.time = time;
   }
 }

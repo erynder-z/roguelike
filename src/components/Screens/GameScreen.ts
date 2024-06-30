@@ -8,7 +8,7 @@ import { ParsePlayer } from '../Events/ParsePlayer';
  * Represents a game screen that extends the functionality of the base screen.
  */
 export class GameScreen extends BaseScreen {
-  name = 'game-screen';
+  public name = 'game-screen';
   constructor(game: GameIF, make: ScreenMaker) {
     super(game, make);
   }
@@ -20,7 +20,7 @@ export class GameScreen extends BaseScreen {
    * @param {Stack} stack - the stack
    * @return {void}
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
     this.playerKeyTurn(stack, ParsePlayer.keyPressToCode(event), event);
   }
 
@@ -32,7 +32,11 @@ export class GameScreen extends BaseScreen {
    * @param {KeyboardEvent | null} event - the keyboard event or null
    * @return {void}
    */
-  playerKeyTurn(stack: Stack, char: string, event: KeyboardEvent | null): void {
+  private playerKeyTurn(
+    stack: Stack,
+    char: string,
+    event: KeyboardEvent | null,
+  ): void {
     if (this.game.log) this.game.log.clearQueue();
     if (this.playerTurn(stack, char, event)) this.npcTurns(stack);
   }
@@ -45,7 +49,11 @@ export class GameScreen extends BaseScreen {
    * @param {KeyboardEvent | null} event - the keyboard event or null
    * @return {boolean} the result of parsing the key code as a turn
    */
-  playerTurn(stack: Stack, char: string, event: KeyboardEvent | null): boolean {
+  private playerTurn(
+    stack: Stack,
+    char: string,
+    event: KeyboardEvent | null,
+  ): boolean {
     const parser = new ParsePlayer(this.game, this.make);
     return parser.parseKeyCodeAsTurn(char, stack, event);
   }

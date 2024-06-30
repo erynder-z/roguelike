@@ -21,7 +21,7 @@ export class HealCommand extends CommandBase {
    *
    * @return {boolean} Returns true if the heal command was executed successfully.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const randomGenerator = this.gameInstance.rand;
     const minHeal = Math.ceil(this.healAmount * 0.5);
     const maxHeal = Math.floor(this.healAmount * 0.5);

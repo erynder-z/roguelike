@@ -10,7 +10,7 @@ import { BaseScreen } from './BaseScreen';
  * Represents a screen for selecting a direction for a command.
  */
 export class CommandDirectionScreen extends BaseScreen {
-  name = 'command-direction-screen';
+  public name = 'command-direction-screen';
   constructor(
     public command: Command,
     game: GameIF,
@@ -23,7 +23,7 @@ export class CommandDirectionScreen extends BaseScreen {
    * Draws a message asking for input.
    * @param {DrawableTerminal} term - The terminal to draw on.
    */
-  drawScreen(term: DrawableTerminal) {
+  public drawScreen(term: DrawableTerminal) {
     super.drawScreen(term);
     term.drawText(0, 0, 'Which direction?', 'yellow', 'black');
 
@@ -55,7 +55,7 @@ export class CommandDirectionScreen extends BaseScreen {
    * @param {Stack} stack - The stack of screens.
    * @returns {boolean} True if the event is handled, otherwise false.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     stack.pop();
     const direction = new WorldPoint();
     switch (event.key) {
@@ -106,7 +106,7 @@ export class CommandDirectionScreen extends BaseScreen {
    * Executes the command in the selected direction.
    * @param {WorldPoint} direction - The selected direction.
    */
-  actInDirection(direction: WorldPoint) {
+  private actInDirection(direction: WorldPoint) {
     return this.command.setDirection(direction).turn();
   }
 }

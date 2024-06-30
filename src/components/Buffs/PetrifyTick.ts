@@ -4,6 +4,9 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 
+/**
+ * Handles a petrify tick.
+ */
 export class PetrifyTick implements TickIF {
   constructor(
     public mob: Mob,
@@ -17,7 +20,7 @@ export class PetrifyTick implements TickIF {
    * @param {number} time - The current time of the game.
    * @return {void} This function does not return anything.
    */
-  tick(time: number): void {
+  public tick(time: number): void {
     if (time % 2) return;
     const sinceLastMove = this.mob.sinceMove;
     if (sinceLastMove < 2) return;

@@ -18,12 +18,12 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen for interacting with items.
  */
 export class ItemScreen extends BaseScreen {
-  name = 'item-screen';
+  public name = 'item-screen';
   constructor(
     public obj: ItemObject,
     public index: number,
-    game: GameIF,
-    maker: ScreenMaker,
+    public game: GameIF,
+    public maker: ScreenMaker,
     public isEquipped: boolean = !!game.equipment,
   ) {
     super(game, maker);
@@ -33,7 +33,7 @@ export class ItemScreen extends BaseScreen {
    * Draws the item screen.
    * @param {DrawableTerminal} term - The terminal to draw on.
    */
-  drawScreen(term: DrawableTerminal): void {
+  public drawScreen(term: DrawableTerminal): void {
     super.drawScreen(term);
     const fg = 'lightBlue';
     const bg = '#025';
@@ -55,7 +55,7 @@ export class ItemScreen extends BaseScreen {
    * @param {Stack} stack - The stack interface.
    * @returns {boolean} True if the event was handled, otherwise false.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     console.log('key: ', event.key);
 
     switch (event.key) {
@@ -78,7 +78,7 @@ export class ItemScreen extends BaseScreen {
    * Drops the item from the inventory.
    * @param {Stack} stack - The stack interface.
    */
-  dropItem(stack: Stack): void {
+  private dropItem(stack: Stack): void {
     if (this.dropInventoryItem()) this.pop_and_runNPCLoop(stack);
   }
 
@@ -86,7 +86,7 @@ export class ItemScreen extends BaseScreen {
    * Drops the item from the inventory.
    * @returns {boolean} True if the item was dropped successfully, otherwise false.
    */
-  dropInventoryItem(): boolean {
+  private dropInventoryItem(): boolean {
     const game = this.game;
     const map = <MapIF>this.game.currentMap();
     const player = game.player;
@@ -114,7 +114,7 @@ export class ItemScreen extends BaseScreen {
    * @param {Stack} stack - The stack of screens.
    * @return {boolean} Returns true if the item can be worn, false otherwise.
    */
-  canWear(stack: Stack): boolean {
+  private canWear(stack: Stack): boolean {
     if (!this.isEquipped) return false;
 
     const ok = new EquipCommand(this.obj, this.index, this.game).turn();
@@ -128,7 +128,7 @@ export class ItemScreen extends BaseScreen {
    * @param {Stack} stack - The stack to push the spell screen onto if necessary.
    * @return {void} This function does not return anything.
    */
-  useItem(stack: Stack): void {
+  private useItem(stack: Stack): void {
     const g = this.game;
     const finder = new FindObjectSpell(
       this.obj,

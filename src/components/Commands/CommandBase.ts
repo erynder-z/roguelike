@@ -3,7 +3,7 @@ import { Command } from './Interfaces/Command';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { Act } from './Act';
-import { Able } from './Able';
+import { Able } from './Interfaces/Able';
 import { Buff } from '../Buffs/BuffEnum';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Cost } from './Interfaces/Cost';
@@ -20,7 +20,7 @@ export abstract class CommandBase implements Command {
     public target?: Mob,
   ) {}
 
-  setCost(cost?: Cost) {
+  public setCost(cost?: Cost) {
     this.cost = cost;
   }
 
@@ -28,7 +28,7 @@ export abstract class CommandBase implements Command {
    * Executes the command.
    * @returns {boolean} Always throws an error, should be implemented in subclasses.
    */
-  execute(): boolean {
+  public execute(): boolean {
     throw 'no exc';
   }
 
@@ -37,7 +37,7 @@ export abstract class CommandBase implements Command {
    * @param {WorldPoint} direction - The direction to set.
    * @returns {Command} The command object.
    */
-  setDirection(direction: WorldPoint): Command {
+  public setDirection(direction: WorldPoint): Command {
     throw 'no setDirection';
   }
 
@@ -47,7 +47,7 @@ export abstract class CommandBase implements Command {
    * @param {Mob | undefined} target - The Mob object to set as the target.
    * @return {void} This function does not return anything.
    */
-  setTarget(target: Mob): void {
+  public setTarget(target: Mob): void {
     this.target = target;
   }
 
@@ -56,7 +56,7 @@ export abstract class CommandBase implements Command {
    *
    * @return {boolean} True if the cost can be paid, false otherwise.
    */
-  pay(): boolean {
+  private pay(): boolean {
     if (!this.cost) return true;
     return this.cost.pay();
   }
@@ -81,7 +81,7 @@ export abstract class CommandBase implements Command {
    * @param {Act} act - The action being performed.
    * @returns {Able} An object indicating if the mob is able to perform the action and if it uses a turn.
    */
-  able(m: Mob, g: GameIF, act: Act): Able {
+  public able(m: Mob, g: GameIF, act: Act): Able {
     const cant = { isAble: false, usesTurn: false };
     const negate = { isAble: false, usesTurn: true };
     const able = { isAble: true, usesTurn: false };
@@ -111,7 +111,7 @@ export abstract class CommandBase implements Command {
    * @param {GameIF} g - The game interface for flashing messages.
    * @return {boolean} - Whether the mob is afraid or not.
    */
-  afraid(me: Mob, g: GameIF): boolean {
+  private afraid(me: Mob, g: GameIF): boolean {
     const afraid = me.is(Buff.Afraid);
     const msg = new LogMessage('You are too afraid!', EventCategory.buff);
     if (afraid && me.isPlayer) g.flash(msg);
@@ -126,7 +126,7 @@ export abstract class CommandBase implements Command {
    * @param {GameIF} g - The game interface to flash the message to.
    * @return {boolean} True if the mob is charmed, false otherwise.
    */
-  charmed(me: Mob, g: GameIF): boolean {
+  private charmed(me: Mob, g: GameIF): boolean {
     const charmed = me.is(Buff.Charm);
     const msg = new LogMessage("It's too cute!", EventCategory.buff);
     if (charmed && me.isPlayer) g.flash(msg);
@@ -141,7 +141,7 @@ export abstract class CommandBase implements Command {
    * @param {GameIF} g - The game interface to flash the message to.
    * @return {boolean} True if the mob is rooted, false otherwise.
    */
-  rooted(me: Mob, g: GameIF): boolean {
+  private rooted(me: Mob, g: GameIF): boolean {
     const rooted = me.is(Buff.Root);
     const msg = new LogMessage("You can't move!", EventCategory.buff);
     if (rooted && me.isPlayer) g.flash(msg);
@@ -156,7 +156,7 @@ export abstract class CommandBase implements Command {
    * @param {GameIF} g - The game interface for flashing messages.
    * @return {boolean} - Whether the mob is levitating or not.
    */
-  levitate(me: Mob, g: GameIF): boolean {
+  private levitate(me: Mob, g: GameIF): boolean {
     const levitate = me.is(Buff.Levitate);
     const msg = new LogMessage('You are hovering!', EventCategory.buff);
     if (levitate && me.isPlayer) g.flash(msg);
@@ -171,7 +171,7 @@ export abstract class CommandBase implements Command {
    * @param {GameIF} g - The game interface for flashing messages.
    * @returns {boolean} - Whether the mob is paralyzed or not.
    */
-  paralyzed(me: Mob, g: GameIF): boolean {
+  private paralyzed(me: Mob, g: GameIF): boolean {
     if (!me.is(Buff.Paralyze)) return false;
     let rate = 0;
     switch (this.act) {
@@ -206,7 +206,7 @@ export abstract class CommandBase implements Command {
    * @param {GameIF} g - The game interface to flash the message to.
    * @return {boolean} - Whether the mob is asleep or not.
    */
-  asleep(me: Mob, g: GameIF): boolean {
+  private asleep(me: Mob, g: GameIF): boolean {
     if (!me.is(Buff.Sleep)) return false;
     const msg = new LogMessage('You are asleep!', EventCategory.buff);
     if (me.isPlayer) g.flash(msg);
@@ -221,7 +221,7 @@ export abstract class CommandBase implements Command {
    * @param {GameIF} g - The game interface for checking conditions and displaying messages.
    * @returns {boolean} - True if the mob is slowed, false otherwise.
    */
-  slow(me: Mob, g: GameIF): boolean {
+  private slow(me: Mob, g: GameIF): boolean {
     if (!me.is(Buff.Slow)) return false;
     if (g.rand.isOneIn(2)) return false;
     const msg = new LogMessage('You are slowed!', EventCategory.buff);
@@ -237,7 +237,7 @@ export abstract class CommandBase implements Command {
    * @param {boolean} move - Indicates if the mob is trying to move.
    * @returns {boolean} - Whether the mob is frozen or not.
    */
-  freeze(me: Mob, g: GameIF, move: boolean): boolean {
+  private freeze(me: Mob, g: GameIF, move: boolean): boolean {
     if (!me.is(Buff.Freeze)) return false;
     if (move && g.rand.isOneIn(2)) return false;
     const msg = new LogMessage('You are frozen!', EventCategory.buff);
@@ -252,7 +252,7 @@ export abstract class CommandBase implements Command {
    * @param {WorldPoint} dir - The direction to update.
    * @returns {boolean} Whether the mob is confused or not.
    */
-  confused(g: GameIF, dir: WorldPoint): boolean {
+  public confused(g: GameIF, dir: WorldPoint): boolean {
     if (!this.me.is(Buff.Confuse)) return false;
 
     const r = g.rand;

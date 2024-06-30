@@ -5,8 +5,8 @@ import * as messagesData from '../Messages/MessagesData/MessagesData.json';
  * Represents a helper class that provides methods for coloring buff text.
  */
 export class BuffColors {
-  buffRegex: RegExp;
-  buffLookup: { [key: string]: BuffText };
+  public buffRegex: RegExp;
+  public buffLookup: { [key: string]: BuffText };
 
   constructor() {
     const buffs = messagesData.Buffs as BuffText[];
@@ -21,7 +21,7 @@ export class BuffColors {
    * @param {HTMLElement} element - The element to modify.
    * @return {void}
    */
-  colorBuffs(element: HTMLElement): void {
+  public colorBuffs(element: HTMLElement): void {
     element.innerHTML = element.innerHTML.replace(this.buffRegex, match => {
       const buff = this.buffLookup[match];
       return buff

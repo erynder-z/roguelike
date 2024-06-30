@@ -1,12 +1,12 @@
 import { LogMessage, EventCategory } from './LogMessage';
 
 /**
- * Represents a message log for storing and managing messages.
+ * The message log for storing and managing messages.
  */
 export class MessageLog {
-  queue: LogMessage[] = [];
-  archive: LogMessage[] = [];
-  currentEvent: EventCategory = EventCategory.none;
+  public queue: LogMessage[] = [];
+  public archive: LogMessage[] = [];
+  public currentEvent: EventCategory = EventCategory.none;
 
   /**
    * Adds a message to the log.
@@ -14,7 +14,7 @@ export class MessageLog {
    * @param {boolean} isFlashMsg - True if the message is a flash message, otherwise false.
    * @returns {void}
    */
-  message(msg: LogMessage, isFlashMsg: boolean): void {
+  public message(msg: LogMessage, isFlashMsg: boolean): void {
     /*    this.queue.push(s); */
     if (!isFlashMsg) this.archive.push(msg);
     if (isFlashMsg) this.queue.push(msg);
@@ -23,7 +23,7 @@ export class MessageLog {
    * Removes the oldest message from the queue.
    * @returns {void}
    */
-  dequeue(): void {
+  public dequeue(): void {
     this.queue.shift();
   }
 
@@ -31,7 +31,7 @@ export class MessageLog {
    * Retrieves the oldest message from the queue.
    * @returns {LogMessage} - The oldest message in the queue, or '-' if the queue is empty.
    */
-  top(): LogMessage {
+  public top(): LogMessage {
     return this.empty()
       ? new LogMessage('', EventCategory.none)
       : this.queue[0];
@@ -41,7 +41,7 @@ export class MessageLog {
    * Clears all messages from the queue.
    * @returns {void}
    */
-  clearQueue(): void {
+  public clearQueue(): void {
     this.queue = [];
   }
 
@@ -49,7 +49,7 @@ export class MessageLog {
    * Checks if there are queued messages.
    * @returns {boolean} - True if there are queued messages, otherwise false.
    */
-  hasQueuedMessages(): boolean {
+  public hasQueuedMessages(): boolean {
     return this.len() > 1;
   }
 
@@ -57,7 +57,7 @@ export class MessageLog {
    * Returns the number of messages in the queue.
    * @returns {number} - The number of messages in the queue.
    */
-  len(): number {
+  public len(): number {
     return this.queue.length;
   }
 
@@ -65,7 +65,7 @@ export class MessageLog {
    * Checks if the queue is empty.
    * @returns {boolean} - True if the queue is empty, otherwise false.
    */
-  empty(): boolean {
+  public empty(): boolean {
     return !this.queue.length;
   }
   /**
@@ -73,7 +73,7 @@ export class MessageLog {
    * @param {LogMessage} msg - The message be set as the current event.
    * @returns {void}
    */
-  addCurrentEvent(evt: EventCategory): void {
+  public addCurrentEvent(evt: EventCategory): void {
     this.currentEvent = evt;
   }
 
@@ -82,7 +82,7 @@ export class MessageLog {
    *
    * @return {void} This function does not return a value.
    */
-  removeCurrentEvent(): void {
+  public removeCurrentEvent(): void {
     this.currentEvent = EventCategory.none;
   }
 }

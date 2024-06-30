@@ -15,7 +15,7 @@ import { MapIF } from '../MapModel/Interfaces/MapIF';
  * Represents a screen for looking at the player's surroundings.
  */
 export class LookScreen extends BaseScreen {
-  name = 'look-screen';
+  public name = 'look-screen';
 
   private readonly neutralPos = new WorldPoint(32, 16);
   private readonly playerPos = new WorldPoint(
@@ -37,7 +37,7 @@ export class LookScreen extends BaseScreen {
    * @param {DrawableTerminal} term - The terminal to draw on.
    * @return {void} No return value.
    */
-  drawScreen(term: DrawableTerminal): void {
+  public drawScreen(term: DrawableTerminal): void {
     super.drawScreen(term);
     term.drawAt(
       this.cursorPos.x,
@@ -59,7 +59,7 @@ export class LookScreen extends BaseScreen {
    * @param {GameIF} game - The game object containing the player and game stats.
    * @return {boolean} Returns true if the point is visible, false otherwise.
    */
-  isPointVisible(
+  private isPointVisible(
     pos: WorldPoint,
     map: MapIF,
     playerPos: WorldPoint,
@@ -82,7 +82,7 @@ export class LookScreen extends BaseScreen {
    * @param {number} y - The y-coordinate of the cell.
    * @return {string | null} The information about the cell. Returns 'Not visible!' if the cell is not visible.
    */
-  getCellInfo(x: number, y: number): string | null {
+  private getCellInfo(x: number, y: number): string | null {
     const pos = new WorldPoint(x, y);
     const map = this.game.currentMap()!;
     const playerPos = this.game.player.pos;
@@ -113,7 +113,7 @@ export class LookScreen extends BaseScreen {
    * @param {DrawableTerminal} term - The terminal to draw on.
    * @return {void} No return value.
    */
-  displayInfo(s: string): void {
+  private displayInfo(s: string): void {
     DrawMap.clearFlash(this.game);
 
     const msg = new LogMessage(s, EventCategory.look);
@@ -129,7 +129,7 @@ export class LookScreen extends BaseScreen {
    * @param {Stack} stack - The stack of screens.
    * @return {void} This function does not return anything.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
     const moveCursor = (dx: number, dy: number) => {
       this.cursorPos.x += dx;
       this.cursorPos.y += dy;

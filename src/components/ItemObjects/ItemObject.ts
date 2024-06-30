@@ -20,7 +20,7 @@ export class ItemObject {
    * Generates a description of the item object.
    * @returns {string} The description of the item object.
    */
-  description(): string {
+  public description(): string {
     const label = this.name();
     if (this.spell != Spell.None) {
       const quality = SpellColors.c[this.spell][1];
@@ -33,7 +33,7 @@ export class ItemObject {
    * Retrieves the name of the item based on its glyph.
    * @returns {string} The name of the item.
    */
-  name(): string {
+  public name(): string {
     return Glyph[this.glyph];
   }
 }

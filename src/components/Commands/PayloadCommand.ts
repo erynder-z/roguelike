@@ -12,7 +12,7 @@ import { CommandBase } from './CommandBase';
 import { Command } from './Interfaces/Command';
 
 /**
- * Represents a command fires a given payload-command in a specified direction.
+ * Represents a command fires a given payload in a specified direction.
  */
 export class PayloadCommand extends CommandBase {
   constructor(
@@ -32,7 +32,7 @@ export class PayloadCommand extends CommandBase {
    * @param {WorldPoint} direction - The direction to set.
    * @return {Command} The command object.
    */
-  setDirection(direction: WorldPoint): Command {
+  public setDirection(direction: WorldPoint): Command {
     this.dir = direction;
     return this;
   }
@@ -42,7 +42,7 @@ export class PayloadCommand extends CommandBase {
    *
    * @return {boolean} Always returns false.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const g = this.g;
     const m = this.me;
     const sprite = Glyph.Bullet;

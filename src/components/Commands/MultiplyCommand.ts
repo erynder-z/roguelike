@@ -21,7 +21,7 @@ export class MultiplyCommand extends CommandBase {
    *
    * @return {boolean} Returns true if the command is executed successfully, otherwise false.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const g = this.g;
     const rnd = g.rand;
     const map = <GameMap>g.currentMap();
@@ -41,7 +41,7 @@ export class MultiplyCommand extends CommandBase {
    * @param {GameIF} g - The game interface.
    * @return {void} This function does not return a value.
    */
-  spawnMob(p: WorldPoint, map: GameMap, g: GameIF): void {
+  public spawnMob(p: WorldPoint, map: GameMap, g: GameIF): void {
     const m = this.me;
     const b = g.build;
 
@@ -61,7 +61,7 @@ export class MultiplyCommand extends CommandBase {
    * @param {RandomGenerator} rnd - The random number generator to use for picking a spawn point.
    * @return {WorldPoint | null} The valid world point to spawn a mob, or null if no valid spawn point is found.
    */
-  find(map: GameMap, rnd: RandomGenerator): WorldPoint | null {
+  private find(map: GameMap, rnd: RandomGenerator): WorldPoint | null {
     const pos = this.me.pos;
     const c: WorldPoint[] = [];
     const a = new WorldPoint();
@@ -82,7 +82,7 @@ export class MultiplyCommand extends CommandBase {
    * @param {RandomGenerator} rnd - The RandomGenerator used to generate a random index.
    * @return {WorldPoint | null} The randomly picked WorldPoint, or null if the array is empty.
    */
-  pick(c: WorldPoint[], rnd: RandomGenerator): WorldPoint | null {
+  private pick(c: WorldPoint[], rnd: RandomGenerator): WorldPoint | null {
     if (c.length == 0) return null;
     const index = rnd.randomInteger(c.length);
     return c[index];

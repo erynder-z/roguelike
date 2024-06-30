@@ -31,7 +31,7 @@ export class BuffCommand extends CommandBase {
    * Executes the buff command.
    * @returns {boolean} Always returns true.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const m = this.target;
     const g = this.g;
     let effect: TickIF | undefined = undefined;
@@ -73,7 +73,7 @@ export class BuffCommand extends CommandBase {
    * @param {GameIF} game - the game where the mob exists
    * @param {Mob} mob - the mob to add the buff to
    */
-  addBuffToMob(active: BuffIF, game: GameIF, mob: Mob) {
+  private addBuffToMob(active: BuffIF, game: GameIF, mob: Mob) {
     mob.buffs.add(active, game, mob);
   }
 }

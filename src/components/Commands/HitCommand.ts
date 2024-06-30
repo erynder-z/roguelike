@@ -26,7 +26,7 @@ export class HitCommand extends CommandBase {
    * Executes the hit command, dealing damage to the target mob.
    * @returns {boolean} Returns true if the hit was successful, false otherwise.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const g = this.game;
     const m = this.me;
     const rnd = g.rand;
@@ -57,7 +57,7 @@ export class HitCommand extends CommandBase {
    * @param {number} dmg - The damage value.
    * @return {number} The calculated shock damage.
    */
-  shockDmg(dmg: number): number {
+  private shockDmg(dmg: number): number {
     return Math.floor(dmg * 1.5);
   }
 
@@ -71,7 +71,7 @@ export class HitCommand extends CommandBase {
    * @param {string} me - The name of the attacking mob.
    * @param {string} him - The name of the target mob.
    */
-  doDmg(
+  private doDmg(
     dmg: number,
     target: Mob,
     attacker: Mob,
@@ -109,7 +109,7 @@ export class HitCommand extends CommandBase {
    *
    * @param {GameIF} g - The game interface.
    */
-  clearCharm(g: GameIF) {
+  private clearCharm(g: GameIF) {
     const h = this.him;
 
     if (!h.is(Buff.Charm)) return;
@@ -122,7 +122,7 @@ export class HitCommand extends CommandBase {
    * @param {Mob} me - The mob initiating the hit.
    * @returns {number} The calculated damage.
    */
-  calcDamage(rnd: RandomGenerator, me: Mob): number {
+  private calcDamage(rnd: RandomGenerator, me: Mob): number {
     return rnd.randomInteger(0, this.power(me));
   }
 
@@ -131,7 +131,7 @@ export class HitCommand extends CommandBase {
    * @param {Mob} me - The mob initiating the hit.
    * @returns {number} The power of the mob.
    */
-  power(me: Mob): number {
+  private power(me: Mob): number {
     return me.isPlayer ? this.playerPower(me) : this.npcPower(me);
   }
 
@@ -140,7 +140,7 @@ export class HitCommand extends CommandBase {
    * @param {Mob} m - The NPC mob.
    * @returns {number} The power of the NPC.
    */
-  npcPower(m: Mob): number {
+  private npcPower(m: Mob): number {
     return m.level + 1;
   }
 
@@ -148,7 +148,7 @@ export class HitCommand extends CommandBase {
    * Returns the base power for an unarmed hit.
    * @returns {number} The base power for an unarmed hit.
    */
-  unarmed(): number {
+  private unarmed(): number {
     return 3;
   }
 
@@ -157,7 +157,7 @@ export class HitCommand extends CommandBase {
    * @param {Mob} player - The player mob.
    * @returns {number} The power of the player.
    */
-  playerPower(player: Mob): number {
+  private playerPower(player: Mob): number {
     const g = this.g;
     if (g.equipment) return this.equipmentPower(g, g.equipment);
     return this.unarmed();
@@ -169,7 +169,7 @@ export class HitCommand extends CommandBase {
    * @param {Equipment} eq - The equipment of the player.
    * @returns {number} The power of the player based on their equipment.
    */
-  equipmentPower(g: GameIF, eq: Equipment): number {
+  private equipmentPower(g: GameIF, eq: Equipment): number {
     const disarm = g.player.is(Buff.Disarm);
     if (eq.weapon()) {
       if (disarm) {

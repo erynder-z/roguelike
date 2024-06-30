@@ -10,11 +10,11 @@ import { GlyphInfo } from '../Glyphs/GlyphInfo';
 export class MapCell {
   constructor(public env: Glyph) {}
 
-  mob: Mob | undefined;
-  lit: boolean | undefined = false;
-  obj: ItemObject | undefined;
+  public mob: Mob | undefined;
+  public lit: boolean | undefined = false;
+  public obj: ItemObject | undefined;
   public sprite: Glyph | undefined;
-  envDesc: string | undefined;
+  public envDesc: string | undefined;
 
   /**
    * Dynamically retrieves the glyph information based on the current environment.
@@ -30,7 +30,7 @@ export class MapCell {
    *
    * @return {Glyph} the glyph of the mob if it exists, otherwise the environment glyph
    */
-  glyph(): Glyph {
+  public glyph(): Glyph {
     return this.mob ? this.mob.glyph : this.env;
   }
 
@@ -39,7 +39,7 @@ export class MapCell {
    *
    * @return {Glyph} the Glyph environment
    */
-  glyphEnvOnly(): Glyph {
+  public glyphEnvOnly(): Glyph {
     return this.env;
   }
 
@@ -48,7 +48,7 @@ export class MapCell {
    *
    * @return {Glyph} the Glyph object
    */
-  glyphObjOrEnv(): Glyph {
+  public glyphObjOrEnv(): Glyph {
     return this.obj ? this.obj.glyph : this.env;
   }
 
@@ -58,7 +58,7 @@ export class MapCell {
    *
    * @return {Glyph} The sprite glyph, object glyph, or environment glyph.
    */
-  glyphSpriteOrObjOrEnv(): Glyph {
+  public glyphSpriteOrObjOrEnv(): Glyph {
     if (this.sprite) {
       return this.sprite;
     }
@@ -70,7 +70,7 @@ export class MapCell {
    *
    * @return {boolean} Returns true if the object property is truthy, false otherwise.
    */
-  hasObject(): boolean {
+  public hasObject(): boolean {
     return !!this.obj;
   }
 
@@ -79,7 +79,7 @@ export class MapCell {
    *
    * @return {boolean} true if the cell is blocked, false otherwise
    */
-  isBlocked(): boolean {
+  public isBlocked(): boolean {
     const isBlockingEnv = this.glyphInfo.isBlockingMovement || false;
     return !!this.mob || isBlockingEnv;
   }
@@ -89,7 +89,7 @@ export class MapCell {
    *
    * @return {boolean} true if the environment is opaque, false otherwise
    */
-  isOpaque(): boolean {
+  public isOpaque(): boolean {
     return this.glyphInfo.isOpaque || false;
   }
 
@@ -98,7 +98,7 @@ export class MapCell {
    *
    * @return {boolean} true if the cell is slowing, false otherwise
    */
-  isSlowing(): boolean {
+  public isSlowing(): boolean {
     return this.glyphInfo.isSlowing || false;
   }
 
@@ -107,7 +107,7 @@ export class MapCell {
    *
    * @return {boolean} true if the cell is causing burn, false otherwise
    */
-  isBurning(): boolean {
+  public isBurning(): boolean {
     return this.glyphInfo.isBurning || false;
   }
 
@@ -116,7 +116,7 @@ export class MapCell {
    *
    * @return {boolean} true if the cell is magnetic, false otherwise
    */
-  isMagnetic(): boolean {
+  public isMagnetic(): boolean {
     return this.glyphInfo.isMagnetic || false;
   }
 }

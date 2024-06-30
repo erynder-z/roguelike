@@ -13,7 +13,7 @@ import { HealthAdjust } from '../Commands/HealthAdjust';
  * Represents a base screen implementation that implements the StackScreen interface.
  */
 export class BaseScreen implements StackScreen {
-  name = 'BaseScreen';
+  public name = 'BaseScreen';
   constructor(
     public game: GameIF,
     public make: ScreenMaker,
@@ -25,7 +25,7 @@ export class BaseScreen implements StackScreen {
    * @param {DrawableTerminal} term - the terminal to draw
    * @return {void}
    */
-  drawScreen(term: DrawableTerminal): void {
+  public drawScreen(term: DrawableTerminal): void {
     DrawMap.drawMapPlayer(
       term,
       <GameMap>this.game.currentMap(),
@@ -39,7 +39,7 @@ export class BaseScreen implements StackScreen {
     DrawMap.renderActionImage(this.game);
   }
 
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {}
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {}
 
   /**
    * Determines if the screen should be updated based on time.
@@ -47,7 +47,7 @@ export class BaseScreen implements StackScreen {
    * @param {Stack} stack - The stack of screens.
    * @return {boolean} Returns `true` if the screen should be updated, `false` otherwise.
    */
-  onTime(stack: Stack): boolean {
+  public onTime(stack: Stack): boolean {
     return false;
   }
 
@@ -57,7 +57,7 @@ export class BaseScreen implements StackScreen {
    * @param {Stack} s - the stack to be processed
    * @return {void}
    */
-  npcTurns(s: Stack): void {
+  public npcTurns(s: Stack): void {
     const player = <Mob>this.game.player;
     const map = <GameMap>this.game.currentMap();
     const queue = map.queue;
@@ -78,7 +78,7 @@ export class BaseScreen implements StackScreen {
    * @param {Mob} m - the NPC performing the turn
    * @param {Mob} ply - the player involved in the turn
    */
-  npcTurn(m: Mob, ply: Mob, stack: Stack): void {
+  private npcTurn(m: Mob, ply: Mob, stack: Stack): void {
     const ai = this.game.ai;
     if (ai) ai.turn(m, ply, this.game, stack, this.make);
     this.finishTurn(m);
@@ -90,7 +90,7 @@ export class BaseScreen implements StackScreen {
    * @param {Stack} s - the stack to check
    * @return {boolean} true if the stack is over, false otherwise
    */
-  over(s: Stack): boolean {
+  private over(s: Stack): boolean {
     const over = !this.game.player.isAlive();
     if (over) {
       s.pop();
@@ -104,7 +104,7 @@ export class BaseScreen implements StackScreen {
    * @param {Stack} s - The stack of Screens.
    * @returns {void}
    */
-  handleMessages(s: Stack): void {
+  private handleMessages(s: Stack): void {
     if (!this.game.log) return;
 
     if (this.game.playerDmgCount >= 1)
@@ -123,7 +123,7 @@ export class BaseScreen implements StackScreen {
    * @param {Mob} m - The mob to tick buffs for
    * @return {void}
    */
-  tickBuffs(m: Mob): void {
+  private tickBuffs(m: Mob): void {
     if (!m.buffs) return;
     m.buffs.ticks(m, this.game);
   }
@@ -134,7 +134,7 @@ export class BaseScreen implements StackScreen {
    * @param {Mob} m - the mob to finish the turn for
    * @return {void}
    */
-  finishTurn(m: Mob): void {
+  private finishTurn(m: Mob): void {
     ++m.sinceMove;
     this.tickBuffs(m);
   }
@@ -145,7 +145,7 @@ export class BaseScreen implements StackScreen {
    * @param {TurnQueue} q - the turn queue
    * @return {void}
    */
-  finishPlayerTurn(q: TurnQueue, s: Stack): void {
+  private finishPlayerTurn(q: TurnQueue, s: Stack): void {
     const player = q.currentMob();
 
     if (player) {
@@ -161,7 +161,7 @@ export class BaseScreen implements StackScreen {
    * @param {Stack} s - The stack of Screens.
    * @returns {void}
    */
-  pop_and_runNPCLoop(s: Stack): void {
+  public pop_and_runNPCLoop(s: Stack): void {
     s.pop();
     this.npcTurns(s);
   }

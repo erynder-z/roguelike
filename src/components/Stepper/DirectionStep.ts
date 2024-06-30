@@ -27,7 +27,7 @@ export class DirectionStep extends TimedStep {
    * @param {WorldPoint} dir - The world point to set the direction to.
    * @return {void} This function does not return anything.
    */
-  setDirection(dir: WorldPoint): void {
+  public setDirection(dir: WorldPoint): void {
     this.direction = dir;
   }
 
@@ -36,7 +36,7 @@ export class DirectionStep extends TimedStep {
    *
    * @return {StepIF | null} The next step to execute or null if the current step is done.
    */
-  executeStep(): StepIF | null {
+  public executeStep(): StepIF | null {
     const p = this.pos;
     const map = this.map;
 

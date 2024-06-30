@@ -12,12 +12,11 @@ import { MapIF } from './Interfaces/MapIF';
 import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
 
+/**
+ * Sets each cell in the terminal to the appropriate glyph, information and colors.
+ */
 export class MapRenderer {
-  /**
-   * Represents the map cell used for points outside the map boundaries.
-   * @type {MapCell}
-   */
-  static outside: MapCell = new MapCell(Glyph.Unknown);
+  public static outside: MapCell = new MapCell(Glyph.Unknown);
   private static unlitColor: string = '#111a24';
   private static unlitColorSolidBg: string = '#222';
   private static farLitColor: string = '#485460';
@@ -30,7 +29,7 @@ export class MapRenderer {
    * @param {WorldPoint} playerPos - The position of the player.
    * @param {GameIF} g - The game interface.
    */
-  static drawMap_Normal(
+  public static drawMap_Normal(
     term: DrawableTerminal,
     map: MapIF,
     vp: WorldPoint,
@@ -108,7 +107,7 @@ export class MapRenderer {
    * @param {WorldPoint} playerPos - The position of the player.
    * @param {GameIF} g - The game interface.
    */
-  static drawMap_RayCast(
+  public static drawMap_RayCast(
     term: DrawableTerminal,
     map: MapIF,
     vp: WorldPoint,

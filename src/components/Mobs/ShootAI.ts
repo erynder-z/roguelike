@@ -26,8 +26,8 @@ export class ShootAI implements MobAI {
     public spellRate: number,
   ) {}
 
-  aiDir: MobAI = new MobAI2_Cat();
-  aiRnd: MobAI = new MobAI3_Ant();
+  private aiDir: MobAI = new MobAI2_Cat();
+  private aiRnd: MobAI = new MobAI3_Ant();
 
   /**
    * Takes a turn for the Mob in a shootAI state.
@@ -39,7 +39,7 @@ export class ShootAI implements MobAI {
    * @param {ScreenMaker} make - The screen maker.
    * @return {boolean} Always `true`.
    */
-  turn(
+  public turn(
     me: Mob,
     enemy: Mob,
     g: GameIF,
@@ -76,7 +76,7 @@ export class ShootAI implements MobAI {
    * @param {ScreenMaker} make - the screen maker
    * @return {boolean} true if the spell was cast, false otherwise
    */
-  maybeCastSpell(
+  private maybeCastSpell(
     me: Mob,
     enemy: Mob,
     g: GameIF,
@@ -103,7 +103,7 @@ export class ShootAI implements MobAI {
    * @param {RandomGenerator} r - The random generator.
    * @return {Spell} The picked spell.
    */
-  pickSpell(me: Mob, r: RandomGenerator): Spell {
+  private pickSpell(me: Mob, r: RandomGenerator): Spell {
     const range: number = Spell.None + 1;
     const spellIndex: number = me.level % range;
     const spell: Spell = <Spell>spellIndex;
@@ -123,7 +123,7 @@ export class ShootAI implements MobAI {
    * @param {ScreenMaker} make - The screen maker.
    * @return {boolean} Returns true if the spell was successfully cast and executed, otherwise false.
    */
-  castSpell(
+  private castSpell(
     spell: Spell,
     me: Mob,
     enemy: Mob,
@@ -152,7 +152,7 @@ export class ShootAI implements MobAI {
    * @param {ScreenMaker} make - The screen maker used for shooting.
    * @return {boolean} Returns true if the mob successfully shoots, false otherwise.
    */
-  didShoot(
+  private didShoot(
     me: Mob,
     r: RandomGenerator,
     g: GameIF,
@@ -179,7 +179,7 @@ export class ShootAI implements MobAI {
    * @param {WorldPoint} to - The ending point.
    * @return {boolean} Returns true if the direction is diagonal, false otherwise.
    */
-  aim(from: WorldPoint, to: WorldPoint): boolean {
+  private aim(from: WorldPoint, to: WorldPoint): boolean {
     const delta = from.minus(to);
     if (delta.x == 0 || delta.y == 0) return true;
 
@@ -195,23 +195,22 @@ export class ShootAI implements MobAI {
    * @param {Spell} spell - The spell to check.
    * @return {boolean} True if the spell is a bullet spell, false otherwise.
    */
-  isBulletSpell(spell: Spell): boolean {
+  private isBulletSpell(spell: Spell): boolean {
     return spell == Spell.Bullet;
   }
 
-  
-/**
- * Shoots a spell from the given mob to another mob.
- *
- * @param {Spell} spell - The spell to be shot.
- * @param {Mob} me - The mob shooting the spell.
- * @param {Mob} him - The mob being shot.
- * @param {GameIF} g - The game interface.
- * @param {Stack} stack - The game stack.
- * @param {ScreenMaker} make - The screen maker.
- * @return {boolean} Returns true if the spell was successfully shot.
- */
-  shoot(
+  /**
+   * Shoots a spell from the given mob to another mob.
+   *
+   * @param {Spell} spell - The spell to be shot.
+   * @param {Mob} me - The mob shooting the spell.
+   * @param {Mob} him - The mob being shot.
+   * @param {GameIF} g - The game interface.
+   * @param {Stack} stack - The game stack.
+   * @param {ScreenMaker} make - The screen maker.
+   * @return {boolean} Returns true if the spell was successfully shot.
+   */
+  private shoot(
     spell: Spell,
     me: Mob,
     him: Mob,

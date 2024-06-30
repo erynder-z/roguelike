@@ -5,6 +5,9 @@ import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { RockGenerator } from './RockGenerator';
 
+/**
+ * Map generator for cave-like environments using the Drunkard's Walk algorithm.
+ */
 export class MapGenerator_Cave {
   constructor(
     public map: MapIF,
@@ -62,7 +65,7 @@ export class MapGenerator_Cave {
     return map;
   }
 
-  clearMap(): void {
+  private clearMap(): void {
     // Reset all cells to default
     for (let y = 0; y < this.map.dimensions.y; y++) {
       for (let x = 0; x < this.map.dimensions.x; x++) {
@@ -71,7 +74,7 @@ export class MapGenerator_Cave {
     }
   }
 
-  randomDirection(): number[] {
+  private randomDirection(): number[] {
     // Randomly choose a direction
     const directions = [
       [0, 1], // Up

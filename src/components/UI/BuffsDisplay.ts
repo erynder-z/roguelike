@@ -59,7 +59,7 @@ export class BuffsDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  setBuffs(buffMap: Map<Buff, BuffIF>) {
+  public setBuffs(buffMap: Map<Buff, BuffIF>) {
     const buffsDisplay = this.shadowRoot?.querySelector('.buffs-display');
     if (buffsDisplay) {
       buffsDisplay.innerHTML = '';
@@ -80,6 +80,6 @@ export class BuffsDisplay extends HTMLElement {
       buffsDisplay.appendChild(ulElement);
     }
   }
-} 
+}
 
 customElements.define('buffs-display', BuffsDisplay);

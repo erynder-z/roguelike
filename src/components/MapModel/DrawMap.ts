@@ -21,13 +21,14 @@ import { FlashDisplay } from '../UI/FlashDisplay';
  * Represents a utility class for drawing a map on a drawable terminal.
  */
 export class DrawMap {
+  static outside: MapCell = new MapCell(Glyph.Unknown);
   /**
    * Draws a map on a drawable terminal. The whole map is visible.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
    * @param {MapIF} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    */
-  static drawMap0(term: DrawableTerminal, map: MapIF, vp: WorldPoint) {
+  private static drawMap0(term: DrawableTerminal, map: MapIF, vp: WorldPoint) {
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
@@ -50,11 +51,6 @@ export class DrawMap {
       }
     }
   }
-  /**
-   * Represents the map cell used for points outside the map boundaries.
-   * @type {MapCell}
-   */
-  static outside: MapCell = new MapCell(Glyph.Unknown);
 
   /**
    * Draws a map with considerations for player position and lighting conditions.
@@ -64,20 +60,13 @@ export class DrawMap {
    * @param {WorldPoint} playerPos - The position of the player.
    * @param {GameIF} g - The game interface.
    */
-  static drawMap(
+  private static drawMap(
     term: DrawableTerminal,
     map: MapIF,
     vp: WorldPoint,
     playerPos: WorldPoint,
     g: GameIF,
   ) {
-    /*const currentMap = g.currentMap();
-    const isInOverworld = currentMap && currentMap.level === 0;
-
-     isInOverworld
-      ? MapRenderer.drawMap_Normal(term, map, vp, playerPos, g)
-      : MapRenderer.drawMap_RayCast(term, map, vp, playerPos, g); */
-
     MapRenderer.drawMap_RayCast(term, map, vp, playerPos, g);
   }
 
@@ -89,7 +78,7 @@ export class DrawMap {
    * @param {WorldPoint} player_pos - the position of the player
    * @param {GameIF} g - the game interface
    */
-  static drawMapPlayer(
+  public static drawMapPlayer(
     term: DrawableTerminal,
     map: MapIF,
     playerPos: WorldPoint,
@@ -110,7 +99,7 @@ export class DrawMap {
    * @param {GameIF} game - the game instance to retrieve player stats from
    * @return {void}
    */
-  static renderStats(game: GameIF): void {
+  public static renderStats(game: GameIF): void {
     const player = game.player;
     const hp = player.hp;
     const maxhp = player.maxhp;
@@ -135,17 +124,13 @@ export class DrawMap {
     this.renderBuffs(game);
   }
 
-  static remain(b: BuffIF): number {
-    return b.time;
-  }
-
   /**
    * Renders the active buffs of the player on the terminal.
    *
    * @param {GameIF} game - the game instance containing the player's buffs
    * @return {void}
    */
-  static renderBuffs(game: GameIF): void {
+  private static renderBuffs(game: GameIF): void {
     const playerBuffs = game.player.buffs;
     const buffMap = playerBuffs._map;
 
@@ -161,7 +146,7 @@ export class DrawMap {
    * @param {GameIF} game - the game instance containing the equipment state
    * @return {void}
    */
-  static renderEquipment(game: GameIF): void {
+  public static renderEquipment(game: GameIF): void {
     const equipment = game.equipment;
     const equipmentDisplay = document.querySelector(
       'equipment-display',
@@ -175,7 +160,7 @@ export class DrawMap {
    * @param {GameIF} game - the game instance to retrieve player stats from
    * @return {void}
    */
-  static renderMessage(game: GameIF): void {
+  public static renderMessage(game: GameIF): void {
     const log = game.log;
     const messageLog = log.archive.slice(-25);
 
@@ -185,7 +170,7 @@ export class DrawMap {
     if (messagesDisplay) messagesDisplay.setMessages(messageLog);
   }
 
-  static renderActionImage(game: GameIF): void {
+  public static renderActionImage(game: GameIF): void {
     const imageHandler = ImageHandler.getInstance();
 
     const currentEventCategory = game.log.currentEvent;
@@ -223,7 +208,7 @@ export class DrawMap {
    * @param {GameIF} game - The game instance to retrieve the flash message from.
    * @return {void} This function does not return anything.
    */
-  static renderFlash(game: GameIF): void {
+  public static renderFlash(game: GameIF): void {
     const log = game.log;
 
     if (!log) return;
@@ -238,30 +223,10 @@ export class DrawMap {
     if (flashDisplay) flashDisplay.setFlash(msg, log);
   }
 
-  static clearFlash(game: GameIF): void {
+  public static clearFlash(game: GameIF): void {
     const flashDisplay = document.querySelector(
       'flash-display',
     ) as FlashDisplay;
     if (flashDisplay) flashDisplay.clearFlash(game);
-  }
-
-  /**
-   * Use an empty string as the mask.
-   * @type {string}
-   */
-  static mask: string = '';
-
-  /**
-   * Extends the given string to fit the terminal width.
-   * @param {string} s - The string to extend.
-   * @param {DrawableTerminal} term - The terminal.
-   * @returns {string} - The extended string.
-   */
-  static extend(s: string, term: DrawableTerminal): string {
-    const dimensions = term.dimensions;
-
-    if (!this.mask) this.mask = ' '.repeat(dimensions.x);
-
-    return s + this.mask.substring(0, dimensions.x - s.length);
   }
 }

@@ -71,7 +71,7 @@ export class MessagesDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  setMessages(messageLog: LogMessage[]) {
+  public setMessages(messageLog: LogMessage[]) {
     const messagesDisplay = this.shadowRoot?.querySelector('.messages-display');
     if (!messagesDisplay) return;
 

@@ -23,7 +23,7 @@ export class SummonCommand extends MultiplyCommand {
    * @param {GameIF} g - The game interface.
    * @return {void} This function does not return a value.
    */
-  spawnMob(p: WorldPoint, map: GameMap, g: GameIF): void {
+  public spawnMob(p: WorldPoint, map: GameMap, g: GameIF): void {
     const m = this.me;
     const b = g.build;
     const s = b.addMapLevel_Mob(p, map, g.rand);

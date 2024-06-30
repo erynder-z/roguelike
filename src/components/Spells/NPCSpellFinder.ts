@@ -34,7 +34,11 @@ export class NPCSpellFinder {
    * @param {Cost} [cost] - The optional cost of the spell.
    * @return {Command | StackScreen | null} The found Command or StackScreen, or null if the spell is not recognized.
    */
-  find(me: Mob, spell: Spell, cost?: Cost): Command | StackScreen | null {
+  public find(
+    me: Mob,
+    spell: Spell,
+    cost?: Cost,
+  ): Command | StackScreen | null {
     const g = this.game;
     const level = 1;
     const screen: StackScreen | null = null;
@@ -128,7 +132,7 @@ export class NPCSpellFinder {
    * @param {BulletCommand} cmd - The command to be updated.
    * @return {Command} The updated command with the direction set.
    */
-  aim(cmd: BulletCommand): Command {
+  private aim(cmd: BulletCommand): Command {
     const dir = cmd.me.pos.directionTo(this.player.pos);
     return cmd.setDirection(dir);
   }
@@ -140,7 +144,7 @@ export class NPCSpellFinder {
    * @param {Mob} me - The mob to receive the buff.
    * @return {Command} A new BuffCommand with the given buff and mob.
    */
-  buff(buff: Buff, me: Mob): Command {
+  private buff(buff: Buff, me: Mob): Command {
     return new BuffCommand(buff, this.player, this.game, me);
   }
 }

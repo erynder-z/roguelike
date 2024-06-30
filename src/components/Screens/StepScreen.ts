@@ -9,7 +9,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen that displays a timed step that damages a mob at its current position.
  */
 export class StepScreen extends BaseScreen {
-  name = 'step-screen';
+  public name = 'step-screen';
   constructor(
     game: GameIF,
     make: ScreenMaker,
@@ -25,7 +25,7 @@ export class StepScreen extends BaseScreen {
    * @param {Stack} stack - The stack.
    * @return {boolean} True if the event was handled successfully, false otherwise.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     return false;
   }
 
@@ -35,7 +35,7 @@ export class StepScreen extends BaseScreen {
    * @param {DrawableTerminal} term - The terminal on which to draw the screen.
    * @return {void} No return value.
    */
-  drawScreen(term: DrawableTerminal): void {
+  public drawScreen(term: DrawableTerminal): void {
     super.drawScreen(term);
   }
 
@@ -46,7 +46,7 @@ export class StepScreen extends BaseScreen {
    * @return {boolean} Returns true if the step is not null and the step is executed successfully, otherwise false.
    * @throws {string} Throws an error if the step is null.
    */
-  onTime(stack: Stack): boolean {
+  public onTime(stack: Stack): boolean {
     if (this.step == null) throw 'step is null';
     this.step = this.step.executeStep();
     if (this.step) return true;

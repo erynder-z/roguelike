@@ -20,7 +20,7 @@ export class UnequipCommand extends CommandBase {
    * Executes the unequip command.
    * @returns {boolean} True if the command executed successfully, false otherwise.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const slot = this.slot;
     if (slot == Slot.NotWorn) return false;
 

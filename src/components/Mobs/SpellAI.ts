@@ -21,8 +21,8 @@ export class SpellAI implements MobAI {
     public speed: number,
     public spellRate: number,
   ) {}
-  aiTargetedMovement: MobAI = new MobAI2_Cat();
-  aiRandomMovement: MobAI = new MobAI3_Ant();
+  private aiTargetedMovement: MobAI = new MobAI2_Cat();
+  private aiRandomMovement: MobAI = new MobAI3_Ant();
 
   /**
    * Takes a turn for the Mob in an awake state.
@@ -35,7 +35,7 @@ export class SpellAI implements MobAI {
    * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - Always `true`.
    */
-  turn(
+  public turn(
     me: Mob,
     enemy: Mob,
     game: GameIF,
@@ -61,7 +61,7 @@ export class SpellAI implements MobAI {
    * @param {GameIF} game - the game interface
    * @return {boolean} true if the spell was cast, false otherwise
    */
-  maybeCastSpell(me: Mob, enemy: Mob, game: GameIF): boolean {
+  private maybeCastSpell(me: Mob, enemy: Mob, game: GameIF): boolean {
     const map = <GameMap>game.currentMap();
     if (!CanSee.checkMobLOS_Bresenham(me, enemy, map, true)) return false;
 
@@ -78,7 +78,7 @@ export class SpellAI implements MobAI {
    * @param {any} r - a parameter whose role is unclear
    * @return {Buff} the chosen buff for the mob
    */
-  pickBuff(me: Mob, r: any): Buff {
+  private pickBuff(me: Mob, r: any): Buff {
     // TODO: Implement buff choosing
     return Buff.Confuse;
   }
@@ -92,7 +92,7 @@ export class SpellAI implements MobAI {
    * @param {GameIF} game - the game interface
    * @return {boolean} the result of the spell cast
    */
-  cast(buff: number, me: Mob, enemy: Mob, game: GameIF): boolean {
+  private cast(buff: number, me: Mob, enemy: Mob, game: GameIF): boolean {
     const spell = new BuffCommand(buff, enemy, game, me);
     return spell.npcTurn();
   }

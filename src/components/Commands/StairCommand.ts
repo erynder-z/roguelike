@@ -6,7 +6,7 @@ import { CommandBase } from './CommandBase';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
- * Represents a command for handling stair movements in the game.
+ * Represents a command for changing the level when using stairs.
  */
 export class StairCommand extends CommandBase {
   constructor(
@@ -20,7 +20,7 @@ export class StairCommand extends CommandBase {
    * Executes the stair command.
    * @returns {boolean} True if the command execution is successful, otherwise false.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const game = this.game;
     const dungeon = game.dungeon;
     const newLevel = dungeon.level + this.levelDir;

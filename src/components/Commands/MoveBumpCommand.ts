@@ -4,14 +4,13 @@ import { MapCell } from '../MapModel/MapCell';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { MagnetismHandler } from '../Utilities/MagnetismHandler';
-import { Able } from './Able';
+import { Able } from './Interfaces/Able';
 import { CommandBase } from './CommandBase';
 import { HitCommand } from './HitCommand';
 import { MoveCommand } from './MoveCommand';
 
 /**
- * Represents a command to move and potentially bump into a target.
- * @extends CommandBase
+ * Represents a command to conditionally call a MoveCommand or a HitCommand.
  */
 export class MoveBumpCommand extends CommandBase {
   constructor(
@@ -30,7 +29,7 @@ export class MoveBumpCommand extends CommandBase {
    * @param {Act} act - The action being performed.
    * @returns {Able} An object indicating if the mob is able to perform the action and if it uses a turn.
    */
-  able(m: Mob, g: GameIF, act: Act): Able {
+  public able(m: Mob, g: GameIF, act: Act): Able {
     return { isAble: true, usesTurn: false };
   }
 
@@ -39,7 +38,7 @@ export class MoveBumpCommand extends CommandBase {
    *
    * @return {boolean} the result of the function execution
    */
-  execute(): boolean {
+  public execute(): boolean {
     const g = this.game;
     const m = this.me;
 
