@@ -21,7 +21,7 @@ export class DropCommand extends CommandBase {
    * Executes the drop command.
    * @returns {boolean} True if the item was dropped successfully, otherwise false.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const game = this.game;
     const map = <MapIF>game.currentMap();
     const player = game.player;

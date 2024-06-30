@@ -4,6 +4,9 @@ import { Glyph } from '../Glyphs/Glyph';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
+/**
+ * Testing map generator.
+ */
 export class MapGenerator_Test {
   constructor(
     public map: MapIF,

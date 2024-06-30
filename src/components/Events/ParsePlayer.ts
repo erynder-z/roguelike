@@ -37,7 +37,7 @@ export class ParsePlayer {
    * @param {KeyboardEvent} event - the keyboard event to convert
    * @return {string} the corresponding key code
    */
-  static keyPressToCode(event: KeyboardEvent): string {
+  public static keyPressToCode(event: KeyboardEvent): string {
     let keyCode: string = event.key;
     switch (event.code) {
       case 'ArrowUp':
@@ -66,7 +66,7 @@ export class ParsePlayer {
    * @param {KeyboardEvent | null} event - the keyboard event associated with the key press, or null
    * @return {boolean} true if the command was successfully executed, false otherwise
    */
-  parseKeyCodeAsTurn(
+  public parseKeyCodeAsTurn(
     char: string,
     stack: Stack,
     event: KeyboardEvent | null,
@@ -83,7 +83,7 @@ export class ParsePlayer {
    * @param {KeyboardEvent | null} event - the keyboard event, or null if not available
    * @return {Command | null} the corresponding command, or null if no command is found
    */
-  parseKeyCommand(
+  private parseKeyCommand(
     char: string,
     stack: Stack,
     event: KeyboardEvent | null,
@@ -177,7 +177,7 @@ export class ParsePlayer {
    * @param {WorldPoint} dir - The direction in which to dig.
    * @return {Command} A new DigCommand object.
    */
-  digInDirection(dir: WorldPoint): Command {
+  private digInDirection(dir: WorldPoint): Command {
     return new DigCommand(dir, this.player, this.game);
   }
 
@@ -187,7 +187,7 @@ export class ParsePlayer {
    * @param {WorldPoint} dir - the direction to move
    * @return {Command} the newly created MoveCommand
    */
-  moveCmd(dir: WorldPoint): Command {
+  private moveCmd(dir: WorldPoint): Command {
     return new MoveCommand(dir, this.player, this.game);
   }
 
@@ -196,7 +196,7 @@ export class ParsePlayer {
    *
    * @return {Command} the wait command
    */
-  waitCmd(): Command {
+  private waitCmd(): Command {
     return new WaitCommand(this.player, this.game);
   }
 
@@ -206,7 +206,7 @@ export class ParsePlayer {
    * @param {WorldPoint} dir - the direction to move
    * @return {Command} the newly created MoveBumpCommand
    */
-  moveBumpCmd(dir: WorldPoint): Command {
+  private moveBumpCmd(dir: WorldPoint): Command {
     return new MoveBumpCommand(dir, this.player, this.game);
   }
 
@@ -216,7 +216,7 @@ export class ParsePlayer {
    * @param {WorldPoint} dir - the direction to move
    * @return {Command} the newly created MoveBumpCommand
    */
-  doorCommand(): StackScreen {
+  private doorCommand(): StackScreen {
     const command = new DoorCommand(this.player, this.game);
     return new CommandDirectionScreen(command, this.game, this.make);
   }
@@ -228,7 +228,7 @@ export class ParsePlayer {
    * @param {Stack} stack - The stack object used by the BulletCommand.
    * @return {StackScreen} The StackScreen returned by the direction method.
    */
-  bulletCommand(stack: Stack): StackScreen {
+  private bulletCommand(stack: Stack): StackScreen {
     return this.direction(
       new BulletCommand(this.player, this.game, stack, this.make),
     );
@@ -240,7 +240,7 @@ export class ParsePlayer {
    * @param {Command} command - The command to be executed.
    * @return {StackScreen} The newly created CommandDirectionScreen.
    */
-  direction(command: Command): StackScreen {
+  private direction(command: Command): StackScreen {
     return new CommandDirectionScreen(command, this.game, this.make);
   }
 }

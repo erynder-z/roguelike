@@ -38,7 +38,7 @@ export class MagnetismHandler {
    * @param {WorldPoint} newPosition - The position to calculate the magnetic direction for.
    * @return {WorldPoint | null} The calculated magnetic direction, or null if there is no magnetism.
    */
-  static getMagnetDirection(
+  public static getMagnetDirection(
     map: MapIF,
     currentPosition: WorldPoint,
     newPosition: WorldPoint,

@@ -4,13 +4,13 @@ import { Mob } from '../Mobs/Mob';
  * Represents a turn queue for managing the order of mobs' turns.
  */
 export class TurnQueue {
-  mobs: Mob[] = [];
+  public mobs: Mob[] = [];
   /**
    * A method that returns the current mob.
    *
    * @return {Mob} the first mob in the mobs array
    */
-  currentMob(): Mob {
+  public currentMob(): Mob {
     return this.mobs[0];
   }
 
@@ -20,7 +20,7 @@ export class TurnQueue {
    * @param {Mob} m - the mob to be pushed
    * @return {void}
    */
-  pushMob(m: Mob): void {
+  public pushMob(m: Mob): void {
     this.mobs.push(m);
   }
   /**
@@ -28,7 +28,7 @@ export class TurnQueue {
    *
    * @return {Mob} the first item removed from the mobs array
    */
-  popMob(): Mob {
+  public popMob(): Mob {
     return <Mob>this.mobs.shift();
   }
 
@@ -38,7 +38,7 @@ export class TurnQueue {
    * @param {Mob} m - the Mob to be removed
    * @return {void}
    */
-  removeMob(m: Mob): boolean {
+  public removeMob(m: Mob): boolean {
     const index = this.mobs.indexOf(m);
     if (index < 0) return false;
     this.mobs.splice(index, 1);
@@ -51,7 +51,7 @@ export class TurnQueue {
    * @param {Mob} m - the mob to be pushed to the front
    * @return {void}
    */
-  pushMobToFront(m: Mob): void {
+  public pushMobToFront(m: Mob): void {
     this.mobs.unshift(m);
   }
 
@@ -60,7 +60,7 @@ export class TurnQueue {
    *
    * @return {Mob} the next mob
    */
-  next(): Mob {
+  public next(): Mob {
     this.pushMob(this.popMob());
     return this.currentMob();
   }

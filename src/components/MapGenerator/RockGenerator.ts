@@ -13,7 +13,7 @@ export class RockGenerator {
    * @return {Glyph} The randomly selected glyph representing a rock type.
    */
 
-  static getRandomRockType(rnd: RandomGenerator): Glyph {
+  public static getRandomRockType(rnd: RandomGenerator): Glyph {
     const rockTypes: RockType[] = [
       { glyph: Glyph.Wall, percentage: 100 },
       { glyph: Glyph.Rock, percentage: 10 },

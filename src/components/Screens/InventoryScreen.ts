@@ -10,14 +10,13 @@ import { ItemScreen } from './ItemScreen';
  * Represents an inventory screen.
  */
 export class InventoryScreen extends BaseScreen {
-  name = 'inventory-screen';
+  public name = 'inventory-screen';
   constructor(
-    game: GameIF,
-    make: ScreenMaker,
+    public game: GameIF,
+    public make: ScreenMaker,
     public inventory: Inventory = <Inventory>game.inventory,
   ) {
     super(game, make);
-    this.inventory = <Inventory>game.inventory;
   }
 
   /**
@@ -25,7 +24,7 @@ export class InventoryScreen extends BaseScreen {
    * @param {number} pos - The position to convert.
    * @returns {string} The corresponding character.
    */
-  positionToCharacter(pos: number): string {
+  private positionToCharacter(pos: number): string {
     return String.fromCharCode(97 + pos);
   }
 
@@ -34,7 +33,7 @@ export class InventoryScreen extends BaseScreen {
    * @param {string} c - The character to convert.
    * @returns {number} The corresponding position.
    */
-  characterToPosition(c: string): number {
+  private characterToPosition(c: string): number {
     let pos = c.charCodeAt(0) - 'a'.charCodeAt(0);
     if (pos < 0 || pos >= this.inventory.length()) {
       pos = -1;
@@ -45,7 +44,7 @@ export class InventoryScreen extends BaseScreen {
   /**
    * Draws the inventory screen.
    */
-  drawScreen() {
+  public drawScreen() {
     const existingInventoryScreen = document.getElementById('inventory-screen');
     if (existingInventoryScreen) {
       return;
@@ -130,7 +129,7 @@ export class InventoryScreen extends BaseScreen {
    * @param {Stack} stack - The stack interface.
    * @returns {boolean} - True if the event was handled successfully, otherwise false.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     const pos = this.characterToPosition(event.key);
     if (pos >= 0) {
       this.fadeOutInventoryScreen();
@@ -150,7 +149,7 @@ export class InventoryScreen extends BaseScreen {
    * @param {number} pos - The position of the item.
    * @param {Stack} stack - The stack interface.
    */
-  itemMenu(pos: number, stack: Stack): void {
+  private itemMenu(pos: number, stack: Stack): void {
     const item: ItemObject = this.inventory.items[pos];
     stack.pop();
     stack.push(new ItemScreen(item, pos, this.game, this.make));

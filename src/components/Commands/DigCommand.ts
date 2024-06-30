@@ -8,7 +8,7 @@ import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 
 /**
- * Represents a command to dig through rocks or walls.
+ * Represents a command to dig through rocks.
  */
 export class DigCommand extends CommandBase {
   constructor(
@@ -24,7 +24,7 @@ export class DigCommand extends CommandBase {
    *
    * @return {boolean} Returns true if the dig command was executed successfully, otherwise false.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const game = this.g;
     const player = game.player;
     const map = <MapIF>game.currentMap();

@@ -15,7 +15,7 @@ export class MobAI1_Pawn implements MobAI {
    * @param {GameIF} game - The GameIF object
    * @return {boolean} The result of the npcTurn method call
    */
-  turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     const dir = me.pos.directionTo(enemy.pos);
     const cmd = new MoveCommand(dir, me, game);
     return cmd.npcTurn();

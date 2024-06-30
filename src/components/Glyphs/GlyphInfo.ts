@@ -1,7 +1,7 @@
 import { Glyph } from './Glyph';
 
 /**
- * Represents information about a glyph, including its symbol and corresponding character.
+ * Represents information about a glyph.
  */
 export class GlyphInfo {
   constructor(

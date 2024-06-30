@@ -15,9 +15,7 @@ export class ImageHandler {
 
   private static instance: ImageHandler | null = null;
 
-  private constructor() {
-    // Private constructor to prevent direct instantiation
-  }
+  private constructor() {}
 
   /**
    * Returns the singleton instance of the ImageHandler class.
@@ -38,7 +36,7 @@ export class ImageHandler {
    *
    * @return {string | null} The value of the 'data-image' attribute, or null if it doesn't exist.
    */
-  getCurrentImageDataAttribute(): string | null {
+  private getCurrentImageDataAttribute(): string | null {
     const imageContainer = document.getElementById('image-container');
     const image = imageContainer?.firstChild as HTMLImageElement;
     const dataAttribute = image?.getAttribute('data-image');
@@ -54,7 +52,7 @@ export class ImageHandler {
    * @param {HTMLImageElement} img - The image element to display.
    * @param {string} type - The type of the image.
    */
-  displayImage(img: HTMLImageElement, type: string) {
+  public displayImage(img: HTMLImageElement, type: string) {
     img.setAttribute('class', 'hud-image');
     img.setAttribute('data-image', type);
     const imageContainer = document.getElementById('image-container');
@@ -69,7 +67,7 @@ export class ImageHandler {
    *
    * @param {GameIF} game - The game information containing the necessary data.
    */
-  handleAttackImageDisplay(game: GameIF) {
+  public handleAttackImageDisplay(game: GameIF) {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
     const randomImage = r.getRandomImageFromArray(attackImages);
@@ -97,7 +95,7 @@ export class ImageHandler {
    *
    * @param {GameIF} game - The game information containing the necessary data.
    */
-  handleHurtImageDisplay(game: GameIF) {
+  public handleHurtImageDisplay(game: GameIF) {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
@@ -114,7 +112,7 @@ export class ImageHandler {
    *
    * @param {GameIF} game - The game information containing the necessary data.
    */
-  handleSmileImageDisplay(game: GameIF) {
+  public handleSmileImageDisplay(game: GameIF) {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
@@ -131,7 +129,7 @@ export class ImageHandler {
    *
    * @param {GameIF} game - The game information containing the necessary data.
    */
-  handleMovingImageDisplay(game: GameIF) {
+  public handleMovingImageDisplay(game: GameIF) {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
@@ -158,7 +156,7 @@ export class ImageHandler {
    * @param {GameIF} game - The game instance.
    * @return {void}
    */
-  handlePistolImageDisplay(game: GameIF): void {
+  public handlePistolImageDisplay(game: GameIF): void {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
@@ -176,7 +174,7 @@ export class ImageHandler {
    * @param {GameIF} game - The game instance.
    * @return {void}
    */
-  handleNeutralImageDisplay(game: GameIF): void {
+  public handleNeutralImageDisplay(game: GameIF): void {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 

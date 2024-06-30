@@ -3,6 +3,9 @@ import { Glyph } from '../Glyphs/Glyph';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
+/**
+ * Map generator for maze-like environments.
+ */
 export class MapGenerator_Maze {
   constructor(
     public map: GameMap,
@@ -14,7 +17,7 @@ export class MapGenerator_Maze {
     return this.map;
   }
 
-  carveMaze(): void {
+  private carveMaze(): void {
     const map = this.map;
     const rnd = this.rnd;
 
@@ -32,7 +35,7 @@ export class MapGenerator_Maze {
     this.carvePassage(startCell);
   }
 
-  carvePassage(currentCell: WorldPoint): void {
+  private carvePassage(currentCell: WorldPoint): void {
     const map = this.map;
     const rnd = this.rnd;
 
@@ -72,7 +75,7 @@ export class MapGenerator_Maze {
     }
   }
 
-  shuffle(array: WorldPoint[]): WorldPoint[] {
+  private shuffle(array: WorldPoint[]): WorldPoint[] {
     const rnd = this.rnd;
     for (let i = array.length - 1; i > 0; i--) {
       const j = rnd.randomInteger(0, i);

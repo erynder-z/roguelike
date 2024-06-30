@@ -7,70 +7,70 @@ export class BresenhamIterator {
   /**
    * Array to store generated points.
    */
-  pixels: WorldPoint[] = [];
+  private pixels: WorldPoint[] = [];
 
   /**
    * Counter for iteration.
    */
-  i: number = 0;
+  private i: number = 0;
 
   /**
    * Length of the longest side.
    */
-  longest: number = 0;
+  private longest: number = 0;
 
   /**
    * Length of the shortest side.
    */
-  shortest: number = 0;
+  private shortest: number = 0;
 
   /**
    * Incremental change along the x-axis for the first step.
    */
-  dx1: number = 0;
+  private dx1: number = 0;
 
   /**
    * Incremental change along the y-axis for the first step.
    */
-  dy1: number = 0;
+  private dy1: number = 0;
 
   /**
    * Incremental change along the x-axis for the second step.
    */
-  dx2: number = 0;
+  private dx2: number = 0;
 
   /**
    * Incremental change along the y-axis for the second step.
    */
-  dy2: number = 0;
+  private dy2: number = 0;
 
   /**
    * Numerator used in Bresenham's algorithm.
    */
-  numerator: number = 0;
+  private numerator: number = 0;
 
   /**
    * Current x-coordinate.
    */
-  x: number = 0;
+  private x: number = 0;
 
   /**
    * Current y-coordinate.
    */
-  y: number = 0;
+  private y: number = 0;
 
   /**
    * Checks if the iteration is complete.
    * @returns {boolean} - True if the iteration is complete, otherwise false.
    */
-  done(): boolean {
+  public done(): boolean {
     return !(this.i <= this.longest);
   }
 
   /**
    * Iterates through all points along the line.
    */
-  iterateAllPoints(): void {
+  private iterateAllPoints(): void {
     for (this.i = 0; this.i <= this.longest; this.i++) {
       this.next();
     }
@@ -79,7 +79,7 @@ export class BresenhamIterator {
   /**
    * Iterates through all points along the line.
    */
-  iterateAllPoints2(): void {
+  private iterateAllPoints2(): void {
     let p: WorldPoint;
 
     do {
@@ -129,7 +129,12 @@ export class BresenhamIterator {
    * @param {number} y2 - The y-coordinate of the ending point.
    * @returns {BresenhamIterator} - The updated BresenhamIterator instance.
    */
-  init(x1: number, y1: number, x2: number, y2: number): BresenhamIterator {
+  private init(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+  ): BresenhamIterator {
     this.x = x1;
     this.y = y1;
     const w: number = x2 - this.x;

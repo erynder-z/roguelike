@@ -10,14 +10,13 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen displaying the player's equipment.
  */
 export class EquipmentScreen extends BaseScreen {
-  name = 'equipment-screen';
+  public name = 'equipment-screen';
   constructor(
-    game: GameIF,
-    make: ScreenMaker,
+    public game: GameIF,
+    public make: ScreenMaker,
     public equipment: Equipment = <Equipment>game.equipment,
   ) {
     super(game, make);
-    this.equipment = <Equipment>game.equipment;
   }
 
   /**
@@ -25,7 +24,7 @@ export class EquipmentScreen extends BaseScreen {
    * @param {Slot} pos - The slot position.
    * @returns {string} The character representing the slot.
    */
-  slotToCharacter(pos: Slot): string {
+  private slotToCharacter(pos: Slot): string {
     return String.fromCharCode(65 + (pos - Slot.MainHand));
   }
 
@@ -34,7 +33,7 @@ export class EquipmentScreen extends BaseScreen {
    * @param {string} char - The character representing the slot.
    * @returns {Slot} The slot position.
    */
-  CharacterToSlot(char: string): Slot {
+  private CharacterToSlot(char: string): Slot {
     const i: number = char.charCodeAt(0) - 'a'.charCodeAt(0) + Slot.MainHand;
     return i in Slot ? (i as Slot) : Slot.NotWorn;
   }
@@ -42,7 +41,7 @@ export class EquipmentScreen extends BaseScreen {
   /**
    * Draws the equipment screen.
    */
-  drawScreen(): void {
+  public drawScreen(): void {
     const existingEquipmentScreen = document.getElementById('equipment-screen');
     if (existingEquipmentScreen) {
       return;
@@ -147,7 +146,7 @@ export class EquipmentScreen extends BaseScreen {
    * @param {Stack} stack - The stack object.
    * @returns {boolean} - True if the event was handled successfully, otherwise false.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     const slot = this.CharacterToSlot(event.key);
 
     if (event.key === 'u' || this.unequip(slot)) {
@@ -163,7 +162,7 @@ export class EquipmentScreen extends BaseScreen {
    * @param {Slot} slot - The slot from which to unequip the item.
    * @returns {boolean} Whether the unequip action was successful.
    */
-  unequip(slot: Slot): boolean {
+  private unequip(slot: Slot): boolean {
     return new UnequipCommand(slot, this.game).turn();
   }
 }

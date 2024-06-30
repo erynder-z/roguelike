@@ -14,7 +14,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
  * Represents a screen for choosing spells.
  */
 export class SpellScreen extends BaseScreen {
-  name = 'spell-screen';
+  public name = 'spell-screen';
   constructor(
     public game: GameIF,
     public make: ScreenMaker,
@@ -27,7 +27,7 @@ export class SpellScreen extends BaseScreen {
    * @param {number} pos - The position to convert.
    * @return {string} The corresponding character.
    */
-  positionToCharacter(pos: number): string {
+  private positionToCharacter(pos: number): string {
     return String.fromCharCode(97 + pos);
   }
 
@@ -37,7 +37,7 @@ export class SpellScreen extends BaseScreen {
    * @param {string} c - The character to convert.
    * @return {number} The position of the character in the alphabet.
    */
-  characterToPosition(c: string): number {
+  private characterToPosition(c: string): number {
     const pos = c.charCodeAt(0) - 'a'.charCodeAt(0);
     return pos;
   }
@@ -48,7 +48,7 @@ export class SpellScreen extends BaseScreen {
    * @param {DrawableTerminal} term - The terminal to draw on.
    * @return {void} No return value.
    */
-  drawScreen(term: DrawableTerminal): void {
+  public drawScreen(term: DrawableTerminal): void {
     super.drawScreen(term);
     term.drawText(0, 1, 'Which spell?', 'yellow', 'black');
 
@@ -74,7 +74,7 @@ export class SpellScreen extends BaseScreen {
    * @param {Stack} stack - The stack object.
    * @return {boolean} True if the event was handled successfully, otherwise false.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     this.game.log.clearQueue();
     stack.pop();
     const pos = this.characterToPosition(event.key);
@@ -89,7 +89,7 @@ export class SpellScreen extends BaseScreen {
    * @param {Stack} stack - The stack object.
    * @return {void} This function does not return anything.
    */
-  itemMenu(pos: number, stack: Stack): void {
+  private itemMenu(pos: number, stack: Stack): void {
     const s: Spell = pos;
     const label = Spell[s];
 
@@ -105,7 +105,7 @@ export class SpellScreen extends BaseScreen {
    * @param {Stack} stack - The stack object.
    * @return {void} This function does not return anything.
    */
-  doSpell(s: Spell, stack: Stack): void {
+  private doSpell(s: Spell, stack: Stack): void {
     const finder = new SpellFinder(this.game, stack, this.make);
     const cost: Cost | undefined = undefined;
     const spell: Command | StackScreen | null = finder.find(s, cost);

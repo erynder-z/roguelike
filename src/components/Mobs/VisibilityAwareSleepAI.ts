@@ -7,9 +7,6 @@ import { Mood } from './MoodEnum';
 
 /**
  * An AI implementation for Mobs in a sleep state.
- *
- *
- * @implements {MobAI}
  */
 export class VisibilityAwareSleepAI implements MobAI {
   /**
@@ -21,7 +18,7 @@ export class VisibilityAwareSleepAI implements MobAI {
    * @param {GameIF} game - The game instance.
    * @returns {boolean} - Always `true`.
    */
-  turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     if (!VisibilityAwareSleepAI.isNear(me, enemy)) return true;
     const map = <GameMap>game.currentMap();
     const canSee = CanSee.checkMobLOS_Bresenham(me, enemy, map, true);
@@ -39,7 +36,7 @@ export class VisibilityAwareSleepAI implements MobAI {
    * @param {Mob} enemy - The enemy Mob to check the distance to.
    * @returns {boolean} - `true` if the enemy is near, `false` otherwise.
    */
-  static isNear(me: Mob, enemy: Mob): boolean {
+  private static isNear(me: Mob, enemy: Mob): boolean {
     const distance = me.pos.distanceTo(enemy.pos);
     return distance < 6;
   }

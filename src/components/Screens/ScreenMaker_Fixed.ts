@@ -22,7 +22,7 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    *
    * @return {StackScreen} the game over screen
    */
-  gameOver(): StackScreen {
+  public gameOver(): StackScreen {
     return new GameOverScreen(this);
   }
   /**
@@ -30,12 +30,12 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    *
    * @return {StackScreen} The new game screen.
    */
-  newGame(): StackScreen {
+  public newGame(): StackScreen {
     this.game = this.build.makeGame();
     return new GameScreen(<GameIF>this.game, this);
   }
 
-  more(game: GameIF | null): StackScreen {
+  public more(game: GameIF | null): StackScreen {
     return new MoreScreen(<GameIF>game, this);
   }
 
@@ -45,7 +45,7 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    * @param {ScreenMaker} m - the screen maker object
    * @return {void}
    */
-  static run_InitialGameSetup(m: ScreenMaker): void {
+  private static run_InitialGameSetup(m: ScreenMaker): void {
     ScreenStack.run_StackScreen(m.newGame());
   }
 
@@ -64,7 +64,7 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    * @param {BuildIF} build - The build instance used for game creation.
    * @return {void}
    */
-  static InitialGameSetup(build: BuildIF): void {
+  public static InitialGameSetup(build: BuildIF): void {
     this.activateImageHandler();
     this.run_InitialGameSetup(this.StockMaker(build));
   }
@@ -74,7 +74,7 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    *
    * @return {void} This function does not return anything.
    */
-  static activateImageHandler(): void {
+  private static activateImageHandler(): void {
     const randomImage =
       neutralImages[Math.floor(Math.random() * neutralImages.length)];
 

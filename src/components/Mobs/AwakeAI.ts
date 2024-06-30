@@ -14,8 +14,8 @@ import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
  */
 export class AwakeAI implements MobAI {
   constructor(public speed: number) {}
-  aiTargetedMovement: MobAI = new MobAI2_Cat();
-  aiRandomMovement: MobAI = new MobAI3_Ant();
+  private aiTargetedMovement: MobAI = new MobAI2_Cat();
+  private aiRandomMovement: MobAI = new MobAI3_Ant();
 
   /**
    * Takes a turn for the Mob in an awake state.
@@ -28,7 +28,7 @@ export class AwakeAI implements MobAI {
    * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - Always `true`.
    */
-  turn(
+  public turn(
     me: Mob,
     enemy: Mob,
     game: GameIF,

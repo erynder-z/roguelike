@@ -4,7 +4,7 @@ import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 
 /**
- * Represents a wait command that extends the functionality of the base command.
+ * Represents a wait command that ends the turn for the mob.
  */
 export class WaitCommand extends CommandBase {
   constructor(
@@ -17,7 +17,7 @@ export class WaitCommand extends CommandBase {
    * Executes the wait command.
    * @returns {boolean} Always returns true.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const g = this.game;
 
     g.addCurrentEvent(EventCategory.wait);

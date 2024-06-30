@@ -6,15 +6,15 @@ import { WorldPoint } from './WorldPoint';
  * Represents the dungeon that holds all the maps in the game.
  */
 export class Dungeon {
-  level: number = 0;
-  maps: MapIF[] = [];
+  public level: number = 0;
+  public maps: MapIF[] = [];
 
   /**
    * Retrieves the current map of the dungeon based on the current level.
    * @param {GameIF} g - The game interface.
    * @returns {MapIF} The current map.
    */
-  currentMap(g: GameIF): MapIF {
+  public currentMap(g: GameIF): MapIF {
     return this.getLevel(this.level, g);
   }
 
@@ -25,7 +25,7 @@ export class Dungeon {
    * @param {GameIF} g - The game interface.
    * @returns {MapIF} The map of the specified level.
    */
-  getLevel(l: number, g: GameIF): MapIF {
+  public getLevel(l: number, g: GameIF): MapIF {
     if (!this.hasLevel(l)) {
       const map = g.build.makeLevel(g.rand, l);
       this.add(map, l);
@@ -38,7 +38,7 @@ export class Dungeon {
    * @param {number} l - The level number to check.
    * @returns {boolean} True if the dungeon has the level, otherwise false.
    */
-  hasLevel(l: number): boolean {
+  private hasLevel(l: number): boolean {
     return l < this.maps.length && !!this.maps[l];
   }
 
@@ -48,7 +48,7 @@ export class Dungeon {
    * @param {number} l - The level number where the map should be added.
    * @returns {void}
    */
-  add(map: MapIF, l: number): void {
+  private add(map: MapIF, l: number): void {
     if (l >= this.maps.length) {
       this.extendMaps(l + 1);
     }
@@ -60,7 +60,7 @@ export class Dungeon {
    * @param {number} len - The new length of the maps array.
    * @returns {void}
    */
-  extendMaps(len: number) {
+  private extendMaps(len: number): void {
     this.maps.length = len;
   }
 
@@ -71,7 +71,7 @@ export class Dungeon {
    * @param {GameIF} g - The game interface.
    * @returns {void}
    */
-  playerSwitchLevel(newLevel: number, np: WorldPoint, g: GameIF): void {
+  public playerSwitchLevel(newLevel: number, np: WorldPoint, g: GameIF): void {
     const player = g.player;
     this.currentMap(g).removeMob(player);
     this.level = newLevel;

@@ -18,7 +18,7 @@ export class MultipleUseItemCost implements Cost {
    *
    * @return {boolean} True if the cost was successfully paid, false otherwise.
    */
-  pay(): boolean {
+  public pay(): boolean {
     const o = this.obj;
     if (o.charges <= 0) {
       const msg = new LogMessage(

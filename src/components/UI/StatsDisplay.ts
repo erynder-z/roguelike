@@ -19,7 +19,7 @@ export class StatsDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  setStats(stats: string) {
+  public setStats(stats: string) {
     const statsDisplay = this.shadowRoot?.querySelector('.stats-display');
     if (statsDisplay) statsDisplay.textContent = stats;
   }

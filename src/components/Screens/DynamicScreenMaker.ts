@@ -11,8 +11,7 @@ import neutralImages from '../ImageHandler/neutralImages';
 
 /**
  * Represents a dynamic screen maker that can create screens based on provided game states.
- *
- * @implements {ScreenMaker}
+
  */
 export class DynamicScreenMaker implements ScreenMaker {
   constructor(
@@ -29,7 +28,7 @@ export class DynamicScreenMaker implements ScreenMaker {
    *
    * @returns {StackScreen} A StackScreen representing the initial state of a new game.
    */
-  newGame(): StackScreen {
+  public newGame(): StackScreen {
     this.game = this.builder.makeGame();
     return this.gameScreen(<GameIF>this.game, this);
   }
@@ -39,11 +38,11 @@ export class DynamicScreenMaker implements ScreenMaker {
    *
    * @returns {StackScreen} A StackScreen representing the game over state.
    */
-  gameOver(): StackScreen {
+  public gameOver(): StackScreen {
     return this.overScreen(<GameIF>this.game, this);
   }
 
-  more(game: GameIF | null): StackScreen {
+  public more(game: GameIF | null): StackScreen {
     return this.moreScreen(<GameIF>game, this);
   }
 
@@ -61,7 +60,7 @@ export class DynamicScreenMaker implements ScreenMaker {
    *
    * @param {GameBuilder} builder - The builder for creating games.
    */
-  static runBuilt_InitialGameSetup(builder: BuildIF) {
+  public static runBuilt_InitialGameSetup(builder: BuildIF) {
     const dynamicScreenMaker = new DynamicScreenMaker(
       builder,
       (g: GameIF, sm: ScreenMaker) => new GameScreen(g, sm),
@@ -78,7 +77,7 @@ export class DynamicScreenMaker implements ScreenMaker {
    *
    * @return {void} This function does not return anything.
    */
-  static activateImageHandler(): void {
+  private static activateImageHandler(): void {
     const randomImage =
       neutralImages[Math.floor(Math.random() * neutralImages.length)];
 

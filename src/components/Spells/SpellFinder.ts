@@ -34,7 +34,7 @@ export class SpellFinder {
    * @param {Cost} [cost] - The optional cost of the spell.
    * @return {Command | StackScreen | null} The found Command or StackScreen, or null if the spell is not recognized.
    */
-  find(spell: Spell, cost?: Cost): Command | StackScreen | null {
+  public find(spell: Spell, cost?: Cost): Command | StackScreen | null {
     const g = this.game;
     const me = g.player;
     const level = 1;
@@ -131,7 +131,7 @@ export class SpellFinder {
    * @param {Mob} me - The mob to add the buff to.
    * @return {CommandOrScreen} An object containing the command and screen.
    */
-  buff(buff: Buff, me: Mob): CommandOrScreen {
+  private buff(buff: Buff, me: Mob): CommandOrScreen {
     const buffCmd = new BuffCommand(buff, me, this.game, me);
     const { screen, cmd } = this.payload(buffCmd, me);
     return { cmd: cmd, screen: screen };
@@ -144,7 +144,7 @@ export class SpellFinder {
    * @param {Mob} me - The mob that will execute the command.
    * @return {CommandOrScreen} An object containing the command and screen.
    */
-  payload(inner: Command, me: Mob): CommandOrScreen {
+  private payload(inner: Command, me: Mob): CommandOrScreen {
     const cmd: Command = new PayloadCommand(
       me,
       this.game,
@@ -162,7 +162,7 @@ export class SpellFinder {
    * @param {Command} cmd - The command to be executed.
    * @return {StackScreen} The newly created CommandDirectionScreen.
    */
-  dir(cmd: Command): StackScreen {
+  private dir(cmd: Command): StackScreen {
     return new CommandDirectionScreen(cmd, this.game, this.make);
   }
 }

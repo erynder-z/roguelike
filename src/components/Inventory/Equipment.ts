@@ -5,14 +5,14 @@ import { Slot } from '../ItemObjects/Slot';
  * Represents equippable items
  */
 export class Equipment {
-  _objs: Map<Slot, ItemObject> = new Map();
+  private _objs: Map<Slot, ItemObject> = new Map();
 
   /**
    * Adds an item to the equipment.
    * @param {ItemObject} o The item to add.
    * @throws {string} Throws an error if the item cannot be legally added.
    */
-  add(o: ItemObject): void {
+  public add(o: ItemObject): void {
     this.legalObj(o);
     this._objs.set(o.slot, o);
   }
@@ -22,7 +22,7 @@ export class Equipment {
    * @param {Slot} s The slot of the item to remove.
    * @throws {string} Throws an error if the slot does not exist.
    */
-  remove(s: Slot): void {
+  public remove(s: Slot): void {
     this.legalSlot(s);
     this._objs.delete(s);
   }
@@ -32,7 +32,7 @@ export class Equipment {
    * @param {Slot} s The slot to check.
    * @returns {boolean} True if the equipment has an item in the slot, false otherwise.
    */
-  has(s: Slot): boolean {
+  public has(s: Slot): boolean {
     return this._objs.has(s);
   }
 
@@ -40,7 +40,7 @@ export class Equipment {
    * Returns the number of items in the equipment.
    * @returns {number} The number of items.
    */
-  length(): number {
+  public length(): number {
     return this._objs.size;
   }
 
@@ -49,7 +49,7 @@ export class Equipment {
    * @param {Slot} s The slot to retrieve the item from.
    * @returns {ItemObject | undefined} The item in the slot, or undefined if not found.
    */
-  get(s: Slot): ItemObject | undefined {
+  public get(s: Slot): ItemObject | undefined {
     return this._objs.get(s);
   }
 
@@ -58,7 +58,7 @@ export class Equipment {
    * @param {Slot} s The slot to check.
    * @throws {string} Throws an error if the slot does not exist.
    */
-  legalSlot(s: Slot): void {
+  private legalSlot(s: Slot): void {
     if (!this.has(s)) {
       console.log(this._objs);
       throw 'Slot does not exist!';
@@ -70,7 +70,7 @@ export class Equipment {
    * @param {ItemObject} o The item to check.
    * @throws {string} Throws an error if the item cannot be legally added.
    */
-  legalObj(o: ItemObject): void {
+  private legalObj(o: ItemObject): void {
     const slot: Slot = o.slot;
     if (slot == Slot.NotWorn) {
       console.log(slot, o);
@@ -86,7 +86,7 @@ export class Equipment {
    * Calculates the total armor class provided by all equipped items.
    * @returns {number} The total armor class.
    */
-  armorClass(): number {
+  public armorClass(): number {
     let ac: number = 0;
     for (const [, v] of this._objs) {
       ac += v.level * 2;
@@ -98,7 +98,7 @@ export class Equipment {
    * Calculates the reduction factor for armor class.
    * @returns {number} The reduction factor.
    */
-  armorClass_reduce(): number {
+  public armorClass_reduce(): number {
     const ac: number = this.armorClass();
     const reduce = 1.0 * (ac * 0.1 + 1.0);
     return reduce;
@@ -114,7 +114,7 @@ export class Equipment {
    * @param {ItemObject} o The item to check.
    * @returns {boolean} True if the item is a weapon, false otherwise.
    */
-  static isWeapon(o: ItemObject): boolean {
+  public static isWeapon(o: ItemObject): boolean {
     return o.slot in Equipment.weapons;
   }
 
@@ -122,7 +122,7 @@ export class Equipment {
    * Retrieves the first weapon found in the equipment.
    * @returns {ItemObject | undefined} The first weapon found, or undefined if no weapon is found.
    */
-  weapon(): ItemObject | undefined {
+  public weapon(): ItemObject | undefined {
     for (const slot of Equipment.weapons) {
       if (this.has(slot)) return this.get(slot);
     }
@@ -133,7 +133,7 @@ export class Equipment {
    * Calculates the damage provided by the equipped weapon.
    * @returns {number} The weapon damage.
    */
-  weaponDamage(): number {
+  public weaponDamage(): number {
     const weapon: ItemObject | undefined = this.weapon();
     if (weapon) return weapon.level + 1;
     return 2;

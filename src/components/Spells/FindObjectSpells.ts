@@ -28,7 +28,7 @@ export class FindObjectSpell {
    * @param {GameIF} game - The GameIF instance.
    * @return {boolean} True if the ItemObject is usable, false otherwise.
    */
-  isUsable(obj: ItemObject, game: GameIF): boolean {
+  private isUsable(obj: ItemObject, game: GameIF): boolean {
     const canUse = obj.spell != Spell.None;
 
     if (!canUse) {
@@ -46,7 +46,7 @@ export class FindObjectSpell {
    *
    * @return {Command | StackScreen | null} The found Command, StackScreen, or null if the ItemObject is not usable.
    */
-  find(): Command | StackScreen | null {
+  public find(): Command | StackScreen | null {
     const g = this.game;
     const obj: ItemObject = this.obj;
 

@@ -24,7 +24,7 @@ export class DoorCommand extends CommandBase {
    * @param {WorldPoint} direction - The direction to set.
    * @returns {Command} The command object.
    */
-  setDirection(direction: WorldPoint): Command {
+  public setDirection(direction: WorldPoint): Command {
     this.direction = direction;
     return this;
   }
@@ -33,7 +33,7 @@ export class DoorCommand extends CommandBase {
    * Executes the door command.
    * @returns {boolean} True if the command is executed successfully, false otherwise.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const p = this.me.pos;
     const door = p.plus(this.direction);
     const map = <MapIF>this.game.currentMap();
@@ -64,7 +64,7 @@ export class DoorCommand extends CommandBase {
    * Displays a message about the door action.
    * @param {Glyph} env - The environment of the door.
    */
-  message(env: Glyph): void {
+  private message(env: Glyph): void {
     const open = env === Glyph.Door_Open;
     const action = open ? 'opens' : 'closes';
     const who = this.me.name;

@@ -18,7 +18,7 @@ export class SingleUseItemCost implements Cost {
    *
    * @return {boolean} Returns true if the payment is successful, false otherwise.
    */
-  pay(): boolean {
+  public pay(): boolean {
     const msg = new LogMessage(
       `You use ${this.obj.name()}.`,
       EventCategory.use,

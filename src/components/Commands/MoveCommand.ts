@@ -28,7 +28,7 @@ export class MoveCommand extends CommandBase {
    *
    * @returns {boolean} Whether the move was successful or not.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const newPosition = this.dir.plus(this.me.pos);
     const map = <MapIF>this.game.currentMap();
 

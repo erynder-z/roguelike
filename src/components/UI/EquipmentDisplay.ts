@@ -97,7 +97,7 @@ export class EquipmentDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  setEquipment(equipment: Equipment | undefined) {
+  public setEquipment(equipment: Equipment | undefined) {
     const slots = [
       Slot.MainHand,
       Slot.OffHand,

@@ -16,7 +16,7 @@ export class PickupCommand extends CommandBase {
    * Executes the pickup command.
    * @returns {boolean} Returns true if the command is executed successfully, otherwise false.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const game = this.game;
     const map = <MapIF>game.currentMap();
     const player = game.player;

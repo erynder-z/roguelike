@@ -5,9 +5,6 @@ import { Mood } from './MoodEnum';
 
 /**
  * An AI implementation for Mobs in a sleep state.
- *
- *
- * @implements {MobAI}
  */
 export class SimpleSleepAI implements MobAI {
   /**
@@ -19,7 +16,7 @@ export class SimpleSleepAI implements MobAI {
    * @param {GameIF} game - The game instance.
    * @returns {boolean} - Always `true`.
    */
-  turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     if (SimpleSleepAI.isNear(me, enemy)) {
       me.mood = game.rand.isOneIn(3) ? Mood.Awake : Mood.Asleep;
     }
@@ -34,7 +31,7 @@ export class SimpleSleepAI implements MobAI {
    * @param {Mob} enemy - The enemy Mob to check the distance to.
    * @returns {boolean} - `true` if the enemy is near, `false` otherwise.
    */
-  static isNear(me: Mob, enemy: Mob): boolean {
+  public static isNear(me: Mob, enemy: Mob): boolean {
     const distance = me.pos.distanceTo(enemy.pos);
     return distance < 6;
   }

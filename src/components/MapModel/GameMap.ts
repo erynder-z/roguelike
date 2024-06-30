@@ -10,7 +10,7 @@ import { Spell } from '../Spells/Spell';
 import { ObjectTypes } from '../ItemObjects/ObjectTypes';
 
 /**
- * Represents the game map implementing the MapIF interface.
+ * Represents the current game map.
  */
 export class GameMap implements MapIF {
   constructor(
@@ -28,7 +28,7 @@ export class GameMap implements MapIF {
    * @param {WorldPoint} p - The world point to retrieve the cell for.
    * @returns {MapCell} The map cell at the specified world point.
    */
-  cell(p: WorldPoint): MapCell {
+  public cell(p: WorldPoint): MapCell {
     return this.cells[p.y][p.x];
   }
 
@@ -37,7 +37,7 @@ export class GameMap implements MapIF {
    * @param {WorldPoint} p - The world point to check.
    * @returns {boolean} True if the point is legal, false otherwise.
    */
-  isLegalPoint(p: WorldPoint): boolean {
+  public isLegalPoint(p: WorldPoint): boolean {
     return (
       p.x >= 0 && p.y >= 0 && p.x < this.dimensions.x && p.y < this.dimensions.y
     );
@@ -48,7 +48,7 @@ export class GameMap implements MapIF {
    * @param {Glyph} g_empty - The default glyph for empty cells.
    * @returns {MapCell[][]} The 2D array of initialized map cells.
    */
-  allocateMap(g_empty: Glyph): MapCell[][] {
+  private allocateMap(g_empty: Glyph): MapCell[][] {
     const cells = new Array(this.dimensions.y);
     const p: WorldPoint = new WorldPoint();
     for (p.y = 0; p.y < this.dimensions.y; ++p.y) {
@@ -67,7 +67,7 @@ export class GameMap implements MapIF {
    * @param {WorldPoint} p - the destination world point
    * @return {void}
    */
-  moveMob(m: Mob, p: WorldPoint): void {
+  public moveMob(m: Mob, p: WorldPoint): void {
     this.cell(m.pos).mob = undefined;
     m.pos.x = p.x;
     m.pos.y = p.y;
@@ -80,7 +80,7 @@ export class GameMap implements MapIF {
    * @param {Mob} m - the NPC to be added
    * @return {Mob} the added NPC
    */
-  addNPC(m: Mob): Mob {
+  public addNPC(m: Mob): Mob {
     m.description = GlyphMap.getGlyphDescription(m.glyph, 'mob');
     this.cell(m.pos).mob = m;
     this.queue.pushMob(m);
@@ -93,7 +93,7 @@ export class GameMap implements MapIF {
    * @param {Mob} m - The mob to be removed.
    * @return {void}
    */
-  removeMob(m: Mob): void {
+  public removeMob(m: Mob): void {
     this.queue.removeMob(m);
     this.cell(m.pos).mob = undefined;
   }
@@ -105,7 +105,7 @@ export class GameMap implements MapIF {
    * @param {WorldPoint} np - the world point where the player will enter
    * @return {void}
    */
-  enterMap(player: Mob, np: WorldPoint): void {
+  public enterMap(player: Mob, np: WorldPoint): void {
     player.pos.set(np);
     this.cell(player.pos).mob = player;
     this.queue.pushMob(player);
@@ -117,7 +117,7 @@ export class GameMap implements MapIF {
    * @param {WorldPoint} p - the WorldPoint to check
    * @return {boolean} true if the WorldPoint is blocked, false otherwise
    */
-  isBlocked(p: WorldPoint): boolean {
+  public isBlocked(p: WorldPoint): boolean {
     if (!this.isLegalPoint(p)) {
       return true;
     }
@@ -132,7 +132,7 @@ export class GameMap implements MapIF {
    * @param {WorldPoint} np - the world point where the player will enter
    * @return {void}
    */
-  addObject(o: ItemObject, p: WorldPoint): void {
+  public addObject(o: ItemObject, p: WorldPoint): void {
     o.desc = GlyphMap.getGlyphDescription(o.glyph, 'object');
     if (o.spell != Spell.None)
       o.desc = ObjectTypes.getSpellDescription(o.spell);
@@ -144,7 +144,7 @@ export class GameMap implements MapIF {
    * Loops over every cell in the game map and performs the given action.
    * @param {Function} action - The action to perform on each cell.
    */
-  forEachCell(action: (cell: MapCell, p: WorldPoint) => void): void {
+  public forEachCell(action: (cell: MapCell, p: WorldPoint) => void): void {
     const p: WorldPoint = new WorldPoint();
     for (p.y = 0; p.y < this.dimensions.y; ++p.y) {
       for (p.x = 0; p.x < this.dimensions.x; ++p.x) {
@@ -156,7 +156,7 @@ export class GameMap implements MapIF {
   /**
    * Sets the environment description for every cell.
    */
-  setEnvironmentDescriptions(): void {
+  public setEnvironmentDescriptions(): void {
     this.forEachCell(cell => {
       const glyph = cell.glyphEnvOnly();
       cell.envDesc = GlyphMap.getGlyphDescription(glyph, 'environment');

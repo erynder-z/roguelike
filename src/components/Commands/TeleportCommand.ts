@@ -22,7 +22,7 @@ export class TeleportCommand extends CommandBase {
    *
    * @return {boolean} Returns true if the mob was successfully teleported, false otherwise.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const map = this.gameInstance.currentMap() as MapIF;
     const targetPoint = this.findTeleportPoint(this.mob.pos, this.radius, map);
 
@@ -38,15 +38,15 @@ export class TeleportCommand extends CommandBase {
     return true;
   }
 
-   /**
-    * Finds a teleport point within a given radius of a center point on the map.
-    *
-    * @param {WorldPoint} center - The center point on the map.
-    * @param {number} radius - The radius within which to search for a teleport point.
-    * @param {MapIF} map - The map on which to search for a teleport point.
-    * @return {WorldPoint | null} The found teleport point or null if no valid point is found.
-    */
-   findTeleportPoint(
+  /**
+   * Finds a teleport point within a given radius of a center point on the map.
+   *
+   * @param {WorldPoint} center - The center point on the map.
+   * @param {number} radius - The radius within which to search for a teleport point.
+   * @param {MapIF} map - The map on which to search for a teleport point.
+   * @return {WorldPoint | null} The found teleport point or null if no valid point is found.
+   */
+  private findTeleportPoint(
     center: WorldPoint,
     radius: number,
     map: MapIF,

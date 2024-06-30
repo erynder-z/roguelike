@@ -70,7 +70,7 @@ export class OptionsDisplay extends HTMLElement {
    *
    * @return {void} This function does not return anything.
    */
-  activateScanlinesButtons(): void {
+  private activateScanlinesButtons(): void {
     const mainContainer = document.getElementById('main-container');
     const scanLineBtn = this.shadowRoot?.getElementById('scanlines-button');
 
@@ -84,7 +84,7 @@ export class OptionsDisplay extends HTMLElement {
     });
   }
 
-  activateHelpButton(): void {
+  private activateHelpButton(): void {
     const helpBtn = this.shadowRoot?.getElementById('help-button');
 
     helpBtn?.addEventListener('click', () => {
@@ -92,7 +92,7 @@ export class OptionsDisplay extends HTMLElement {
     });
   }
 
-  activateMenuButton(): void {
+  private activateMenuButton(): void {
     const helpBtn = this.shadowRoot?.getElementById('menu-button');
 
     helpBtn?.addEventListener('click', () => {

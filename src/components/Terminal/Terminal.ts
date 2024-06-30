@@ -20,7 +20,7 @@ export class Terminal implements DrawableTerminal {
    * Initializes the 2D rendering context of the canvas and sets initial styles.
    * @returns The initialized 2D rendering context.
    */
-  initializeContext(): CanvasRenderingContext2D {
+  public initializeContext(): CanvasRenderingContext2D {
     const canvas = <HTMLCanvasElement>document.getElementById('canvas1');
 
     const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
@@ -57,7 +57,9 @@ export class Terminal implements DrawableTerminal {
    * @returns A Terminal instance with stock dimensions.
    */
   public static createStockTerminal(): Terminal {
-    return new Terminal(TerminalPoint.TerminalDimensions);
+    const defaultCanvas = <HTMLCanvasElement>document.getElementById('canvas1');
+    const defaultCtx = <CanvasRenderingContext2D>defaultCanvas.getContext('2d');
+    return new Terminal(TerminalPoint.TerminalDimensions, defaultCtx);
   }
 
   /**
@@ -69,7 +71,7 @@ export class Terminal implements DrawableTerminal {
    * @param foreground - The foreground color of the text.
    * @param background - The background color of the text.
    */
-  drawText(
+  public drawText(
     x: number,
     y: number,
     text: string,
@@ -97,7 +99,7 @@ export class Terminal implements DrawableTerminal {
    * @param foreground - The foreground color of the character.
    * @param background - The background color of the character.
    */
-  drawAt(
+  public drawAt(
     x: number,
     y: number,
     char: string,

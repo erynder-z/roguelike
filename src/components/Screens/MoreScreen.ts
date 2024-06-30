@@ -7,7 +7,7 @@ import { BaseScreen } from './BaseScreen';
  * Represents a screen for displaying additional content.
  */
 export class MoreScreen extends BaseScreen {
-  name = 'MoreScreen';
+  public name = 'MoreScreen';
 
   constructor(game: GameIF, make: ScreenMaker) {
     super(game, make);
@@ -20,7 +20,7 @@ export class MoreScreen extends BaseScreen {
    * @param {Stack} stack - The stack.
    * @returns {void}
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
     const log = this.game.log;
     log.dequeue();
     if (!log.hasQueuedMessages()) stack.pop();

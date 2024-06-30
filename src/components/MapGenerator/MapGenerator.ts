@@ -6,7 +6,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 import { RockGenerator } from './RockGenerator';
 
 /**
- * Class for generating maps.
+ * Map generator for standard levels.
  */
 export class MapGenerator1 {
   constructor(
@@ -20,7 +20,7 @@ export class MapGenerator1 {
    * @param {RandomGenerator} rnd The random generator object.
    * @returns {MapIF} The generated map.
    */
-  public loop(map: MapIF, rnd: RandomGenerator): MapIF {
+  private loop(map: MapIF, rnd: RandomGenerator): MapIF {
     // Number of iterations for map generation
     const numIterations = 40;
     const upperLeft = new WorldPoint();
@@ -39,7 +39,10 @@ export class MapGenerator1 {
    * @param {WorldPoint} upperLeft The upper left corner of the room.
    * @param {WorldPoint} roomDimensions The dimensions of the room.
    */
-  pickRandomPosition(upperLeft: WorldPoint, roomDimensions: WorldPoint): void {
+  private pickRandomPosition(
+    upperLeft: WorldPoint,
+    roomDimensions: WorldPoint,
+  ): void {
     const rnd = this.rnd;
     const mapDimensions = this.map.dimensions;
 
@@ -62,7 +65,7 @@ export class MapGenerator1 {
    * @param {WorldPoint} dimensions The dimensions of the room.
    * @param {boolean} filled Whether the room is filled.
    */
-  drawRoom(
+  private drawRoom(
     upperLeft: WorldPoint,
     dimensions: WorldPoint,
     filled: boolean,
@@ -99,7 +102,7 @@ export class MapGenerator1 {
    * Places doors on the map.
    * @param {WorldPoint[]} doorPositions The positions for the doors.
    */
-  placeDoors(doorPositions: WorldPoint[]): void {
+  private placeDoors(doorPositions: WorldPoint[]): void {
     const rnd = this.rnd;
     for (let i = rnd.randomInteger(1, 3); i >= 0; --i) {
       const index = rnd.randomInteger(0, doorPositions.length);
@@ -116,7 +119,7 @@ export class MapGenerator1 {
    * @param {number} iter - The number of iterations.
    * @return {Set<WorldPoint>} - The set of points representing the irregular shape area.
    */
-  static generateIrregularShapeArea(
+  public static generateIrregularShapeArea(
     dim: WorldPoint,
     rnd: RandomGenerator,
     maxSize: number,

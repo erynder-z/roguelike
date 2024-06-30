@@ -14,13 +14,13 @@ import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
  */
 export class AISwitcher implements MobAI {
   constructor(public ai1_std: MobAI) {}
-  ai2_cat: MobAI = new MobAI2_Cat();
-  ai3_ant: MobAI = new MobAI3_Ant();
-  ai4_bat: MobAI = MoodAI.stockMood(2);
-  ai5_druid: MobAI = new MobAI5_Druid(1, 5);
-  ai_spell: MobAI = MoodAI.stockMoodSpellCaster(1, 8);
-  ai_shooter = MoodAI.stockMoodShootAI(1, 5);
-  ai_default: MobAI = MoodAI.stockMood(1);
+  private ai2_cat: MobAI = new MobAI2_Cat();
+  private ai3_ant: MobAI = new MobAI3_Ant();
+  private ai4_bat: MobAI = MoodAI.stockMood(2);
+  private ai5_druid: MobAI = new MobAI5_Druid(1, 5);
+  private ai_spell: MobAI = MoodAI.stockMoodSpellCaster(1, 8);
+  private ai_shooter = MoodAI.stockMoodShootAI(1, 5);
+  private ai_default: MobAI = MoodAI.stockMood(1);
 
   /**
    * Executes a turn for the mob using the appropriate AI based on the mob's type.
@@ -31,7 +31,7 @@ export class AISwitcher implements MobAI {
    * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - True if the turn was successfully executed, false otherwise.
    */
-  turn(
+  public turn(
     me: Mob,
     enemy: Mob,
     game: GameIF,

@@ -12,7 +12,7 @@ import * as spellData from '../Spells/SpellData/spells.json';
  * Represents a collection of objects (items) in the game world.
  */
 export class ObjectTypes {
-  static objTypes: ObjTypesIF[] = [
+  private static objTypes: ObjTypesIF[] = [
     { g: Glyph.Dagger, s: Slot.MainHand },
     { g: Glyph.Shield, s: Slot.OffHand },
     { g: Glyph.Cap, s: Slot.Head },
@@ -26,14 +26,14 @@ export class ObjectTypes {
     { g: Glyph.Pistol, s: Slot.NotWorn },
   ];
 
-  static highestSpellTier: number = Spell.None;
+  private static highestSpellTier: number = Spell.None;
 
   /**
    * Retrieves the index of an object type based on its glyph.
    * @param {Glyph} g - The glyph of the object type.
    * @returns {number} The index of the object type.
    */
-  static indexForGlyph(g: Glyph): number {
+  private static indexForGlyph(g: Glyph): number {
     return this.objTypes.findIndex(obj => obj.g == g);
   }
 
@@ -46,7 +46,7 @@ export class ObjectTypes {
    * @param {number} level - The level of the object.
    * @returns {ItemObject} The added object.
    */
-  static addObjTypeToMap(
+  private static addObjTypeToMap(
     p: WorldPoint,
     map: MapIF,
     rnd: RandomGenerator,
@@ -85,7 +85,10 @@ export class ObjectTypes {
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
    * @returns {ItemObject} The generated object.
    */
-  static randomLevelObject(level: number, rnd: RandomGenerator): ItemObject {
+  public static randomLevelObject(
+    level: number,
+    rnd: RandomGenerator,
+  ): ItemObject {
     return this.rareRunes(rnd, level);
   }
 
@@ -95,7 +98,7 @@ export class ObjectTypes {
    * @param {RandomGenerator} rnd - The random number generator used to generate a random index.
    * @return {ObjTypesIF} The randomly selected object template.
    */
-  static getRandomTemplate(rnd: RandomGenerator): ObjTypesIF {
+  private static getRandomTemplate(rnd: RandomGenerator): ObjTypesIF {
     const index = rnd.randomInteger(ObjectTypes.objTypes.length);
     const template: ObjTypesIF = ObjectTypes.getTemplate(index);
     return template;
@@ -108,7 +111,7 @@ export class ObjectTypes {
    * @param {number} level - The level of the item object.
    * @return {ItemObject} The generated rare rune item object.
    */
-  static rareRunes(rnd: RandomGenerator, level: number): ItemObject {
+  private static rareRunes(rnd: RandomGenerator, level: number): ItemObject {
     const maxAttempts = 1000;
     let attempts = 0;
 
@@ -135,7 +138,7 @@ export class ObjectTypes {
    * @param {ObjTypesIF} template - The template for the object.
    * @returns {ItemObject} The created object.
    */
-  static makeTemplateObject(
+  private static makeTemplateObject(
     level: number,
     rnd: RandomGenerator,
     template: ObjTypesIF,
@@ -171,7 +174,7 @@ export class ObjectTypes {
    * @param {RandomGenerator} rnd - The random number generator used to determine the spell.
    * @return {void} This function does not return a value.
    */
-  static setItemSpell(object: ItemObject, rnd: RandomGenerator): void {
+  private static setItemSpell(object: ItemObject, rnd: RandomGenerator): void {
     const l = rnd.adjustLevel(object.level);
     object.spell = this.spellForLevel(l);
   }
@@ -182,7 +185,7 @@ export class ObjectTypes {
    * @param {number} level - The level to determine the Spell.
    * @return {Spell} The Spell corresponding to the given level.
    */
-  static spellForLevel(level: number): Spell {
+  private static spellForLevel(level: number): Spell {
     const s: Spell = level % this.highestSpellTier;
     return s;
   }
@@ -194,7 +197,7 @@ export class ObjectTypes {
    * @param {Spell} spell - The specific spell to set.
    * @return {void} This function does not return a value.
    */
-  static setSpecificSpell(object: ItemObject, spell: Spell): void {
+  private static setSpecificSpell(object: ItemObject, spell: Spell): void {
     object.spell = spell;
   }
 
@@ -221,7 +224,7 @@ export class ObjectTypes {
    * @returns {ObjTypesIF} The template object type.
    * @throws {string} Throws an error if the index is out of bounds.
    */
-  static getTemplate(index: number): ObjTypesIF {
+  private static getTemplate(index: number): ObjTypesIF {
     const length = ObjectTypes.objTypes.length;
 
     if (index < 0 || index >= length) {
@@ -236,7 +239,7 @@ export class ObjectTypes {
    * @param {Spell} spell - The spell to retrieve the description for.
    * @return {string} The description of the spell, or 'no description' if not found.
    */
-  static getSpellDescription(spell: Spell): string {
+  public static getSpellDescription(spell: Spell): string {
     let description: string = 'no description';
 
     const spellInfo = spellData.spells.find(s => s.name === Spell[spell]);

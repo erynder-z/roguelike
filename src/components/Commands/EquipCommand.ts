@@ -22,7 +22,7 @@ export class EquipCommand extends CommandBase {
    * Executes the equip command.
    * @returns {boolean} True if the command executed successfully, false otherwise.
    */
-  execute(): boolean {
+  public execute(): boolean {
     const game = this.game;
     const item = this.item;
     if (!this.isEquippable(item)) return false;
@@ -44,7 +44,7 @@ export class EquipCommand extends CommandBase {
    * @param {ItemObject} item The item to check.
    * @returns {boolean} True if the item is equippable, false otherwise.
    */
-  isEquippable(item: ItemObject): boolean {
+  private isEquippable(item: ItemObject): boolean {
     const canEquip = item.slot != Slot.NotWorn;
     const msg = new LogMessage(
       "You can't equip " + item.description() + '.',
@@ -59,7 +59,7 @@ export class EquipCommand extends CommandBase {
    * @param {ItemObject} item The item to check.
    * @returns {boolean} True if the item is already equipped, false otherwise.
    */
-  isAlreadyEquipped(item: ItemObject): boolean {
+  private isAlreadyEquipped(item: ItemObject): boolean {
     const alreadyEquipped = this.equipment.has(item.slot);
     if (alreadyEquipped) {
       const label = Slot[item.slot];
@@ -77,7 +77,7 @@ export class EquipCommand extends CommandBase {
    * @param {ItemObject} item The item to check if it's a weapon.
    * @returns {boolean} True if the hands are already full, false otherwise.
    */
-  areHandsFull(item: ItemObject): boolean {
+  private areHandsFull(item: ItemObject): boolean {
     if (!Equipment.isWeapon(item)) return false;
     const equipment = this.equipment;
 
@@ -100,7 +100,7 @@ export class EquipCommand extends CommandBase {
    * @param {Slot} hand The second slot to check.
    * @returns {boolean} True if the slots overlap, false otherwise.
    */
-  doesOverlap(slot: Slot, hand: Slot): boolean {
+  private doesOverlap(slot: Slot, hand: Slot): boolean {
     return slot == Slot.BothHands || hand == Slot.BothHands || hand == slot;
   }
 }

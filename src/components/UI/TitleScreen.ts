@@ -119,21 +119,21 @@ export class TitleScreen extends HTMLElement {
     }
   }
 
-  startNewGame() {
+  public startNewGame() {
     this.dispatchEvent(
       new CustomEvent('start-new-game', { bubbles: true, composed: true }),
     );
   }
 
-  showHelp() {
+  private showHelp() {
     alert('Help');
   }
 
-  showAbout() {
+  private showAbout() {
     alert('About');
   }
 
-  disconnectedCallback() {
+  private disconnectedCallback() {
     document.removeEventListener('keydown', this.handleKeyPress);
     document.removeEventListener('click', this.startNewGame);
     document.removeEventListener('click', this.showHelp);

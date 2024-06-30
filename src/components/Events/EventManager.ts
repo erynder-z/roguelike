@@ -2,16 +2,10 @@ import { InteractiveScreen } from '../Terminal/Interfaces/InteractiveScreen';
 import { ResizingTerminal } from '../Terminal/ResizingTerminal';
 
 /**
- * Manages events such as keyboard input and window resizing for a terminal application.
+ * Manages events such as keyboard input and window resizing.
  *
  */
 export class EventManager {
-  /**
-   * Creates an instance of EventManager.
-   *
-   * @param {ResizingTerminal} term - The resizing terminal to be managed.
-   * @param {RawScreenInterface} screen - The raw screen interface to be associated with the manager.
-   */
   constructor(
     public term: ResizingTerminal,
     public screen: InteractiveScreen,
@@ -29,7 +23,7 @@ export class EventManager {
    * Handles the window resize event by adjusting the resizing terminal and updating the raw screen.
    *
    */
-  handleResize(): void {
+  public handleResize(): void {
     this.term.handleResize();
     this.screen.drawScreen(this.term);
   }
@@ -39,7 +33,7 @@ export class EventManager {
    *
    * @param {KeyboardEvent} event - The keyboard event to be handled.
    */
-  handleKeyDown(event: KeyboardEvent): void {
+  private handleKeyDown(event: KeyboardEvent): void {
     this.screen.handleKeyDownEvent(event);
     this.screen.drawScreen(this.term);
   }
@@ -49,7 +43,7 @@ export class EventManager {
    *
    * @return {void} No return value.
    */
-  initTimer(): void {
+  private initTimer(): void {
     const interval_ms = 100;
     setInterval(this.onTimer.bind(this), interval_ms);
   }
@@ -58,7 +52,7 @@ export class EventManager {
    * Executes the onTime method of the screen and redraws the screen if there is a change.
    *
    */
-  onTimer() {
+  private onTimer() {
     const change: boolean = this.screen.onTime();
     if (change) {
       this.screen.drawScreen(this.term);
@@ -68,11 +62,12 @@ export class EventManager {
   /**
    * Creates and runs an EventManager instance with a provided raw screen interface.
    *
-   * @static
    * @param {RawScreenInterface} rawScreen - The raw screen interface to be associated with the manager.
    * @returns The created EventManager instance.
    */
-  static runWithInteractiveScreen(rawScreen: InteractiveScreen): EventManager {
+  public static runWithInteractiveScreen(
+    rawScreen: InteractiveScreen,
+  ): EventManager {
     return new EventManager(
       ResizingTerminal.createStockResizingTerminal(),
       rawScreen,

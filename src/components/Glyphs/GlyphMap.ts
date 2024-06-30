@@ -12,12 +12,13 @@ export class GlyphMap {
    * An array containing information about each glyph.
    * @type {Array<GlyphInfo>}
    */
-  static glyphsRegistry: Array<GlyphInfo> = [];
+  private static glyphsRegistry: Array<GlyphInfo> = [];
+  private static ensureInit: number = GlyphMap.initializeGlyphs();
   /**
    * Information about the default or "bad" glyph.
    * @type {GlyphInfo}
    */
-  static bad: GlyphInfo = new GlyphInfo(
+  private static bad: GlyphInfo = new GlyphInfo(
     Glyph.Bad,
     'red',
     'yellow',
@@ -39,7 +40,7 @@ export class GlyphMap {
    * @param {Glyph} glyph - The glyph to retrieve information for.
    * @returns {GlyphInfo} Information about the glyph.
    */
-  static getGlyphInfo(glyph: Glyph): GlyphInfo {
+  public static getGlyphInfo(glyph: Glyph): GlyphInfo {
     return glyph in GlyphMap.glyphsRegistry
       ? GlyphMap.glyphsRegistry[glyph]
       : GlyphMap.bad;
@@ -49,9 +50,8 @@ export class GlyphMap {
    * Initializes the glyph map with default glyphs.
    * @returns {number} The number of glyphs initialized.
    */
-  static ensureInit: number = GlyphMap.initializeGlyphs();
 
-  static initializeGlyphs(): number {
+  private static initializeGlyphs(): number {
     const addGlyph = (info: GlyphInfo) => {
       const glyph = Glyph[info.name as keyof typeof Glyph];
       const glyphInfo = new GlyphInfo(

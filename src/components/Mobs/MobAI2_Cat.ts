@@ -17,7 +17,7 @@ export class MobAI2_Cat implements MobAI {
    * @param {GameIF} game - The GameIF object
    * @return {boolean} The result of the npcTurn method call
    */
-  turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
     const r = game.rand;
     if (r.isOneIn(3)) return false;
     const dir = me.pos.directionTo(enemy.pos);

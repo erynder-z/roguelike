@@ -11,20 +11,20 @@ import { BuffColors } from '../UI/BuffColors';
 export class LogScreen extends BaseScreen {
   private colorizer: BuffColors;
   constructor(
-    game: GameIF,
-    make: ScreenMaker,
+    public game: GameIF,
+    public make: ScreenMaker,
     public name: string = 'log-screen',
-    public messageLog: LogMessage[] = [],
+    public messageLog: LogMessage[] = game.log.archive,
   ) {
     super(game, make);
-    this.messageLog = game.log.archive;
+
     this.colorizer = new BuffColors();
   }
 
   /**
    * Renders the log screen on the terminal.
    */
-  drawScreen(): void {
+  public drawScreen(): void {
     const container = document.getElementById(
       'canvas-container',
     ) as HTMLDivElement;
@@ -97,7 +97,7 @@ export class LogScreen extends BaseScreen {
    * @param {Stack} stack - The stack.
    * @returns {boolean} - True if the event was handled successfully, otherwise false.
    */
-  handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     if (event.key === 'q') {
       this.fadeOutLogScreen();
       stack.pop();

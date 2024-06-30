@@ -4,13 +4,13 @@ import { ItemObject } from '../ItemObjects/ItemObject';
  * Represents the player inventory
  */
 export class Inventory {
-  items: ItemObject[] = [];
+  public items: ItemObject[] = [];
 
   /**
    * Get the length of the inventory.
    * @returns {number} The number of items in the inventory.
    */
-  length(): number {
+  public length(): number {
     return this.items.length;
   }
 
@@ -19,7 +19,7 @@ export class Inventory {
    * @param {ItemObject} item - The item to add to the inventory.
    * @returns {void}
    */
-  add(item: ItemObject): void {
+  public add(item: ItemObject): void {
     this.items.push(item);
   }
 
@@ -28,7 +28,7 @@ export class Inventory {
    * @param {number} index - The index of the item to remove.
    * @returns {void}
    */
-  removeIndex(index: number): void {
+  public removeIndex(index: number): void {
     this.items.splice(index, 1);
   }
 }
