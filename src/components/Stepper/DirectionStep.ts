@@ -46,19 +46,20 @@ export class DirectionStep extends TimedStep {
 
     if (this.direction == null) throw 'no dir';
 
-    const checkPosition = this.calculateNewPosition(p, this.direction);
+    const checkPosition = MagnetismHandler.calculateNewPosition(
+      p,
+      this.direction,
+    );
 
-    const magneticDirection = MagnetismHandler.getMagnetDirection(
+    const magnetizedPos = MagnetismHandler.getMagnetizedPosition(
       map,
       p,
       checkPosition,
+      this.g.rand,
     );
 
-    if (
-      magneticDirection &&
-      this.shouldMoveTowardsMagnet(map, magneticDirection)
-    ) {
-      p.addTo(magneticDirection);
+    if (magnetizedPos) {
+      p.addTo(magnetizedPos);
     } else {
       p.addTo(this.direction);
     }
@@ -79,36 +80,5 @@ export class DirectionStep extends TimedStep {
       if (this.next) this.next.setPos(p);
     }
     return done ? this.next : this;
-  }
-
-  /**
-   * Calculates the new position by adding the direction to the current position.
-   *
-   * @param {WorldPoint} currentPosition - The current position of the mob.
-   * @param {WorldPoint} direction - The direction in which the mob is moving.
-   * @return {WorldPoint} The new position after adding the direction to the current position.
-   */
-  private calculateNewPosition(
-    currentPosition: WorldPoint,
-    direction: WorldPoint,
-  ): WorldPoint {
-    return direction.plus(currentPosition);
-  }
-
-  /**
-   * Determines whether the mob should move towards a magnetic point on the map.
-   *
-   * @param {GameMap} map - The game map where the mob is located.
-   * @param {WorldPoint | null} magneticDirection - The direction towards the magnetic point, or null if no direction.
-   * @return {boolean} Returns true if the mob should move towards the magnetic direction, false otherwise.
-   */
-  private shouldMoveTowardsMagnet(
-    map: GameMap,
-    magneticDirection: WorldPoint | null,
-  ): boolean {
-    if (!magneticDirection) return false;
-
-    const magneticMovePosition = this.pos.plus(magneticDirection);
-    return this.g.rand.isOneIn(2) && !map.isBlocked(magneticMovePosition);
   }
 }
