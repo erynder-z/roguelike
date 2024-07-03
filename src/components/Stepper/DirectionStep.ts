@@ -1,7 +1,9 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
+import { GameMap } from '../MapModel/GameMap';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { MagnetismHandler } from '../Utilities/MagnetismHandler';
 import { StepIF } from './Interfaces/StepIF';
 import { TimedStep } from './TimedStep';
 
@@ -38,13 +40,31 @@ export class DirectionStep extends TimedStep {
    */
   public executeStep(): StepIF | null {
     const p = this.pos;
-    const map = this.map;
+    const map = <GameMap>this.map;
 
     map.cell(p).sprite = undefined;
 
     if (this.direction == null) throw 'no dir';
 
-    p.addTo(this.direction);
+    const checkPosition = MagnetismHandler.calculateNewPosition(
+      p,
+      this.direction,
+    );
+
+    const canGetStuckInWall = true; // Determines whether a magnet can pull an entity towards a wall and using a turn. Bullets and payloads should set this to true.
+    const magnetizedPos = MagnetismHandler.getMagnetizedPosition(
+      map,
+      p,
+      checkPosition,
+      this.g.rand,
+      canGetStuckInWall,
+    );
+
+    if (magnetizedPos) {
+      p.addTo(magnetizedPos);
+    } else {
+      p.addTo(this.direction);
+    }
 
     if (!map.isLegalPoint(p)) return null;
 

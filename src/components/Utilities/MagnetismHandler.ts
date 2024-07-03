@@ -1,5 +1,8 @@
+import { GameMap } from '../MapModel/GameMap';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+
 /**
  * Utility class for handling magnetism.
  */
@@ -11,7 +14,7 @@ export class MagnetismHandler {
    * @param {WorldPoint} position - The position to check for magnetism.
    * @return {WorldPoint | null} The WorldPoint of the magnetic neighbor if found, otherwise null.
    */
-  private static checkForMagnetism(
+  private static checkForMagnetismInArea(
     map: MapIF,
     position: WorldPoint,
   ): WorldPoint | null {
@@ -38,29 +41,63 @@ export class MagnetismHandler {
    * @param {WorldPoint} newPosition - The position to calculate the magnetic direction for.
    * @return {WorldPoint | null} The calculated magnetic direction, or null if there is no magnetism.
    */
-  public static getMagnetDirection(
+  public static getMagneticDirection(
     map: MapIF,
     currentPosition: WorldPoint,
     newPosition: WorldPoint,
   ): WorldPoint | null {
-    const magneticPosition = MagnetismHandler.checkForMagnetism(
-      map,
-      newPosition,
-    );
-    return this.getMagnetismDirection(currentPosition, magneticPosition);
+    const magneticNeighbor = this.checkForMagnetismInArea(map, newPosition);
+    return magneticNeighbor
+      ? currentPosition.directionTo(magneticNeighbor)
+      : null;
   }
 
   /**
-   * Calculates the direction from the mob's position to the magnetic position.
+   * Calculates the new position by adding the direction to the current position.
    *
-   * @param {WorldPoint} currentPosition - The position of the object to calculate the direction from.
-   * @param {WorldPoint | null} magnetPos - The position of the magnetic neighbor, can be null.
-   * @return {WorldPoint | null} The direction from the mob to the magnetic position, or null if no magnetic neighbor found.
+   * @param {WorldPoint} currentPosition - The current position of the mob.
+   * @param {WorldPoint} direction - The direction in which the mob is moving.
+   * @return {WorldPoint} The new position after adding the direction to the current position.
    */
-  private static getMagnetismDirection(
+  public static calculateNewPosition(
     currentPosition: WorldPoint,
-    magnetPos: WorldPoint | null,
+    direction: WorldPoint,
+  ): WorldPoint {
+    return currentPosition.plus(direction);
+  }
+  /**
+   * Determines if the object should move towards the magnetic position.
+   *
+   * @param {GameMap} map - The game map representing the game world.
+   * @param {WorldPoint} currentPosition - The current position of the object.
+   * @param {WorldPoint} proposedNewPosition - The proposed new position.
+   * @param {RandomGenerator} rand - The random generator.
+   * @param {boolean} canGetStuckInWall - Whether the object can get stuck in a wall.
+   * @return {WorldPoint | null} The direction to move towards if magnetism is found, otherwise null.
+   */
+  public static getMagnetizedPosition(
+    map: GameMap,
+    currentPosition: WorldPoint,
+    proposedNewPosition: WorldPoint,
+    rand: RandomGenerator,
+    canGetStuckInWall: boolean = false,
   ): WorldPoint | null {
-    return magnetPos ? currentPosition.directionTo(magnetPos) : null;
+    const magneticNeighbor = this.checkForMagnetismInArea(
+      map,
+      proposedNewPosition,
+    );
+
+    if (magneticNeighbor) {
+      const magneticDirection = currentPosition.directionTo(magneticNeighbor);
+      const magneticMovePosition = currentPosition.plus(magneticDirection);
+      const canMoveInDirection =
+        canGetStuckInWall || !map.isBlocked(magneticMovePosition);
+
+      if (rand.isOneIn(2) && canMoveInDirection) {
+        return magneticDirection;
+      }
+    }
+
+    return null;
   }
 }
