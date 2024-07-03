@@ -65,7 +65,6 @@ export class MagnetismHandler {
   ): WorldPoint {
     return currentPosition.plus(direction);
   }
-
   /**
    * Determines if the object should move towards the magnetic position.
    *
@@ -73,6 +72,7 @@ export class MagnetismHandler {
    * @param {WorldPoint} currentPosition - The current position of the object.
    * @param {WorldPoint} proposedNewPosition - The proposed new position.
    * @param {RandomGenerator} rand - The random generator.
+   * @param {boolean} canGetStuckInWall - Whether the object can get stuck in a wall.
    * @return {WorldPoint | null} The direction to move towards if magnetism is found, otherwise null.
    */
   public static getMagnetizedPosition(
@@ -80,21 +80,24 @@ export class MagnetismHandler {
     currentPosition: WorldPoint,
     proposedNewPosition: WorldPoint,
     rand: RandomGenerator,
+    canGetStuckInWall: boolean = false,
   ): WorldPoint | null {
     const magneticNeighbor = this.checkForMagnetismInArea(
       map,
       proposedNewPosition,
     );
-    const magneticDirection = magneticNeighbor
-      ? currentPosition.directionTo(magneticNeighbor)
-      : null;
 
-    if (magneticDirection) {
+    if (magneticNeighbor) {
+      const magneticDirection = currentPosition.directionTo(magneticNeighbor);
       const magneticMovePosition = currentPosition.plus(magneticDirection);
-      if (rand.isOneIn(2) && !map.isBlocked(magneticMovePosition)) {
+      const canMoveInDirection =
+        canGetStuckInWall || !map.isBlocked(magneticMovePosition);
+
+      if (rand.isOneIn(2) && canMoveInDirection) {
         return magneticDirection;
       }
     }
+
     return null;
   }
 }

@@ -51,11 +51,13 @@ export class DirectionStep extends TimedStep {
       this.direction,
     );
 
+    const canGetStuckInWall = true; // Determines whether a magnet can pull an entity towards a wall and using a turn. Bullets and payloads should set this to true.
     const magnetizedPos = MagnetismHandler.getMagnetizedPosition(
       map,
       p,
       checkPosition,
       this.g.rand,
+      canGetStuckInWall,
     );
 
     if (magnetizedPos) {

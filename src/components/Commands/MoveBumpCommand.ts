@@ -50,11 +50,13 @@ export class MoveBumpCommand extends CommandBase {
     if (!this.isPositionLegal(map, newPosition)) return false;
 
     const cell = map.cell(newPosition);
+    const canGetStuckInWall = false; // Determines whether a magnet can pull an entity towards a wall and using a turn. Mobs should set this to false.
     const magnetizedPos = MagnetismHandler.getMagnetizedPosition(
       map,
       m.pos,
       newPosition,
       g.rand,
+      canGetStuckInWall,
     );
 
     if (magnetizedPos) {
