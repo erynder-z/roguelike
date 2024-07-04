@@ -18,6 +18,8 @@ export class GameMap implements MapIF {
     g_empty: Glyph,
     public level: number,
     public cells: MapCell[][] = [],
+    public upStairPos?: WorldPoint,
+    public downStairPos?: WorldPoint,
     public queue: TurnQueue = new TurnQueue(),
   ) {
     this.cells = this.allocateMap(g_empty);
@@ -58,6 +60,21 @@ export class GameMap implements MapIF {
       }
     }
     return cells;
+  }
+
+  /**
+   * Adds information about the location of up and down stairs.
+   *
+   * @param {Glyph.StairsUp | Glyph.StairsDown} glyph - The type of stair glyph (up or down).
+   * @param {WorldPoint} pos - The position of the stair on the map.
+   * @returns {void}
+   */
+  public addStairInfo(
+    glyph: Glyph.StairsUp | Glyph.StairsDown,
+    pos: WorldPoint,
+  ): void {
+    if (glyph === Glyph.StairsUp) this.upStairPos = pos;
+    if (glyph === Glyph.StairsDown) this.downStairPos = pos;
   }
 
   /**

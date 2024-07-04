@@ -3,38 +3,26 @@ import { WorldPoint } from '../WorldPoint';
 import { Mob } from '../../Mobs/Mob';
 import { TurnQueue } from '../../TurnQueue/TurnQueue';
 import { ItemObject } from '../../ItemObjects/ItemObject';
-
+import { Glyph } from '../../Glyphs/Glyph';
 /**
  * Represents a game map with cells and dimensions.
  */
 export interface MapIF {
-  /**
-   * The dimensions of the map.
-   */
   dimensions: WorldPoint;
-  /**
-   * Retrieves the cell at the specified world point.
-   * @param {WorldPoint} p - The world point to retrieve the cell for.
-   * @returns {MapCell} The map cell at the specified world point.
-   */
+  level: number;
+  upStairPos?: WorldPoint;
+  downStairPos?: WorldPoint;
+  queue: TurnQueue;
+
   cell(p: WorldPoint): MapCell;
 
-  /**
-   * Checks if the specified world point is legal on the map.
-   * @param {WorldPoint} p - The world point to check.
-   * @returns {boolean} True if the point is legal, false otherwise.
-   */
   isLegalPoint(p: WorldPoint): boolean;
 
-  /**
-   * The map level.
-   */
-  level: number;
-
-  queue: TurnQueue;
   addNPC(m: Mob): Mob;
 
   enterMap(player: Mob, np: WorldPoint): void;
+
+  addStairInfo(glyph: Glyph.StairsUp | Glyph.StairsDown, pos: WorldPoint): void;
 
   moveMob(m: Mob, p: WorldPoint): void;
 
