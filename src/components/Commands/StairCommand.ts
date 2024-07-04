@@ -21,18 +21,41 @@ export class StairCommand extends CommandBase {
    * @returns {boolean} True if the command execution is successful, otherwise false.
    */
   public execute(): boolean {
-    const game = this.game;
-    const dungeon = game.dungeon;
-    const newLevel = dungeon.level + this.levelDir;
-    const newMap: MapIF = dungeon.getLevel(newLevel, game);
-    const newPos = FindFreeSpace.findFree(newMap, game.rand);
-    const direction = this.levelDir != -1 ? 'descends' : 'ascends';
-    const msg = new LogMessage(
+    const { game, levelDir } = this;
+    const { dungeon } = game;
+    const newLevel = dungeon.level + levelDir;
+    const newMap = dungeon.getLevel(newLevel, game);
+    const direction = levelDir !== -1 ? 'descends' : 'ascends';
+    const newPos = this.getNewPos(direction, newMap, game);
+
+    const message = new LogMessage(
       `Player ${direction} to level ${newLevel}.`,
       EventCategory.lvlChange,
     );
-    this.game.message(msg);
-    dungeon.playerSwitchLevel(newLevel, <WorldPoint>newPos, game);
+    game.message(message);
+    dungeon.playerSwitchLevel(newLevel, newPos, game);
     return true;
+  }
+
+  /**
+   * Returns the new position on the map based on the direction and the new map.
+   *
+   * @param {string} direction - The direction of movement ('ascends' or 'descends').
+   * @param {MapIF} newMap - The new map to move to.
+   * @param {GameIF} game - The game object.
+   * @return {WorldPoint} The new position on the map.
+   */
+  private getNewPos(
+    direction: string,
+    newMap: MapIF,
+    game: GameIF,
+  ): WorldPoint {
+    if (newMap.downStairPos && direction === 'ascends') {
+      return newMap.downStairPos;
+    } else if (newMap.upStairPos && direction === 'descends') {
+      return newMap.upStairPos;
+    } else {
+      return FindFreeSpace.findFree(newMap, game.rand);
+    }
   }
 }

@@ -257,6 +257,7 @@ export class Builder implements BuildIF {
     const p = new WorldPoint(x, y).addTo(pos);
 
     map.cell(p).env = Glyph.StairsDown;
+    map.addStairInfo(Glyph.StairsDown, p);
   }
 
   /**
@@ -276,9 +277,15 @@ export class Builder implements BuildIF {
    * @param {Glyph} stair - The glyph representing the stairs.
    * @returns {boolean} True if stairs are successfully added, otherwise false.
    */
-  private addStair(map: MapIF, rnd: RandomGenerator, stair: Glyph): boolean {
+  private addStair(
+    map: MapIF,
+    rnd: RandomGenerator,
+    stair: Glyph.StairsUp | Glyph.StairsDown,
+  ): boolean {
     const p = <WorldPoint>FindFreeSpace.findFree(map, rnd);
     map.cell(p).env = stair;
+    map.addStairInfo(stair, p);
+
     return true;
   }
 

@@ -13,7 +13,7 @@ export class FindFreeSpace {
    * @param {RandomGenerator} rnd - The random generator to use for finding free space.
    * @returns {WorldPoint | null} A WorldPoint representing the free space found, or null if no free space is available.
    */
-  public static findFree(map: MapIF, rnd: RandomGenerator): WorldPoint | null {
+  public static findFree(map: MapIF, rnd: RandomGenerator): WorldPoint {
     return this.find(Glyph.Floor, map, rnd);
   }
 
@@ -22,14 +22,14 @@ export class FindFreeSpace {
    * @param {Glyph} char - The character to find.
    * @param {MapIF} map - The map in which to search for the character.
    * @param {RandomGenerator} rnd - The random generator to use for finding the character.
-   * @returns {WorldPoint | null} A WorldPoint representing the position of the character found, or null if the character is not found.
+   * @returns {WorldPoint } A WorldPoint representing the position of the character found.
    * @throws {string} Throws an error if no free space is found.
    */
   public static find(
     char: Glyph,
     map: MapIF,
     rnd: RandomGenerator,
-  ): WorldPoint | null {
+  ): WorldPoint {
     const e = new WorldPoint(map.dimensions.x - 2, map.dimensions.y - 2);
     const s = new WorldPoint(
       rnd.randomIntegerClosedRange(1, e.x),
