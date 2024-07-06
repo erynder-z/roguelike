@@ -1,15 +1,15 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { DrawMap } from '../MapModel/DrawMap';
-import { Glyph } from '../Glyphs/Glyph';
 import { Buff } from '../Buffs/BuffEnum';
 import { CanSee } from '../Utilities/CanSee';
+import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { DrawMap } from '../MapModel/DrawMap';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { Glyph } from '../Glyphs/Glyph';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { ScreenMaker } from './Interfaces/ScreenMaker';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a screen for looking at the player's surroundings.

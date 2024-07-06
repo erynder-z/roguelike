@@ -1,7 +1,7 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { EventCategory } from '../Messages/LogMessage';
-import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
+import { EventCategory } from '../Messages/LogMessage';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { Mob } from '../Mobs/Mob';
 
 /**
  * Represents a wait command that ends the turn for the mob.

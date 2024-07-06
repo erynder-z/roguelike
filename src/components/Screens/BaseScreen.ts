@@ -1,13 +1,13 @@
+import { DrawMap } from '../MapModel/DrawMap';
 import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameMap } from '../MapModel/GameMap';
+import { HealthAdjust } from '../Commands/HealthAdjust';
+import { Mob } from '../Mobs/Mob';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
-import { GameMap } from '../MapModel/GameMap';
-import { Mob } from '../Mobs/Mob';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
-import { DrawMap } from '../MapModel/DrawMap';
-import { HealthAdjust } from '../Commands/HealthAdjust';
+import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 
 /**
  * Represents a base screen implementation that implements the StackScreen interface.

@@ -1,14 +1,14 @@
-import { MessageLog } from '../../Messages/MessageLog';
-import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
-import { Mob } from '../../Mobs/Mob';
-import { MobAI } from '../../Mobs/Interfaces/MobAI';
-import { MapIF } from '../../MapModel/Interfaces/MapIF';
+import { AutoHeal } from '../../Commands/AutoHeal';
 import { Builder } from '../Builder';
 import { Dungeon } from '../../MapModel/Dungeon';
-import { AutoHeal } from '../../Commands/AutoHeal';
-import { Inventory } from '../../Inventory/Inventory';
 import { Equipment } from '../../Inventory/Equipment';
+import { Inventory } from '../../Inventory/Inventory';
 import { LogMessage, EventCategory } from '../../Messages/LogMessage';
+import { MapIF } from '../../MapModel/Interfaces/MapIF';
+import { Mob } from '../../Mobs/Mob';
+import { MobAI } from '../../Mobs/Interfaces/MobAI';
+import { MessageLog } from '../../Messages/MessageLog';
+import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
 
 /**
  * Represents the interface for the game.

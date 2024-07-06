@@ -1,14 +1,14 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { CommandBase } from '../Commands/CommandBase';
+import { BaseScreen } from './BaseScreen';
 import { Command } from '../Commands/Interfaces/Command';
+import { CommandBase } from '../Commands/CommandBase';
 import { Cost } from '../Commands/Interfaces/Cost';
+import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Spell } from '../Spells/Spell';
 import { SpellFinder } from '../Spells/SpellFinder';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
-import { BaseScreen } from './BaseScreen';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
 
 /**
  * Represents a screen for choosing spells.

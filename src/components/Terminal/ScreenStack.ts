@@ -1,8 +1,8 @@
+import { EventManager } from '../Events/EventManager';
 import { DrawableTerminal } from './Interfaces/DrawableTerminal';
 import { InteractiveScreen } from './Interfaces/InteractiveScreen';
 import { Stack } from './Interfaces/Stack';
 import { StackScreen } from './Interfaces/StackScreen';
-import { EventManager } from '../Events/EventManager';
 
 /**
  * Represents a stack of interactive screens in the game.

@@ -1,15 +1,16 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { Glyph } from '../Glyphs/Glyph';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { Mob } from '../Mobs/Mob';
-import { CommandBase } from './CommandBase';
-import { StairCommand } from './StairCommand';
-import { ItemObject } from '../ItemObjects/ItemObject';
 import { Act } from './Act';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Buff } from '../Buffs/BuffEnum';
 import { BuffCommand } from './BuffCommand';
+import { CommandBase } from './CommandBase';
+import { EventCategory } from '../Messages/LogMessage';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { Glyph } from '../Glyphs/Glyph';
+import { ItemObject } from '../ItemObjects/ItemObject';
+import { LogMessage } from '../Messages/LogMessage';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Mob } from '../Mobs/Mob';
+import { StairCommand } from './StairCommand';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a move command that moves a mob in the game.

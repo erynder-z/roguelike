@@ -1,6 +1,6 @@
-import { MobAI } from './Interfaces/MobAI';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Mob } from './Mob';
+import { MobAI } from './Interfaces/MobAI';
 import { Mood } from './MoodEnum';
 
 /**

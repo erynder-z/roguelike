@@ -1,8 +1,8 @@
 import { Buff } from '../Buffs/BuffEnum';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { Mob } from '../Mobs/Mob';
 
 /**
  * Represents a command that removes a given buff from the given mob.

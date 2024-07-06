@@ -1,9 +1,9 @@
+import { CommandBase } from './CommandBase';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
-import { CommandBase } from './CommandBase';
 
 /**
  * Represents a command to drop an item from the player's inventory.

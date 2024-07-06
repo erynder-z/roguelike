@@ -1,9 +1,9 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
-import { Mob } from '../Mobs/Mob';
-import { GrammarHandler } from '../Utilities/GrammarHandler';
 import { Buff } from './BuffEnum';
 import { BuffIF } from './Interfaces/BuffIF';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GrammarHandler } from '../Utilities/GrammarHandler';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { Mob } from '../Mobs/Mob';
 
 /**
  * Handles managing buffs on a mob.

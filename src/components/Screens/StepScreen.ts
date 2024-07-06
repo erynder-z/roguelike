@@ -1,9 +1,9 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { StepIF } from '../Stepper/Interfaces/StepIF';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
+import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { StepIF } from '../Stepper/Interfaces/StepIF';
 
 /**
  * Represents a screen that displays a timed step that damages a mob at its current position.

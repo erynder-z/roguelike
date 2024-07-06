@@ -1,8 +1,8 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Glyph } from '../Glyphs/Glyph';
-import { GameMap } from '../MapModel/GameMap';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { GameMap } from '../MapModel/GameMap';
+import { Glyph } from '../Glyphs/Glyph';
 import { MagnetismHandler } from '../Utilities/MagnetismHandler';
 import { StepIF } from './Interfaces/StepIF';
 import { TimedStep } from './TimedStep';

@@ -1,18 +1,18 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { BaseScreen } from './BaseScreen';
 import { CommandBase } from '../Commands/CommandBase';
-import { EquipCommand } from '../Commands/EquipCommand';
-import { Command } from '../Commands/Interfaces/Command';
-import { Inventory } from '../Inventory/Inventory';
-import { ItemObject } from '../ItemObjects/ItemObject';
+import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { DrawMap } from '../MapModel/DrawMap';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { FindObjectSpell } from '../Spells/FindObjectSpells';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { Inventory } from '../Inventory/Inventory';
+import { ItemObject } from '../ItemObjects/ItemObject';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { EquipCommand } from '../Commands/EquipCommand';
+import { Command } from '../Commands/Interfaces/Command';
+import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
-import { BaseScreen } from './BaseScreen';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
 
 /**
  * Represents a screen for interacting with items.

@@ -2,11 +2,11 @@ import { BuildIF } from '../Builder/Interfaces/BuildIF';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
-import { ScreenStack } from '../Terminal/ScreenStack';
 import { GameOverScreen } from './GameOverScreen';
 import { GameScreen } from './GameScreen';
-import { MoreScreen } from './MoreScreen';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
+import { MoreScreen } from './MoreScreen';
+import { ScreenStack } from '../Terminal/ScreenStack';
 import neutralImages from '../ImageHandler/neutralImages';
 
 /**

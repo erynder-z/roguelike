@@ -1,5 +1,5 @@
-import { LogMessage } from '../Messages/LogMessage';
 import { BuffColors } from './BuffColors';
+import { LogMessage } from '../Messages/LogMessage';
 
 export class MessagesDisplay extends HTMLElement {
   private colorizer: BuffColors;

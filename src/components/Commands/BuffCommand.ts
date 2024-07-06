@@ -1,12 +1,12 @@
-import { BleedTick } from '../Buffs/BleedTick';
-import { Buff } from '../Buffs/BuffEnum';
 import { BurnTick } from '../Buffs/BurnTick';
-import { FreezeTick } from '../Buffs/FreezeTick';
 import { BuffIF, TickIF } from '../Buffs/Interfaces/BuffIF';
-import { PetrifyTick } from '../Buffs/PetrifyTick';
-import { PoisonTick } from '../Buffs/PoisonTick';
+import { Buff } from '../Buffs/BuffEnum';
+import { BleedTick } from '../Buffs/BleedTick';
+import { FreezeTick } from '../Buffs/FreezeTick';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Mob } from '../Mobs/Mob';
+import { PetrifyTick } from '../Buffs/PetrifyTick';
+import { PoisonTick } from '../Buffs/PoisonTick';
 import { CommandBase } from './CommandBase';
 
 const BURN_DMG_MIN = 2;

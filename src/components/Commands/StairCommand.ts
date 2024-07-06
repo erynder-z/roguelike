@@ -1,9 +1,9 @@
+import { CommandBase } from './CommandBase';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { CommandBase } from './CommandBase';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
  * Represents a command for changing the level when using stairs.

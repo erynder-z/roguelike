@@ -1,15 +1,15 @@
 import { Buff } from '../Buffs/BuffEnum';
+import { CanSee } from '../Utilities/CanSee';
+import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
+import { MapCell } from './MapCell';
+import { MapIF } from './Interfaces/MapIF';
 import { Spell } from '../Spells/Spell';
 import { SpellColors } from '../Spells/SpellColors';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
-import { CanSee } from '../Utilities/CanSee';
-import { MapIF } from './Interfaces/MapIF';
-import { MapCell } from './MapCell';
 import { WorldPoint } from './WorldPoint';
 
 /**

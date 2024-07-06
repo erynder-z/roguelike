@@ -1,8 +1,8 @@
+import { BaseScreen } from './BaseScreen';
 import { GameIF } from '../Builder/Interfaces/GameIF';
+import { ParsePlayer } from '../Events/ParsePlayer';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
-import { BaseScreen } from './BaseScreen';
-import { ParsePlayer } from '../Events/ParsePlayer';
 
 /**
  * Represents a game screen that extends the functionality of the base screen.

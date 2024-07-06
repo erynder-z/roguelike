@@ -1,21 +1,20 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MapIF } from './Interfaces/MapIF';
+import { BuffsDisplay } from '../UI/BuffsDisplay';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { TerminalPoint } from '../Terminal/TerminalPoint';
+import { EquipmentDisplay } from '../UI/EquipmentDisplay';
+import { FlashDisplay } from '../UI/FlashDisplay';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
-import { MapCell } from './MapCell';
-import { WorldPoint } from './WorldPoint';
-import { BuffIF } from '../Buffs/Interfaces/BuffIF';
-import { MapRenderer } from './MapRenderer';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
-import { StatsDisplay } from '../UI/StatsDisplay';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { MapCell } from './MapCell';
+import { MapIF } from './Interfaces/MapIF';
+import { MapRenderer } from './MapRenderer';
 import { MessagesDisplay } from '../UI/MessagesDisplay';
-import { BuffsDisplay } from '../UI/BuffsDisplay';
-import { EquipmentDisplay } from '../UI/EquipmentDisplay';
-import { FlashDisplay } from '../UI/FlashDisplay';
+import { StatsDisplay } from '../UI/StatsDisplay';
+import { TerminalPoint } from '../Terminal/TerminalPoint';
+import { WorldPoint } from './WorldPoint';
 
 /**
  * Represents a utility class for drawing a map on a drawable terminal.

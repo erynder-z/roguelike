@@ -1,7 +1,8 @@
+import { EventCategory } from '../Messages/LogMessage';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Inventory } from '../Inventory/Inventory';
+import { LogMessage } from '../Messages/LogMessage';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**

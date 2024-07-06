@@ -1,7 +1,7 @@
-import { Mob } from '../Mob';
 import { GameIF } from '../../Builder/Interfaces/GameIF';
-import { Stack } from '../../Terminal/Interfaces/Stack';
+import { Mob } from '../Mob';
 import { ScreenMaker } from '../../Screens/Interfaces/ScreenMaker';
+import { Stack } from '../../Terminal/Interfaces/Stack';
 
 export interface MobAI {
   turn(

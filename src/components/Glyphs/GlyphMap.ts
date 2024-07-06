@@ -1,8 +1,8 @@
+import * as environmentData from '../Environment/EnvironmentData/environment.json';
+import * as itemData from '../ItemObjects/ItemData/items.json';
 import { Glyph } from './Glyph';
 import { GlyphInfo } from './GlyphInfo';
 import * as mobsData from '../Mobs/MobData/mobs.json';
-import * as itemData from '../ItemObjects/ItemData/items.json';
-import * as environmentData from '../Environment/EnvironmentData/environment.json';
 
 /**
  * Represents a map of glyphs and their corresponding information.

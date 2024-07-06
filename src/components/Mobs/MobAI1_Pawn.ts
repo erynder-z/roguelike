@@ -1,7 +1,7 @@
-import { MobAI } from './Interfaces/MobAI';
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MoveCommand } from '../Commands/MoveCommand';
 import { Mob } from './Mob';
+import { MobAI } from './Interfaces/MobAI';
+import { MoveCommand } from '../Commands/MoveCommand';
 
 /**
  * Represents an implementation of MobAI for a pawn-type mob.

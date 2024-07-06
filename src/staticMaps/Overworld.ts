@@ -1,11 +1,11 @@
-import { GameMap } from '../components/MapModel/GameMap';
-import { Glyph } from '../components/Glyphs/Glyph';
-import { RandomGenerator } from '../components/RandomGenerator/RandomGenerator';
-import { WorldPoint } from '../components/MapModel/WorldPoint';
-import { MapIF } from '../components/MapModel/Interfaces/MapIF';
-import { MapGenerator1 } from '../components/MapGenerator/MapGenerator';
-import { RockGenerator } from '../components/MapGenerator/RockGenerator';
 import { FindFreeSpace } from '../components/Utilities/FindFreeSpace';
+import { Glyph } from '../components/Glyphs/Glyph';
+import { MapGenerator1 } from '../components/MapGenerator/MapGenerator';
+import { MapIF } from '../components/MapModel/Interfaces/MapIF';
+import { RandomGenerator } from '../components/RandomGenerator/RandomGenerator';
+import { RockGenerator } from '../components/MapGenerator/RockGenerator';
+import { WorldPoint } from '../components/MapModel/WorldPoint';
+import { GameMap } from '../components/MapModel/GameMap';
 
 export class Overworld {
   public static generate(rnd: RandomGenerator, level: number): MapIF {

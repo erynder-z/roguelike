@@ -1,7 +1,7 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 
 /**
  * Represents a screen for displaying additional content.

@@ -1,13 +1,13 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Command } from '../Commands/Interfaces/Command';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { MultipleUseItemCost } from '../ItemObjects/MultipleUseItemCost';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
 import { Spell } from './Spell';
 import { SpellFinder } from './SpellFinder';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { StackScreen } from '../Terminal/Interfaces/StackScreen';
 
 /**
  * Helper-class that provides methods for returning a Command or a StackScreen for a item.

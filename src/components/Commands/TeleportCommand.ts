@@ -1,9 +1,9 @@
+import { CommandBase } from './CommandBase';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
-import { CommandBase } from './CommandBase';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a command to teleport a mob to a random point within a specified radius.

@@ -1,7 +1,7 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Cost } from '../Commands/Interfaces/Cost';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { ItemObject } from './ItemObject';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { Cost } from '../Commands/Interfaces/Cost';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 
 /**
  * Represents the cost for a multiple-use item.

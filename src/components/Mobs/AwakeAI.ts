@@ -1,12 +1,12 @@
-import { MobAI } from './Interfaces/MobAI';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Mob } from './Mob';
+import { MobAI } from './Interfaces/MobAI';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { Mood } from './MoodEnum';
+import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { SimpleSleepAI } from './SimpleSleepAI';
 import { Stack } from '../Terminal/Interfaces/Stack';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 
 /**
  * An AI implementation for Mobs in an awake state.

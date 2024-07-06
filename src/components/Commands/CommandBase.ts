@@ -1,12 +1,12 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Command } from './Interfaces/Command';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { Mob } from '../Mobs/Mob';
-import { Act } from './Act';
 import { Able } from './Interfaces/Able';
+import { Act } from './Act';
 import { Buff } from '../Buffs/BuffEnum';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { Command } from './Interfaces/Command';
 import { Cost } from './Interfaces/Cost';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { Mob } from '../Mobs/Mob';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Abstract class representing a base command implementation that implements the Command interface.

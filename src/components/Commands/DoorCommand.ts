@@ -1,11 +1,12 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Command } from './Interfaces/Command';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { Glyph } from '../Glyphs/Glyph';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { Command } from './Interfaces/Command';
+import { EventCategory } from '../Messages/LogMessage';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { Glyph } from '../Glyphs/Glyph';
+import { LogMessage } from '../Messages/LogMessage';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Mob } from '../Mobs/Mob';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a command for interacting with doors in the game.

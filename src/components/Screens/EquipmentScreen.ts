@@ -1,10 +1,10 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { UnequipCommand } from '../Commands/UnequipCommand';
+import { BaseScreen } from './BaseScreen';
 import { Equipment } from '../Inventory/Equipment';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Slot } from '../ItemObjects/Slot';
 import { Stack } from '../Terminal/Interfaces/Stack';
-import { BaseScreen } from './BaseScreen';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
+import { UnequipCommand } from '../Commands/UnequipCommand';
 
 /**
  * Represents a screen displaying the player's equipment.

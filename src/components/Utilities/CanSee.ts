@@ -1,7 +1,7 @@
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { Mob } from '../Mobs/Mob';
 import { BresenhamIterator } from './BresenhamIterator';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Mob } from '../Mobs/Mob';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Provides methods to check visibility between points or entities on a map.

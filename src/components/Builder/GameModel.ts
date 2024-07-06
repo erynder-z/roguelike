@@ -1,15 +1,16 @@
-import { MobAI } from '../Mobs/Interfaces/MobAI';
+import { AutoHeal } from '../Commands/AutoHeal';
+import { Builder } from './Builder';
+import { Dungeon } from '../MapModel/Dungeon';
+import { Equipment } from '../Inventory/Equipment';
+import { EventCategory } from '../Messages/LogMessage';
 import { GameIF } from './Interfaces/GameIF';
+import { Inventory } from '../Inventory/Inventory';
+import { LogMessage } from '../Messages/LogMessage';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Mob } from '../Mobs/Mob';
+import { MobAI } from '../Mobs/Interfaces/MobAI';
 import { MessageLog } from '../Messages/MessageLog';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
-import { Mob } from '../Mobs/Mob';
-import { Dungeon } from '../MapModel/Dungeon';
-import { Builder } from './Builder';
-import { AutoHeal } from '../Commands/AutoHeal';
-import { Inventory } from '../Inventory/Inventory';
-import { Equipment } from '../Inventory/Equipment';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
 
 /**
  * The game instance that holds the game state.

@@ -1,6 +1,7 @@
+import { EventCategory } from '../Messages/LogMessage';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from '../Commands/HealthAdjust';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { LogMessage } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { TickIF } from './Interfaces/BuffIF';
 

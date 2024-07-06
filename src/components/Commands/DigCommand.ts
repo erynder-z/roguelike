@@ -1,11 +1,12 @@
+import { CommandBase } from './CommandBase';
+import { EventCategory } from '../Messages/LogMessage';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphMap } from '../Glyphs/GlyphMap';
+import { LogMessage } from '../Messages/LogMessage';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
-import { CommandBase } from './CommandBase';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a command to dig through rocks.

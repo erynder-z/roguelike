@@ -1,11 +1,9 @@
-import { Buff } from '../Buffs/BuffEnum';
-import { GameIF } from '../Builder/Interfaces/GameIF';
 import { BuffCommand } from '../Commands/BuffCommand';
 import { BulletCommand } from '../Commands/BulletCommand';
 import { CleanseAllCommand } from '../Commands/CleanseAllCommand';
-import { HealCommand } from '../Commands/HealCommand';
 import { Command } from '../Commands/Interfaces/Command';
 import { Cost } from '../Commands/Interfaces/Cost';
+import { HealCommand } from '../Commands/HealCommand';
 import { MultiplyCommand } from '../Commands/MultiplyCommand';
 import { PayloadCommand } from '../Commands/PayloadCommand';
 import { SummonCommand } from '../Commands/SummonCommand';
@@ -17,6 +15,8 @@ import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { StackScreen } from '../Terminal/Interfaces/StackScreen';
 import { Spell } from './Spell';
+import { Buff } from '../Buffs/BuffEnum';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 
 /**
  * Helper-class that provides methods for returning a Command or a StackScreen for a spell.

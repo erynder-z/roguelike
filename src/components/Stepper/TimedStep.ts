@@ -1,6 +1,6 @@
+import { StepIF } from './Interfaces/StepIF';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
-import { StepIF } from './Interfaces/StepIF';
 
 /**
  * Represents a timed step that draws a step screen for a given amount of time. Most methods are placeholders to be implemented in subclasses.

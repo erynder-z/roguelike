@@ -1,10 +1,10 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { BaseScreen } from './BaseScreen';
 import { Command } from '../Commands/Interfaces/Command';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { BaseScreen } from './BaseScreen';
 
 /**
  * Represents a screen for selecting a direction for a command.

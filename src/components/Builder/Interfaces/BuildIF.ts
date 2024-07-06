@@ -1,10 +1,10 @@
-import { Glyph } from '../../Glyphs/Glyph';
-import { MapIF } from '../../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../../MapModel/WorldPoint';
-import { MobAI } from '../../Mobs/Interfaces/MobAI';
-import { Mob } from '../../Mobs/Mob';
-import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
 import { GameIF } from './GameIF';
+import { MapIF } from '../../MapModel/Interfaces/MapIF';
+import { Mob } from '../../Mobs/Mob';
+import { MobAI } from '../../Mobs/Interfaces/MobAI';
+import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
+import { WorldPoint } from '../../MapModel/WorldPoint';
+import { Glyph } from '../../Glyphs/Glyph';
 
 /**
  * Represents an extended version of Build1 interface with additional method to make MobAI.

@@ -1,7 +1,7 @@
-import { MobAI } from './Interfaces/MobAI';
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { Mob } from './Mob';
+import { MobAI } from './Interfaces/MobAI';
+import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 
 /**
  * Represents an implementation of MobAI for a ant-type mob.

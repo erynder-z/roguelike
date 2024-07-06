@@ -1,11 +1,12 @@
+import { AutoHeal } from './AutoHeal';
+import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
+import { EventCategory } from '../Messages/LogMessage';
 import { GameIF } from '../Builder/Interfaces/GameIF';
+import { LogMessage } from '../Messages/LogMessage';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Mob } from '../Mobs/Mob';
-import { AutoHeal } from './AutoHeal';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
-import { WorldPoint } from '../MapModel/WorldPoint';
 import { ObjectTypes } from '../ItemObjects/ObjectTypes';
-import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * A class to handle adjustments to health of a mob.

@@ -1,5 +1,5 @@
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
 

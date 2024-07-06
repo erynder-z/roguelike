@@ -1,11 +1,11 @@
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from '../Commands/HealthAdjust';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { StepIF } from './Interfaces/StepIF';
 import { TimedStep } from './TimedStep';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a timed step that damages a mob at its current position.

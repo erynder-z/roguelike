@@ -1,20 +1,20 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { CommandBase } from '../Commands/CommandBase';
-import { Cost } from '../Commands/Interfaces/Cost';
-import { GameMap } from '../MapModel/GameMap';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { NPCSpellFinder } from '../Spells/NPCSpellFinder';
-import { Spell } from '../Spells/Spell';
-import { Stack } from '../Terminal/Interfaces/Stack';
 import { CanSee } from '../Utilities/CanSee';
-import { MobAI } from './Interfaces/MobAI';
+import { Cost } from '../Commands/Interfaces/Cost';
+import { CommandBase } from '../Commands/CommandBase';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameMap } from '../MapModel/GameMap';
 import { Mob } from './Mob';
+import { MobAI } from './Interfaces/MobAI';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { Mood } from './MoodEnum';
+import { NPCSpellFinder } from '../Spells/NPCSpellFinder';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { SimpleSleepAI } from './SimpleSleepAI';
+import { Spell } from '../Spells/Spell';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * An AI implementation for Mobs that shoot spells. Spells are being shot in diagonal or orthogonal lines.

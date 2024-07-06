@@ -1,5 +1,5 @@
-import { WorldPoint } from '../../MapModel/WorldPoint';
 import { Mob } from '../../Mobs/Mob';
+import { WorldPoint } from '../../MapModel/WorldPoint';
 
 export interface StepIF {
   executeStep(): StepIF | null;

@@ -1,7 +1,7 @@
 import { GameMap } from '../MapModel/GameMap';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../MapModel/WorldPoint';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Utility class for handling magnetism.

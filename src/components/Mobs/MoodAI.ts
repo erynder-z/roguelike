@@ -1,14 +1,14 @@
-import { MobAI } from './Interfaces/MobAI';
-import { GameIF } from '../Builder/Interfaces/GameIF';
 import { AwakeAI } from './AwakeAI';
-import { Mob } from './Mob';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Mood } from './MoodEnum';
-import { SimpleSleepAI } from './SimpleSleepAI';
-import { SpellAI } from './SpellAI';
-import { VisibilityAwareSleepAI } from './VisibilityAwareSleepAI';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { Mob } from './Mob';
+import { MobAI } from './Interfaces/MobAI';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { ShootAI } from './ShootAI';
+import { SimpleSleepAI } from './SimpleSleepAI';
+import { SpellAI } from './SpellAI';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { VisibilityAwareSleepAI } from './VisibilityAwareSleepAI';
 
 /**
  * An AI implementation that delegates behavior based on a Mob's mood.

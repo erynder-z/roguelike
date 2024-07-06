@@ -1,17 +1,17 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Glyph } from '../Glyphs/Glyph';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { Mob } from '../Mobs/Mob';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { StepScreen } from '../Screens/StepScreen';
 import { DamageStep, RangedWeaponType } from '../Stepper/DamageStep';
 import { DirectionStep } from '../Stepper/DirectionStep';
+import { EventCategory } from '../Messages/LogMessage';
+import { Glyph } from '../Glyphs/Glyph';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { ImageHandler } from '../ImageHandler/ImageHandler';
+import { Mob } from '../Mobs/Mob';
+import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { StepIF } from '../Stepper/Interfaces/StepIF';
 import { Stack } from '../Terminal/Interfaces/Stack';
-import { CommandBase } from './CommandBase';
+import { StepScreen } from '../Screens/StepScreen';
+import { WorldPoint } from '../MapModel/WorldPoint';
 import { Command } from './Interfaces/Command';
-import { ImageHandler } from '../ImageHandler/ImageHandler';
-import { EventCategory } from '../Messages/LogMessage';
+import { CommandBase } from './CommandBase';
 
 /**
  * Represents a command to fire a ranged weapon.

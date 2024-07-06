@@ -1,10 +1,10 @@
+import { BaseScreen } from './BaseScreen';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { BaseScreen } from './BaseScreen';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { ItemScreen } from './ItemScreen';
+import { ScreenMaker } from './Interfaces/ScreenMaker';
+import { Stack } from '../Terminal/Interfaces/Stack';
 
 /**
  * Represents an inventory screen.

@@ -1,15 +1,15 @@
+import { Command } from './Interfaces/Command';
+import { CommandBase } from './CommandBase';
+import { DirectionStep } from '../Stepper/DirectionStep';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
-import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { StepScreen } from '../Screens/StepScreen';
-import { DirectionStep } from '../Stepper/DirectionStep';
-import { StepIF } from '../Stepper/Interfaces/StepIF';
 import { PayloadStep } from '../Stepper/PayloadStep';
+import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
-import { CommandBase } from './CommandBase';
-import { Command } from './Interfaces/Command';
+import { StepIF } from '../Stepper/Interfaces/StepIF';
+import { StepScreen } from '../Screens/StepScreen';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a command fires a given payload in a specified direction.

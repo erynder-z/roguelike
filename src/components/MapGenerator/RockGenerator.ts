@@ -1,6 +1,6 @@
-import { Glyph } from '../Glyphs/Glyph';
-import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { RockType } from './interfaces/RockType';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { Glyph } from '../Glyphs/Glyph';
 
 /**
  * Class for generating different rock types.

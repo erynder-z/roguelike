@@ -1,11 +1,11 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { EventCategory } from '../Messages/LogMessage';
 import attackImages from './attackImages';
 import hurtImages from './hurtImages';
-import smileImages from './smileImages';
 import movingImages from './movingImages';
-import pistolImages from './pistolImages';
 import neutralImages from './neutralImages';
-import { EventCategory } from '../Messages/LogMessage';
+import pistolImages from './pistolImages';
+import smileImages from './smileImages';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 
 /**
  * Handles displaying action images on the screen.

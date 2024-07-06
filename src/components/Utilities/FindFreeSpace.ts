@@ -1,5 +1,5 @@
-import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { Glyph } from '../Glyphs/Glyph';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 

@@ -1,7 +1,7 @@
-import { Glyph } from '../Glyphs/Glyph';
 import { Spell } from '../Spells/Spell';
 import { SpellColors } from '../Spells/SpellColors';
 import { Slot } from './Slot';
+import { Glyph } from '../Glyphs/Glyph';
 
 /**
  * Represents an item object in the game world.

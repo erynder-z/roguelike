@@ -1,8 +1,8 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 import { HealthAdjust } from './HealthAdjust';
+import { Mob } from '../Mobs/Mob';
 
 /**
  * Represents a command to heal a mob.

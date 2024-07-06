@@ -1,8 +1,8 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { GameIF } from '../Builder/Interfaces/GameIF';
+import { HealthAdjust } from './HealthAdjust';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
-import { HealthAdjust } from './HealthAdjust';
 
 /**
  * Manages auto healing for a mob.

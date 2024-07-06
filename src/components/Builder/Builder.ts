@@ -1,26 +1,26 @@
-import { MobAI } from '../Mobs/Interfaces/MobAI';
 import { BuildIF } from './Interfaces/BuildIF';
 import { GameIF } from './Interfaces/GameIF';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { Glyph } from '../Glyphs/Glyph';
-import { GlyphMap } from '../Glyphs/GlyphMap';
-import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { AISwitcher } from '../Mobs/AISwitcher';
-import { Mob } from '../Mobs/Mob';
-import { TerminalPoint } from '../Terminal/TerminalPoint';
-import { FindFreeSpace } from '../Utilities/FindFreeSpace';
-import { Game } from './GameModel';
-import { MapGenerator1 } from '../MapGenerator/MapGenerator';
-import { ObjectTypes } from '../ItemObjects/ObjectTypes';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
-import { Slot } from '../ItemObjects/Slot';
-import { MoodAI } from '../Mobs/MoodAI';
-import { Overworld } from '../../staticMaps/Overworld';
+import { MapGenerator1 } from '../MapGenerator/MapGenerator';
 import { MapGenerator_Cave } from '../MapGenerator/MapGenerator_Cave';
-import { Spell } from '../Spells/Spell';
 import { MapGenerator_Maze } from '../MapGenerator/MapGenerator_Maze';
+import { Mob } from '../Mobs/Mob';
+import { MobAI } from '../Mobs/Interfaces/MobAI';
+import { MoodAI } from '../Mobs/MoodAI';
+import { ObjectTypes } from '../ItemObjects/ObjectTypes';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { Slot } from '../ItemObjects/Slot';
+import { Spell } from '../Spells/Spell';
+import { TerminalPoint } from '../Terminal/TerminalPoint';
+import { WorldPoint } from '../MapModel/WorldPoint';
+import { AISwitcher } from '../Mobs/AISwitcher';
+import { FindFreeSpace } from '../Utilities/FindFreeSpace';
+import { Game } from './GameModel';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Overworld } from '../../staticMaps/Overworld';
+import { Glyph } from '../Glyphs/Glyph';
+import { GlyphMap } from '../Glyphs/GlyphMap';
 
 /**
  * The builder for creating games, levels and mobs.

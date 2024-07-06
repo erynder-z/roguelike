@@ -1,8 +1,9 @@
+import { EventCategory } from '../Messages/LogMessage';
 import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Equipment } from '../Inventory/Equipment';
 import { ItemObject } from '../ItemObjects/ItemObject';
+import { LogMessage } from '../Messages/LogMessage';
+import { Equipment } from '../Inventory/Equipment';
 import { Slot } from '../ItemObjects/Slot';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
 
 /**

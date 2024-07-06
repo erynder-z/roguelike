@@ -1,9 +1,9 @@
+import { BaseScreen } from './BaseScreen';
+import { BuffColors } from '../UI/BuffColors';
 import { GameIF } from '../Builder/Interfaces/GameIF';
+import { LogMessage } from '../Messages/LogMessage';
 import { ScreenMaker } from './Interfaces/ScreenMaker';
 import { Stack } from '../Terminal/Interfaces/Stack';
-import { BaseScreen } from './BaseScreen';
-import { LogMessage } from '../Messages/LogMessage';
-import { BuffColors } from '../UI/BuffColors';
 
 /**
  * Represents a screen for displaying the log messages.

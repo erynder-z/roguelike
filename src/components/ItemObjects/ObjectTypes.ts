@@ -1,11 +1,11 @@
-import { Glyph } from '../Glyphs/Glyph';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../MapModel/WorldPoint';
+import { ItemObject } from './ItemObject';
+import { ObjTypesIF } from './Interfaces/ObjTypesIF';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Spell } from '../Spells/Spell';
-import { ObjTypesIF } from './Interfaces/ObjTypesIF';
-import { ItemObject } from './ItemObject';
 import { Slot } from './Slot';
+import { WorldPoint } from '../MapModel/WorldPoint';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Glyph } from '../Glyphs/Glyph';
 import * as spellData from '../Spells/SpellData/spells.json';
 
 /**

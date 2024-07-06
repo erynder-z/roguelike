@@ -1,13 +1,13 @@
-import { MobAI } from './Interfaces/MobAI';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { Glyph } from '../Glyphs/Glyph';
 import { Mob } from './Mob';
+import { MobAI } from './Interfaces/MobAI';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
-import { MoodAI } from './MoodAI';
 import { MobAI5_Druid } from './MobAI5_Druid';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { MoodAI } from './MoodAI';
 import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { Stack } from '../Terminal/Interfaces/Stack';
 
 /**
  * Represents an AI switcher that selects the appropriate AI implementation based on the type of mob.

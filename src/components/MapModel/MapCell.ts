@@ -1,8 +1,8 @@
-import { Mob } from '../Mobs/Mob';
+import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { Glyph } from '../Glyphs/Glyph';
+import { Mob } from '../Mobs/Mob';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { GlyphMap } from '../Glyphs/GlyphMap';
-import { GlyphInfo } from '../Glyphs/GlyphInfo';
 
 /**
  * Represents a cell on the game map.

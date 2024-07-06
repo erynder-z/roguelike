@@ -1,24 +1,24 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { BulletCommand } from '../Commands/BulletCommand';
 import { Command } from '../Commands/Interfaces/Command';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
+import { DigCommand } from '../Commands/DigCommand';
 import { DoorCommand } from '../Commands/DoorCommand';
+import { EquipmentScreen } from '../Screens/EquipmentScreen';
+import { GameIF } from '../Builder/Interfaces/GameIF';
+import { InventoryScreen } from '../Screens/InventoryScreen';
+import { LookScreen } from '../Screens/LookScreen';
+import { LogScreen } from '../Screens/LogScreen';
+import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
+import { Mob } from '../Mobs/Mob';
+import { PickupCommand } from '../Commands/PickupCommand';
+import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { SpellScreen } from '../Screens/SpellScreen';
+import { Stack } from '../Terminal/Interfaces/Stack';
+import { StackScreen } from '../Terminal/Interfaces/StackScreen';
 import { WaitCommand } from '../Commands/WaitCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { LogScreen } from '../Screens/LogScreen';
-import { Mob } from '../Mobs/Mob';
-import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
-import { PickupCommand } from '../Commands/PickupCommand';
-import { InventoryScreen } from '../Screens/InventoryScreen';
-import { EquipmentScreen } from '../Screens/EquipmentScreen';
-import { DigCommand } from '../Commands/DigCommand';
-import { BulletCommand } from '../Commands/BulletCommand';
-import { LookScreen } from '../Screens/LookScreen';
-import { SpellScreen } from '../Screens/SpellScreen';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.

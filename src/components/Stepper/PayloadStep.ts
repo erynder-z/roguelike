@@ -1,10 +1,10 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Command } from '../Commands/Interfaces/Command';
 import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 import { StepIF } from './Interfaces/StepIF';
 import { TimedStep } from './TimedStep';
+import { WorldPoint } from '../MapModel/WorldPoint';
+import { Command } from '../Commands/Interfaces/Command';
+import { GameIF } from '../Builder/Interfaces/GameIF';
 
 /**
  * Represents a payload step that fires a payload command in a specified direction.

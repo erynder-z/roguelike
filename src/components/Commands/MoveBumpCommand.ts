@@ -1,13 +1,14 @@
+import { Able } from './Interfaces/Able';
+import { Act } from './Act';
+import { CommandBase } from './CommandBase';
 import { GameIF } from '../Builder/Interfaces/GameIF';
 import { GameMap } from '../MapModel/GameMap';
-import { MapCell } from '../MapModel/MapCell';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { Mob } from '../Mobs/Mob';
-import { MagnetismHandler } from '../Utilities/MagnetismHandler';
-import { Able } from './Interfaces/Able';
-import { CommandBase } from './CommandBase';
 import { HitCommand } from './HitCommand';
+import { MapCell } from '../MapModel/MapCell';
+import { Mob } from '../Mobs/Mob';
 import { MoveCommand } from './MoveCommand';
+import { WorldPoint } from '../MapModel/WorldPoint';
+import { MagnetismHandler } from '../Utilities/MagnetismHandler';
 
 /**
  * Represents a command to conditionally call a MoveCommand or a HitCommand.
