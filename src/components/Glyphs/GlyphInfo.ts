@@ -1,11 +1,8 @@
-import { Glyph } from './Glyph';
-
 /**
  * Represents information about a glyph.
  */
 export class GlyphInfo {
   constructor(
-    public glyph: Glyph,
     public fgCol: string,
     public bgCol: string,
     public hasSolidBg: boolean,
