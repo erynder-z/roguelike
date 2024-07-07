@@ -1,9 +1,9 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
-import { LogMessage } from '../Messages/LogMessage';
 import { BuffColors } from '../UI/BuffColors';
+import { GameState } from '../Builder/Types/GameState';
+import { LogMessage } from '../Messages/LogMessage';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
 
 /**
  * Represents a screen for displaying the log messages.
@@ -11,7 +11,7 @@ import { BuffColors } from '../UI/BuffColors';
 export class LogScreen extends BaseScreen {
   private colorizer: BuffColors;
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public make: ScreenMaker,
     public name: string = 'log-screen',
     public messageLog: LogMessage[] = game.log.archive,

@@ -1,8 +1,8 @@
+import * as environmentData from '../Environment/EnvironmentData/environment.json';
+import * as itemData from '../ItemObjects/ItemData/items.json';
 import { Glyph } from './Glyph';
 import { GlyphInfo } from './GlyphInfo';
 import * as mobsData from '../Mobs/MobData/mobs.json';
-import * as itemData from '../ItemObjects/ItemData/items.json';
-import * as environmentData from '../Environment/EnvironmentData/environment.json';
 
 /**
  * Represents a map of glyphs and their corresponding information.
@@ -19,7 +19,6 @@ export class GlyphMap {
    * @type {GlyphInfo}
    */
   private static bad: GlyphInfo = new GlyphInfo(
-    Glyph.Bad,
     'red',
     'yellow',
     false,
@@ -55,7 +54,6 @@ export class GlyphMap {
     const addGlyph = (info: GlyphInfo) => {
       const glyph = Glyph[info.name as keyof typeof Glyph];
       const glyphInfo = new GlyphInfo(
-        glyph,
         info.fgCol,
         info.bgCol,
         info.hasSolidBg,
@@ -119,7 +117,6 @@ export class GlyphMap {
     isMagnetic: boolean,
   ) {
     const info: GlyphInfo = new GlyphInfo(
-      glyph,
       fgCol,
       bgCol,
       hasSolidBg,
@@ -186,19 +183,19 @@ export class GlyphMap {
     switch (category) {
       case 'mob': {
         const mob = mobsData.mobs.find(mob => mob.name === Glyph[glyph]);
-        description = mob?.desc || description;
+        description = mob?.description || description;
         break;
       }
       case 'environment': {
         const environment = environmentData.environment.find(
           env => env.name === Glyph[glyph],
         );
-        description = environment?.desc || description;
+        description = environment?.description || description;
         break;
       }
       case 'object': {
         const object = itemData.items.find(item => item.name === Glyph[glyph]);
-        description = object?.desc || description;
+        description = object?.description || description;
         break;
       }
       default:

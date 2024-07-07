@@ -1,9 +1,9 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { CommandBase } from './CommandBase';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { GameState } from '../Builder/Types/GameState';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
-import { CommandBase } from './CommandBase';
+import { Map } from '../MapModel/Types/Map';
 
 /**
  * Represents a command to drop an item from the player's inventory.
@@ -12,7 +12,7 @@ export class DropCommand extends CommandBase {
   constructor(
     public item: ItemObject,
     public index: number,
-    public game: GameIF,
+    public game: GameState,
   ) {
     super(game.player, game);
   }
@@ -23,7 +23,7 @@ export class DropCommand extends CommandBase {
    */
   public execute(): boolean {
     const game = this.game;
-    const map = <MapIF>game.currentMap();
+    const map = <Map>game.currentMap();
     const player = game.player;
     const c = map.cell(player.pos);
 

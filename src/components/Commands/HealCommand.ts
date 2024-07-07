@@ -1,8 +1,8 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { GameState } from '../Builder/Types/GameState';
 import { HealthAdjust } from './HealthAdjust';
+import { Mob } from '../Mobs/Mob';
 
 /**
  * Represents a command to heal a mob.
@@ -11,7 +11,7 @@ export class HealCommand extends CommandBase {
   constructor(
     private readonly healAmount: number,
     private readonly mob: Mob,
-    private readonly gameInstance: GameIF,
+    private readonly gameInstance: GameState,
   ) {
     super(mob, gameInstance);
   }

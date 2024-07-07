@@ -1,5 +1,5 @@
-import { TerminalPoint } from './TerminalPoint'; // Renamed TPoint to Point for brevity
-import { DrawableTerminal } from './Interfaces/DrawableTerminal';
+import { DrawableTerminal } from './Types/DrawableTerminal';
+import { TerminalPoint } from './TerminalPoint';
 
 /**
  * Represents a terminal for drawing text on a canvas.

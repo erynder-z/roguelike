@@ -1,14 +1,14 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { BaseScreen } from './BaseScreen';
+import { Command } from '../Commands/Types/Command';
 import { CommandBase } from '../Commands/CommandBase';
-import { Command } from '../Commands/Interfaces/Command';
-import { Cost } from '../Commands/Interfaces/Cost';
+import { Cost } from '../Commands/Types/Cost';
+import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
+import { GameState } from '../Builder/Types/GameState';
+import { ScreenMaker } from './Types/ScreenMaker';
 import { Spell } from '../Spells/Spell';
 import { SpellFinder } from '../Spells/SpellFinder';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
-import { BaseScreen } from './BaseScreen';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
 
 /**
  * Represents a screen for choosing spells.
@@ -16,7 +16,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
 export class SpellScreen extends BaseScreen {
   public name = 'spell-screen';
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public make: ScreenMaker,
   ) {
     super(game, make);

@@ -1,7 +1,7 @@
-import { Builder } from './components/Builder/Builder';
-import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 import './cssReset.css';
 import './style.css';
+import { Builder } from './components/Builder/Builder';
+import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 
 const SHOW_MENU = false;
 

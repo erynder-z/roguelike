@@ -1,4 +1,4 @@
-import { BuffText } from './Interfaces/BuffText';
+import { BuffText } from './Types/BuffText';
 import * as messagesData from '../Messages/MessagesData/MessagesData.json';
 
 /**

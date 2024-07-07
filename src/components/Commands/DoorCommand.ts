@@ -1,11 +1,12 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Command } from './Interfaces/Command';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { Glyph } from '../Glyphs/Glyph';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { Command } from './Types/Command';
+import { EventCategory } from '../Messages/LogMessage';
+import { GameState } from '../Builder/Types/GameState';
+import { Glyph } from '../Glyphs/Glyph';
+import { LogMessage } from '../Messages/LogMessage';
+import { Map } from '../MapModel/Types/Map';
+import { Mob } from '../Mobs/Mob';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a command for interacting with doors in the game.
@@ -13,7 +14,7 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
 export class DoorCommand extends CommandBase {
   constructor(
     public me: Mob,
-    public game: GameIF,
+    public game: GameState,
     public direction: WorldPoint = new WorldPoint(),
   ) {
     super(me, game);
@@ -36,7 +37,7 @@ export class DoorCommand extends CommandBase {
   public execute(): boolean {
     const p = this.me.pos;
     const door = p.plus(this.direction);
-    const map = <MapIF>this.game.currentMap();
+    const map = <Map>this.game.currentMap();
     const cell = map.cell(door);
 
     const defaultMsg = new LogMessage(

@@ -1,8 +1,7 @@
-import { MobAI } from './Interfaces/MobAI';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
-
+import { GameState } from '../Builder/Types/GameState';
 import { Mob } from './Mob';
+import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
+import { MobAI } from './Types/MobAI';
 
 /**
  * Represents an implementation of MobAI for a cat-type mob.
@@ -14,10 +13,10 @@ export class MobAI2_Cat implements MobAI {
    *
    * @param {Mob} me - The 'me' Mob object
    * @param {Mob} enemy - The 'enemy' Mob object
-   * @param {GameIF} game - The GameIF object
+   * @param {GameState} game - The Game object
    * @return {boolean} The result of the npcTurn method call
    */
-  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameState): boolean {
     const r = game.rand;
     if (r.isOneIn(3)) return false;
     const dir = me.pos.directionTo(enemy.pos);

@@ -1,10 +1,10 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Glyph } from '../Glyphs/Glyph';
-import { GameMap } from '../MapModel/GameMap';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { GameState } from '../Builder/Types/GameState';
+import { Map } from '../MapModel/Types/Map';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { GameMap } from '../MapModel/GameMap';
+import { Glyph } from '../Glyphs/Glyph';
 import { MagnetismHandler } from '../Utilities/MagnetismHandler';
-import { StepIF } from './Interfaces/StepIF';
+import { Step } from './Types/Step';
 import { TimedStep } from './TimedStep';
 
 /**
@@ -12,12 +12,12 @@ import { TimedStep } from './TimedStep';
  */
 export class DirectionStep extends TimedStep {
   constructor(
-    public effect: StepIF | null,
-    public next: StepIF | null,
+    public effect: Step | null,
+    public next: Step | null,
     public sprite: Glyph,
     public pos: WorldPoint,
-    public g: GameIF,
-    public map: MapIF = <MapIF>g.currentMap(),
+    public g: GameState,
+    public map: Map = <Map>g.currentMap(),
     public direction: WorldPoint | null = null,
   ) {
     super();
@@ -36,9 +36,9 @@ export class DirectionStep extends TimedStep {
   /**
    * Executes the step for moving an object in a specified direction.
    *
-   * @return {StepIF | null} The next step to execute or null if the current step is done.
+   * @return {Step | null} The next step to execute or null if the current step is done.
    */
-  public executeStep(): StepIF | null {
+  public executeStep(): Step | null {
     const p = this.pos;
     const map = <GameMap>this.map;
 

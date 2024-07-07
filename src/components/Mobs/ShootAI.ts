@@ -1,20 +1,20 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { CommandBase } from '../Commands/CommandBase';
-import { Cost } from '../Commands/Interfaces/Cost';
-import { GameMap } from '../MapModel/GameMap';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { NPCSpellFinder } from '../Spells/NPCSpellFinder';
-import { Spell } from '../Spells/Spell';
-import { Stack } from '../Terminal/Interfaces/Stack';
 import { CanSee } from '../Utilities/CanSee';
-import { MobAI } from './Interfaces/MobAI';
+import { Cost } from '../Commands/Types/Cost';
+import { CommandBase } from '../Commands/CommandBase';
+import { GameState } from '../Builder/Types/GameState';
+import { GameMap } from '../MapModel/GameMap';
 import { Mob } from './Mob';
+import { MobAI } from './Types/MobAI';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { Mood } from './MoodEnum';
+import { NPCSpellFinder } from '../Spells/NPCSpellFinder';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { SimpleSleepAI } from './SimpleSleepAI';
+import { Spell } from '../Spells/Spell';
+import { Stack } from '../Terminal/Types/Stack';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * An AI implementation for Mobs that shoot spells. Spells are being shot in diagonal or orthogonal lines.
@@ -34,7 +34,7 @@ export class ShootAI implements MobAI {
    *
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
-   * @param {GameIF} g - The game instance.
+   * @param {GameState} g - The game instance.
    * @param {Stack} stack - The screen stack.
    * @param {ScreenMaker} make - The screen maker.
    * @return {boolean} Always `true`.
@@ -42,7 +42,7 @@ export class ShootAI implements MobAI {
   public turn(
     me: Mob,
     enemy: Mob,
-    g: GameIF,
+    g: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
@@ -71,7 +71,7 @@ export class ShootAI implements MobAI {
    *
    * @param {Mob} me - the casting mob
    * @param {Mob} enemy - the target mob
-   * @param {GameIF} g - the game interface
+   * @param {GameState} g - the game instance
    * @param {Stack} stack - the game stack
    * @param {ScreenMaker} make - the screen maker
    * @return {boolean} true if the spell was cast, false otherwise
@@ -79,7 +79,7 @@ export class ShootAI implements MobAI {
   private maybeCastSpell(
     me: Mob,
     enemy: Mob,
-    g: GameIF,
+    g: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
@@ -118,7 +118,7 @@ export class ShootAI implements MobAI {
    * @param {Spell} spell - The spell to be cast.
    * @param {Mob} me - The mob casting the spell.
    * @param {Mob} enemy - The mob being targeted by the spell.
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    * @param {Stack} stack - The game stack.
    * @param {ScreenMaker} make - The screen maker.
    * @return {boolean} Returns true if the spell was successfully cast and executed, otherwise false.
@@ -127,7 +127,7 @@ export class ShootAI implements MobAI {
     spell: Spell,
     me: Mob,
     enemy: Mob,
-    g: GameIF,
+    g: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
@@ -146,7 +146,7 @@ export class ShootAI implements MobAI {
    *
    * @param {Mob} me - The mob that is shooting.
    * @param {RandomGenerator} r - The random generator used for picking a spell.
-   * @param {GameIF} g - The game interface used for getting the current map and checking line of sight.
+   * @param {GameState} g - The game object used for getting the current map and checking line of sight.
    * @param {Mob} him - The mob that is being shot at.
    * @param {Stack} stack - The game stack used for shooting.
    * @param {ScreenMaker} make - The screen maker used for shooting.
@@ -155,7 +155,7 @@ export class ShootAI implements MobAI {
   private didShoot(
     me: Mob,
     r: RandomGenerator,
-    g: GameIF,
+    g: GameState,
     him: Mob,
     stack: Stack,
     make: ScreenMaker,
@@ -205,7 +205,7 @@ export class ShootAI implements MobAI {
    * @param {Spell} spell - The spell to be shot.
    * @param {Mob} me - The mob shooting the spell.
    * @param {Mob} him - The mob being shot.
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    * @param {Stack} stack - The game stack.
    * @param {ScreenMaker} make - The screen maker.
    * @return {boolean} Returns true if the spell was successfully shot.
@@ -214,7 +214,7 @@ export class ShootAI implements MobAI {
     spell: Spell,
     me: Mob,
     him: Mob,
-    g: GameIF,
+    g: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {

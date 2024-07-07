@@ -1,9 +1,9 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { FindFreeSpace } from '../Utilities/FindFreeSpace';
-import { WorldPoint } from '../MapModel/WorldPoint';
 import { CommandBase } from './CommandBase';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { FindFreeSpace } from '../Utilities/FindFreeSpace';
+import { GameState } from '../Builder/Types/GameState';
+import { Map } from '../MapModel/Types/Map';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a command for changing the level when using stairs.
@@ -11,7 +11,7 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
 export class StairCommand extends CommandBase {
   constructor(
     public levelDir: number,
-    public game: GameIF,
+    public game: GameState,
   ) {
     super(game.player, game);
   }
@@ -41,14 +41,14 @@ export class StairCommand extends CommandBase {
    * Returns the new position on the map based on the direction and the new map.
    *
    * @param {string} direction - The direction of movement ('ascends' or 'descends').
-   * @param {MapIF} newMap - The new map to move to.
-   * @param {GameIF} game - The game object.
+   * @param {Map} newMap - The new map to move to.
+   * @param {GameState} game - The game object.
    * @return {WorldPoint} The new position on the map.
    */
   private getNewPos(
     direction: string,
-    newMap: MapIF,
-    game: GameIF,
+    newMap: Map,
+    game: GameState,
   ): WorldPoint {
     if (newMap.downStairPos && direction === 'ascends') {
       return newMap.downStairPos;

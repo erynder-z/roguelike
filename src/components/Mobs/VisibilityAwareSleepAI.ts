@@ -1,8 +1,8 @@
-import { MobAI } from './Interfaces/MobAI';
-import { GameIF } from '../Builder/Interfaces/GameIF';
 import { CanSee } from '../Utilities/CanSee';
+import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
 import { Mob } from './Mob';
+import { MobAI } from './Types/MobAI';
 import { Mood } from './MoodEnum';
 
 /**
@@ -15,10 +15,10 @@ export class VisibilityAwareSleepAI implements MobAI {
    *
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
-   * @param {GameIF} game - The game instance.
+   * @param {GameState} game - The game instance.
    * @returns {boolean} - Always `true`.
    */
-  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameState): boolean {
     if (!VisibilityAwareSleepAI.isNear(me, enemy)) return true;
     const map = <GameMap>game.currentMap();
     const canSee = CanSee.checkMobLOS_Bresenham(me, enemy, map, true);

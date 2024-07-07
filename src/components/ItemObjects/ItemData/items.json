@@ -6,7 +6,14 @@
       "fgCol": "#B0A084",
       "hasSolidBg": false,
       "name": "Dagger",
-      "desc": "A small, sharp blade, perfect for quick and deadly strikes."
+      "description": "A small, sharp blade, perfect for quick and deadly strikes.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "[",
@@ -14,7 +21,14 @@
       "fgCol": "#8F8C79",
       "hasSolidBg": false,
       "name": "Shield",
-      "desc": "A sturdy shield offering excellent protection in combat."
+      "description": "A sturdy shield offering excellent protection in combat.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "^",
@@ -22,7 +36,14 @@
       "fgCol": "#A67F66",
       "hasSolidBg": false,
       "name": "Cap",
-      "desc": "A simple cap that offers minimal protection to the head."
+      "description": "A simple cap that offers minimal protection to the head.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "(",
@@ -30,7 +51,14 @@
       "fgCol": "#887F72",
       "hasSolidBg": false,
       "name": "Gloves",
-      "desc": "A pair of gloves that improve grip and provide some defense."
+      "description": "A pair of gloves that improve grip and provide some defense.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "}",
@@ -38,7 +66,14 @@
       "fgCol": "#947E82",
       "hasSolidBg": false,
       "name": "Cape",
-      "desc": "A flowing cape that offers protection and a touch of style."
+      "description": "A flowing cape that offers protection and a touch of style.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "{",
@@ -46,7 +81,14 @@
       "fgCol": "#889E7C",
       "hasSolidBg": false,
       "name": "Pants",
-      "desc": "A pair of durable pants providing basic leg protection."
+      "description": "A pair of durable pants providing basic leg protection.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "[",
@@ -54,7 +96,14 @@
       "fgCol": "#7C8C8A",
       "hasSolidBg": false,
       "name": "Boots",
-      "desc": "A sturdy pair of boots that offer good foot protection and comfort."
+      "description": "A sturdy pair of boots that offer good foot protection and comfort.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "!",
@@ -62,7 +111,14 @@
       "fgCol": "#8B7D7A",
       "hasSolidBg": false,
       "name": "Potion",
-      "desc": "A magic potion that heals some hp."
+      "description": "A magic potion that heals some hp.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "ᛪ",
@@ -70,7 +126,14 @@
       "fgCol": "#8B7A83",
       "hasSolidBg": false,
       "name": "TeleportRune",
-      "desc": "A rune for a teleportation spell."
+      "description": "A rune for a teleportation spell.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "┌",
@@ -78,7 +141,14 @@
       "fgCol": "#8A8C76",
       "hasSolidBg": false,
       "name": "Pistol",
-      "desc": "This is my boomstick!"
+      "description": "This is my boomstick!",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "ᚱ",
@@ -86,7 +156,14 @@
       "fgCol": "#7F9278",
       "hasSolidBg": false,
       "name": "Rune",
-      "desc": "A rune that can cast magic."
+      "description": "A rune that can cast magic.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     },
     {
       "char": "§",
@@ -94,7 +171,14 @@
       "fgCol": "#8A758E",
       "hasSolidBg": false,
       "name": "Scroll",
-      "desc": "A scroll that can cast magic."
+      "description": "A scroll that can cast magic.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": false,
+      "isBurning": false,
+      "isMagnetic": false
     }
   ]
 }

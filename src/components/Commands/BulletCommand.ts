@@ -1,17 +1,17 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Glyph } from '../Glyphs/Glyph';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { Mob } from '../Mobs/Mob';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { StepScreen } from '../Screens/StepScreen';
+import { Command } from './Types/Command';
+import { CommandBase } from './CommandBase';
 import { DamageStep, RangedWeaponType } from '../Stepper/DamageStep';
 import { DirectionStep } from '../Stepper/DirectionStep';
-import { StepIF } from '../Stepper/Interfaces/StepIF';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { CommandBase } from './CommandBase';
-import { Command } from './Interfaces/Command';
-import { ImageHandler } from '../ImageHandler/ImageHandler';
 import { EventCategory } from '../Messages/LogMessage';
+import { Glyph } from '../Glyphs/Glyph';
+import { GameState } from '../Builder/Types/GameState';
+import { ImageHandler } from '../ImageHandler/ImageHandler';
+import { Mob } from '../Mobs/Mob';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
+import { Step } from '../Stepper/Types/Step';
+import { Stack } from '../Terminal/Types/Stack';
+import { StepScreen } from '../Screens/StepScreen';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a command to fire a ranged weapon.
@@ -19,7 +19,7 @@ import { EventCategory } from '../Messages/LogMessage';
 export class BulletCommand extends CommandBase {
   constructor(
     public me: Mob,
-    public game: GameIF,
+    public game: GameState,
     public stack: Stack,
     public make: ScreenMaker,
     public direction: WorldPoint = new WorldPoint(),
@@ -51,13 +51,7 @@ export class BulletCommand extends CommandBase {
     const sprite = Glyph.Bullet;
     const effect = null;
     const next = new DamageStep(dmg, type, m, g);
-    const step: StepIF = new DirectionStep(
-      effect,
-      next,
-      sprite,
-      m.pos.copy(),
-      g,
-    );
+    const step: Step = new DirectionStep(effect, next, sprite, m.pos.copy(), g);
 
     step.setDirection(this.direction);
     this.stack.push(new StepScreen(g, this.make, step));

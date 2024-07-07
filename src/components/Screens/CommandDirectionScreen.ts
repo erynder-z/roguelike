@@ -1,10 +1,10 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Command } from '../Commands/Interfaces/Command';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { WorldPoint } from '../MapModel/WorldPoint';
 import { BaseScreen } from './BaseScreen';
+import { Command } from '../Commands/Types/Command';
+import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
+import { GameState } from '../Builder/Types/GameState';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Represents a screen for selecting a direction for a command.
@@ -13,7 +13,7 @@ export class CommandDirectionScreen extends BaseScreen {
   public name = 'command-direction-screen';
   constructor(
     public command: Command,
-    game: GameIF,
+    game: GameState,
     make: ScreenMaker,
   ) {
     super(game, make);

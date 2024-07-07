@@ -1,5 +1,5 @@
 import { Buff } from '../Buffs/BuffEnum';
-import { BuffIF } from '../Buffs/Interfaces/BuffIF';
+import { BuffType } from '../Buffs/Types/BuffType';
 import { BuffColors } from './BuffColors';
 
 export class BuffsDisplay extends HTMLElement {
@@ -59,7 +59,7 @@ export class BuffsDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  public setBuffs(buffMap: Map<Buff, BuffIF>) {
+  public setBuffs(buffMap: Map<Buff, BuffType>) {
     const buffsDisplay = this.shadowRoot?.querySelector('.buffs-display');
     if (buffsDisplay) {
       buffsDisplay.innerHTML = '';

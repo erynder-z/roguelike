@@ -1,8 +1,8 @@
 import { Buff } from '../Buffs/BuffEnum';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { Mob } from '../Mobs/Mob';
 import { CommandBase } from './CommandBase';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
+import { GameState } from '../Builder/Types/GameState';
+import { Mob } from '../Mobs/Mob';
 
 /**
  * Represents a command that removes a given buff from the given mob.
@@ -11,7 +11,7 @@ export class CleanseBuffCommand extends CommandBase {
   constructor(
     public buff: Buff,
     public me: Mob,
-    public game: GameIF,
+    public game: GameState,
   ) {
     super(me, game);
   }

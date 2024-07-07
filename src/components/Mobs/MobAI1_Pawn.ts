@@ -1,7 +1,7 @@
-import { MobAI } from './Interfaces/MobAI';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MoveCommand } from '../Commands/MoveCommand';
+import { GameState } from '../Builder/Types/GameState';
 import { Mob } from './Mob';
+import { MobAI } from './Types/MobAI';
+import { MoveCommand } from '../Commands/MoveCommand';
 
 /**
  * Represents an implementation of MobAI for a pawn-type mob.
@@ -12,10 +12,10 @@ export class MobAI1_Pawn implements MobAI {
    *
    * @param {Mob} me - The 'me' Mob object
    * @param {Mob} enemy - The 'enemy' Mob object
-   * @param {GameIF} game - The GameIF object
+   * @param {GameState} game - The Game object
    * @return {boolean} The result of the npcTurn method call
    */
-  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameState): boolean {
     const dir = me.pos.directionTo(enemy.pos);
     const cmd = new MoveCommand(dir, me, game);
     return cmd.npcTurn();

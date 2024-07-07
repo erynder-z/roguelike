@@ -1,7 +1,7 @@
 import { GameMap } from '../MapModel/GameMap';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { WorldPoint } from '../MapModel/WorldPoint';
+import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Utility class for handling magnetism.
@@ -10,12 +10,12 @@ export class MagnetismHandler {
   /**
    * Checks for magnetism in the map at a given position and returns the first magnetic neighbor if found.
    *
-   * @param {MapIF} map - The map interface representing the game world.
+   * @param {Map} map - The game map representing the game world.
    * @param {WorldPoint} position - The position to check for magnetism.
    * @return {WorldPoint | null} The WorldPoint of the magnetic neighbor if found, otherwise null.
    */
   private static checkForMagnetismInArea(
-    map: MapIF,
+    map: Map,
     position: WorldPoint,
   ): WorldPoint | null {
     const neighbors = position.getNeighbors(3);
@@ -36,13 +36,13 @@ export class MagnetismHandler {
   /**
    * Calculates the magnetic direction based on the given map and position.
    *
-   * @param {MapIF} map - The map object representing the game world.
+   * @param {Map} map - The map object representing the game world.
    * @param {WorldPoint} currentPosition - The current position of object to calculate the magnetic direction for.
    * @param {WorldPoint} newPosition - The position to calculate the magnetic direction for.
    * @return {WorldPoint | null} The calculated magnetic direction, or null if there is no magnetism.
    */
   public static getMagneticDirection(
-    map: MapIF,
+    map: Map,
     currentPosition: WorldPoint,
     newPosition: WorldPoint,
   ): WorldPoint | null {

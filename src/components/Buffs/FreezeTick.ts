@@ -1,16 +1,17 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { EventCategory } from '../Messages/LogMessage';
+import { GameState } from '../Builder/Types/GameState';
 import { HealthAdjust } from '../Commands/HealthAdjust';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
+import { LogMessage } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
-import { TickIF } from './Interfaces/BuffIF';
+import { Tick } from './Types/BuffType';
 
 /**
  * Handles a freeze tick.
  */
-export class FreezeTick implements TickIF {
+export class FreezeTick implements Tick {
   constructor(
     public mob: Mob,
-    public game: GameIF,
+    public game: GameState,
   ) {}
 
   /**

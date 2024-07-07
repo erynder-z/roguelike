@@ -1,6 +1,6 @@
-import { MapIF } from '../MapModel/Interfaces/MapIF';
 import { GameMap } from '../MapModel/GameMap';
 import { Glyph } from '../Glyphs/Glyph';
+import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -9,11 +9,11 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  */
 export class MapGenerator_Test {
   constructor(
-    public map: MapIF,
+    public map: Map,
     public rnd: RandomGenerator,
   ) {}
 
-  public loop(map: MapIF, rnd: RandomGenerator): MapIF {
+  public loop(map: Map, rnd: RandomGenerator): Map {
     const numIterations = 40;
     const upperLeft = new WorldPoint();
     const roomDimensions = new WorldPoint();
@@ -84,7 +84,7 @@ export class MapGenerator_Test {
     }
   }
 
-  public static test(level: number): MapIF {
+  public static test(level: number): Map {
     const mapDimensionsX = 96;
     const mapDimensionsY = 48;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);

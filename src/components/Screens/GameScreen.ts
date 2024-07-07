@@ -1,15 +1,15 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
+import { GameState } from '../Builder/Types/GameState';
 import { ParsePlayer } from '../Events/ParsePlayer';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
 
 /**
  * Represents a game screen that extends the functionality of the base screen.
  */
 export class GameScreen extends BaseScreen {
   public name = 'game-screen';
-  constructor(game: GameIF, make: ScreenMaker) {
+  constructor(game: GameState, make: ScreenMaker) {
     super(game, make);
   }
 

@@ -1,34 +1,34 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Command } from '../Commands/Interfaces/Command';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { BulletCommand } from '../Commands/BulletCommand';
+import { Command } from '../Commands/Types/Command';
+import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
+import { DigCommand } from '../Commands/DigCommand';
 import { DoorCommand } from '../Commands/DoorCommand';
+import { EquipmentScreen } from '../Screens/EquipmentScreen';
+import { GameState } from '../Builder/Types/GameState';
+import { InventoryScreen } from '../Screens/InventoryScreen';
+import { LookScreen } from '../Screens/LookScreen';
+import { LogScreen } from '../Screens/LogScreen';
+import { Map } from '../MapModel/Types/Map';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
+import { Mob } from '../Mobs/Mob';
+import { PickupCommand } from '../Commands/PickupCommand';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
+import { SpellScreen } from '../Screens/SpellScreen';
+import { Stack } from '../Terminal/Types/Stack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
 import { WaitCommand } from '../Commands/WaitCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { LogScreen } from '../Screens/LogScreen';
-import { Mob } from '../Mobs/Mob';
-import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
-import { PickupCommand } from '../Commands/PickupCommand';
-import { InventoryScreen } from '../Screens/InventoryScreen';
-import { EquipmentScreen } from '../Screens/EquipmentScreen';
-import { DigCommand } from '../Commands/DigCommand';
-import { BulletCommand } from '../Commands/BulletCommand';
-import { LookScreen } from '../Screens/LookScreen';
-import { SpellScreen } from '../Screens/SpellScreen';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
  */
 export class ParsePlayer {
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public make: ScreenMaker,
     public player: Mob = <Mob>game.player,
-    public map: MapIF = <MapIF>game.currentMap(),
+    public map: Map = <Map>game.currentMap(),
   ) {}
 
   /**

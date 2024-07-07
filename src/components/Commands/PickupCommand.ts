@@ -1,14 +1,15 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Inventory } from '../Inventory/Inventory';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { CommandBase } from './CommandBase';
+import { EventCategory } from '../Messages/LogMessage';
+import { GameState } from '../Builder/Types/GameState';
+import { Inventory } from '../Inventory/Inventory';
+import { LogMessage } from '../Messages/LogMessage';
+import { Map } from '../MapModel/Types/Map';
 
 /**
  * Represents a command to pick up an item from the game map and add it to the player's inventory.
  */
 export class PickupCommand extends CommandBase {
-  constructor(public game: GameIF) {
+  constructor(public game: GameState) {
     super(game.player, game);
   }
 
@@ -18,7 +19,7 @@ export class PickupCommand extends CommandBase {
    */
   public execute(): boolean {
     const game = this.game;
-    const map = <MapIF>game.currentMap();
+    const map = <Map>game.currentMap();
     const player = game.player;
     const inventory = <Inventory>game.inventory;
     const c = map.cell(player.pos);

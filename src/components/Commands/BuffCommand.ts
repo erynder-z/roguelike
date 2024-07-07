@@ -1,13 +1,13 @@
-import { BleedTick } from '../Buffs/BleedTick';
-import { Buff } from '../Buffs/BuffEnum';
 import { BurnTick } from '../Buffs/BurnTick';
+import { BuffType, Tick } from '../Buffs/Types/BuffType';
+import { Buff } from '../Buffs/BuffEnum';
+import { BleedTick } from '../Buffs/BleedTick';
+import { CommandBase } from './CommandBase';
 import { FreezeTick } from '../Buffs/FreezeTick';
-import { BuffIF, TickIF } from '../Buffs/Interfaces/BuffIF';
+import { GameState } from '../Builder/Types/GameState';
+import { Mob } from '../Mobs/Mob';
 import { PetrifyTick } from '../Buffs/PetrifyTick';
 import { PoisonTick } from '../Buffs/PoisonTick';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { Mob } from '../Mobs/Mob';
-import { CommandBase } from './CommandBase';
 
 const BURN_DMG_MIN = 2;
 const BURN_DMG_MAX = 4;
@@ -21,7 +21,7 @@ export class BuffCommand extends CommandBase {
   constructor(
     public buff: Buff,
     public target: Mob,
-    game: GameIF,
+    game: GameState,
     me: Mob,
     public time: number = 8,
   ) {
@@ -34,7 +34,7 @@ export class BuffCommand extends CommandBase {
   public execute(): boolean {
     const m = this.target;
     const g = this.g;
-    let effect: TickIF | undefined = undefined;
+    let effect: Tick | undefined = undefined;
     switch (this.buff) {
       case Buff.Poison:
         effect = new PoisonTick(m, g);
@@ -56,7 +56,7 @@ export class BuffCommand extends CommandBase {
         break;
     }
 
-    const active: BuffIF = {
+    const active: BuffType = {
       buff: this.buff,
       time: this.time,
       effect: effect,
@@ -69,11 +69,11 @@ export class BuffCommand extends CommandBase {
   /**
    * Add a buff to a mob in the game.
    *
-   * @param {BuffIF} active - the buff to add
-   * @param {GameIF} game - the game where the mob exists
+   * @param {BuffType} active - the buff to add
+   * @param {GameState} game - the game where the mob exists
    * @param {Mob} mob - the mob to add the buff to
    */
-  private addBuffToMob(active: BuffIF, game: GameIF, mob: Mob) {
+  private addBuffToMob(active: BuffType, game: GameState, mob: Mob) {
     mob.buffs.add(active, game, mob);
   }
 }

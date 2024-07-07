@@ -51,6 +51,8 @@ export class ResizingTerminal extends Terminal {
    * @returns A ResizingTerminal instance with stock dimensions.
    */
   public static createStockResizingTerminal(): ResizingTerminal {
-    return new ResizingTerminal(TerminalPoint.TerminalDimensions);
+    const defaultCanvas = <HTMLCanvasElement>document.getElementById('canvas1');
+    const defaultCtx = <CanvasRenderingContext2D>defaultCanvas.getContext('2d');
+    return new ResizingTerminal(TerminalPoint.TerminalDimensions, defaultCtx);
   }
 }

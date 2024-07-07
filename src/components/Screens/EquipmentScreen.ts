@@ -1,10 +1,10 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { UnequipCommand } from '../Commands/UnequipCommand';
-import { Equipment } from '../Inventory/Equipment';
-import { Slot } from '../ItemObjects/Slot';
-import { Stack } from '../Terminal/Interfaces/Stack';
 import { BaseScreen } from './BaseScreen';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
+import { Equipment } from '../Inventory/Equipment';
+import { GameState } from '../Builder/Types/GameState';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Slot } from '../ItemObjects/Slot';
+import { Stack } from '../Terminal/Types/Stack';
+import { UnequipCommand } from '../Commands/UnequipCommand';
 
 /**
  * Represents a screen displaying the player's equipment.
@@ -12,7 +12,7 @@ import { ScreenMaker } from './Interfaces/ScreenMaker';
 export class EquipmentScreen extends BaseScreen {
   public name = 'equipment-screen';
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public make: ScreenMaker,
     public equipment: Equipment = <Equipment>game.equipment,
   ) {

@@ -1,29 +1,29 @@
 import { Buff } from '../Buffs/BuffEnum';
-import { GameIF } from '../Builder/Interfaces/GameIF';
 import { BuffCommand } from '../Commands/BuffCommand';
 import { BulletCommand } from '../Commands/BulletCommand';
 import { CleanseAllCommand } from '../Commands/CleanseAllCommand';
+import { Command } from '../Commands/Types/Command';
+import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
+import { CommandOrScreen } from '../Screens/Types/CommandOrScreen';
+import { Cost } from '../Commands/Types/Cost';
+import { GameState } from '../Builder/Types/GameState';
 import { HealCommand } from '../Commands/HealCommand';
-import { Command } from '../Commands/Interfaces/Command';
-import { Cost } from '../Commands/Interfaces/Cost';
+import { Mob } from '../Mobs/Mob';
 import { MultiplyCommand } from '../Commands/MultiplyCommand';
 import { PayloadCommand } from '../Commands/PayloadCommand';
 import { SummonCommand } from '../Commands/SummonCommand';
-import { TeleportCommand } from '../Commands/TeleportCommand';
-import { Mob } from '../Mobs/Mob';
-import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
-import { CommandOrScreen } from '../Screens/Interfaces/CommandOrScreen';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { Spell } from './Spell';
+import { Stack } from '../Terminal/Types/Stack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
+import { TeleportCommand } from '../Commands/TeleportCommand';
 
 /**
  * Helper-class that provides methods for returning a Command or a StackScreen for a spell.
  */
 export class SpellFinder {
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public stack: Stack,
     public make: ScreenMaker,
   ) {}
