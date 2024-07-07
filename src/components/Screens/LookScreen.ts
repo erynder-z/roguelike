@@ -1,14 +1,14 @@
 import { BaseScreen } from './BaseScreen';
 import { Buff } from '../Buffs/BuffEnum';
 import { CanSee } from '../Utilities/CanSee';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
 import { DrawMap } from '../MapModel/DrawMap';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { Map } from '../MapModel/Types/Map';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
@@ -25,7 +25,7 @@ export class LookScreen extends BaseScreen {
   private cursorPos: WorldPoint;
   private lookPos: WorldPoint;
 
-  constructor(game: GameIF, make: ScreenMaker) {
+  constructor(game: GameState, make: ScreenMaker) {
     super(game, make);
     this.cursorPos = this.neutralPos;
     this.lookPos = this.playerPos;
@@ -54,16 +54,16 @@ export class LookScreen extends BaseScreen {
    * Determines if a point is visible on the map based on player position, game stats, and visibility buffs.
    *
    * @param {WorldPoint} pos - The position of the point to check for visibility.
-   * @param {MapIF} map - The map object containing the point.
+   * @param {Map} map - The map object containing the point.
    * @param {WorldPoint} playerPos - The position of the player.
-   * @param {GameIF} game - The game object containing the player and game stats.
+   * @param {GameState} game - The game object containing the player and game stats.
    * @return {boolean} Returns true if the point is visible, false otherwise.
    */
   private isPointVisible(
     pos: WorldPoint,
-    map: MapIF,
+    map: Map,
     playerPos: WorldPoint,
-    game: GameIF,
+    game: GameState,
   ): boolean {
     const { buffs } = game.player;
     const { stats } = game;

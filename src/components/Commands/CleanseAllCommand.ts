@@ -1,7 +1,7 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { CommandBase } from './CommandBase';
+import { GameState } from '../Builder/Types/GameState';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
-import { CommandBase } from './CommandBase';
 
 /**
  * Represents a command that removes all buffs from the given mob.
@@ -9,7 +9,7 @@ import { CommandBase } from './CommandBase';
 export class CleanseAllCommand extends CommandBase {
   constructor(
     public me: Mob,
-    public game: GameIF,
+    public game: GameState,
   ) {
     super(me, game);
   }

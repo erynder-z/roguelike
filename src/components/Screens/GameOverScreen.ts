@@ -1,7 +1,7 @@
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
+import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
+import { Stack } from '../Terminal/Types/Stack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
+import { ScreenMaker } from './Types/ScreenMaker';
 
 /**
  * Represents a game over screen implementation that is part of a terminal-based application stack.

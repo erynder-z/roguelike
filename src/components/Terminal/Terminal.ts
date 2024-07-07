@@ -1,4 +1,4 @@
-import { DrawableTerminal } from './Interfaces/DrawableTerminal';
+import { DrawableTerminal } from './Types/DrawableTerminal';
 import { TerminalPoint } from './TerminalPoint';
 
 /**

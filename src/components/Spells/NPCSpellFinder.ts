@@ -6,13 +6,13 @@ import { MultiplyCommand } from '../Commands/MultiplyCommand';
 import { SummonCommand } from '../Commands/SummonCommand';
 import { TeleportCommand } from '../Commands/TeleportCommand';
 import { Buff } from '../Buffs/BuffEnum';
-import { Command } from '../Commands/Interfaces/Command';
-import { Cost } from '../Commands/Interfaces/Cost';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { Command } from '../Commands/Types/Command';
+import { Cost } from '../Commands/Types/Cost';
+import { GameState } from '../Builder/Types/GameState';
 import { Mob } from '../Mobs/Mob';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
 import { Spell } from './Spell';
 
 /**
@@ -20,7 +20,7 @@ import { Spell } from './Spell';
  */
 export class NPCSpellFinder {
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public stack: Stack,
     public make: ScreenMaker,
     public player: Mob = game.player,

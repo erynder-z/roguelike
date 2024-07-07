@@ -1,14 +1,14 @@
-import { Able } from './Interfaces/Able';
+import { Able } from './Types/Able';
 import { Act } from './Act';
 import { CommandBase } from './CommandBase';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
 import { HitCommand } from './HitCommand';
 import { MapCell } from '../MapModel/MapCell';
+import { MagnetismHandler } from '../Utilities/MagnetismHandler';
 import { Mob } from '../Mobs/Mob';
 import { MoveCommand } from './MoveCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { MagnetismHandler } from '../Utilities/MagnetismHandler';
 
 /**
  * Represents a command to conditionally call a MoveCommand or a HitCommand.
@@ -17,7 +17,7 @@ export class MoveBumpCommand extends CommandBase {
   constructor(
     public dir: WorldPoint,
     public me: Mob,
-    public game: GameIF,
+    public game: GameState,
   ) {
     super(me, game);
   }
@@ -26,11 +26,11 @@ export class MoveBumpCommand extends CommandBase {
    * Determines if a mob is able to perform a certain action.
    *
    * @param {Mob} m - The mob performing the action.
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    * @param {Act} act - The action being performed.
    * @returns {Able} An object indicating if the mob is able to perform the action and if it uses a turn.
    */
-  public able(m: Mob, g: GameIF, act: Act): Able {
+  public able(m: Mob, g: GameState, act: Act): Able {
     return { isAble: true, usesTurn: false };
   }
 
@@ -70,11 +70,11 @@ export class MoveBumpCommand extends CommandBase {
   /**
    * Checks if the mob is confused.
    *
-   * @param {GameIF} game - The game interface for handling randomness.
+   * @param {GameState} game - The game object for handling randomness.
    * @param {WorldPoint} direction - The direction to update.
    * @return {void} This function does not return anything.
    */
-  private checkForConfusion(game: GameIF, direction: WorldPoint): void {
+  private checkForConfusion(game: GameState, direction: WorldPoint): void {
     this.confused(game, direction);
   }
 
@@ -94,10 +94,10 @@ export class MoveBumpCommand extends CommandBase {
    *
    * @param {MapCell} cell - The cell to check for mob presence.
    * @param {Mob} mob - The mob performing the action.
-   * @param {GameIF} game - The game interface.
+   * @param {GameState} game - The game object.
    * @return {boolean} Returns the result of the move or hit action.
    */
-  private executeMoveOrHit(cell: MapCell, mob: Mob, game: GameIF): boolean {
+  private executeMoveOrHit(cell: MapCell, mob: Mob, game: GameState): boolean {
     return cell.mob
       ? new HitCommand(mob, cell.mob, game).turn()
       : new MoveCommand(this.dir, mob, game).turn();

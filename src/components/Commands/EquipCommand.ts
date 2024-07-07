@@ -1,10 +1,10 @@
+import { CommandBase } from './CommandBase';
 import { Equipment } from '../Inventory/Equipment';
 import { EventCategory } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { LogMessage } from '../Messages/LogMessage';
 import { Slot } from '../ItemObjects/Slot';
-import { CommandBase } from './CommandBase';
 
 /**
  * Represents a command to equip an item in a game.
@@ -13,7 +13,7 @@ export class EquipCommand extends CommandBase {
   constructor(
     public item: ItemObject,
     public index: number,
-    public game: GameIF,
+    public game: GameState,
     public equipment: Equipment = <Equipment>game.equipment,
   ) {
     super(game.player, game);

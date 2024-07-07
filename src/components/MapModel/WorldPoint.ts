@@ -1,4 +1,4 @@
-import { MapIF } from './Interfaces/MapIF';
+import { Map } from './Types/Map';
 
 /**
  * Represents a point in the world with x and y coordinates.
@@ -130,10 +130,10 @@ export class WorldPoint {
    * Checks if the given position is out of bounds on the map.
    *
    * @param {WorldPoint} position - The position to check.
-   * @param {MapIF} map - The map interface containing dimensions for comparison.
+   * @param {Map} map - The game map containing dimensions for comparison.
    * @return {boolean} True if the position is out of bounds, false otherwise.
    */
-  public isPositionOutOfBounds(position: WorldPoint, map: MapIF): boolean {
+  public isPositionOutOfBounds(position: WorldPoint, map: Map): boolean {
     return (
       position.x < 0 ||
       position.y < 0 ||

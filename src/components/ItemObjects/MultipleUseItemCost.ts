@@ -1,14 +1,14 @@
+import { Cost } from '../Commands/Types/Cost';
+import { GameState } from '../Builder/Types/GameState';
 import { ItemObject } from './ItemObject';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
-import { Cost } from '../Commands/Interfaces/Cost';
-import { GameIF } from '../Builder/Interfaces/GameIF';
 
 /**
  * Represents the cost for a multiple-use item.
  */
 export class MultipleUseItemCost implements Cost {
   constructor(
-    public g: GameIF,
+    public g: GameState,
     public obj: ItemObject,
     public objectIndex: number,
   ) {}

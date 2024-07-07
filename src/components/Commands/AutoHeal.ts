@@ -1,5 +1,5 @@
 import { Buff } from '../Buffs/BuffEnum';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { HealthAdjust } from './HealthAdjust';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
@@ -21,9 +21,9 @@ export class AutoHeal {
   /**
    * Resets auto healing during combat for a mob.
    * @param mob - The mob to reset healing for.
-   * @param game - The game interface.
+   * @param game - The game object.
    */
-  public static combatReset(mob: Mob, game: GameIF) {
+  public static combatReset(mob: Mob, game: GameState) {
     this.clearSleep(mob, game);
     const ah = game.autoHeal;
 
@@ -35,9 +35,9 @@ export class AutoHeal {
    * and displays a message indicating that the player has woken up.
    *
    * @param {Mob} mob - The mob to clear the sleep buff from.
-   * @param {GameIF} game - The game interface to display the message on.
+   * @param {Game} game - The game object to display the message on.
    */
-  static clearSleep(mob: Mob, game: GameIF) {
+  static clearSleep(mob: Mob, game: GameState) {
     if (!mob.is(Buff.Sleep)) return;
     mob.buffs.cleanse(Buff.Sleep, game, mob);
 
@@ -49,9 +49,9 @@ export class AutoHeal {
    * Resets auto healing during combat for multiple mobs.
    * @param a - The first mob.
    * @param b - The second mob, if exists.
-   * @param game - The game interface.
+   * @param game - The game object.
    */
-  public static combatResets(a: Mob, b: Mob | null, game: GameIF) {
+  public static combatResets(a: Mob, b: Mob | null, game: GameState) {
     this.combatReset(a, game);
 
     if (b) AutoHeal.combatReset(b, game);
@@ -68,9 +68,9 @@ export class AutoHeal {
   /**
    * Processes a turn for auto healing.
    * @param player - The player mob.
-   * @param game - The game interface.
+   * @param game - The game object.
    */
-  public turn(player: Mob, game: GameIF) {
+  public turn(player: Mob, game: GameState) {
     if (this.isAtFullHealth(player)) return;
     this.step_timeToHeal(player, game);
   }
@@ -87,18 +87,18 @@ export class AutoHeal {
   /**
    * Steps the countdown for healing.
    * @param player - The player mob.
-   * @param game - The game interface.
+   * @param game - The game object.
    */
-  private step_timeToHeal(player: Mob, game: GameIF) {
+  private step_timeToHeal(player: Mob, game: GameState) {
     this.countdown > 0 ? --this.countdown : this.healTick(player, game);
   }
 
   /**
    * Executes healing for the player mob.
    * @param player - The player mob.
-   * @param game - The game interface.
+   * @param game - The game object.
    */
-  private healTick(player: Mob, game: GameIF) {
+  private healTick(player: Mob, game: GameState) {
     const msg = new LogMessage(
       `auto-healing ${this.amount} hp`,
       EventCategory.heal,

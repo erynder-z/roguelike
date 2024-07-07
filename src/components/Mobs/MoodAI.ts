@@ -1,13 +1,13 @@
 import { AwakeAI } from './AwakeAI';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Mood } from './MoodEnum';
 import { Mob } from './Mob';
-import { MobAI } from './Interfaces/MobAI';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { MobAI } from './Types/MobAI';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { ShootAI } from './ShootAI';
 import { SimpleSleepAI } from './SimpleSleepAI';
 import { SpellAI } from './SpellAI';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { Stack } from '../Terminal/Types/Stack';
 import { VisibilityAwareSleepAI } from './VisibilityAwareSleepAI';
 
 /**
@@ -26,7 +26,7 @@ export class MoodAI implements MobAI {
    *
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
-   * @param {GameIF} game - The game instance.
+   * @param {GameState} game - The game instance.
    * @param {Stack} stack - The screen stack.
    * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - The result of the delegated turn action.
@@ -34,7 +34,7 @@ export class MoodAI implements MobAI {
   public turn(
     me: Mob,
     enemy: Mob,
-    game: GameIF,
+    game: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {

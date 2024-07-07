@@ -1,18 +1,18 @@
 import { Glyph } from '../Glyphs/Glyph';
+import { GlyphMap } from '../Glyphs/GlyphMap';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { MapCell } from './MapCell';
-import { MapIF } from './Interfaces/MapIF';
-import { ObjectTypes } from '../ItemObjects/ObjectTypes';
+import { Map } from './Types/Map';
+import { Mob } from '../Mobs/Mob';
+import { ItemObjectManager } from '../ItemObjects/ItemObjectManager';
 import { Spell } from '../Spells/Spell';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
 import { WorldPoint } from './WorldPoint';
-import { GlyphMap } from '../Glyphs/GlyphMap';
-import { Mob } from '../Mobs/Mob';
 
 /**
  * Represents the current game map.
  */
-export class GameMap implements MapIF {
+export class GameMap implements Map {
   constructor(
     public dimensions: WorldPoint,
     g_empty: Glyph,
@@ -152,7 +152,7 @@ export class GameMap implements MapIF {
   public addObject(o: ItemObject, p: WorldPoint): void {
     o.desc = GlyphMap.getGlyphDescription(o.glyph, 'object');
     if (o.spell != Spell.None)
-      o.desc = ObjectTypes.getSpellDescription(o.spell);
+      o.desc = ItemObjectManager.getSpellDescription(o.spell);
 
     this.cell(p).obj = o;
   }

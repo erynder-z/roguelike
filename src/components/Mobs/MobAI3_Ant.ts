@@ -1,6 +1,6 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Mob } from './Mob';
-import { MobAI } from './Interfaces/MobAI';
+import { MobAI } from './Types/MobAI';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 
 /**
@@ -12,10 +12,10 @@ export class MobAI3_Ant implements MobAI {
    * Executes a turn for the Ant mob AI.
    * @param {Mob} me - The current mob controlled by this AI.
    * @param {Mob} enemy - The enemy mob.
-   * @param {GameIF} game - The game interface.
+   * @param {GameState} game - The game object.
    * @returns {boolean} - True if the turn was successfully executed, false otherwise.
    */
-  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameState): boolean {
     const r = game.rand;
     const dir = r.randomDirectionForcedMovement();
     return new MoveBumpCommand(dir, me, game).npcTurn();

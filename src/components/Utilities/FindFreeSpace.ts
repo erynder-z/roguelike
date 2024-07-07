@@ -1,5 +1,5 @@
 import { Glyph } from '../Glyphs/Glyph';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -9,27 +9,23 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export class FindFreeSpace {
   /**
    * Finds a free space on the map.
-   * @param {MapIF} map - The map on which to find free space.
+   * @param {Map} map - The map on which to find free space.
    * @param {RandomGenerator} rnd - The random generator to use for finding free space.
    * @returns {WorldPoint | null} A WorldPoint representing the free space found, or null if no free space is available.
    */
-  public static findFree(map: MapIF, rnd: RandomGenerator): WorldPoint {
+  public static findFree(map: Map, rnd: RandomGenerator): WorldPoint {
     return this.find(Glyph.Floor, map, rnd);
   }
 
   /**
    * Finds a specified character in the map and returns its position.
    * @param {Glyph} char - The character to find.
-   * @param {MapIF} map - The map in which to search for the character.
+   * @param {Map} map - The map in which to search for the character.
    * @param {RandomGenerator} rnd - The random generator to use for finding the character.
    * @returns {WorldPoint } A WorldPoint representing the position of the character found.
    * @throws {string} Throws an error if no free space is found.
    */
-  public static find(
-    char: Glyph,
-    map: MapIF,
-    rnd: RandomGenerator,
-  ): WorldPoint {
+  public static find(char: Glyph, map: Map, rnd: RandomGenerator): WorldPoint {
     const e = new WorldPoint(map.dimensions.x - 2, map.dimensions.y - 2);
     const s = new WorldPoint(
       rnd.randomIntegerClosedRange(1, e.x),

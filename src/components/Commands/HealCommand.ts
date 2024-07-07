@@ -1,6 +1,6 @@
 import { CommandBase } from './CommandBase';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { HealthAdjust } from './HealthAdjust';
 import { Mob } from '../Mobs/Mob';
 
@@ -11,7 +11,7 @@ export class HealCommand extends CommandBase {
   constructor(
     private readonly healAmount: number,
     private readonly mob: Mob,
-    private readonly gameInstance: GameIF,
+    private readonly gameInstance: GameState,
   ) {
     super(mob, gameInstance);
   }

@@ -1,13 +1,13 @@
-import { Command } from './Interfaces/Command';
+import { Command } from './Types/Command';
 import { CommandBase } from './CommandBase';
 import { DirectionStep } from '../Stepper/DirectionStep';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { Mob } from '../Mobs/Mob';
 import { PayloadStep } from '../Stepper/PayloadStep';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StepIF } from '../Stepper/Interfaces/StepIF';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
+import { Step } from '../Stepper/Types/Step';
 import { StepScreen } from '../Screens/StepScreen';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -17,7 +17,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export class PayloadCommand extends CommandBase {
   constructor(
     public me: Mob,
-    public g: GameIF,
+    public g: GameState,
     public stack: Stack,
     public make: ScreenMaker,
     public payload: Command,
@@ -48,13 +48,7 @@ export class PayloadCommand extends CommandBase {
     const sprite = Glyph.Bullet;
     const effect = null;
     const next = new PayloadStep(m, g, this.payload);
-    const step: StepIF = new DirectionStep(
-      effect,
-      next,
-      sprite,
-      m.pos.copy(),
-      g,
-    );
+    const step: Step = new DirectionStep(effect, next, sprite, m.pos.copy(), g);
     step.setDirection(this.dir);
     this.stack.push(new StepScreen(g, this.make, step));
     return false;

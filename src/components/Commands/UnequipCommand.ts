@@ -1,10 +1,10 @@
+import { CommandBase } from './CommandBase';
 import { EventCategory } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { LogMessage } from '../Messages/LogMessage';
 import { Equipment } from '../Inventory/Equipment';
 import { Slot } from '../ItemObjects/Slot';
-import { CommandBase } from './CommandBase';
 
 /**
  * Represents a command to unequip an item in a game.
@@ -12,7 +12,7 @@ import { CommandBase } from './CommandBase';
 export class UnequipCommand extends CommandBase {
   constructor(
     public slot: Slot,
-    public game: GameIF,
+    public game: GameState,
   ) {
     super(game.player, game);
   }

@@ -1,6 +1,6 @@
 import { Glyph } from '../../Glyphs/Glyph';
 
-export interface RockType {
+export type Rock = {
   glyph: Glyph;
   percentage: number;
-}
+};

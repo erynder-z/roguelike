@@ -1,9 +1,9 @@
-import { Able } from './Interfaces/Able';
+import { Able } from './Types/Able';
 import { Act } from './Act';
 import { Buff } from '../Buffs/BuffEnum';
-import { Command } from './Interfaces/Command';
-import { Cost } from './Interfaces/Cost';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { Command } from './Types/Command';
+import { Cost } from './Types/Cost';
+import { GameState } from '../Builder/Types/GameState';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
 import { WorldPoint } from '../MapModel/WorldPoint';
@@ -14,7 +14,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export abstract class CommandBase implements Command {
   constructor(
     public me: Mob,
-    public g: GameIF,
+    public g: GameState,
     public act: Act = Act.Act,
     public cost?: Cost,
     public target?: Mob,
@@ -66,7 +66,7 @@ export abstract class CommandBase implements Command {
    * @returns {boolean} The result of executing the command.
    */
   public turn(): boolean {
-    const r = this.able(<Mob>this.me, <GameIF>this.g, this.act);
+    const r = this.able(<Mob>this.me, <GameState>this.g, this.act);
 
     if (!r.isAble) return r.usesTurn;
     if (!this.pay()) return true;
@@ -77,11 +77,11 @@ export abstract class CommandBase implements Command {
    * Determines if a mob is able to perform a certain action.
    *
    * @param {Mob} m - The mob performing the action.
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    * @param {Act} act - The action being performed.
    * @returns {Able} An object indicating if the mob is able to perform the action and if it uses a turn.
    */
-  public able(m: Mob, g: GameIF, act: Act): Able {
+  public able(m: Mob, g: GameState, act: Act): Able {
     const cant = { isAble: false, usesTurn: false };
     const negate = { isAble: false, usesTurn: true };
     const able = { isAble: true, usesTurn: false };
@@ -108,10 +108,10 @@ export abstract class CommandBase implements Command {
    *  If afraid, the player can not attack.
    *
    * @param {Mob} me - The mob to check for fear.
-   * @param {GameIF} g - The game interface for flashing messages.
+   * @param {GameState} g - The game object for flashing messages.
    * @return {boolean} - Whether the mob is afraid or not.
    */
-  private afraid(me: Mob, g: GameIF): boolean {
+  private afraid(me: Mob, g: GameState): boolean {
     const afraid = me.is(Buff.Afraid);
     const msg = new LogMessage('You are too afraid!', EventCategory.buff);
     if (afraid && me.isPlayer) g.flash(msg);
@@ -123,10 +123,10 @@ export abstract class CommandBase implements Command {
    * If charmed, the player can not attack. Charmed status is cleared if the charming spellcaster attacks the player.
    *
    * @param {Mob} me - The mob to check for charm.
-   * @param {GameIF} g - The game interface to flash the message to.
+   * @param {GameState} g - The game object to flash the message to.
    * @return {boolean} True if the mob is charmed, false otherwise.
    */
-  private charmed(me: Mob, g: GameIF): boolean {
+  private charmed(me: Mob, g: GameState): boolean {
     const charmed = me.is(Buff.Charm);
     const msg = new LogMessage("It's too cute!", EventCategory.buff);
     if (charmed && me.isPlayer) g.flash(msg);
@@ -138,10 +138,10 @@ export abstract class CommandBase implements Command {
    * If rooted, the player can not move.
    *
    * @param {Mob} me - The mob to check for root.
-   * @param {GameIF} g - The game interface to flash the message to.
+   * @param {GameState} g - The game object to flash the message to.
    * @return {boolean} True if the mob is rooted, false otherwise.
    */
-  private rooted(me: Mob, g: GameIF): boolean {
+  private rooted(me: Mob, g: GameState): boolean {
     const rooted = me.is(Buff.Root);
     const msg = new LogMessage("You can't move!", EventCategory.buff);
     if (rooted && me.isPlayer) g.flash(msg);
@@ -153,10 +153,10 @@ export abstract class CommandBase implements Command {
    * If levitating, the player can not move or attack with melee weapons.
    *
    * @param {Mob} me - The mob to check for levitation.
-   * @param {GameIF} g - The game interface for flashing messages.
+   * @param {GameState} g - The game object for flashing messages.
    * @return {boolean} - Whether the mob is levitating or not.
    */
-  private levitate(me: Mob, g: GameIF): boolean {
+  private levitate(me: Mob, g: GameState): boolean {
     const levitate = me.is(Buff.Levitate);
     const msg = new LogMessage('You are hovering!', EventCategory.buff);
     if (levitate && me.isPlayer) g.flash(msg);
@@ -168,10 +168,10 @@ export abstract class CommandBase implements Command {
    * If paralyzed, the player's actions have to pass a dice roll check in order to perform them.
    *
    * @param {Mob} me - The mob to check for paralysis.
-   * @param {GameIF} g - The game interface for flashing messages.
+   * @param {GameState} g - The game object for flashing messages.
    * @returns {boolean} - Whether the mob is paralyzed or not.
    */
-  private paralyzed(me: Mob, g: GameIF): boolean {
+  private paralyzed(me: Mob, g: GameState): boolean {
     if (!me.is(Buff.Paralyze)) return false;
     let rate = 0;
     switch (this.act) {
@@ -203,10 +203,10 @@ export abstract class CommandBase implements Command {
    * If asleep, the player can not move or attack. Sleep status is cleared when receiving damage.
    *
    * @param {Mob} me - The mob to check for sleep.
-   * @param {GameIF} g - The game interface to flash the message to.
+   * @param {GameState} g - The game object to flash the message to.
    * @return {boolean} - Whether the mob is asleep or not.
    */
-  private asleep(me: Mob, g: GameIF): boolean {
+  private asleep(me: Mob, g: GameState): boolean {
     if (!me.is(Buff.Sleep)) return false;
     const msg = new LogMessage('You are asleep!', EventCategory.buff);
     if (me.isPlayer) g.flash(msg);
@@ -218,10 +218,10 @@ export abstract class CommandBase implements Command {
    * If slowed, half of the player's actions have a 50% chance to fail.
    *
    * @param {Mob} me - The mob to check for being slowed.
-   * @param {GameIF} g - The game interface for checking conditions and displaying messages.
+   * @param {GameState} g - The game object for checking conditions and displaying messages.
    * @returns {boolean} - True if the mob is slowed, false otherwise.
    */
-  private slow(me: Mob, g: GameIF): boolean {
+  private slow(me: Mob, g: GameState): boolean {
     if (!me.is(Buff.Slow)) return false;
     if (g.rand.isOneIn(2)) return false;
     const msg = new LogMessage('You are slowed!', EventCategory.buff);
@@ -233,11 +233,11 @@ export abstract class CommandBase implements Command {
    * Checks if the given mob is frozen and flashes a message if it is the player.
    *
    * @param {Mob} me - The mob to check for freezing.
-   * @param {GameIF} g - The game interface for flashing messages.
+   * @param {GameState} g - The game object for flashing messages.
    * @param {boolean} move - Indicates if the mob is trying to move.
    * @returns {boolean} - Whether the mob is frozen or not.
    */
-  private freeze(me: Mob, g: GameIF, move: boolean): boolean {
+  private freeze(me: Mob, g: GameState, move: boolean): boolean {
     if (!me.is(Buff.Freeze)) return false;
     if (move && g.rand.isOneIn(2)) return false;
     const msg = new LogMessage('You are frozen!', EventCategory.buff);
@@ -248,11 +248,11 @@ export abstract class CommandBase implements Command {
   /**
    * Checks if the mob is confused and updates the direction accordingly.
    *
-   * @param {GameIF} g - The game interface for handling randomness.
+   * @param {GameState} g - The game object for handling randomness.
    * @param {WorldPoint} dir - The direction to update.
    * @returns {boolean} Whether the mob is confused or not.
    */
-  public confused(g: GameIF, dir: WorldPoint): boolean {
+  public confused(g: GameState, dir: WorldPoint): boolean {
     if (!this.me.is(Buff.Confuse)) return false;
 
     const r = g.rand;

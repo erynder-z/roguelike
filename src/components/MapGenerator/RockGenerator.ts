@@ -1,4 +1,4 @@
-import { RockType } from './interfaces/RockType';
+import { Rock } from './Types/Rock';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Glyph } from '../Glyphs/Glyph';
 
@@ -14,7 +14,7 @@ export class RockGenerator {
    */
 
   public static getRandomRockType(rnd: RandomGenerator): Glyph {
-    const rockTypes: RockType[] = [
+    const rockTypes: Rock[] = [
       { glyph: Glyph.Wall, percentage: 100 },
       { glyph: Glyph.Rock, percentage: 10 },
       { glyph: Glyph.Obsidian, percentage: 5 },

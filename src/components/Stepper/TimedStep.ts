@@ -1,11 +1,11 @@
-import { StepIF } from './Interfaces/StepIF';
+import { Step } from './Types/Step';
 import { WorldPoint } from '../MapModel/WorldPoint';
 import { Mob } from '../Mobs/Mob';
 
 /**
  * Represents a timed step that draws a step screen for a given amount of time. Most methods are placeholders to be implemented in subclasses.
  */
-export class TimedStep implements StepIF {
+export class TimedStep implements Step {
   public time: number = 0;
 
   /**
@@ -13,7 +13,7 @@ export class TimedStep implements StepIF {
    *
    * @return {StepIF | null} The function always throws an error.
    */
-  public executeStep(): StepIF | null {
+  public executeStep(): Step | null {
     throw 'no executeStep';
   }
 

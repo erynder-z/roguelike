@@ -1,14 +1,14 @@
+import { Cost } from '../Commands/Types/Cost';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { ItemObject } from './ItemObject';
-import { Cost } from '../Commands/Interfaces/Cost';
 
 /**
  * Represents the cost for a single-use item.
  */
 export class SingleUseItemCost implements Cost {
   constructor(
-    public g: GameIF,
+    public g: GameState,
     public obj: ItemObject,
     public objectIndex: number,
   ) {}

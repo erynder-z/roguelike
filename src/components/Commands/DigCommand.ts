@@ -1,10 +1,10 @@
 import { CommandBase } from './CommandBase';
 import { EventCategory } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { LogMessage } from '../Messages/LogMessage';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -15,7 +15,7 @@ export class DigCommand extends CommandBase {
   constructor(
     public dir: WorldPoint,
     public me: Mob,
-    public g: GameIF,
+    public g: GameState,
   ) {
     super(me, g);
   }
@@ -28,7 +28,7 @@ export class DigCommand extends CommandBase {
   public execute(): boolean {
     const game = this.g;
     const player = game.player;
-    const map = <MapIF>game.currentMap();
+    const map = <Map>game.currentMap();
     const np = player.pos.plus(this.dir);
     const cell = map.cell(np);
     const e = cell.env;

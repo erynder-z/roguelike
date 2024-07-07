@@ -1,6 +1,6 @@
 import { Glyph } from '../Glyphs/Glyph';
 import { GameMap } from '../MapModel/GameMap';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { RockGenerator } from './RockGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
@@ -10,17 +10,17 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  */
 export class MapGenerator1 {
   constructor(
-    public map: MapIF,
+    public map: Map,
     public rnd: RandomGenerator,
   ) {}
 
   /**
    * Generates a map.
-   * @param {MapIF} map The map object to generate.
+   * @param {Map} map The map object to generate.
    * @param {RandomGenerator} rnd The random generator object.
-   * @returns {MapIF} The generated map.
+   * @returns {Map} The generated map.
    */
-  private loop(map: MapIF, rnd: RandomGenerator): MapIF {
+  private loop(map: Map, rnd: RandomGenerator): Map {
     // Number of iterations for map generation
     const numIterations = 40;
     const upperLeft = new WorldPoint();
@@ -171,13 +171,13 @@ export class MapGenerator1 {
    * @param {WorldPoint} dim - The dimensions of the map.
    * @param {RandomGenerator} rnd - The random generator object.
    * @param {number} level - The level of the map.
-   * @return {MapIF} The generated map.
+   * @return {Map} The generated map.
    */
   public static generate(
     dim: WorldPoint,
     rnd: RandomGenerator,
     level: number,
-  ): MapIF {
+  ): Map {
     const mapDimensionsX = dim.x;
     const mapDimensionsY = dim.y;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);

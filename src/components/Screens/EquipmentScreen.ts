@@ -1,9 +1,9 @@
 import { BaseScreen } from './BaseScreen';
 import { Equipment } from '../Inventory/Equipment';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
+import { GameState } from '../Builder/Types/GameState';
+import { ScreenMaker } from './Types/ScreenMaker';
 import { Slot } from '../ItemObjects/Slot';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { Stack } from '../Terminal/Types/Stack';
 import { UnequipCommand } from '../Commands/UnequipCommand';
 
 /**
@@ -12,7 +12,7 @@ import { UnequipCommand } from '../Commands/UnequipCommand';
 export class EquipmentScreen extends BaseScreen {
   public name = 'equipment-screen';
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public make: ScreenMaker,
     public equipment: Equipment = <Equipment>game.equipment,
   ) {

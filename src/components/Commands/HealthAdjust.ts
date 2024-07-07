@@ -1,11 +1,11 @@
 import { AutoHeal } from './AutoHeal';
 import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
 import { EventCategory } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { LogMessage } from '../Messages/LogMessage';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
-import { ObjectTypes } from '../ItemObjects/ObjectTypes';
+import { ItemObjectManager } from '../ItemObjects/ItemObjectManager';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
@@ -16,13 +16,13 @@ export class HealthAdjust {
    * Adjusts the health of a mob based on the specified amount.
    * @param {Mob} mob - The mob whose health is to be adjusted.
    * @param {number} amount - The amount by which the health will be adjusted.
-   * @param {GameIF} game - The game interface.
+   * @param {GameState} game - The game object.
    * @param {Mob} entity - The entity involved in the adjustment.
    */
   public static adjust(
     mob: Mob,
     amount: number,
-    game: GameIF,
+    game: GameState,
     entity: Mob,
   ): void {
     if (amount === 0) return;
@@ -47,13 +47,13 @@ export class HealthAdjust {
    * Deals damage to the specified mob.
    * @param {Mob} mob - The mob to receive the damage.
    * @param {number} amount - The amount of damage to deal.
-   * @param {GameIF} game - The game interface.
+   * @param {Game} game - The game object.
    * @param {Mob | null} attacker - The mob causing the damage.
    */
   public static damage(
     mob: Mob,
     amount: number,
-    game: GameIF,
+    game: GameState,
     attacker: Mob | null,
   ): void {
     AutoHeal.combatResets(mob, attacker, game);
@@ -70,11 +70,11 @@ export class HealthAdjust {
   /**
    * Handles the death of the specified mob.
    * @param {Mob} mob - The mob that dies.
-   * @param {GameIF} game - The game interface.
+   * @param {GameState} game - The game object.
    */
   private static mobDies(
     mob: Mob,
-    game: GameIF,
+    game: GameState,
     involvesPlayer: boolean,
   ): void {
     const s = `${mob.name} dies.`;
@@ -87,7 +87,7 @@ export class HealthAdjust {
       game.flash(msg);
       game.addCurrentEvent(EventCategory.mobDeath);
     }
-    const map = <MapIF>game.currentMap();
+    const map = <Map>game.currentMap();
     map.removeMob(mob);
     this.maybeDropLoot(mob, game);
   }
@@ -96,9 +96,9 @@ export class HealthAdjust {
    * Determines if loot should be dropped for the specified mob.
    *
    * @param {Mob} mob - The mob for which loot may be dropped.
-   * @param {GameIF} game - The game interface used to determine success.
+   * @param {GameState} game - The game object used to determine success.
    */
-  private static maybeDropLoot(mob: Mob, game: GameIF): void {
+  private static maybeDropLoot(mob: Mob, game: GameState): void {
     if (game.rand.isOneIn(10)) this.dropLoot(mob.pos, game, mob.level);
   }
 
@@ -106,11 +106,15 @@ export class HealthAdjust {
    * Drops loot at the specified position in the game map.
    *
    * @param {WorldPoint} pos - The position where the loot will be dropped.
-   * @param {GameIF} game - The game interface.
+   * @param {GameState} game - The game object.
    * @param {number} level - The level of the loot.
    */
-  private static dropLoot(pos: WorldPoint, game: GameIF, level: number): void {
-    const map = <MapIF>game.currentMap();
+  private static dropLoot(
+    pos: WorldPoint,
+    game: GameState,
+    level: number,
+  ): void {
+    const map = <Map>game.currentMap();
     const lootCell = map.cell(pos);
     const canDrop = EnvironmentChecker.canItemsBeDropped(lootCell);
 
@@ -119,7 +123,7 @@ export class HealthAdjust {
     } else {
       const rand = game.rand;
       const objectLvl = level + 1;
-      const obj = ObjectTypes.addRandomObjectForLevel(
+      const obj = ItemObjectManager.addRandomObjectForLevel(
         pos,
         map,
         rand,
@@ -140,13 +144,13 @@ export class HealthAdjust {
    *
    * @param {Mob} player - The player involved in the damage.
    * @param {number} amount - The amount of damage dealt to the player.
-   * @param {GameIF} game - The game interface.
+   * @param {GameState} game - The game object.
    * @return {void} This function does not return anything.
    */
   public static handlePlayerDamageMessage(
     player: Mob,
     amount: number,
-    game: GameIF,
+    game: GameState,
   ): void {
     const s = this.generateDamageMessage(player, amount);
     const msg = new LogMessage(s, EventCategory.playerDamage);

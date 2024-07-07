@@ -1,6 +1,6 @@
 import { Glyph } from '../Glyphs/Glyph';
 import { GameMap } from '../MapModel/GameMap';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { RockGenerator } from './RockGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
@@ -10,11 +10,11 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  */
 export class MapGenerator_Cave {
   constructor(
-    public map: MapIF,
+    public map: Map,
     public rnd: RandomGenerator,
   ) {}
 
-  public createCave(map: MapIF, rnd: RandomGenerator): MapIF {
+  public createCave(map: Map, rnd: RandomGenerator): Map {
     // Clear map
     this.clearMap();
 
@@ -85,7 +85,7 @@ export class MapGenerator_Cave {
     return directions[Math.floor(Math.random() * directions.length)];
   }
 
-  public static generate(rnd: RandomGenerator, level: number): MapIF {
+  public static generate(rnd: RandomGenerator, level: number): Map {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);

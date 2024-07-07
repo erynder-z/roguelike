@@ -3,19 +3,19 @@ import { Builder } from './Builder';
 import { Dungeon } from '../MapModel/Dungeon';
 import { Equipment } from '../Inventory/Equipment';
 import { EventCategory } from '../Messages/LogMessage';
-import { GameIF } from './Interfaces/GameIF';
+import { GameState } from './Types/GameState';
 import { Inventory } from '../Inventory/Inventory';
 import { LogMessage } from '../Messages/LogMessage';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
-import { MobAI } from '../Mobs/Interfaces/MobAI';
+import { MobAI } from '../Mobs/Types/MobAI';
 import { MessageLog } from '../Messages/MessageLog';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 
 /**
  * The game instance that holds the game state.
  */
-export class Game implements GameIF {
+export class Game implements GameState {
   constructor(
     public rand: RandomGenerator,
     public player: Mob,
@@ -34,9 +34,9 @@ export class Game implements GameIF {
   /**
    * Retrieve the current map.
    *
-   * @return {MapIF | null} The current map, or null if not available.
+   * @return {Map | null} The current map, or null if not available.
    */
-  public currentMap(): MapIF | null {
+  public currentMap(): Map | null {
     return this.dungeon.currentMap(this);
   }
 

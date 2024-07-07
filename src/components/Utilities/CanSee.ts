@@ -1,5 +1,5 @@
 import { BresenhamIterator } from './BresenhamIterator';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -11,14 +11,14 @@ export class CanSee {
    * Checks if there is a line of sight between two world points on the map.
    * @param {WorldPoint} a - The starting point.
    * @param {WorldPoint} b - The ending point.
-   * @param {MapIF} map - The map object.
+   * @param {Map} map - The map object.
    * @param {boolean} onlyEnv - Indicates whether to consider only environmental obstacles.
    * @returns {boolean} - True if there is a line of sight, otherwise false.
    */
   public static checkPointLOS_Bresenham(
     a: WorldPoint,
     b: WorldPoint,
-    map: MapIF,
+    map: Map,
     onlyEnv: boolean,
   ): boolean {
     const i: BresenhamIterator = BresenhamIterator.createFromWorldPoint(a, b);
@@ -34,14 +34,14 @@ export class CanSee {
    * Checks if there is a line of sight between two mobs on the map.
    * @param {Mob} a - The first mob.
    * @param {Mob} b - The second mob.
-   * @param {MapIF} map - The map object.
+   * @param {Map} map - The map object.
    * @param {boolean} onlyEnv - Indicates whether to consider only environmental obstacles.
    * @returns {boolean} - True if there is a line of sight, otherwise false.
    */
   public static checkMobLOS_Bresenham(
     a: Mob,
     b: Mob,
-    map: MapIF,
+    map: Map,
     onlyEnv: boolean,
   ): boolean {
     return this.checkPointLOS_Bresenham(a.pos, b.pos, map, onlyEnv);
@@ -51,13 +51,13 @@ export class CanSee {
    * Performs raycasting to determine line of sight between two points on the map.
    * @param {WorldPoint} start - The starting point of the LOS check.
    * @param {WorldPoint} end - The ending point of the LOS check.
-   * @param {MapIF} map - The map object.
+   * @param {Map} map - The map object.
    * @returns {boolean} - True if there is line of sight, otherwise false.
    */
   public static checkPointLOS_RayCast(
     start: WorldPoint,
     end: WorldPoint,
-    map: MapIF,
+    map: Map,
   ): boolean {
     // Get the differences in coordinates between the start and end points
     const dx = Math.abs(end.x - start.x);

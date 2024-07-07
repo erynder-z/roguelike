@@ -1,18 +1,18 @@
 import { BaseScreen } from './BaseScreen';
 import { CommandBase } from '../Commands/CommandBase';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
+import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
 import { DrawMap } from '../MapModel/DrawMap';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { FindObjectSpell } from '../Spells/FindObjectSpells';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { EquipCommand } from '../Commands/EquipCommand';
-import { Command } from '../Commands/Interfaces/Command';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { Command } from '../Commands/Types/Command';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
 
 /**
  * Represents a screen for interacting with items.
@@ -22,7 +22,7 @@ export class ItemScreen extends BaseScreen {
   constructor(
     public obj: ItemObject,
     public index: number,
-    public game: GameIF,
+    public game: GameState,
     public maker: ScreenMaker,
     public isEquipped: boolean = !!game.equipment,
   ) {
@@ -88,7 +88,7 @@ export class ItemScreen extends BaseScreen {
    */
   private dropInventoryItem(): boolean {
     const game = this.game;
-    const map = <MapIF>this.game.currentMap();
+    const map = <Map>this.game.currentMap();
     const player = game.player;
     const c = map.cell(player.pos);
     if (c.hasObject()) {

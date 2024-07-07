@@ -1,9 +1,9 @@
 import { BaseScreen } from './BaseScreen';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StepIF } from '../Stepper/Interfaces/StepIF';
+import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
+import { GameState } from '../Builder/Types/GameState';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
+import { Step } from '../Stepper/Types/Step';
 
 /**
  * Represents a screen that displays a timed step that damages a mob at its current position.
@@ -11,9 +11,9 @@ import { StepIF } from '../Stepper/Interfaces/StepIF';
 export class StepScreen extends BaseScreen {
   public name = 'step-screen';
   constructor(
-    game: GameIF,
+    game: GameState,
     make: ScreenMaker,
-    public step: StepIF | null,
+    public step: Step | null,
   ) {
     super(game, make);
   }

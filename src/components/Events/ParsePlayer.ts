@@ -1,22 +1,22 @@
 import { BulletCommand } from '../Commands/BulletCommand';
-import { Command } from '../Commands/Interfaces/Command';
+import { Command } from '../Commands/Types/Command';
 import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
 import { DigCommand } from '../Commands/DigCommand';
 import { DoorCommand } from '../Commands/DoorCommand';
 import { EquipmentScreen } from '../Screens/EquipmentScreen';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { InventoryScreen } from '../Screens/InventoryScreen';
 import { LookScreen } from '../Screens/LookScreen';
 import { LogScreen } from '../Screens/LogScreen';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Map } from '../MapModel/Types/Map';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
 import { Mob } from '../Mobs/Mob';
 import { PickupCommand } from '../Commands/PickupCommand';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { SpellScreen } from '../Screens/SpellScreen';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { Stack } from '../Terminal/Types/Stack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
 import { WaitCommand } from '../Commands/WaitCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -25,10 +25,10 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  */
 export class ParsePlayer {
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public make: ScreenMaker,
     public player: Mob = <Mob>game.player,
-    public map: MapIF = <MapIF>game.currentMap(),
+    public map: Map = <Map>game.currentMap(),
   ) {}
 
   /**

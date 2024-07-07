@@ -1,7 +1,7 @@
 import { CommandBase } from './CommandBase';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { GameState } from '../Builder/Types/GameState';
+import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -12,7 +12,7 @@ export class TeleportCommand extends CommandBase {
   constructor(
     private readonly radius: number,
     private readonly mob: Mob,
-    private readonly gameInstance: GameIF,
+    private readonly gameInstance: GameState,
   ) {
     super(mob, gameInstance);
   }
@@ -23,7 +23,7 @@ export class TeleportCommand extends CommandBase {
    * @return {boolean} Returns true if the mob was successfully teleported, false otherwise.
    */
   public execute(): boolean {
-    const map = this.gameInstance.currentMap() as MapIF;
+    const map = this.gameInstance.currentMap() as Map;
     const targetPoint = this.findTeleportPoint(this.mob.pos, this.radius, map);
 
     if (!targetPoint) return false;
@@ -43,13 +43,13 @@ export class TeleportCommand extends CommandBase {
    *
    * @param {WorldPoint} center - The center point on the map.
    * @param {number} radius - The radius within which to search for a teleport point.
-   * @param {MapIF} map - The map on which to search for a teleport point.
+   * @param {Map} map - The map on which to search for a teleport point.
    * @return {WorldPoint | null} The found teleport point or null if no valid point is found.
    */
   private findTeleportPoint(
     center: WorldPoint,
     radius: number,
-    map: MapIF,
+    map: Map,
   ): WorldPoint | null {
     const random = this.gameInstance.rand;
     const newPoint = new WorldPoint();

@@ -1,10 +1,10 @@
-import { MapIF } from '../MapModel/Interfaces/MapIF';
+import { Command } from '../Commands/Types/Command';
+import { GameState } from '../Builder/Types/GameState';
+import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
-import { StepIF } from './Interfaces/StepIF';
+import { Step } from './Types/Step';
 import { TimedStep } from './TimedStep';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { Command } from '../Commands/Interfaces/Command';
-import { GameIF } from '../Builder/Interfaces/GameIF';
 
 /**
  * Represents a payload step that fires a payload command in a specified direction.
@@ -12,7 +12,7 @@ import { GameIF } from '../Builder/Interfaces/GameIF';
 export class PayloadStep extends TimedStep {
   constructor(
     public actor: Mob,
-    public game: GameIF,
+    public game: GameState,
     public payload: Command,
     public target: Mob | null = null,
     public pos: WorldPoint | null = null,
@@ -42,7 +42,7 @@ export class PayloadStep extends TimedStep {
    *
    * @return {StepIF | null} The executed step or null if no target is found.
    */
-  public executeStep(): StepIF | null {
+  public executeStep(): Step | null {
     let tgt = this.target;
     if (!tgt) tgt = this.targetFromPosition();
     if (tgt) {
@@ -61,7 +61,7 @@ export class PayloadStep extends TimedStep {
    */
   private targetFromPosition(): Mob | null {
     if (this.pos) {
-      const map = <MapIF>this.game.currentMap();
+      const map = <Map>this.game.currentMap();
       const cell = map.cell(this.pos);
       if (cell.mob) return cell.mob;
     }

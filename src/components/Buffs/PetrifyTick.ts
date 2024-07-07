@@ -1,17 +1,17 @@
 import { EventCategory } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { HealthAdjust } from '../Commands/HealthAdjust';
 import { LogMessage } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
-import { TickIF } from './Interfaces/BuffIF';
+import { Tick } from './Types/BuffType';
 
 /**
  * Handles a petrify tick.
  */
-export class PetrifyTick implements TickIF {
+export class PetrifyTick implements Tick {
   constructor(
     public mob: Mob,
-    public game: GameIF,
+    public game: GameState,
   ) {}
 
   /**

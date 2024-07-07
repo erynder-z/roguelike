@@ -1,6 +1,6 @@
 import { CommandBase } from './CommandBase';
 import { EventCategory } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Mob } from '../Mobs/Mob';
 
 /**
@@ -9,7 +9,7 @@ import { Mob } from '../Mobs/Mob';
 export class WaitCommand extends CommandBase {
   constructor(
     public me: Mob,
-    public game: GameIF,
+    public game: GameState,
   ) {
     super(me, game);
   }

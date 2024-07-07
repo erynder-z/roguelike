@@ -1,13 +1,13 @@
+import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
 import { DrawMap } from '../MapModel/DrawMap';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
 import { HealthAdjust } from '../Commands/HealthAdjust';
 import { Mob } from '../Mobs/Mob';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 
 /**
  * Represents a base screen implementation that implements the StackScreen interface.
@@ -15,7 +15,7 @@ import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
 export class BaseScreen implements StackScreen {
   public name = 'BaseScreen';
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public make: ScreenMaker,
   ) {}
 

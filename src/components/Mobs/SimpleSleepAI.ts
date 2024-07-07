@@ -1,6 +1,6 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Mob } from './Mob';
-import { MobAI } from './Interfaces/MobAI';
+import { MobAI } from './Types/MobAI';
 import { Mood } from './MoodEnum';
 
 /**
@@ -13,10 +13,10 @@ export class SimpleSleepAI implements MobAI {
    *
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
-   * @param {GameIF} game - The game instance.
+   * @param {GameState} game - The game instance.
    * @returns {boolean} - Always `true`.
    */
-  public turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+  public turn(me: Mob, enemy: Mob, game: GameState): boolean {
     if (SimpleSleepAI.isNear(me, enemy)) {
       me.mood = game.rand.isOneIn(3) ? Mood.Awake : Mood.Asleep;
     }

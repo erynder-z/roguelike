@@ -1,12 +1,12 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { CanSee } from '../Utilities/CanSee';
-import { DrawableTerminal } from '../Terminal/Interfaces/DrawableTerminal';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
+import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { MapCell } from './MapCell';
-import { MapIF } from './Interfaces/MapIF';
+import { Map } from './Types/Map';
 import { Spell } from '../Spells/Spell';
 import { SpellColors } from '../Spells/SpellColors';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
@@ -24,17 +24,17 @@ export class MapRenderer {
   /**
    * Draws a map with considerations for player position and lighting conditions.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
-   * @param {MapIF} map - The map to draw.
+   * @param {Map} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    * @param {WorldPoint} playerPos - The position of the player.
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    */
   public static drawMap_Normal(
     term: DrawableTerminal,
-    map: MapIF,
+    map: Map,
     vp: WorldPoint,
     playerPos: WorldPoint,
-    g: GameIF,
+    g: GameState,
   ) {
     // Constants
     const farDist = g.stats.visRange || 50;
@@ -102,17 +102,17 @@ export class MapRenderer {
   /**
    * Draws a map with considerations for player position and lighting conditions. Uses ray casting to determine visibility.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
-   * @param {MapIF} map - The map to draw.
+   * @param {Map} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    * @param {WorldPoint} playerPos - The position of the player.
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    */
   public static drawMap_RayCast(
     term: DrawableTerminal,
-    map: MapIF,
+    map: Map,
     vp: WorldPoint,
     playerPos: WorldPoint,
-    g: GameIF,
+    g: GameState,
   ) {
     // Constants
     const farDist: number = 50;

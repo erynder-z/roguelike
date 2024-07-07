@@ -1,16 +1,16 @@
 import { BuffCommand } from '../Commands/BuffCommand';
 import { Buff } from '../Buffs/BuffEnum';
 import { CanSee } from '../Utilities/CanSee';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
 import { Mob } from './Mob';
-import { MobAI } from './Interfaces/MobAI';
+import { MobAI } from './Types/MobAI';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { Mood } from './MoodEnum';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { SimpleSleepAI } from './SimpleSleepAI';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { Stack } from '../Terminal/Types/Stack';
 
 /**
  * An AI implementation for Mobs in an cast spells.
@@ -30,7 +30,7 @@ export class SpellAI implements MobAI {
    *
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
-   * @param {GameIF} game - The game instance.
+   * @param {GameState} game - The game instance.
    * @param {Stack} stack - The screen stack.
    * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - Always `true`.
@@ -38,7 +38,7 @@ export class SpellAI implements MobAI {
   public turn(
     me: Mob,
     enemy: Mob,
-    game: GameIF,
+    game: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
@@ -58,10 +58,10 @@ export class SpellAI implements MobAI {
    *
    * @param {Mob} me - the casting mob
    * @param {Mob} enemy - the target mob
-   * @param {GameIF} game - the game interface
+   * @param {GameState} game - the game instance
    * @return {boolean} true if the spell was cast, false otherwise
    */
-  private maybeCastSpell(me: Mob, enemy: Mob, game: GameIF): boolean {
+  private maybeCastSpell(me: Mob, enemy: Mob, game: GameState): boolean {
     const map = <GameMap>game.currentMap();
     if (!CanSee.checkMobLOS_Bresenham(me, enemy, map, true)) return false;
 
@@ -89,10 +89,10 @@ export class SpellAI implements MobAI {
    * @param {number} buff - the buff to cast
    * @param {Mob} me - the current mob
    * @param {Mob} enemy - the enemy mob
-   * @param {GameIF} game - the game interface
+   * @param {GameState} game - the game instance
    * @return {boolean} the result of the spell cast
    */
-  private cast(buff: number, me: Mob, enemy: Mob, game: GameIF): boolean {
+  private cast(buff: number, me: Mob, enemy: Mob, game: GameState): boolean {
     const spell = new BuffCommand(buff, enemy, game, me);
     return spell.npcTurn();
   }

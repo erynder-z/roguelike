@@ -1,7 +1,7 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { CommandBase } from './CommandBase';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Mob } from '../Mobs/Mob';
 
 /**
@@ -11,7 +11,7 @@ export class CleanseBuffCommand extends CommandBase {
   constructor(
     public buff: Buff,
     public me: Mob,
-    public game: GameIF,
+    public game: GameState,
   ) {
     super(me, game);
   }

@@ -1,21 +1,21 @@
-import { BuildIF } from '../Builder/Interfaces/BuildIF';
-import { GameIF } from '../Builder/Interfaces/GameIF';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { StackScreen } from '../Terminal/Interfaces/StackScreen';
+import { Build } from '../Builder/Types/Build';
+import { GameState } from '../Builder/Types/GameState';
 import { GameOverScreen } from './GameOverScreen';
 import { GameScreen } from './GameScreen';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 import { MoreScreen } from './MoreScreen';
-import { ScreenStack } from '../Terminal/ScreenStack';
 import neutralImages from '../ImageHandler/neutralImages';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { ScreenStack } from '../Terminal/ScreenStack';
+import { StackScreen } from '../Terminal/Types/StackScreen';
 
 /**
  * Represents a screen maker implementation for creating screens.
  */
 export class ScreenMaker_Fixed implements ScreenMaker {
   constructor(
-    public build: BuildIF,
-    public game: GameIF | null = null,
+    public build: Build,
+    public game: GameState | null = null,
   ) {}
   /**
    * A function that handles the game over event.
@@ -32,11 +32,11 @@ export class ScreenMaker_Fixed implements ScreenMaker {
    */
   public newGame(): StackScreen {
     this.game = this.build.makeGame();
-    return new GameScreen(<GameIF>this.game, this);
+    return new GameScreen(<GameState>this.game, this);
   }
 
-  public more(game: GameIF | null): StackScreen {
-    return new MoreScreen(<GameIF>game, this);
+  public more(game: GameState | null): StackScreen {
+    return new MoreScreen(<GameState>game, this);
   }
 
   /**
@@ -52,19 +52,19 @@ export class ScreenMaker_Fixed implements ScreenMaker {
   /**
    * Static method to create a StockMaker object using the provided Build1 object.
    *
-   * @param {BuildIF} build - The Build object used to create the StockMaker.
+   * @param {Build} build - The Build object used to create the StockMaker.
    * @return {ScreenMaker} A new ScreenMaker object created using the provided Build1 object.
    */
-  static StockMaker(build: BuildIF): ScreenMaker {
+  static StockMaker(build: Build): ScreenMaker {
     return new ScreenMaker_Fixed(build);
   }
 
   /**
    * Initializes and displays the initial game setup screen.
-   * @param {BuildIF} build - The build instance used for game creation.
+   * @param {Build} build - The build instance used for game creation.
    * @return {void}
    */
-  public static InitialGameSetup(build: BuildIF): void {
+  public static InitialGameSetup(build: Build): void {
     this.activateImageHandler();
     this.run_InitialGameSetup(this.StockMaker(build));
   }

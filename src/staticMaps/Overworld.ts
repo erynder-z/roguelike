@@ -1,14 +1,14 @@
 import { FindFreeSpace } from '../components/Utilities/FindFreeSpace';
+import { GameMap } from '../components/MapModel/GameMap';
 import { Glyph } from '../components/Glyphs/Glyph';
 import { MapGenerator1 } from '../components/MapGenerator/MapGenerator';
-import { MapIF } from '../components/MapModel/Interfaces/MapIF';
+import { Map } from '../components/MapModel/Types/Map';
 import { RandomGenerator } from '../components/RandomGenerator/RandomGenerator';
 import { RockGenerator } from '../components/MapGenerator/RockGenerator';
 import { WorldPoint } from '../components/MapModel/WorldPoint';
-import { GameMap } from '../components/MapModel/GameMap';
 
 export class Overworld {
-  public static generate(rnd: RandomGenerator, level: number): MapIF {
+  public static generate(rnd: RandomGenerator, level: number): Map {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const dim = new WorldPoint(mapDimensionsX, mapDimensionsY);

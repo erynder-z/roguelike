@@ -1,4 +1,4 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { LogMessage } from '../Messages/LogMessage';
 import { MessageLog } from '../Messages/MessageLog';
 
@@ -78,7 +78,7 @@ export class FlashDisplay extends HTMLElement {
     fragment.appendChild(moreSpan);
   }
 
-  public clearFlash(game: GameIF) {
+  public clearFlash(game: GameState) {
     game.log.clearQueue();
 
     const flashDisplay = this.shadowRoot?.querySelector('.flash-display');

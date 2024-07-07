@@ -1,13 +1,13 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { Mob } from './Mob';
-import { MobAI } from './Interfaces/MobAI';
+import { MobAI } from './Types/MobAI';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { MobAI5_Druid } from './MobAI5_Druid';
 import { MoodAI } from './MoodAI';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
 
 /**
  * Represents an AI switcher that selects the appropriate AI implementation based on the type of mob.
@@ -26,7 +26,7 @@ export class AISwitcher implements MobAI {
    * Executes a turn for the mob using the appropriate AI based on the mob's type.
    * @param {Mob} me - The current mob controlled by this AI.
    * @param {Mob} enemy - The enemy mob.
-   * @param {GameIF} game - The game interface.
+   * @param {GameState} game - The game object.
    * @param {Stack} game - The screen stack.
    * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - True if the turn was successfully executed, false otherwise.
@@ -34,7 +34,7 @@ export class AISwitcher implements MobAI {
   public turn(
     me: Mob,
     enemy: Mob,
-    game: GameIF,
+    game: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {

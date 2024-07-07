@@ -1,10 +1,10 @@
 import { BaseScreen } from './BaseScreen';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { ItemScreen } from './ItemScreen';
-import { ScreenMaker } from './Interfaces/ScreenMaker';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { ScreenMaker } from './Types/ScreenMaker';
+import { Stack } from '../Terminal/Types/Stack';
 
 /**
  * Represents an inventory screen.
@@ -12,7 +12,7 @@ import { Stack } from '../Terminal/Interfaces/Stack';
 export class InventoryScreen extends BaseScreen {
   public name = 'inventory-screen';
   constructor(
-    public game: GameIF,
+    public game: GameState,
     public make: ScreenMaker,
     public inventory: Inventory = <Inventory>game.inventory,
   ) {

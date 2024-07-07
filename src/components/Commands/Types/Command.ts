@@ -1,21 +1,18 @@
 import { WorldPoint } from '../../MapModel/WorldPoint';
 import { Mob } from '../../Mobs/Mob';
-import { GameIF } from '../../Builder/Interfaces/GameIF';
+import { GameState } from '../../Builder/Types/GameState';
 import { Cost } from './Cost';
 
-/**
- * Interface representing a command that can be executed.
- */
-export interface Command {
+export type Command = {
+  me: Mob;
+  g: GameState;
+  cost?: Cost;
+  target?: Mob;
   execute(): boolean;
   turn(): boolean;
   raw(): boolean;
   npcTurn(): boolean;
   setDirection(direction: WorldPoint): Command;
-  me: Mob;
-  g: GameIF;
-  cost?: Cost;
   setCost(cost?: Cost): void;
-  target?: Mob;
   setTarget(target: Mob): void;
-}
+};

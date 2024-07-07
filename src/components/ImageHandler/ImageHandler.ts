@@ -1,11 +1,11 @@
-import { EventCategory } from '../Messages/LogMessage';
 import attackImages from './attackImages';
+import { EventCategory } from '../Messages/LogMessage';
+import { GameState } from '../Builder/Types/GameState';
 import hurtImages from './hurtImages';
 import movingImages from './movingImages';
 import neutralImages from './neutralImages';
 import pistolImages from './pistolImages';
 import smileImages from './smileImages';
-import { GameIF } from '../Builder/Interfaces/GameIF';
 
 /**
  * Handles displaying action images on the screen.
@@ -65,9 +65,9 @@ export class ImageHandler {
   /**
    * Displays an action image on the screen when attacking.
    *
-   * @param {GameIF} game - The game information containing the necessary data.
+   * @param {GameState} game - The game information containing the necessary data.
    */
-  public handleAttackImageDisplay(game: GameIF) {
+  public handleAttackImageDisplay(game: GameState) {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
     const randomImage = r.getRandomImageFromArray(attackImages);
@@ -93,9 +93,9 @@ export class ImageHandler {
   /**
    * Displays an action image on the screen when taking damage.
    *
-   * @param {GameIF} game - The game information containing the necessary data.
+   * @param {GameState} game - The game information containing the necessary data.
    */
-  public handleHurtImageDisplay(game: GameIF) {
+  public handleHurtImageDisplay(game: GameState) {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
@@ -110,9 +110,9 @@ export class ImageHandler {
   /**
    * Displays an action image on the screen when killing a mob.
    *
-   * @param {GameIF} game - The game information containing the necessary data.
+   * @param {GameState} game - The game information containing the necessary data.
    */
-  public handleSmileImageDisplay(game: GameIF) {
+  public handleSmileImageDisplay(game: GameState) {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
@@ -127,9 +127,9 @@ export class ImageHandler {
   /**
    * Displays an action image on the screen when the player is moving.
    *
-   * @param {GameIF} game - The game information containing the necessary data.
+   * @param {GameState} game - The game information containing the necessary data.
    */
-  public handleMovingImageDisplay(game: GameIF) {
+  public handleMovingImageDisplay(game: GameState) {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
@@ -153,10 +153,10 @@ export class ImageHandler {
   /**
    * Displays a random action image from the pistolImages array on the game screen.
    *
-   * @param {GameIF} game - The game instance.
+   * @param {GameState} game - The game instance.
    * @return {void}
    */
-  public handlePistolImageDisplay(game: GameIF): void {
+  public handlePistolImageDisplay(game: GameState): void {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
@@ -171,10 +171,10 @@ export class ImageHandler {
   /**
    * Displays a random action image from the neutralmages array on the game screen.
    *
-   * @param {GameIF} game - The game instance.
+   * @param {GameState} game - The game instance.
    * @return {void}
    */
-  public handleNeutralImageDisplay(game: GameIF): void {
+  public handleNeutralImageDisplay(game: GameState): void {
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 

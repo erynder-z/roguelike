@@ -1,12 +1,12 @@
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { Mob } from './Mob';
-import { MobAI } from './Interfaces/MobAI';
+import { MobAI } from './Types/MobAI';
 import { MobAI2_Cat } from './MobAI2_Cat';
 import { MobAI3_Ant } from './MobAI3_Ant';
 import { Mood } from './MoodEnum';
-import { ScreenMaker } from '../Screens/Interfaces/ScreenMaker';
+import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { SimpleSleepAI } from './SimpleSleepAI';
-import { Stack } from '../Terminal/Interfaces/Stack';
+import { Stack } from '../Terminal/Types/Stack';
 
 /**
  * An AI implementation for Mobs in an awake state.
@@ -23,7 +23,7 @@ export class AwakeAI implements MobAI {
    *
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
-   * @param {GameIF} game - The game instance.
+   * @param {Game} game - The game instance.
    * @param {Stack} game - The screen stack.
    * @param {ScreenMaker} make - The screen maker.
    * @returns {boolean} - Always `true`.
@@ -31,7 +31,7 @@ export class AwakeAI implements MobAI {
   public turn(
     me: Mob,
     enemy: Mob,
-    game: GameIF,
+    game: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {

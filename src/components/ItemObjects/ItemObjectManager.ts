@@ -1,18 +1,18 @@
+import { Glyph } from '../Glyphs/Glyph';
 import { ItemObject } from './ItemObject';
-import { ObjTypesIF } from './Interfaces/ObjTypesIF';
+import { Map } from '../MapModel/Types/Map';
+import { ObjectTypes } from './Types/ObjTypes';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Spell } from '../Spells/Spell';
+import * as spellData from '../Spells/SpellData/spells.json';
 import { Slot } from './Slot';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { MapIF } from '../MapModel/Interfaces/MapIF';
-import { Glyph } from '../Glyphs/Glyph';
-import * as spellData from '../Spells/SpellData/spells.json';
 
 /**
  * Represents a collection of objects (items) in the game world.
  */
-export class ObjectTypes {
-  private static objTypes: ObjTypesIF[] = [
+export class ItemObjectManager {
+  private static objTypes: ObjectTypes[] = [
     { g: Glyph.Dagger, s: Slot.MainHand },
     { g: Glyph.Shield, s: Slot.OffHand },
     { g: Glyph.Cap, s: Slot.Head },
@@ -40,7 +40,7 @@ export class ObjectTypes {
   /**
    * Adds an object of a specified type to the map at a given position.
    * @param {WorldPoint} p - The position to add the object.
-   * @param {MapIF} map - The map to add the object to.
+   * @param {Map} map - The map to add the object to.
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
    * @param {Glyph} objType - The glyph representing the object type.
    * @param {number} level - The level of the object.
@@ -48,13 +48,13 @@ export class ObjectTypes {
    */
   private static addObjTypeToMap(
     p: WorldPoint,
-    map: MapIF,
+    map: Map,
     rnd: RandomGenerator,
     objType: Glyph,
     level: number,
   ): ItemObject {
     const index = this.indexForGlyph(objType);
-    const template: ObjTypesIF = ObjectTypes.getTemplate(index);
+    const template: ObjectTypes = ItemObjectManager.getTemplate(index);
     const object = this.makeTemplateObject(level, rnd, template);
     map.addObject(object, p);
     return object;
@@ -63,14 +63,14 @@ export class ObjectTypes {
   /**
    * Adds a random object of a specified level to the map at a given position.
    * @param {WorldPoint} p - The position to add the object.
-   * @param {MapIF} map - The map to add the object to.
+   * @param {Map} map - The map to add the object to.
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
    * @param {number} level - The level of the object.
    * @returns {ItemObject} The added object.
    */
   static addRandomObjectForLevel(
     p: WorldPoint,
-    map: MapIF,
+    map: Map,
     rnd: RandomGenerator,
     level: number,
   ): ItemObject {
@@ -96,11 +96,11 @@ export class ObjectTypes {
    * Returns a random object template from the objTypes array.
    *
    * @param {RandomGenerator} rnd - The random number generator used to generate a random index.
-   * @return {ObjTypesIF} The randomly selected object template.
+   * @return {ObjectTypes} The randomly selected object template.
    */
-  private static getRandomTemplate(rnd: RandomGenerator): ObjTypesIF {
-    const index = rnd.randomInteger(ObjectTypes.objTypes.length);
-    const template: ObjTypesIF = ObjectTypes.getTemplate(index);
+  private static getRandomTemplate(rnd: RandomGenerator): ObjectTypes {
+    const index = rnd.randomInteger(ItemObjectManager.objTypes.length);
+    const template: ObjectTypes = ItemObjectManager.getTemplate(index);
     return template;
   }
 
@@ -135,13 +135,13 @@ export class ObjectTypes {
    * Creates an object based on a template.
    * @param {number} level - The level of the object.
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
-   * @param {ObjTypesIF} template - The template for the object.
+   * @param {ObjectTypes} template - The template for the object.
    * @returns {ItemObject} The created object.
    */
   private static makeTemplateObject(
     level: number,
     rnd: RandomGenerator,
-    template: ObjTypesIF,
+    template: ObjectTypes,
   ): ItemObject {
     const objectLevel = rnd.adjustLevel(level);
     const object = new ItemObject(template.g, template.s);
@@ -221,16 +221,16 @@ export class ObjectTypes {
   /**
    * Retrieves a template object type based on its index.
    * @param {number} index - The index of the template.
-   * @returns {ObjTypesIF} The template object type.
+   * @returns {ObjectTypes} The template object type.
    * @throws {string} Throws an error if the index is out of bounds.
    */
-  private static getTemplate(index: number): ObjTypesIF {
-    const length = ObjectTypes.objTypes.length;
+  private static getTemplate(index: number): ObjectTypes {
+    const length = ItemObjectManager.objTypes.length;
 
     if (index < 0 || index >= length) {
       throw `index ${index} is out of bounds`;
     }
-    return ObjectTypes.objTypes[index];
+    return ItemObjectManager.objTypes[index];
   }
 
   /**

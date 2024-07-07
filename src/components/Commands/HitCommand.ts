@@ -3,7 +3,7 @@ import { Buff } from '../Buffs/BuffEnum';
 import { CommandBase } from './CommandBase';
 import { Equipment } from '../Inventory/Equipment';
 import { EventCategory } from '../Messages/LogMessage';
-import { GameIF } from '../Builder/Interfaces/GameIF';
+import { GameState } from '../Builder/Types/GameState';
 import { HealthAdjust } from './HealthAdjust';
 import { LogMessage } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
@@ -17,7 +17,7 @@ export class HitCommand extends CommandBase {
   constructor(
     public me: Mob,
     public him: Mob,
-    public game: GameIF,
+    public game: GameState,
     public act: Act = Act.Hit,
   ) {
     super(me, game);
@@ -68,7 +68,7 @@ export class HitCommand extends CommandBase {
    * @param {number} dmg - The amount of damage to deal.
    * @param {Mob} target - The mob to receive the damage.
    * @param {Mob} attacker - The mob causing the damage.
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    * @param {string} me - The name of the attacking mob.
    * @param {string} him - The name of the target mob.
    */
@@ -76,7 +76,7 @@ export class HitCommand extends CommandBase {
     dmg: number,
     target: Mob,
     attacker: Mob,
-    g: GameIF,
+    g: GameState,
     me: string,
     him: string,
   ) {
@@ -108,9 +108,9 @@ export class HitCommand extends CommandBase {
   /**
    * Clears the Charm buff from the target mob.
    *
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    */
-  private clearCharm(g: GameIF) {
+  private clearCharm(g: GameState) {
     const h = this.him;
 
     if (!h.is(Buff.Charm)) return;
@@ -166,11 +166,11 @@ export class HitCommand extends CommandBase {
 
   /**
    * Calculates the power of a player based on their equipment.
-   * @param {GameIF} g - The game interface.
+   * @param {GameState} g - The game object.
    * @param {Equipment} eq - The equipment of the player.
    * @returns {number} The power of the player based on their equipment.
    */
-  private equipmentPower(g: GameIF, eq: Equipment): number {
+  private equipmentPower(g: GameState, eq: Equipment): number {
     const disarm = g.player.is(Buff.Disarm);
     if (eq.weapon()) {
       if (disarm) {
