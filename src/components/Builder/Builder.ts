@@ -29,7 +29,7 @@ export class Builder implements Build {
   /**
    * Create and return a new Game instance.
    *
-   * @return {Game} The newly created Game instance
+   * @return {GameState} The newly created Game instance
    */
   public makeGame(): GameState {
     const rnd = new RandomGenerator(99);
@@ -98,10 +98,10 @@ export class Builder implements Build {
   /**
    * enter the first level of the game.
    *
-   * @param {Game} game - the game object
+   * @param {GameState} game - the game object
    * @return {void}
    */
-  private enterFirstLevel(game: Game, rnd: RandomGenerator): void {
+  private enterFirstLevel(game: GameState, rnd: RandomGenerator): void {
     const dungeon = game.dungeon;
     const map = dungeon.currentMap(game);
     /*     const np = this.centerPos(map.dimensions); */
