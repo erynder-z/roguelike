@@ -64,7 +64,9 @@ export class MoveBumpCommand extends CommandBase {
       return new MoveCommand(magnetizedPos, m, g).turn();
     }
 
-    return this.executeMoveOrHit(cell, m, g);
+    this.executeMoveOrHit(cell, m, g);
+
+    return true;
   }
 
   /**
