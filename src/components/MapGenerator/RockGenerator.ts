@@ -19,6 +19,7 @@ export class RockGenerator {
       { glyph: Glyph.Rock, percentage: 10 },
       { glyph: Glyph.Obsidian, percentage: 5 },
       { glyph: Glyph.Magnetite, percentage: 1 },
+      { glyph: Glyph.SpikyCrystal, percentage: 10 },
     ];
 
     const totalPercentage = rockTypes.reduce(

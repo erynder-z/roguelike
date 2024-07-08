@@ -13,7 +13,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "[",
@@ -28,7 +29,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "^",
@@ -43,7 +45,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "(",
@@ -58,7 +61,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "}",
@@ -73,7 +77,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "{",
@@ -88,7 +93,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "[",
@@ -103,7 +109,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "!",
@@ -118,7 +125,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "ᛪ",
@@ -133,7 +141,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "┌",
@@ -148,7 +157,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "ᚱ",
@@ -163,7 +173,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "§",
@@ -178,7 +189,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     }
   ]
 }

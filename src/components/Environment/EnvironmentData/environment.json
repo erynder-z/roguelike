@@ -13,7 +13,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "·",
@@ -28,7 +29,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "%",
@@ -43,7 +45,8 @@
       "isDiggable": true,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "#",
@@ -58,7 +61,8 @@
       "isDiggable": true,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "<",
@@ -73,7 +77,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": ">",
@@ -88,7 +93,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "'",
@@ -103,7 +109,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "+",
@@ -118,7 +125,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "§",
@@ -133,7 +141,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "⋄",
@@ -148,7 +157,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "~",
@@ -163,7 +173,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "~",
@@ -178,7 +189,8 @@
       "isDiggable": false,
       "isSlowing": true,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "×",
@@ -193,7 +205,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": true,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "ͷ",
@@ -208,7 +221,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "ϕ",
@@ -223,7 +237,24 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": true
+      "isMagnetic": true,
+      "isCausingBleed": false
+    },
+    {
+      "char": "¥",
+      "bgCol": "#4B5A52",
+      "fgCol": "#00e5d2",
+      "hasSolidBg": false,
+      "name": "SpikyCrystal",
+      "description": "Spiky crystals emerging from the ground.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isSlowing": true,
+      "isBurning": false,
+      "isMagnetic": false,
+      "isCausingBleed": true
     }
   ]
 }
