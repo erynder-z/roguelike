@@ -1,29 +1,40 @@
 import { Rock } from './Types/Rock';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { Glyph } from '../Glyphs/Glyph';
+import { Tile } from './Types/Tile';
 
 /**
  * Class for generating different rock types.
  */
 export class RockGenerator {
+  public static getWallRockTypes(rnd: RandomGenerator, tile: Tile): Glyph {
+    return this.getRandomGlyph(rnd, tile.wall);
+  }
+
   /**
-   * Generates a random rock type based on probability of occurrence.
+   * Retrieves the floor rock types randomly based on the given random generator and tile.
+   *
+   * @param {RandomGenerator} rnd - The random generator used to generate the random selection.
+   * @param {Tile} tile - The tile object containing the floor information.
+   * @return {Glyph} The randomly selected glyph.
+   */
+  public static getFloorRockTypes(rnd: RandomGenerator, tile: Tile): Glyph {
+    return this.getRandomGlyph(rnd, tile.floor);
+  }
+
+  /**
+   * Generates a random glyph from a list of rock types based on probability of occurrence.
    *
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
-   * @return {Glyph} The randomly selected glyph representing a rock type.
+   * @param {Rock[]} rockTypes - The list of rock types with their probabilities.
+   * @return {Glyph} The randomly selected glyph.
    */
-
-  public static getRandomRockType(rnd: RandomGenerator): Glyph {
-    const rockTypes: Rock[] = [
-      { glyph: Glyph.Wall, percentage: 100 },
-      { glyph: Glyph.Rock, percentage: 10 },
-      { glyph: Glyph.Obsidian, percentage: 5 },
-      { glyph: Glyph.Magnetite, percentage: 1 },
-      { glyph: Glyph.SpikyCrystal, percentage: 10 },
-    ];
-
+  private static getRandomGlyph(
+    rnd: RandomGenerator,
+    rockTypes: Rock[],
+  ): Glyph {
     const totalPercentage = rockTypes.reduce(
-      (sum, rt) => sum + rt.percentage,
+      (sum, rt) => sum + rt.occurrencePercentage,
       0,
     );
 
@@ -31,11 +42,12 @@ export class RockGenerator {
 
     let accumulatedPercentage = 0;
     for (const rockType of rockTypes) {
-      accumulatedPercentage += rockType.percentage;
+      accumulatedPercentage += rockType.occurrencePercentage;
       if (randNum < accumulatedPercentage) {
         return rockType.glyph;
       }
     }
-    return Glyph.Wall;
+
+    return rockTypes[0].glyph;
   }
 }

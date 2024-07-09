@@ -3,6 +3,7 @@ import { GameMap } from '../components/MapModel/GameMap';
 import { Glyph } from '../components/Glyphs/Glyph';
 import { MapGenerator1 } from '../components/MapGenerator/MapGenerator';
 import { Map } from '../components/MapModel/Types/Map';
+import { OVERWORLD_LEVEL_TILES } from '../components/MapGenerator/GenerationData/OverworldLevelTiles';
 import { RandomGenerator } from '../components/RandomGenerator/RandomGenerator';
 import { RockGenerator } from '../components/MapGenerator/RockGenerator';
 import { WorldPoint } from '../components/MapModel/WorldPoint';
@@ -25,9 +26,15 @@ export class Overworld {
         const chance = rnd.isOneIn(4);
 
         if (chance) {
-          m.cell(p).env = RockGenerator.getRandomRockType(rnd);
+          m.cell(p).env = RockGenerator.getWallRockTypes(
+            rnd,
+            OVERWORLD_LEVEL_TILES,
+          );
         } else {
-          m.cell(p).env = Glyph.Floor;
+          m.cell(p).env = RockGenerator.getFloorRockTypes(
+            rnd,
+            OVERWORLD_LEVEL_TILES,
+          );
         }
         if (edge) {
           m.cell(p).env = Glyph.Rock;

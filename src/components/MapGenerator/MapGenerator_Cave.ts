@@ -4,6 +4,7 @@ import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { RockGenerator } from './RockGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { CAVE_LEVEL_TILES } from './GenerationData/CaveLevelTiles';
 
 /**
  * Map generator for cave-like environments using the Drunkard's Walk algorithm.
@@ -27,7 +28,10 @@ export class MapGenerator_Cave {
 
     for (let i = 0; i < maxIterations; i++) {
       // Mark current cell as floor
-      this.map.cell(new WorldPoint(x, y)).env = Glyph.Floor;
+      this.map.cell(new WorldPoint(x, y)).env = RockGenerator.getFloorRockTypes(
+        rnd,
+        CAVE_LEVEL_TILES,
+      );
 
       // Randomly move in any direction
       const direction = this.randomDirection();
@@ -56,7 +60,7 @@ export class MapGenerator_Cave {
             this.map.cell(new WorldPoint(x + dx, y + dy)).env !== Glyph.Floor
           ) {
             this.map.cell(new WorldPoint(x + dx, y + dy)).env =
-              RockGenerator.getRandomRockType(rnd);
+              RockGenerator.getWallRockTypes(rnd, CAVE_LEVEL_TILES);
           }
         }
       }

@@ -73,13 +73,13 @@ export class Builder implements Build {
     let map;
 
     switch (level) {
-      case 0:
+      case 2:
         map = Overworld.generate(rnd, level);
         break;
       case 1:
         map = MapGenerator1.generate(wdim, rnd, level);
         break;
-      case 2:
+      case 0:
         map = MapGenerator_Cave.generate(rnd, level);
         break;
       case 3:
