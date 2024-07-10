@@ -1,10 +1,11 @@
+import { CAVE_LEVEL_TILES } from './GenerationData/CaveLevelTiles';
 import { Glyph } from '../Glyphs/Glyph';
 import { GameMap } from '../MapModel/GameMap';
+import { IrregularShapeAreaGenerator } from '../Utilities/IrregularShapeAreaGenerator';
 import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { RockGenerator } from './RockGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
-import { CAVE_LEVEL_TILES } from './GenerationData/CaveLevelTiles';
 
 /**
  * Map generator for cave-like environments using the Drunkard's Walk algorithm.
@@ -20,8 +21,8 @@ export class MapGenerator_Cave {
     this.clearMap();
 
     // Generate cave-like environment using Drunkard's Walk algorithm
-    const wallProbability = 0.5; // Adjust to control density of walls
-    const maxIterations = 15000; // Adjust as needed
+    const wallProbability = 0.5;
+    const maxIterations = 15000;
 
     let x = Math.floor(map.dimensions.x / 2);
     let y = Math.floor(map.dimensions.y / 2);

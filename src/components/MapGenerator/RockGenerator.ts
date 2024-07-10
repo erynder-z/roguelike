@@ -48,6 +48,9 @@ export class RockGenerator {
       }
     }
 
-    return rockTypes[0].glyph;
+    // Fallback in case no glyph is found, though this should never happen
+    throw new Error(
+      'Unable to select a rock glyph. Check the rock types and their probabilities.',
+    );
   }
 }

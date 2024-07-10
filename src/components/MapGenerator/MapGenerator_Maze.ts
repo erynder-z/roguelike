@@ -1,9 +1,9 @@
 import { Glyph } from '../Glyphs/Glyph';
 import { GameMap } from '../MapModel/GameMap';
-import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
-import { WorldPoint } from '../MapModel/WorldPoint';
-import { RockGenerator } from './RockGenerator';
 import { MAZE_LEVEL_TILES } from './GenerationData/MazeLevelTiles';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { RockGenerator } from './RockGenerator';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Map generator for maze-like environments.
