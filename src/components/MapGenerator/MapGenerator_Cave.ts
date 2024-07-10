@@ -66,6 +66,9 @@ export class MapGenerator_Cave {
         }
       }
     }
+    this.addDeepWater(map, rnd);
+    this.addShallowWater(map, rnd);
+    this.addLava(map, rnd);
 
     return map;
   }
@@ -88,6 +91,57 @@ export class MapGenerator_Cave {
       [-1, 0], // Left
     ];
     return directions[Math.floor(Math.random() * directions.length)];
+  }
+
+  private addLava(map: Map, rnd: RandomGenerator): void {
+    const glyph = Glyph.Lava;
+    const lavaPoolCount = 10;
+    const lavaPoolSize = 10;
+    this.addPools(map, rnd, lavaPoolCount, lavaPoolSize, glyph);
+  }
+
+  private addDeepWater(map: Map, rnd: RandomGenerator): void {
+    const glyph = Glyph.DeepWater;
+    const waterPoolCount = 10;
+    const waterPoolSize = 10;
+    this.addPools(map, rnd, waterPoolCount, waterPoolSize, glyph);
+  }
+
+  private addShallowWater(map: Map, rnd: RandomGenerator): void {
+    const glyph = Glyph.ShallowWater;
+    const waterPoolCount = 10;
+    const waterPoolSize = 10;
+    this.addPools(map, rnd, waterPoolCount, waterPoolSize, glyph);
+  }
+
+  private addPools(
+    map: Map,
+    rnd: RandomGenerator,
+    poolCount: number,
+    poolSize: number,
+    glyph: Glyph,
+  ): void {
+    for (let i = 0; i < poolCount; i++) {
+      if (rnd.isOneIn(2)) this.createPools(map, rnd, poolSize, glyph);
+    }
+  }
+
+  private createPools(
+    map: Map,
+    rnd: RandomGenerator,
+    size: number,
+    glyph: Glyph,
+  ): void {
+    const lavaPool = IrregularShapeAreaGenerator.generateIrregularShapeArea(
+      map.dimensions,
+      rnd,
+      size,
+      10,
+    );
+
+    for (const point of lavaPool) {
+      map.cell(point).env = glyph;
+    }
   }
 
   public static generate(rnd: RandomGenerator, level: number): Map {

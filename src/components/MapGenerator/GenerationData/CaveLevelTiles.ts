@@ -5,7 +5,6 @@ export const CAVE_LEVEL_TILES: Tile = {
   floor: [
     { glyph: Glyph.Floor, occurrencePercentage: 90 },
     { glyph: Glyph.SpikyCrystal, occurrencePercentage: 1 },
-    { glyph: Glyph.Lava, occurrencePercentage: 1 },
   ],
   wall: [
     { glyph: Glyph.Wall, occurrencePercentage: 50 },
