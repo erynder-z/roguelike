@@ -1,5 +1,7 @@
+import { CAVE_LEVEL_TILES } from './GenerationData/CaveLevelTiles';
 import { Glyph } from '../Glyphs/Glyph';
 import { GameMap } from '../MapModel/GameMap';
+import { IrregularShapeAreaGenerator } from '../Utilities/IrregularShapeAreaGenerator';
 import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { RockGenerator } from './RockGenerator';
@@ -19,15 +21,18 @@ export class MapGenerator_Cave {
     this.clearMap();
 
     // Generate cave-like environment using Drunkard's Walk algorithm
-    const wallProbability = 0.5; // Adjust to control density of walls
-    const maxIterations = 15000; // Adjust as needed
+    const wallProbability = 0.5;
+    const maxIterations = 15000;
 
     let x = Math.floor(map.dimensions.x / 2);
     let y = Math.floor(map.dimensions.y / 2);
 
     for (let i = 0; i < maxIterations; i++) {
       // Mark current cell as floor
-      this.map.cell(new WorldPoint(x, y)).env = Glyph.Floor;
+      this.map.cell(new WorldPoint(x, y)).env = RockGenerator.getFloorRockTypes(
+        rnd,
+        CAVE_LEVEL_TILES,
+      );
 
       // Randomly move in any direction
       const direction = this.randomDirection();
@@ -56,11 +61,14 @@ export class MapGenerator_Cave {
             this.map.cell(new WorldPoint(x + dx, y + dy)).env !== Glyph.Floor
           ) {
             this.map.cell(new WorldPoint(x + dx, y + dy)).env =
-              RockGenerator.getRandomRockType(rnd);
+              RockGenerator.getWallRockTypes(rnd, CAVE_LEVEL_TILES);
           }
         }
       }
     }
+    this.addDeepWater(map, rnd);
+    this.addShallowWater(map, rnd);
+    this.addLava(map, rnd);
 
     return map;
   }
@@ -83,6 +91,57 @@ export class MapGenerator_Cave {
       [-1, 0], // Left
     ];
     return directions[Math.floor(Math.random() * directions.length)];
+  }
+
+  private addLava(map: Map, rnd: RandomGenerator): void {
+    const glyph = Glyph.Lava;
+    const lavaPoolCount = 10;
+    const lavaPoolSize = 10;
+    this.addPools(map, rnd, lavaPoolCount, lavaPoolSize, glyph);
+  }
+
+  private addDeepWater(map: Map, rnd: RandomGenerator): void {
+    const glyph = Glyph.DeepWater;
+    const waterPoolCount = 10;
+    const waterPoolSize = 10;
+    this.addPools(map, rnd, waterPoolCount, waterPoolSize, glyph);
+  }
+
+  private addShallowWater(map: Map, rnd: RandomGenerator): void {
+    const glyph = Glyph.ShallowWater;
+    const waterPoolCount = 10;
+    const waterPoolSize = 10;
+    this.addPools(map, rnd, waterPoolCount, waterPoolSize, glyph);
+  }
+
+  private addPools(
+    map: Map,
+    rnd: RandomGenerator,
+    poolCount: number,
+    poolSize: number,
+    glyph: Glyph,
+  ): void {
+    for (let i = 0; i < poolCount; i++) {
+      if (rnd.isOneIn(2)) this.createPools(map, rnd, poolSize, glyph);
+    }
+  }
+
+  private createPools(
+    map: Map,
+    rnd: RandomGenerator,
+    size: number,
+    glyph: Glyph,
+  ): void {
+    const lavaPool = IrregularShapeAreaGenerator.generateIrregularShapeArea(
+      map.dimensions,
+      rnd,
+      size,
+      10,
+    );
+
+    for (const point of lavaPool) {
+      map.cell(point).env = glyph;
+    }
   }
 
   public static generate(rnd: RandomGenerator, level: number): Map {

@@ -119,4 +119,13 @@ export class MapCell {
   public isMagnetic(): boolean {
     return this.glyphInfo.isMagnetic || false;
   }
+
+  /**
+   * Check if the cell is causing bleed due to the environment.
+   *
+   * @return {boolean} true if the cell is causing bleed, false otherwise
+   */
+  public isCausingBleed(): boolean {
+    return this.glyphInfo.isCausingBleed || false;
+  }
 }

@@ -2,6 +2,7 @@ import { Glyph } from '../Glyphs/Glyph';
 import { GameMap } from '../MapModel/GameMap';
 import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { REGULAR_LEVEL_TILES } from './GenerationData/RegularLevelTiles';
 import { RockGenerator } from './RockGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -64,6 +65,7 @@ export class MapGenerator1 {
    * @param {WorldPoint} upperLeft The upper left corner of the room.
    * @param {WorldPoint} dimensions The dimensions of the room.
    * @param {boolean} filled Whether the room is filled.
+   * @param {RandomGenerator} rnd The random generator object.
    */
   private drawRoom(
     upperLeft: WorldPoint,
@@ -71,7 +73,10 @@ export class MapGenerator1 {
     filled: boolean,
     rnd: RandomGenerator,
   ): void {
-    const centerGlyph = filled ? Glyph.Wall : Glyph.Floor;
+    /* const centerGlyph = filled ? Glyph.Wall : Glyph.Floor; */
+    const centerGlyph = filled
+      ? RockGenerator.getWallRockTypes(rnd, REGULAR_LEVEL_TILES)
+      : RockGenerator.getFloorRockTypes(rnd, REGULAR_LEVEL_TILES);
     const x2 = dimensions.x - 1;
     const y2 = dimensions.y - 1;
     const doorPositions: WorldPoint[] = [];
@@ -85,9 +90,9 @@ export class MapGenerator1 {
           x === 0 || y === 0 || x === dimensions.x || y === dimensions.y;
         const isSecondLayer = x === 1 || y === 1 || x === x2 || y === y2;
         const glyph = isEdge
-          ? Glyph.Floor
+          ? RockGenerator.getFloorRockTypes(rnd, REGULAR_LEVEL_TILES)
           : isSecondLayer
-            ? RockGenerator.getRandomRockType(rnd)
+            ? RockGenerator.getWallRockTypes(rnd, REGULAR_LEVEL_TILES)
             : centerGlyph;
         this.map.cell(currentPoint).env = glyph;
         if (isSecondLayer) {
@@ -109,60 +114,6 @@ export class MapGenerator1 {
       const position = doorPositions[index];
       this.map.cell(position).env = Glyph.Door_Closed;
     }
-  }
-
-  /**
-   * Generates an irregular shape area using cellular automata.
-   *
-   * @param {WorldPoint} dim - The dimensions of the area.
-   * @param {RandomGenerator} rnd - The random number generator.
-   * @param {number} iter - The number of iterations.
-   * @return {Set<WorldPoint>} - The set of points representing the irregular shape area.
-   */
-  public static generateIrregularShapeArea(
-    dim: WorldPoint,
-    rnd: RandomGenerator,
-    maxSize: number,
-    iter: number,
-  ): Set<WorldPoint> {
-    const shape = new Set<WorldPoint>();
-    // Initialize the shape with a random starting point
-    const start = new WorldPoint(
-      rnd.randomInteger(dim.x),
-      rnd.randomInteger(dim.y),
-    );
-    shape.add(start);
-
-    // Use cellular automata to grow the shape
-    const iterations = iter;
-    const maxShapeSize = maxSize;
-    const offset = 2;
-
-    for (let i = 0; i < iterations && shape.size < maxShapeSize; i++) {
-      const newShape = new Set<WorldPoint>(shape);
-      for (const p of shape) {
-        const range = 1;
-        const neighbors = p.getNeighbors(range);
-        for (const neighbor of neighbors) {
-          // Add neighboring points with a certain probability and if they're within the map bounds
-          if (
-            rnd.isOneIn(3) &&
-            neighbor.x >= offset &&
-            neighbor.x < dim.x &&
-            neighbor.y >= offset &&
-            neighbor.y < dim.y
-          ) {
-            newShape.add(neighbor);
-          }
-        }
-      }
-      shape.clear();
-      for (const p of newShape) {
-        shape.add(p);
-      }
-    }
-
-    return shape;
   }
 
   /**

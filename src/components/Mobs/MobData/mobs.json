@@ -13,7 +13,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "b",
@@ -28,7 +29,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "c",
@@ -43,7 +45,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "d",
@@ -58,7 +61,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "e",
@@ -73,7 +77,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "f",
@@ -88,7 +93,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "g",
@@ -103,7 +109,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "h",
@@ -118,7 +125,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "i",
@@ -133,7 +141,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "j",
@@ -148,7 +157,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "k",
@@ -163,7 +173,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "l",
@@ -178,7 +189,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "m",
@@ -193,7 +205,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "n",
@@ -208,7 +221,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "o",
@@ -223,7 +237,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "p",
@@ -238,7 +253,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "q",
@@ -253,7 +269,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "r",
@@ -268,7 +285,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "s",
@@ -283,7 +301,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "t",
@@ -298,7 +317,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "u",
@@ -313,7 +333,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "v",
@@ -328,7 +349,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "w",
@@ -343,7 +365,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "x",
@@ -358,7 +381,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "y",
@@ -373,7 +397,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     },
     {
       "char": "z",
@@ -388,7 +413,8 @@
       "isDiggable": false,
       "isSlowing": false,
       "isBurning": false,
-      "isMagnetic": false
+      "isMagnetic": false,
+      "isCausingBleed": false
     }
   ]
 }

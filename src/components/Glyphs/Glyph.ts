@@ -55,4 +55,5 @@ export enum Glyph {
   Scroll,
   Obsidian,
   Magnetite,
+  SpikyCrystal,
 }

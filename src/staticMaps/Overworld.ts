@@ -1,8 +1,9 @@
 import { FindFreeSpace } from '../components/Utilities/FindFreeSpace';
 import { GameMap } from '../components/MapModel/GameMap';
 import { Glyph } from '../components/Glyphs/Glyph';
-import { MapGenerator1 } from '../components/MapGenerator/MapGenerator';
+import { IrregularShapeAreaGenerator } from '../components/Utilities/IrregularShapeAreaGenerator';
 import { Map } from '../components/MapModel/Types/Map';
+import { OVERWORLD_LEVEL_TILES } from '../components/MapGenerator/GenerationData/OverworldLevelTiles';
 import { RandomGenerator } from '../components/RandomGenerator/RandomGenerator';
 import { RockGenerator } from '../components/MapGenerator/RockGenerator';
 import { WorldPoint } from '../components/MapModel/WorldPoint';
@@ -25,9 +26,15 @@ export class Overworld {
         const chance = rnd.isOneIn(4);
 
         if (chance) {
-          m.cell(p).env = RockGenerator.getRandomRockType(rnd);
+          m.cell(p).env = RockGenerator.getWallRockTypes(
+            rnd,
+            OVERWORLD_LEVEL_TILES,
+          );
         } else {
-          m.cell(p).env = Glyph.Floor;
+          m.cell(p).env = RockGenerator.getFloorRockTypes(
+            rnd,
+            OVERWORLD_LEVEL_TILES,
+          );
         }
         if (edge) {
           m.cell(p).env = Glyph.Rock;
@@ -35,18 +42,33 @@ export class Overworld {
       }
     }
 
-    const lake = MapGenerator1.generateIrregularShapeArea(dim, rnd, 500, 10);
+    const lake = IrregularShapeAreaGenerator.generateIrregularShapeArea(
+      dim,
+      rnd,
+      500,
+      10,
+    );
 
     for (const p of lake) {
       m.cell(p).env = Glyph.DeepWater;
     }
 
-    const puddle = MapGenerator1.generateIrregularShapeArea(dim, rnd, 20, 10);
+    const puddle = IrregularShapeAreaGenerator.generateIrregularShapeArea(
+      dim,
+      rnd,
+      20,
+      10,
+    );
     for (const p of puddle) {
       m.cell(p).env = Glyph.ShallowWater;
     }
 
-    const lavaPool = MapGenerator1.generateIrregularShapeArea(dim, rnd, 5, 10);
+    const lavaPool = IrregularShapeAreaGenerator.generateIrregularShapeArea(
+      dim,
+      rnd,
+      5,
+      10,
+    );
     for (const p of lavaPool) {
       m.cell(p).env = Glyph.Lava;
     }

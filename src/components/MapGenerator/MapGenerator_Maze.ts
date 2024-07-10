@@ -1,6 +1,8 @@
 import { Glyph } from '../Glyphs/Glyph';
 import { GameMap } from '../MapModel/GameMap';
+import { MAZE_LEVEL_TILES } from './GenerationData/MazeLevelTiles';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { RockGenerator } from './RockGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
@@ -24,7 +26,10 @@ export class MapGenerator_Maze {
     // Initialize the maze with walls
     for (let y = 0; y < map.dimensions.y; y++) {
       for (let x = 0; x < map.dimensions.x; x++) {
-        map.cell(new WorldPoint(x, y)).env = Glyph.Obsidian;
+        map.cell(new WorldPoint(x, y)).env = RockGenerator.getWallRockTypes(
+          rnd,
+          MAZE_LEVEL_TILES,
+        );
       }
     }
 
@@ -58,12 +63,14 @@ export class MapGenerator_Maze {
         nx < map.dimensions.x - 1 &&
         ny > 0 &&
         ny < map.dimensions.y - 1 &&
-        map.cell(dir).env === Glyph.Obsidian
+        map.cell(dir).env ===
+          RockGenerator.getWallRockTypes(rnd, MAZE_LEVEL_TILES)
       ) {
         // Carve passage to the neighbor
         const midX = (x + nx) / 2;
         const midY = (y + ny) / 2;
-        map.cell(new WorldPoint(midX, midY)).env = Glyph.Floor;
+        map.cell(new WorldPoint(midX, midY)).env =
+          RockGenerator.getFloorRockTypes(rnd, MAZE_LEVEL_TILES);
 
         // Randomly decide whether to add a door
         if (rnd.isOneIn(25)) {
