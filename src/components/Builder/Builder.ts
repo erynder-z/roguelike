@@ -54,7 +54,6 @@ export class Builder implements Build {
     const map = this.makeMap(rnd, level);
     this.addLevelStairs(map, level, rnd);
     this.addMobsToLevel(map, rnd);
-    /*    if (level !== 0) this.addItems(map, rnd); */
     this.addItems(map, rnd);
     return map;
   }
@@ -73,13 +72,13 @@ export class Builder implements Build {
     let map;
 
     switch (level) {
-      case 2:
+      case 0:
         map = Overworld.generate(rnd, level);
         break;
       case 1:
         map = MapGenerator1.generate(wdim, rnd, level);
         break;
-      case 0:
+      case 2:
         map = MapGenerator_Cave.generate(rnd, level);
         break;
       case 3:
@@ -91,6 +90,11 @@ export class Builder implements Build {
     }
 
     map.setEnvironmentDescriptions();
+
+    // add a 10% chance of the map being dark if it's not level 0
+    if (level !== 0 && rnd.isOneIn(10)) {
+      map.isDark = true;
+    }
 
     return map;
   }

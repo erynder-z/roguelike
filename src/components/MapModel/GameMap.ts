@@ -15,8 +15,9 @@ import { WorldPoint } from './WorldPoint';
 export class GameMap implements Map {
   constructor(
     public dimensions: WorldPoint,
-    g_empty: Glyph,
+    public g_empty: Glyph,
     public level: number,
+    public isDark: boolean = false,
     public cells: MapCell[][] = [],
     public upStairPos?: WorldPoint,
     public downStairPos?: WorldPoint,

@@ -36,7 +36,6 @@ export class MapRenderer {
     playerPos: WorldPoint,
     g: GameState,
   ) {
-    // Constants
     const farDist = g.stats.visRange || 50;
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
@@ -114,8 +113,7 @@ export class MapRenderer {
     playerPos: WorldPoint,
     g: GameState,
   ) {
-    // Constants
-    const farDist: number = 50;
+    const farDist = g.stats.visRange || 50;
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();

@@ -8,6 +8,8 @@ import { WorldPoint } from '../WorldPoint';
 export type Map = {
   dimensions: WorldPoint;
   level: number;
+  cells: MapCell[][];
+  isDark: boolean;
   upStairPos?: WorldPoint;
   downStairPos?: WorldPoint;
   queue: TurnQueue;
