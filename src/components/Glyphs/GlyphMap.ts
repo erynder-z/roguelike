@@ -25,14 +25,6 @@ export class GlyphMap {
     '?',
     'bad',
     'an unknown glyph',
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
   );
 
   /**
@@ -54,21 +46,38 @@ export class GlyphMap {
   private static initializeGlyphs(): number {
     const addGlyph = (info: GlyphInfo) => {
       const glyph = Glyph[info.name as keyof typeof Glyph];
+      const {
+        fgCol,
+        bgCol,
+        hasSolidBg,
+        char,
+        name,
+        description,
+        isOpaque,
+        isBlockingMovement,
+        isBlockingProjectiles,
+        isDiggable,
+        isCausingSlow,
+        isCausingBurn,
+        isMagnetic,
+        isCausingBleed,
+      } = info;
+
       const glyphInfo = new GlyphInfo(
-        info.fgCol,
-        info.bgCol,
-        info.hasSolidBg,
-        info.char,
-        info.name,
-        info.description,
-        info.isOpaque,
-        info.isBlockingMovement,
-        info.isBlockingProjectiles,
-        info.isDiggable,
-        info.isSlowing,
-        info.isBurning,
-        info.isMagnetic,
-        info.isCausingBleed,
+        fgCol,
+        bgCol,
+        hasSolidBg,
+        char,
+        name,
+        description,
+        isOpaque,
+        isBlockingMovement,
+        isBlockingProjectiles,
+        isDiggable,
+        isCausingSlow,
+        isCausingBurn,
+        isMagnetic,
+        isCausingBleed,
       );
       GlyphMap.glyphsRegistry[glyph] = glyphInfo;
     };
@@ -81,19 +90,11 @@ export class GlyphMap {
       hasSolidBg: false,
       name: 'Player',
       description: 'The player character. You are here.',
-      isOpaque: false,
-      isBlockingMovement: true,
-      isBlockingProjectiles: false,
-      isDiggable: false,
-      isSlowing: false,
-      isBurning: false,
-      isMagnetic: false,
-      isCausingBleed: false,
     });
 
-    environmentData['environment'].forEach(env => addGlyph(env));
-    mobsData['mobs'].forEach(mob => addGlyph(mob));
-    itemData['items'].forEach(item => addGlyph(item));
+    environmentData['environment'].forEach(env => addGlyph(<GlyphInfo>env));
+    mobsData['mobs'].forEach(mob => addGlyph(<GlyphInfo>mob));
+    itemData['items'].forEach(item => addGlyph(<GlyphInfo>item));
 
     return GlyphMap.glyphsRegistry.length;
   }
@@ -115,8 +116,8 @@ export class GlyphMap {
     isBlockingMovement: boolean,
     isBlockingProjectiles: boolean,
     isDiggable: boolean,
-    isSlowing: boolean,
-    isBurning: boolean,
+    isCausingSlow: boolean,
+    isCausingBurn: boolean,
     isMagnetic: boolean,
     isCausingBleed: boolean,
   ) {
@@ -131,8 +132,8 @@ export class GlyphMap {
       isBlockingMovement,
       isBlockingProjectiles,
       isDiggable,
-      isSlowing,
-      isBurning,
+      isCausingSlow,
+      isCausingBurn,
       isMagnetic,
       isCausingBleed,
     );
