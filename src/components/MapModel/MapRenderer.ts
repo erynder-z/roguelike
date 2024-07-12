@@ -36,13 +36,23 @@ export class MapRenderer {
     playerPos: WorldPoint,
     g: GameState,
   ) {
-    const farDist = g.stats.visRange || 50;
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
     const mapOffSet = 0;
     const buffs = g.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
+    const glowRange = 8;
+
+    let farDist = g.stats.defaultVisRange || 50;
+
+    if (this.checkForGlowingRocks(playerPos, map, glowRange)) {
+      if (farDist * 3 < g.stats.defaultVisRange) {
+        farDist *= 3;
+      } else {
+        farDist = g.stats.defaultVisRange;
+      }
+    }
 
     // Loop through each row and column of the terminal
     for (
@@ -113,13 +123,23 @@ export class MapRenderer {
     playerPos: WorldPoint,
     g: GameState,
   ) {
-    const farDist = g.stats.visRange || 50;
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
     const mapOffSet = 0;
     const buffs = g.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
+    const glowRange = 8;
+
+    let farDist = g.stats.currentVisRange || 50;
+
+    if (this.checkForGlowingRocks(playerPos, map, glowRange)) {
+      if (farDist * 3 < g.stats.defaultVisRange) {
+        farDist *= 3;
+      } else {
+        farDist = g.stats.defaultVisRange;
+      }
+    }
 
     // Loop through each row and column of the terminal
     for (
@@ -317,5 +337,25 @@ export class MapRenderer {
     }
 
     return fg;
+  }
+
+  private static checkForGlowingRocks(
+    playerPos: WorldPoint,
+    map: Map,
+    diameter: number,
+  ): boolean {
+    const neighbors = playerPos.getNeighbors(diameter * 0.5);
+
+    for (const neighbor of neighbors) {
+      if (neighbor.isPositionOutOfBounds(neighbor, map)) {
+        continue;
+      }
+
+      const cell = map.cell(neighbor);
+      if (cell?.isGlowing()) {
+        return true;
+      }
+    }
+    return false;
   }
 }

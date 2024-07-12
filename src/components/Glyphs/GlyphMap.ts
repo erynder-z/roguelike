@@ -61,6 +61,7 @@ export class GlyphMap {
         isCausingBurn,
         isMagnetic,
         isCausingBleed,
+        isGlowing,
       } = info;
 
       const glyphInfo = new GlyphInfo(
@@ -78,6 +79,7 @@ export class GlyphMap {
         isCausingBurn,
         isMagnetic,
         isCausingBleed,
+        isGlowing,
       );
       GlyphMap.glyphsRegistry[glyph] = glyphInfo;
     };
@@ -120,6 +122,7 @@ export class GlyphMap {
     isCausingBurn: boolean,
     isMagnetic: boolean,
     isCausingBleed: boolean,
+    isGlowing: boolean,
   ) {
     const info: GlyphInfo = new GlyphInfo(
       fgCol,
@@ -136,6 +139,7 @@ export class GlyphMap {
       isCausingBurn,
       isMagnetic,
       isCausingBleed,
+      isGlowing,
     );
     GlyphMap.warn(glyph);
     GlyphMap.glyphsRegistry[glyph] = info;

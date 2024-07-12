@@ -128,4 +128,8 @@ export class MapCell {
   public isCausingBleed(): boolean {
     return this.glyphInfo.isCausingBleed || false;
   }
+
+  public isGlowing(): boolean {
+    return this.glyphInfo.isGlowing || false;
+  }
 }

@@ -20,7 +20,7 @@ export type GameState = {
   autoHeal: AutoHeal | undefined;
   inventory: Inventory | undefined;
   equipment: Equipment | undefined;
-  stats: { visRange: number };
+  stats: { defaultVisRange: number; currentVisRange: number };
   playerDmgCount: number;
   currentMap(): Map | null;
   message(msg: LogMessage): void;

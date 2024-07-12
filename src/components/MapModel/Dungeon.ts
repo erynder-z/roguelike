@@ -65,12 +65,10 @@ export class Dungeon {
   }
 
   private adjustLevelVisibilityRange(g: GameState): void {
-    const defaultVisRange = 50;
-
     if (this.currentMap(g).isDark) {
-      g.stats.visRange = 8;
+      g.stats.currentVisRange = 6;
     } else {
-      g.stats.visRange = defaultVisRange;
+      g.stats.currentVisRange = g.stats.defaultVisRange;
     }
   }
 

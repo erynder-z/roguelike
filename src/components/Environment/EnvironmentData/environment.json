@@ -14,7 +14,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "·",
@@ -30,7 +31,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "%",
@@ -46,7 +48,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "#",
@@ -62,7 +65,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "<",
@@ -78,7 +82,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": ">",
@@ -94,7 +99,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "'",
@@ -110,7 +116,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "+",
@@ -126,7 +133,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "§",
@@ -142,7 +150,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "⋄",
@@ -158,7 +167,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "~",
@@ -174,7 +184,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "~",
@@ -190,7 +201,8 @@
       "isCausingSlow": true,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "×",
@@ -206,7 +218,8 @@
       "isCausingSlow": false,
       "isCausingBurn": true,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": true
     },
     {
       "char": "ͷ",
@@ -222,7 +235,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "ϕ",
@@ -238,7 +252,8 @@
       "isCausingSlow": false,
       "isCausingBurn": false,
       "isMagnetic": true,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "◭",
@@ -254,7 +269,8 @@
       "isCausingSlow": true,
       "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": true
+      "isCausingBleed": true,
+      "isGlowing": false
     }
   ]
 }
