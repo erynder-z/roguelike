@@ -46,40 +46,23 @@ export class GlyphMap {
   private static initializeGlyphs(): number {
     const addGlyph = (info: GlyphInfo) => {
       const glyph = Glyph[info.name as keyof typeof Glyph];
-      const {
-        fgCol,
-        bgCol,
-        hasSolidBg,
-        char,
-        name,
-        description,
-        isOpaque,
-        isBlockingMovement,
-        isBlockingProjectiles,
-        isDiggable,
-        isCausingSlow,
-        isCausingBurn,
-        isMagnetic,
-        isCausingBleed,
-        isGlowing,
-      } = info;
 
       const glyphInfo = new GlyphInfo(
-        fgCol,
-        bgCol,
-        hasSolidBg,
-        char,
-        name,
-        description,
-        isOpaque,
-        isBlockingMovement,
-        isBlockingProjectiles,
-        isDiggable,
-        isCausingSlow,
-        isCausingBurn,
-        isMagnetic,
-        isCausingBleed,
-        isGlowing,
+        info.fgCol,
+        info.bgCol,
+        info.hasSolidBg,
+        info.char,
+        info.name,
+        info.description,
+        info.isOpaque,
+        info.isBlockingMovement,
+        info.isBlockingProjectiles,
+        info.isDiggable,
+        info.isCausingSlow,
+        info.isCausingBurn,
+        info.isMagnetic,
+        info.isCausingBleed,
+        info.isGlowing,
       );
       GlyphMap.glyphsRegistry[glyph] = glyphInfo;
     };
