@@ -54,7 +54,7 @@ This roadmap outlines the progress and future tasks for the development of this 
 - [x] Negative Buff Spells
 - [ ] Positive Buff Spells
 - [x] _Spell Costs (!)_
-- [ ] ==Unified Player/Monster Spell System==
+- [x] Unified Player/Monster Spell System
 
 ### User Interface
 
@@ -64,7 +64,7 @@ This roadmap outlines the progress and future tasks for the development of this 
 - [x] Equipment Display
 - [x] Message Log
 - [x] Situation Dependent Images
-- [ ] Main Menu
+- [x] _Main Menu (!)_
 - [ ] Help Screen
 
 ### World and Environment
@@ -99,3 +99,7 @@ This roadmap outlines the progress and future tasks for the development of this 
 ## Acknowledgements
 
 This project is built upon the fundamental structure outlined in the book [_How to Create Your Own Roguelike with TypeScript_](https://www.google.com/search?client=firefox-b-d&q=how+to+make+your+own+roguelike%2C+gaardsted) by Jakob Gaardsted.
+
+## Additional resources
+
+[Adding new biome](adding_new_biome.md)
