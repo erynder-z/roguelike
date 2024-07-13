@@ -98,8 +98,8 @@ export class MapCell {
    *
    * @return {boolean} true if the cell is slowing, false otherwise
    */
-  public isSlowing(): boolean {
-    return this.glyphInfo.isSlowing || false;
+  public isCausingSlow(): boolean {
+    return this.glyphInfo.isCausingSlow || false;
   }
 
   /**
@@ -107,8 +107,8 @@ export class MapCell {
    *
    * @return {boolean} true if the cell is causing burn, false otherwise
    */
-  public isBurning(): boolean {
-    return this.glyphInfo.isBurning || false;
+  public isCausingBurn(): boolean {
+    return this.glyphInfo.isCausingBurn || false;
   }
 
   /**
@@ -127,5 +127,9 @@ export class MapCell {
    */
   public isCausingBleed(): boolean {
     return this.glyphInfo.isCausingBleed || false;
+  }
+
+  public isGlowing(): boolean {
+    return this.glyphInfo.isGlowing || false;
   }
 }

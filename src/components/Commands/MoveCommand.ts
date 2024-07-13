@@ -64,10 +64,10 @@ export class MoveCommand extends CommandBase {
    * @param {WorldPoint} position - The position on the map to apply effects to.
    */
   private applyCellEffects(map: Map, position: WorldPoint): void {
-    if (map.cell(position).isSlowing()) {
+    if (map.cell(position).isCausingSlow()) {
       new BuffCommand(Buff.Slow, this.me, this.game, this.me, 2).execute();
     }
-    if (map.cell(position).isBurning()) {
+    if (map.cell(position).isCausingBurn()) {
       new BuffCommand(Buff.Lava, this.me, this.game, this.me).execute();
     }
     if (map.cell(position).isCausingBleed()) {

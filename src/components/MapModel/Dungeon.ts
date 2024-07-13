@@ -64,6 +64,14 @@ export class Dungeon {
     this.maps.length = len;
   }
 
+  private adjustLevelVisibilityRange(g: GameState): void {
+    if (this.currentMap(g).isDark) {
+      g.stats.currentVisRange = 6;
+    } else {
+      g.stats.currentVisRange = g.stats.defaultVisRange;
+    }
+  }
+
   /**
    * Handles player switching levels within the dungeon.
    * @param {number} newLevel - The new level to which the player switches.
@@ -79,6 +87,7 @@ export class Dungeon {
     const player = g.player;
     this.currentMap(g).removeMob(player);
     this.level = newLevel;
+    this.adjustLevelVisibilityRange(g);
     this.currentMap(g).enterMap(player, np);
   }
 }

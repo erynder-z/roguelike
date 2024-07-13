@@ -6,6 +6,7 @@ export const REGULAR_LEVEL_TILES: Tile = {
     { glyph: Glyph.Floor, occurrencePercentage: 90 },
     { glyph: Glyph.SpikyCrystal, occurrencePercentage: 1 },
     { glyph: Glyph.Lava, occurrencePercentage: 1 },
+    { glyph: Glyph.GlowingMushroom, occurrencePercentage: 1 },
   ],
   wall: [
     { glyph: Glyph.Wall, occurrencePercentage: 84 },

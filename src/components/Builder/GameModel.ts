@@ -28,7 +28,7 @@ export class Game implements GameState {
   autoHeal: AutoHeal | undefined = new AutoHeal();
   inventory = new Inventory();
   equipment = new Equipment();
-  stats = { visRange: 50 };
+  stats = { defaultVisRange: 50, currentVisRange: 50 };
   playerDmgCount = 0;
 
   /**

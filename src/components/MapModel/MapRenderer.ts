@@ -22,12 +22,127 @@ export class MapRenderer {
   private static farLitColor: string = '#485460';
 
   /**
-   * Draws a map with considerations for player position and lighting conditions.
-   * @param {DrawableTerminal} term - The drawable terminal to draw on.
-   * @param {Map} map - The map to draw.
-   * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
+   * Calculates the far distance from the player based on the presence of glowing rocks. The far distance can not be nigher than the default visibility range.
+   *
    * @param {WorldPoint} playerPos - The position of the player.
-   * @param {GameState} g - The game object.
+   * @param {Map} map - The game map.
+   * @param {GameState} g - The game state.
+   * @return {number} The calculated far distance.
+   */
+  private static getFarDist(
+    playerPos: WorldPoint,
+    map: Map,
+    g: GameState,
+  ): number {
+    const glowRange = 10;
+    let farDist = g.stats.currentVisRange || 50;
+
+    const glowingRocks = this.countGlowingRocks(playerPos, map, glowRange);
+    farDist *= Math.pow(2, glowingRocks);
+
+    return Math.min(farDist, g.stats.defaultVisRange);
+  }
+
+  /**
+   * Draws a cell on the terminal based on various conditions such as visibility, distance, and lighting.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on
+   * @param {TerminalPoint} t - The terminal point to draw at
+   * @param {WorldPoint} w - The world point of the cell
+   * @param {Map} map - The game map
+   * @param {WorldPoint} playerPos - The position of the player
+   * @param {number} farDist - The calculated far distance
+   * @param {boolean} blind - Indicates if the player is blind
+   * @param {boolean} isRayCast - Indicates if the drawing is based on ray casting
+   */
+  private static drawCell(
+    term: DrawableTerminal,
+    t: TerminalPoint,
+    w: WorldPoint,
+    map: Map,
+    playerPos: WorldPoint,
+    farDist: number,
+    blind: boolean,
+    isRayCast: boolean,
+  ) {
+    const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
+    const distance: number = w.squaredDistanceTo(playerPos);
+    const far: boolean = distance > farDist && !blind;
+
+    const isEntityVisible: boolean =
+      !!cell.mob &&
+      !far &&
+      (!blind || cell.mob.isPlayer) &&
+      CanSee.checkPointLOS_Bresenham(cell.mob.pos, playerPos, map, true);
+
+    const glyph: Glyph = isEntityVisible
+      ? cell.mob!.glyph
+      : cell.glyphSpriteOrObjOrEnv();
+    const glyphInfo = GlyphMap.getGlyphInfo(glyph);
+    const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
+
+    let fg: string;
+    let bg: string;
+
+    if (far) {
+      bg = this.getFarBgCol(cell, glyphInfo);
+      fg = this.getFarFgCol(cell, glyphInfo);
+    } else {
+      if (blind) {
+        bg = this.getBlindBgCol(cell, glyphInfo);
+        fg = this.getBlindFgCol(cell, glyphInfo);
+      } else {
+        if (!cell.lit && !blind) cell.lit = true;
+        if (isRayCast) {
+          const isVisible: boolean = CanSee.checkPointLOS_RayCast(
+            playerPos,
+            w,
+            map,
+          );
+          bg = this.getRayCastBgCol(isVisible, cell, glyphInfo);
+          fg = this.getRayCastFgCol(isVisible, cell, glyphInfo);
+        } else {
+          bg = envOnlyGlyphInfo.bgCol;
+          fg = glyphInfo.fgCol;
+          if (!cell.mob && cell.obj && cell.obj.spell != Spell.None)
+            fg = SpellColors.c[cell.obj.spell][0];
+        }
+      }
+    }
+
+    term.drawAt(t.x, t.y, glyphInfo.char, fg, bg);
+  }
+
+  /**
+   * Counts the number of glowing rocks within a certain distance of the player.
+   *
+   * @param {WorldPoint} playerPos - The position of the player.
+   * @param {Map} map - The map to search for glowing rocks.
+   * @param {number} diameter - The maximum distance to search for glowing rocks.
+   * @return {number} The number of glowing rocks found.
+   */
+  private static countGlowingRocks(
+    playerPos: WorldPoint,
+    map: Map,
+    diameter: number,
+  ): number {
+    let glowingRocksCount = 0;
+    for (const neighbor of playerPos.getNeighbors(diameter * 0.5)) {
+      if (map.isLegalPoint(neighbor) && map.cell(neighbor).isGlowing()) {
+        glowingRocksCount++;
+      }
+    }
+    return glowingRocksCount;
+  }
+
+  /**
+   * Draws the normal map on the terminal based on the player's position and game state.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on
+   * @param {Map} map - The game map
+   * @param {WorldPoint} vp - The view point
+   * @param {WorldPoint} playerPos - The position of the player
+   * @param {GameState} g - The game state
    */
   public static drawMap_Normal(
     term: DrawableTerminal,
@@ -36,8 +151,6 @@ export class MapRenderer {
     playerPos: WorldPoint,
     g: GameState,
   ) {
-    // Constants
-    const farDist = g.stats.visRange || 50;
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
@@ -45,67 +158,27 @@ export class MapRenderer {
     const buffs = g.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
 
-    // Loop through each row and column of the terminal
+    const farDist = this.getFarDist(playerPos, map, g);
+
     for (
       t.y = mapOffSet, w.y = vp.y;
       t.y < terminalDimensions.y + mapOffSet;
       ++t.y, ++w.y
     ) {
-      // Loop through each column of the terminal
       for (t.x = 0, w.x = vp.x; t.x < terminalDimensions.x; ++t.x, ++w.x) {
-        // Get the cell from the map corresponding to the world point
-        const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
-        const distance: number = w.squaredDistanceTo(playerPos);
-        const far: boolean = distance > farDist && !blind;
-
-        // Check if the cell contains a visible entity
-        const isEntityVisible: boolean =
-          !!cell.mob &&
-          !far &&
-          (!blind || cell.mob.isPlayer) &&
-          CanSee.checkPointLOS_Bresenham(cell.mob.pos, playerPos, map, true);
-
-        // Determine the glyph based on visibility
-        const glyph: Glyph = isEntityVisible
-          ? cell.mob!.glyph
-          : cell.glyphSpriteOrObjOrEnv();
-        const glyphInfo = GlyphMap.getGlyphInfo(glyph);
-        const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
-
-        // Determine foreground and background colors
-        let fg: string;
-        let bg: string;
-
-        if (far) {
-          bg = this.getFarBgCol(cell, glyphInfo);
-          fg = this.getFarFgCol(cell, glyphInfo);
-        } else {
-          if (blind) {
-            bg = this.getBlindBgCol(cell, glyphInfo);
-            fg = this.getBlindFgCol(cell, glyphInfo);
-          } else {
-            // fg color based on mob/item and bg color based on env
-            bg = envOnlyGlyphInfo.bgCol;
-            fg = glyphInfo.fgCol;
-            if (!cell.mob && cell.obj && cell.obj.spell != Spell.None)
-              fg = SpellColors.c[cell.obj.spell][0];
-          }
-
-          if (!cell.lit && !blind) cell.lit = true;
-        }
-
-        term.drawAt(t.x, t.y, glyphInfo.char, fg, bg);
+        this.drawCell(term, t, w, map, playerPos, farDist, blind, false);
       }
     }
   }
 
   /**
-   * Draws a map with considerations for player position and lighting conditions. Uses ray casting to determine visibility.
-   * @param {DrawableTerminal} term - The drawable terminal to draw on.
-   * @param {Map} map - The map to draw.
-   * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
-   * @param {WorldPoint} playerPos - The position of the player.
-   * @param {GameState} g - The game object.
+   * Draws the map using ray casting technique on the terminal based on the player's position and game state.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on
+   * @param {Map} map - The game map
+   * @param {WorldPoint} vp - The view point
+   * @param {WorldPoint} playerPos - The position of the player
+   * @param {GameState} g - The game state
    */
   public static drawMap_RayCast(
     term: DrawableTerminal,
@@ -114,8 +187,6 @@ export class MapRenderer {
     playerPos: WorldPoint,
     g: GameState,
   ) {
-    // Constants
-    const farDist: number = 50;
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
@@ -123,58 +194,15 @@ export class MapRenderer {
     const buffs = g.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
 
-    // Loop through each row and column of the terminal
+    const farDist = this.getFarDist(playerPos, map, g);
+
     for (
       t.y = mapOffSet, w.y = vp.y;
       t.y < terminalDimensions.y + mapOffSet;
       ++t.y, ++w.y
     ) {
-      // Loop through each column of the terminal
       for (t.x = 0, w.x = vp.x; t.x < terminalDimensions.x; ++t.x, ++w.x) {
-        // Get the cell from the map corresponding to the world point
-        const cell: MapCell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
-        const distance: number = w.squaredDistanceTo(playerPos);
-        const far: boolean = distance > farDist && !blind;
-
-        // Check if the cell contains a visible entity
-        const isEntityVisible: boolean =
-          !!cell.mob &&
-          !far &&
-          (!blind || cell.mob.isPlayer) &&
-          CanSee.checkPointLOS_Bresenham(cell.mob.pos, playerPos, map, true);
-
-        // Determine the glyph based on visibility
-        const glyph: Glyph = isEntityVisible
-          ? cell.mob!.glyph
-          : cell.glyphSpriteOrObjOrEnv();
-        const glyphInfo = GlyphMap.getGlyphInfo(glyph);
-
-        // Determine foreground and background colors
-        let fg: string;
-        let bg: string;
-
-        if (far) {
-          bg = this.getFarBgCol(cell, glyphInfo);
-
-          fg = this.getFarFgCol(cell, glyphInfo);
-        } else {
-          if (blind) {
-            bg = this.getBlindBgCol(cell, glyphInfo);
-            fg = this.getBlindFgCol(cell, glyphInfo);
-          } else {
-            if (!cell.lit && !blind) cell.lit = true;
-            // Check if the cell is visible to the player using raycasting LOS
-            const isVisible: boolean = CanSee.checkPointLOS_RayCast(
-              playerPos,
-              w,
-              map,
-            );
-            bg = this.getRayCastBgCol(isVisible, cell, glyphInfo);
-            fg = this.getRayCastFgCol(isVisible, cell, glyphInfo);
-          }
-        }
-
-        term.drawAt(t.x, t.y, glyphInfo.char, fg, bg);
+        this.drawCell(term, t, w, map, playerPos, farDist, blind, true);
       }
     }
   }

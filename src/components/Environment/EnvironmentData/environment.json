@@ -11,10 +11,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "·",
@@ -27,10 +28,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "%",
@@ -43,10 +45,11 @@
       "isBlockingMovement": true,
       "isBlockingProjectiles": true,
       "isDiggable": true,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "#",
@@ -59,10 +62,11 @@
       "isBlockingMovement": true,
       "isBlockingProjectiles": true,
       "isDiggable": true,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "<",
@@ -75,10 +79,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": true,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": ">",
@@ -91,10 +96,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "'",
@@ -107,10 +113,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "+",
@@ -123,10 +130,11 @@
       "isBlockingMovement": true,
       "isBlockingProjectiles": true,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "§",
@@ -139,10 +147,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "⋄",
@@ -155,10 +164,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "~",
@@ -171,10 +181,11 @@
       "isBlockingMovement": true,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "~",
@@ -187,10 +198,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": true,
-      "isBurning": false,
+      "isCausingSlow": true,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "×",
@@ -203,10 +215,11 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": true,
+      "isCausingSlow": false,
+      "isCausingBurn": true,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": true
     },
     {
       "char": "ͷ",
@@ -219,10 +232,11 @@
       "isBlockingMovement": true,
       "isBlockingProjectiles": true,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "ϕ",
@@ -235,15 +249,16 @@
       "isBlockingMovement": true,
       "isBlockingProjectiles": true,
       "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
       "isMagnetic": true,
-      "isCausingBleed": false
+      "isCausingBleed": false,
+      "isGlowing": false
     },
     {
       "char": "◭",
       "bgCol": "#4B5A52",
-      "fgCol": "#00e5d2",
+      "fgCol": "#ecb7ff",
       "hasSolidBg": false,
       "name": "SpikyCrystal",
       "description": "Spiky crystals emerging from the ground.",
@@ -251,10 +266,28 @@
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
       "isDiggable": false,
-      "isSlowing": true,
-      "isBurning": false,
+      "isCausingSlow": true,
+      "isCausingBurn": false,
       "isMagnetic": false,
-      "isCausingBleed": true
+      "isCausingBleed": true,
+      "isGlowing": false
+    },
+    {
+      "char": "⋒",
+      "bgCol": "#4B5A52",
+      "fgCol": "#5affd7",
+      "hasSolidBg": false,
+      "name": "GlowingMushroom",
+      "description": "A mushroom that is emitting a glowing light.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": true,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": false,
+      "isGlowing": true
     }
   ]
 }

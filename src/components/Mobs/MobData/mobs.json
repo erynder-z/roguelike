@@ -6,15 +6,7 @@
       "fgCol": "#E6B8AF",
       "hasSolidBg": false,
       "name": "Ant",
-      "description": "A small and industrious insect known for its strength and teamwork.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A small and industrious insect known for its strength and teamwork."
     },
     {
       "char": "b",
@@ -22,15 +14,7 @@
       "fgCol": "#ADD8E6",
       "hasSolidBg": false,
       "name": "Bat",
-      "description": "A nocturnal creature that uses echolocation to navigate the darkness.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A nocturnal creature that uses echolocation to navigate the darkness."
     },
     {
       "char": "c",
@@ -38,15 +22,7 @@
       "fgCol": "#98FB98",
       "hasSolidBg": false,
       "name": "Cat",
-      "description": "A stealthy and agile animal with sharp claws and keen senses.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A stealthy and agile animal with sharp claws and keen senses."
     },
     {
       "char": "d",
@@ -54,15 +30,7 @@
       "fgCol": "#F4A460",
       "hasSolidBg": false,
       "name": "Druid",
-      "description": "A mystical being with the power to communicate with nature and transform into animals.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A mystical being with the power to communicate with nature and transform into animals."
     },
     {
       "char": "e",
@@ -70,15 +38,7 @@
       "fgCol": "#DDA0DD",
       "hasSolidBg": false,
       "name": "Ectoplasm",
-      "description": "A ghostly substance often associated with spirits and the paranormal.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A ghostly substance often associated with spirits and the paranormal."
     },
     {
       "char": "f",
@@ -86,15 +46,7 @@
       "fgCol": "#E0FFFF",
       "hasSolidBg": false,
       "name": "Frog",
-      "description": "A small amphibian known for its jumping ability and croaking sound.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A small amphibian known for its jumping ability and croaking sound."
     },
     {
       "char": "g",
@@ -102,15 +54,7 @@
       "fgCol": "#B0C4DE",
       "hasSolidBg": false,
       "name": "Gargoyle",
-      "description": "A stone creature that comes to life, often serving as a guardian.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A stone creature that comes to life, often serving as a guardian."
     },
     {
       "char": "h",
@@ -118,15 +62,7 @@
       "fgCol": "#AFEEEE",
       "hasSolidBg": false,
       "name": "Harpy",
-      "description": "A mythical creature with the body of a bird and the face of a woman, known for its vicious nature.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A mythical creature with the body of a bird and the face of a woman, known for its vicious nature."
     },
     {
       "char": "i",
@@ -134,15 +70,7 @@
       "fgCol": "#FFA07A",
       "hasSolidBg": false,
       "name": "Imp",
-      "description": "A small mischievous demon often causing trouble and playing tricks.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A small mischievous demon often causing trouble and playing tricks."
     },
     {
       "char": "j",
@@ -150,15 +78,7 @@
       "fgCol": "#DEB887",
       "hasSolidBg": false,
       "name": "Jackal",
-      "description": "A cunning and opportunistic scavenger found in deserts and savannas.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A cunning and opportunistic scavenger found in deserts and savannas."
     },
     {
       "char": "k",
@@ -166,15 +86,7 @@
       "fgCol": "#AFEEEE",
       "hasSolidBg": false,
       "name": "Kappa",
-      "description": "A water spirit from Japanese folklore known for its trickery and love of cucumbers.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A water spirit from Japanese folklore known for its trickery and love of cucumbers."
     },
     {
       "char": "l",
@@ -182,15 +94,7 @@
       "fgCol": "#FFDAB9",
       "hasSolidBg": false,
       "name": "Lama",
-      "description": "A peaceful and wise monk often found in remote mountain temples.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A peaceful and wise monk often found in remote mountain temples."
     },
     {
       "char": "m",
@@ -198,15 +102,7 @@
       "fgCol": "#D8BFD8",
       "hasSolidBg": false,
       "name": "Mutant",
-      "description": "A creature altered by radiation or genetic experiments, possessing unusual powers.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A creature altered by radiation or genetic experiments, possessing unusual powers."
     },
     {
       "char": "n",
@@ -214,15 +110,7 @@
       "fgCol": "#FFE4C4",
       "hasSolidBg": false,
       "name": "Nook",
-      "description": "A mysterious and elusive creature that dwells in hidden corners of the world.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A mysterious and elusive creature that dwells in hidden corners of the world."
     },
     {
       "char": "o",
@@ -230,15 +118,7 @@
       "fgCol": "#98FB98",
       "hasSolidBg": false,
       "name": "Ogre",
-      "description": "A large and brutish monster known for its strength and appetite for destruction.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A large and brutish monster known for its strength and appetite for destruction."
     },
     {
       "char": "p",
@@ -246,15 +126,7 @@
       "fgCol": "#FFB6C1",
       "hasSolidBg": false,
       "name": "Pig",
-      "description": "A domesticated animal known for its intelligence and fondness for mud.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A domesticated animal known for its intelligence and fondness for mud."
     },
     {
       "char": "q",
@@ -262,15 +134,7 @@
       "fgCol": "#F5F5DC",
       "hasSolidBg": false,
       "name": "Qilin",
-      "description": "A mythical creature from East Asian culture symbolizing prosperity and serenity.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A mythical creature from East Asian culture symbolizing prosperity and serenity."
     },
     {
       "char": "r",
@@ -278,15 +142,7 @@
       "fgCol": "#D3D3D3",
       "hasSolidBg": false,
       "name": "Rat",
-      "description": "A resourceful rodent often found in urban areas, known for its survival skills.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A resourceful rodent often found in urban areas, known for its survival skills."
     },
     {
       "char": "s",
@@ -294,15 +150,7 @@
       "fgCol": "#E6E6FA",
       "hasSolidBg": false,
       "name": "Succubus",
-      "description": "A demoness that seduces her victims, feeding off their life force.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A demoness that seduces her victims, feeding off their life force."
     },
     {
       "char": "t",
@@ -310,15 +158,7 @@
       "fgCol": "#FF7F50",
       "hasSolidBg": false,
       "name": "Tengu",
-      "description": "A mythical bird-like creature from Japanese folklore, known for its martial prowess and trickery.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A mythical bird-like creature from Japanese folklore, known for its martial prowess and trickery."
     },
     {
       "char": "u",
@@ -326,15 +166,7 @@
       "fgCol": "#EE82EE",
       "hasSolidBg": false,
       "name": "Unicorn",
-      "description": "A majestic and magical horse with a single horn, symbolizing purity and grace.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A majestic and magical horse with a single horn, symbolizing purity and grace."
     },
     {
       "char": "v",
@@ -342,15 +174,7 @@
       "fgCol": "#CD5C5C",
       "hasSolidBg": false,
       "name": "Vampire",
-      "description": "An undead creature that feeds on the blood of the living, often feared and hunted.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "An undead creature that feeds on the blood of the living, often feared and hunted."
     },
     {
       "char": "w",
@@ -358,15 +182,7 @@
       "fgCol": "#F08080",
       "hasSolidBg": false,
       "name": "Wyrm",
-      "description": "A serpentine dragon known for its cunning and hoarding of treasure.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A serpentine dragon known for its cunning and hoarding of treasure."
     },
     {
       "char": "x",
@@ -374,15 +190,7 @@
       "fgCol": "#FA8072",
       "hasSolidBg": false,
       "name": "Xelhua",
-      "description": "A giant from Aztec mythology, known for its immense strength and size.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A giant from Aztec mythology, known for its immense strength and size."
     },
     {
       "char": "y",
@@ -390,15 +198,7 @@
       "fgCol": "#FFFACD",
       "hasSolidBg": false,
       "name": "Yeti",
-      "description": "A large and hairy creature said to inhabit the snowy mountains, often called the Abominable Snowman.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A large and hairy creature said to inhabit the snowy mountains, often called the Abominable Snowman."
     },
     {
       "char": "z",
@@ -406,15 +206,7 @@
       "fgCol": "#40E0D0",
       "hasSolidBg": false,
       "name": "Zombie",
-      "description": "An undead being driven by an insatiable hunger for flesh, often found in hordes.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "An undead being driven by an insatiable hunger for flesh, often found in hordes."
     }
   ]
 }

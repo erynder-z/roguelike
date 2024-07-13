@@ -6,15 +6,7 @@
       "fgCol": "#B0A084",
       "hasSolidBg": false,
       "name": "Dagger",
-      "description": "A small, sharp blade, perfect for quick and deadly strikes.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A small, sharp blade, perfect for quick and deadly strikes."
     },
     {
       "char": "[",
@@ -22,15 +14,7 @@
       "fgCol": "#8F8C79",
       "hasSolidBg": false,
       "name": "Shield",
-      "description": "A sturdy shield offering excellent protection in combat.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A sturdy shield offering excellent protection in combat."
     },
     {
       "char": "^",
@@ -38,15 +22,7 @@
       "fgCol": "#A67F66",
       "hasSolidBg": false,
       "name": "Cap",
-      "description": "A simple cap that offers minimal protection to the head.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A simple cap that offers minimal protection to the head."
     },
     {
       "char": "(",
@@ -54,15 +30,7 @@
       "fgCol": "#887F72",
       "hasSolidBg": false,
       "name": "Gloves",
-      "description": "A pair of gloves that improve grip and provide some defense.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A pair of gloves that improve grip and provide some defense."
     },
     {
       "char": "}",
@@ -70,15 +38,7 @@
       "fgCol": "#947E82",
       "hasSolidBg": false,
       "name": "Cape",
-      "description": "A flowing cape that offers protection and a touch of style.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A flowing cape that offers protection and a touch of style."
     },
     {
       "char": "{",
@@ -86,15 +46,7 @@
       "fgCol": "#889E7C",
       "hasSolidBg": false,
       "name": "Pants",
-      "description": "A pair of durable pants providing basic leg protection.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A pair of durable pants providing basic leg protection."
     },
     {
       "char": "[",
@@ -102,15 +54,7 @@
       "fgCol": "#7C8C8A",
       "hasSolidBg": false,
       "name": "Boots",
-      "description": "A sturdy pair of boots that offer good foot protection and comfort.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A sturdy pair of boots that offer good foot protection and comfort."
     },
     {
       "char": "!",
@@ -118,15 +62,7 @@
       "fgCol": "#8B7D7A",
       "hasSolidBg": false,
       "name": "Potion",
-      "description": "A magic potion that heals some hp.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A magic potion that heals some hp."
     },
     {
       "char": "ᛪ",
@@ -134,15 +70,7 @@
       "fgCol": "#8B7A83",
       "hasSolidBg": false,
       "name": "TeleportRune",
-      "description": "A rune for a teleportation spell.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A rune for a teleportation spell."
     },
     {
       "char": "┌",
@@ -150,15 +78,7 @@
       "fgCol": "#8A8C76",
       "hasSolidBg": false,
       "name": "Pistol",
-      "description": "This is my boomstick!",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "This is my boomstick!"
     },
     {
       "char": "ᚱ",
@@ -166,15 +86,7 @@
       "fgCol": "#7F9278",
       "hasSolidBg": false,
       "name": "Rune",
-      "description": "A rune that can cast magic.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A rune that can cast magic."
     },
     {
       "char": "§",
@@ -182,15 +94,7 @@
       "fgCol": "#8A758E",
       "hasSolidBg": false,
       "name": "Scroll",
-      "description": "A scroll that can cast magic.",
-      "isOpaque": false,
-      "isBlockingMovement": false,
-      "isBlockingProjectiles": false,
-      "isDiggable": false,
-      "isSlowing": false,
-      "isBurning": false,
-      "isMagnetic": false,
-      "isCausingBleed": false
+      "description": "A scroll that can cast magic."
     }
   ]
 }
