@@ -35,12 +35,13 @@ export class MapRenderer {
     g: GameState,
   ): number {
     const glowRange = 10;
+    const maxVisibilityRange = 75;
     let farDist = g.stats.currentVisRange || 50;
 
     const glowingRocks = this.countGlowingRocks(playerPos, map, glowRange);
     farDist *= Math.pow(2, glowingRocks);
 
-    return Math.min(farDist, g.stats.defaultVisRange);
+    return Math.min(farDist, maxVisibilityRange);
   }
 
   /**
