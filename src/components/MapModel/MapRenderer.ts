@@ -34,18 +34,13 @@ export class MapRenderer {
     map: Map,
     g: GameState,
   ): number {
-    const glowRange = 8;
+    const glowRange = 10;
     let farDist = g.stats.currentVisRange || 50;
 
-    if (this.checkForGlowingRocks(playerPos, map, glowRange)) {
-      if (farDist * 3 < g.stats.defaultVisRange) {
-        farDist *= 3;
-      } else {
-        farDist = g.stats.defaultVisRange;
-      }
-    }
+    const glowingRocks = this.countGlowingRocks(playerPos, map, glowRange);
+    farDist *= Math.pow(2, glowingRocks);
 
-    return farDist;
+    return Math.min(farDist, g.stats.defaultVisRange);
   }
 
   /**
@@ -119,29 +114,25 @@ export class MapRenderer {
   }
 
   /**
-   * Checks if there are any glowing rocks within a certain distance of the player.
+   * Counts the number of glowing rocks within a certain distance of the player.
    *
    * @param {WorldPoint} playerPos - The position of the player.
    * @param {Map} map - The map to search for glowing rocks.
    * @param {number} diameter - The maximum distance to search for glowing rocks.
-   * @return {boolean} Returns true if there are glowing rocks within the specified distance, otherwise false.
+   * @return {number} The number of glowing rocks found.
    */
-  private static checkForGlowingRocks(
+  private static countGlowingRocks(
     playerPos: WorldPoint,
     map: Map,
     diameter: number,
-  ): boolean {
-    const neighbors: WorldPoint[] = [];
+  ): number {
+    let glowingRocksCount = 0;
     for (const neighbor of playerPos.getNeighbors(diameter * 0.5)) {
-      neighbors.push(neighbor);
-    }
-
-    for (const neighbor of neighbors) {
       if (map.isLegalPoint(neighbor) && map.cell(neighbor).isGlowing()) {
-        return true;
+        glowingRocksCount++;
       }
     }
-    return false;
+    return glowingRocksCount;
   }
 
   /**
