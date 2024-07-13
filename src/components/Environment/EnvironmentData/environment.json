@@ -258,7 +258,7 @@
     {
       "char": "◭",
       "bgCol": "#4B5A52",
-      "fgCol": "#00e5d2",
+      "fgCol": "#ecb7ff",
       "hasSolidBg": false,
       "name": "SpikyCrystal",
       "description": "Spiky crystals emerging from the ground.",
@@ -271,6 +271,23 @@
       "isMagnetic": false,
       "isCausingBleed": true,
       "isGlowing": false
+    },
+    {
+      "char": "⋒",
+      "bgCol": "#4B5A52",
+      "fgCol": "#5affd7",
+      "hasSolidBg": false,
+      "name": "GlowingMushroom",
+      "description": "A mushroom that is emitting a glowing light.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": true,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": false,
+      "isGlowing": true
     }
   ]
 }

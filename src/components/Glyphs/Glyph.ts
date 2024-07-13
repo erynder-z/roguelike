@@ -56,4 +56,5 @@ export enum Glyph {
   Obsidian,
   Magnetite,
   SpikyCrystal,
+  GlowingMushroom,
 }
