@@ -34,9 +34,8 @@ export class MoveCommand extends CommandBase {
     const map = <Map>this.game.currentMap();
 
     if (this.isMoveLegal(map, newPosition)) {
-      this.applyCellEffects(map, newPosition);
-
       this.moveAndHandleExtras(map, newPosition);
+      this.applyCellEffects(map, newPosition);
     }
 
     if (this.me.isPlayer) {

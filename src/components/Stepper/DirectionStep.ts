@@ -39,47 +39,44 @@ export class DirectionStep extends TimedStep {
    * @return {Step | null} The next step to execute or null if the current step is done.
    */
   public executeStep(): Step | null {
-    const p = this.pos;
+    const currentPosition = this.pos;
     const map = <GameMap>this.map;
 
-    map.cell(p).sprite = undefined;
+    map.cell(currentPosition).sprite = undefined;
 
     if (this.direction == null) throw 'no dir';
 
-    const checkPosition = MagnetismHandler.calculateNewPosition(
-      p,
-      this.direction,
-    );
+    const newPosition = currentPosition.plus(this.direction);
 
     const canGetStuckInWall = true; // Determines whether a magnet can pull an entity towards a wall and using a turn. Bullets and payloads should set this to true.
     const magnetizedPos = MagnetismHandler.getMagnetizedPosition(
       map,
-      p,
-      checkPosition,
+      currentPosition,
+      newPosition,
       this.g.rand,
       canGetStuckInWall,
     );
 
     if (magnetizedPos) {
-      p.addTo(magnetizedPos);
+      currentPosition.addTo(magnetizedPos);
     } else {
-      p.addTo(this.direction);
+      currentPosition.addTo(this.direction);
     }
 
-    if (!map.isLegalPoint(p)) return null;
+    if (!map.isLegalPoint(currentPosition)) return null;
 
-    const cell = map.cell(p);
+    const cell = map.cell(currentPosition);
     const done = cell.isBlocked() && cell.env !== Glyph.DeepWater;
 
     if (!done) {
       cell.sprite = this.sprite;
 
       if (this.effect) {
-        this.effect.setPos(p);
+        this.effect.setPos(currentPosition);
         this.effect.executeStep();
       }
     } else {
-      if (this.next) this.next.setPos(p);
+      if (this.next) this.next.setPos(currentPosition);
     }
     return done ? this.next : this;
   }

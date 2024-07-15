@@ -42,11 +42,11 @@ export class MoveBumpCommand extends CommandBase {
   public execute(): boolean {
     const g = this.game;
     const m = this.me;
+    const currentPosition = m.pos;
+    const newPosition = currentPosition.plus(this.dir);
+    const map = <GameMap>g.currentMap();
 
     this.checkForConfusion(g, this.dir);
-
-    const newPosition = MagnetismHandler.calculateNewPosition(m.pos, this.dir);
-    const map = <GameMap>g.currentMap();
 
     if (!this.isPositionLegal(map, newPosition)) return false;
 
@@ -54,7 +54,7 @@ export class MoveBumpCommand extends CommandBase {
     const canGetStuckInWall = false; // Determines whether a magnet can pull an entity towards a wall and using a turn. Mobs should set this to false.
     const magnetizedPos = MagnetismHandler.getMagnetizedPosition(
       map,
-      m.pos,
+      currentPosition,
       newPosition,
       g.rand,
       canGetStuckInWall,
