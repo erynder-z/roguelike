@@ -58,4 +58,5 @@ export enum Glyph {
   SpikyCrystal,
   GlowingMushroom,
   PoisonMushroom,
+  ConfusionMushroom,
 }

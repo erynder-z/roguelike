@@ -64,6 +64,7 @@ export class GlyphMap {
         info.isCausingBleed,
         info.isGlowing,
         info.isCausingPoison,
+        info.isCausingConfusion,
       );
       GlyphMap.glyphsRegistry[glyph] = glyphInfo;
     };
@@ -108,6 +109,7 @@ export class GlyphMap {
     isCausingBleed: boolean,
     isGlowing: boolean,
     isCausingPoison: boolean,
+    isCausingConfusion,
   ) {
     const info: GlyphInfo = new GlyphInfo(
       fgCol,
@@ -126,6 +128,7 @@ export class GlyphMap {
       isCausingBleed,
       isGlowing,
       isCausingPoison,
+      isCausingConfusion,
     );
     GlyphMap.warn(glyph);
     GlyphMap.glyphsRegistry[glyph] = info;

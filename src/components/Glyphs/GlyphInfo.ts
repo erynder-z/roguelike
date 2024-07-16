@@ -19,5 +19,6 @@ export class GlyphInfo {
     public isCausingBleed: boolean = false,
     public isGlowing: boolean = false,
     public isCausingPoison: boolean = false,
+    public isCausingConfusion: boolean = false,
   ) {}
 }

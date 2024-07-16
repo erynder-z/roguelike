@@ -172,4 +172,12 @@ export class MapCell {
       false
     );
   }
+
+  public isCausingConfusion(): boolean {
+    return (
+      this.glyphInfo.isCausingConfusion ||
+      this.envEffects.includes(EnvEffect.Confusion) ||
+      false
+    );
+  }
 }

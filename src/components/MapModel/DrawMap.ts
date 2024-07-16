@@ -271,7 +271,7 @@ export class DrawMap {
   public static addEnvironmentAreaEffectsToCells(map: Map): void {
     this.forEachCellInMap(map, (w, map) => {
       const cell = map.cell(w);
-      EnvironmentChecker.addPoisonEffectToCell(cell, w, map);
+      EnvironmentChecker.addCellEffects(cell, w, map);
     });
   }
 }

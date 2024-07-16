@@ -16,7 +16,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "·",
@@ -34,7 +35,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "%",
@@ -52,7 +54,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "#",
@@ -70,7 +73,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "<",
@@ -88,7 +92,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": ">",
@@ -106,7 +111,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "'",
@@ -124,7 +130,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "+",
@@ -142,7 +149,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "§",
@@ -160,7 +168,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "⋄",
@@ -178,7 +187,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "~",
@@ -196,7 +206,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "~",
@@ -214,7 +225,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "×",
@@ -232,7 +244,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": true,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "ͷ",
@@ -250,7 +263,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "ϕ",
@@ -268,7 +282,8 @@
       "isMagnetic": true,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "◭",
@@ -286,7 +301,8 @@
       "isMagnetic": false,
       "isCausingBleed": true,
       "isGlowing": false,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "⋒",
@@ -304,7 +320,8 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": true,
-      "isCausingPoison": false
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     },
     {
       "char": "⋔",
@@ -322,7 +339,27 @@
       "isMagnetic": false,
       "isCausingBleed": false,
       "isGlowing": false,
-      "isCausingPoison": true
+      "isCausingPoison": true,
+      "isCausingConfusion": false
+    },
+    {
+      "char": "⍝",
+      "bgCol": "#4B5A52",
+      "fgCol": "#ff0b08",
+      "hasSolidBg": false,
+      "name": "ConfusionMushroom",
+      "description": "A mushroom that is emitting a confusing cloud.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": true,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": false,
+      "isGlowing": false,
+      "isCausingPoison": false,
+      "isCausingConfusion": true
     }
   ]
 }

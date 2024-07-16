@@ -75,6 +75,9 @@ export class MoveCommand extends CommandBase {
     if (map.cell(position).isCausingPoison()) {
       new BuffCommand(Buff.Poison, this.me, this.game, this.me, 5).execute();
     }
+    if (map.cell(position).isCausingConfusion()) {
+      new BuffCommand(Buff.Confuse, this.me, this.game, this.me, 5).execute();
+    }
   }
 
   /**

@@ -3,10 +3,11 @@ import { Tile } from '../Types/Tile';
 
 export const OVERWORLD_LEVEL_TILES: Tile = {
   floor: [
-    { glyph: Glyph.Floor, occurrencePercentage: 97 },
+    { glyph: Glyph.Floor, occurrencePercentage: 96 },
     { glyph: Glyph.SpikyCrystal, occurrencePercentage: 1 },
     { glyph: Glyph.GlowingMushroom, occurrencePercentage: 1 },
     { glyph: Glyph.PoisonMushroom, occurrencePercentage: 1 },
+    { glyph: Glyph.ConfusionMushroom, occurrencePercentage: 1 },
   ],
   wall: [
     { glyph: Glyph.Wall, occurrencePercentage: 84 },
