@@ -18,5 +18,6 @@ export class GlyphInfo {
     public isMagnetic: boolean = false,
     public isCausingBleed: boolean = false,
     public isGlowing: boolean = false,
+    public isCausingPoison: boolean = false,
   ) {}
 }
