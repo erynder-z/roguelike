@@ -3,6 +3,7 @@ import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Mob } from '../Mobs/Mob';
+import { EnvEffect } from './Types/EnvEffect';
 
 /**
  * Represents a cell on the game map.
@@ -15,6 +16,27 @@ export class MapCell {
   public obj: ItemObject | undefined;
   public sprite: Glyph | undefined;
   public envDesc: string | undefined;
+  public envEffects: EnvEffect[] = [];
+
+  /**
+   * Adds an environment effect to the current map cell if it does not already exist.
+   *
+   * @param {EnvEffect} effect - The environment effect to add.
+   */
+  public addEnvEffect(effect: EnvEffect) {
+    if (this.envEffects.includes(effect)) return;
+
+    this.envEffects.push(effect);
+  }
+
+  /**
+   * Removes an environment effect from the current map cell.
+   *
+   * @param {EnvEffect} effect - The environment effect to remove.
+   */
+  public removeEnvEffect(effect: EnvEffect) {
+    this.envEffects = this.envEffects.filter(e => e !== effect);
+  }
 
   /**
    * Dynamically retrieves the glyph information based on the current environment.
@@ -129,7 +151,25 @@ export class MapCell {
     return this.glyphInfo.isCausingBleed || false;
   }
 
+  /**
+   * Check if the cell is glowing.
+   *
+   * @return {boolean} true if the cell is glowing, false otherwise
+   */
   public isGlowing(): boolean {
     return this.glyphInfo.isGlowing || false;
+  }
+
+  /**
+   * Check if the cell is causing poison due to the environment.
+   *
+   * @return {boolean} true if the cell is causing poison, false otherwise
+   */
+  public isCausingPoison(): boolean {
+    return (
+      this.glyphInfo.isCausingPoison ||
+      this.envEffects.includes(EnvEffect.Poison) ||
+      false
+    );
   }
 }

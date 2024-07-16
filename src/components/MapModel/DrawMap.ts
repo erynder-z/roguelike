@@ -1,5 +1,6 @@
 import { BuffsDisplay } from '../UI/BuffsDisplay';
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
+import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
 import { EquipmentDisplay } from '../UI/EquipmentDisplay';
 import { FlashDisplay } from '../UI/FlashDisplay';
 import { GameState } from '../Builder/Types/GameState';
@@ -239,5 +240,38 @@ export class DrawMap {
       'flash-display',
     ) as FlashDisplay;
     if (flashDisplay) flashDisplay.clearFlash(game);
+  }
+
+  /**
+   * Loops over each cell in the entire map and applies a given function.
+   *
+   * @param {Map} map - The game map
+   * @param {Function} callback - The function to apply to each cell
+   */
+  private static forEachCellInMap(
+    map: Map,
+    callback: (w: WorldPoint, map: Map) => void,
+  ) {
+    const mapDimensions = map.dimensions;
+    const w = new WorldPoint();
+
+    for (w.y = 0; w.y < mapDimensions.y; ++w.y) {
+      for (w.x = 0; w.x < mapDimensions.x; ++w.x) {
+        callback(w, map);
+      }
+    }
+  }
+
+  /**
+   * Apply environment area effects to each cell in the map based on the given game state.
+   *
+   * @param {Map} map - The game map to apply effects to
+   * @return {void} This function does not return anything.
+   */
+  public static addEnvironmentAreaEffectsToCells(map: Map): void {
+    this.forEachCellInMap(map, (w, map) => {
+      const cell = map.cell(w);
+      EnvironmentChecker.addPoisonEffectToCell(cell, w, map);
+    });
   }
 }
