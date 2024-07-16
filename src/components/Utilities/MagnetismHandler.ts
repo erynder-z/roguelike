@@ -34,38 +34,6 @@ export class MagnetismHandler {
   }
 
   /**
-   * Calculates the magnetic direction based on the given map and position.
-   *
-   * @param {Map} map - The map object representing the game world.
-   * @param {WorldPoint} currentPosition - The current position of object to calculate the magnetic direction for.
-   * @param {WorldPoint} newPosition - The position to calculate the magnetic direction for.
-   * @return {WorldPoint | null} The calculated magnetic direction, or null if there is no magnetism.
-   */
-  public static getMagneticDirection(
-    map: Map,
-    currentPosition: WorldPoint,
-    newPosition: WorldPoint,
-  ): WorldPoint | null {
-    const magneticNeighbor = this.checkForMagnetismInArea(map, newPosition);
-    return magneticNeighbor
-      ? currentPosition.directionTo(magneticNeighbor)
-      : null;
-  }
-
-  /**
-   * Calculates the new position by adding the direction to the current position.
-   *
-   * @param {WorldPoint} currentPosition - The current position of the mob.
-   * @param {WorldPoint} direction - The direction in which the mob is moving.
-   * @return {WorldPoint} The new position after adding the direction to the current position.
-   */
-  public static calculateNewPosition(
-    currentPosition: WorldPoint,
-    direction: WorldPoint,
-  ): WorldPoint {
-    return currentPosition.plus(direction);
-  }
-  /**
    * Determines if the object should move towards the magnetic position.
    *
    * @param {GameMap} map - The game map representing the game world.

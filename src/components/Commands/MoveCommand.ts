@@ -34,9 +34,8 @@ export class MoveCommand extends CommandBase {
     const map = <Map>this.game.currentMap();
 
     if (this.isMoveLegal(map, newPosition)) {
-      this.applyCellEffects(map, newPosition);
-
       this.moveAndHandleExtras(map, newPosition);
+      this.applyCellEffects(map, newPosition);
     }
 
     if (this.me.isPlayer) {
@@ -72,6 +71,12 @@ export class MoveCommand extends CommandBase {
     }
     if (map.cell(position).isCausingBleed()) {
       new BuffCommand(Buff.Bleed, this.me, this.game, this.me, 5).execute();
+    }
+    if (map.cell(position).isCausingPoison()) {
+      new BuffCommand(Buff.Poison, this.me, this.game, this.me, 5).execute();
+    }
+    if (map.cell(position).isCausingConfusion()) {
+      new BuffCommand(Buff.Confuse, this.me, this.game, this.me, 5).execute();
     }
   }
 
