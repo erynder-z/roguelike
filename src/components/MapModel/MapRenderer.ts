@@ -1,10 +1,12 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { CanSee } from '../Utilities/CanSee';
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
+import { EnvEffect } from './Types/EnvEffect';
 import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
+import { ManipulateColors } from '../Utilities/ManipulateColors';
 import { MapCell } from './MapCell';
 import { Map } from './Types/Map';
 import { Spell } from '../Spells/Spell';
@@ -22,12 +24,32 @@ export class MapRenderer {
   private static farLitColor: string = '#485460';
 
   /**
-   * Calculates the far distance from the player based on the presence of glowing rocks. The far distance can not be nigher than the default visibility range.
+   * Conditionally adds a tint to the background color based on the environment effects.
    *
-   * @param {WorldPoint} playerPos - The position of the player.
-   * @param {Map} map - The game map.
-   * @param {GameState} g - The game state.
-   * @return {number} The calculated far distance.
+   * @param {string} bgColor - The background color to tint.
+   * @param {EnvEffect[]} envEffects - The array of environment effects.
+   * @return {string} The tinted background color. If no tint is added, the original background color is returned.
+   */
+  private static maybeAddTintToColor(
+    bgColor: string,
+    envEffects: EnvEffect[],
+  ): string {
+    if (envEffects.includes(EnvEffect.Confusion)) {
+      return ManipulateColors.tintWithRed(bgColor, 0.1);
+    }
+    if (envEffects.includes(EnvEffect.Poison)) {
+      return ManipulateColors.tintWithPink(bgColor, 0.1);
+    }
+    return bgColor;
+  }
+
+  /**
+   * Calculates the far distance for visibility based on player position, map, and game state.
+   *
+   * @param {WorldPoint} playerPos - The position of the player on the map.
+   * @param {Map} map - The current map.
+   * @param {GameState} g - The game state containing player stats.
+   * @return {number} The calculated far distance for visibility.
    */
   private static getFarDist(
     playerPos: WorldPoint,
@@ -45,16 +67,17 @@ export class MapRenderer {
   }
 
   /**
-   * Draws a cell on the terminal based on various conditions such as visibility, distance, and lighting.
+   * Draws a cell on the terminal based on the provided parameters.
    *
-   * @param {DrawableTerminal} term - The terminal to draw on
-   * @param {TerminalPoint} t - The terminal point to draw at
-   * @param {WorldPoint} w - The world point of the cell
-   * @param {Map} map - The game map
-   * @param {WorldPoint} playerPos - The position of the player
-   * @param {number} farDist - The calculated far distance
-   * @param {boolean} blind - Indicates if the player is blind
-   * @param {boolean} isRayCast - Indicates if the drawing is based on ray casting
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @param {TerminalPoint} t - The position on the terminal to draw at.
+   * @param {WorldPoint} w - The position on the map to draw.
+   * @param {Map} map - The current map.
+   * @param {WorldPoint} playerPos - The position of the player on the map.
+   * @param {number} farDist - The far distance for visibility.
+   * @param {boolean} blind - Indicates if the player is blind.
+   * @param {boolean} isRayCast - Indicates if the cell is being raycasted.
+   * @return {void}
    */
   private static drawCell(
     term: DrawableTerminal,
@@ -65,7 +88,7 @@ export class MapRenderer {
     farDist: number,
     blind: boolean,
     isRayCast: boolean,
-  ) {
+  ): void {
     const cell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
     const distance = w.squaredDistanceTo(playerPos);
     const far = distance > farDist && !blind;
@@ -99,14 +122,14 @@ export class MapRenderer {
   }
 
   /**
-   * Checks the visibility of an entity on the map based on player position, visibility conditions, and line of sight.
+   * Checks the visibility of an entity based on various conditions.
    *
-   * @param {MapCell} cell - The map cell containing the entity
-   * @param {WorldPoint} playerPos - The position of the player
-   * @param {Map} map - The game map
-   * @param {boolean} far - Indicates if the entity is far from the player
-   * @param {boolean} blind - Indicates if the player is blind
-   * @return {boolean} True if the entity is visible, otherwise false
+   * @param {MapCell} cell - The cell to check visibility for.
+   * @param {WorldPoint} playerPos - The position of the player on the map.
+   * @param {Map} map - The current map.
+   * @param {boolean} far - Indicates if the entity is far from the player.
+   * @param {boolean} blind - Indicates if the player is blind.
+   * @return {boolean} Whether the entity is visible under the given conditions.
    */
   private static checkEntityVisibility(
     cell: MapCell,
@@ -124,18 +147,18 @@ export class MapRenderer {
   }
 
   /**
-   * Returns the foreground and background colors for a given cell based on its properties.
+   * Calculates the foreground and background colors for a cell based on various conditions.
    *
-   * @param {MapCell} cell - The cell for which to determine the colors.
-   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
-   * @param {GlyphInfo} envOnlyGlyphInfo - Information about the environment glyph for the cell.
+   * @param {MapCell} cell - The cell for which colors are being calculated.
+   * @param {GlyphInfo} glyphInfo - The glyph information for the cell.
+   * @param {GlyphInfo} envOnlyGlyphInfo - The environment-only glyph information for the cell.
    * @param {boolean} far - Indicates if the cell is far from the player.
    * @param {boolean} blind - Indicates if the player is blind.
-   * @param {boolean} isRayCast - Indicates if the cell is being rendered during ray casting.
-   * @param {WorldPoint} playerPos - The position of the player.
-   * @param {WorldPoint} w - The position of the cell.
-   * @param {Map} map - The map containing the cell.
-   * @return {{ fg: string; bg: string }} An object containing the foreground and background colors.
+   * @param {boolean} isRayCast - Indicates if ray casting is being used.
+   * @param {WorldPoint} playerPos - The position of the player on the map.
+   * @param {WorldPoint} w - The world point.
+   * @param {Map} map - The current map.
+   * @return {{ fg: string; bg: string }} The foreground and background colors for the cell.
    */
   private static getCellColors(
     cell: MapCell,
@@ -148,17 +171,10 @@ export class MapRenderer {
     w: WorldPoint,
     map: Map,
   ): { fg: string; bg: string } {
-    if (far) {
+    if (far || blind) {
       return {
-        fg: this.getFarFgCol(cell, glyphInfo),
-        bg: this.getFarBgCol(cell, glyphInfo),
-      };
-    }
-
-    if (blind) {
-      return {
-        fg: this.getBlindFgCol(cell, glyphInfo),
-        bg: this.getBlindBgCol(cell, glyphInfo),
+        fg: this.getGeneralFgCol(cell, glyphInfo),
+        bg: this.getGeneralBgCol(cell, glyphInfo),
       };
     }
 
@@ -168,12 +184,12 @@ export class MapRenderer {
       const isVisible = CanSee.checkPointLOS_RayCast(playerPos, w, map);
       return {
         fg: this.getRayCastFgCol(isVisible, cell, glyphInfo),
-        bg: this.getRayCastBgCol(isVisible, cell, glyphInfo),
+        bg: this.getRayCastBgCol(isVisible, cell),
       };
     }
 
     let fg = glyphInfo.fgCol;
-    if (!cell.mob && cell.obj && cell.obj.spell != Spell.None) {
+    if (!cell.mob && cell.obj && cell.obj.spell !== Spell.None) {
       fg = SpellColors.c[cell.obj.spell][0];
     }
 
@@ -181,12 +197,12 @@ export class MapRenderer {
   }
 
   /**
-   * Counts the number of glowing rocks within a certain distance of the player.
+   * Counts the number of glowing rocks in the vicinity of the player position within a specified diameter.
    *
-   * @param {WorldPoint} playerPos - The position of the player.
-   * @param {Map} map - The map to search for glowing rocks.
-   * @param {number} diameter - The maximum distance to search for glowing rocks.
-   * @return {number} The number of glowing rocks found.
+   * @param {WorldPoint} playerPos - The position of the player on the map.
+   * @param {Map} map - The current map.
+   * @param {number} diameter - The diameter within which to count glowing rocks.
+   * @return {number} The count of glowing rocks in the specified vicinity.
    */
   private static countGlowingRocks(
     playerPos: WorldPoint,
@@ -203,12 +219,13 @@ export class MapRenderer {
   }
 
   /**
-   * Loops over all cells in the current viewport and applies a given function.
+   * Helper function that Iterates over each cell in the view and invokes a callback function for each cell.
    *
-   * @param {DrawableTerminal} term - The terminal to draw on
-   * @param {Map} map - The game map
-   * @param {WorldPoint} vp - The view point
-   * @param {Function} callback - The function to apply to each cell
+   * @param {DrawableTerminal} term - The terminal used for drawing.
+   * @param {Map} map - The map containing the cells.
+   * @param {WorldPoint} vp - The view point on the map.
+   * @param {Function} callback - The callback function to be executed for each cell.
+   * @return {void}
    */
   private static forEachCellInView(
     term: DrawableTerminal,
@@ -220,7 +237,7 @@ export class MapRenderer {
       term: DrawableTerminal,
       map: Map,
     ) => void,
-  ) {
+  ): void {
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
@@ -238,13 +255,14 @@ export class MapRenderer {
   }
 
   /**
-   * Draws the normal map on the terminal based on the player's position and game state.
+   * Draws the map normally based on the player's position and game state.
    *
-   * @param {DrawableTerminal} term - The terminal to draw on
-   * @param {Map} map - The game map
-   * @param {WorldPoint} vp - The view point
-   * @param {WorldPoint} playerPos - The position of the player
-   * @param {GameState} g - The game state
+   * @param {DrawableTerminal} term - The terminal used for drawing.
+   * @param {Map} map - The map to be drawn.
+   * @param {WorldPoint} vp - The viewpoint on the map.
+   * @param {WorldPoint} playerPos - The position of the player on the map.
+   * @param {GameState} g - The current game state.
+   * @return {void}
    */
   public static drawMap_Normal(
     term: DrawableTerminal,
@@ -252,7 +270,7 @@ export class MapRenderer {
     vp: WorldPoint,
     playerPos: WorldPoint,
     g: GameState,
-  ) {
+  ): void {
     const buffs = g.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
     const farDist = this.getFarDist(playerPos, map, g);
@@ -263,13 +281,14 @@ export class MapRenderer {
   }
 
   /**
-   * Draws the map using ray casting on the provided terminal based on the player's position and game state.
+   * Renders the map using ray casting technique.
    *
-   * @param {DrawableTerminal} term - The terminal to draw on.
-   * @param {Map} map - The game map.
-   * @param {WorldPoint} vp - The view point.
-   * @param {WorldPoint} playerPos - The position of the player.
-   * @param {GameState} g - The game state.
+   * @param {DrawableTerminal} term - The terminal used for drawing.
+   * @param {Map} map - The map containing the cells.
+   * @param {WorldPoint} vp - The view point on the map.
+   * @param {WorldPoint} playerPos - The position of the player on the map.
+   * @param {GameState} g - The game state object.
+   * @return {void}
    */
   public static drawMap_RayCast(
     term: DrawableTerminal,
@@ -277,7 +296,7 @@ export class MapRenderer {
     vp: WorldPoint,
     playerPos: WorldPoint,
     g: GameState,
-  ) {
+  ): void {
     const buffs = g.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
     const farDist = this.getFarDist(playerPos, map, g);
@@ -288,54 +307,26 @@ export class MapRenderer {
   }
 
   /**
-   * Calculates the background color for a cell based on its properties.
+   * Calculates the background color based on the solid background flag and cell lighting.
    *
-   * @param {MapCell} cell - The cell for which to determine the background color.
-   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
-   * @return {string} The calculated background color for the cell.
-   */
-  private static getFarBgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
-    return glyphInfo.hasSolidBg && cell.lit
-      ? this.unlitColorSolidBg
-      : this.unlitColor;
-  }
-
-  /**
-   * Calculates the foreground color for a cell that is far from the player, based on its properties.
-   *
-   * @param {MapCell} cell - The cell for which to determine the foreground color.
-   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
-   * @return {string} The calculated foreground color for the cell.
-   */
-  private static getFarFgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
-    return cell.lit
-      ? cell.env === Glyph.Unknown
-        ? glyphInfo.bgCol
-        : this.farLitColor
-      : this.unlitColor;
-  }
-
-  /**
-   * Calculates the background color for a cell when the player is blind, based on its properties.
-   *
-   * @param {MapCell} cell - The cell for which to determine the background color.
-   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
-   * @return {string} The calculated background color for the cell.
-   */
-  private static getBlindBgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
-    return glyphInfo.hasSolidBg && cell.lit
-      ? this.unlitColorSolidBg
-      : this.unlitColor;
-  }
-
-  /**
-   * Returns the foreground color for a cell when the player is blind.
-   *
-   * @param {MapCell} cell - The cell for which to determine the foreground color.
+   * @param {MapCell} cell - The map cell to determine background color for.
    * @param {GlyphInfo} glyphInfo - Information about the glyph.
-   * @return {string} The foreground color for the cell.
+   * @return {string} The background color for the cell.
    */
-  private static getBlindFgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
+  private static getGeneralBgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
+    return glyphInfo.hasSolidBg && cell.lit
+      ? this.unlitColorSolidBg
+      : this.unlitColor;
+  }
+
+  /**
+   * Calculates the foreground color of a cell based on its properties.
+   *
+   * @param {MapCell} cell - The cell to determine the color for.
+   * @param {GlyphInfo} glyphInfo - The information about the glyph.
+   * @return {string} The calculated foreground color.
+   */
+  private static getGeneralFgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
     return cell.lit || cell.mob?.isPlayer
       ? cell.env === Glyph.Unknown
         ? glyphInfo.bgCol
@@ -344,88 +335,41 @@ export class MapRenderer {
   }
 
   /**
-   * Darkens a hex color by a given factor.
+   * Returns the background color for the raycast algorithm based on the visibility of the cell and its environment.
    *
-   * @param {string} hexColor - The hex color to darken.
-   * @param {number} factor - The factor by which to darken the color.
-   * @return {string} The darkened hex color.
+   * @param {boolean} isVisible - Indicates whether the cell is visible or not.
+   * @param {MapCell} cell - The map cell to determine the background color for.
+   * @return {string} The calculated background color.
    */
-  private static darkenColor(hexColor: string, factor: number): string {
-    if (hexColor.startsWith('#')) {
-      hexColor = hexColor.slice(1);
-    }
-
-    let r = parseInt(hexColor.slice(0, 2), 16);
-    let g = parseInt(hexColor.slice(2, 4), 16);
-    let b = parseInt(hexColor.slice(4, 6), 16);
-
-    r = Math.floor(r * (1 - factor));
-    g = Math.floor(g * (1 - factor));
-    b = Math.floor(b * (1 - factor));
-
-    const darkenedColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-
-    return darkenedColor;
-  }
-
-  /**
-   * Calculates the background color for a cell based on its properties.
-   *
-   * @param {boolean} isVisible - Indicates if the cell is visible.
-   * @param {MapCell} cell - The cell for which to determine the background color.
-   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
-   * @return {string} The calculated background color for the cell.
-   */
-  private static getRayCastBgCol(
-    isVisible: boolean,
-    cell: MapCell,
-    glyphInfo: GlyphInfo,
-  ): string {
-    let bg: string;
+  private static getRayCastBgCol(isVisible: boolean, cell: MapCell): string {
     const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
-
-    if (isVisible) {
-      bg = envOnlyGlyphInfo.bgCol;
-    } else {
-      bg =
-        glyphInfo.hasSolidBg && cell.lit
-          ? this.unlitColorSolidBg
-          : this.darkenColor(envOnlyGlyphInfo.bgCol, 0.3);
-    }
-
-    return bg;
+    return isVisible
+      ? this.maybeAddTintToColor(envOnlyGlyphInfo.bgCol, cell.envEffects)
+      : ManipulateColors.darkenColor(envOnlyGlyphInfo.bgCol, 0.3);
   }
 
   /**
-   * Calculates the foreground color for a cell based on its properties during ray casting.
+   * Calculates the foreground color of a cell for ray casting.
    *
-   * @param {boolean} isVisible - Indicates if the cell is visible.
-   * @param {MapCell} cell - The cell for which to determine the foreground color.
-   * @param {GlyphInfo} glyphInfo - Information about the glyph for the cell.
-   * @return {string} The calculated foreground color for the cell.
+   * @param {boolean} isVisible - Flag indicating if the cell is visible.
+   * @param {MapCell} cell - The cell to determine the color for.
+   * @param {GlyphInfo} glyphInfo - The information about the glyph.
+   * @return {string} The calculated foreground color.
    */
   private static getRayCastFgCol(
     isVisible: boolean,
     cell: MapCell,
     glyphInfo: GlyphInfo,
   ): string {
-    let fg: string;
-
     if (isVisible) {
-      fg = glyphInfo.fgCol;
-      if (!cell.mob && cell.obj && cell.obj.spell != Spell.None)
-        fg = SpellColors.c[cell.obj.spell][0];
-    } else {
-      if (cell.lit || cell.mob?.isPlayer) {
-        fg =
-          cell.env === Glyph.Unknown
-            ? glyphInfo.bgCol
-            : this.darkenColor(glyphInfo.fgCol, 0.0);
-      } else {
-        fg = this.unlitColor;
-      }
+      return !cell.mob && cell.obj && cell.obj.spell !== Spell.None
+        ? SpellColors.c[cell.obj.spell][0]
+        : glyphInfo.fgCol;
     }
-
-    return fg;
+    return cell.lit || cell.mob?.isPlayer
+      ? cell.env === Glyph.Unknown
+        ? glyphInfo.bgCol
+        : ManipulateColors.darkenColor(glyphInfo.fgCol, 0.0)
+      : this.unlitColor;
   }
 }

@@ -26,13 +26,13 @@ export class BaseScreen implements StackScreen {
    * @return {void}
    */
   public drawScreen(term: DrawableTerminal): void {
+    DrawMap.addEnvironmentAreaEffectsToCells(<GameMap>this.game.currentMap());
     DrawMap.drawMapPlayer(
       term,
       <GameMap>this.game.currentMap(),
       this.game.player.pos,
       this.game,
     );
-    DrawMap.addEnvironmentAreaEffectsToCells(<GameMap>this.game.currentMap());
     DrawMap.renderStats(this.game);
     DrawMap.renderEquipment(this.game);
     DrawMap.renderMessage(this.game);
