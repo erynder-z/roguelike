@@ -39,6 +39,13 @@ export class MapCell {
   }
 
   /**
+   * Clears all environment effects from the current map cell.
+   */
+  public clearAllEnvEffects() {
+    this.envEffects = [];
+  }
+
+  /**
    * Dynamically retrieves the glyph information based on the current environment.
    *
    * @return {GlyphInfo} the glyph information

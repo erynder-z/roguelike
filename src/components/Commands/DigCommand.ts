@@ -1,4 +1,5 @@
 import { CommandBase } from './CommandBase';
+import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
 import { EventCategory } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
@@ -40,13 +41,16 @@ export class DigCommand extends CommandBase {
       return false;
     }
 
+    const digCellEnv = cell.env;
     const rand = this.g.rand;
     const digSuccess = rand.isOneIn(10);
 
     if (digSuccess) {
       cell.env = Glyph.Floor;
+      EnvironmentChecker.clearCellEffectInArea(np, map, digCellEnv);
+
       const msg = new LogMessage(
-        'You broke through the rock!',
+        `You dig through the ${GlyphMap.getGlyphInfo(digCellEnv).name}!`,
         EventCategory.dig,
       );
       game.message(msg);

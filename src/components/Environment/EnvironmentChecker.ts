@@ -18,6 +18,17 @@ export class EnvironmentChecker {
   }
 
   /**
+   * Checks if a neighbor is within bounds of the map.
+   *
+   * @param {WorldPoint} neighbor - The neighboring point to check.
+   * @param {Map} map - The map containing the cells.
+   * @return {boolean} Returns true if the neighbor is within bounds, false otherwise.
+   */
+  private static isValidNeighbor(neighbor: WorldPoint, map: Map): boolean {
+    return !neighbor.isPositionOutOfBounds(neighbor, map);
+  }
+
+  /**
    * Add all environmental effects to the given cell.
    *
    * @param {MapCell} cell - The cell to add effects to.
@@ -46,7 +57,7 @@ export class EnvironmentChecker {
     if (cell.glyph() === Glyph.PoisonMushroom) {
       const neighbors = w.getNeighbors(1);
       for (const neighbor of neighbors) {
-        if (neighbor.isPositionOutOfBounds(neighbor, map)) {
+        if (!this.isValidNeighbor(neighbor, map)) {
           continue;
         }
         const neighborCell = map.cell(neighbor);
@@ -71,11 +82,51 @@ export class EnvironmentChecker {
     if (cell.glyph() === Glyph.ConfusionMushroom) {
       const neighbors = w.getNeighbors(1);
       for (const neighbor of neighbors) {
-        if (neighbor.isPositionOutOfBounds(neighbor, map)) {
+        if (!this.isValidNeighbor(neighbor, map)) {
           continue;
         }
         const neighborCell = map.cell(neighbor);
         neighborCell.addEnvEffect(EnvEffect.Confusion);
+      }
+    }
+  }
+
+  /**
+   * Gets the environmental effect corresponding to the given glyph.
+   *
+   * @param {Glyph} glyph - The glyph to get the effect from.
+   * @return {EnvEffect | null} The environmental effect corresponding to the glyph, or null if not found.
+   */
+  private static getEffectFromGlyph(glyph: Glyph): EnvEffect | null {
+    switch (glyph) {
+      case Glyph.PoisonMushroom:
+        return EnvEffect.Poison;
+      case Glyph.ConfusionMushroom:
+        return EnvEffect.Confusion;
+      default:
+        return null;
+    }
+  }   
+
+  /**
+   * Clears the environmental effect in the area surrounding a specified cell.
+   *
+   * @param {WorldPoint} w - The position of the cell.
+   * @param {Map} map - The map containing the cells.
+   * @param {Glyph} glyph - The glyph representing the environmental effect.
+   */
+  public static clearCellEffectInArea(w: WorldPoint, map: Map, glyph: Glyph) {
+    const effect = this.getEffectFromGlyph(glyph);
+
+    if (effect != null) {
+      const neighbors = w.getNeighbors(1);
+      for (const neighbor of neighbors) {
+        if (!this.isValidNeighbor(neighbor, map)) {
+          continue;
+        }
+        const neighborCell = map.cell(neighbor);
+
+        neighborCell.removeEnvEffect(effect);
       }
     }
   }
