@@ -6,6 +6,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 
 export class EnvironmentChecker {
   name: string = 'environment-checker';
+  private static areaOfEffectRadius: number = 1;
 
   /**
    * Checks if items can be dropped on the given cell.
@@ -37,8 +38,8 @@ export class EnvironmentChecker {
    * @return {void} This function does not return a value.
    */
   public static addCellEffects(cell: MapCell, w: WorldPoint, map: Map): void {
-    this.addPoisonEffectToCell(cell, w, map);
-    this.addConfusionEffectToCell(cell, w, map);
+    this.addPoisonEffectToCellNeighbors(cell, w, map);
+    this.addConfusionEffectToCellNeighbors(cell, w, map);
   }
 
   /**
@@ -49,13 +50,13 @@ export class EnvironmentChecker {
    * @param {Map} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
-  private static addPoisonEffectToCell(
+  private static addPoisonEffectToCellNeighbors(
     cell: MapCell,
     w: WorldPoint,
     map: Map,
   ): void {
     if (cell.glyph() === Glyph.PoisonMushroom) {
-      const neighbors = w.getNeighbors(1);
+      const neighbors = w.getNeighbors(this.areaOfEffectRadius);
       for (const neighbor of neighbors) {
         if (!this.isValidNeighbor(neighbor, map)) {
           continue;
@@ -74,13 +75,13 @@ export class EnvironmentChecker {
    * @param {Map} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
-  private static addConfusionEffectToCell(
+  private static addConfusionEffectToCellNeighbors(
     cell: MapCell,
     w: WorldPoint,
     map: Map,
   ): void {
     if (cell.glyph() === Glyph.ConfusionMushroom) {
-      const neighbors = w.getNeighbors(1);
+      const neighbors = w.getNeighbors(this.areaOfEffectRadius);
       for (const neighbor of neighbors) {
         if (!this.isValidNeighbor(neighbor, map)) {
           continue;
@@ -106,7 +107,7 @@ export class EnvironmentChecker {
       default:
         return null;
     }
-  }   
+  }
 
   /**
    * Clears the environmental effect in the area surrounding a specified cell.
@@ -119,7 +120,7 @@ export class EnvironmentChecker {
     const effect = this.getEffectFromGlyph(glyph);
 
     if (effect != null) {
-      const neighbors = w.getNeighbors(1);
+      const neighbors = w.getNeighbors(this.areaOfEffectRadius);
       for (const neighbor of neighbors) {
         if (!this.isValidNeighbor(neighbor, map)) {
           continue;
