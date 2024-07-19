@@ -80,9 +80,9 @@ export class ActiveBuffs {
    */
   public ticks(mob: Mob, game: GameState): void {
     for (const b of this._map.values()) {
-      --b.time;
-      if (b.effect) b.effect.tick(b.time);
-      if (b.time <= 0) this.delete(b, game, mob);
+      --b.timeLeft;
+      if (b.effect) b.effect.tick(b.duration, b.timeLeft);
+      if (b.timeLeft <= 0) this.delete(b, game, mob);
     }
   }
 }

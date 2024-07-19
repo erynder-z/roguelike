@@ -13,6 +13,7 @@ const BURN_DMG_MIN = 2;
 const BURN_DMG_MAX = 4;
 const LAVA_DMG_MIN = 5;
 const LAVA_DMG_MAX = 10;
+const DEFAULT_BUFF_DURATION = 8;
 
 /**
  * Represents the buff command that adds a buff to a mob.
@@ -23,7 +24,8 @@ export class BuffCommand extends CommandBase {
     public target: Mob,
     game: GameState,
     me: Mob,
-    public time: number = 8,
+    public duration: number = DEFAULT_BUFF_DURATION,
+    public timeLeft: number = duration,
   ) {
     super(me, game);
   }
@@ -58,7 +60,8 @@ export class BuffCommand extends CommandBase {
 
     const active: BuffType = {
       buff: this.buff,
-      time: this.time,
+      duration: this.duration,
+      timeLeft: this.timeLeft,
       effect: effect,
     };
 

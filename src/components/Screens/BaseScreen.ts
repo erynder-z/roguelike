@@ -149,7 +149,7 @@ export class BaseScreen implements StackScreen {
   private finishPlayerTurn(q: TurnQueue, s: Stack): void {
     const player = q.currentMob();
 
-    if (player) {
+    if (player.isPlayer) {
       this.finishTurn(player);
       if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
     } else {

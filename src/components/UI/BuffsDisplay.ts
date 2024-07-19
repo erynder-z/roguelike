@@ -69,7 +69,7 @@ export class BuffsDisplay extends HTMLElement {
 
       buffMap.forEach((buff, key) => {
         const listItem = document.createElement('li');
-        const remainTime = buff.time;
+        const remainTime = buff.timeLeft;
         listItem.textContent = `${Buff[key]}: ${remainTime}`;
 
         this.colorizer.colorBuffs(listItem);

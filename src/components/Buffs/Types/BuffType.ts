@@ -1,9 +1,10 @@
 export type Tick = {
-  tick(time: number): void;
+  tick(duration: number, timeLeft: number): void;
 };
 
 export type BuffType = {
   buff: number;
-  time: number;
+  duration: number;
+  timeLeft: number;
   effect: Tick | undefined;
 };
