@@ -1,7 +1,7 @@
 import { BaseScreen } from './BaseScreen';
 import { CommandBase } from '../Commands/CommandBase';
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
-import { DrawMap } from '../MapModel/DrawMap';
+import { DrawUI } from '../Renderer/DrawUI';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { FindObjectSpell } from '../Spells/FindObjectSpells';
 import { GameState } from '../Builder/Types/GameState';
@@ -46,7 +46,7 @@ export class ItemScreen extends BaseScreen {
     term.drawText(0, y++, `t throw`, fg, bg);
     term.drawText(0, y++, `w wear`, fg, bg);
 
-    DrawMap.renderMessage(this.game);
+    DrawUI.renderMessage(this.game);
   }
 
   /**

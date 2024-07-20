@@ -2,7 +2,7 @@ import { Glyph } from '../Glyphs/Glyph';
 import { GameMap } from '../MapModel/GameMap';
 import { Map } from '../MapModel/Types/Map';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
-import { REGULAR_LEVEL_TILES } from './GenerationData/RegularLevelTiles';
+import { DEFAULT_LEVEL_TILES } from './GenerationData/DefaultLevelTiles';
 import { RockGenerator } from './RockGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
 
@@ -75,8 +75,8 @@ export class MapGenerator1 {
   ): void {
     /* const centerGlyph = filled ? Glyph.Wall : Glyph.Floor; */
     const centerGlyph = filled
-      ? RockGenerator.getWallRockTypes(rnd, REGULAR_LEVEL_TILES)
-      : RockGenerator.getFloorRockTypes(rnd, REGULAR_LEVEL_TILES);
+      ? RockGenerator.getWallRockTypes(rnd, DEFAULT_LEVEL_TILES)
+      : RockGenerator.getFloorRockTypes(rnd, DEFAULT_LEVEL_TILES);
     const x2 = dimensions.x - 1;
     const y2 = dimensions.y - 1;
     const doorPositions: WorldPoint[] = [];
@@ -90,9 +90,9 @@ export class MapGenerator1 {
           x === 0 || y === 0 || x === dimensions.x || y === dimensions.y;
         const isSecondLayer = x === 1 || y === 1 || x === x2 || y === y2;
         const glyph = isEdge
-          ? RockGenerator.getFloorRockTypes(rnd, REGULAR_LEVEL_TILES)
+          ? RockGenerator.getFloorRockTypes(rnd, DEFAULT_LEVEL_TILES)
           : isSecondLayer
-            ? RockGenerator.getWallRockTypes(rnd, REGULAR_LEVEL_TILES)
+            ? RockGenerator.getWallRockTypes(rnd, DEFAULT_LEVEL_TILES)
             : centerGlyph;
         this.map.cell(currentPoint).env = glyph;
         if (isSecondLayer) {

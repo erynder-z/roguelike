@@ -2,7 +2,7 @@ import { BaseScreen } from './BaseScreen';
 import { Buff } from '../Buffs/BuffEnum';
 import { CanSee } from '../Utilities/CanSee';
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
-import { DrawMap } from '../MapModel/DrawMap';
+import { DrawUI } from '../Renderer/DrawUI';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
@@ -115,12 +115,12 @@ export class LookScreen extends BaseScreen {
    * @return {void} No return value.
    */
   private displayInfo(s: string): void {
-    DrawMap.clearFlash(this.game);
+    DrawUI.clearFlash(this.game);
 
     const msg = new LogMessage(s, EventCategory.look);
     this.game.flash(msg);
 
-    DrawMap.renderFlash(this.game);
+    DrawUI.renderFlash(this.game);
   }
 
   /**
@@ -167,7 +167,7 @@ export class LookScreen extends BaseScreen {
         moveCursor(1, 1);
         break;
       case 'KeyL':
-        DrawMap.clearFlash(this.game);
+        DrawUI.clearFlash(this.game);
         stack.pop();
 
         break;

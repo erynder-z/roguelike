@@ -1,5 +1,5 @@
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
-import { DrawMap } from '../MapModel/DrawMap';
+import { DrawUI } from '../Renderer/DrawUI';
 import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
 import { HealthAdjust } from '../Commands/HealthAdjust';
@@ -26,18 +26,18 @@ export class BaseScreen implements StackScreen {
    * @return {void}
    */
   public drawScreen(term: DrawableTerminal): void {
-    DrawMap.addEnvironmentAreaEffectsToCells(<GameMap>this.game.currentMap());
-    DrawMap.drawMapPlayer(
+    DrawUI.addEnvironmentAreaEffectsToCells(<GameMap>this.game.currentMap());
+    DrawUI.drawMapWithPlayerCentered(
       term,
       <GameMap>this.game.currentMap(),
       this.game.player.pos,
       this.game,
     );
-    DrawMap.renderStats(this.game);
-    DrawMap.renderEquipment(this.game);
-    DrawMap.renderMessage(this.game);
-    DrawMap.renderFlash(this.game);
-    DrawMap.renderActionImage(this.game);
+    DrawUI.renderStats(this.game);
+    DrawUI.renderEquipment(this.game);
+    DrawUI.renderMessage(this.game);
+    DrawUI.renderFlash(this.game);
+    DrawUI.renderActionImage(this.game);
   }
 
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {}

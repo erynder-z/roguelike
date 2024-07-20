@@ -1,11 +1,11 @@
-import { GameState } from '../Builder/Types/GameState';
-import { Map } from './Types/Map';
-import { WorldPoint } from './WorldPoint';
+import { GameState } from './Types/GameState';
+import { Map } from '../MapModel/Types/Map';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
- * Represents the dungeon that holds all the maps in the game.
+ * Holds the maps of the game.
  */
-export class Dungeon {
+export class MapHandler {
   public level: number = 0;
   public maps: Map[] = [];
 

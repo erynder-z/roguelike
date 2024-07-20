@@ -1,18 +1,18 @@
 import { Buff } from '../Buffs/BuffEnum';
 import { CanSee } from '../Utilities/CanSee';
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
-import { EnvEffect } from './Types/EnvEffect';
+import { EnvEffect } from '../MapModel/Types/EnvEffect';
 import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { ManipulateColors } from '../Utilities/ManipulateColors';
-import { MapCell } from './MapCell';
-import { Map } from './Types/Map';
+import { MapCell } from '../MapModel/MapCell';
+import { Map } from '../MapModel/Types/Map';
 import { Spell } from '../Spells/Spell';
 import { SpellColors } from '../Spells/SpellColors';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
-import { WorldPoint } from './WorldPoint';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * Sets each cell in the terminal to the appropriate glyph, information and colors.
@@ -264,7 +264,7 @@ export class MapRenderer {
    * @param {GameState} g - The current game state.
    * @return {void}
    */
-  public static drawMap_Normal(
+  public static drawMap_Standard(
     term: DrawableTerminal,
     map: Map,
     vp: WorldPoint,
