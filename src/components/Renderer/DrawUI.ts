@@ -9,18 +9,18 @@ import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
-import { MapCell } from './MapCell';
-import { Map } from './Types/Map';
+import { MapCell } from '../MapModel/MapCell';
+import { Map } from '../MapModel/Types/Map';
 import { MapRenderer } from './MapRenderer';
 import { MessagesDisplay } from '../UI/MessagesDisplay';
 import { StatsDisplay } from '../UI/StatsDisplay';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
-import { WorldPoint } from './WorldPoint';
+import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
- * Represents a utility class for drawing a map on a drawable terminal.
+ * Handles drawing/updating the game map and UI elements.
  */
-export class DrawMap {
+export class DrawUI {
   static outside: MapCell = new MapCell(Glyph.Unknown);
   /**
    * Draws a map on a drawable terminal. The whole map is visible.
@@ -71,14 +71,14 @@ export class DrawMap {
   }
 
   /**
-   * Draw the player on the map.
+   * Draw the map with the player centered.
    *
    * @param {DrawableTerminal} term - the terminal to draw on
    * @param {Map} map - the map to draw
    * @param {WorldPoint} player_pos - the position of the player
    * @param {GameState} g - the game interface
    */
-  public static drawMapPlayer(
+  public static drawMapWithPlayerCentered(
     term: DrawableTerminal,
     map: Map,
     playerPos: WorldPoint,

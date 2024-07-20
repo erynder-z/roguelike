@@ -64,19 +64,54 @@ export class MoveCommand extends CommandBase {
    */
   private applyCellEffects(map: Map, position: WorldPoint): void {
     if (map.cell(position).isCausingSlow()) {
-      new BuffCommand(Buff.Slow, this.me, this.game, this.me, 2).execute();
+      const duration = 2;
+      new BuffCommand(
+        Buff.Slow,
+        this.me,
+        this.game,
+        this.me,
+        duration,
+      ).execute();
     }
     if (map.cell(position).isCausingBurn()) {
-      new BuffCommand(Buff.Lava, this.me, this.game, this.me).execute();
+      const duration = 9;
+      new BuffCommand(
+        Buff.Lava,
+        this.me,
+        this.game,
+        this.me,
+        duration,
+      ).execute();
     }
     if (map.cell(position).isCausingBleed()) {
-      new BuffCommand(Buff.Bleed, this.me, this.game, this.me, 5).execute();
+      const duration = 5;
+      new BuffCommand(
+        Buff.Bleed,
+        this.me,
+        this.game,
+        this.me,
+        duration,
+      ).execute();
     }
     if (map.cell(position).isCausingPoison()) {
-      new BuffCommand(Buff.Poison, this.me, this.game, this.me, 5).execute();
+      const duration = 5;
+      new BuffCommand(
+        Buff.Poison,
+        this.me,
+        this.game,
+        this.me,
+        duration,
+      ).execute();
     }
     if (map.cell(position).isCausingConfusion()) {
-      new BuffCommand(Buff.Confuse, this.me, this.game, this.me, 5).execute();
+      const duration = 5;
+      new BuffCommand(
+        Buff.Confuse,
+        this.me,
+        this.game,
+        this.me,
+        duration,
+      ).execute();
     }
   }
 

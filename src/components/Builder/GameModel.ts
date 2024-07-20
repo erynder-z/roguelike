@@ -1,6 +1,6 @@
 import { AutoHeal } from '../Commands/AutoHeal';
 import { Builder } from './Builder';
-import { Dungeon } from '../MapModel/Dungeon';
+import { MapHandler } from './MapHandler';
 import { Equipment } from '../Inventory/Equipment';
 import { EventCategory } from '../Messages/LogMessage';
 import { GameState } from './Types/GameState';
@@ -24,7 +24,7 @@ export class Game implements GameState {
 
   ai: MobAI | null = null;
   log: MessageLog = new MessageLog();
-  dungeon: Dungeon = new Dungeon();
+  dungeon: MapHandler = new MapHandler();
   autoHeal: AutoHeal | undefined = new AutoHeal();
   inventory = new Inventory();
   equipment = new Equipment();

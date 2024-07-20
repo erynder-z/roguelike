@@ -12,22 +12,32 @@ export class BurnTick implements Tick {
   constructor(
     public mob: Mob,
     public game: GameState,
-    public minDmg: number = 2,
-    public maxDmg: number = 4,
+    private readonly MIN_DAMAGE: number = 2,
+    private readonly MAX_DAMAGE: number = 4,
   ) {}
 
   /**
-   * Executes a tick of the BurnTick class.
-   * Deals 2-4 damage every second turn
+   * Checks if damage should be applied based on the given time.
    *
-   * @param {number} time - The current time of the game.
-   * @return {void} This function does not return anything.
+   * @param {number} timeLeft - The time parameter to check.
+   * @return {boolean} True if damage should be applied, false otherwise.
    */
-  public tick(time: number): void {
-    if (time % 2) return;
+  private shouldApplyDamage(timeLeft: number): boolean {
+    return timeLeft % 2 === 0;
+  }
+
+  /**
+   * Ticks the burn effect on the mob.
+   *
+   * @param {number} duration - The duration of the burn effect.
+   * @param {number} timeLeft - The time left in the burn effect.
+   * @return {void} This function does not return a value.
+   */
+  public tick(duration: number, timeLeft: number): void {
+    if (!this.shouldApplyDamage(timeLeft)) return;
     const dmg = this.game.rand.randomIntegerClosedRange(
-      this.minDmg,
-      this.maxDmg,
+      this.MIN_DAMAGE,
+      this.MAX_DAMAGE,
     );
     if (this.mob.isPlayer) {
       const msg = new LogMessage(

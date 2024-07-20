@@ -1,6 +1,6 @@
 import { AutoHeal } from '../../Commands/AutoHeal';
 import { Builder } from '../Builder';
-import { Dungeon } from '../../MapModel/Dungeon';
+import { MapHandler } from '../MapHandler';
 import { Equipment } from '../../Inventory/Equipment';
 import { Inventory } from '../../Inventory/Inventory';
 import { LogMessage, EventCategory } from '../../Messages/LogMessage';
@@ -15,7 +15,7 @@ export type GameState = {
   player: Mob;
   ai: MobAI | null;
   log: MessageLog;
-  dungeon: Dungeon;
+  dungeon: MapHandler;
   build: Builder;
   autoHeal: AutoHeal | undefined;
   inventory: Inventory | undefined;

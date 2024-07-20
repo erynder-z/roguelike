@@ -1,7 +1,7 @@
 import { Glyph } from '../../Glyphs/Glyph';
 import { Tile } from '../Types/Tile';
 
-export const REGULAR_LEVEL_TILES: Tile = {
+export const DEFAULT_LEVEL_TILES: Tile = {
   floor: [
     { glyph: Glyph.Floor, occurrencePercentage: 95 },
     { glyph: Glyph.SpikyCrystal, occurrencePercentage: 1 },
