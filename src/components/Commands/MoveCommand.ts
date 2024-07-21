@@ -125,6 +125,7 @@ export class MoveCommand extends CommandBase {
   private moveAndHandleExtras(map: Map, position: WorldPoint): void {
     this.moveMobAndResetCounter(map, position);
     if (this.me.isPlayer) {
+      this.dealWithTraps(map, position);
       this.dealWithStairs(map, position);
       this.flashIfItem();
     }
@@ -161,6 +162,24 @@ export class MoveCommand extends CommandBase {
 
     if (direction !== null) {
       new StairCommand(direction, this.game).raw();
+    }
+  }
+
+  /**
+   * Deals with traps on the map by checking the cell at the specified position for a hidden trap.
+   *
+   * @param {Map} map - The map to check for traps.
+   * @param {WorldPoint} position - The position to check for traps.
+   * @return {void} This function does not return a value.
+   */
+  private dealWithTraps(map: Map, position: WorldPoint): void {
+    const cell = map.cell(position);
+
+    if (cell.env === Glyph.HiddenTrap) {
+      const msg = new LogMessage('You step on a trap!', EventCategory.trap);
+
+      this.game.message(msg);
+      cell.env = Glyph.VisibleTrap;
     }
   }
 

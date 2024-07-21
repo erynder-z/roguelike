@@ -180,11 +180,25 @@ export class MapCell {
     );
   }
 
+  /**
+   * Determines if the current cell is causing confusion.
+   *
+   * @return {boolean} True if the cell is causing confusion, false otherwise.
+   */
   public isCausingConfusion(): boolean {
     return (
       this.glyphInfo.isCausingConfusion ||
       this.envEffects.includes(EnvEffect.Confusion) ||
       false
     );
+  }
+
+  /**
+   * Checks if the current cell is a hidden trap.
+   *
+   * @return {boolean} True if the cell is a hidden trap, false otherwise.
+   */
+  public isHiddenTrap(): boolean {
+    return this.env === Glyph.HiddenTrap;
   }
 }

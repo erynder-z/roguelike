@@ -360,6 +360,44 @@
       "isGlowing": false,
       "isCausingPoison": false,
       "isCausingConfusion": true
+    },
+    {
+      "char": ".",
+      "bgCol": "#4B5A52",
+      "fgCol": "#6C7D6B",
+      "hasSolidBg": false,
+      "name": "HiddenTrap",
+      "description": "Regular ground. Nothing special here. Or is it?",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": false,
+      "isGlowing": false,
+      "isCausingPoison": false,
+      "isCausingConfusion": false
+    },
+    {
+      "char": "⇈",
+      "bgCol": "#4B5A52",
+      "fgCol": "#f9ff5b",
+      "hasSolidBg": false,
+      "name": "VisibleTrap",
+      "description": "Sharp spikes sprung from the ground.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isCausingSlow": true,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": true,
+      "isGlowing": false,
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     }
   ]
 }
