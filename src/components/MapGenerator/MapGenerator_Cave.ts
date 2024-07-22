@@ -69,6 +69,7 @@ export class MapGenerator_Cave {
     this.addDeepWater(map, rnd);
     this.addShallowWater(map, rnd);
     this.addLava(map, rnd);
+    this.addMossyFloor(map, rnd);
 
     return map;
   }
@@ -141,6 +142,45 @@ export class MapGenerator_Cave {
 
     for (const point of lavaPool) {
       map.cell(point).env = glyph;
+    }
+  }
+
+  private addMossyFloor(map: Map, rnd: RandomGenerator): void {
+    const glyph = Glyph.MossyFloor;
+    const mossyFloorCount = 10;
+    const mossyFloorSize = 15;
+    this.addMossyFloorPatches(map, rnd, mossyFloorCount, mossyFloorSize, glyph);
+  }
+
+  private addMossyFloorPatches(
+    map: Map,
+    rnd: RandomGenerator,
+    patchCount: number,
+    patchSize: number,
+    glyph: Glyph,
+  ): void {
+    for (let i = 0; i < patchCount; i++) {
+      if (rnd.isOneIn(2))
+        this.createMossyFloorPatches(map, rnd, patchSize, glyph);
+    }
+  }
+
+  private createMossyFloorPatches(
+    map: Map,
+    rnd: RandomGenerator,
+    size: number,
+    glyph: Glyph,
+  ): void {
+    const mossyFloorPatch =
+      IrregularShapeAreaGenerator.generateIrregularShapeArea(
+        map.dimensions,
+        rnd,
+        size,
+        10,
+      );
+
+    for (const point of mossyFloorPatch) {
+      if (map.cell(point).env === Glyph.Floor) map.cell(point).env = glyph;
     }
   }
 

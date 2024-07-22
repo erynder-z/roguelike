@@ -74,8 +74,23 @@ export class Overworld {
     }
 
     const freeSpace = FindFreeSpace.findFree(m, rnd);
-
     if (freeSpace) m.cell(freeSpace).env = Glyph.Magnetite;
+
+    const mossyFloorChance = rnd.randomIntegerClosedRange(1, 100);
+    if (mossyFloorChance <= 100) {
+      for (let i = 0; i < mossyFloorChance; i++) {
+        const mossyFloorArea =
+          IrregularShapeAreaGenerator.generateIrregularShapeArea(
+            dim,
+            rnd,
+            rnd.randomIntegerClosedRange(3, 10),
+            5,
+          );
+        for (const p of mossyFloorArea) {
+          if (m.cell(p).env === Glyph.Floor) m.cell(p).env = Glyph.MossyFloor;
+        }
+      }
+    }
 
     return m;
   }

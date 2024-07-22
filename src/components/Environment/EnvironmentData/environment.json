@@ -398,6 +398,25 @@
       "isGlowing": false,
       "isCausingPoison": false,
       "isCausingConfusion": false
+    },
+    {
+      "char": "⁎",
+      "bgCol": "#3b6244",
+      "fgCol": "#6C7D6B",
+      "hasSolidBg": false,
+      "name": "MossyFloor",
+      "description": "Patches of green moss on the ground.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": false,
+      "isGlowing": false,
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     }
   ]
 }
