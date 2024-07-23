@@ -114,6 +114,16 @@ export class MapCell {
   }
 
   /**
+   * Checks if the current cell is blocking projectiles.
+   *
+   * @return {boolean} Returns true if the cell is blocking projectiles, false otherwise.
+   */
+  public isBlockingProjectiles(): boolean {
+    const isBlockingEnv = this.glyphInfo.isBlockingProjectiles || false;
+    return !!this.mob || isBlockingEnv;
+  }
+
+  /**
    * Check if the environment of a cell is opaque.
    *
    * @return {boolean} true if the environment is opaque, false otherwise
