@@ -417,6 +417,25 @@
       "isGlowing": false,
       "isCausingPoison": false,
       "isCausingConfusion": false
+    },
+    {
+      "char": "∘",
+      "bgCol": "#1a1f1c",
+      "fgCol": "#384037",
+      "hasSolidBg": false,
+      "name": "Chasm",
+      "description": "A large chasm in the ground.",
+      "isOpaque": false,
+      "isBlockingMovement": true,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": false,
+      "isGlowing": false,
+      "isCausingPoison": false,
+      "isCausingConfusion": false
     }
   ]
 }

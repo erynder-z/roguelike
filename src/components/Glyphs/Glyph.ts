@@ -62,5 +62,5 @@ export enum Glyph {
   HiddenTrap,
   VisibleTrap,
   MossyFloor,
-  Portal,
+  Chasm,
 }

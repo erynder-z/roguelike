@@ -90,6 +90,8 @@ export class GameMap implements Map {
     m.pos.x = p.x;
     m.pos.y = p.y;
     this.cell(m.pos).mob = m;
+
+    if (this.cell(m.pos).env === Glyph.Chasm) m.hp = 0;
   }
 
   /**
