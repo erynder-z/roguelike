@@ -72,13 +72,13 @@ export class Builder implements Build {
     let map;
 
     switch (level) {
-      case 0:
+      case 2:
         map = Overworld.generate(rnd, level);
         break;
       case 1:
         map = MapGenerator1.generate(wdim, rnd, level);
         break;
-      case 2:
+      case 0:
         map = MapGenerator_Cave.generate(rnd, level);
         break;
       case 3:
@@ -242,7 +242,7 @@ export class Builder implements Build {
    * @returns {void}
    */
   private addLevelStairs(map: Map, level: number, rnd: RandomGenerator): void {
-    level === 0 ? this.addStairs0(map) : this.addStairs(map, rnd);
+    level === 0 ? this.addStairs0(map, rnd) : this.addStairs(map, rnd);
   }
 
   /**
@@ -250,14 +250,18 @@ export class Builder implements Build {
    * @param {Map} map - The map to which stairs are being added.
    * @returns {void}
    */
-  private addStairs0(map: Map): void {
+  private addStairs0(map: Map, rnd: RandomGenerator): void {
     const pos = this.centerPos(map.dimensions);
     const x = 3;
     const y = 0;
     const p = new WorldPoint(x, y).addTo(pos);
 
-    map.cell(p).env = Glyph.StairsDown;
-    map.addStairInfo(Glyph.StairsDown, p);
+    if (!map.cell(p).isBlocked) {
+      map.cell(p).env = Glyph.StairsDown;
+      map.addStairInfo(Glyph.StairsDown, p);
+    } else {
+      this.addStairs(map, rnd);
+    }
   }
 
   /**

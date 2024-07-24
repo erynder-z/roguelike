@@ -186,10 +186,11 @@ export class MapGenerator_Cave {
   }
 
   private addChasm(map: Map, rnd: RandomGenerator): void {
-    const glyph = Glyph.Chasm;
+    const centerGlyph = Glyph.ChasmCenter;
+    const edgeGlyph = Glyph.ChasmEdge;
     const chasmCount = 5;
     const chasmSize = 20;
-    this.addChasmAreas(map, rnd, chasmCount, chasmSize, glyph);
+    this.addChasmAreas(map, rnd, chasmCount, chasmSize, centerGlyph, edgeGlyph);
   }
 
   private addChasmAreas(
@@ -197,10 +198,12 @@ export class MapGenerator_Cave {
     rnd: RandomGenerator,
     areaCount: number,
     areaSize: number,
-    glyph: Glyph,
+    centerGlyph: Glyph,
+    edgeGlyph: Glyph,
   ): void {
     for (let i = 0; i < areaCount; i++) {
-      if (rnd.isOneIn(2)) this.createChasmAreas(map, rnd, areaSize, glyph);
+      if (rnd.isOneIn(2))
+        this.createChasmAreas(map, rnd, areaSize, centerGlyph, edgeGlyph);
     }
   }
 
@@ -208,7 +211,8 @@ export class MapGenerator_Cave {
     map: Map,
     rnd: RandomGenerator,
     size: number,
-    glyph: Glyph,
+    centerGlyph: Glyph,
+    edgeGlyph: Glyph,
   ): void {
     const chasmArea = IrregularShapeAreaGenerator.generateIrregularShapeArea(
       map.dimensions,
@@ -218,7 +222,23 @@ export class MapGenerator_Cave {
     );
 
     for (const point of chasmArea) {
-      map.cell(point).env = glyph;
+      map.cell(point).env = centerGlyph;
+    }
+
+    for (const point of chasmArea) {
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const neighbor = new WorldPoint(point.x + dx, point.y + dy);
+          if (!neighbor.isPositionOutOfBounds(neighbor, map)) {
+            if (
+              (dx !== 0 || dy !== 0) &&
+              map.cell(neighbor).env !== centerGlyph
+            ) {
+              map.cell(neighbor).env = edgeGlyph;
+            }
+          }
+        }
+      }
     }
   }
 
