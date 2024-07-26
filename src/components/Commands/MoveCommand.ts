@@ -36,10 +36,8 @@ export class MoveCommand extends CommandBase {
     if (this.isMoveLegal(map, newPosition)) {
       this.moveAndHandleExtras(map, newPosition);
       this.applyCellEffects(map, newPosition);
-    }
 
-    if (this.me.isPlayer) {
-      this.game.addCurrentEvent(EventCategory.moving);
+      if (this.me.isPlayer) this.game.addCurrentEvent(EventCategory.moving);
     }
 
     return !map.isBlocked(newPosition);

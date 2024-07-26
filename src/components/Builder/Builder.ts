@@ -72,13 +72,13 @@ export class Builder implements Build {
     let map;
 
     switch (level) {
-      case 2:
+      case 0:
         map = Overworld.generate(rnd, level);
         break;
       case 1:
         map = MapGenerator1.generate(wdim, rnd, level);
         break;
-      case 0:
+      case 2:
         map = MapGenerator_Cave.generate(rnd, level);
         break;
       case 3:
@@ -260,7 +260,7 @@ export class Builder implements Build {
       map.cell(p).env = Glyph.StairsDown;
       map.addStairInfo(Glyph.StairsDown, p);
     } else {
-      this.addStairs(map, rnd);
+      this.addStair(map, rnd, Glyph.StairsDown);
     }
   }
 
