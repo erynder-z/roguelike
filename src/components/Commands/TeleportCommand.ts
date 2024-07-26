@@ -1,6 +1,7 @@
 import { CommandBase } from './CommandBase';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
+import { Glyph } from '../Glyphs/Glyph';
 import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
 import { WorldPoint } from '../MapModel/WorldPoint';
@@ -12,9 +13,9 @@ export class TeleportCommand extends CommandBase {
   constructor(
     private readonly radius: number,
     private readonly mob: Mob,
-    private readonly gameInstance: GameState,
+    private readonly game: GameState,
   ) {
-    super(mob, gameInstance);
+    super(mob, game);
   }
 
   /**
@@ -23,7 +24,7 @@ export class TeleportCommand extends CommandBase {
    * @return {boolean} Returns true if the mob was successfully teleported, false otherwise.
    */
   public execute(): boolean {
-    const map = this.gameInstance.currentMap() as Map;
+    const map = this.game.currentMap() as Map;
     const targetPoint = this.findTeleportPoint(this.mob.pos, this.radius, map);
 
     if (!targetPoint) return false;
@@ -34,7 +35,8 @@ export class TeleportCommand extends CommandBase {
       `${this.mob.name} teleports.`,
       EventCategory.teleport,
     );
-    this.gameInstance.message(message);
+    this.game.message(message);
+
     return true;
   }
 
@@ -51,7 +53,7 @@ export class TeleportCommand extends CommandBase {
     radius: number,
     map: Map,
   ): WorldPoint | null {
-    const random = this.gameInstance.rand;
+    const random = this.game.rand;
     const newPoint = new WorldPoint();
 
     for (let attempts = 15; attempts > 0; attempts--) {
@@ -59,6 +61,14 @@ export class TeleportCommand extends CommandBase {
       const deltaY = random.randomInteger(-radius, radius);
       newPoint.x = center.x + deltaX;
       newPoint.y = center.y + deltaY;
+
+      if (
+        (map.isLegalPoint(newPoint) &&
+          map.cell(newPoint).env === Glyph.ChasmEdge) ||
+        (map.isLegalPoint(newPoint) &&
+          map.cell(newPoint).env === Glyph.ChasmCenter)
+      )
+        return newPoint;
 
       if (!map.isLegalPoint(newPoint) || map.isBlocked(newPoint)) {
         continue;
