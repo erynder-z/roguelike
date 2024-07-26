@@ -68,6 +68,17 @@ export class HealthAdjust {
   }
 
   /**
+   * Kills the specified mob by dealing its full health as damage.
+   *
+   * @param {Mob} mob - The mob to be killed.
+   * @param {GameState} game - The game state object.
+   * @return {void} This function does not return anything.
+   */
+  public static killMob(mob: Mob, game: GameState): void {
+    this.damage(mob, mob.hp, game, null);
+  }
+
+  /**
    * Handles the death of the specified mob.
    * @param {Mob} mob - The mob that dies.
    * @param {GameState} game - The game object.

@@ -5,6 +5,7 @@ import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 import { DEFAULT_LEVEL_TILES } from './GenerationData/DefaultLevelTiles';
 import { RockGenerator } from './RockGenerator';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { IrregularShapeAreaGenerator } from '../Utilities/IrregularShapeAreaGenerator';
 
 /**
  * Map generator for standard levels.
@@ -31,6 +32,23 @@ export class MapGenerator1 {
       this.pickRandomPosition(upperLeft, roomDimensions);
       const filled = rnd.isOneIn(3);
       this.drawRoom(upperLeft, roomDimensions, filled, rnd);
+    }
+
+    const mossyFloorChance = rnd.randomIntegerClosedRange(1, 100);
+    if (mossyFloorChance <= 100) {
+      for (let i = 0; i < mossyFloorChance; i++) {
+        const mossyFloorArea =
+          IrregularShapeAreaGenerator.generateIrregularShapeArea(
+            map.dimensions,
+            rnd,
+            rnd.randomIntegerClosedRange(3, 10),
+            5,
+          );
+        for (const p of mossyFloorArea) {
+          if (map.cell(p).env === Glyph.Floor)
+            map.cell(p).env = Glyph.MossyFloor;
+        }
+      }
     }
     return map;
   }

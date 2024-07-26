@@ -114,6 +114,16 @@ export class MapCell {
   }
 
   /**
+   * Checks if the current cell is blocking projectiles.
+   *
+   * @return {boolean} Returns true if the cell is blocking projectiles, false otherwise.
+   */
+  public isBlockingProjectiles(): boolean {
+    const isBlockingEnv = this.glyphInfo.isBlockingProjectiles || false;
+    return !!this.mob || isBlockingEnv;
+  }
+
+  /**
    * Check if the environment of a cell is opaque.
    *
    * @return {boolean} true if the environment is opaque, false otherwise
@@ -180,11 +190,25 @@ export class MapCell {
     );
   }
 
+  /**
+   * Determines if the current cell is causing confusion.
+   *
+   * @return {boolean} True if the cell is causing confusion, false otherwise.
+   */
   public isCausingConfusion(): boolean {
     return (
       this.glyphInfo.isCausingConfusion ||
       this.envEffects.includes(EnvEffect.Confusion) ||
       false
     );
+  }
+
+  /**
+   * Checks if the current cell is a hidden trap.
+   *
+   * @return {boolean} True if the cell is a hidden trap, false otherwise.
+   */
+  public isHiddenTrap(): boolean {
+    return this.env === Glyph.HiddenTrap;
   }
 }

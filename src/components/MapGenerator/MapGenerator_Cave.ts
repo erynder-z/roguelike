@@ -69,6 +69,8 @@ export class MapGenerator_Cave {
     this.addDeepWater(map, rnd);
     this.addShallowWater(map, rnd);
     this.addLava(map, rnd);
+    this.addMossyFloor(map, rnd);
+    this.addChasm(map, rnd); // Add the chasm
 
     return map;
   }
@@ -141,6 +143,102 @@ export class MapGenerator_Cave {
 
     for (const point of lavaPool) {
       map.cell(point).env = glyph;
+    }
+  }
+
+  private addMossyFloor(map: Map, rnd: RandomGenerator): void {
+    const glyph = Glyph.MossyFloor;
+    const mossyFloorCount = 10;
+    const mossyFloorSize = 15;
+    this.addMossyFloorPatches(map, rnd, mossyFloorCount, mossyFloorSize, glyph);
+  }
+
+  private addMossyFloorPatches(
+    map: Map,
+    rnd: RandomGenerator,
+    patchCount: number,
+    patchSize: number,
+    glyph: Glyph,
+  ): void {
+    for (let i = 0; i < patchCount; i++) {
+      if (rnd.isOneIn(2))
+        this.createMossyFloorPatches(map, rnd, patchSize, glyph);
+    }
+  }
+
+  private createMossyFloorPatches(
+    map: Map,
+    rnd: RandomGenerator,
+    size: number,
+    glyph: Glyph,
+  ): void {
+    const mossyFloorPatch =
+      IrregularShapeAreaGenerator.generateIrregularShapeArea(
+        map.dimensions,
+        rnd,
+        size,
+        10,
+      );
+
+    for (const point of mossyFloorPatch) {
+      if (map.cell(point).env === Glyph.Floor) map.cell(point).env = glyph;
+    }
+  }
+
+  private addChasm(map: Map, rnd: RandomGenerator): void {
+    const centerGlyph = Glyph.ChasmCenter;
+    const edgeGlyph = Glyph.ChasmEdge;
+    const chasmCount = 5;
+    const chasmSize = 20;
+    this.addChasmAreas(map, rnd, chasmCount, chasmSize, centerGlyph, edgeGlyph);
+  }
+
+  private addChasmAreas(
+    map: Map,
+    rnd: RandomGenerator,
+    areaCount: number,
+    areaSize: number,
+    centerGlyph: Glyph,
+    edgeGlyph: Glyph,
+  ): void {
+    for (let i = 0; i < areaCount; i++) {
+      if (rnd.isOneIn(2))
+        this.createChasmAreas(map, rnd, areaSize, centerGlyph, edgeGlyph);
+    }
+  }
+
+  private createChasmAreas(
+    map: Map,
+    rnd: RandomGenerator,
+    size: number,
+    centerGlyph: Glyph,
+    edgeGlyph: Glyph,
+  ): void {
+    const chasmArea = IrregularShapeAreaGenerator.generateIrregularShapeArea(
+      map.dimensions,
+      rnd,
+      size,
+      15,
+    );
+
+    for (const point of chasmArea) {
+      map.cell(point).env = centerGlyph;
+    }
+
+    for (const point of chasmArea) {
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          const neighbor = new WorldPoint(point.x + dx, point.y + dy);
+          if (!neighbor.isPositionOutOfBounds(neighbor, map)) {
+            if (
+              (dx !== 0 || dy !== 0) &&
+              map.cell(neighbor).env !== centerGlyph
+            ) {
+              map.cell(neighbor).env = edgeGlyph;
+            }
+          }
+        }
+      }
     }
   }
 

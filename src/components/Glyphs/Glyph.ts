@@ -59,4 +59,9 @@ export enum Glyph {
   GlowingMushroom,
   PoisonMushroom,
   ConfusionMushroom,
+  HiddenTrap,
+  VisibleTrap,
+  MossyFloor,
+  ChasmEdge,
+  ChasmCenter,
 }

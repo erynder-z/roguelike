@@ -1,7 +1,9 @@
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
 import { DrawUI } from '../Renderer/DrawUI';
+import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
+import { Glyph } from '../Glyphs/Glyph';
 import { HealthAdjust } from '../Commands/HealthAdjust';
 import { Mob } from '../Mobs/Mob';
 import { ScreenMaker } from './Types/ScreenMaker';
@@ -130,6 +132,19 @@ export class BaseScreen implements StackScreen {
   }
 
   /**
+   * Checks if the current cell of the given mob is a chasm.
+   *
+   * @param {Mob} m - The mob whose current cell is to be checked.
+   * @return {boolean} True if the current cell is a chasm, false otherwise.
+   */
+  private isCurrentCellChasm(m: Mob): boolean {
+    const map = <GameMap>this.game.currentMap();
+    const cell = map.cell(m.pos);
+
+    return cell.env === Glyph.ChasmEdge || cell.env === Glyph.ChasmCenter;
+  }
+
+  /**
    * A method to finish the turn for a given mob.
    *
    * @param {Mob} m - the mob to finish the turn for
@@ -149,9 +164,21 @@ export class BaseScreen implements StackScreen {
   private finishPlayerTurn(q: TurnQueue, s: Stack): void {
     const player = q.currentMob();
 
+    this.finishTurn(player);
+
     if (player.isPlayer) {
-      this.finishTurn(player);
       if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
+
+      if (this.isCurrentCellChasm(player)) {
+        const msg = new LogMessage(
+          'You fall into the abyss!',
+          EventCategory.chasm,
+        );
+
+        HealthAdjust.killMob(player, this.game);
+        this.game.message(msg);
+        this.over(s);
+      }
     } else {
       this.over(s);
     }

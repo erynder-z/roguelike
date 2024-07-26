@@ -66,7 +66,7 @@ export class DirectionStep extends TimedStep {
     if (!map.isLegalPoint(currentPosition)) return null;
 
     const cell = map.cell(currentPosition);
-    const done = cell.isBlocked() && cell.env !== Glyph.DeepWater;
+    const done = cell.isBlockingProjectiles();
 
     if (!done) {
       cell.sprite = this.sprite;
