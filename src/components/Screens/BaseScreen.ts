@@ -132,19 +132,6 @@ export class BaseScreen implements StackScreen {
   }
 
   /**
-   * Checks if the current cell of the given mob is a chasm.
-   *
-   * @param {Mob} m - The mob whose current cell is to be checked.
-   * @return {boolean} True if the current cell is a chasm, false otherwise.
-   */
-  private isCurrentCellChasm(m: Mob): boolean {
-    const map = <GameMap>this.game.currentMap();
-    const cell = map.cell(m.pos);
-
-    return cell.env === Glyph.ChasmEdge || cell.env === Glyph.ChasmCenter;
-  }
-
-  /**
    * A method to finish the turn for a given mob.
    *
    * @param {Mob} m - the mob to finish the turn for
@@ -163,13 +150,15 @@ export class BaseScreen implements StackScreen {
    */
   private finishPlayerTurn(q: TurnQueue, s: Stack): void {
     const player = q.currentMob();
+    const map = <GameMap>this.game.currentMap();
+    const currentCell = map.cell(player.pos);
 
     this.finishTurn(player);
 
     if (player.isPlayer) {
       if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
 
-      if (this.isCurrentCellChasm(player)) {
+      if (currentCell.isChasm()) {
         const msg = new LogMessage(
           'You fall into the abyss!',
           EventCategory.chasm,

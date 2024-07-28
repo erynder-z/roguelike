@@ -211,4 +211,13 @@ export class MapCell {
   public isHiddenTrap(): boolean {
     return this.env === Glyph.HiddenTrap;
   }
+
+  /**
+   * Checks if the current cell is a chasm.
+   *
+   * @return {boolean} True if the cell is a chasm, false otherwise.
+   */
+  public isChasm(): boolean {
+    return this.env === Glyph.ChasmEdge || this.env === Glyph.ChasmCenter;
+  }
 }
