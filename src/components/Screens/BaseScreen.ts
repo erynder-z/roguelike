@@ -164,7 +164,7 @@ export class BaseScreen implements StackScreen {
     }
 
     this.handleAutoHeal(player);
-    this.handleCellEffects(currentCell, player, s);
+    this.handleCellEffects(currentCell, player);
   }
 
   /**
@@ -184,12 +184,11 @@ export class BaseScreen implements StackScreen {
    *
    * @param {MapCell} cell - The cell to handle effects for.
    * @param {Mob} player - The player to apply effects to.
-   * @param {Stack} s - The stack of screens.
    * @return {void} This function does not return a value.
    */
-  private handleCellEffects(cell: MapCell, player: Mob, s: Stack): void {
+  private handleCellEffects(cell: MapCell, player: Mob): void {
     this.handleWater(cell, player);
-    this.handleChasm(cell, player, s);
+    this.handleChasm(cell, player);
   }
   /**
    * Handle cleansing fire buffs if the player is on a cell that removes them.
@@ -212,12 +211,11 @@ export class BaseScreen implements StackScreen {
    *
    * @param {MapCell} cell - the current cell of the player
    * @param {Mob} player - the player
-   * @param {Stack} s - the stack of screens
    * @return {void}
    */
-  private handleChasm(cell: MapCell, player: Mob, s: Stack): void {
+  private handleChasm(cell: MapCell, player: Mob): void {
     if (cell.isChasm()) {
-      this.fallIntoChasm(player, s);
+      this.fallIntoChasm(player);
     }
   }
 
@@ -225,14 +223,12 @@ export class BaseScreen implements StackScreen {
    * Handles the fall into a chasm event for the player.
    *
    * @param {Mob} player - the player who falls into the chasm
-   * @param {Stack} s - the stack of screens
    * @return {void} This function does not return a value.
    */
-  private fallIntoChasm(player: Mob, s: Stack): void {
+  private fallIntoChasm(player: Mob): void {
     const msg = new LogMessage('You fall into the abyss!', EventCategory.chasm);
-    HealthAdjust.killMob(player, this.game);
     this.game.message(msg);
-    this.over(s);
+    HealthAdjust.killMob(player, this.game);
   }
 
   /**
