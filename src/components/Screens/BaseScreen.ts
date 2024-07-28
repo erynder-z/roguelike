@@ -1,15 +1,16 @@
+import { CleanseBuffCommand } from '../Commands/CleanseBuffCommand';
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
 import { DrawUI } from '../Renderer/DrawUI';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
-import { Glyph } from '../Glyphs/Glyph';
 import { HealthAdjust } from '../Commands/HealthAdjust';
 import { Mob } from '../Mobs/Mob';
 import { ScreenMaker } from './Types/ScreenMaker';
 import { Stack } from '../Terminal/Types/Stack';
 import { StackScreen } from '../Terminal/Types/StackScreen';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
+import { Buff } from '../Buffs/BuffEnum';
 
 /**
  * Represents a base screen implementation that implements the StackScreen interface.
@@ -158,6 +159,10 @@ export class BaseScreen implements StackScreen {
     if (player.isPlayer) {
       if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
 
+      if (currentCell.isRemovingFireBuffs()) {
+        new CleanseBuffCommand(Buff.Burn, player, this.game).execute();
+        new CleanseBuffCommand(Buff.Lava, player, this.game).execute();
+      }
       if (currentCell.isChasm()) {
         const msg = new LogMessage(
           'You fall into the abyss!',

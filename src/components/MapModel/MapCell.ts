@@ -220,4 +220,13 @@ export class MapCell {
   public isChasm(): boolean {
     return this.env === Glyph.ChasmEdge || this.env === Glyph.ChasmCenter;
   }
+
+  /**
+   * Checks if the current cell is removing fire-based buffs.
+   *
+   * @return {boolean} True if the cell is removing fire buffs, false otherwise.
+   */
+  public isRemovingFireBuffs(): boolean {
+    return this.env === Glyph.ShallowWater || this.env === Glyph.DeepWater;
+  }
 }

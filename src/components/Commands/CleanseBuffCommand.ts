@@ -27,7 +27,10 @@ export class CleanseBuffCommand extends CommandBase {
 
     if (this.buff) this.me.buffs.cleanse(this.buff, g, me);
 
-    const msg = new LogMessage(`Cleansed ${this.buff}!`, EventCategory.heal);
+    const msg = new LogMessage(
+      `Cleansed ${Buff[this.buff]}!`,
+      EventCategory.heal,
+    );
 
     g.message(msg);
 
