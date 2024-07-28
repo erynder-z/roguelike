@@ -29,12 +29,12 @@ export class ActiveBuffs {
   }
 
   /**
-   * Deletes a buff from the collection of active buffs for a given mob.
-   * @param {BuffType} b - The buff to delete.
+   * Remove a buff from the collection of active buffs for a given mob.
+   * @param {BuffType} b - The buff to remove.
    * @param {Game} game - The game object.
    * @param {Mob} mob - The mob to remove the buff from.
    */
-  public delete(b: BuffType, game: GameState, mob: Mob): void {
+  public remove(b: BuffType, game: GameState, mob: Mob): void {
     this._map.delete(b.buff);
     const buffAdj = GrammarHandler.BuffToAdjective(b.buff) || b.buff;
     const msg = new LogMessage(
@@ -70,7 +70,7 @@ export class ActiveBuffs {
    */
   public cleanse(buff: Buff, game: GameState, mob: Mob): void {
     const b = mob.buffs.get(buff);
-    if (b) this.delete(b, game, mob);
+    if (b) this.remove(b, game, mob);
   }
 
   /**
@@ -82,7 +82,7 @@ export class ActiveBuffs {
     for (const b of this._map.values()) {
       --b.timeLeft;
       if (b.effect) b.effect.tick(b.duration, b.timeLeft);
-      if (b.timeLeft <= 0) this.delete(b, game, mob);
+      if (b.timeLeft <= 0) this.remove(b, game, mob);
     }
   }
 }
