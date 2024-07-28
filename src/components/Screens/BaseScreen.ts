@@ -11,6 +11,7 @@ import { Stack } from '../Terminal/Types/Stack';
 import { StackScreen } from '../Terminal/Types/StackScreen';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
 import { Buff } from '../Buffs/BuffEnum';
+import { MapCell } from '../MapModel/MapCell';
 
 /**
  * Represents a base screen implementation that implements the StackScreen interface.
@@ -147,6 +148,7 @@ export class BaseScreen implements StackScreen {
    * Finish the player's turn.
    *
    * @param {TurnQueue} q - the turn queue
+   * @param {Stack} s - the stack of screens
    * @return {void}
    */
   private finishPlayerTurn(q: TurnQueue, s: Stack): void {
@@ -156,26 +158,81 @@ export class BaseScreen implements StackScreen {
 
     this.finishTurn(player);
 
-    if (player.isPlayer) {
-      if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
-
-      if (currentCell.isRemovingFireBuffs()) {
-        new CleanseBuffCommand(Buff.Burn, player, this.game).execute();
-        new CleanseBuffCommand(Buff.Lava, player, this.game).execute();
-      }
-      if (currentCell.isChasm()) {
-        const msg = new LogMessage(
-          'You fall into the abyss!',
-          EventCategory.chasm,
-        );
-
-        HealthAdjust.killMob(player, this.game);
-        this.game.message(msg);
-        this.over(s);
-      }
-    } else {
+    if (!player.isPlayer) {
       this.over(s);
+      return;
     }
+
+    this.handleAutoHeal(player);
+    this.handleCellEffects(currentCell, player, s);
+  }
+
+  /**
+   * Handle auto-healing for the player.
+   *
+   * @param {Mob} player - the player
+   * @return {void}
+   */
+  private handleAutoHeal(player: Mob): void {
+    if (this.game.autoHeal) {
+      this.game.autoHeal.turn(player, this.game);
+    }
+  }
+
+  /**
+   * Handles the effects of a cell on the player.
+   *
+   * @param {MapCell} cell - The cell to handle effects for.
+   * @param {Mob} player - The player to apply effects to.
+   * @param {Stack} s - The stack of screens.
+   * @return {void} This function does not return a value.
+   */
+  private handleCellEffects(cell: MapCell, player: Mob, s: Stack): void {
+    this.handleWater(cell, player);
+    this.handleChasm(cell, player, s);
+  }
+  /**
+   * Handle cleansing fire buffs if the player is on a cell that removes them.
+   *
+   * @param {MapCell} cell - the current cell of the player
+   * @param {Mob} player - the player
+   * @return {void}
+   */
+  private handleWater(cell: MapCell, player: Mob): void {
+    if (cell.isWater()) {
+      const fireBuffs = [Buff.Burn, Buff.Lava];
+      fireBuffs.forEach(buff =>
+        new CleanseBuffCommand(buff, player, this.game).execute(),
+      );
+    }
+  }
+
+  /**
+   * Handle falling into a chasm if the player is on a chasm cell.
+   *
+   * @param {MapCell} cell - the current cell of the player
+   * @param {Mob} player - the player
+   * @param {Stack} s - the stack of screens
+   * @return {void}
+   */
+  private handleChasm(cell: MapCell, player: Mob, s: Stack): void {
+    if (cell.isChasm()) {
+      this.fallIntoChasm(player, s);
+    }
+  }
+
+  /**
+   * Handles the fall into a chasm event for the player.
+   *
+   * @param {Mob} player - the player who falls into the chasm
+   * @param {Stack} s - the stack of screens
+   * @return {void} This function does not return a value.
+   */
+  private fallIntoChasm(player: Mob, s: Stack): void {
+    const msg = new LogMessage('You fall into the abyss!', EventCategory.chasm);
+    HealthAdjust.killMob(player, this.game);
+    this.game.message(msg);
+    this.over(s);
   }
 
   /**

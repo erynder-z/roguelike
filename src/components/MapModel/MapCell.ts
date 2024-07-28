@@ -222,11 +222,11 @@ export class MapCell {
   }
 
   /**
-   * Checks if the current cell is removing fire-based buffs.
+   * Determines if the current cell is water.
    *
-   * @return {boolean} True if the cell is removing fire buffs, false otherwise.
+   * @return {boolean} True if the cell is water, false otherwise.
    */
-  public isRemovingFireBuffs(): boolean {
+  public isWater(): boolean {
     return this.env === Glyph.ShallowWater || this.env === Glyph.DeepWater;
   }
 }
