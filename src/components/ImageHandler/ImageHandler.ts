@@ -1,4 +1,5 @@
 import attackImages from './attackImages';
+import deathImages from './deathImages';
 import { EventCategory } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
 import hurtImages from './hurtImages';
@@ -181,6 +182,24 @@ export class ImageHandler {
     const randomImage = r.getRandomImageFromArray(neutralImages);
     const image = new Image();
     image.src = randomImage;
+    this.displayImage(image, evt);
+    game.log.removeCurrentEvent();
+  }
+
+  /**
+   * Handles the display of a random death image on the game screen.
+   *
+   * @param {GameState} game - The game state object containing the necessary data.
+   * @return {void} This function does not return anything.
+   */
+  public handleDeathImageDisplay(game: GameState): void {
+    const r = game.rand;
+    const evt = EventCategory[game.log.currentEvent];
+
+    const randomImage = r.getRandomImageFromArray(deathImages);
+    const image = new Image();
+    image.src = randomImage;
+
     this.displayImage(image, evt);
     game.log.removeCurrentEvent();
   }

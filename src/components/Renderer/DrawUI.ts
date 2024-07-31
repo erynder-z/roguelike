@@ -203,6 +203,9 @@ export class DrawUI {
       case EventCategory.wait:
         imageHandler.handleNeutralImageDisplay(game);
         break;
+      case EventCategory.playerDeath:
+        imageHandler.handleDeathImageDisplay(game);
+        break;
       default:
         break;
     }

@@ -113,7 +113,7 @@ export class BaseScreen implements StackScreen {
     if (!this.game.log) return;
 
     if (this.game.playerDmgCount >= 1)
-      HealthAdjust.handlePlayerDamageMessage(
+      HealthAdjust.handlePlayerDamageEvent(
         this.game.player,
         this.game.playerDmgCount,
         this.game,
@@ -226,7 +226,10 @@ export class BaseScreen implements StackScreen {
    * @return {void} This function does not return a value.
    */
   private fallIntoChasm(player: Mob): void {
-    const msg = new LogMessage('You fall into the abyss!', EventCategory.chasm);
+    const msg = new LogMessage(
+      'You fall into the abyss!',
+      EventCategory.playerDeath,
+    );
     this.game.message(msg);
     HealthAdjust.killMob(player, this.game);
   }
