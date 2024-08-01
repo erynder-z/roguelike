@@ -92,7 +92,6 @@ export class HealthAdjust {
     const t = <EventCategory>EventCategory.mobDeath;
 
     const msg = new LogMessage(s, t);
-
     if (involvesPlayer) {
       game.message(msg);
       game.flash(msg);
@@ -149,25 +148,77 @@ export class HealthAdjust {
   }
 
   /**
-   * Handles the player damage message by generating a damage message based on the player and amount,
-   * creating a new LogMessage with the generated message and playerDamage EventCategory, flashing the message
-   * and adding the playerDamage event to the game.
+   * Handles the event when a player takes damage.
    *
-   * @param {Mob} player - The player involved in the damage.
-   * @param {number} amount - The amount of damage dealt to the player.
-   * @param {GameState} game - The game object.
+   * @param {Mob} player - The player who took damage.
+   * @param {number} amount - The amount of damage taken.
+   * @param {GameState} game - The current game state.
    * @return {void} This function does not return anything.
    */
-  public static handlePlayerDamageMessage(
+  public static handlePlayerDamageEvent(
     player: Mob,
     amount: number,
     game: GameState,
   ): void {
-    const s = this.generateDamageMessage(player, amount);
-    const msg = new LogMessage(s, EventCategory.playerDamage);
+    const damageMessage = this.getDamageMessage(player, amount);
+    this.flashDamageMessage(game, damageMessage);
+    this.addDamageOrDeathEvent(player, amount, game);
+  }
 
-    game.flash(msg);
-    game.addCurrentEvent(EventCategory.playerDamage);
+  /**
+   * Generates a damage message for a player and returns it as a LogMessage object.
+   *
+   * @param {Mob} player - The player who took damage.
+   * @param {number} amount - The amount of damage taken.
+   * @return {LogMessage} A LogMessage object containing the damage message and the playerDamage category.
+   */
+  private static getDamageMessage(player: Mob, amount: number): LogMessage {
+    const message = this.generateDamageMessage(player, amount);
+    return new LogMessage(message, EventCategory.playerDamage);
+  }
+
+  /**
+   * Flashes a damage message on the game state.
+   *
+   * @param {GameState} game - The game state.
+   * @param {LogMessage} message - The damage message.
+   * @return {void} This function does not return a value.
+   */
+  private static flashDamageMessage(
+    game: GameState,
+    message: LogMessage,
+  ): void {
+    game.flash(message);
+  }
+
+  /**
+   * Adds a damage or death event to the game state based on the player's health.
+   *
+   * @param {Mob} player - The player who took damage.
+   * @param {number} amount - The amount of damage taken.
+   * @param {GameState} game - The current game state.
+   * @return {void} This function does not return anything.
+   */
+  private static addDamageOrDeathEvent(
+    player: Mob,
+    amount: number,
+    game: GameState,
+  ): void {
+    const eventCategory = this.isFatalDamage(player, amount)
+      ? EventCategory.playerDeath
+      : EventCategory.playerDamage;
+    game.addCurrentEvent(eventCategory);
+  }
+
+  /**
+   * Determines if the given amount of damage is fatal for the mob.
+   *
+   * @param {Mob} mob - The mob object to check for fatal damage.
+   * @param {number} amount - The amount of damage to check.
+   * @return {boolean} True if the amount of damage is fatal, false otherwise.
+   */
+  private static isFatalDamage(mob: Mob, amount: number): boolean {
+    return amount > 0 && mob.hp <= 0;
   }
 
   /**

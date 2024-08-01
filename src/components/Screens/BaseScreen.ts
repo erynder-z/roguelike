@@ -1,15 +1,15 @@
+import { CellEffects } from '../Commands/CellEffects';
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
 import { DrawUI } from '../Renderer/DrawUI';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
-import { Glyph } from '../Glyphs/Glyph';
 import { HealthAdjust } from '../Commands/HealthAdjust';
 import { Mob } from '../Mobs/Mob';
 import { ScreenMaker } from './Types/ScreenMaker';
 import { Stack } from '../Terminal/Types/Stack';
 import { StackScreen } from '../Terminal/Types/StackScreen';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
+import { MapCell } from '../MapModel/MapCell';
 
 /**
  * Represents a base screen implementation that implements the StackScreen interface.
@@ -19,7 +19,10 @@ export class BaseScreen implements StackScreen {
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-  ) {}
+    public map: GameMap,
+  ) {
+    this.map = <GameMap>this.game.currentMap();
+  }
 
   /**
    * Draw the terminal.
@@ -62,8 +65,7 @@ export class BaseScreen implements StackScreen {
    */
   public npcTurns(s: Stack): void {
     const player = <Mob>this.game.player;
-    const map = <GameMap>this.game.currentMap();
-    const queue = map.queue;
+    const queue = this.map.queue;
     let m: Mob;
 
     this.finishPlayerTurn(queue, s);
@@ -83,7 +85,10 @@ export class BaseScreen implements StackScreen {
    */
   private npcTurn(m: Mob, ply: Mob, stack: Stack): void {
     const ai = this.game.ai;
+    const currentCell = this.map.cell(m.pos);
+
     if (ai) ai.turn(m, ply, this.game, stack, this.make);
+    this.handleCellEffects(currentCell, m);
     this.finishTurn(m);
   }
 
@@ -111,7 +116,7 @@ export class BaseScreen implements StackScreen {
     if (!this.game.log) return;
 
     if (this.game.playerDmgCount >= 1)
-      HealthAdjust.handlePlayerDamageMessage(
+      HealthAdjust.handlePlayerDamageEvent(
         this.game.player,
         this.game.playerDmgCount,
         this.game,
@@ -132,19 +137,6 @@ export class BaseScreen implements StackScreen {
   }
 
   /**
-   * Checks if the current cell of the given mob is a chasm.
-   *
-   * @param {Mob} m - The mob whose current cell is to be checked.
-   * @return {boolean} True if the current cell is a chasm, false otherwise.
-   */
-  private isCurrentCellChasm(m: Mob): boolean {
-    const map = <GameMap>this.game.currentMap();
-    const cell = map.cell(m.pos);
-
-    return cell.env === Glyph.ChasmEdge || cell.env === Glyph.ChasmCenter;
-  }
-
-  /**
    * A method to finish the turn for a given mob.
    *
    * @param {Mob} m - the mob to finish the turn for
@@ -159,30 +151,56 @@ export class BaseScreen implements StackScreen {
    * Finish the player's turn.
    *
    * @param {TurnQueue} q - the turn queue
+   * @param {Stack} s - the stack of screens
    * @return {void}
    */
   private finishPlayerTurn(q: TurnQueue, s: Stack): void {
     const player = q.currentMob();
+    const map = <GameMap>this.game.currentMap();
+    const currentCell = map.cell(player.pos);
 
     this.finishTurn(player);
 
-    if (player.isPlayer) {
-      if (this.game.autoHeal) this.game.autoHeal.turn(player, this.game);
-
-      if (this.isCurrentCellChasm(player)) {
-        const msg = new LogMessage(
-          'You fall into the abyss!',
-          EventCategory.chasm,
-        );
-
-        HealthAdjust.killMob(player, this.game);
-        this.game.message(msg);
-        this.over(s);
-      }
-    } else {
+    if (!player.isPlayer) {
       this.over(s);
+      return;
+    }
+
+    this.handleAutoHeal(player);
+    this.handleCellEffects(currentCell, player);
+  }
+
+  /**
+   * Handle auto-healing for the player.
+   *
+   * @param {Mob} player - the player
+   * @return {void}
+   */
+  private handleAutoHeal(player: Mob): void {
+    if (this.game.autoHeal) {
+      this.game.autoHeal.turn(player, this.game);
     }
   }
+
+  /**
+   * Handles the effects of a cell on the player.
+   *
+   * @param {MapCell} cell - The cell to handle effects for.
+   * @param {Mob} player - The player to apply effects to.
+   * @return {void} This function does not return a value.
+   */
+  private handleCellEffects(cell: MapCell, player: Mob): void {
+    const map = <GameMap>this.game.currentMap();
+
+    new CellEffects(player, this.game, map, cell).applyCellEffects();
+  }
+  /**
+   * Handle cleansing fire buffs if the player is on a cell that removes them.
+   *
+   * @param {MapCell} cell - the current cell of the player
+   * @param {Mob} player - the player
+   * @return {void}
+   */
 
   /**
    * Removes the current screen and runs the NPC loop.

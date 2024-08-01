@@ -24,7 +24,6 @@ export enum EventCategory {
   use,
   mobSpawn,
   trap,
-  chasm,
 }
 export class LogMessage {
   constructor(
