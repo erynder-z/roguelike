@@ -1,6 +1,4 @@
 import { Act } from './Act';
-import { Buff } from '../Buffs/BuffEnum';
-import { BuffCommand } from './BuffCommand';
 import { CommandBase } from './CommandBase';
 import { EventCategory } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
@@ -11,7 +9,6 @@ import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
 import { StairCommand } from './StairCommand';
 import { WorldPoint } from '../MapModel/WorldPoint';
-
 /**
  * Represents a move command that moves a mob in the game.
  */
@@ -35,7 +32,6 @@ export class MoveCommand extends CommandBase {
 
     if (this.isMoveLegal(map, newPosition)) {
       this.moveAndHandleExtras(map, newPosition);
-      this.applyCellEffects(map, newPosition);
 
       if (this.me.isPlayer) this.game.addCurrentEvent(EventCategory.moving);
     }
@@ -52,65 +48,6 @@ export class MoveCommand extends CommandBase {
    */
   private isMoveLegal(map: Map, position: WorldPoint): boolean {
     return !map.isBlocked(position);
-  }
-
-  /**
-   * Applies cell effects based on the given map and position.
-   *
-   * @param {Map} map - The game map to apply cell effects on.
-   * @param {WorldPoint} position - The position on the map to apply effects to.
-   */
-  private applyCellEffects(map: Map, position: WorldPoint): void {
-    if (map.cell(position).isCausingSlow()) {
-      const duration = 2;
-      new BuffCommand(
-        Buff.Slow,
-        this.me,
-        this.game,
-        this.me,
-        duration,
-      ).execute();
-    }
-    if (map.cell(position).isCausingBurn()) {
-      const duration = 9;
-      new BuffCommand(
-        Buff.Lava,
-        this.me,
-        this.game,
-        this.me,
-        duration,
-      ).execute();
-    }
-    if (map.cell(position).isCausingBleed()) {
-      const duration = 5;
-      new BuffCommand(
-        Buff.Bleed,
-        this.me,
-        this.game,
-        this.me,
-        duration,
-      ).execute();
-    }
-    if (map.cell(position).isCausingPoison()) {
-      const duration = 5;
-      new BuffCommand(
-        Buff.Poison,
-        this.me,
-        this.game,
-        this.me,
-        duration,
-      ).execute();
-    }
-    if (map.cell(position).isCausingConfusion()) {
-      const duration = 5;
-      new BuffCommand(
-        Buff.Confuse,
-        this.me,
-        this.game,
-        this.me,
-        duration,
-      ).execute();
-    }
   }
 
   /**

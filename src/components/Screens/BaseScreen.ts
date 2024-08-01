@@ -1,7 +1,6 @@
-import { CleanseBuffCommand } from '../Commands/CleanseBuffCommand';
+import { CellEffects } from '../Commands/CellEffects';
 import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
 import { DrawUI } from '../Renderer/DrawUI';
-import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
 import { GameMap } from '../MapModel/GameMap';
 import { HealthAdjust } from '../Commands/HealthAdjust';
@@ -10,7 +9,6 @@ import { ScreenMaker } from './Types/ScreenMaker';
 import { Stack } from '../Terminal/Types/Stack';
 import { StackScreen } from '../Terminal/Types/StackScreen';
 import { TurnQueue } from '../TurnQueue/TurnQueue';
-import { Buff } from '../Buffs/BuffEnum';
 import { MapCell } from '../MapModel/MapCell';
 
 /**
@@ -21,7 +19,10 @@ export class BaseScreen implements StackScreen {
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-  ) {}
+    public map: GameMap,
+  ) {
+    this.map = <GameMap>this.game.currentMap();
+  }
 
   /**
    * Draw the terminal.
@@ -64,8 +65,7 @@ export class BaseScreen implements StackScreen {
    */
   public npcTurns(s: Stack): void {
     const player = <Mob>this.game.player;
-    const map = <GameMap>this.game.currentMap();
-    const queue = map.queue;
+    const queue = this.map.queue;
     let m: Mob;
 
     this.finishPlayerTurn(queue, s);
@@ -85,7 +85,10 @@ export class BaseScreen implements StackScreen {
    */
   private npcTurn(m: Mob, ply: Mob, stack: Stack): void {
     const ai = this.game.ai;
+    const currentCell = this.map.cell(m.pos);
+
     if (ai) ai.turn(m, ply, this.game, stack, this.make);
+    this.handleCellEffects(currentCell, m);
     this.finishTurn(m);
   }
 
@@ -187,8 +190,9 @@ export class BaseScreen implements StackScreen {
    * @return {void} This function does not return a value.
    */
   private handleCellEffects(cell: MapCell, player: Mob): void {
-    this.handleWater(cell, player);
-    this.handleChasm(cell, player);
+    const map = <GameMap>this.game.currentMap();
+
+    new CellEffects(player, this.game, map, cell).applyCellEffects();
   }
   /**
    * Handle cleansing fire buffs if the player is on a cell that removes them.
@@ -197,42 +201,6 @@ export class BaseScreen implements StackScreen {
    * @param {Mob} player - the player
    * @return {void}
    */
-  private handleWater(cell: MapCell, player: Mob): void {
-    if (cell.isWater()) {
-      const fireBuffs = [Buff.Burn, Buff.Lava];
-      fireBuffs.forEach(buff =>
-        new CleanseBuffCommand(buff, player, this.game).execute(),
-      );
-    }
-  }
-
-  /**
-   * Handle falling into a chasm if the player is on a chasm cell.
-   *
-   * @param {MapCell} cell - the current cell of the player
-   * @param {Mob} player - the player
-   * @return {void}
-   */
-  private handleChasm(cell: MapCell, player: Mob): void {
-    if (cell.isChasm()) {
-      this.fallIntoChasm(player);
-    }
-  }
-
-  /**
-   * Handles the fall into a chasm event for the player.
-   *
-   * @param {Mob} player - the player who falls into the chasm
-   * @return {void} This function does not return a value.
-   */
-  private fallIntoChasm(player: Mob): void {
-    const msg = new LogMessage(
-      'You fall into the abyss!',
-      EventCategory.playerDeath,
-    );
-    this.game.message(msg);
-    HealthAdjust.killMob(player, this.game);
-  }
 
   /**
    * Removes the current screen and runs the NPC loop.
