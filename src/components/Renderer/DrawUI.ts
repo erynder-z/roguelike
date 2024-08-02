@@ -206,6 +206,9 @@ export class DrawUI {
       case EventCategory.playerDeath:
         imageHandler.handleDeathImageDisplay(game);
         break;
+      case EventCategory.lvlChange:
+        imageHandler.handleLevelImageDisplay(game);
+        break;
       default:
         break;
     }

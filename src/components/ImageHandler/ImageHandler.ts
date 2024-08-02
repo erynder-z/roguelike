@@ -7,6 +7,18 @@ import movingImages from './movingImages';
 import neutralImages from './neutralImages';
 import pistolImages from './pistolImages';
 import smileImages from './smileImages';
+import {
+  lvlTier00Images,
+  lvlTier01Images,
+  lvlTier02Images,
+  lvlTier03Images,
+  lvlTier04Images,
+  lvlTier05Images,
+  lvlTier06Images,
+  lvlTier07Images,
+  lvlTier08Images,
+  lvlTier09Images,
+} from './levelImages';
 
 /**
  * Handles displaying action images on the screen.
@@ -197,6 +209,40 @@ export class ImageHandler {
     const evt = EventCategory[game.log.currentEvent];
 
     const randomImage = r.getRandomImageFromArray(deathImages);
+    const image = new Image();
+    image.src = randomImage;
+
+    this.displayImage(image, evt);
+    game.log.removeCurrentEvent();
+  }
+
+  public handleLevelImageDisplay(game: GameState): void {
+    console.log('handleLevelImageDisplay');
+    const r = game.rand;
+    const evt = EventCategory[game.log.currentEvent];
+
+    const lvl = game.dungeon.level;
+    let images: string[] = [];
+
+    if (!lvl) return;
+
+    const levelImageMapping = [
+      lvlTier00Images, // Levels 0
+      lvlTier01Images, // Levels 1-4
+      lvlTier02Images, // Levels 5-8
+      lvlTier03Images, // Levels 9-12
+      lvlTier04Images, // Levels 13-16
+      lvlTier05Images, // Levels 17-20
+      lvlTier06Images, // Levels 21-24
+      lvlTier07Images, // Levels 25-28
+      lvlTier08Images, // Levels 29-32
+      lvlTier09Images, // Levels 33-36
+    ];
+
+    const index = Math.floor((lvl - 1) / 4);
+    images = levelImageMapping[index] || neutralImages;
+
+    const randomImage = r.getRandomImageFromArray(images);
     const image = new Image();
     image.src = randomImage;
 

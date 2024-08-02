@@ -3,8 +3,8 @@ import { GameOverScreen } from './GameOverScreen';
 import { GameScreen } from './GameScreen';
 import { GameState } from '../Builder/Types/GameState';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
+import { lvlTier00Images } from '../ImageHandler/levelImages';
 import { MoreScreen } from './MoreScreen';
-import neutralImages from '../ImageHandler/neutralImages';
 import { ScreenMaker } from './Types/ScreenMaker';
 import { ScreenStack } from '../Terminal/ScreenStack';
 import { StackScreen } from '../Terminal/Types/StackScreen';
@@ -79,11 +79,11 @@ export class DynamicScreenMaker implements ScreenMaker {
    */
   private static activateImageHandler(): void {
     const randomImage =
-      neutralImages[Math.floor(Math.random() * neutralImages.length)];
+      lvlTier00Images[Math.floor(Math.random() * lvlTier00Images.length)];
 
     const imageHandler = ImageHandler.getInstance();
     const image = new Image();
     image.src = randomImage;
-    imageHandler.displayImage(image, 'neutral');
+    imageHandler.displayImage(image, 'lvlChange');
   }
 }
