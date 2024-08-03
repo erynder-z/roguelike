@@ -131,8 +131,8 @@ export class Builder implements Build {
    */
   public makePlayer(): Mob {
     const player = new Mob(Glyph.Player, 20, 12);
-    player.hp = 99999;
-    player.maxhp = 99999;
+    player.hp = 9999;
+    player.maxhp = 9999;
     return player;
   }
 
