@@ -182,6 +182,9 @@ export class DrawUI {
     const currentEventCategory = game.log.currentEvent;
 
     switch (currentEventCategory) {
+      case EventCategory.lvlChange:
+        imageHandler.handleLevelImageDisplay(game);
+        break;
       case EventCategory.attack:
         imageHandler.handleAttackImageDisplay(game);
         break;
@@ -205,9 +208,6 @@ export class DrawUI {
         break;
       case EventCategory.playerDeath:
         imageHandler.handleDeathImageDisplay(game);
-        break;
-      case EventCategory.lvlChange:
-        imageHandler.handleLevelImageDisplay(game);
         break;
       default:
         break;

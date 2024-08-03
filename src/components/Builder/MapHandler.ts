@@ -1,6 +1,7 @@
 import { GameState } from './Types/GameState';
 import { Map } from '../MapModel/Types/Map';
 import { WorldPoint } from '../MapModel/WorldPoint';
+import { EventCategory } from '../Messages/LogMessage';
 
 /**
  * Holds the maps of the game.
@@ -85,9 +86,12 @@ export class MapHandler {
     g: GameState,
   ): void {
     const player = g.player;
+
     this.currentMap(g).removeMob(player);
     this.level = newLevel;
     this.adjustLevelVisibilityRange(g);
     this.currentMap(g).enterMap(player, np);
+
+    g.log.addCurrentEvent(EventCategory.lvlChange);
   }
 }

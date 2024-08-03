@@ -31,9 +31,8 @@ export class MoveCommand extends CommandBase {
     const map = <Map>this.game.currentMap();
 
     if (this.isMoveLegal(map, newPosition)) {
-      this.moveAndHandleExtras(map, newPosition);
-
       if (this.me.isPlayer) this.game.addCurrentEvent(EventCategory.moving);
+      this.moveAndHandleExtras(map, newPosition);
     }
 
     return !map.isBlocked(newPosition);

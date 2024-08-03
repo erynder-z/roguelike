@@ -216,15 +216,19 @@ export class ImageHandler {
     game.log.removeCurrentEvent();
   }
 
+  /**
+   * Handles the display of the level image based on the current game state.
+   *
+   * @param {GameState} game - The current game state.
+   * @return {void} This function does not return a value.
+   */
   public handleLevelImageDisplay(game: GameState): void {
-    console.log('handleLevelImageDisplay');
     const r = game.rand;
     const evt = EventCategory[game.log.currentEvent];
 
     const lvl = game.dungeon.level;
-    let images: string[] = [];
 
-    if (!lvl) return;
+    if (lvl == null || isNaN(lvl) || lvl < 0) return;
 
     const levelImageMapping = [
       lvlTier00Images, // Levels 0
@@ -239,8 +243,9 @@ export class ImageHandler {
       lvlTier09Images, // Levels 33-36
     ];
 
-    const index = Math.floor((lvl - 1) / 4);
-    images = levelImageMapping[index] || neutralImages;
+    const maxLevelIndex = levelImageMapping.length - 1;
+    const index = Math.min(Math.floor(lvl / 4), maxLevelIndex);
+    const images = levelImageMapping[index] || neutralImages;
 
     const randomImage = r.getRandomImageFromArray(images);
     const image = new Image();
