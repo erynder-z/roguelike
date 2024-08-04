@@ -1,6 +1,8 @@
 import { AutoHeal } from './AutoHeal';
+import { CanSee } from '../Utilities/CanSee';
 import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
 import { EventCategory } from '../Messages/LogMessage';
+import { GameMap } from '../MapModel/GameMap';
 import { GameState } from '../Builder/Types/GameState';
 import { LogMessage } from '../Messages/LogMessage';
 import { Map } from '../MapModel/Types/Map';
@@ -61,10 +63,9 @@ export class HealthAdjust {
 
     if (mob.isPlayer) game.playerDmgCount += amount;
 
-    const involvesPlayer =
-      mob.isPlayer || (attacker !== null && attacker.isPlayer);
+    const shouldDisplayMessage = this.shouldDisplayMessage(game, mob, attacker);
 
-    if (mob.hp <= 0) this.mobDies(mob, game, involvesPlayer);
+    if (mob.hp <= 0) this.mobDies(mob, game, shouldDisplayMessage);
   }
 
   /**
@@ -246,5 +247,26 @@ export class HealthAdjust {
     }
 
     return message;
+  }
+
+  /**
+   * Determines whether a message should be displayed based on game state, mob, and attacker.
+   *
+   * @param {GameState} game - The current game state.
+   * @param {Mob} mob - The mob for which the message is being considered.
+   * @param {Mob | null} attacker - The attacker mob, can be null.
+   * @return {boolean} True if a message should be displayed, false otherwise.
+   */
+  private static shouldDisplayMessage(
+    game: GameState,
+    mob: Mob,
+    attacker: Mob | null,
+  ): boolean {
+    const map = <GameMap>game.currentMap();
+    const isPlayer = mob.isPlayer;
+    const isAttackerPlayer = attacker !== null && attacker.isPlayer;
+    const iVisible = CanSee.checkMobLOS_Bresenham(mob, game.player, map, false);
+
+    return isPlayer || isAttackerPlayer || iVisible;
   }
 }
