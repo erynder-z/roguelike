@@ -24,19 +24,20 @@ export class EquipCommand extends CommandBase {
    * @returns {boolean} True if the command executed successfully, false otherwise.
    */
   public execute(): boolean {
-    const game = this.game;
-    const item = this.item;
+    const { game, item, index, equipment } = this;
+    const { inventory } = game;
+
     if (!this.isEquippable(item)) return false;
     if (this.isAlreadyEquipped(item)) return false;
     if (this.areHandsFull(item)) return false;
 
-    game.inventory!.removeIndex(this.index);
-    this.equipment.add(item);
+    inventory!.removeIndex(index);
+    equipment.add(item);
     const msg = new LogMessage(
       "You've equipped " + item.description() + '.',
       EventCategory.equip,
     );
-    this.game.message(msg);
+    game.message(msg);
     return true;
   }
 
@@ -61,14 +62,17 @@ export class EquipCommand extends CommandBase {
    * @returns {boolean} True if the item is already equipped, false otherwise.
    */
   private isAlreadyEquipped(item: ItemObject): boolean {
+    const { game } = this;
+
     const alreadyEquipped = this.equipment.has(item.slot);
+
     if (alreadyEquipped) {
       const label = Slot[item.slot];
       const msg = new LogMessage(
         `${label} is already equipped.`,
         EventCategory.unable,
       );
-      this.game.flash(msg);
+      game.flash(msg);
     }
     return alreadyEquipped;
   }
@@ -80,9 +84,10 @@ export class EquipCommand extends CommandBase {
    */
   private areHandsFull(item: ItemObject): boolean {
     if (!Equipment.isWeapon(item)) return false;
-    const equipment = this.equipment;
+    const { game, equipment } = this;
 
     const inHand: ItemObject | undefined = equipment.weapon();
+
     if (!inHand) return false;
     const overlap = this.doesOverlap(item.slot, inHand!.slot);
     if (overlap) {
@@ -90,7 +95,7 @@ export class EquipCommand extends CommandBase {
         `Must first unequip${inHand!.name()}!`,
         EventCategory.unable,
       );
-      this.game.flash(msg);
+      game.flash(msg);
     }
     return overlap;
   }

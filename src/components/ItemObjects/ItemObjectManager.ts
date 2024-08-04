@@ -13,33 +13,33 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  */
 export class ItemObjectManager {
   private static objTypes: ObjectTypes[] = [
-    { g: Glyph.Dagger, s: Slot.MainHand },
-    { g: Glyph.Shield, s: Slot.OffHand },
-    { g: Glyph.Cap, s: Slot.Head },
-    { g: Glyph.Gloves, s: Slot.Hands },
-    { g: Glyph.Cape, s: Slot.Back },
-    { g: Glyph.Pants, s: Slot.Legs },
-    { g: Glyph.Boots, s: Slot.Feet },
-    { g: Glyph.Potion, s: Slot.NotWorn },
-    { g: Glyph.Rune, s: Slot.NotWorn },
-    { g: Glyph.Scroll, s: Slot.NotWorn },
-    { g: Glyph.Pistol, s: Slot.NotWorn },
+    { glyph: Glyph.Dagger, slot: Slot.MainHand },
+    { glyph: Glyph.Shield, slot: Slot.OffHand },
+    { glyph: Glyph.Cap, slot: Slot.Head },
+    { glyph: Glyph.Gloves, slot: Slot.Hands },
+    { glyph: Glyph.Cape, slot: Slot.Back },
+    { glyph: Glyph.Pants, slot: Slot.Legs },
+    { glyph: Glyph.Boots, slot: Slot.Feet },
+    { glyph: Glyph.Potion, slot: Slot.NotWorn },
+    { glyph: Glyph.Rune, slot: Slot.NotWorn },
+    { glyph: Glyph.Scroll, slot: Slot.NotWorn },
+    { glyph: Glyph.Pistol, slot: Slot.NotWorn },
   ];
 
   private static highestSpellTier: number = Spell.None;
 
   /**
    * Retrieves the index of an object type based on its glyph.
-   * @param {Glyph} g - The glyph of the object type.
+   * @param {Glyph} glyph - The glyph of the object type.
    * @returns {number} The index of the object type.
    */
-  private static indexForGlyph(g: Glyph): number {
-    return this.objTypes.findIndex(obj => obj.g == g);
+  private static indexForGlyph(glyph: Glyph): number {
+    return this.objTypes.findIndex(obj => obj.glyph == glyph);
   }
 
   /**
    * Adds an object of a specified type to the map at a given position.
-   * @param {WorldPoint} p - The position to add the object.
+   * @param {WorldPoint} wp - The position to add the object.
    * @param {Map} map - The map to add the object to.
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
    * @param {Glyph} objType - The glyph representing the object type.
@@ -47,7 +47,7 @@ export class ItemObjectManager {
    * @returns {ItemObject} The added object.
    */
   private static addObjTypeToMap(
-    p: WorldPoint,
+    wp: WorldPoint,
     map: Map,
     rnd: RandomGenerator,
     objType: Glyph,
@@ -56,26 +56,26 @@ export class ItemObjectManager {
     const index = this.indexForGlyph(objType);
     const template: ObjectTypes = ItemObjectManager.getTemplate(index);
     const object = this.makeTemplateObject(level, rnd, template);
-    map.addObject(object, p);
+    map.addObject(object, wp);
     return object;
   }
 
   /**
    * Adds a random object of a specified level to the map at a given position.
-   * @param {WorldPoint} p - The position to add the object.
+   * @param {WorldPoint} wp - The position to add the object.
    * @param {Map} map - The map to add the object to.
    * @param {RandomGenerator} rnd - The random generator to use for randomness.
    * @param {number} level - The level of the object.
    * @returns {ItemObject} The added object.
    */
   static addRandomObjectForLevel(
-    p: WorldPoint,
+    wp: WorldPoint,
     map: Map,
     rnd: RandomGenerator,
     level: number,
   ): ItemObject {
     const object = this.randomLevelObject(level, rnd);
-    map.addObject(object, p);
+    map.addObject(object, wp);
     return object;
   }
 
@@ -118,7 +118,7 @@ export class ItemObjectManager {
     while (attempts < maxAttempts) {
       const template = this.getRandomTemplate(rnd);
 
-      if (template.g == Glyph.Rune) {
+      if (template.glyph == Glyph.Rune) {
         if (!rnd.determineSuccess(level * 3)) {
           attempts++;
           continue;
@@ -144,7 +144,7 @@ export class ItemObjectManager {
     template: ObjectTypes,
   ): ItemObject {
     const objectLevel = rnd.adjustLevel(level);
-    const object = new ItemObject(template.g, template.s);
+    const object = new ItemObject(template.glyph, template.slot);
     object.level = objectLevel;
 
     switch (object.glyph) {
@@ -186,8 +186,8 @@ export class ItemObjectManager {
    * @return {Spell} The Spell corresponding to the given level.
    */
   private static spellForLevel(level: number): Spell {
-    const s: Spell = level % this.highestSpellTier;
-    return s;
+    const slot: Spell = level % this.highestSpellTier;
+    return slot;
   }
 
   /**
@@ -242,7 +242,7 @@ export class ItemObjectManager {
   public static getSpellDescription(spell: Spell): string {
     let description: string = 'no description';
 
-    const spellInfo = spellData.spells.find(s => s.name === Spell[spell]);
+    const spellInfo = spellData.spells.find(slot => slot.name === Spell[spell]);
     description = spellInfo?.desc || description;
 
     return description;

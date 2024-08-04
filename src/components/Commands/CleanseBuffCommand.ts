@@ -22,17 +22,16 @@ export class CleanseBuffCommand extends CommandBase {
    * @return {boolean} Returns true if the command was executed successfully.
    */
   public execute(): boolean {
-    const g = this.game;
-    const me = this.me;
+    const { me, game } = this;
 
-    if (this.buff) this.me.buffs.cleanse(this.buff, g, me);
+    if (this.buff) this.me.buffs.cleanse(this.buff, game, me);
 
     const msg = new LogMessage(
       `Cleansed ${Buff[this.buff]}!`,
       EventCategory.heal,
     );
 
-    g.message(msg);
+    game.message(msg);
 
     return true;
   }

@@ -87,9 +87,10 @@ export class ItemScreen extends BaseScreen {
    * @returns {boolean} True if the item was dropped successfully, otherwise false.
    */
   private dropInventoryItem(): boolean {
-    const game = this.game;
+    const { game } = this;
+    const { player } = game;
+
     const map = <Map>this.game.currentMap();
-    const player = game.player;
     const c = map.cell(player.pos);
     if (c.hasObject()) {
       const msg = new LogMessage('No room to drop here!', EventCategory.unable);
@@ -100,11 +101,13 @@ export class ItemScreen extends BaseScreen {
 
     const inventory = <Inventory>game.inventory;
     inventory.removeIndex(this.index);
+
     const msg = new LogMessage(
       `Dropped ${this.obj.description()}.`,
       EventCategory.drop,
     );
     game.message(msg);
+
     return true;
   }
 
@@ -129,11 +132,12 @@ export class ItemScreen extends BaseScreen {
    * @return {void} This function does not return anything.
    */
   private useItem(stack: Stack): void {
-    const g = this.game;
+    const { game } = this;
+
     const finder = new FindObjectSpell(
       this.obj,
       this.index,
-      g,
+      game,
       stack,
       this.make,
     );

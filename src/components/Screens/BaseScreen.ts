@@ -19,10 +19,7 @@ export class BaseScreen implements StackScreen {
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public map: GameMap,
-  ) {
-    this.map = <GameMap>this.game.currentMap();
-  }
+  ) {}
 
   /**
    * Draw the terminal.
@@ -65,7 +62,10 @@ export class BaseScreen implements StackScreen {
    */
   public npcTurns(s: Stack): void {
     const player = <Mob>this.game.player;
-    const queue = this.map.queue;
+    const map = <GameMap>this.game.currentMap();
+
+    const { queue } = map;
+
     let m: Mob;
 
     this.finishPlayerTurn(queue, s);
@@ -84,8 +84,10 @@ export class BaseScreen implements StackScreen {
    * @param {Mob} ply - the player involved in the turn
    */
   private npcTurn(m: Mob, ply: Mob, stack: Stack): void {
-    const ai = this.game.ai;
-    const currentCell = this.map.cell(m.pos);
+    const { ai } = this.game;
+
+    const map = <GameMap>this.game.currentMap();
+    const currentCell = map.cell(m.pos);
 
     if (ai) ai.turn(m, ply, this.game, stack, this.make);
     this.handleCellEffects(currentCell, m);
@@ -156,8 +158,6 @@ export class BaseScreen implements StackScreen {
    */
   private finishPlayerTurn(q: TurnQueue, s: Stack): void {
     const player = q.currentMob();
-    const map = <GameMap>this.game.currentMap();
-    const currentCell = map.cell(player.pos);
 
     this.finishTurn(player);
 
@@ -165,6 +165,9 @@ export class BaseScreen implements StackScreen {
       this.over(s);
       return;
     }
+
+    const map = <GameMap>this.game.currentMap();
+    const currentCell = map.cell(player.pos);
 
     this.handleAutoHeal(player);
     this.handleCellEffects(currentCell, player);

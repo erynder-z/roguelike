@@ -47,13 +47,14 @@ export class FindObjectSpell {
    * @return {Command | StackScreen | null} The found Command, StackScreen, or null if the ItemObject is not usable.
    */
   public find(): Command | StackScreen | null {
-    const g = this.game;
+    const { game } = this;
+
     const obj: ItemObject = this.obj;
 
-    if (!this.isUsable(obj, g)) return null;
+    if (!this.isUsable(obj, game)) return null;
 
-    const finder = new SpellFinder(g, this.stack, this.make);
-    const cost = new MultipleUseItemCost(g, obj, this.index);
+    const finder = new SpellFinder(game, this.stack, this.make);
+    const cost = new MultipleUseItemCost(game, obj, this.index);
 
     return finder.find(obj.spell, cost);
   }

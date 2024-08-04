@@ -7,6 +7,18 @@ import movingImages from './movingImages';
 import neutralImages from './neutralImages';
 import pistolImages from './pistolImages';
 import smileImages from './smileImages';
+import {
+  lvlTier00Images,
+  lvlTier01Images,
+  lvlTier02Images,
+  lvlTier03Images,
+  lvlTier04Images,
+  lvlTier05Images,
+  lvlTier06Images,
+  lvlTier07Images,
+  lvlTier08Images,
+  lvlTier09Images,
+} from './levelImages';
 
 /**
  * Handles displaying action images on the screen.
@@ -41,6 +53,7 @@ export class ImageHandler {
     const imageContainer = document.getElementById('image-container');
     const image = imageContainer?.firstChild as HTMLImageElement;
     const dataAttribute = image?.getAttribute('data-image');
+
     if (dataAttribute) {
       return dataAttribute;
     }
@@ -56,7 +69,9 @@ export class ImageHandler {
   public displayImage(img: HTMLImageElement, type: string) {
     img.setAttribute('class', 'hud-image');
     img.setAttribute('data-image', type);
+
     const imageContainer = document.getElementById('image-container');
+
     if (imageContainer) {
       imageContainer.innerHTML = '';
       imageContainer.appendChild(img);
@@ -69,9 +84,9 @@ export class ImageHandler {
    * @param {GameState} game - The game information containing the necessary data.
    */
   public handleAttackImageDisplay(game: GameState) {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
-    const randomImage = r.getRandomImageFromArray(attackImages);
+    const randomImage = rand.getRandomImageFromArray(attackImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -79,7 +94,7 @@ export class ImageHandler {
       this.getCurrentImageDataAttribute() !== 'mobDamage' &&
       this.getCurrentImageDataAttribute() !== 'attack';
 
-    const maybeDrawImage = r.randomIntegerClosedRange(0, 2) === 0;
+    const maybeDrawImage = rand.randomIntegerClosedRange(0, 2) === 0;
 
     if (shouldDrawImage) {
       // If not currently attacking, display the image
@@ -97,10 +112,10 @@ export class ImageHandler {
    * @param {GameState} game - The game information containing the necessary data.
    */
   public handleHurtImageDisplay(game: GameState) {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(hurtImages);
+    const randomImage = rand.getRandomImageFromArray(hurtImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -114,10 +129,10 @@ export class ImageHandler {
    * @param {GameState} game - The game information containing the necessary data.
    */
   public handleSmileImageDisplay(game: GameState) {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(smileImages);
+    const randomImage = rand.getRandomImageFromArray(smileImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -131,15 +146,15 @@ export class ImageHandler {
    * @param {GameState} game - The game information containing the necessary data.
    */
   public handleMovingImageDisplay(game: GameState) {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(movingImages);
+    const randomImage = rand.getRandomImageFromArray(movingImages);
     const image = new Image();
     image.src = randomImage;
 
     const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving';
-    const maybeDrawImage = r.randomIntegerClosedRange(0, 9) === 0;
+    const maybeDrawImage = rand.randomIntegerClosedRange(0, 9) === 0;
 
     if (shouldDrawImage) {
       // If not currently moving, display the image
@@ -158,10 +173,10 @@ export class ImageHandler {
    * @return {void}
    */
   public handlePistolImageDisplay(game: GameState): void {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(pistolImages);
+    const randomImage = rand.getRandomImageFromArray(pistolImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -176,10 +191,10 @@ export class ImageHandler {
    * @return {void}
    */
   public handleNeutralImageDisplay(game: GameState): void {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(neutralImages);
+    const randomImage = rand.getRandomImageFromArray(neutralImages);
     const image = new Image();
     image.src = randomImage;
     this.displayImage(image, evt);
@@ -193,10 +208,49 @@ export class ImageHandler {
    * @return {void} This function does not return anything.
    */
   public handleDeathImageDisplay(game: GameState): void {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(deathImages);
+    const randomImage = rand.getRandomImageFromArray(deathImages);
+    const image = new Image();
+    image.src = randomImage;
+
+    this.displayImage(image, evt);
+    game.log.removeCurrentEvent();
+  }
+
+  /**
+   * Handles the display of the level image based on the current game state.
+   *
+   * @param {GameState} game - The current game state.
+   * @return {void} This function does not return a value.
+   */
+  public handleLevelImageDisplay(game: GameState): void {
+    const { rand } = game;
+    const evt = EventCategory[game.log.currentEvent];
+
+    const lvl = game.dungeon.level;
+
+    if (lvl == null || isNaN(lvl) || lvl < 0) return;
+
+    const levelImageMapping = [
+      lvlTier00Images, // Levels 0
+      lvlTier01Images, // Levels 1-4
+      lvlTier02Images, // Levels 5-8
+      lvlTier03Images, // Levels 9-12
+      lvlTier04Images, // Levels 13-16
+      lvlTier05Images, // Levels 17-20
+      lvlTier06Images, // Levels 21-24
+      lvlTier07Images, // Levels 25-28
+      lvlTier08Images, // Levels 29-32
+      lvlTier09Images, // Levels 33-36
+    ];
+
+    const maxLevelIndex = levelImageMapping.length - 1;
+    const index = Math.min(Math.floor(lvl / 4), maxLevelIndex);
+    const images = levelImageMapping[index] || neutralImages;
+
+    const randomImage = rand.getRandomImageFromArray(images);
     const image = new Image();
     image.src = randomImage;
 

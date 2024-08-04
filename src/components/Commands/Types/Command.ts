@@ -5,7 +5,7 @@ import { Cost } from './Cost';
 
 export type Command = {
   me: Mob;
-  g: GameState;
+  game: GameState;
   cost?: Cost;
   target?: Mob;
   execute(): boolean;

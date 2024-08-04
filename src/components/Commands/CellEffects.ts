@@ -26,7 +26,7 @@ export class CellEffects {
    */
   public applyCellEffects(): void {
     if (this.cell.isCausingSlow()) {
-      const duration = 2;
+      const duration = 1;
       new BuffCommand(
         Buff.Slow,
         this.me,

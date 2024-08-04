@@ -8,7 +8,7 @@ import { LogMessage, EventCategory } from '../Messages/LogMessage';
  */
 export class MultipleUseItemCost implements Cost {
   constructor(
-    public g: GameState,
+    public game: GameState,
     public obj: ItemObject,
     public objectIndex: number,
   ) {}
@@ -19,24 +19,25 @@ export class MultipleUseItemCost implements Cost {
    * @return {boolean} True if the cost was successfully paid, false otherwise.
    */
   public pay(): boolean {
-    const o = this.obj;
-    if (o.charges <= 0) {
+    const { obj } = this;
+
+    if (obj.charges <= 0) {
       const msg = new LogMessage(
-        `${o.description()} is out of charges!`,
+        `${obj.description()} is out of charges!`,
         EventCategory.unable,
       );
-      this.g.message(msg);
+      this.game.message(msg);
     } else {
-      --o.charges;
-      if (o.charges > 0) return true;
+      --obj.charges;
+      if (obj.charges > 0) return true;
       const msg = new LogMessage(
-        `${o.description()} is out of charges!`,
+        `${obj.description()} is out of charges!`,
         EventCategory.use,
       );
 
-      this.g.message(msg);
+      this.game.message(msg);
     }
-    this.g.inventory!.removeIndex(this.objectIndex);
+    this.game.inventory!.removeIndex(this.objectIndex);
     return true;
   }
 }

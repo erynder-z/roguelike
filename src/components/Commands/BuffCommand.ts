@@ -34,27 +34,27 @@ export class BuffCommand extends CommandBase {
    * @returns {boolean} Always returns true.
    */
   public execute(): boolean {
-    const m = this.target;
-    const g = this.g;
+    const { game, target } = this;
+
     let effect: Tick | undefined = undefined;
     switch (this.buff) {
       case Buff.Poison:
-        effect = new PoisonTick(m, g);
+        effect = new PoisonTick(target, game);
         break;
       case Buff.Burn:
-        effect = new BurnTick(m, g, BURN_DMG_MIN, BURN_DMG_MAX);
+        effect = new BurnTick(target, game, BURN_DMG_MIN, BURN_DMG_MAX);
         break;
       case Buff.Freeze:
-        effect = new FreezeTick(m, g);
+        effect = new FreezeTick(target, game);
         break;
       case Buff.Bleed:
-        effect = new BleedTick(m, g);
+        effect = new BleedTick(target, game);
         break;
       case Buff.Petrify:
-        effect = new PetrifyTick(m, g);
+        effect = new PetrifyTick(target, game);
         break;
       case Buff.Lava:
-        effect = new BurnTick(m, g, LAVA_DMG_MIN, LAVA_DMG_MAX);
+        effect = new BurnTick(target, game, LAVA_DMG_MIN, LAVA_DMG_MAX);
         break;
     }
 
@@ -65,7 +65,7 @@ export class BuffCommand extends CommandBase {
       effect: effect,
     };
 
-    this.addBuffToMob(active, this.g, this.target);
+    this.addBuffToMob(active, this.game, this.target);
     return true;
   }
 

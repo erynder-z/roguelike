@@ -135,7 +135,8 @@ export class Equipment {
    */
   public weaponDamage(): number {
     const weapon: ItemObject | undefined = this.weapon();
+    const minDmg: number = 2;
     if (weapon) return weapon.level + 1;
-    return 2;
+    return minDmg;
   }
 }

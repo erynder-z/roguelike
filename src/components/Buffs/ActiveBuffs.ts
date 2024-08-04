@@ -1,5 +1,7 @@
 import { Buff } from './BuffEnum';
 import { BuffType } from './Types/BuffType';
+import { CanSee } from '../Utilities/CanSee';
+import { GameMap } from '../MapModel/GameMap';
 import { GameState } from '../Builder/Types/GameState';
 import { GrammarHandler } from '../Utilities/GrammarHandler';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
@@ -25,7 +27,7 @@ export class ActiveBuffs {
       EventCategory.buff,
     );
 
-    game.message(msg);
+    if (this.shouldDisplayMessage(game, mob)) game.message(msg);
   }
 
   /**
@@ -84,5 +86,18 @@ export class ActiveBuffs {
       if (b.effect) b.effect.tick(b.duration, b.timeLeft);
       if (b.timeLeft <= 0) this.remove(b, game, mob);
     }
+  }
+
+  /**
+   * Determines if a message should be displayed for a given mob. Messages are only displayed if there is a line of sight between the mob and the player.
+   *
+   * @param {GameState} game - The game state object.
+   * @param {Mob} mob - The mob object.
+   * @return {boolean} Returns true if the message should be displayed, false otherwise.
+   */
+  private shouldDisplayMessage(game: GameState, mob: Mob): boolean {
+    const player = game.player;
+    const map = <GameMap>game.currentMap();
+    return CanSee.checkMobLOS_Bresenham(mob, player, map, false);
   }
 }

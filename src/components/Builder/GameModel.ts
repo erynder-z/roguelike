@@ -42,7 +42,7 @@ export class Game implements GameState {
 
   /**
    * Adds a message to the message log.
-   * @param {string} s - The message to add.
+   * @param {string} msg - The message to add.
    * @returns {void}
    */
   public message(msg: LogMessage): void {
@@ -52,7 +52,7 @@ export class Game implements GameState {
 
   /**
    * Displays a flash message.
-   * @param {string} s - The message to add.
+   * @param {string} msg - The message to add.
    * @returns {void}
    */
   public flash(msg: LogMessage): void {
@@ -60,10 +60,21 @@ export class Game implements GameState {
     this.log.message(msg, isFlashMsg);
   }
 
+  /**
+   * Adds the given event category to the current event in the message log.
+   *
+   * @param {EventCategory} evt - The event category to add.
+   * @return {void} This function does not return anything.
+   */
   public addCurrentEvent(evt: EventCategory): void {
     this.log.addCurrentEvent(evt);
   }
 
+  /**
+   * Resets the player's damage count to 0.
+   *
+   * @return {void} This function does not return anything.
+   */
   public resetPlayerDmgCount(): void {
     this.playerDmgCount = 0;
   }

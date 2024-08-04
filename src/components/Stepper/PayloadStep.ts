@@ -43,10 +43,11 @@ export class PayloadStep extends TimedStep {
    * @return {StepIF | null} The executed step or null if no target is found.
    */
   public executeStep(): Step | null {
-    let tgt = this.target;
-    if (!tgt) tgt = this.targetFromPosition();
-    if (tgt) {
-      this.payload.setTarget(tgt);
+    let { target } = this;
+
+    if (!target) target = this.targetFromPosition();
+    if (target) {
+      this.payload.setTarget(target);
       this.payload.raw();
     } else {
       console.log('did not hit any target');

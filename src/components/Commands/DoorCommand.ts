@@ -35,8 +35,8 @@ export class DoorCommand extends CommandBase {
    * @returns {boolean} True if the command is executed successfully, false otherwise.
    */
   public execute(): boolean {
-    const p = this.me.pos;
-    const door = p.plus(this.direction);
+    const position = this.me.pos;
+    const door = position.plus(this.direction);
     const map = <Map>this.game.currentMap();
     const cell = map.cell(door);
 
@@ -66,6 +66,8 @@ export class DoorCommand extends CommandBase {
    * @param {Glyph} env - The environment of the door.
    */
   private message(env: Glyph): void {
+    const { game } = this;
+
     const open = env === Glyph.Door_Open;
     const action = open ? 'opens' : 'closes';
     const who = this.me.name;
@@ -75,6 +77,6 @@ export class DoorCommand extends CommandBase {
       EventCategory.door,
     );
 
-    this.game.message(msg);
+    game.message(msg);
   }
 }

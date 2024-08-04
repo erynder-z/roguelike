@@ -35,16 +35,18 @@ export class SpellFinder {
    * @return {Command | StackScreen | null} The found Command or StackScreen, or null if the spell is not recognized.
    */
   public find(spell: Spell, cost?: Cost): Command | StackScreen | null {
-    const g = this.game;
-    const me = g.player;
+    const { game } = this;
+
+    const me = game.player;
     const level = 1;
+
     let screen: StackScreen | null = null;
     let cmd: Command;
 
     const b = this.buff.bind(this);
     switch (spell) {
       case Spell.Heal:
-        cmd = new HealCommand(level, me, g);
+        cmd = new HealCommand(level, me, game);
         break;
       case Spell.Charm:
         ({ screen, cmd } = b(Buff.Charm, me));
@@ -57,7 +59,7 @@ export class SpellFinder {
         break;
       case Spell.Bullet:
         screen = this.dir(
-          (cmd = new BulletCommand(g.player, g, this.stack, this.make)),
+          (cmd = new BulletCommand(game.player, game, this.stack, this.make)),
         );
         break;
       case Spell.Poison:
@@ -70,7 +72,7 @@ export class SpellFinder {
         ({ screen, cmd } = b(Buff.Silence, me));
         break;
       case Spell.Cleanse:
-        cmd = new CleanseAllCommand(me, g);
+        cmd = new CleanseAllCommand(me, game);
         break;
       case Spell.Stun:
         ({ screen, cmd } = b(Buff.Stun, me));
@@ -82,7 +84,7 @@ export class SpellFinder {
         ({ screen, cmd } = b(Buff.Blind, me));
         break;
       case Spell.Multiply:
-        cmd = new MultiplyCommand(me, g);
+        cmd = new MultiplyCommand(me, game);
         break;
       case Spell.Freeze:
         ({ screen, cmd } = b(Buff.Freeze, me));
@@ -94,7 +96,7 @@ export class SpellFinder {
         ({ screen, cmd } = b(Buff.Shock, me));
         break;
       case Spell.Teleport:
-        cmd = new TeleportCommand(6, me, g);
+        cmd = new TeleportCommand(6, me, game);
         break;
       case Spell.Paralyze:
         ({ screen, cmd } = b(Buff.Paralyze, me));
@@ -106,7 +108,7 @@ export class SpellFinder {
         ({ screen, cmd } = b(Buff.Petrify, me));
         break;
       case Spell.Summon:
-        cmd = new SummonCommand(me, g);
+        cmd = new SummonCommand(me, game);
         break;
       case Spell.Bleed:
         ({ screen, cmd } = b(Buff.Bleed, me));
