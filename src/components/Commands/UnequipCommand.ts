@@ -22,10 +22,10 @@ export class UnequipCommand extends CommandBase {
    * @returns {boolean} True if the command executed successfully, false otherwise.
    */
   public execute(): boolean {
-    const slot = this.slot;
+    const { slot, game } = this;
+
     if (slot == Slot.NotWorn) return false;
 
-    const game = this.game;
     const equipment = <Equipment>game.equipment;
 
     if (!equipment.has(slot)) {

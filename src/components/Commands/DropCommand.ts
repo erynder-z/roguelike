@@ -21,19 +21,21 @@ export class DropCommand extends CommandBase {
    * Executes the drop command.
    * @returns {boolean} True if the item was dropped successfully, otherwise false.
    */
-  public execute(): boolean {
-    const game = this.game;
-    const map = <Map>game.currentMap();
-    const player = game.player;
-    const c = map.cell(player.pos);
 
-    if (c.hasObject()) {
+  public execute(): boolean {
+    const { game } = this;
+    const { player } = game;
+
+    const map = <Map>game.currentMap();
+    const cell = map.cell(player.pos);
+
+    if (cell.hasObject()) {
       const msg = new LogMessage('No room to drop here!', EventCategory.unable);
       game.flash(msg);
       return false;
     }
 
-    c.obj = this.item;
+    cell.obj = this.item;
     const inventory = <Inventory>game.inventory;
     inventory.removeIndex(this.index);
 

@@ -17,13 +17,13 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export class PayloadCommand extends CommandBase {
   constructor(
     public me: Mob,
-    public g: GameState,
+    public game: GameState,
     public stack: Stack,
     public make: ScreenMaker,
     public payload: Command,
     public dir: WorldPoint = new WorldPoint(),
   ) {
-    super(me, g);
+    super(me, game);
   }
 
   /**
@@ -43,14 +43,20 @@ export class PayloadCommand extends CommandBase {
    * @return {boolean} Always returns false.
    */
   public execute(): boolean {
-    const g = this.g;
-    const m = this.me;
+    const { game, me } = this;
+
     const sprite = Glyph.Bullet;
     const effect = null;
-    const next = new PayloadStep(m, g, this.payload);
-    const step: Step = new DirectionStep(effect, next, sprite, m.pos.copy(), g);
+    const next = new PayloadStep(me, game, this.payload);
+    const step: Step = new DirectionStep(
+      effect,
+      next,
+      sprite,
+      me.pos.copy(),
+      game,
+    );
     step.setDirection(this.dir);
-    this.stack.push(new StepScreen(g, this.make, step));
+    this.stack.push(new StepScreen(game, this.make, step));
     return false;
   }
 }

@@ -47,14 +47,14 @@ export class AutoHeal {
 
   /**
    * Resets auto healing during combat for multiple mobs.
-   * @param a - The first mob.
-   * @param b - The second mob, if exists.
+   * @param m1 - The first mob.
+   * @param m2 - The second mob, if exists.
    * @param game - The game object.
    */
-  public static combatResets(a: Mob, b: Mob | null, game: GameState) {
-    this.combatReset(a, game);
+  public static combatResets(m1: Mob, m2: Mob | null, game: GameState) {
+    this.combatReset(m1, game);
 
-    if (b) AutoHeal.combatReset(b, game);
+    if (m2) AutoHeal.combatReset(m2, game);
   }
   /**
    * Reset the healing parameters to their initial values.

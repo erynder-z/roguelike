@@ -20,14 +20,13 @@ export class CleanseAllCommand extends CommandBase {
    * @return {boolean} Returns true if the command was executed successfully.
    */
   public execute(): boolean {
-    const g = this.game;
-    const me = this.me;
+    const { me, game } = this;
 
     me.buffs._map.clear();
 
     const msg = new LogMessage(`Cleansed all buffs!`, EventCategory.heal);
 
-    g.message(msg);
+    game.message(msg);
 
     return true;
   }

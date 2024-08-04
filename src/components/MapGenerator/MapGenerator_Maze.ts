@@ -20,8 +20,7 @@ export class MapGenerator_Maze {
   }
 
   private carveMaze(): void {
-    const map = this.map;
-    const rnd = this.rnd;
+    const { map, rnd } = this;
 
     // Initialize the maze with walls
     for (let y = 0; y < map.dimensions.y; y++) {
@@ -41,8 +40,7 @@ export class MapGenerator_Maze {
   }
 
   private carvePassage(currentCell: WorldPoint): void {
-    const map = this.map;
-    const rnd = this.rnd;
+    const { map, rnd } = this;
 
     const [x, y] = [currentCell.x, currentCell.y];
     map.cell(currentCell).env = Glyph.Floor;
@@ -83,7 +81,7 @@ export class MapGenerator_Maze {
   }
 
   private shuffle(array: WorldPoint[]): WorldPoint[] {
-    const rnd = this.rnd;
+    const { rnd } = this;
     for (let i = array.length - 1; i > 0; i--) {
       const j = rnd.randomInteger(0, i);
       [array[i], array[j]] = [array[j], array[i]];

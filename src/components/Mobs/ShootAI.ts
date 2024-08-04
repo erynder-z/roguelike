@@ -34,7 +34,7 @@ export class ShootAI implements MobAI {
    *
    * @param {Mob} me - The Mob making the turn.
    * @param {Mob} enemy - The enemy Mob.
-   * @param {GameState} g - The game instance.
+   * @param {GameState} game - The game instance.
    * @param {Stack} stack - The screen stack.
    * @param {ScreenMaker} make - The screen maker.
    * @return {boolean} Always `true`.
@@ -42,25 +42,25 @@ export class ShootAI implements MobAI {
   public turn(
     me: Mob,
     enemy: Mob,
-    g: GameState,
+    game: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
-    const r = g.rand;
+    const { rand } = game;
     const far = !SimpleSleepAI.isNear(me, enemy);
 
     if (far) {
-      me.mood = r.isOneIn(3) ? Mood.Asleep : Mood.Awake;
+      me.mood = rand.isOneIn(3) ? Mood.Asleep : Mood.Awake;
       if (me.mood == Mood.Asleep) return true;
     }
 
-    if (this.didShoot(me, r, g, enemy, stack, make)) return true;
+    if (this.didShoot(me, rand, game, enemy, stack, make)) return true;
 
-    if (this.maybeCastSpell(me, enemy, g, stack, make)) return true;
+    if (this.maybeCastSpell(me, enemy, game, stack, make)) return true;
 
     for (let i = 0; i < this.speed; ++i) {
-      const ai = r.isOneIn(2) ? this.aiDir : this.aiRnd;
-      ai.turn(me, enemy, g, stack, make);
+      const ai = rand.isOneIn(2) ? this.aiDir : this.aiRnd;
+      ai.turn(me, enemy, game, stack, make);
     }
 
     return true;
@@ -71,7 +71,7 @@ export class ShootAI implements MobAI {
    *
    * @param {Mob} me - the casting mob
    * @param {Mob} enemy - the target mob
-   * @param {GameState} g - the game instance
+   * @param {GameState} game - the game instance
    * @param {Stack} stack - the game stack
    * @param {ScreenMaker} make - the screen maker
    * @return {boolean} true if the spell was cast, false otherwise
@@ -79,31 +79,31 @@ export class ShootAI implements MobAI {
   private maybeCastSpell(
     me: Mob,
     enemy: Mob,
-    g: GameState,
+    game: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
-    const map = <GameMap>g.currentMap();
+    const map = <GameMap>game.currentMap();
 
     if (!CanSee.checkMobLOS_Bresenham(me, enemy, map, true)) return false;
 
-    const r = g.rand;
+    const { rand } = game;
 
-    if (!r.isOneIn(this.spellRate)) return false;
+    if (!rand.isOneIn(this.spellRate)) return false;
 
-    const spell = this.pickSpell(me, r);
+    const spell = this.pickSpell(me, rand);
 
-    return this.castSpell(spell, me, enemy, g, stack, make);
+    return this.castSpell(spell, me, enemy, game, stack, make);
   }
 
   /**
    * Picks a spell based on the mob's level.
    *
    * @param {Mob} me - The mob.
-   * @param {RandomGenerator} r - The random generator.
+   * @param {RandomGenerator} rand - The random generator.
    * @return {Spell} The picked spell.
    */
-  private pickSpell(me: Mob, r: RandomGenerator): Spell {
+  private pickSpell(me: Mob, rand: RandomGenerator): Spell {
     const range: number = Spell.None + 1;
     const spellIndex: number = me.level % range;
     const spell: Spell = <Spell>spellIndex;
@@ -118,7 +118,7 @@ export class ShootAI implements MobAI {
    * @param {Spell} spell - The spell to be cast.
    * @param {Mob} me - The mob casting the spell.
    * @param {Mob} enemy - The mob being targeted by the spell.
-   * @param {GameState} g - The game object.
+   * @param {GameState} game - The game object.
    * @param {Stack} stack - The game stack.
    * @param {ScreenMaker} make - The screen maker.
    * @return {boolean} Returns true if the spell was successfully cast and executed, otherwise false.
@@ -127,11 +127,11 @@ export class ShootAI implements MobAI {
     spell: Spell,
     me: Mob,
     enemy: Mob,
-    g: GameState,
+    game: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
-    const finder = new NPCSpellFinder(g, stack, make);
+    const finder = new NPCSpellFinder(game, stack, make);
     const noCost: Cost | undefined = undefined;
     const commandOrSpell = finder.find(me, spell, noCost);
 
@@ -145,8 +145,8 @@ export class ShootAI implements MobAI {
    * checks if the spell rate is met, checks if the mob is in line of sight of the target, and shoots.
    *
    * @param {Mob} me - The mob that is shooting.
-   * @param {RandomGenerator} r - The random generator used for picking a spell.
-   * @param {GameState} g - The game object used for getting the current map and checking line of sight.
+   * @param {RandomGenerator} rand - The random generator used for picking a spell.
+   * @param {GameState} game - The game object used for getting the current map and checking line of sight.
    * @param {Mob} him - The mob that is being shot at.
    * @param {Stack} stack - The game stack used for shooting.
    * @param {ScreenMaker} make - The screen maker used for shooting.
@@ -154,22 +154,22 @@ export class ShootAI implements MobAI {
    */
   private didShoot(
     me: Mob,
-    r: RandomGenerator,
-    g: GameState,
+    rand: RandomGenerator,
+    game: GameState,
     him: Mob,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
     if (!this.aim(me.pos, him.pos)) return false;
 
-    const spell = this.pickSpell(me, r);
+    const spell = this.pickSpell(me, rand);
     if (!this.isBulletSpell(spell)) return false;
-    if (!r.isOneIn(this.spellRate)) return false;
+    if (!rand.isOneIn(this.spellRate)) return false;
 
-    const map = <GameMap>g.currentMap();
+    const map = <GameMap>game.currentMap();
     if (!CanSee.checkMobLOS_Bresenham(me, him, map, true)) return false;
 
-    return this.shoot(spell, me, him, g, stack, make);
+    return this.shoot(spell, me, him, game, stack, make);
   }
 
   /**
@@ -205,7 +205,7 @@ export class ShootAI implements MobAI {
    * @param {Spell} spell - The spell to be shot.
    * @param {Mob} me - The mob shooting the spell.
    * @param {Mob} him - The mob being shot.
-   * @param {GameState} g - The game object.
+   * @param {GameState} game - The game object.
    * @param {Stack} stack - The game stack.
    * @param {ScreenMaker} make - The screen maker.
    * @return {boolean} Returns true if the spell was successfully shot.
@@ -214,11 +214,11 @@ export class ShootAI implements MobAI {
     spell: Spell,
     me: Mob,
     him: Mob,
-    g: GameState,
+    game: GameState,
     stack: Stack,
     make: ScreenMaker,
   ): boolean {
-    this.castSpell(spell, me, him, g, stack, make);
+    this.castSpell(spell, me, him, game, stack, make);
     return true;
   }
 }

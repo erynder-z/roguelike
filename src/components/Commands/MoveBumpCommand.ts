@@ -25,12 +25,12 @@ export class MoveBumpCommand extends CommandBase {
   /**
    * Determines if a mob is able to perform a certain action.
    *
-   * @param {Mob} m - The mob performing the action.
-   * @param {GameState} g - The game object.
+   * @param {Mob} mob - The mob performing the action.
+   * @param {GameState} game - The game object.
    * @param {Act} act - The action being performed.
    * @returns {Able} An object indicating if the mob is able to perform the action and if it uses a turn.
    */
-  public able(m: Mob, g: GameState, act: Act): Able {
+  public able(mob: Mob, game: GameState, act: Act): Able {
     return { isAble: true, usesTurn: false };
   }
 
@@ -40,13 +40,13 @@ export class MoveBumpCommand extends CommandBase {
    * @return {boolean} the result of the function execution
    */
   public execute(): boolean {
-    const g = this.game;
-    const m = this.me;
-    const currentPosition = m.pos;
-    const newPosition = currentPosition.plus(this.dir);
-    const map = <GameMap>g.currentMap();
+    const { game, me, dir } = this;
 
-    this.checkForConfusion(g, this.dir);
+    const currentPosition = me.pos;
+    const newPosition = currentPosition.plus(dir);
+    const map = <GameMap>game.currentMap();
+
+    this.checkForConfusion(game, this.dir);
 
     if (!this.isPositionLegal(map, newPosition)) return false;
 
@@ -56,15 +56,15 @@ export class MoveBumpCommand extends CommandBase {
       map,
       currentPosition,
       newPosition,
-      g.rand,
+      game.rand,
       canGetStuckInWall,
     );
 
     if (magnetizedPos) {
-      return new MoveCommand(magnetizedPos, m, g).turn();
+      return new MoveCommand(magnetizedPos, me, game).turn();
     }
 
-    this.executeMoveOrHit(cell, m, g);
+    this.executeMoveOrHit(cell, me, game);
 
     return true;
   }

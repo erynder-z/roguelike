@@ -18,9 +18,9 @@ export class WaitCommand extends CommandBase {
    * @returns {boolean} Always returns true.
    */
   public execute(): boolean {
-    const g = this.game;
+    const { game } = this;
 
-    g.addCurrentEvent(EventCategory.wait);
+    game.addCurrentEvent(EventCategory.wait);
 
     console.log('wait');
 

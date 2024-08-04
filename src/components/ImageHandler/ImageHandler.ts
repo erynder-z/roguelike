@@ -53,6 +53,7 @@ export class ImageHandler {
     const imageContainer = document.getElementById('image-container');
     const image = imageContainer?.firstChild as HTMLImageElement;
     const dataAttribute = image?.getAttribute('data-image');
+
     if (dataAttribute) {
       return dataAttribute;
     }
@@ -68,7 +69,9 @@ export class ImageHandler {
   public displayImage(img: HTMLImageElement, type: string) {
     img.setAttribute('class', 'hud-image');
     img.setAttribute('data-image', type);
+
     const imageContainer = document.getElementById('image-container');
+
     if (imageContainer) {
       imageContainer.innerHTML = '';
       imageContainer.appendChild(img);
@@ -81,9 +84,9 @@ export class ImageHandler {
    * @param {GameState} game - The game information containing the necessary data.
    */
   public handleAttackImageDisplay(game: GameState) {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
-    const randomImage = r.getRandomImageFromArray(attackImages);
+    const randomImage = rand.getRandomImageFromArray(attackImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -91,7 +94,7 @@ export class ImageHandler {
       this.getCurrentImageDataAttribute() !== 'mobDamage' &&
       this.getCurrentImageDataAttribute() !== 'attack';
 
-    const maybeDrawImage = r.randomIntegerClosedRange(0, 2) === 0;
+    const maybeDrawImage = rand.randomIntegerClosedRange(0, 2) === 0;
 
     if (shouldDrawImage) {
       // If not currently attacking, display the image
@@ -109,10 +112,10 @@ export class ImageHandler {
    * @param {GameState} game - The game information containing the necessary data.
    */
   public handleHurtImageDisplay(game: GameState) {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(hurtImages);
+    const randomImage = rand.getRandomImageFromArray(hurtImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -126,10 +129,10 @@ export class ImageHandler {
    * @param {GameState} game - The game information containing the necessary data.
    */
   public handleSmileImageDisplay(game: GameState) {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(smileImages);
+    const randomImage = rand.getRandomImageFromArray(smileImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -143,15 +146,15 @@ export class ImageHandler {
    * @param {GameState} game - The game information containing the necessary data.
    */
   public handleMovingImageDisplay(game: GameState) {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(movingImages);
+    const randomImage = rand.getRandomImageFromArray(movingImages);
     const image = new Image();
     image.src = randomImage;
 
     const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving';
-    const maybeDrawImage = r.randomIntegerClosedRange(0, 9) === 0;
+    const maybeDrawImage = rand.randomIntegerClosedRange(0, 9) === 0;
 
     if (shouldDrawImage) {
       // If not currently moving, display the image
@@ -170,10 +173,10 @@ export class ImageHandler {
    * @return {void}
    */
   public handlePistolImageDisplay(game: GameState): void {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(pistolImages);
+    const randomImage = rand.getRandomImageFromArray(pistolImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -188,10 +191,10 @@ export class ImageHandler {
    * @return {void}
    */
   public handleNeutralImageDisplay(game: GameState): void {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(neutralImages);
+    const randomImage = rand.getRandomImageFromArray(neutralImages);
     const image = new Image();
     image.src = randomImage;
     this.displayImage(image, evt);
@@ -205,10 +208,10 @@ export class ImageHandler {
    * @return {void} This function does not return anything.
    */
   public handleDeathImageDisplay(game: GameState): void {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
-    const randomImage = r.getRandomImageFromArray(deathImages);
+    const randomImage = rand.getRandomImageFromArray(deathImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -223,7 +226,7 @@ export class ImageHandler {
    * @return {void} This function does not return a value.
    */
   public handleLevelImageDisplay(game: GameState): void {
-    const r = game.rand;
+    const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
 
     const lvl = game.dungeon.level;
@@ -247,7 +250,7 @@ export class ImageHandler {
     const index = Math.min(Math.floor(lvl / 4), maxLevelIndex);
     const images = levelImageMapping[index] || neutralImages;
 
-    const randomImage = r.getRandomImageFromArray(images);
+    const randomImage = rand.getRandomImageFromArray(images);
     const image = new Image();
     image.src = randomImage;
 

@@ -23,6 +23,7 @@ export class StairCommand extends CommandBase {
   public execute(): boolean {
     const { game, levelDir } = this;
     const { dungeon } = game;
+
     const newLevel = dungeon.level + levelDir;
     const newMap = dungeon.getLevel(newLevel, game);
     const direction = levelDir !== -1 ? 'descends' : 'ascends';

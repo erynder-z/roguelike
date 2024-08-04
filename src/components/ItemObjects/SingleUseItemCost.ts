@@ -8,7 +8,7 @@ import { ItemObject } from './ItemObject';
  */
 export class SingleUseItemCost implements Cost {
   constructor(
-    public g: GameState,
+    public game: GameState,
     public obj: ItemObject,
     public objectIndex: number,
   ) {}
@@ -19,12 +19,16 @@ export class SingleUseItemCost implements Cost {
    * @return {boolean} Returns true if the payment is successful, false otherwise.
    */
   public pay(): boolean {
+    const { game } = this;
+    const { inventory } = game;
+
     const msg = new LogMessage(
       `You use ${this.obj.name()}.`,
       EventCategory.use,
     );
-    this.g.message(msg);
-    this.g.inventory!.removeIndex(this.objectIndex);
+
+    game.message(msg);
+    inventory!.removeIndex(this.objectIndex);
 
     return true;
   }

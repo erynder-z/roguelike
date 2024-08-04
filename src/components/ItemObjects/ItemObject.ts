@@ -22,10 +22,12 @@ export class ItemObject {
    */
   public description(): string {
     const label = this.name();
+
     if (this.spell != Spell.None) {
       const quality = SpellColors.c[this.spell][1];
       return `${quality}  ${label}`;
     }
+
     return `${label}: ${this.level}`;
   }
 

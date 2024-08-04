@@ -33,35 +33,38 @@ export class EnvironmentChecker {
    * Add all environmental effects to the given cell.
    *
    * @param {MapCell} cell - The cell to add effects to.
-   * @param {WorldPoint} w - The position of the cell.
+   * @param {WorldPoint} wp - The position of the cell.
    * @param {Map} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
-  public static addCellEffects(cell: MapCell, w: WorldPoint, map: Map): void {
-    this.addPoisonEffectToCellNeighbors(cell, w, map);
-    this.addConfusionEffectToCellNeighbors(cell, w, map);
+  public static addCellEffects(cell: MapCell, wp: WorldPoint, map: Map): void {
+    this.addPoisonEffectToCellNeighbors(cell, wp, map);
+    this.addConfusionEffectToCellNeighbors(cell, wp, map);
   }
 
   /**
    * Adds the poison effect to the cells surrounding the given cell, if it contains a Poison Mushroom glyph.
    *
    * @param {MapCell} cell - The cell to add the poison effect to.
-   * @param {WorldPoint} w - The position of the cell.
+   * @param {WorldPoint} wp - The position of the cell.
    * @param {Map} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
   private static addPoisonEffectToCellNeighbors(
     cell: MapCell,
-    w: WorldPoint,
+    wp: WorldPoint,
     map: Map,
   ): void {
     if (cell.glyph() === Glyph.PoisonMushroom) {
-      const neighbors = w.getNeighbors(this.areaOfEffectRadius);
+      const neighbors = wp.getNeighbors(this.areaOfEffectRadius);
+
       for (const neighbor of neighbors) {
         if (!this.isValidNeighbor(neighbor, map)) {
           continue;
         }
+
         const neighborCell = map.cell(neighbor);
+
         neighborCell.addEnvEffect(EnvEffect.Poison);
       }
     }
@@ -71,22 +74,25 @@ export class EnvironmentChecker {
    * Adds the confusion effect to the neighboring cells of the given cell if it contains a Confusion Mushroom glyph.
    *
    * @param {MapCell} cell - The cell to add the confusion effect to.
-   * @param {WorldPoint} w - The position of the cell.
+   * @param {WorldPoint} wp - The position of the cell.
    * @param {Map} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
   private static addConfusionEffectToCellNeighbors(
     cell: MapCell,
-    w: WorldPoint,
+    wp: WorldPoint,
     map: Map,
   ): void {
     if (cell.glyph() === Glyph.ConfusionMushroom) {
-      const neighbors = w.getNeighbors(this.areaOfEffectRadius);
+      const neighbors = wp.getNeighbors(this.areaOfEffectRadius);
+
       for (const neighbor of neighbors) {
         if (!this.isValidNeighbor(neighbor, map)) {
           continue;
         }
+
         const neighborCell = map.cell(neighbor);
+
         neighborCell.addEnvEffect(EnvEffect.Confusion);
       }
     }
@@ -112,19 +118,21 @@ export class EnvironmentChecker {
   /**
    * Clears the environmental effect in the area surrounding a specified cell.
    *
-   * @param {WorldPoint} w - The position of the cell.
+   * @param {WorldPoint} wp - The position of the cell.
    * @param {Map} map - The map containing the cells.
    * @param {Glyph} glyph - The glyph representing the environmental effect.
    */
-  public static clearCellEffectInArea(w: WorldPoint, map: Map, glyph: Glyph) {
+  public static clearCellEffectInArea(wp: WorldPoint, map: Map, glyph: Glyph) {
     const effect = this.getEffectFromGlyph(glyph);
 
     if (effect != null) {
-      const neighbors = w.getNeighbors(this.areaOfEffectRadius);
+      const neighbors = wp.getNeighbors(this.areaOfEffectRadius);
+
       for (const neighbor of neighbors) {
         if (!this.isValidNeighbor(neighbor, map)) {
           continue;
         }
+
         const neighborCell = map.cell(neighbor);
 
         neighborCell.removeEnvEffect(effect);

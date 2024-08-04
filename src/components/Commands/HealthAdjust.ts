@@ -38,7 +38,6 @@ export class HealthAdjust {
    * @param {number} amount - The amount of health to be healed.
    */
   public static heal(mob: Mob, amount: number): void {
-    /*  console.log(`heal ${mob.hp} + ${amount}`); */
     const limit = mob.maxhp - mob.hp;
     if (amount > limit) amount = limit;
     mob.hp += amount;

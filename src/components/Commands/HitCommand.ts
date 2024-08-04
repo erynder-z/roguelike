@@ -28,27 +28,25 @@ export class HitCommand extends CommandBase {
    * @returns {boolean} Returns true if the hit was successful, false otherwise.
    */
   public execute(): boolean {
-    const g = this.game;
-    const m = this.me;
-    const rnd = g.rand;
+    const { game, me } = this;
+    const { rand } = game;
 
-    let dmg: number = this.calcDamage(rnd, m);
-
+    let dmg: number = this.calcDamage(rand, me);
     let back: number = 0;
 
-    if (m.is(Buff.Shock) && rnd.isOneIn(2)) {
+    if (me.is(Buff.Shock) && rand.isOneIn(2)) {
       dmg = this.shockDmg(dmg);
-      back = rnd.randomIntegerClosedRange(2, 3);
+      back = rand.randomIntegerClosedRange(2, 3);
     }
 
-    const me = m.name;
-    const him = this.him.name;
+    const damageDealer = me.name;
+    const damageReceiver = this.him.name;
 
-    this.doDmg(dmg, this.him, m, g, me, him);
+    this.doDmg(dmg, this.him, me, game, damageDealer, damageReceiver);
 
-    if (back > 0) this.doDmg(back, m, m, g, 'SHOCK', me);
+    if (back > 0) this.doDmg(back, me, me, game, 'SHOCK', damageDealer);
 
-    this.clearCharm(g);
+    this.clearCharm(game);
     return true;
   }
 
@@ -68,7 +66,7 @@ export class HitCommand extends CommandBase {
    * @param {number} dmg - The amount of damage to deal.
    * @param {Mob} target - The mob to receive the damage.
    * @param {Mob} attacker - The mob causing the damage.
-   * @param {GameState} g - The game object.
+   * @param {GameState} game - The game object.
    * @param {string} me - The name of the attacking mob.
    * @param {string} him - The name of the target mob.
    */
@@ -76,13 +74,13 @@ export class HitCommand extends CommandBase {
     dmg: number,
     target: Mob,
     attacker: Mob,
-    g: GameState,
+    game: GameState,
     me: string,
     him: string,
   ) {
     if (target.isPlayer) {
       const orig = dmg;
-      const factor = this.g.equipment!.armorClass_reduce();
+      const factor = this.game.equipment!.armorClass_reduce();
       dmg = Math.ceil(dmg * factor);
       console.log(`${orig}→ ${dmg} (${factor})`);
     }
@@ -94,27 +92,27 @@ export class HitCommand extends CommandBase {
     const msg1 = new LogMessage(s, EventCategory.mobDamage);
     const msg2 = new LogMessage(s, EventCategory.playerDamage);
     if (attacker.isPlayer) {
-      g.message(msg1);
-      g.addCurrentEvent(EventCategory.playerDamage);
+      game.message(msg1);
+      game.addCurrentEvent(EventCategory.playerDamage);
     }
     if (target.isPlayer) {
-      g.message(msg2);
-      g.addCurrentEvent(EventCategory.mobDamage);
+      game.message(msg2);
+      game.addCurrentEvent(EventCategory.mobDamage);
     }
 
-    if (dmg) HealthAdjust.adjust(target, -dmg, g, attacker);
+    if (dmg) HealthAdjust.adjust(target, -dmg, game, attacker);
   }
 
   /**
    * Clears the Charm buff from the target mob.
    *
-   * @param {GameState} g - The game object.
+   * @param {GameState} game - The game object.
    */
-  private clearCharm(g: GameState) {
-    const h = this.him;
+  private clearCharm(game: GameState) {
+    const { him } = this;
 
-    if (!h.is(Buff.Charm)) return;
-    h.buffs.cleanse(Buff.Charm, this.g, h);
+    if (!him.is(Buff.Charm)) return;
+    him.buffs.cleanse(Buff.Charm, this.game, him);
   }
 
   /**
@@ -138,11 +136,11 @@ export class HitCommand extends CommandBase {
 
   /**
    * Calculates the power of an NPC.
-   * @param {Mob} m - The NPC mob.
+   * @param {Mob} mob - The NPC mob.
    * @returns {number} The power of the NPC.
    */
-  private npcPower(m: Mob): number {
-    return m.level + 1;
+  private npcPower(mob: Mob): number {
+    return mob.level + 1;
   }
 
   /**
@@ -159,28 +157,28 @@ export class HitCommand extends CommandBase {
    * @returns {number} The power of the player.
    */
   private playerPower(player: Mob): number {
-    const g = this.g;
-    if (g.equipment) return this.equipmentPower(g, g.equipment);
+    const game = this.game;
+    if (game.equipment) return this.equipmentPower(game, game.equipment);
     return this.unarmed();
   }
 
   /**
    * Calculates the power of a player based on their equipment.
-   * @param {GameState} g - The game object.
-   * @param {Equipment} eq - The equipment of the player.
+   * @param {GameState} game - The game object.
+   * @param {Equipment} equipment - The equipment of the player.
    * @returns {number} The power of the player based on their equipment.
    */
-  private equipmentPower(g: GameState, eq: Equipment): number {
-    const disarm = g.player.is(Buff.Disarm);
-    if (eq.weapon()) {
+  private equipmentPower(game: GameState, equipment: Equipment): number {
+    const disarm = game.player.is(Buff.Disarm);
+    if (equipment.weapon()) {
       if (disarm) {
         const msg = new LogMessage(
           'Attacking with your bare hands!',
           EventCategory.attack,
         );
-        g.message(msg);
+        game.message(msg);
       } else {
-        return eq.weaponDamage();
+        return equipment.weaponDamage();
       }
     }
     return this.unarmed();

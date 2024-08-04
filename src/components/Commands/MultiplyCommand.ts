@@ -12,9 +12,9 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export class MultiplyCommand extends CommandBase {
   constructor(
     public me: Mob,
-    public g: GameState,
+    public game: GameState,
   ) {
-    super(me, g);
+    super(me, game);
   }
   /**
    * Executes the command.
@@ -22,57 +22,65 @@ export class MultiplyCommand extends CommandBase {
    * @return {boolean} Returns true if the command is executed successfully, otherwise false.
    */
   public execute(): boolean {
-    const g = this.g;
-    const rnd = g.rand;
-    const map = <GameMap>g.currentMap();
-    const p = this.find(map, rnd);
+    const { game } = this;
+    const { rand } = game;
+
+    const map = <GameMap>game.currentMap();
+    const p = this.find(map, rand);
 
     if (p == null) return true;
 
-    this.spawnMob(p, map, g);
+    this.spawnMob(p, map, game);
     return true;
   }
 
   /**
    * Spawns a mob at the given world point on the specified game map.
    *
-   * @param {WorldPoint} p - The coordinates of the world point where the mob should be spawned.
+   * @param {WorldPoint} wp - The coordinates of the world point where the mob should be spawned.
    * @param {GameMap} map - The game map on which the mob should be spawned.
-   * @param {GameState} g - The game object.
+   * @param {GameState} game - The game object.
    * @return {void} This function does not return a value.
    */
-  public spawnMob(p: WorldPoint, map: GameMap, g: GameState): void {
-    const m = this.me;
-    const b = g.build;
+  public spawnMob(wp: WorldPoint, map: GameMap, game: GameState): void {
+    const { me } = this;
+    const b = game.build;
 
-    b.addNPC(m.glyph, p.x, p.y, map, m.level);
+    b.addNPC(me.glyph, wp.x, wp.y, map, me.level);
 
     const msg = new LogMessage(
-      `${m.name} is multiplying!`,
+      `${me.name} is multiplying!`,
       EventCategory.mobSpawn,
     );
-    g.message(msg);
+    game.message(msg);
   }
 
   /**
    * Finds a valid world point on the game map to spawn a mob.
    *
-   * @param {GameMap} map - The game map to search for a valid spawn point.
-   * @param {RandomGenerator} rnd - The random number generator to use for picking a spawn point.
+   * @param {GameMap} gameMap - The game map to search for a valid spawn point.
+   * @param {RandomGenerator} randomGenerator - The random number generator to use for picking a spawn point.
    * @return {WorldPoint | null} The valid world point to spawn a mob, or null if no valid spawn point is found.
    */
-  private find(map: GameMap, rnd: RandomGenerator): WorldPoint | null {
-    const pos = this.me.pos;
-    const c: WorldPoint[] = [];
-    const a = new WorldPoint();
+  private find(
+    gameMap: GameMap,
+    randomGenerator: RandomGenerator,
+  ): WorldPoint | null {
+    const mobPosition = this.me.pos;
+    const validSpawnPoints: WorldPoint[] = [];
 
-    for (a.y = -1; a.y <= 1; ++a.y) {
-      for (a.x = -1; a.x <= 1; ++a.x) {
-        const b = pos.plus(a);
-        if (!map.isBlocked(b)) c.push(b);
+    for (let relativeY = -1; relativeY <= 1; relativeY++) {
+      for (let relativeX = -1; relativeX <= 1; relativeX++) {
+        const absolutePosition = mobPosition.plus(
+          new WorldPoint(relativeX, relativeY),
+        );
+        if (!gameMap.isBlocked(absolutePosition)) {
+          validSpawnPoints.push(absolutePosition);
+        }
       }
     }
-    return this.pick(c, rnd);
+
+    return this.pick(validSpawnPoints, randomGenerator);
   }
 
   /**

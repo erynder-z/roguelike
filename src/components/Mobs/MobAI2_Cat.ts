@@ -17,8 +17,8 @@ export class MobAI2_Cat implements MobAI {
    * @return {boolean} The result of the npcTurn method call
    */
   public turn(me: Mob, enemy: Mob, game: GameState): boolean {
-    const r = game.rand;
-    if (r.isOneIn(3)) return false;
+    const { rand } = game;
+    if (rand.isOneIn(3)) return false;
     const dir = me.pos.directionTo(enemy.pos);
     const cmd = new MoveBumpCommand(dir, me, game);
     return cmd.npcTurn();

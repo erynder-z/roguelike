@@ -16,8 +16,8 @@ export class MobAI3_Ant implements MobAI {
    * @returns {boolean} - True if the turn was successfully executed, false otherwise.
    */
   public turn(me: Mob, enemy: Mob, game: GameState): boolean {
-    const r = game.rand;
-    const dir = r.randomDirectionForcedMovement();
+    const { rand } = game;
+    const dir = rand.randomDirectionForcedMovement();
     return new MoveBumpCommand(dir, me, game).npcTurn();
   }
 }

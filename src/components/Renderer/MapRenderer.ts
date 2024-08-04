@@ -48,17 +48,17 @@ export class MapRenderer {
    *
    * @param {WorldPoint} playerPos - The position of the player on the map.
    * @param {Map} map - The current map.
-   * @param {GameState} g - The game state containing player stats.
+   * @param {GameState} game - The game state containing player stats.
    * @return {number} The calculated far distance for visibility.
    */
   private static getFarDist(
     playerPos: WorldPoint,
     map: Map,
-    g: GameState,
+    game: GameState,
   ): number {
     const glowRange = 10;
     const maxVisibilityRange = 75;
-    let farDist = g.stats.currentVisRange || 50;
+    let farDist = game.stats.currentVisRange || 50;
 
     const glowingRocks = this.countGlowingRocks(playerPos, map, glowRange);
     farDist *= Math.pow(2, glowingRocks);
@@ -81,16 +81,16 @@ export class MapRenderer {
    */
   private static drawCell(
     term: DrawableTerminal,
-    t: TerminalPoint,
-    w: WorldPoint,
+    tp: TerminalPoint,
+    wp: WorldPoint,
     map: Map,
     playerPos: WorldPoint,
     farDist: number,
     blind: boolean,
     isRayCast: boolean,
   ): void {
-    const cell = map.isLegalPoint(w) ? map.cell(w) : this.outside;
-    const distance = w.squaredDistanceTo(playerPos);
+    const cell = map.isLegalPoint(wp) ? map.cell(wp) : this.outside;
+    const distance = wp.squaredDistanceTo(playerPos);
     const far = distance > farDist && !blind;
     const isEntityVisible = this.checkEntityVisibility(
       cell,
@@ -114,11 +114,11 @@ export class MapRenderer {
       blind,
       isRayCast,
       playerPos,
-      w,
+      wp,
       map,
     );
 
-    term.drawAt(t.x, t.y, glyphInfo.char, fg, bg);
+    term.drawAt(tp.x, tp.y, glyphInfo.char, fg, bg);
   }
 
   /**
@@ -168,7 +168,7 @@ export class MapRenderer {
     blind: boolean,
     isRayCast: boolean,
     playerPos: WorldPoint,
-    w: WorldPoint,
+    wp: WorldPoint,
     map: Map,
   ): { fg: string; bg: string } {
     if (far || blind) {
@@ -181,7 +181,7 @@ export class MapRenderer {
     if (!cell.lit && !blind) cell.lit = true;
 
     if (isRayCast) {
-      const isVisible = CanSee.checkPointLOS_RayCast(playerPos, w, map);
+      const isVisible = CanSee.checkPointLOS_RayCast(playerPos, wp, map);
       return {
         fg: this.getRayCastFgCol(isVisible, cell, glyphInfo),
         bg: this.getRayCastBgCol(isVisible, cell),
@@ -232,24 +232,24 @@ export class MapRenderer {
     map: Map,
     vp: WorldPoint,
     callback: (
-      t: TerminalPoint,
-      w: WorldPoint,
+      tp: TerminalPoint,
+      wp: WorldPoint,
       term: DrawableTerminal,
       map: Map,
     ) => void,
   ): void {
     const terminalDimensions = term.dimensions;
-    const t = new TerminalPoint();
-    const w = new WorldPoint();
+    const tp = new TerminalPoint();
+    const wp = new WorldPoint();
     const mapOffSet = 0;
 
     for (
-      t.y = mapOffSet, w.y = vp.y;
-      t.y < terminalDimensions.y + mapOffSet;
-      ++t.y, ++w.y
+      tp.y = mapOffSet, wp.y = vp.y;
+      tp.y < terminalDimensions.y + mapOffSet;
+      ++tp.y, ++wp.y
     ) {
-      for (t.x = 0, w.x = vp.x; t.x < terminalDimensions.x; ++t.x, ++w.x) {
-        callback(t, w, term, map);
+      for (tp.x = 0, wp.x = vp.x; tp.x < terminalDimensions.x; ++tp.x, ++wp.x) {
+        callback(tp, wp, term, map);
       }
     }
   }
@@ -261,7 +261,7 @@ export class MapRenderer {
    * @param {Map} map - The map to be drawn.
    * @param {WorldPoint} vp - The viewpoint on the map.
    * @param {WorldPoint} playerPos - The position of the player on the map.
-   * @param {GameState} g - The current game state.
+   * @param {GameState} game - The current game state.
    * @return {void}
    */
   public static drawMap_Standard(
@@ -269,14 +269,14 @@ export class MapRenderer {
     map: Map,
     vp: WorldPoint,
     playerPos: WorldPoint,
-    g: GameState,
+    game: GameState,
   ): void {
-    const buffs = g.player.buffs;
+    const buffs = game.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
-    const farDist = this.getFarDist(playerPos, map, g);
+    const farDist = this.getFarDist(playerPos, map, game);
 
-    this.forEachCellInView(term, map, vp, (t, w, term, map) => {
-      this.drawCell(term, t, w, map, playerPos, farDist, blind, false);
+    this.forEachCellInView(term, map, vp, (tp, wp, term, map) => {
+      this.drawCell(term, tp, wp, map, playerPos, farDist, blind, false);
     });
   }
 
@@ -287,7 +287,7 @@ export class MapRenderer {
    * @param {Map} map - The map containing the cells.
    * @param {WorldPoint} vp - The view point on the map.
    * @param {WorldPoint} playerPos - The position of the player on the map.
-   * @param {GameState} g - The game state object.
+   * @param {GameState} game - The game state object.
    * @return {void}
    */
   public static drawMap_RayCast(
@@ -295,14 +295,14 @@ export class MapRenderer {
     map: Map,
     vp: WorldPoint,
     playerPos: WorldPoint,
-    g: GameState,
+    game: GameState,
   ): void {
-    const buffs = g.player.buffs;
+    const buffs = game.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
-    const farDist = this.getFarDist(playerPos, map, g);
+    const farDist = this.getFarDist(playerPos, map, game);
 
-    this.forEachCellInView(term, map, vp, (t, w, term, map) => {
-      this.drawCell(term, t, w, map, playerPos, farDist, blind, true);
+    this.forEachCellInView(term, map, vp, (tp, wp, term, map) => {
+      this.drawCell(term, tp, wp, map, playerPos, farDist, blind, true);
     });
   }
 

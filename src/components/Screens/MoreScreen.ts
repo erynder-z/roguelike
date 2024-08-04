@@ -21,7 +21,8 @@ export class MoreScreen extends BaseScreen {
    * @returns {void}
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
-    const log = this.game.log;
+    const { log } = this.game;
+
     log.dequeue();
     if (!log.hasQueuedMessages()) stack.pop();
   }

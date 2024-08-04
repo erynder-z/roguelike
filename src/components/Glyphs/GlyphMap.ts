@@ -109,7 +109,7 @@ export class GlyphMap {
     isCausingBleed: boolean,
     isGlowing: boolean,
     isCausingPoison: boolean,
-    isCausingConfusion,
+    isCausingConfusion: boolean,
   ) {
     const info: GlyphInfo = new GlyphInfo(
       fgCol,

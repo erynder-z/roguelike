@@ -11,9 +11,9 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  */
 export class TeleportCommand extends CommandBase {
   constructor(
-    private readonly radius: number,
-    private readonly mob: Mob,
-    private readonly game: GameState,
+    public radius: number,
+    public mob: Mob,
+    public game: GameState,
   ) {
     super(mob, game);
   }

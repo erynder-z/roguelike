@@ -62,7 +62,8 @@ export class MapGenerator1 {
     upperLeft: WorldPoint,
     roomDimensions: WorldPoint,
   ): void {
-    const rnd = this.rnd;
+    const { rnd } = this;
+
     const mapDimensions = this.map.dimensions;
 
     roomDimensions.y = rnd.randomIntegerClosedRange(4, 16);

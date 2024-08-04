@@ -16,9 +16,9 @@ export class DigCommand extends CommandBase {
   constructor(
     public dir: WorldPoint,
     public me: Mob,
-    public g: GameState,
+    public game: GameState,
   ) {
-    super(me, g);
+    super(me, game);
   }
 
   /**
@@ -27,13 +27,14 @@ export class DigCommand extends CommandBase {
    * @return {boolean} Returns true if the dig command was executed successfully, otherwise false.
    */
   public execute(): boolean {
-    const game = this.g;
-    const player = game.player;
+    const { game } = this;
+    const { player, rand } = game;
+
     const map = <Map>game.currentMap();
-    const np = player.pos.plus(this.dir);
-    const cell = map.cell(np);
-    const e = cell.env;
-    const isDiggable = GlyphMap.getGlyphInfo(e).isDiggable;
+    const newPosition = player.pos.plus(this.dir);
+    const cell = map.cell(newPosition);
+    const env = cell.env;
+    const isDiggable = GlyphMap.getGlyphInfo(env).isDiggable;
 
     if (!isDiggable) {
       const msg = new LogMessage('Cannot dig there!', EventCategory.unable);
@@ -42,12 +43,11 @@ export class DigCommand extends CommandBase {
     }
 
     const digCellEnv = cell.env;
-    const rand = this.g.rand;
     const digSuccess = rand.isOneIn(10);
 
     if (digSuccess) {
       cell.env = Glyph.Floor;
-      EnvironmentChecker.clearCellEffectInArea(np, map, digCellEnv);
+      EnvironmentChecker.clearCellEffectInArea(newPosition, map, digCellEnv);
 
       const msg = new LogMessage(
         `You dig through the ${GlyphMap.getGlyphInfo(digCellEnv).name}!`,

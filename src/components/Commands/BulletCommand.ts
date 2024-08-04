@@ -44,23 +44,29 @@ export class BulletCommand extends CommandBase {
    * @return {boolean} The result of the function execution.
    */
   public execute(): boolean {
-    const g = this.game;
-    const m = this.me;
+    const { game, me } = this;
+
     const dmg = 4;
     const type = RangedWeaponType.Pistol;
     const sprite = Glyph.Bullet;
     const effect = null;
-    const next = new DamageStep(dmg, type, m, g);
-    const step: Step = new DirectionStep(effect, next, sprite, m.pos.copy(), g);
+    const next = new DamageStep(dmg, type, me, game);
+    const step: Step = new DirectionStep(
+      effect,
+      next,
+      sprite,
+      me.pos.copy(),
+      game,
+    );
 
     step.setDirection(this.direction);
-    this.stack.push(new StepScreen(g, this.make, step));
+    this.stack.push(new StepScreen(game, this.make, step));
 
-    if (m.isPlayer) {
+    if (me.isPlayer) {
       this.game.addCurrentEvent(EventCategory.rangedAttack);
       const imageHandler = ImageHandler.getInstance();
 
-      imageHandler.handlePistolImageDisplay(g);
+      imageHandler.handlePistolImageDisplay(game);
     }
 
     return false;

@@ -12,48 +12,48 @@ export class MapHandler {
 
   /**
    * Retrieves the current map of the dungeon based on the current level.
-   * @param {GameState} g - The game object.
+   * @param {GameState} game - The game object.
    * @returns {Map} The current map.
    */
-  public currentMap(g: GameState): Map {
-    return this.getLevel(this.level, g);
+  public currentMap(game: GameState): Map {
+    return this.getLevel(this.level, game);
   }
 
   /**
    * Retrieves a specific level of the dungeon.
    * If the level does not exist, it is generated.
-   * @param {number} l - The level number.
-   * @param {GameState} g - The game object.
+   * @param {number} level - The level number.
+   * @param {GameState} game - The game object.
    * @returns {Map} The map of the specified level.
    */
-  public getLevel(l: number, g: GameState): Map {
-    if (!this.hasLevel(l)) {
-      const map = g.build.makeLevel(g.rand, l);
-      this.add(map, l);
+  public getLevel(level: number, game: GameState): Map {
+    if (!this.hasLevel(level)) {
+      const map = game.build.makeLevel(game.rand, level);
+      this.add(map, level);
     }
-    return this.maps[l];
+    return this.maps[level];
   }
 
   /**
    * Checks if the dungeon has a specific level.
-   * @param {number} l - The level number to check.
+   * @param {number} level - The level number to check.
    * @returns {boolean} True if the dungeon has the level, otherwise false.
    */
-  private hasLevel(l: number): boolean {
-    return l < this.maps.length && !!this.maps[l];
+  private hasLevel(level: number): boolean {
+    return level < this.maps.length && !!this.maps[level];
   }
 
   /**
    * Adds a map to a specified level of the dungeon.
    * @param {Map} map - The map to add.
-   * @param {number} l - The level number where the map should be added.
+   * @param {number} level - The level number where the map should be added.
    * @returns {void}
    */
-  private add(map: Map, l: number): void {
-    if (l >= this.maps.length) {
-      this.extendMaps(l + 1);
+  private add(map: Map, level: number): void {
+    if (level >= this.maps.length) {
+      this.extendMaps(level + 1);
     }
-    this.maps[l] = map;
+    this.maps[level] = map;
   }
 
   /**
@@ -65,33 +65,33 @@ export class MapHandler {
     this.maps.length = len;
   }
 
-  private adjustLevelVisibilityRange(g: GameState): void {
-    if (this.currentMap(g).isDark) {
-      g.stats.currentVisRange = 6;
+  private adjustLevelVisibilityRange(game: GameState): void {
+    if (this.currentMap(game).isDark) {
+      game.stats.currentVisRange = 6;
     } else {
-      g.stats.currentVisRange = g.stats.defaultVisRange;
+      game.stats.currentVisRange = game.stats.defaultVisRange;
     }
   }
 
   /**
    * Handles player switching levels within the dungeon.
    * @param {number} newLevel - The new level to which the player switches.
-   * @param {WorldPoint} np - The new position of the player on the new level.
-   * @param {GameState} g - The game object.
+   * @param {WorldPoint} newPosition - The new position of the player on the new level.
+   * @param {GameState} game - The game object.
    * @returns {void}
    */
   public playerSwitchLevel(
     newLevel: number,
-    np: WorldPoint,
-    g: GameState,
+    newPosition: WorldPoint,
+    game: GameState,
   ): void {
-    const player = g.player;
+    const player = game.player;
 
-    this.currentMap(g).removeMob(player);
+    this.currentMap(game).removeMob(player);
     this.level = newLevel;
-    this.adjustLevelVisibilityRange(g);
-    this.currentMap(g).enterMap(player, np);
+    this.adjustLevelVisibilityRange(game);
+    this.currentMap(game).enterMap(player, newPosition);
 
-    g.log.addCurrentEvent(EventCategory.lvlChange);
+    game.log.addCurrentEvent(EventCategory.lvlChange);
   }
 }

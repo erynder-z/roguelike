@@ -8,10 +8,10 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * Represents a mobile entity within the game world. Mob can be either a player or an NPC.
  */
 export class Mob {
-  constructor(g: Glyph, x: number, y: number) {
-    this.isPlayer = g == Glyph.Player;
-    this.glyph = g;
-    this.name = Glyph[g];
+  constructor(glyph: Glyph, x: number, y: number) {
+    this.isPlayer = glyph == Glyph.Player;
+    this.glyph = glyph;
+    this.name = Glyph[glyph];
     this.pos.x = x;
     this.pos.y = y;
   }

@@ -18,12 +18,13 @@ export class PickupCommand extends CommandBase {
    * @returns {boolean} Returns true if the command is executed successfully, otherwise false.
    */
   public execute(): boolean {
-    const game = this.game;
+    const { game } = this;
+    const { player } = game;
+
     const map = <Map>game.currentMap();
-    const player = game.player;
     const inventory = <Inventory>game.inventory;
-    const c = map.cell(player.pos);
-    const item = c.obj;
+    const cell = map.cell(player.pos);
+    const item = cell.obj;
 
     if (!item) {
       const msg = new LogMessage(
@@ -34,7 +35,7 @@ export class PickupCommand extends CommandBase {
       return false;
     }
 
-    c.obj = undefined;
+    cell.obj = undefined;
     inventory.add(item);
 
     const msg = new LogMessage(

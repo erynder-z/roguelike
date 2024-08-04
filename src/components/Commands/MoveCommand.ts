@@ -58,6 +58,7 @@ export class MoveCommand extends CommandBase {
    */
   private moveAndHandleExtras(map: Map, position: WorldPoint): void {
     this.moveMobAndResetCounter(map, position);
+
     if (this.me.isPlayer) {
       this.dealWithTraps(map, position);
       this.dealWithStairs(map, position);

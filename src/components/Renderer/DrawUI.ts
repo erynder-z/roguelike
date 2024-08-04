@@ -58,16 +58,16 @@ export class DrawUI {
    * @param {Map} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    * @param {WorldPoint} playerPos - The position of the player.
-   * @param {GameState} g - The game object.
+   * @param {GameState} game - The game object.
    */
   private static drawMap(
     term: DrawableTerminal,
     map: Map,
     vp: WorldPoint,
     playerPos: WorldPoint,
-    g: GameState,
+    game: GameState,
   ) {
-    MapRenderer.drawMap_RayCast(term, map, vp, playerPos, g);
+    MapRenderer.drawMap_RayCast(term, map, vp, playerPos, game);
   }
 
   /**
@@ -76,13 +76,13 @@ export class DrawUI {
    * @param {DrawableTerminal} term - the terminal to draw on
    * @param {Map} map - the map to draw
    * @param {WorldPoint} player_pos - the position of the player
-   * @param {GameState} g - the game interface
+   * @param {GameState} game - the game interface
    */
   public static drawMapWithPlayerCentered(
     term: DrawableTerminal,
     map: Map,
     playerPos: WorldPoint,
-    g: GameState,
+    game: GameState,
   ) {
     if (!playerPos) playerPos = new WorldPoint();
 
@@ -90,7 +90,7 @@ export class DrawUI {
       -Math.floor(term.dimensions.x * 0.5) + playerPos.x,
       -Math.floor(term.dimensions.y * 0.5) + playerPos.y,
     );
-    this.drawMap(term, map, viewport, playerPos, g);
+    this.drawMap(term, map, viewport, playerPos, game);
   }
 
   /**
@@ -161,7 +161,8 @@ export class DrawUI {
    * @return {void}
    */
   public static renderMessage(game: GameState): void {
-    const log = game.log;
+    const { log } = game;
+
     const messageLog = log.archive.slice(-25);
 
     const messagesDisplay = document.querySelector(
@@ -221,7 +222,7 @@ export class DrawUI {
    * @return {void} This function does not return anything.
    */
   public static renderFlash(game: GameState): void {
-    const log = game.log;
+    const { log } = game;
 
     if (!log) return;
 

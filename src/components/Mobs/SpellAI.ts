@@ -11,6 +11,7 @@ import { Mood } from './MoodEnum';
 import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { SimpleSleepAI } from './SimpleSleepAI';
 import { Stack } from '../Terminal/Types/Stack';
+import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
 
 /**
  * An AI implementation for Mobs in an cast spells.
@@ -43,13 +44,15 @@ export class SpellAI implements MobAI {
     make: ScreenMaker,
   ): boolean {
     if (this.maybeCastSpell(me, enemy, game)) return true;
-    const r = game.rand;
+    const { rand } = game;
     for (let i = 0; i < this.speed; ++i) {
-      const ai = r.isOneIn(2) ? this.aiTargetedMovement : this.aiRandomMovement;
+      const ai = rand.isOneIn(2)
+        ? this.aiTargetedMovement
+        : this.aiRandomMovement;
       ai.turn(me, enemy, game, stack, make);
     }
     const far = !SimpleSleepAI.isNear(me, enemy);
-    if (far) me.mood = r.isOneIn(3) ? Mood.Asleep : Mood.Awake;
+    if (far) me.mood = rand.isOneIn(3) ? Mood.Asleep : Mood.Awake;
     return true;
   }
 
@@ -65,9 +68,9 @@ export class SpellAI implements MobAI {
     const map = <GameMap>game.currentMap();
     if (!CanSee.checkMobLOS_Bresenham(me, enemy, map, true)) return false;
 
-    const r = game.rand;
-    if (!r.isOneIn(this.spellRate)) return false;
-    const buff = this.pickBuff(me, r);
+    const { rand } = game;
+    if (!rand.isOneIn(this.spellRate)) return false;
+    const buff = this.pickBuff(me, rand);
 
     return this.cast(buff, me, enemy, game);
   }
@@ -75,10 +78,10 @@ export class SpellAI implements MobAI {
    * A function that picks a buff for a given mob.
    *
    * @param {Mob} me - the mob for which to pick the buff
-   * @param {any} r - a parameter whose role is unclear
+   * @param {any} rand- the game random generator
    * @return {Buff} the chosen buff for the mob
    */
-  private pickBuff(me: Mob, r: any): Buff {
+  private pickBuff(me: Mob, rand: RandomGenerator): Buff {
     // TODO: Implement buff choosing
     return Buff.Confuse;
   }

@@ -63,9 +63,9 @@ export class DynamicScreenMaker implements ScreenMaker {
   public static runBuilt_InitialGameSetup(builder: Build) {
     const dynamicScreenMaker = new DynamicScreenMaker(
       builder,
-      (g: GameState, sm: ScreenMaker) => new GameScreen(g, sm),
-      (g: GameState, sm: ScreenMaker) => new GameOverScreen(sm),
-      (g: GameState, sm: ScreenMaker) => new MoreScreen(g, sm),
+      (game: GameState, sm: ScreenMaker) => new GameScreen(game, sm),
+      (game: GameState, sm: ScreenMaker) => new GameOverScreen(sm),
+      (game: GameState, sm: ScreenMaker) => new MoreScreen(game, sm),
       (sm: ScreenMaker) => sm.newGame(),
     );
     this.activateImageHandler();
