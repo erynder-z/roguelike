@@ -41,7 +41,7 @@ export class ItemObjectManager {
    * Adds an object of a specified type to the map at a given position.
    * @param {WorldPoint} wp - The position to add the object.
    * @param {Map} map - The map to add the object to.
-   * @param {RandomGenerator} rnd - The random generator to use for randomness.
+   * @param {RandomGenerator} rand - The random generator to use for randomness.
    * @param {Glyph} objType - The glyph representing the object type.
    * @param {number} level - The level of the object.
    * @returns {ItemObject} The added object.
@@ -49,13 +49,13 @@ export class ItemObjectManager {
   private static addObjTypeToMap(
     wp: WorldPoint,
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     objType: Glyph,
     level: number,
   ): ItemObject {
     const index = this.indexForGlyph(objType);
     const template: ObjectTypes = ItemObjectManager.getTemplate(index);
-    const object = this.makeTemplateObject(level, rnd, template);
+    const object = this.makeTemplateObject(level, rand, template);
     map.addObject(object, wp);
     return object;
   }
@@ -64,17 +64,17 @@ export class ItemObjectManager {
    * Adds a random object of a specified level to the map at a given position.
    * @param {WorldPoint} wp - The position to add the object.
    * @param {Map} map - The map to add the object to.
-   * @param {RandomGenerator} rnd - The random generator to use for randomness.
+   * @param {RandomGenerator} rand - The random generator to use for randomness.
    * @param {number} level - The level of the object.
    * @returns {ItemObject} The added object.
    */
   static addRandomObjectForLevel(
     wp: WorldPoint,
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     level: number,
   ): ItemObject {
-    const object = this.randomLevelObject(level, rnd);
+    const object = this.randomLevelObject(level, rand);
     map.addObject(object, wp);
     return object;
   }
@@ -82,24 +82,24 @@ export class ItemObjectManager {
   /**
    * Generates a random object of a specified level.
    * @param {number} level - The level of the object.
-   * @param {RandomGenerator} rnd - The random generator to use for randomness.
+   * @param {RandomGenerator} rand - The random generator to use for randomness.
    * @returns {ItemObject} The generated object.
    */
   public static randomLevelObject(
     level: number,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
   ): ItemObject {
-    return this.rareRunes(rnd, level);
+    return this.rareRunes(rand, level);
   }
 
   /**
    * Returns a random object template from the objTypes array.
    *
-   * @param {RandomGenerator} rnd - The random number generator used to generate a random index.
+   * @param {RandomGenerator} rand - The random number generator used to generate a random index.
    * @return {ObjectTypes} The randomly selected object template.
    */
-  private static getRandomTemplate(rnd: RandomGenerator): ObjectTypes {
-    const index = rnd.randomInteger(ItemObjectManager.objTypes.length);
+  private static getRandomTemplate(rand: RandomGenerator): ObjectTypes {
+    const index = rand.randomInteger(ItemObjectManager.objTypes.length);
     const template: ObjectTypes = ItemObjectManager.getTemplate(index);
     return template;
   }
@@ -107,25 +107,25 @@ export class ItemObjectManager {
   /**
    * Generates a rare rune item object with a specified level.
    *
-   * @param {RandomGenerator} rnd - The random number generator used for randomness.
+   * @param {RandomGenerator} rand - The random number generator used for randomness.
    * @param {number} level - The level of the item object.
    * @return {ItemObject} The generated rare rune item object.
    */
-  private static rareRunes(rnd: RandomGenerator, level: number): ItemObject {
+  private static rareRunes(rand: RandomGenerator, level: number): ItemObject {
     const maxAttempts = 1000;
     let attempts = 0;
 
     while (attempts < maxAttempts) {
-      const template = this.getRandomTemplate(rnd);
+      const template = this.getRandomTemplate(rand);
 
       if (template.glyph == Glyph.Rune) {
-        if (!rnd.determineSuccess(level * 3)) {
+        if (!rand.determineSuccess(level * 3)) {
           attempts++;
           continue;
         }
       }
 
-      return this.makeTemplateObject(level, rnd, template);
+      return this.makeTemplateObject(level, rand, template);
     }
 
     throw new Error('Exceeded maximum attempts to find a suitable template.');
@@ -134,16 +134,16 @@ export class ItemObjectManager {
   /**
    * Creates an object based on a template.
    * @param {number} level - The level of the object.
-   * @param {RandomGenerator} rnd - The random generator to use for randomness.
+   * @param {RandomGenerator} rand - The random generator to use for randomness.
    * @param {ObjectTypes} template - The template for the object.
    * @returns {ItemObject} The created object.
    */
   private static makeTemplateObject(
     level: number,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     template: ObjectTypes,
   ): ItemObject {
-    const objectLevel = rnd.adjustLevel(level);
+    const objectLevel = rand.adjustLevel(level);
     const object = new ItemObject(template.glyph, template.slot);
     object.level = objectLevel;
 
@@ -152,15 +152,15 @@ export class ItemObjectManager {
         this.setSpecificSpell(object, Spell.Heal);
         break;
       case Glyph.Rune:
-        this.setItemSpell(object, rnd);
-        this.setCharges(object, 1, rnd, level);
+        this.setItemSpell(object, rand);
+        this.setCharges(object, 1, rand, level);
         break;
       case Glyph.Scroll:
-        this.setItemSpell(object, rnd);
+        this.setItemSpell(object, rand);
         break;
       case Glyph.Pistol:
         this.setSpecificSpell(object, Spell.Bullet);
-        object.charges = rnd.randomInteger(10, level);
+        object.charges = rand.randomInteger(10, level);
         break;
     }
 
@@ -171,11 +171,11 @@ export class ItemObjectManager {
    * Sets the spell property of the given ItemObject based on its level using the random generator.
    *
    * @param {ItemObject} object - The ItemObject to set the spell property for.
-   * @param {RandomGenerator} rnd - The random number generator used to determine the spell.
+   * @param {RandomGenerator} rand - The random number generator used to determine the spell.
    * @return {void} This function does not return a value.
    */
-  private static setItemSpell(object: ItemObject, rnd: RandomGenerator): void {
-    const l = rnd.adjustLevel(object.level);
+  private static setItemSpell(object: ItemObject, rand: RandomGenerator): void {
+    const l = rand.adjustLevel(object.level);
     object.spell = this.spellForLevel(l);
   }
 
@@ -206,17 +206,17 @@ export class ItemObjectManager {
    *
    * @param {ItemObject} object - The ItemObject to set the charges for.
    * @param {number} charges - The maximum number of charges.
-   * @param {RandomGenerator} rnd - The random number generator used to generate a random integer.
+   * @param {RandomGenerator} rand - The random number generator used to generate a random integer.
    * @param {number} level - The level used to adjust the maximum number of charges.
    * @return {void} This function does not return a value.
    */
   static setCharges(
     object: ItemObject,
     charges: number,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     level: number,
   ): void {
-    object.charges = rnd.randomInteger(charges, level);
+    object.charges = rand.randomInteger(charges, level);
   }
   /**
    * Retrieves a template object type based on its index.

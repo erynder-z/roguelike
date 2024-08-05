@@ -13,16 +13,16 @@ import { IrregularShapeAreaGenerator } from '../Utilities/IrregularShapeAreaGene
 export class MapGenerator1 {
   constructor(
     public map: Map,
-    public rnd: RandomGenerator,
+    public rand: RandomGenerator,
   ) {}
 
   /**
    * Generates a map.
    * @param {Map} map The map object to generate.
-   * @param {RandomGenerator} rnd The random generator object.
+   * @param {RandomGenerator} rand The random generator object.
    * @returns {Map} The generated map.
    */
-  private loop(map: Map, rnd: RandomGenerator): Map {
+  private loop(map: Map, rand: RandomGenerator): Map {
     // Number of iterations for map generation
     const numIterations = 40;
     const upperLeft = new WorldPoint();
@@ -30,18 +30,18 @@ export class MapGenerator1 {
 
     for (let n = 0; n < numIterations; ++n) {
       this.pickRandomPosition(upperLeft, roomDimensions);
-      const filled = rnd.isOneIn(3);
-      this.drawRoom(upperLeft, roomDimensions, filled, rnd);
+      const filled = rand.isOneIn(3);
+      this.drawRoom(upperLeft, roomDimensions, filled, rand);
     }
 
-    const mossyFloorChance = rnd.randomIntegerClosedRange(1, 100);
+    const mossyFloorChance = rand.randomIntegerClosedRange(1, 100);
     if (mossyFloorChance <= 100) {
       for (let i = 0; i < mossyFloorChance; i++) {
         const mossyFloorArea =
           IrregularShapeAreaGenerator.generateIrregularShapeArea(
             map.dimensions,
-            rnd,
-            rnd.randomIntegerClosedRange(3, 10),
+            rand,
+            rand.randomIntegerClosedRange(3, 10),
             5,
           );
         for (const p of mossyFloorArea) {
@@ -62,21 +62,21 @@ export class MapGenerator1 {
     upperLeft: WorldPoint,
     roomDimensions: WorldPoint,
   ): void {
-    const { rnd } = this;
+    const { rand } = this;
 
     const mapDimensions = this.map.dimensions;
 
-    roomDimensions.y = rnd.randomIntegerClosedRange(4, 16);
-    roomDimensions.x = rnd.randomIntegerClosedRange(8, 24);
+    roomDimensions.y = rand.randomIntegerClosedRange(4, 16);
+    roomDimensions.x = rand.randomIntegerClosedRange(8, 24);
 
-    if (rnd.isOneIn(2)) {
+    if (rand.isOneIn(2)) {
       const swap = roomDimensions.x;
       roomDimensions.x = roomDimensions.y;
       roomDimensions.y = swap;
     }
 
-    upperLeft.x = rnd.randomInteger(1, mapDimensions.x - roomDimensions.x - 1);
-    upperLeft.y = rnd.randomInteger(1, mapDimensions.y - roomDimensions.y - 1);
+    upperLeft.x = rand.randomInteger(1, mapDimensions.x - roomDimensions.x - 1);
+    upperLeft.y = rand.randomInteger(1, mapDimensions.y - roomDimensions.y - 1);
   }
 
   /**
@@ -84,18 +84,18 @@ export class MapGenerator1 {
    * @param {WorldPoint} upperLeft The upper left corner of the room.
    * @param {WorldPoint} dimensions The dimensions of the room.
    * @param {boolean} filled Whether the room is filled.
-   * @param {RandomGenerator} rnd The random generator object.
+   * @param {RandomGenerator} rand The random generator object.
    */
   private drawRoom(
     upperLeft: WorldPoint,
     dimensions: WorldPoint,
     filled: boolean,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
   ): void {
     /* const centerGlyph = filled ? Glyph.Wall : Glyph.Floor; */
     const centerGlyph = filled
-      ? RockGenerator.getWallRockTypes(rnd, DEFAULT_LEVEL_TILES)
-      : RockGenerator.getFloorRockTypes(rnd, DEFAULT_LEVEL_TILES);
+      ? RockGenerator.getWallRockTypes(rand, DEFAULT_LEVEL_TILES)
+      : RockGenerator.getFloorRockTypes(rand, DEFAULT_LEVEL_TILES);
     const x2 = dimensions.x - 1;
     const y2 = dimensions.y - 1;
     const doorPositions: WorldPoint[] = [];
@@ -109,9 +109,9 @@ export class MapGenerator1 {
           x === 0 || y === 0 || x === dimensions.x || y === dimensions.y;
         const isSecondLayer = x === 1 || y === 1 || x === x2 || y === y2;
         const glyph = isEdge
-          ? RockGenerator.getFloorRockTypes(rnd, DEFAULT_LEVEL_TILES)
+          ? RockGenerator.getFloorRockTypes(rand, DEFAULT_LEVEL_TILES)
           : isSecondLayer
-            ? RockGenerator.getWallRockTypes(rnd, DEFAULT_LEVEL_TILES)
+            ? RockGenerator.getWallRockTypes(rand, DEFAULT_LEVEL_TILES)
             : centerGlyph;
         this.map.cell(currentPoint).env = glyph;
         if (isSecondLayer) {
@@ -127,9 +127,9 @@ export class MapGenerator1 {
    * @param {WorldPoint[]} doorPositions The positions for the doors.
    */
   private placeDoors(doorPositions: WorldPoint[]): void {
-    const rnd = this.rnd;
-    for (let i = rnd.randomInteger(1, 3); i >= 0; --i) {
-      const index = rnd.randomInteger(0, doorPositions.length);
+    const rand = this.rand;
+    for (let i = rand.randomInteger(1, 3); i >= 0; --i) {
+      const index = rand.randomInteger(0, doorPositions.length);
       const position = doorPositions[index];
       this.map.cell(position).env = Glyph.Door_Closed;
     }
@@ -139,13 +139,13 @@ export class MapGenerator1 {
    * Generates a map and returns it.
    *
    * @param {WorldPoint} dim - The dimensions of the map.
-   * @param {RandomGenerator} rnd - The random generator object.
+   * @param {RandomGenerator} rand - The random generator object.
    * @param {number} level - The level of the map.
    * @return {Map} The generated map.
    */
   public static generate(
     dim: WorldPoint,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     level: number,
   ): Map {
     const mapDimensionsX = dim.x;
@@ -153,8 +153,8 @@ export class MapGenerator1 {
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
     const map = new GameMap(mapDimensions, Glyph.Rock, level);
 
-    const generator = new MapGenerator1(map, rnd);
+    const generator = new MapGenerator1(map, rand);
 
-    return generator.loop(map, rnd);
+    return generator.loop(map, rand);
   }
 }

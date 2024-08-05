@@ -117,12 +117,12 @@ export class HitCommand extends CommandBase {
 
   /**
    * Calculates the damage dealt by the hit command.
-   * @param {RandomGenerator} rnd - The random generator used to calculate damage.
+   * @param {RandomGenerator} rand - The random generator used to calculate damage.
    * @param {Mob} me - The mob initiating the hit.
    * @returns {number} The calculated damage.
    */
-  private calcDamage(rnd: RandomGenerator, me: Mob): number {
-    return rnd.randomInteger(0, this.power(me));
+  private calcDamage(rand: RandomGenerator, me: Mob): number {
+    return rand.randomInteger(0, this.power(me));
   }
 
   /**

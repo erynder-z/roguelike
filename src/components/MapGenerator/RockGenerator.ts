@@ -7,30 +7,30 @@ import { Tile } from './Types/Tile';
  * Class for generating different rock types.
  */
 export class RockGenerator {
-  public static getWallRockTypes(rnd: RandomGenerator, tile: Tile): Glyph {
-    return this.getRandomGlyph(rnd, tile.wall);
+  public static getWallRockTypes(rand: RandomGenerator, tile: Tile): Glyph {
+    return this.getRandomGlyph(rand, tile.wall);
   }
 
   /**
    * Retrieves the floor rock types randomly based on the given random generator and tile.
    *
-   * @param {RandomGenerator} rnd - The random generator used to generate the random selection.
+   * @param {RandomGenerator} rand - The random generator used to generate the random selection.
    * @param {Tile} tile - The tile object containing the floor information.
    * @return {Glyph} The randomly selected glyph.
    */
-  public static getFloorRockTypes(rnd: RandomGenerator, tile: Tile): Glyph {
-    return this.getRandomGlyph(rnd, tile.floor);
+  public static getFloorRockTypes(rand: RandomGenerator, tile: Tile): Glyph {
+    return this.getRandomGlyph(rand, tile.floor);
   }
 
   /**
    * Generates a random glyph from a list of rock types based on probability of occurrence.
    *
-   * @param {RandomGenerator} rnd - The random generator to use for randomness.
+   * @param {RandomGenerator} rand - The random generator to use for randomness.
    * @param {Rock[]} rockTypes - The list of rock types with their probabilities.
    * @return {Glyph} The randomly selected glyph.
    */
   private static getRandomGlyph(
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     rockTypes: Rock[],
   ): Glyph {
     const totalPercentage = rockTypes.reduce(
@@ -38,7 +38,7 @@ export class RockGenerator {
       0,
     );
 
-    const randNum = rnd.generateRandomNumber() * totalPercentage;
+    const randNum = rand.generateRandomNumber() * totalPercentage;
 
     let accumulatedPercentage = 0;
     for (const rockType of rockTypes) {
