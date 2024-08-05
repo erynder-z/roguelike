@@ -22,6 +22,7 @@ export class Game implements GameState {
     public build: Builder,
   ) {}
 
+  turnCounter: number = 1;
   ai: MobAI | null = null;
   log: MessageLog = new MessageLog();
   dungeon: MapHandler = new MapHandler();

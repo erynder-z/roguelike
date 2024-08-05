@@ -171,6 +171,8 @@ export class BaseScreen implements StackScreen {
 
     this.handleAutoHeal(player);
     this.handleCellEffects(currentCell, player);
+
+    this.game.turnCounter += 1;
   }
 
   /**

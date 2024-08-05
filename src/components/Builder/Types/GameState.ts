@@ -13,6 +13,7 @@ import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
 export type GameState = {
   rand: RandomGenerator;
   player: Mob;
+  turnCounter: number;
   ai: MobAI | null;
   log: MessageLog;
   dungeon: MapHandler;
