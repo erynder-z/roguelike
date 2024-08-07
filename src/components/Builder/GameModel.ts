@@ -11,6 +11,7 @@ import { Mob } from '../Mobs/Mob';
 import { MobAI } from '../Mobs/Types/MobAI';
 import { MessageLog } from '../Messages/MessageLog';
 import { RandomGenerator } from '../RandomGenerator/RandomGenerator';
+import { Stats } from '../Stats/Stats';
 
 /**
  * The game instance that holds the game state.
@@ -22,15 +23,13 @@ export class Game implements GameState {
     public build: Builder,
   ) {}
 
-  turnCounter: number = 1;
   ai: MobAI | null = null;
   log: MessageLog = new MessageLog();
   dungeon: MapHandler = new MapHandler();
   autoHeal: AutoHeal | undefined = new AutoHeal();
   inventory = new Inventory();
   equipment = new Equipment();
-  stats = { defaultVisRange: 50, currentVisRange: 50 };
-  playerDmgCount = 0;
+  stats = new Stats();
 
   /**
    * Retrieve the current map.
@@ -69,14 +68,5 @@ export class Game implements GameState {
    */
   public addCurrentEvent(evt: EventCategory): void {
     this.log.addCurrentEvent(evt);
-  }
-
-  /**
-   * Resets the player's damage count to 0.
-   *
-   * @return {void} This function does not return anything.
-   */
-  public resetPlayerDmgCount(): void {
-    this.playerDmgCount = 0;
   }
 }

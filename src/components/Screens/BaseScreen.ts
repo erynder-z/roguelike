@@ -74,7 +74,8 @@ export class BaseScreen implements StackScreen {
       this.npcTurn(m, player, s);
     }
     this.handleMessages(s);
-    if (this.game.playerDmgCount >= 0) this.game.resetPlayerDmgCount();
+    if (this.game.stats.currentTurnReceivedDmg >= 0)
+      this.game.stats.resetCurrentTurnReceivedDmg();
   }
 
   /**
@@ -117,10 +118,10 @@ export class BaseScreen implements StackScreen {
   private handleMessages(s: Stack): void {
     if (!this.game.log) return;
 
-    if (this.game.playerDmgCount >= 1)
+    if (this.game.stats.currentTurnReceivedDmg >= 1)
       HealthAdjust.handlePlayerDamageEvent(
         this.game.player,
-        this.game.playerDmgCount,
+        this.game.stats.currentTurnReceivedDmg,
         this.game,
       );
 
@@ -172,7 +173,7 @@ export class BaseScreen implements StackScreen {
     this.handleAutoHeal(player);
     this.handleCellEffects(currentCell, player);
 
-    this.game.turnCounter += 1;
+    this.game.stats.incrementTurnCounter();
   }
 
   /**

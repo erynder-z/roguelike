@@ -60,7 +60,12 @@ export class HealthAdjust {
     AutoHeal.combatResets(mob, attacker, game);
     mob.hp -= amount;
 
-    if (mob.isPlayer) game.playerDmgCount += amount;
+    if (mob.isPlayer) {
+      game.stats.adjustCurrentTurnReceivedDmg(amount);
+      game.stats.incrementDamageReceivedCounter(amount);
+    }
+
+    if (attacker?.isPlayer) game.stats.incrementDamageDealtCounter(amount);
 
     const shouldDisplayMessage = this.shouldDisplayMessage(game, mob, attacker);
 
@@ -86,20 +91,23 @@ export class HealthAdjust {
   private static mobDies(
     mob: Mob,
     game: GameState,
-    involvesPlayer: boolean,
+    shouldDisplayMessage: boolean,
   ): void {
-    const s = `${mob.name} dies.`;
-    const t = <EventCategory>EventCategory.mobDeath;
+    const map = <Map>game.currentMap();
 
-    const msg = new LogMessage(s, t);
-    if (involvesPlayer) {
+    if (shouldDisplayMessage) {
+      const s = `${mob.name} dies.`;
+      const t = <EventCategory>EventCategory.mobDeath;
+      const msg = new LogMessage(s, t);
       game.message(msg);
       game.flash(msg);
       game.addCurrentEvent(EventCategory.mobDeath);
     }
-    const map = <Map>game.currentMap();
+
     map.removeMob(mob);
     this.maybeDropLoot(mob, game);
+
+    if (!mob.isPlayer) game.stats.incrementMobKillCounter();
   }
 
   /**

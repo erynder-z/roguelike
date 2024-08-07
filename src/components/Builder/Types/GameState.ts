@@ -9,11 +9,11 @@ import { Mob } from '../../Mobs/Mob';
 import { MobAI } from '../../Mobs/Types/MobAI';
 import { MessageLog } from '../../Messages/MessageLog';
 import { RandomGenerator } from '../../RandomGenerator/RandomGenerator';
+import { Stats } from '../../Stats/Stats';
 
 export type GameState = {
   rand: RandomGenerator;
   player: Mob;
-  turnCounter: number;
   ai: MobAI | null;
   log: MessageLog;
   dungeon: MapHandler;
@@ -21,11 +21,9 @@ export type GameState = {
   autoHeal: AutoHeal | undefined;
   inventory: Inventory | undefined;
   equipment: Equipment | undefined;
-  stats: { defaultVisRange: number; currentVisRange: number };
-  playerDmgCount: number;
+  stats: Stats;
   currentMap(): Map | null;
   message(msg: LogMessage): void;
   flash(msg: LogMessage): void;
   addCurrentEvent(evt: EventCategory): void;
-  resetPlayerDmgCount(): void;
 };
