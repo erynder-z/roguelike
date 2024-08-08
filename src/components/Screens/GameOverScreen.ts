@@ -1,3 +1,5 @@
+import { GameState } from '../Builder/Types/GameState';
+import { PostMortem } from '../Stats/PostMortem';
 import { Stack } from '../Terminal/Types/Stack';
 import { StackScreen } from '../Terminal/Types/StackScreen';
 import { ScreenMaker } from './Types/ScreenMaker';
@@ -7,7 +9,10 @@ import { ScreenMaker } from './Types/ScreenMaker';
  */
 export class GameOverScreen implements StackScreen {
   public name = 'gameover';
-  constructor(public make: ScreenMaker) {}
+  constructor(
+    public game: GameState,
+    public make: ScreenMaker,
+  ) {}
 
   /**
    * Draws the game over screen if it hasn't already been drawn.
@@ -35,13 +40,19 @@ export class GameOverScreen implements StackScreen {
     gameOverScreen.classList.add('gameover-screen', 'fade-in');
 
     const fragment = document.createDocumentFragment();
+
+    const innerContainer = document.createElement('div');
+    innerContainer.classList.add('post-mortem-container');
+
     const heading = this.createHeading();
     const messageList = this.createPostMortem();
     const info = this.createInfo();
 
-    fragment.appendChild(heading);
-    fragment.appendChild(messageList);
-    fragment.appendChild(info);
+    innerContainer.appendChild(heading);
+    innerContainer.appendChild(messageList);
+    innerContainer.appendChild(info);
+
+    fragment.appendChild(innerContainer);
     gameOverScreen.appendChild(fragment);
 
     return gameOverScreen;
@@ -54,7 +65,7 @@ export class GameOverScreen implements StackScreen {
    */
   private createHeading(): HTMLHeadingElement {
     const heading = document.createElement('h1');
-    heading.textContent = 'Game Over';
+    heading.textContent = 'Your journey has ended...';
     return heading;
   }
 
@@ -65,12 +76,7 @@ export class GameOverScreen implements StackScreen {
    */
   private createPostMortem(): HTMLDivElement {
     const postMortem = document.createElement('div');
-    /*   const content = PostMorgemGenerator.generate(); */
-
-    const content = document.createElement('p');
-    content.classList.add('post-mortem-text');
-    content.textContent =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    const content = new PostMortem(this.game).generatePostMortemElement();
 
     postMortem.appendChild(content);
     return postMortem;
@@ -84,7 +90,16 @@ export class GameOverScreen implements StackScreen {
   private createInfo(): HTMLDivElement {
     const info = document.createElement('div');
     info.classList.add('gameover-info');
-    info.textContent = 'Press escape to return to title screen.';
+
+    const beforeText = document.createTextNode('Press ');
+    const escapeSpan = document.createElement('span');
+    escapeSpan.textContent = 'escape';
+    const afterText = document.createTextNode(' to return to title screen.');
+
+    info.appendChild(beforeText);
+    info.appendChild(escapeSpan);
+    info.appendChild(afterText);
+
     return info;
   }
 

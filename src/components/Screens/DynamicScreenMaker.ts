@@ -88,7 +88,7 @@ export class DynamicScreenMaker implements ScreenMaker {
     const dynamicScreenMaker = new DynamicScreenMaker(
       builder,
       (game: GameState, sm: ScreenMaker) => new GameScreen(game, sm),
-      (game: GameState, sm: ScreenMaker) => new GameOverScreen(sm),
+      (game: GameState, sm: ScreenMaker) => new GameOverScreen(game, sm),
       (game: GameState, sm: ScreenMaker) => new MoreScreen(game, sm),
       (sm: ScreenMaker) => sm.newGame(),
     );
