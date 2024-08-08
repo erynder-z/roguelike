@@ -9,7 +9,7 @@ import { RockGenerator } from '../components/MapGenerator/RockGenerator';
 import { WorldPoint } from '../components/MapModel/WorldPoint';
 
 export class Overworld {
-  public static generate(rnd: RandomGenerator, level: number): Map {
+  public static generate(rand: RandomGenerator, level: number): Map {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const dim = new WorldPoint(mapDimensionsX, mapDimensionsY);
@@ -23,16 +23,16 @@ export class Overworld {
           p.y > 0 &&
           p.y < mapDimensionsY - 1
         );
-        const chance = rnd.isOneIn(4);
+        const chance = rand.isOneIn(4);
 
         if (chance) {
           m.cell(p).env = RockGenerator.getWallRockTypes(
-            rnd,
+            rand,
             OVERWORLD_LEVEL_TILES,
           );
         } else {
           m.cell(p).env = RockGenerator.getFloorRockTypes(
-            rnd,
+            rand,
             OVERWORLD_LEVEL_TILES,
           );
         }
@@ -44,7 +44,7 @@ export class Overworld {
 
     const lake = IrregularShapeAreaGenerator.generateIrregularShapeArea(
       dim,
-      rnd,
+      rand,
       500,
       10,
     );
@@ -55,7 +55,7 @@ export class Overworld {
 
     const puddle = IrregularShapeAreaGenerator.generateIrregularShapeArea(
       dim,
-      rnd,
+      rand,
       20,
       10,
     );
@@ -65,7 +65,7 @@ export class Overworld {
 
     const lavaPool = IrregularShapeAreaGenerator.generateIrregularShapeArea(
       dim,
-      rnd,
+      rand,
       5,
       10,
     );
@@ -73,17 +73,17 @@ export class Overworld {
       m.cell(p).env = Glyph.Lava;
     }
 
-    const freeSpace = FindFreeSpace.findFree(m, rnd);
+    const freeSpace = FindFreeSpace.findFree(m, rand);
     if (freeSpace) m.cell(freeSpace).env = Glyph.Magnetite;
 
-    const mossyFloorChance = rnd.randomIntegerClosedRange(1, 100);
+    const mossyFloorChance = rand.randomIntegerClosedRange(1, 100);
     if (mossyFloorChance <= 100) {
       for (let i = 0; i < mossyFloorChance; i++) {
         const mossyFloorArea =
           IrregularShapeAreaGenerator.generateIrregularShapeArea(
             dim,
-            rnd,
-            rnd.randomIntegerClosedRange(3, 10),
+            rand,
+            rand.randomIntegerClosedRange(3, 10),
             5,
           );
         for (const p of mossyFloorArea) {

@@ -10,37 +10,37 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export class MapGenerator_Test {
   constructor(
     public map: Map,
-    public rnd: RandomGenerator,
+    public rand: RandomGenerator,
   ) {}
 
-  public loop(map: Map, rnd: RandomGenerator): Map {
+  public loop(map: Map, rand: RandomGenerator): Map {
     const numIterations = 40;
     const upperLeft = new WorldPoint();
     const roomDimensions = new WorldPoint();
 
     for (let n = 0; n < numIterations; ++n) {
       this.pickRandomPosition(upperLeft, roomDimensions);
-      const filled = rnd.isOneIn(3);
+      const filled = rand.isOneIn(3);
       this.drawRoom(upperLeft, roomDimensions, filled);
     }
     return map;
   }
 
   pickRandomPosition(upperLeft: WorldPoint, roomDimensions: WorldPoint): void {
-    const rnd = this.rnd;
+    const rand = this.rand;
     const mapDimensions = this.map.dimensions;
 
-    roomDimensions.y = rnd.randomIntegerClosedRange(4, 16);
-    roomDimensions.x = rnd.randomIntegerClosedRange(8, 24);
+    roomDimensions.y = rand.randomIntegerClosedRange(4, 16);
+    roomDimensions.x = rand.randomIntegerClosedRange(8, 24);
 
-    if (rnd.isOneIn(2)) {
+    if (rand.isOneIn(2)) {
       const swap = roomDimensions.x;
       roomDimensions.x = roomDimensions.y;
       roomDimensions.y = swap;
     }
 
-    upperLeft.x = rnd.randomInteger(1, mapDimensions.x - roomDimensions.x - 1);
-    upperLeft.y = rnd.randomInteger(1, mapDimensions.y - roomDimensions.y - 1);
+    upperLeft.x = rand.randomInteger(1, mapDimensions.x - roomDimensions.x - 1);
+    upperLeft.y = rand.randomInteger(1, mapDimensions.y - roomDimensions.y - 1);
   }
 
   drawRoom(
@@ -76,9 +76,9 @@ export class MapGenerator_Test {
   }
 
   placeDoors(doorPositions: WorldPoint[]): void {
-    const rnd = this.rnd;
-    for (let i = rnd.randomInteger(1, 3); i >= 0; --i) {
-      const index = rnd.randomInteger(0, doorPositions.length);
+    const rand = this.rand;
+    for (let i = rand.randomInteger(1, 3); i >= 0; --i) {
+      const index = rand.randomInteger(0, doorPositions.length);
       const position = doorPositions[index];
       this.map.cell(position).env = Glyph.Door_Closed;
     }
@@ -98,9 +98,9 @@ export class MapGenerator_Test {
 
     const randomSeed = generateRandomInteger();
 
-    const rnd = new RandomGenerator(randomSeed);
-    const generator = new MapGenerator_Test(map, rnd);
+    const rand = new RandomGenerator(randomSeed);
+    const generator = new MapGenerator_Test(map, rand);
 
-    return generator.loop(map, rnd);
+    return generator.loop(map, rand);
   }
 }

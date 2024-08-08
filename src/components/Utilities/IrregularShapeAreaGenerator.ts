@@ -6,22 +6,22 @@ export class IrregularShapeAreaGenerator {
    * Generates an irregular shape area using cellular automata.
    *
    * @param {WorldPoint} dim - The dimensions of the area.
-   * @param {RandomGenerator} rnd - The random number generator.
+   * @param {RandomGenerator} rand - The random number generator.
    * @param {number} maxSize - The maximum size of the shape.
    * @param {number} iter - The number of iterations.
    * @return {Set<WorldPoint>} - The set of points representing the irregular shape area.
    */
   public static generateIrregularShapeArea(
     dim: WorldPoint,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     maxSize: number,
     iter: number,
   ): Set<WorldPoint> {
     const shape = new Set<WorldPoint>();
     // Initialize the shape with a random starting point
     const start = new WorldPoint(
-      rnd.randomInteger(dim.x),
-      rnd.randomInteger(dim.y),
+      rand.randomInteger(dim.x),
+      rand.randomInteger(dim.y),
     );
     shape.add(start);
 
@@ -38,7 +38,7 @@ export class IrregularShapeAreaGenerator {
         for (const neighbor of neighbors) {
           // Add neighboring points with a certain probability and if they're within the map bounds
           if (
-            rnd.isOneIn(3) &&
+            rand.isOneIn(3) &&
             neighbor.x >= offset &&
             neighbor.x < dim.x &&
             neighbor.y >= offset &&

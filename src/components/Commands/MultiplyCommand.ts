@@ -87,12 +87,12 @@ export class MultiplyCommand extends CommandBase {
    * Picks a random element from the given array of WorldPoints using the provided RandomGenerator.
    *
    * @param {WorldPoint[]} c - The array of WorldPoints to pick from.
-   * @param {RandomGenerator} rnd - The RandomGenerator used to generate a random index.
+   * @param {RandomGenerator} rand - The RandomGenerator used to generate a random index.
    * @return {WorldPoint | null} The randomly picked WorldPoint, or null if the array is empty.
    */
-  private pick(c: WorldPoint[], rnd: RandomGenerator): WorldPoint | null {
+  private pick(c: WorldPoint[], rand: RandomGenerator): WorldPoint | null {
     if (c.length == 0) return null;
-    const index = rnd.randomInteger(c.length);
+    const index = rand.randomInteger(c.length);
     return c[index];
   }
 }

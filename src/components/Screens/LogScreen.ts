@@ -10,10 +10,10 @@ import { Stack } from '../Terminal/Types/Stack';
  */
 export class LogScreen extends BaseScreen {
   private colorizer: BuffColors;
+  public name: string = 'log-screen';
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public name: string = 'log-screen',
     public messageLog: LogMessage[] = game.log.archive,
   ) {
     super(game, make);

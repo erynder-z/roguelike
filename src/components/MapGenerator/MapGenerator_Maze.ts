@@ -11,7 +11,7 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export class MapGenerator_Maze {
   constructor(
     public map: GameMap,
-    public rnd: RandomGenerator,
+    public rand: RandomGenerator,
   ) {}
 
   public generate(): GameMap {
@@ -20,27 +20,27 @@ export class MapGenerator_Maze {
   }
 
   private carveMaze(): void {
-    const { map, rnd } = this;
+    const { map, rand } = this;
 
     // Initialize the maze with walls
     for (let y = 0; y < map.dimensions.y; y++) {
       for (let x = 0; x < map.dimensions.x; x++) {
         map.cell(new WorldPoint(x, y)).env = RockGenerator.getWallRockTypes(
-          rnd,
+          rand,
           MAZE_LEVEL_TILES,
         );
       }
     }
 
     // Start carving the maze from a random cell
-    const startX = rnd.randomInteger(1, map.dimensions.x - 2);
-    const startY = rnd.randomInteger(1, map.dimensions.y - 2);
+    const startX = rand.randomInteger(1, map.dimensions.x - 2);
+    const startY = rand.randomInteger(1, map.dimensions.y - 2);
     const startCell = new WorldPoint(startX, startY);
     this.carvePassage(startCell);
   }
 
   private carvePassage(currentCell: WorldPoint): void {
-    const { map, rnd } = this;
+    const { map, rand } = this;
 
     const [x, y] = [currentCell.x, currentCell.y];
     map.cell(currentCell).env = Glyph.Floor;
@@ -62,16 +62,16 @@ export class MapGenerator_Maze {
         ny > 0 &&
         ny < map.dimensions.y - 1 &&
         map.cell(dir).env ===
-          RockGenerator.getWallRockTypes(rnd, MAZE_LEVEL_TILES)
+          RockGenerator.getWallRockTypes(rand, MAZE_LEVEL_TILES)
       ) {
         // Carve passage to the neighbor
         const midX = (x + nx) / 2;
         const midY = (y + ny) / 2;
         map.cell(new WorldPoint(midX, midY)).env =
-          RockGenerator.getFloorRockTypes(rnd, MAZE_LEVEL_TILES);
+          RockGenerator.getFloorRockTypes(rand, MAZE_LEVEL_TILES);
 
         // Randomly decide whether to add a door
-        if (rnd.isOneIn(25)) {
+        if (rand.isOneIn(25)) {
           map.cell(new WorldPoint(midX, midY)).env = Glyph.Door_Closed;
         }
 
@@ -81,21 +81,21 @@ export class MapGenerator_Maze {
   }
 
   private shuffle(array: WorldPoint[]): WorldPoint[] {
-    const { rnd } = this;
+    const { rand } = this;
     for (let i = array.length - 1; i > 0; i--) {
-      const j = rnd.randomInteger(0, i);
+      const j = rand.randomInteger(0, i);
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
   }
 
-  public static generate(rnd: RandomGenerator, level: number): GameMap {
+  public static generate(rand: RandomGenerator, level: number): GameMap {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
     const map = new GameMap(mapDimensions, Glyph.Obsidian, level);
 
-    const generator = new MapGenerator_Maze(map, rnd);
+    const generator = new MapGenerator_Maze(map, rand);
 
     return generator.generate();
   }

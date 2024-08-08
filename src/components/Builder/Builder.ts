@@ -32,11 +32,11 @@ export class Builder implements Build {
    * @return {GameState} The newly created Game instance
    */
   public makeGame(): GameState {
-    const rnd = new RandomGenerator(99);
+    const rand = new RandomGenerator(99);
     const player = this.makePlayer();
-    const game = new Game(rnd, player, this);
+    const game = new Game(rand, player, this);
     game.dungeon.level = 0;
-    this.enterFirstLevel(game, rnd);
+    this.enterFirstLevel(game, rand);
     game.ai = this.makeAI();
     this.initLevel0(game);
 
@@ -46,26 +46,26 @@ export class Builder implements Build {
   /**
    * A function to make a level using the given random generator and level number.
    *
-   * @param {RandomGenerator} rnd - the random generator to use
+   * @param {RandomGenerator} rand - the random generator to use
    * @param {number} level - the level number
    * @return {Map} the generated map
    */
-  public makeLevel(rnd: RandomGenerator, level: number): Map {
-    const map = this.makeMap(rnd, level);
-    this.addLevelStairs(map, level, rnd);
-    this.addMobsToLevel(map, rnd);
-    this.addItems(map, rnd);
+  public makeLevel(rand: RandomGenerator, level: number): Map {
+    const map = this.makeMap(rand, level);
+    this.addLevelStairs(map, level, rand);
+    this.addMobsToLevel(map, rand);
+    this.addItems(map, rand);
     return map;
   }
 
   /**
    * Generates a map using the given random generator and level number.
    *
-   * @param {RandomGenerator} rnd - the random generator to use
+   * @param {RandomGenerator} rand - the random generator to use
    * @param {number} level - the level-number for the map
    * @return {Map} the generated map
    */
-  public makeMap(rnd: RandomGenerator, level: number): Map {
+  public makeMap(rand: RandomGenerator, level: number): Map {
     const dim = TerminalPoint.MapDimensions;
     const wdim = new WorldPoint(dim.x, dim.y);
 
@@ -73,26 +73,26 @@ export class Builder implements Build {
 
     switch (level) {
       case 0:
-        map = Overworld.generate(rnd, level);
+        map = Overworld.generate(rand, level);
         break;
       case 1:
-        map = MapGenerator1.generate(wdim, rnd, level);
+        map = MapGenerator1.generate(wdim, rand, level);
         break;
       case 2:
-        map = MapGenerator_Cave.generate(rnd, level);
+        map = MapGenerator_Cave.generate(rand, level);
         break;
       case 3:
-        map = MapGenerator_Maze.generate(rnd, level);
+        map = MapGenerator_Maze.generate(rand, level);
         break;
       default:
-        map = MapGenerator1.generate(wdim, rnd, level);
+        map = MapGenerator1.generate(wdim, rand, level);
         break;
     }
 
     map.setEnvironmentDescriptions();
 
     // add a 10% chance of the map being dark if it's not level 0
-    if (level !== 0 && rnd.isOneIn(10)) {
+    if (level !== 0 && rand.isOneIn(10)) {
       map.isDark = true;
     }
 
@@ -105,12 +105,12 @@ export class Builder implements Build {
    * @param {GameState} game - the game object
    * @return {void}
    */
-  private enterFirstLevel(game: GameState, rnd: RandomGenerator): void {
+  private enterFirstLevel(game: GameState, rand: RandomGenerator): void {
     const dungeon = game.dungeon;
     const map = dungeon.currentMap(game);
     /*     const np = this.centerPos(map.dimensions); */
 
-    const np = <WorldPoint>FindFreeSpace.findFree(map, rnd);
+    const np = <WorldPoint>FindFreeSpace.findFree(map, rand);
 
     game.dungeon.playerSwitchLevel(dungeon.level, np, game);
   }
@@ -150,10 +150,10 @@ export class Builder implements Build {
    *
    * @param {Glyph} glyph - the glyph representing the mob
    * @param {Map} map - the map on which the mobs will be generated
-   * @param {RandomGenerator} rnd - the random generator for determining mob positions
+   * @param {RandomGenerator} rand - the random generator for determining mob positions
    * @return {void}
    */
-  public makeRingOfMobs(glyph: Glyph, map: Map, rnd: RandomGenerator): void {
+  public makeRingOfMobs(glyph: Glyph, map: Map, rand: RandomGenerator): void {
     const dim = map.dimensions;
     const c = new WorldPoint(Math.floor(dim.x / 2), Math.floor(dim.y / 2));
     const p = new WorldPoint();
@@ -238,11 +238,11 @@ export class Builder implements Build {
    * Adds level stairs to the map based on the level and random generator provided.
    * @param {Map} map - The map to which stairs are being added.
    * @param {number} level - The level for which stairs are being added.
-   * @param {RandomGenerator} rnd - The random generator used for adding stairs.
+   * @param {RandomGenerator} rand - The random generator used for adding stairs.
    * @returns {void}
    */
-  private addLevelStairs(map: Map, level: number, rnd: RandomGenerator): void {
-    level === 0 ? this.addStairs0(map, rnd) : this.addStairs(map, rnd);
+  private addLevelStairs(map: Map, level: number, rand: RandomGenerator): void {
+    level === 0 ? this.addStairs0(map, rand) : this.addStairs(map, rand);
   }
 
   /**
@@ -250,7 +250,7 @@ export class Builder implements Build {
    * @param {Map} map - The map to which stairs are being added.
    * @returns {void}
    */
-  private addStairs0(map: Map, rnd: RandomGenerator): void {
+  private addStairs0(map: Map, rand: RandomGenerator): void {
     const pos = this.centerPos(map.dimensions);
     const x = 3;
     const y = 0;
@@ -260,7 +260,7 @@ export class Builder implements Build {
       map.cell(p).env = Glyph.StairsDown;
       map.addStairInfo(Glyph.StairsDown, p);
     } else {
-      this.addStair(map, rnd, Glyph.StairsDown);
+      this.addStair(map, rand, Glyph.StairsDown);
     }
   }
 
@@ -269,24 +269,24 @@ export class Builder implements Build {
    * @param {Map} map - The map to which stairs are being added.
    * @returns {void}
    */
-  private addStairs(map: Map, rnd: RandomGenerator): void {
-    this.addStair(map, rnd, Glyph.StairsDown);
-    this.addStair(map, rnd, Glyph.StairsUp);
+  private addStairs(map: Map, rand: RandomGenerator): void {
+    this.addStair(map, rand, Glyph.StairsDown);
+    this.addStair(map, rand, Glyph.StairsUp);
   }
 
   /**
    * Adds stairs to the map based on the provided glyph and random generator.
    * @param {Map} map - The map to which stairs are being added.
-   * @param {RandomGenerator} rnd - The random generator used for adding stairs.
+   * @param {RandomGenerator} rand - The random generator used for adding stairs.
    * @param {Glyph} stair - The glyph representing the stairs.
    * @returns {boolean} True if stairs are successfully added, otherwise false.
    */
   private addStair(
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     stair: Glyph.StairsUp | Glyph.StairsDown,
   ): boolean {
-    const p = <WorldPoint>FindFreeSpace.findFree(map, rnd);
+    const p = <WorldPoint>FindFreeSpace.findFree(map, rand);
     map.cell(p).env = stair;
     map.addStairInfo(stair, p);
 
@@ -296,16 +296,16 @@ export class Builder implements Build {
   /**
    * Adds mobs to the level based on the map and random generator provided.
    * @param {Map} map - The map to which mobs are being added.
-   * @param {RandomGenerator} rnd - The random generator used for adding mobs.
+   * @param {RandomGenerator} rand - The random generator used for adding mobs.
    * @returns {void}
    */
-  private addMobsToLevel(map: Map, rnd: RandomGenerator): void {
+  private addMobsToLevel(map: Map, rand: RandomGenerator): void {
     switch (map.level) {
       case 0:
-        //TODO this.makeFriendlyNPCs(map, rnd);
+        //TODO this.makeFriendlyNPCs(map, rand);
         break;
       default:
-        this.makeMobs(map, rnd, 15);
+        this.makeMobs(map, rand, 15);
         break;
     }
   }
@@ -313,12 +313,12 @@ export class Builder implements Build {
   /**
    * Makes mobs on the map using the provided random generator and glyph.
    * @param {Map} map - The map on which the mobs will be created.
-   * @param {RandomGenerator} rnd - The random generator used to determine the placement of the mobs.
+   * @param {RandomGenerator} rand - The random generator used to determine the placement of the mobs.
    * @param {Glyph} glyph - The glyph representing the mobs.
    * @param {number} rate - The rate of mob creation.
    * @returns {void}
    */
-  private makeMobs(map: Map, rnd: RandomGenerator, rate: number): void {
+  private makeMobs(map: Map, rand: RandomGenerator, rate: number): void {
     const dim = map.dimensions;
     const p = new WorldPoint();
     for (p.y = 1; p.y < dim.y - 1; ++p.y) {
@@ -326,10 +326,10 @@ export class Builder implements Build {
         if (map.isBlocked(p)) {
           continue;
         }
-        if (!rnd.isOneIn(rate)) {
+        if (!rand.isOneIn(rate)) {
           continue;
         }
-        this.addMapLevel_Mob(p, map, rnd);
+        this.addMapLevel_Mob(p, map, rand);
       }
     }
   }
@@ -339,11 +339,11 @@ export class Builder implements Build {
    *
    * @param {WorldPoint} p - The position where the mob is added.
    * @param {Map} map - The map to which the mob is being added.
-   * @param {RandomGenerator} rnd - The random generator used for adjusting the level.
+   * @param {RandomGenerator} rand - The random generator used for adjusting the level.
    * @return {void} This function does not return anything.
    */
-  public addMapLevel_Mob(p: WorldPoint, map: Map, rnd: RandomGenerator): void {
-    this.addMobToMapWithAdjustedLevel(p, map, rnd);
+  public addMapLevel_Mob(p: WorldPoint, map: Map, rand: RandomGenerator): void {
+    this.addMobToMapWithAdjustedLevel(p, map, rand);
   }
 
   /**
@@ -351,16 +351,16 @@ export class Builder implements Build {
    *
    * @param {WorldPoint} pos - The position where the mob is added.
    * @param {Map} map - The map to which the mob is being added.
-   * @param {RandomGenerator} rnd - The random generator used for adjusting the level.
+   * @param {RandomGenerator} rand - The random generator used for adjusting the level.
    * @return {Mob} The added mob.
    */
   private addMobToMapWithAdjustedLevel(
     pos: WorldPoint,
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
   ): Mob {
     const baseLevel = map.level;
-    let level = rnd.adjustLevel(baseLevel);
+    let level = rand.adjustLevel(baseLevel);
 
     if (level < 1) level = 1;
 
@@ -374,18 +374,18 @@ export class Builder implements Build {
    * Adds items to the map.
    *
    * @param {Map} map - The map to which the mob is being added.
-   * @param {RandomGenerator} rnd - The random generator used for adjusting the level.
+   * @param {RandomGenerator} rand - The random generator used for adjusting the level.
    */
-  private addItems(map: Map, rnd: RandomGenerator): void {
+  private addItems(map: Map, rand: RandomGenerator): void {
     for (let p = new WorldPoint(); p.y < map.dimensions.y; ++p.y) {
       for (p.x = 0; p.x < map.dimensions.x; ++p.x) {
         if (map.isBlocked(p)) {
           continue;
         }
-        if (!rnd.isOneIn(40)) {
+        if (!rand.isOneIn(40)) {
           continue;
         }
-        ItemObjectManager.addRandomObjectForLevel(p, map, rnd, map.level);
+        ItemObjectManager.addRandomObjectForLevel(p, map, rand, map.level);
       }
     }
   }

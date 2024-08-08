@@ -67,9 +67,9 @@ export class MapHandler {
 
   private adjustLevelVisibilityRange(game: GameState): void {
     if (this.currentMap(game).isDark) {
-      game.stats.currentVisRange = 6;
+      game.stats.adjustCurrentVisRange(6);
     } else {
-      game.stats.currentVisRange = game.stats.defaultVisRange;
+      game.stats.adjustCurrentVisRange(game.stats.defaultVisRange);
     }
   }
 

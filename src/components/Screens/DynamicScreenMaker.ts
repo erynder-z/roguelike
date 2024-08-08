@@ -8,6 +8,7 @@ import { MoreScreen } from './MoreScreen';
 import { ScreenMaker } from './Types/ScreenMaker';
 import { ScreenStack } from '../Terminal/ScreenStack';
 import { StackScreen } from '../Terminal/Types/StackScreen';
+import { Builder } from '../Builder/Builder';
 
 /**
  * Represents a dynamic screen maker that can create screens based on provided game states.
@@ -31,6 +32,29 @@ export class DynamicScreenMaker implements ScreenMaker {
   public newGame(): StackScreen {
     this.game = this.builder.makeGame();
     return this.gameScreen(<GameState>this.game, this);
+  }
+
+  /**
+   * Displays the title screen and sets up event listeners for starting a new game.
+   *
+   * @return {void} This function does not return anything.
+   */
+  public titleScreen(): void {
+    const body = document.getElementById('body1');
+
+    if (!body) return;
+
+    const titleContainer = document.createElement('div');
+    titleContainer.id = 'title-container';
+    const titleScreenElement = document.createElement('title-screen');
+    titleContainer.appendChild(titleScreenElement);
+
+    body.insertBefore(titleContainer, body.firstChild);
+
+    titleScreenElement.addEventListener('start-new-game', () => {
+      titleContainer.remove();
+      DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder());
+    });
   }
 
   /**
@@ -64,7 +88,7 @@ export class DynamicScreenMaker implements ScreenMaker {
     const dynamicScreenMaker = new DynamicScreenMaker(
       builder,
       (game: GameState, sm: ScreenMaker) => new GameScreen(game, sm),
-      (game: GameState, sm: ScreenMaker) => new GameOverScreen(sm),
+      (game: GameState, sm: ScreenMaker) => new GameOverScreen(game, sm),
       (game: GameState, sm: ScreenMaker) => new MoreScreen(game, sm),
       (sm: ScreenMaker) => sm.newGame(),
     );

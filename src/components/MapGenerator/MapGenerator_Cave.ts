@@ -13,10 +13,10 @@ import { WorldPoint } from '../MapModel/WorldPoint';
 export class MapGenerator_Cave {
   constructor(
     public map: Map,
-    public rnd: RandomGenerator,
+    public rand: RandomGenerator,
   ) {}
 
-  public createCave(map: Map, rnd: RandomGenerator): Map {
+  public createCave(map: Map, rand: RandomGenerator): Map {
     // Clear map
     this.clearMap();
 
@@ -30,7 +30,7 @@ export class MapGenerator_Cave {
     for (let i = 0; i < maxIterations; i++) {
       // Mark current cell as floor
       this.map.cell(new WorldPoint(x, y)).env = RockGenerator.getFloorRockTypes(
-        rnd,
+        rand,
         CAVE_LEVEL_TILES,
       );
 
@@ -57,20 +57,20 @@ export class MapGenerator_Cave {
         for (let dy = -1; dy <= 1; dy++) {
           if (
             (dx !== 0 || dy !== 0) && // Skip center cell
-            rnd.generateRandomNumber() < wallProbability &&
+            rand.generateRandomNumber() < wallProbability &&
             this.map.cell(new WorldPoint(x + dx, y + dy)).env !== Glyph.Floor
           ) {
             this.map.cell(new WorldPoint(x + dx, y + dy)).env =
-              RockGenerator.getWallRockTypes(rnd, CAVE_LEVEL_TILES);
+              RockGenerator.getWallRockTypes(rand, CAVE_LEVEL_TILES);
           }
         }
       }
     }
-    this.addDeepWater(map, rnd);
-    this.addShallowWater(map, rnd);
-    this.addLava(map, rnd);
-    this.addMossyFloor(map, rnd);
-    this.addChasm(map, rnd); // Add the chasm
+    this.addDeepWater(map, rand);
+    this.addShallowWater(map, rand);
+    this.addLava(map, rand);
+    this.addMossyFloor(map, rand);
+    this.addChasm(map, rand); // Add the chasm
 
     return map;
   }
@@ -95,48 +95,48 @@ export class MapGenerator_Cave {
     return directions[Math.floor(Math.random() * directions.length)];
   }
 
-  private addLava(map: Map, rnd: RandomGenerator): void {
+  private addLava(map: Map, rand: RandomGenerator): void {
     const glyph = Glyph.Lava;
     const lavaPoolCount = 10;
     const lavaPoolSize = 10;
-    this.addPools(map, rnd, lavaPoolCount, lavaPoolSize, glyph);
+    this.addPools(map, rand, lavaPoolCount, lavaPoolSize, glyph);
   }
 
-  private addDeepWater(map: Map, rnd: RandomGenerator): void {
+  private addDeepWater(map: Map, rand: RandomGenerator): void {
     const glyph = Glyph.DeepWater;
     const waterPoolCount = 10;
     const waterPoolSize = 10;
-    this.addPools(map, rnd, waterPoolCount, waterPoolSize, glyph);
+    this.addPools(map, rand, waterPoolCount, waterPoolSize, glyph);
   }
 
-  private addShallowWater(map: Map, rnd: RandomGenerator): void {
+  private addShallowWater(map: Map, rand: RandomGenerator): void {
     const glyph = Glyph.ShallowWater;
     const waterPoolCount = 10;
     const waterPoolSize = 10;
-    this.addPools(map, rnd, waterPoolCount, waterPoolSize, glyph);
+    this.addPools(map, rand, waterPoolCount, waterPoolSize, glyph);
   }
 
   private addPools(
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     poolCount: number,
     poolSize: number,
     glyph: Glyph,
   ): void {
     for (let i = 0; i < poolCount; i++) {
-      if (rnd.isOneIn(2)) this.createPools(map, rnd, poolSize, glyph);
+      if (rand.isOneIn(2)) this.createPools(map, rand, poolSize, glyph);
     }
   }
 
   private createPools(
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     size: number,
     glyph: Glyph,
   ): void {
     const lavaPool = IrregularShapeAreaGenerator.generateIrregularShapeArea(
       map.dimensions,
-      rnd,
+      rand,
       size,
       10,
     );
@@ -146,36 +146,42 @@ export class MapGenerator_Cave {
     }
   }
 
-  private addMossyFloor(map: Map, rnd: RandomGenerator): void {
+  private addMossyFloor(map: Map, rand: RandomGenerator): void {
     const glyph = Glyph.MossyFloor;
     const mossyFloorCount = 10;
     const mossyFloorSize = 15;
-    this.addMossyFloorPatches(map, rnd, mossyFloorCount, mossyFloorSize, glyph);
+    this.addMossyFloorPatches(
+      map,
+      rand,
+      mossyFloorCount,
+      mossyFloorSize,
+      glyph,
+    );
   }
 
   private addMossyFloorPatches(
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     patchCount: number,
     patchSize: number,
     glyph: Glyph,
   ): void {
     for (let i = 0; i < patchCount; i++) {
-      if (rnd.isOneIn(2))
-        this.createMossyFloorPatches(map, rnd, patchSize, glyph);
+      if (rand.isOneIn(2))
+        this.createMossyFloorPatches(map, rand, patchSize, glyph);
     }
   }
 
   private createMossyFloorPatches(
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     size: number,
     glyph: Glyph,
   ): void {
     const mossyFloorPatch =
       IrregularShapeAreaGenerator.generateIrregularShapeArea(
         map.dimensions,
-        rnd,
+        rand,
         size,
         10,
       );
@@ -185,38 +191,45 @@ export class MapGenerator_Cave {
     }
   }
 
-  private addChasm(map: Map, rnd: RandomGenerator): void {
+  private addChasm(map: Map, rand: RandomGenerator): void {
     const centerGlyph = Glyph.ChasmCenter;
     const edgeGlyph = Glyph.ChasmEdge;
     const chasmCount = 5;
     const chasmSize = 20;
-    this.addChasmAreas(map, rnd, chasmCount, chasmSize, centerGlyph, edgeGlyph);
+    this.addChasmAreas(
+      map,
+      rand,
+      chasmCount,
+      chasmSize,
+      centerGlyph,
+      edgeGlyph,
+    );
   }
 
   private addChasmAreas(
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     areaCount: number,
     areaSize: number,
     centerGlyph: Glyph,
     edgeGlyph: Glyph,
   ): void {
     for (let i = 0; i < areaCount; i++) {
-      if (rnd.isOneIn(2))
-        this.createChasmAreas(map, rnd, areaSize, centerGlyph, edgeGlyph);
+      if (rand.isOneIn(2))
+        this.createChasmAreas(map, rand, areaSize, centerGlyph, edgeGlyph);
     }
   }
 
   private createChasmAreas(
     map: Map,
-    rnd: RandomGenerator,
+    rand: RandomGenerator,
     size: number,
     centerGlyph: Glyph,
     edgeGlyph: Glyph,
   ): void {
     const chasmArea = IrregularShapeAreaGenerator.generateIrregularShapeArea(
       map.dimensions,
-      rnd,
+      rand,
       size,
       15,
     );
@@ -242,14 +255,14 @@ export class MapGenerator_Cave {
     }
   }
 
-  public static generate(rnd: RandomGenerator, level: number): Map {
+  public static generate(rand: RandomGenerator, level: number): Map {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
     const map = new GameMap(mapDimensions, Glyph.Rock, level);
 
-    const generator = new MapGenerator_Cave(map, rnd);
+    const generator = new MapGenerator_Cave(map, rand);
 
-    return generator.createCave(map, rnd);
+    return generator.createCave(map, rand);
   }
 }
