@@ -159,20 +159,20 @@ export class BaseScreen implements StackScreen {
    */
   private finishPlayerTurn(q: TurnQueue, s: Stack): void {
     const player = q.currentMob();
+    const map = <GameMap>this.game.currentMap();
+    const currentCell = map.cell(player.pos);
+
+    if (!player.isPlayer) return;
 
     this.finishTurn(player);
+    this.handleCellEffects(currentCell, player);
 
-    if (!player.isPlayer) {
+    if (!player.isAlive()) {
       this.over(s);
       return;
     }
 
-    const map = <GameMap>this.game.currentMap();
-    const currentCell = map.cell(player.pos);
-
     this.handleAutoHeal(player);
-    this.handleCellEffects(currentCell, player);
-
     this.game.stats.incrementTurnCounter();
   }
 
