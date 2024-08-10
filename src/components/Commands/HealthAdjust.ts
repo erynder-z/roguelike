@@ -104,7 +104,7 @@ export class HealthAdjust {
       game.addCurrentEvent(EventCategory.mobDeath);
     }
 
-    map.removeMob(mob);
+    map.mobToCorpse(mob);
     this.maybeDropLoot(mob, game);
 
     if (!mob.isPlayer) game.stats.incrementMobKillCounter();

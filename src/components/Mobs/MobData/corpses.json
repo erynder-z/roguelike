@@ -1,0 +1,220 @@
+{
+  "corpses": [
+    {
+      "char": "@",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Player_Corpse",
+      "description": "The remains of a past adventurer."
+    },
+    {
+      "char": "a",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Ant_Corpse",
+      "description": "The lifeless remains of an ant, a once industrious insect known for its strength and teamwork."
+    },
+    {
+      "char": "b",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Bat_Corpse",
+      "description": "The lifeless remains of a bat, a once nocturnal creature that used echolocation to navigate the darkness."
+    },
+    {
+      "char": "c",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Cat_Corpse",
+      "description": "The lifeless remains of a cat, a once stealthy and agile animal with sharp claws and keen senses."
+    },
+    {
+      "char": "d",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Druid_Corpse",
+      "description": "The lifeless remains of a druid, a once mystical being with the power to communicate with nature and transform into animals."
+    },
+    {
+      "char": "e",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Ectoplasm_Corpse",
+      "description": "The lifeless remains of ectoplasm, a once ghostly substance often associated with spirits and the paranormal."
+    },
+    {
+      "char": "f",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Frog_Corpse",
+      "description": "The lifeless remains of a frog, a once small amphibian known for its jumping ability and croaking sound."
+    },
+    {
+      "char": "g",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Gargoyle_Corpse",
+      "description": "The lifeless remains of a gargoyle, a once stone creature that came to life, often serving as a guardian."
+    },
+    {
+      "char": "h",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Harpy_Corpse",
+      "description": "The lifeless remains of a harpy, a once mythical creature with the body of a bird and the face of a woman, known for its vicious nature."
+    },
+    {
+      "char": "i",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Imp_Corpse",
+      "description": "The lifeless remains of an imp, a once small mischievous demon often causing trouble and playing tricks."
+    },
+    {
+      "char": "j",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Jackal_Corpse",
+      "description": "The lifeless remains of a jackal, a once cunning and opportunistic scavenger found in deserts and savannas."
+    },
+    {
+      "char": "k",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Kappa_Corpse",
+      "description": "The lifeless remains of a kappa, a once water spirit from Japanese folklore known for its trickery and love of cucumbers."
+    },
+    {
+      "char": "l",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Lama_Corpse",
+      "description": "The lifeless remains of a lama, a once peaceful and wise monk often found in remote mountain temples."
+    },
+    {
+      "char": "m",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Mutant_Corpse",
+      "description": "The lifeless remains of a mutant, a once creature altered by radiation or genetic experiments, possessing unusual powers."
+    },
+    {
+      "char": "n",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Nook_Corpse",
+      "description": "The lifeless remains of a nook, a once mysterious and elusive creature that dwelled in hidden corners of the world."
+    },
+    {
+      "char": "o",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Ogre_Corpse",
+      "description": "The lifeless remains of an ogre, a once large and brutish monster known for its strength and appetite for destruction."
+    },
+    {
+      "char": "p",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Pig_Corpse",
+      "description": "The lifeless remains of a pig, a once domesticated animal known for its intelligence and fondness for mud."
+    },
+    {
+      "char": "q",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Qilin_Corpse",
+      "description": "The lifeless remains of a qilin, a once mythical creature from East Asian culture symbolizing prosperity and serenity."
+    },
+    {
+      "char": "r",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Rat_Corpse",
+      "description": "The lifeless remains of a rat, a once resourceful rodent often found in urban areas, known for its survival skills."
+    },
+    {
+      "char": "s",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Succubus_Corpse",
+      "description": "The lifeless remains of a succubus, a once demoness that seduced her victims, feeding off their life force."
+    },
+    {
+      "char": "t",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Tengu_Corpse",
+      "description": "The lifeless remains of a tengu, a once mythical bird-like creature from Japanese folklore, known for its martial prowess and trickery."
+    },
+    {
+      "char": "u",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Unicorn_Corpse",
+      "description": "The lifeless remains of a unicorn, a once majestic and magical horse with a single horn, symbolizing purity and grace."
+    },
+    {
+      "char": "v",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Vampire_Corpse",
+      "description": "The lifeless remains of a vampire, a once undead creature that fed on the blood of the living, often feared and hunted."
+    },
+    {
+      "char": "w",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Wyrm_Corpse",
+      "description": "The lifeless remains of a wyrm, a once serpentine dragon known for its cunning and hoarding of treasure."
+    },
+    {
+      "char": "x",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Xelhua_Corpse",
+      "description": "The lifeless remains of Xelhua, a once giant from Aztec mythology, known for its immense strength and size."
+    },
+    {
+      "char": "y",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Yeti_Corpse",
+      "description": "The lifeless remains of a yeti, a once large and hairy creature said to inhabit the snowy mountains, often called the Abominable Snowman."
+    },
+    {
+      "char": "z",
+      "bgCol": "#F8F8FF",
+      "fgCol": "#808080",
+      "hasSolidBg": false,
+      "name": "Zombie_Corpse",
+      "description": "The lifeless remains of a zombie, a once undead being driven by an insatiable hunger for flesh, often found in hordes."
+    }
+  ]
+}

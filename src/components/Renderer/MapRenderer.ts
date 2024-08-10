@@ -102,7 +102,7 @@ export class MapRenderer {
 
     const glyph = isEntityVisible
       ? cell.mob!.glyph
-      : cell.glyphSpriteOrObjOrEnv();
+      : cell.glyphSpriteOrObjOrCorpseOrEnv();
     const glyphInfo = GlyphMap.getGlyphInfo(glyph);
     const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
 

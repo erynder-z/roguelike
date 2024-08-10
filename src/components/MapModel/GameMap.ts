@@ -1,3 +1,5 @@
+import { Corpse } from '../Mobs/Corpse';
+import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { ItemObject } from '../ItemObjects/ItemObject';
@@ -114,6 +116,30 @@ export class GameMap implements Map {
   public removeMob(m: Mob): void {
     this.queue.removeMob(m);
     this.cell(m.pos).mob = undefined;
+  }
+
+  /**
+   * Transforms a mob into a corpse and updates the game state accordingly.
+   *
+   * @param {Mob} mob - the mob to be transformed into a corpse
+   * @return {void}
+   */
+  public mobToCorpse(mob: Mob): void {
+    this.queue.removeMob(mob);
+
+    const cell = this.cell(mob.pos);
+    const canDrop = EnvironmentChecker.canCorpseBeDropped(cell);
+
+    if (!canDrop) {
+      console.log('cannot drop corpse! Theres already a corpse here!');
+    }
+
+    const corpseGlyph =
+      Glyph[`${Glyph[mob.glyph]}_Corpse` as keyof typeof Glyph];
+    const corpse = new Corpse(corpseGlyph, mob.pos.x, mob.pos.y).create();
+
+    cell.mob = undefined;
+    cell.corpse = corpse;
   }
 
   /**
