@@ -1,4 +1,3 @@
-import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { WorldPoint } from '../MapModel/WorldPoint';
@@ -7,7 +6,6 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * Represents the corpse of a mob.
  */
 export class Corpse {
-  public game: GameState;
   public pos: WorldPoint = new WorldPoint();
   public glyph: Glyph = Glyph.Unknown;
   public name: string = '?';

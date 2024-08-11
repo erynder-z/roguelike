@@ -49,4 +49,39 @@ export class FindFreeSpace {
       }
     }
   }
+
+  /**
+   * Finds a free space adjacent to a provided world point.
+   * If no space is found, it increases the search radius and retries.
+   *
+   * @param {WorldPoint} point - The point around which to search for free space.
+   * @param {Map} map - The map on which to find free space.
+   * @param {number} maxRadius - The maximum radius within which to search for free space.
+   * @returns {WorldPoint | null} A WorldPoint representing the free adjacent space found, or null if no free space is available.
+   */
+  public static findFreeAdjacent(
+    point: WorldPoint,
+    map: Map,
+    maxRadius: number,
+  ): WorldPoint | null {
+    let radius = 1;
+
+    while (radius <= maxRadius) {
+      for (let x = -radius; x <= radius; x++) {
+        for (let y = -radius; y <= radius; y++) {
+          if (x === 0 && y === 0) continue;
+
+          const adjacentPoint = point.copy().addTo(new WorldPoint(x, y));
+          const cell = map.cell(adjacentPoint);
+
+          if (cell.env === Glyph.Floor && !cell.corpse && !cell.mob?.isPlayer)
+            return adjacentPoint;
+        }
+      }
+
+      radius++;
+    }
+
+    return null;
+  }
 }

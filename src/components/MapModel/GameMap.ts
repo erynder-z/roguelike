@@ -1,5 +1,6 @@
 import { Corpse } from '../Mobs/Corpse';
 import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
+import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { ItemObject } from '../ItemObjects/ItemObject';
@@ -127,15 +128,24 @@ export class GameMap implements Map {
   public mobToCorpse(mob: Mob): void {
     this.queue.removeMob(mob);
 
+    const corpseGlyph =
+      Glyph[`${Glyph[mob.glyph]}_Corpse` as keyof typeof Glyph];
+
     const cell = this.cell(mob.pos);
     const canDrop = EnvironmentChecker.canCorpseBeDropped(cell);
 
     if (!canDrop) {
-      console.log('cannot drop corpse! Theres already a corpse here!');
+      const maxDropRadius = 5;
+      const np = FindFreeSpace.findFreeAdjacent(mob.pos, this, maxDropRadius);
+      if (np) {
+        const corpse = new Corpse(corpseGlyph, np.x, np.y).create();
+        const cell = this.cell(np);
+
+        cell.mob = undefined;
+        cell.corpse = corpse;
+      }
     }
 
-    const corpseGlyph =
-      Glyph[`${Glyph[mob.glyph]}_Corpse` as keyof typeof Glyph];
     const corpse = new Corpse(corpseGlyph, mob.pos.x, mob.pos.y).create();
 
     cell.mob = undefined;
