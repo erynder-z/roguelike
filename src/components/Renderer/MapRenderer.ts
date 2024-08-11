@@ -314,9 +314,13 @@ export class MapRenderer {
    * @return {string} The background color for the cell.
    */
   private static getGeneralBgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
-    return glyphInfo.hasSolidBg && cell.lit
-      ? this.unlitColorSolidBg
-      : this.unlitColor;
+    // If the glyph has a solid background and the cell is lit, return the solid background unlit color.
+    if (glyphInfo.hasSolidBg && cell.lit) {
+      return this.unlitColorSolidBg;
+    }
+
+    // Otherwise, return the default unlit color.
+    return this.unlitColor;
   }
 
   /**
@@ -327,11 +331,16 @@ export class MapRenderer {
    * @return {string} The calculated foreground color.
    */
   private static getGeneralFgCol(cell: MapCell, glyphInfo: GlyphInfo): string {
-    return cell.lit || cell.mob?.isPlayer
-      ? cell.env === Glyph.Unknown
-        ? glyphInfo.bgCol
-        : this.farLitColor
-      : this.unlitColor;
+    // If the cell is lit or if the player is on the cell and If the cell's environment is unknown, return the background color of the glyph
+    if (cell.lit || cell.mob?.isPlayer) {
+      if (cell.env === Glyph.Unknown) return glyphInfo.bgCol;
+
+      // Otherwise, return the color used for far lit cells
+      return this.farLitColor;
+    }
+
+    // If the cell is neither lit nor belongs to a player, return the unlit color.
+    return this.unlitColor;
   }
 
   /**
@@ -342,10 +351,15 @@ export class MapRenderer {
    * @return {string} The calculated background color.
    */
   private static getRayCastBgCol(isVisible: boolean, cell: MapCell): string {
+    // Get the glyph information for the cell's environment
     const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
-    return isVisible
-      ? this.maybeAddTintToColor(envOnlyGlyphInfo.bgCol, cell.envEffects)
-      : ManipulateColors.darkenColor(envOnlyGlyphInfo.bgCol, 0.3);
+
+    // If the cell is visible, return the background color in unmodified or tinted form, depending on the environment
+    if (isVisible)
+      return this.maybeAddTintToColor(envOnlyGlyphInfo.bgCol, cell.envEffects);
+
+    // If the cell is not visible, darken the background color slightly
+    return ManipulateColors.darkenColor(envOnlyGlyphInfo.bgCol, 0.3);
   }
 
   /**
@@ -361,15 +375,30 @@ export class MapRenderer {
     cell: MapCell,
     glyphInfo: GlyphInfo,
   ): string {
+    // If the cell is visible
     if (isVisible) {
-      return !cell.mob && cell.obj && cell.obj.spell !== Spell.None
-        ? SpellColors.c[cell.obj.spell][0]
-        : glyphInfo.fgCol;
+      // If the cell is a visible trap with a corpse return a yellow color
+      if (cell.env === Glyph.VisibleTrap && cell.corpse)
+        return ManipulateColors.darkenColor('#f9ff5b', 0.2);
+
+      // If the cell has an object with a spell, return the spell color
+      if (!cell.mob && cell.obj && cell.obj.spell !== Spell.None)
+        return SpellColors.c[cell.obj.spell][0];
+
+      // Otherwise, return the default foreground color
+      return glyphInfo.fgCol;
+      // If the cell is not visible
+    } else {
+      // If the cell is lit or if the player is on the cell and If the cell's environment is unknown, return the background color
+      if (cell.lit || cell.mob?.isPlayer) {
+        if (cell.env === Glyph.Unknown) return glyphInfo.bgCol;
+
+        // Otherwise, darken the foreground color
+        return ManipulateColors.darkenColor(glyphInfo.fgCol, 0.0);
+      }
+
+      // Return the unlit color if the cell is not visible and not lit
+      return this.unlitColor;
     }
-    return cell.lit || cell.mob?.isPlayer
-      ? cell.env === Glyph.Unknown
-        ? glyphInfo.bgCol
-        : ManipulateColors.darkenColor(glyphInfo.fgCol, 0.0)
-      : this.unlitColor;
   }
 }
