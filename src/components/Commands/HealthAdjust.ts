@@ -1,14 +1,12 @@
 import { AutoHeal } from './AutoHeal';
 import { CanSee } from '../Utilities/CanSee';
-import { EnvironmentChecker } from '../Environment/EnvironmentChecker';
 import { EventCategory } from '../Messages/LogMessage';
 import { GameMap } from '../MapModel/GameMap';
 import { GameState } from '../Builder/Types/GameState';
 import { LogMessage } from '../Messages/LogMessage';
+import { LootManager } from '../ItemObjects/LootManager';
 import { Map } from '../MapModel/Types/Map';
 import { Mob } from '../Mobs/Mob';
-import { ItemObjectManager } from '../ItemObjects/ItemObjectManager';
-import { WorldPoint } from '../MapModel/WorldPoint';
 
 /**
  * A class to handle adjustments to health of a mob.
@@ -117,41 +115,8 @@ export class HealthAdjust {
    * @param {GameState} game - The game object used to determine success.
    */
   private static maybeDropLoot(mob: Mob, game: GameState): void {
-    if (game.rand.isOneIn(10)) this.dropLoot(mob.pos, game, mob.level);
-  }
-
-  /**
-   * Drops loot at the specified position in the game map.
-   *
-   * @param {WorldPoint} pos - The position where the loot will be dropped.
-   * @param {GameState} game - The game object.
-   * @param {number} level - The level of the loot.
-   */
-  private static dropLoot(
-    pos: WorldPoint,
-    game: GameState,
-    level: number,
-  ): void {
-    const map = <Map>game.currentMap();
-    const lootCell = map.cell(pos);
-    const canDrop = EnvironmentChecker.canItemsBeDropped(lootCell);
-
-    if (!canDrop) {
-      return;
-    } else {
-      const rand = game.rand;
-      const objectLvl = level + 1;
-      const obj = ItemObjectManager.addRandomObjectForLevel(
-        pos,
-        map,
-        rand,
-        objectLvl,
-      );
-      const msg = new LogMessage(
-        `You notice a ${obj.name()} dropping on the floor.`,
-        EventCategory.drop,
-      );
-      game.message(msg);
+    if (game.rand.isOneIn(10)) {
+      LootManager.dropLoot(mob.pos, game, mob.level);
     }
   }
 

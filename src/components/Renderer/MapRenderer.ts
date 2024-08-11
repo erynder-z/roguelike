@@ -71,7 +71,7 @@ export class MapRenderer {
    *
    * @param {DrawableTerminal} term - The terminal to draw on.
    * @param {TerminalPoint} t - The position on the terminal to draw at.
-   * @param {WorldPoint} w - The position on the map to draw.
+   * @param {WorldPoint} wp - The position on the map to draw.
    * @param {Map} map - The current map.
    * @param {WorldPoint} playerPos - The position of the player on the map.
    * @param {number} farDist - The far distance for visibility.
@@ -156,7 +156,7 @@ export class MapRenderer {
    * @param {boolean} blind - Indicates if the player is blind.
    * @param {boolean} isRayCast - Indicates if ray casting is being used.
    * @param {WorldPoint} playerPos - The position of the player on the map.
-   * @param {WorldPoint} w - The world point.
+   * @param {WorldPoint} wp - The world point.
    * @param {Map} map - The current map.
    * @return {{ fg: string; bg: string }} The foreground and background colors for the cell.
    */
