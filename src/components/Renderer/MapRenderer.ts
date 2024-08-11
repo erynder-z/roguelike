@@ -60,7 +60,7 @@ export class MapRenderer {
     const maxVisibilityRange = 75;
     let farDist = game.stats.currentVisRange || 50;
 
-    const glowingRocks = this.countGlowingRocks(playerPos, map, glowRange);
+    const glowingRocks = this.countLightSources(playerPos, map, glowRange);
     farDist *= Math.pow(2, glowingRocks);
 
     return Math.min(farDist, maxVisibilityRange);
@@ -197,25 +197,25 @@ export class MapRenderer {
   }
 
   /**
-   * Counts the number of glowing rocks in the vicinity of the player position within a specified diameter.
+   * Counts the number of light sources in the vicinity of the player position within a specified diameter.
    *
    * @param {WorldPoint} playerPos - The position of the player on the map.
    * @param {Map} map - The current map.
-   * @param {number} diameter - The diameter within which to count glowing rocks.
-   * @return {number} The count of glowing rocks in the specified vicinity.
+   * @param {number} diameter - The diameter within which to count light sources.
+   * @return {number} The count of light sources in the specified vicinity.
    */
-  private static countGlowingRocks(
+  private static countLightSources(
     playerPos: WorldPoint,
     map: Map,
     diameter: number,
   ): number {
-    let glowingRocksCount = 0;
+    let lightSources = 0;
     for (const neighbor of playerPos.getNeighbors(diameter * 0.5)) {
       if (map.isLegalPoint(neighbor) && map.cell(neighbor).isGlowing()) {
-        glowingRocksCount++;
+        lightSources++;
       }
     }
-    return glowingRocksCount;
+    return lightSources;
   }
 
   /**
