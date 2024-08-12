@@ -1,9 +1,10 @@
+import { Corpse } from '../Mobs/Corpse';
+import { EnvEffect } from './Types/EnvEffect';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { Mob } from '../Mobs/Mob';
-import { EnvEffect } from './Types/EnvEffect';
 
 /**
  * Represents a cell on the game map.
@@ -17,6 +18,7 @@ export class MapCell {
   public sprite: Glyph | undefined;
   public envDesc: string | undefined;
   public envEffects: EnvEffect[] = [];
+  public corpse: Corpse | undefined;
 
   /**
    * Adds an environment effect to the current map cell if it does not already exist.
@@ -88,10 +90,23 @@ export class MapCell {
    * @return {Glyph} The sprite glyph, object glyph, or environment glyph.
    */
   public glyphSpriteOrObjOrEnv(): Glyph {
-    if (this.sprite) {
-      return this.sprite;
-    }
+    if (this.sprite) return this.sprite;
+
     return this.obj ? this.obj.glyph : this.env;
+  }
+
+  /**
+   * Returns the sprite glyph if it exists, otherwise returns the glyph of the object if it exists,
+   * otherwise returns the corpse glyph if it exists, otherwise returns the environment glyph.
+   *
+   * @return {Glyph} The sprite glyph, object glyph, corpse glyph, or environment glyph.
+   */
+  public glyphSpriteOrObjOrCorpseOrEnv(): Glyph {
+    if (this.sprite) return this.sprite;
+
+    if (this.obj) return this.obj.glyph;
+
+    return this.corpse ? this.corpse.glyph : this.env;
   }
 
   /**

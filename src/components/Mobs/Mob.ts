@@ -8,13 +8,6 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * Represents a mobile entity within the game world. Mob can be either a player or an NPC.
  */
 export class Mob {
-  constructor(glyph: Glyph, x: number, y: number) {
-    this.isPlayer = glyph == Glyph.Player;
-    this.glyph = glyph;
-    this.name = Glyph[glyph];
-    this.pos.x = x;
-    this.pos.y = y;
-  }
   public pos: WorldPoint = new WorldPoint();
   public glyph: Glyph = Glyph.Unknown;
   public name: string = '?';
@@ -26,6 +19,14 @@ export class Mob {
   public sinceMove: number = 0;
   public isPlayer: boolean = false;
   public buffs: ActiveBuffs = new ActiveBuffs();
+  constructor(glyph: Glyph, x: number, y: number) {
+    this.isPlayer = glyph == Glyph.Player;
+    this.glyph = glyph;
+    this.name = Glyph[glyph];
+    this.pos.x = x;
+    this.pos.y = y;
+  }
+
   public is(buff: Buff): boolean {
     return this.buffs.is(buff);
   }

@@ -1,12 +1,5 @@
-/**
- * Enum representing different types of glyphs.
- */
 export enum Glyph {
-  Bad,
-  Rock,
-  Wall,
-  Floor,
-  Unknown,
+  // Mob glyphs
   Player,
   Ant,
   Bat,
@@ -34,6 +27,42 @@ export enum Glyph {
   Xelhua,
   Yeti,
   Zombie,
+
+  // Corpses
+  Player_Corpse,
+  Ant_Corpse,
+  Bat_Corpse,
+  Cat_Corpse,
+  Druid_Corpse,
+  Ectoplasm_Corpse,
+  Frog_Corpse,
+  Gargoyle_Corpse,
+  Harpy_Corpse,
+  Imp_Corpse,
+  Jackal_Corpse,
+  Kappa_Corpse,
+  Lama_Corpse,
+  Mutant_Corpse,
+  Nook_Corpse,
+  Ogre_Corpse,
+  Pig_Corpse,
+  Qilin_Corpse,
+  Rat_Corpse,
+  Succubus_Corpse,
+  Tengu_Corpse,
+  Unicorn_Corpse,
+  Vampire_Corpse,
+  Wyrm_Corpse,
+  Xelhua_Corpse,
+  Yeti_Corpse,
+  Zombie_Corpse,
+
+  // Static glyphs
+  Bad,
+  Rock,
+  Wall,
+  Floor,
+  Unknown,
   StairsUp,
   StairsDown,
   Door_Open,

@@ -1,3 +1,4 @@
+import * as corpseData from '../Mobs/MobData/corpses.json';
 import * as environmentData from '../Environment/EnvironmentData/environment.json';
 import * as itemData from '../ItemObjects/ItemData/items.json';
 import { Glyph } from './Glyph';
@@ -82,6 +83,7 @@ export class GlyphMap {
     environmentData['environment'].forEach(env => addGlyph(<GlyphInfo>env));
     mobsData['mobs'].forEach(mob => addGlyph(<GlyphInfo>mob));
     itemData['items'].forEach(item => addGlyph(<GlyphInfo>item));
+    corpseData['corpses'].forEach(corpse => addGlyph(<GlyphInfo>corpse));
 
     return GlyphMap.glyphsRegistry.length;
   }
@@ -175,7 +177,7 @@ export class GlyphMap {
    */
   static getGlyphDescription(
     glyph: Glyph,
-    category: 'mob' | 'environment' | 'object',
+    category: 'mob' | 'environment' | 'object' | 'corpse',
   ): string {
     let description = 'no description';
 
@@ -195,6 +197,13 @@ export class GlyphMap {
       case 'object': {
         const object = itemData.items.find(item => item.name === Glyph[glyph]);
         description = object?.description || description;
+        break;
+      }
+      case 'corpse': {
+        const corpse = corpseData.corpses.find(
+          corpse => corpse.name === Glyph[glyph],
+        );
+        description = corpse?.description || description;
         break;
       }
       default:

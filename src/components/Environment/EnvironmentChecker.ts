@@ -19,6 +19,16 @@ export class EnvironmentChecker {
   }
 
   /**
+   * Checks if a corpse can be dropped on the given cell.
+   *
+   * @param {MapCell} cell - The cell to check.
+   * @return {boolean} Returns true if a corpse can be dropped, false otherwise.
+   */
+  public static canCorpseBeDropped(cell: MapCell): boolean {
+    return !cell.corpse;
+  }
+
+  /**
    * Checks if a neighbor is within bounds of the map.
    *
    * @param {WorldPoint} neighbor - The neighboring point to check.
