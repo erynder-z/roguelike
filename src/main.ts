@@ -31,4 +31,8 @@ const runGameDirectly = () => {
   });
 };
 
-SHOW_MENU ? showTitleScreen() : runGameDirectly();
+if (SHOW_MENU) {
+  showTitleScreen();
+} else {
+  runGameDirectly();
+}

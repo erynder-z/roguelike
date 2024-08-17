@@ -90,7 +90,11 @@ export class AutoHeal {
    * @param game - The game object.
    */
   private step_timeToHeal(player: Mob, game: GameState) {
-    this.countdown > 0 ? --this.countdown : this.healTick(player, game);
+    if (this.countdown > 0) {
+      --this.countdown;
+    } else {
+      this.healTick(player, game);
+    }
   }
 
   /**

@@ -242,7 +242,11 @@ export class Builder implements Build {
    * @returns {void}
    */
   private addLevelStairs(map: Map, level: number, rand: RandomGenerator): void {
-    level === 0 ? this.addStairs0(map, rand) : this.addStairs(map, rand);
+    if (level === 0) {
+      this.addStairs0(map, rand);
+    } else {
+      this.addStairs(map, rand);
+    }
   }
 
   /**
