@@ -52,6 +52,7 @@
         <!-- Bottom End -->
       </div>
     </div>
+    <!-- Web Components Scripts (Loaded Normally) -->
     <script type="module" src="/src/components/UI/TitleScreen.ts"></script>
     <script type="module" src="/src/components/UI/StatsDisplay.ts"></script>
     <script type="module" src="/src/components/UI/MessagesDisplay.ts"></script>
@@ -59,6 +60,8 @@
     <script type="module" src="/src/components/UI/EquipmentDisplay.ts"></script>
     <script type="module" src="/src/components/UI/OptionsDisplay.ts"></script>
     <script type="module" src="/src/components/UI/FlashDisplay.ts"></script>
-    <script type="module" src="/src/main.ts"></script>
+
+    <!-- Main Script (Deferred Execution) -->
+    <script defer type="module" src="/src/main.ts"></script>
   </body>
 </html>
