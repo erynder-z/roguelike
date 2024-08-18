@@ -3,7 +3,7 @@ import './style.css';
 import { Builder } from './components/Builder/Builder';
 import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 
-const SHOW_MENU = false;
+const SHOW_MENU = true;
 
 const showTitleScreen = () => {
   document.addEventListener('DOMContentLoaded', () => {

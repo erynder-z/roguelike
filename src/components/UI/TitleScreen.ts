@@ -1,5 +1,7 @@
 import img from '../../assets/images/title/title.webp';
 
+import { invoke } from '@tauri-apps/api';
+
 export class TitleScreen extends HTMLElement {
   constructor() {
     super();
@@ -90,6 +92,7 @@ export class TitleScreen extends HTMLElement {
             <button id="new-game-button"><span class="underline">N</span>ew Game</button>
             <button id="help-button"><span class="underline">H</span>elp</button>
             <button id="about-window-button"><span class="underline">A</span>bout</button>
+            <button id="quit-window-button"><span class="underline">Q</span>uit</button>
           </div>
         </div>
       `;
@@ -100,6 +103,7 @@ export class TitleScreen extends HTMLElement {
     this.startNewGame = this.startNewGame.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.showAbout = this.showAbout.bind(this);
+    this.quitGame = this.quitGame.bind(this);
 
     shadowRoot
       .getElementById('new-game-button')
@@ -110,13 +114,15 @@ export class TitleScreen extends HTMLElement {
     shadowRoot
       .getElementById('about-window-button')
       ?.addEventListener('click', this.showAbout);
+    shadowRoot
+      .getElementById('quit-window-button')
+      ?.addEventListener('click', this.quitGame);
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
   handleKeyPress(event: KeyboardEvent) {
-    if (event.key === 'N') {
-      this.startNewGame();
-    }
+    if (event.key === 'N') this.startNewGame();
+    if (event.key === 'Q') this.quitGame();
   }
 
   public startNewGame() {
@@ -133,11 +139,16 @@ export class TitleScreen extends HTMLElement {
     alert('About');
   }
 
+  private quitGame() {
+    invoke('exit_app');
+  }
+
   private disconnectedCallback() {
     document.removeEventListener('keydown', this.handleKeyPress);
     document.removeEventListener('click', this.startNewGame);
     document.removeEventListener('click', this.showHelp);
     document.removeEventListener('click', this.showAbout);
+    document.removeEventListener('click', this.quitGame);
   }
 }
 
