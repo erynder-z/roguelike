@@ -1,6 +1,7 @@
 import img from '../../assets/images/title/title.webp';
 
-import { invoke } from '@tauri-apps/api';
+import { dialog } from '@tauri-apps/api';
+import { exit } from '@tauri-apps/api/process';
 
 export class TitleScreen extends HTMLElement {
   constructor() {
@@ -139,8 +140,15 @@ export class TitleScreen extends HTMLElement {
     alert('About');
   }
 
-  private quitGame() {
-    invoke('exit_app');
+  private async quitGame() {
+    const confirm = await dialog.confirm('Are you sure you want to quit?', {
+      title: 'Confirm Quit',
+      type: 'warning',
+    });
+
+    if (confirm) {
+      await exit();
+    }
   }
 
   private disconnectedCallback() {
