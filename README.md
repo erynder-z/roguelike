@@ -92,9 +92,50 @@ This roadmap outlines the progress and future tasks for the development of this 
 - [ ] Thirst-System
 - [ ] Simple Crafting / Item Combination System
 
+### Backend for multi-platform deployment
+
+- [x] Tauri backend
+
 ## Milestones
 
 - [ ] A playable and winnable game
+
+## Download
+
+- TBA
+
+## Build the App
+
+1. Install the prerequisites for Tauri according to the [Tauri official website](https://tauri.app/v1/guides/getting-started/prerequisites).
+
+2. Clone the Repository
+
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+
+3. Install Node.js Dependencies
+
+   ```bash
+   npm install
+   ```
+
+4. Build the Tauri App
+
+   4.1 For development (with hot-reloading):
+
+   ```bash
+   npm run tauri dev
+   ```
+
+   4.2 For production (to create a distributable package):
+
+   ```bash
+   npm run tauri build
+   ```
+
+   If using the dev command, the app will launch automatically. For production, the executable can be found in the src-tauri/target/release/ directory.
 
 ## Acknowledgements
 
