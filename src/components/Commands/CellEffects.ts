@@ -80,40 +80,45 @@ export class CellEffects {
     this.handleChasm(this.cell, this.me);
   }
 
-  private handleWater(cell: MapCell, player: Mob): void {
+  private handleWater(cell: MapCell, mob: Mob): void {
     if (cell.isWater()) {
       const fireBuffs = [Buff.Burn, Buff.Lava];
-      fireBuffs.forEach(buff =>
-        new CleanseBuffCommand(buff, player, this.game).execute(),
-      );
+      const activeBuffs = mob.buffs;
+
+      fireBuffs.forEach(buff => {
+        if (activeBuffs.is(buff)) {
+          new CleanseBuffCommand(buff, mob, this.game).execute();
+        }
+      });
     }
   }
 
   /**
-   * Handle falling into a chasm if the player is on a chasm cell.
+   * Handle falling into a chasm if the mob is on a chasm cell.
    *
-   * @param {MapCell} cell - the current cell of the player
-   * @param {Mob} player - the player
+   * @param {MapCell} cell - the current cell of the mob
+   * @param {Mob} mob - the current mob
    * @return {void}
    */
-  private handleChasm(cell: MapCell, player: Mob): void {
+  private handleChasm(cell: MapCell, mob: Mob): void {
     if (cell.isChasm()) {
-      this.fallIntoChasm(player);
+      this.fallIntoChasm(mob);
     }
   }
 
   /**
-   * Handles the fall into a chasm event for the player.
+   * Handles the fall into a chasm event for the mob.
    *
-   * @param {Mob} player - the player who falls into the chasm
+   * @param {Mob} mob - the mob who falls into the chasm
    * @return {void} This function does not return a value.
    */
-  private fallIntoChasm(player: Mob): void {
+  private fallIntoChasm(mob: Mob): void {
+    const s = mob.isPlayer ? 'You fall' : `${mob.name} falls`;
     const msg = new LogMessage(
-      'You fall into the abyss!',
+      `${s} into the abyss!`,
       EventCategory.playerDeath,
     );
     this.game.message(msg);
-    HealthAdjust.killMob(player, this.game);
+    HealthAdjust.killMob(mob, this.game);
   }
 }
