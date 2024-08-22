@@ -68,11 +68,11 @@ export class LookScreen extends BaseScreen {
     const { buffs } = game.player;
     const { stats } = game;
     const isBlind = buffs && buffs.is(Buff.Blind);
-    const isFar =
-      pos.squaredDistanceTo(playerPos) > stats.currentVisRange && !isBlind;
 
     return (
-      !isFar && !isBlind && CanSee.checkPointLOS_RayCast(playerPos, pos, map)
+      !isBlind &&
+      CanSee.isDistanceSmallerThan(pos, playerPos, stats.currentVisRange) &&
+      CanSee.checkPointLOS_RayCast(playerPos, pos, map)
     );
   }
 
