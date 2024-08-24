@@ -86,11 +86,18 @@ export class HitCommand extends CommandBase {
     }
 
     const rest = target.hp - dmg;
-    const s = dmg
-      ? `${me} hits ${him} for ${dmg}→${rest}`
-      : `${me} misses ${him}`;
-    const msg1 = new LogMessage(s, EventCategory.mobDamage);
-    const msg2 = new LogMessage(s, EventCategory.playerDamage);
+
+    const message = this.generateCombatMessage(
+      dmg,
+      attacker,
+      target,
+      me,
+      him,
+      rest,
+    );
+
+    const msg1 = new LogMessage(message, EventCategory.mobDamage);
+    const msg2 = new LogMessage(message, EventCategory.playerDamage);
     if (attacker.isPlayer) {
       game.message(msg1);
       game.addCurrentEvent(EventCategory.playerDamage);
@@ -182,5 +189,40 @@ export class HitCommand extends CommandBase {
       }
     }
     return this.unarmed();
+  }
+
+  /**
+   * Generates a combat message based on the attacker, target, and damage dealt.
+   *
+   * @param {number} dmg - The amount of damage dealt.
+   * @param {Mob} attacker - The mob causing the damage.
+   * @param {Mob} target - The mob receiving the damage.
+   * @param {string} attackerName - The name of the attacking mob.
+   * @param {string} targetName - The name of the target mob.
+   * @param {number} remainingHp - The remaining HP of the target after the damage.
+   * @returns {string} The generated combat message.
+   */
+  private generateCombatMessage(
+    dmg: number,
+    attacker: Mob,
+    target: Mob,
+    attackerName: string,
+    targetName: string,
+    remainingHp: number,
+  ): string {
+    const isPlayerAttacker = attacker.isPlayer;
+    const isPlayerTarget = target.isPlayer;
+
+    const attackerDisplayName = isPlayerAttacker ? 'You' : attackerName;
+    const targetDisplayName = isPlayerTarget ? 'You' : `the ${targetName}`;
+
+    const verb = isPlayerAttacker ? 'hit' : 'hits';
+
+    if (dmg > 0) {
+      return `${attackerDisplayName} ${verb} ${targetDisplayName} for ${dmg}→${remainingHp}`;
+    } else {
+      const missVerb = isPlayerAttacker ? 'miss' : 'misses';
+      return `${attackerDisplayName} ${missVerb} ${targetDisplayName}`;
+    }
   }
 }
