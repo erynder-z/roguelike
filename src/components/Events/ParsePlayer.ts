@@ -1,6 +1,7 @@
 import { BulletCommand } from '../Commands/BulletCommand';
 import { Command } from '../Commands/Types/Command';
 import { CommandDirectionScreen } from '../Screens/CommandDirectionScreen';
+import { DebuggerScreen } from '../Screens/DebuggerScreen';
 import { DigCommand } from '../Commands/DigCommand';
 import { DoorCommand } from '../Commands/DoorCommand';
 import { EquipmentScreen } from '../Screens/EquipmentScreen';
@@ -53,6 +54,7 @@ export class ParsePlayer {
       case 'Numpad7':
       case 'Numpad8':
       case 'Numpad9':
+      case 'Home':
         keyCode = event.code;
         break;
     }
@@ -157,6 +159,10 @@ export class ParsePlayer {
         break;
       case 's':
         stackScreen = new SpellScreen(this.game, this.make);
+        break;
+      // Debugging command
+      case 'Home':
+        stackScreen = new DebuggerScreen(this.game, this.make);
         break;
     }
 

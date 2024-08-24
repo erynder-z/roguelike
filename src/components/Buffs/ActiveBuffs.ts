@@ -1,11 +1,10 @@
 import { Buff } from './BuffEnum';
 import { BuffType } from './Types/BuffType';
-import { CanSee } from '../Utilities/CanSee';
-import { GameMap } from '../MapModel/GameMap';
 import { GameState } from '../Builder/Types/GameState';
 import { GrammarHandler } from '../Utilities/GrammarHandler';
 import { LogMessage, EventCategory } from '../Messages/LogMessage';
 import { Mob } from '../Mobs/Mob';
+import { MobMessagesHandler } from '../Utilities/MobMessagesHandler';
 
 /**
  * Handles managing buffs on a mob.
@@ -15,19 +14,19 @@ export class ActiveBuffs {
 
   /**
    * Adds a buff to the collection of active buffs for a given mob.
-   * @param {BuffType} b - The buff to add.
-   * @param {Game} game - The game object.
+   * @param {BuffType} buffType - The buff to add.
+   * @param {GameState} game - The game object.
    * @param {Mob} mob - The mob to apply the buff to.
    */
-  public add(b: BuffType, game: GameState, mob: Mob): void {
-    this._map.set(b.buff, b);
-    const buffAdj = GrammarHandler.BuffToAdjective(b.buff) || b.buff;
-    const msg = new LogMessage(
-      `${mob.name} is ${buffAdj}!`,
-      EventCategory.buff,
-    );
+  public add(buffType: BuffType, game: GameState, mob: Mob): void {
+    const buff = buffType.buff;
+    const alreadyHasBuff = this._map.has(buff);
 
-    if (this.shouldDisplayMessage(game, mob)) game.message(msg);
+    this._map.set(buff, buffType);
+
+    if (this.shouldDisplayBuffMessage(alreadyHasBuff, game, mob)) {
+      this.displayBuffMessage(buff, game, mob);
+    }
   }
 
   /**
@@ -88,16 +87,49 @@ export class ActiveBuffs {
     }
   }
 
+
   /**
-   * Determines if a message should be displayed for a given mob. Messages are only displayed if there is a line of sight between the mob and the player.
+   * Determines whether a buff message should be displayed to the player.
    *
-   * @param {GameState} game - The game state object.
-   * @param {Mob} mob - The mob object.
-   * @return {boolean} Returns true if the message should be displayed, false otherwise.
+   * @param {boolean} alreadyHasBuff - Whether the mob already has the buff.
+   * @param {GameState} game - The game object.
+   * @param {Mob} mob - The mob to check visibility and type.
+   * @return {boolean} True if the buff message should be displayed, false otherwise.
    */
-  private shouldDisplayMessage(game: GameState, mob: Mob): boolean {
-    const player = game.player;
-    const map = <GameMap>game.currentMap();
-    return CanSee.checkMobLOS_Bresenham(mob, player, map, false);
+  private shouldDisplayBuffMessage(
+    alreadyHasBuff: boolean,
+    game: GameState,
+    mob: Mob,
+  ): boolean {
+    const isPlayer = mob.isPlayer;
+    const shouldDisplayMessage = !alreadyHasBuff;
+
+    if (isPlayer) {
+      return shouldDisplayMessage;
+    } else {
+      const isVisibleToPlayer =
+        MobMessagesHandler.shouldDisplayMessageBasedOnVisibility(
+          game,
+          mob,
+          game.player,
+        );
+
+      return isVisibleToPlayer;
+    }
+  }
+
+  /**
+   * Displays the buff message for the mob.
+   * @param {Buff} buff - The buff to describe.
+   * @param {GameState} game - The game object.
+   * @param {Mob} mob - The mob to apply the buff to.
+   */
+  private displayBuffMessage(buff: Buff, game: GameState, mob: Mob): void {
+    const buffAdjective = GrammarHandler.BuffToAdjective(buff) || buff;
+    const message = new LogMessage(
+      `${mob.isPlayer ? 'You are' : `${mob.name} is`} ${buffAdjective}!`,
+      EventCategory.buff,
+    );
+    game.message(message);
   }
 }

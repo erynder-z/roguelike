@@ -28,7 +28,11 @@ export class DrawUI {
    * @param {Map} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    */
-  private static drawMap0(term: DrawableTerminal, map: Map, vp: WorldPoint) {
+  private static drawMapFullyVisible(
+    term: DrawableTerminal,
+    map: Map,
+    vp: WorldPoint,
+  ) {
     const terminalDimensions = term.dimensions;
     const t = new TerminalPoint();
     const w = new WorldPoint();
@@ -280,5 +284,26 @@ export class DrawUI {
       const cell = map.cell(w);
       EnvironmentChecker.addCellEffects(cell, w, map);
     });
+  }
+
+  /**
+   * Debug draw the map on the terminal with the player's position centered. Map is completely visible.
+   *
+   * @param {DrawableTerminal} term - the terminal to draw on
+   * @param {Map} map - the map to draw
+   * @param {WorldPoint} playerPos - the position of the player
+   */
+  public static debugDrawMap(
+    term: DrawableTerminal,
+    map: Map,
+    playerPos: WorldPoint,
+  ) {
+    if (!playerPos) playerPos = new WorldPoint();
+
+    const viewport: WorldPoint = new WorldPoint(
+      -Math.floor(term.dimensions.x * 0.5) + playerPos.x,
+      -Math.floor(term.dimensions.y * 0.5) + playerPos.y,
+    );
+    this.drawMapFullyVisible(term, map, viewport);
   }
 }

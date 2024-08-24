@@ -102,4 +102,19 @@ export class CanSee {
     // No obstacles encountered, LOS is clear
     return true;
   }
+
+  /**
+   * Checks if the distance between two points is smaller than a provided threshold.
+   * @param {WorldPoint} a - The first point.
+   * @param {WorldPoint} b - The second point.
+   * @param {number} threshold - The maximum allowed distance.
+   * @returns {boolean} - True if the distance is smaller than the threshold, otherwise false.
+   */
+  public static isDistanceSmallerThan(
+    a: WorldPoint,
+    b: WorldPoint,
+    threshold: number,
+  ): boolean {
+    return a.squaredDistanceTo(b) < threshold;
+  }
 }

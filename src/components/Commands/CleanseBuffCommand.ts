@@ -3,6 +3,7 @@ import { CommandBase } from './CommandBase';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
 import { Mob } from '../Mobs/Mob';
+import { MobMessagesHandler } from '../Utilities/MobMessagesHandler';
 
 /**
  * Represents a command that removes a given buff from the given mob.
@@ -23,15 +24,22 @@ export class CleanseBuffCommand extends CommandBase {
    */
   public execute(): boolean {
     const { me, game } = this;
+    const { player } = game;
 
     if (this.buff) this.me.buffs.cleanse(this.buff, game, me);
 
-    const msg = new LogMessage(
-      `Cleansed ${Buff[this.buff]}!`,
-      EventCategory.heal,
-    );
+    if (
+      me.isPlayer ||
+      MobMessagesHandler.shouldDisplayMessageBasedOnVisibility(game, me, player)
+    ) {
+      const s = me.isPlayer ? 'You are' : `${me.name} is`;
+      const msg = new LogMessage(
+        `${s} cleansed of ${Buff[this.buff]}!`,
+        EventCategory.heal,
+      );
 
-    game.message(msg);
+      game.message(msg);
+    }
 
     return true;
   }

@@ -3,6 +3,7 @@ import { BuffCommand } from './BuffCommand';
 import { CleanseBuffCommand } from './CleanseBuffCommand';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
+import { Glyph } from '../Glyphs/Glyph';
 import { HealthAdjust } from './HealthAdjust';
 import { Map } from '../MapModel/Types/Map';
 import { MapCell } from '../MapModel/MapCell';
@@ -26,14 +27,17 @@ export class CellEffects {
    */
   public applyCellEffects(): void {
     if (this.cell.isCausingSlow()) {
-      const duration = 1;
-      new BuffCommand(
-        Buff.Slow,
-        this.me,
-        this.game,
-        this.me,
-        duration,
-      ).execute();
+      if (this.cell.env !== Glyph.ShallowWater) {
+        // Shallow water is handled in this.handleWater()
+        const duration = 5;
+        new BuffCommand(
+          Buff.Slow,
+          this.me,
+          this.game,
+          this.me,
+          duration,
+        ).execute();
+      }
     }
     if (this.cell.isCausingBurn()) {
       const duration = 9;
@@ -76,44 +80,43 @@ export class CellEffects {
       ).execute();
     }
 
-    this.handleWater(this.cell, this.me);
-    this.handleChasm(this.cell, this.me);
-  }
-
-  private handleWater(cell: MapCell, player: Mob): void {
-    if (cell.isWater()) {
-      const fireBuffs = [Buff.Burn, Buff.Lava];
-      fireBuffs.forEach(buff =>
-        new CleanseBuffCommand(buff, player, this.game).execute(),
-      );
-    }
+    if (this.cell.isWater()) this.handleWater(this.me);
+    if (this.cell.isChasm()) this.handleChasm(this.me);
   }
 
   /**
-   * Handle falling into a chasm if the player is on a chasm cell.
+   * Handles the effect of a mob entering a water cell, specifically removing fire buffs.
    *
-   * @param {MapCell} cell - the current cell of the player
-   * @param {Mob} player - the player
+   * @param {Mob} mob - the current mob
    * @return {void}
    */
-  private handleChasm(cell: MapCell, player: Mob): void {
-    if (cell.isChasm()) {
-      this.fallIntoChasm(player);
-    }
+  private handleWater(mob: Mob): void {
+    const duration = 2;
+    new BuffCommand(Buff.Slow, mob, this.game, mob, duration).execute();
+
+    const fireBuffs = [Buff.Burn, Buff.Lava];
+    const activeBuffs = mob.buffs;
+
+    fireBuffs.forEach(buff => {
+      if (activeBuffs.is(buff)) {
+        new CleanseBuffCommand(buff, mob, this.game).execute();
+      }
+    });
   }
 
   /**
-   * Handles the fall into a chasm event for the player.
+   * Handle falling into a chasm.
    *
-   * @param {Mob} player - the player who falls into the chasm
-   * @return {void} This function does not return a value.
+   * @param {Mob} mob - the current mob
+   * @return {void}
    */
-  private fallIntoChasm(player: Mob): void {
+  private handleChasm(mob: Mob): void {
+    const s = mob.isPlayer ? 'You fall' : `${mob.name} falls`;
     const msg = new LogMessage(
-      'You fall into the abyss!',
+      `${s} into the abyss!`,
       EventCategory.playerDeath,
     );
     this.game.message(msg);
-    HealthAdjust.killMob(player, this.game);
+    HealthAdjust.killMob(mob, this.game);
   }
 }
