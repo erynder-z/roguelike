@@ -30,7 +30,7 @@ export class CleanseBuffCommand extends CommandBase {
 
     if (
       me.isPlayer ||
-      MobMessagesHandler.shouldDisplayMessage(game, me, player)
+      MobMessagesHandler.shouldDisplayMessageBasedOnVisibility(game, me, player)
     ) {
       const s = me.isPlayer ? 'You are' : `${me.name} is`;
       const msg = new LogMessage(

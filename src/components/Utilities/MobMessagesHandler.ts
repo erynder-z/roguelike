@@ -12,7 +12,7 @@ export class MobMessagesHandler {
    * @param {Mob} player - The player mob.
    * @return {boolean} True if the message should be displayed, false otherwise.
    */
-  public static shouldDisplayMessage(
+  public static shouldDisplayMessageBasedOnVisibility(
     game: GameState,
     mob: Mob,
     player: Mob,

@@ -19,19 +19,13 @@ export class ActiveBuffs {
    * @param {Mob} mob - The mob to apply the buff to.
    */
   public add(buffType: BuffType, game: GameState, mob: Mob): void {
-    if (
-      mob.isPlayer ||
-      MobMessagesHandler.shouldDisplayMessage(game, mob, game.player)
-    ) {
-      const buff = buffType.buff;
-      const buffAdjective = GrammarHandler.BuffToAdjective(buff) || buff;
-      const message = new LogMessage(
-        `${mob.isPlayer ? 'You are' : `${mob.name} is`} ${buffAdjective}!`,
-        EventCategory.buff,
-      );
+    const buff = buffType.buff;
+    const alreadyHasBuff = this._map.has(buff);
 
-      this._map.set(buff, buffType);
-      game.message(message);
+    this._map.set(buff, buffType);
+
+    if (this.shouldDisplayBuffMessage(alreadyHasBuff, game, mob)) {
+      this.displayBuffMessage(buff, game, mob);
     }
   }
 
@@ -91,5 +85,51 @@ export class ActiveBuffs {
       if (b.effect) b.effect.tick(b.duration, b.timeLeft);
       if (b.timeLeft <= 0) this.remove(b, game, mob);
     }
+  }
+
+
+  /**
+   * Determines whether a buff message should be displayed to the player.
+   *
+   * @param {boolean} alreadyHasBuff - Whether the mob already has the buff.
+   * @param {GameState} game - The game object.
+   * @param {Mob} mob - The mob to check visibility and type.
+   * @return {boolean} True if the buff message should be displayed, false otherwise.
+   */
+  private shouldDisplayBuffMessage(
+    alreadyHasBuff: boolean,
+    game: GameState,
+    mob: Mob,
+  ): boolean {
+    const isPlayer = mob.isPlayer;
+    const shouldDisplayMessage = !alreadyHasBuff;
+
+    if (isPlayer) {
+      return shouldDisplayMessage;
+    } else {
+      const isVisibleToPlayer =
+        MobMessagesHandler.shouldDisplayMessageBasedOnVisibility(
+          game,
+          mob,
+          game.player,
+        );
+
+      return isVisibleToPlayer;
+    }
+  }
+
+  /**
+   * Displays the buff message for the mob.
+   * @param {Buff} buff - The buff to describe.
+   * @param {GameState} game - The game object.
+   * @param {Mob} mob - The mob to apply the buff to.
+   */
+  private displayBuffMessage(buff: Buff, game: GameState, mob: Mob): void {
+    const buffAdjective = GrammarHandler.BuffToAdjective(buff) || buff;
+    const message = new LogMessage(
+      `${mob.isPlayer ? 'You are' : `${mob.name} is`} ${buffAdjective}!`,
+      EventCategory.buff,
+    );
+    game.message(message);
   }
 }
