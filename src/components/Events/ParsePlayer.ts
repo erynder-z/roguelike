@@ -54,6 +54,7 @@ export class ParsePlayer {
       case 'Numpad7':
       case 'Numpad8':
       case 'Numpad9':
+      case 'Escape':
       case 'Home':
         keyCode = event.code;
         break;
@@ -160,6 +161,9 @@ export class ParsePlayer {
       case 's':
         stackScreen = new SpellScreen(this.game, this.make);
         break;
+      case 'Escape':
+        this.showMenu();
+        break;
       // Debugging command
       case 'Home':
         stackScreen = new DebuggerScreen(this.game, this.make);
@@ -248,5 +252,21 @@ export class ParsePlayer {
    */
   private direction(command: Command): StackScreen {
     return new CommandDirectionScreen(command, this.game, this.make);
+  }
+
+  /**
+   * Shows the menu screen if it is not already visible.
+   *
+   * This function first checks if there is already an 'options-screen' element in the document. If
+   * there is not, it creates a new 'options-screen' element and appends it to the 'body1' element.
+   *
+   * @return {void} This function does not return anything.
+   */
+  private showMenu(): void {
+    if (!document.querySelector('options-screen')) {
+      const body = document.getElementById('body1');
+      const menuScreen = document.createElement('options-screen');
+      body?.prepend(menuScreen);
+    }
   }
 }
