@@ -1,7 +1,7 @@
 import { dialog } from '@tauri-apps/api';
 import { exit } from '@tauri-apps/api/process';
 
-export class MenuScreen extends HTMLElement {
+export class OptionsScreen extends HTMLElement {
   constructor() {
     super();
 
@@ -10,7 +10,7 @@ export class MenuScreen extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
         <style>
-          .menu-screen {
+          .options-screen {
             font-family: 'UASQUARE';
             font-size: 2.5rem;
             position: absolute;
@@ -26,12 +26,12 @@ export class MenuScreen extends HTMLElement {
             overflow: hidden;
           }
    
-          .menu-screen h1 {
+          .options-screen h1 {
             margin-top: 12rem;  
             text-align: center;
             z-index: 1;
           }
-          .menu-screen button {
+          .options-screen button {
             font-family: 'UASQUARE';
             padding: 1rem;
             font-size: 2.5rem;
@@ -42,7 +42,7 @@ export class MenuScreen extends HTMLElement {
             transition: all 0.2s ease-in-out;
           }
 
-          .menu-screen button:hover {
+          .options-screen button:hover {
            cursor: pointer;
            transform: scale(1.1);
           }
@@ -61,7 +61,7 @@ export class MenuScreen extends HTMLElement {
           }
         </style>
   
-        <div class="menu-screen">
+        <div class="options-screen">
           <h1>Options</h1>
           <div class="buttons-container">
              <button id="return-to-game-button"><span class="underline">R</span>eturn to game</button>
@@ -191,4 +191,4 @@ export class MenuScreen extends HTMLElement {
   }
 }
 
-customElements.define('menu-screen', MenuScreen);
+customElements.define('options-screen', OptionsScreen);
