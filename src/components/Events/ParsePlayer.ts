@@ -13,6 +13,7 @@ import { Map } from '../MapModel/Types/Map';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
 import { Mob } from '../Mobs/Mob';
+import { OptionsScreen } from '../Screens/OptionsScreen';
 import { PickupCommand } from '../Commands/PickupCommand';
 import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { SpellScreen } from '../Screens/SpellScreen';
@@ -162,7 +163,7 @@ export class ParsePlayer {
         stackScreen = new SpellScreen(this.game, this.make);
         break;
       case 'Escape':
-        this.showMenu();
+        stackScreen = new OptionsScreen(this.game, this.make);
         break;
       // Debugging command
       case 'Home':
@@ -252,21 +253,5 @@ export class ParsePlayer {
    */
   private direction(command: Command): StackScreen {
     return new CommandDirectionScreen(command, this.game, this.make);
-  }
-
-  /**
-   * Shows the menu screen if it is not already visible.
-   *
-   * This function first checks if there is already an 'options-screen' element in the document. If
-   * there is not, it creates a new 'options-screen' element and appends it to the 'body1' element.
-   *
-   * @return {void} This function does not return anything.
-   */
-  private showMenu(): void {
-    if (!document.querySelector('options-screen')) {
-      const body = document.getElementById('body1');
-      const menuScreen = document.createElement('options-screen');
-      body?.prepend(menuScreen);
-    }
   }
 }
