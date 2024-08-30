@@ -6,6 +6,9 @@ import { exit } from '@tauri-apps/api/process';
 export class TitleScreen extends HTMLElement {
   constructor() {
     super();
+    this.addEventListener('pass-seed', event =>
+      this.handleSeedPassed(event as CustomEvent),
+    );
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -91,6 +94,7 @@ export class TitleScreen extends HTMLElement {
           <h1>Meikai: Roguelike Journey to the Center of the Earth</h1>
           <div class="buttons-container">
             <button id="new-game-button"><span class="underline">N</span>ew Game</button>
+            <button id="change-seed-button"><span class="underline">C</span>hange seed</button>
             <button id="help-button"><span class="underline">H</span>elp</button>
             <button id="about-window-button"><span class="underline">A</span>bout</button>
             <button id="quit-window-button"><span class="underline">Q</span>uit</button>
@@ -121,7 +125,36 @@ export class TitleScreen extends HTMLElement {
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
-  handleKeyPress(event: KeyboardEvent) {
+  /**
+   * Handles the custom event 'seed-passed' and displays the current seed.
+   * @param {CustomEvent} event - The custom event containing the seed.
+   */
+  private handleSeedPassed(event: CustomEvent) {
+    const seed = event.detail.seed;
+    this.displayCurrentSeed(seed);
+  }
+
+  /**
+   * Updates the button text to display the current seed, if the element is found.
+   * @param {number} seed - The current seed.
+   */
+  private displayCurrentSeed(seed: number) {
+    const seedBtn = this.shadowRoot?.getElementById(
+      'change-seed-button',
+    ) as HTMLButtonElement;
+    if (seedBtn) {
+      seedBtn.innerHTML = `<span class="underline">C</span>hange seed (current: ${seed})`;
+    }
+  }
+
+  /**
+   * Handles key presses and performs actions based on the pressed key.
+   *
+   * Listens for the 'N' key and starts a new game, or the 'Q' key and quits the game.
+   *
+   * @param {KeyboardEvent} event - The keyboard event containing the pressed key.
+   */
+  private handleKeyPress(event: KeyboardEvent) {
     if (event.key === 'N') this.startNewGame();
     if (event.key === 'Q') this.quitGame();
   }

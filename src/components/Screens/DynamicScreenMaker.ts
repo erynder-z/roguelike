@@ -21,6 +21,7 @@ export class DynamicScreenMaker implements ScreenMaker {
     public overScreen: (game: GameState, sm: ScreenMaker) => StackScreen,
     public moreScreen: (game: GameState, sm: ScreenMaker) => StackScreen,
     public init: (sm: ScreenMaker) => StackScreen,
+    public seed: number,
     public game: GameState | null = null,
   ) {}
 
@@ -53,7 +54,10 @@ export class DynamicScreenMaker implements ScreenMaker {
 
     titleScreenElement.addEventListener('start-new-game', () => {
       titleContainer.remove();
-      DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder());
+      DynamicScreenMaker.runBuilt_InitialGameSetup(
+        new Builder(this.seed),
+        this.seed,
+      );
     });
   }
 
@@ -84,13 +88,14 @@ export class DynamicScreenMaker implements ScreenMaker {
    *
    * @param {Build} builder - The builder for creating games.
    */
-  public static runBuilt_InitialGameSetup(builder: Build) {
+  public static runBuilt_InitialGameSetup(builder: Build, seed: number) {
     const dynamicScreenMaker = new DynamicScreenMaker(
       builder,
       (game: GameState, sm: ScreenMaker) => new GameScreen(game, sm),
       (game: GameState, sm: ScreenMaker) => new GameOverScreen(game, sm),
       (game: GameState, sm: ScreenMaker) => new MoreScreen(game, sm),
       (sm: ScreenMaker) => sm.newGame(),
+      seed,
     );
     this.activateImageHandler();
     this.runDynamic(dynamicScreenMaker);

@@ -3,21 +3,21 @@ import './style.css';
 import { Builder } from './components/Builder/Builder';
 import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 
-const SHOW_MENU = true;
+const SHOW_MENU: boolean = true;
+const seed: number = 99;
 
 const showTitleScreen = () => {
-  document.addEventListener('DOMContentLoaded', () => {
-    const titleContainer = document.getElementById('title-container');
+  const titleScreen = document.createElement('title-screen');
+  const titleContainer = document.createElement('div');
+  titleContainer.id = 'title-container';
+  titleContainer.appendChild(titleScreen);
 
-    document
-      .querySelector('title-screen')
-      ?.addEventListener('start-new-game', () => {
-        if (titleContainer) {
-          titleContainer.remove();
-        }
+  document.body.insertBefore(titleContainer, document.body.firstChild);
 
-        DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder());
-      });
+  titleScreen.dispatchEvent(new CustomEvent('pass-seed', { detail: { seed } }));
+  titleScreen.addEventListener('start-new-game', () => {
+    titleContainer.remove();
+    DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder(seed), seed);
   });
 };
 
@@ -27,7 +27,7 @@ const runGameDirectly = () => {
 
     if (titleContainer) titleContainer.remove();
 
-    DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder());
+    DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder(seed), seed);
   });
 };
 
