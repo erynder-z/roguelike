@@ -257,12 +257,34 @@ export class TitleScreen extends HTMLElement {
     }
   }
 
+  /**
+   * Removes event listeners for keydown and click events.
+   *
+   * This function is called when the custom element is removed from the DOM.
+   * It removes event listeners for keydown and click events that were added in the
+   * connectedCallback function.
+   */
   private disconnectedCallback() {
     document.removeEventListener('keydown', this.handleKeyPress);
-    document.removeEventListener('click', this.startNewGame);
-    document.removeEventListener('click', this.showHelp);
-    document.removeEventListener('click', this.showAbout);
-    document.removeEventListener('click', this.quitGame);
+
+    const shadowRoot = this.shadowRoot;
+    if (shadowRoot) {
+      shadowRoot
+        .getElementById('new-game-button')
+        ?.removeEventListener('click', this.startNewGame);
+      shadowRoot
+        .getElementById('change-seed-button')
+        ?.removeEventListener('click', this.changeSeed);
+      shadowRoot
+        .getElementById('help-button')
+        ?.removeEventListener('click', this.showHelp);
+      shadowRoot
+        .getElementById('about-window-button')
+        ?.removeEventListener('click', this.showAbout);
+      shadowRoot
+        .getElementById('quit-window-button')
+        ?.removeEventListener('click', this.quitGame);
+    }
   }
 }
 

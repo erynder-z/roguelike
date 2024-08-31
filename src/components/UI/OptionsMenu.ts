@@ -185,9 +185,23 @@ export class OptionsMenu extends HTMLElement {
    */
   private disconnectedCallback() {
     document.removeEventListener('keydown', this.handleKeyPress);
-    document.removeEventListener('click', this.toggleScanlines);
-    document.removeEventListener('click', this.showHelp);
-    document.removeEventListener('click', this.quitGame);
+
+    const shadowRoot = this.shadowRoot;
+    if (shadowRoot) {
+      shadowRoot
+        .getElementById('return-to-game-button')
+        ?.removeEventListener('click', this.returnToGame);
+      shadowRoot
+        .getElementById('toggle-scanlines-button')
+        ?.removeEventListener('click', this.toggleScanlines);
+      shadowRoot
+        .getElementById('help-button')
+        ?.removeEventListener('click', this.showHelp);
+      shadowRoot
+        .getElementById('quit-window-button')
+        ?.removeEventListener('click', this.quitGame);
+      document.removeEventListener('keydown', this.handleKeyPress);
+    }
   }
 }
 
