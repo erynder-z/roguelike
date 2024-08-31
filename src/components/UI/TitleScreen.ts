@@ -1,5 +1,4 @@
 import img from '../../assets/images/title/title.webp';
-
 import { dialog } from '@tauri-apps/api';
 import { exit } from '@tauri-apps/api/process';
 
@@ -106,6 +105,7 @@ export class TitleScreen extends HTMLElement {
 
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
+    this.changeSeed = this.changeSeed.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.showAbout = this.showAbout.bind(this);
     this.quitGame = this.quitGame.bind(this);
@@ -113,6 +113,9 @@ export class TitleScreen extends HTMLElement {
     shadowRoot
       .getElementById('new-game-button')
       ?.addEventListener('click', this.startNewGame);
+    shadowRoot
+      .getElementById('change-seed-button')
+      ?.addEventListener('click', this.changeSeed);
     shadowRoot
       .getElementById('help-button')
       ?.addEventListener('click', this.showHelp);
@@ -148,20 +151,48 @@ export class TitleScreen extends HTMLElement {
   }
 
   /**
-   * Handles key presses and performs actions based on the pressed key.
+   * Handles key presses.
    *
-   * Listens for the 'N' key and starts a new game, or the 'Q' key and quits the game.
-   *
-   * @param {KeyboardEvent} event - The keyboard event containing the pressed key.
+   * Listens for the keys N (new game), C (change seed), and Q (quit).
+   * @param {KeyboardEvent} event - The keyboard event.
    */
   private handleKeyPress(event: KeyboardEvent) {
-    if (event.key === 'N') this.startNewGame();
-    if (event.key === 'Q') this.quitGame();
+    switch (event.key) {
+      case 'N':
+        this.startNewGame();
+        break;
+      case 'C':
+        this.changeSeed();
+        break;
+      case 'Q':
+        this.quitGame();
+        break;
+      default:
+        break;
+    }
   }
 
+  /**
+   * Dispatches the 'start-new-game' event.
+   *
+   * @event start-new-game
+   * @fires TitleScreen#start-new-game
+   */
   public startNewGame() {
     this.dispatchEvent(
       new CustomEvent('start-new-game', { bubbles: true, composed: true }),
+    );
+  }
+
+  /**
+   * Dispatches the 'change-seed' event.
+   *
+   * @event change-seed
+   * @fires TitleScreen#change-seed
+   */
+  public changeSeed() {
+    this.dispatchEvent(
+      new CustomEvent('change-seed', { bubbles: true, composed: true }),
     );
   }
 

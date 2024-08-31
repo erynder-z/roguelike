@@ -2,13 +2,13 @@ import { Build } from '../Builder/Types/Build';
 import { GameOverScreen } from './GameOverScreen';
 import { GameScreen } from './GameScreen';
 import { GameState } from '../Builder/Types/GameState';
+import { GenerateTitleScreen } from '../Utilities/GenerateTitleScreen';
 import { ImageHandler } from '../ImageHandler/ImageHandler';
 import { lvlTier00Images } from '../ImageHandler/levelImages';
 import { MoreScreen } from './MoreScreen';
 import { ScreenMaker } from './Types/ScreenMaker';
 import { ScreenStack } from '../Terminal/ScreenStack';
 import { StackScreen } from '../Terminal/Types/StackScreen';
-import { Builder } from '../Builder/Builder';
 
 /**
  * Represents a dynamic screen maker that can create screens based on provided game states.
@@ -36,29 +36,13 @@ export class DynamicScreenMaker implements ScreenMaker {
   }
 
   /**
-   * Displays the title screen and sets up event listeners for starting a new game.
-   *
-   * @return {void} This function does not return anything.
+   * Generates a title screen and inserts it at the start of the document.
+   * The title screen will be passed the given seed.
+   * The title screen will dispatch a 'start-new-game' event when the user chooses to start the game.
+   * The title screen will dispatch a 'change-seed' event when the user chooses to change the seed.
    */
   public titleScreen(): void {
-    const body = document.getElementById('body1');
-
-    if (!body) return;
-
-    const titleContainer = document.createElement('div');
-    titleContainer.id = 'title-container';
-    const titleScreenElement = document.createElement('title-screen');
-    titleContainer.appendChild(titleScreenElement);
-
-    body.insertBefore(titleContainer, body.firstChild);
-
-    titleScreenElement.addEventListener('start-new-game', () => {
-      titleContainer.remove();
-      DynamicScreenMaker.runBuilt_InitialGameSetup(
-        new Builder(this.seed),
-        this.seed,
-      );
-    });
+    GenerateTitleScreen.generate(this.seed);
   }
 
   /**
