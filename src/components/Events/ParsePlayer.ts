@@ -13,6 +13,7 @@ import { Map } from '../MapModel/Types/Map';
 import { MoveBumpCommand } from '../Commands/MoveBumpCommand';
 import { MoveCommand } from '../Commands/MoveCommand';
 import { Mob } from '../Mobs/Mob';
+import { OptionsScreen } from '../Screens/OptionsScreen';
 import { PickupCommand } from '../Commands/PickupCommand';
 import { ScreenMaker } from '../Screens/Types/ScreenMaker';
 import { SpellScreen } from '../Screens/SpellScreen';
@@ -54,6 +55,7 @@ export class ParsePlayer {
       case 'Numpad7':
       case 'Numpad8':
       case 'Numpad9':
+      case 'Escape':
       case 'Home':
         keyCode = event.code;
         break;
@@ -159,6 +161,9 @@ export class ParsePlayer {
         break;
       case 's':
         stackScreen = new SpellScreen(this.game, this.make);
+        break;
+      case 'Escape':
+        stackScreen = new OptionsScreen(this.game, this.make);
         break;
       // Debugging command
       case 'Home':

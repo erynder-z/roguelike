@@ -140,12 +140,6 @@ li {
   width: 60%;
 }
 
-.options-container {
-  display: flex;
-  height: 100%;
-  width: min-content;
-}
-
 .log-screen,
 .inventory-screen,
 .equipment-screen,

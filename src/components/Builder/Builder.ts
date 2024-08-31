@@ -26,13 +26,14 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * The builder for creating games, levels and mobs.
  */
 export class Builder implements Build {
+  constructor(public seed: number) {}
   /**
    * Create and return a new Game instance.
    *
    * @return {GameState} The newly created Game instance
    */
   public makeGame(): GameState {
-    const rand = new RandomGenerator(99);
+    const rand = new RandomGenerator(this.seed);
     const player = this.makePlayer();
     const game = new Game(rand, player, this);
     game.dungeon.level = 0;
