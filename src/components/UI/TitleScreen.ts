@@ -66,6 +66,28 @@ export class TitleScreen extends HTMLElement {
             text-decoration: underline;
           }
 
+          .buttons-container {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            gap: 0.5rem;
+          }
+
+          .seed-display {
+            position: absolute;
+            bottom: 1rem; 
+            right: 1rem; 
+            font-size: 1.5rem; 
+          
+          }
+
+          .seed-display span {
+             font-size: 1.75rem; 
+            font-weight: bold;
+          }
+
           @keyframes pan {
             0% {
               background-position: left;
@@ -76,15 +98,6 @@ export class TitleScreen extends HTMLElement {
             100% {
               background-position: left;
             }
-          }
-
-          .buttons-container {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%;
-            gap: 0.5rem;
           }
         </style>
   
@@ -98,6 +111,7 @@ export class TitleScreen extends HTMLElement {
             <button id="about-window-button"><span class="underline">A</span>bout</button>
             <button id="quit-window-button"><span class="underline">Q</span>uit</button>
           </div>
+            <div id="current-seed-display" class="seed-display">current Seed</div>
         </div>
       `;
 
@@ -138,15 +152,15 @@ export class TitleScreen extends HTMLElement {
   }
 
   /**
-   * Updates the button text to display the current seed, if the element is found.
-   * @param {number} seed - The current seed.
+   * Displays the current seed in the title screen.
+   * @param {number} seed - The current seed to display.
    */
   private displayCurrentSeed(seed: number) {
-    const seedBtn = this.shadowRoot?.getElementById(
-      'change-seed-button',
-    ) as HTMLButtonElement;
-    if (seedBtn) {
-      seedBtn.innerHTML = `<span class="underline">C</span>hange seed (current: ${seed})`;
+    const seedDisplay = this.shadowRoot?.getElementById(
+      'current-seed-display',
+    ) as HTMLDivElement;
+    if (seedDisplay) {
+      seedDisplay.innerHTML = `current seed: <span>${seed} </span>`;
     }
   }
 
