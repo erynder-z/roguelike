@@ -1,5 +1,5 @@
-import './cssReset.css';
-import './style.css';
+import './styles/cssReset.css';
+import './styles/style-main.css';
 import { Builder } from './components/Builder/Builder';
 import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 import { GenerateTitleScreen } from './components/Utilities/GenerateTitleScreen';
