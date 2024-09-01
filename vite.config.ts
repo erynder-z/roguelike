@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -24,5 +25,12 @@ export default defineConfig({
     minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG,
+    // include multiple pages in the same build
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        help: resolve(__dirname, 'help.html'),
+      },
+    },
   },
 });
