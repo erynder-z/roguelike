@@ -26,6 +26,10 @@
         "exit": true,
         "relaunch": false,
         "relaunchDangerousAllowSymlinkMacos": false
+      },
+      "window": {
+        "create": true,
+        "close": true
       }
     },
     "bundle": {
@@ -69,6 +73,8 @@
     },
     "windows": [
       {
+        "label": "main",
+        "url": "/",
         "fullscreen": true,
         "height": 600,
         "resizable": true,

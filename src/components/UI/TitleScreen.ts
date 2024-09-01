@@ -1,6 +1,7 @@
 import img from '../../assets/images/title/title.webp';
 import { dialog } from '@tauri-apps/api';
 import { exit } from '@tauri-apps/api/process';
+import { WebviewWindow } from '@tauri-apps/api/window';
 
 export class TitleScreen extends HTMLElement {
   constructor() {
@@ -239,7 +240,19 @@ export class TitleScreen extends HTMLElement {
   }
 
   private showHelp() {
-    alert('Help');
+    const webview = new WebviewWindow('help', {
+      url: 'help.html',
+      title: 'Meikai - Help',
+      fullscreen: true,
+    });
+
+    webview.once('tauri://created', function () {
+      // webview window successfully created
+    });
+    webview.once('tauri://error', function (e) {
+      console.error(e);
+      // an error occurred during webview window creation
+    });
   }
 
   private showAbout() {

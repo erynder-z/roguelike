@@ -1,0 +1,47 @@
+@font-face {
+  font-family: DejaVu Sans Mono;
+  src: url(../fonts/DejaVuSansMono.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: UASQUARE;
+  src: url(../fonts/UASQUARE.ttf) format('truetype');
+}
+
+:root {
+  --background1: #111a24;
+  --background1Transparent: rgba(17, 26, 36, 0.75);
+  --accent: #017f9e;
+  --white: #ffffff;
+  --whiteTransparent: rgba(255, 255, 255, 0.1);
+  --margin: 0;
+  --padding: 0;
+  --box-sizing: border-box;
+  --scrollbar-width: thin;
+  --scrollbar-foreground: var(--white);
+  --scrollbar-background: var(--background1);
+  --selection-color: var(--white);
+  --selection-background: var(--accent);
+}
+
+body {
+  background-color: var(--background1);
+  color: var(--white);
+  font-family: 'UASQUARE';
+  margin: var(--margin);
+  padding: var(--padding);
+  scrollbar-width: var(--scrollbar-width);
+  scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+  max-width: 70ch;
+  padding: 3em 1em;
+  margin: auto;
+  line-height: 1.75;
+  font-size: 1.25em;
+}
+
+.help-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
