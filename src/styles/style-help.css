@@ -45,3 +45,35 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.help-container {
+  padding: 20px;
+}
+.tab-container {
+  margin-bottom: 20px;
+}
+.tab {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+}
+.tab.active {
+  background-color: var(--whiteTransparent);
+}
+.tab-content {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 0 5px 5px 5px;
+}
+.tab-content.active {
+  display: block;
+}
+
+.close-button {
+  margin-top: 2rem;
+}

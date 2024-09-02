@@ -8,16 +8,36 @@
   </head>
   <body>
     <div class="help-container">
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-        praesentium sequi! Inventore voluptatem error, delectus perspiciatis in
-        officia tenetur, hic explicabo repellat optio eum vero repudiandae, non
-        quam. Quis aspernatur quas cumque. Perspiciatis pariatur autem magnam
-        ullam impedit quia doloremque maxime minima suscipit vitae! Accusamus
-        fugiat itaque nam ullam quia.
-      </p>
-      <button id="close-button">Close</button>
+      <!-- Tabs Navigation -->
+      <div class="tab-container">
+        <div class="tab active" data-target="controls">Controls</div>
+        <div class="tab" data-target="buffs">Concepts</div>
+        <div class="tab" data-target="buffs">Buffs</div>
+        <div class="tab" data-target="items">Items</div>
+        <div class="tab" data-target="mobs">Mobs</div>
+      </div>
+
+      <!-- Tabs Content -->
+      <div id="controls" class="tab-content active">
+        <help-controls></help-controls>
+      </div>
+      <div id="concepts" class="tab-content">
+        <help-concepts></help-concepts>
+      </div>
+      <div id="buffs" class="tab-content">
+        <help-buffs></help-buffs>
+      </div>
+      <div id="items" class="tab-content">
+        <help-items></help-items>
+      </div>
+      <div id="mobs" class="tab-content">
+        <help-mobs></help-mobs>
+      </div>
+
+      <!-- Close Button -->
+      <button id="close-button" class="close-button">Close</button>
     </div>
   </body>
+  <script defer type="module" src="/src/helpPages/Loader.ts"></script>
   <script defer type="module" src="/src/help.ts"></script>
 </html>
