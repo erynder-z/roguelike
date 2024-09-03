@@ -239,6 +239,9 @@ export class TitleScreen extends HTMLElement {
     );
   }
 
+  /**
+   * Opens a new window with the game's help documentation.
+   */
   private showHelp() {
     const webview = new WebviewWindow('help', {
       url: 'help.html',
@@ -246,10 +249,10 @@ export class TitleScreen extends HTMLElement {
       fullscreen: true,
     });
 
-    webview.once('tauri://created', function () {
+    webview.once('tauri://created', () => {
       // webview window successfully created
     });
-    webview.once('tauri://error', function (e) {
+    webview.once('tauri://error', e => {
       console.error(e);
       // an error occurred during webview window creation
     });
