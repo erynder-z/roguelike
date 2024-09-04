@@ -207,6 +207,12 @@ export class TitleScreen extends HTMLElement {
       case 'C':
         this.changeSeed();
         break;
+      case 'H':
+        this.showHelp();
+        break;
+      case 'A':
+        this.showAbout();
+        break;
       case 'Q':
         this.quitGame();
         break;
