@@ -32,48 +32,66 @@ body {
   padding: var(--padding);
   scrollbar-width: var(--scrollbar-width);
   scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-  max-width: 70ch;
-  padding: 3em 1em;
-  margin: auto;
-  line-height: 1.75;
-  font-size: 1.25em;
 }
 
 .help-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  padding: 3rem 1rem;
+  max-width: 70ch;
+  margin: auto;
+  line-height: 1.75;
+  font-size: 1.25em;
 }
 
-.help-container {
-  padding: 20px;
-}
 .tab-container {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
+
 .tab {
   display: inline-block;
-  padding: 10px 20px;
-  margin-right: 5px;
+  padding: 1rem 1.75rem;
   cursor: pointer;
   border: 1px solid #ccc;
   border-bottom: none;
-  border-radius: 5px 5px 0 0;
+  border-radius: 0.2rem 0.2rem 0 0;
 }
+
 .tab.active {
   background-color: var(--whiteTransparent);
 }
+
 .tab-content {
+  width: 100%;
+  flex: 1;
   display: none;
-  padding: 20px;
+  padding: 1.75rem;
   border: 1px solid #ccc;
-  border-radius: 0 5px 5px 5px;
+  border-radius: 0 0.2rem 0.2rem 0.2rem;
 }
+
 .tab-content.active {
   display: block;
 }
 
 .close-button {
   margin-top: 2rem;
+  padding: 0.5rem 1.25rem;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: var(--whiteTransparent);
+}
+
+.underline {
+  text-decoration: underline;
 }
