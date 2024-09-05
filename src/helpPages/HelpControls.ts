@@ -40,18 +40,25 @@ export class HelpControls extends HTMLElement {
         table {
           width: 100%;
           border-collapse: collapse;
-          margin-top: 20px;
+          margin-top: 1rem;
+      
+
         }
 
         th, td {
-          padding: 10px;
+          padding: 0.75rem;
           text-align: left;
-          border-bottom: 1px solid #ddd;
+          border-bottom: 1px solid var(--whiteTransparent);
         }
 
         th {
           background-color: var(--whiteTransparent);
         }
+
+        tbody {
+        font: 1rem DejaVu Sans Mono, monospace;
+        }
+
       </style>
 
       <h1>Controls</h1>
