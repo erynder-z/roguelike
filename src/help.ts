@@ -62,6 +62,11 @@ const initializeTabs = () => {
           document.querySelector('[data-target="buffs"]') as HTMLElement,
         );
         break;
+      case 'E':
+        handleTabClick(
+          document.querySelector('[data-target="environment"]') as HTMLElement,
+        );
+        break;
       case 'I':
         handleTabClick(
           document.querySelector('[data-target="items"]') as HTMLElement,

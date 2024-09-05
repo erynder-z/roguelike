@@ -2,6 +2,7 @@
 import { HelpBuffs } from './HelpBuffs';
 import { HelpConcepts } from './HelpConcepts';
 import { HelpControls } from './HelpControls';
+import { HelpEnvironment } from './HelpEnvironment';
 import { HelpItems } from './HelpItems';
 import { HelpMobs } from './HelpMobs';
 
@@ -9,5 +10,6 @@ import { HelpMobs } from './HelpMobs';
 customElements.define('help-buffs', HelpBuffs);
 customElements.define('help-concepts', HelpConcepts);
 customElements.define('help-controls', HelpControls);
+customElements.define('help-environment', HelpEnvironment);
 customElements.define('help-items', HelpItems);
 customElements.define('help-mobs', HelpMobs);
