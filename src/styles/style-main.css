@@ -8,6 +8,20 @@
   src: url(../fonts/UASQUARE.ttf) format('truetype');
 }
 
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-foreground);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-background);
+  border-radius: 10px;
+}
+
 :root {
   --background1: #111a24;
   --background1Transparent: rgba(17, 26, 36, 0.75);
