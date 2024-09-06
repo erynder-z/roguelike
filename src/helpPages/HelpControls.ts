@@ -59,6 +59,14 @@ export class HelpControls extends HTMLElement {
         font: 1rem DejaVu Sans Mono, monospace;
         }
 
+        .key-cell {
+          font-weight: bold;
+        }
+
+        .action-cell {
+          font-style: italic;
+        }
+
       </style>
 
       <h1>Controls</h1>
@@ -89,16 +97,22 @@ export class HelpControls extends HTMLElement {
    * with the key in the first column and the action in the second column.
    */
   private populateControls() {
-    const tbody = this.shadowRoot?.getElementById('controls-list');
-    controlsData.controls.forEach(
-      (control: { key: string; action: string }) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-        <td>${control.key}</td>
-        <td>${control.action}</td>
-      `;
-        tbody?.appendChild(row);
-      },
-    );
+    const buffsListElement = this.shadowRoot?.querySelector(
+      '#controls-list',
+    ) as HTMLTableSectionElement;
+
+    controlsData.controls.forEach(controlData => {
+      const rowElement = document.createElement('tr');
+      const keyCellElement = document.createElement('td');
+      const actionCellElement = document.createElement('td');
+
+      keyCellElement.textContent = controlData.key;
+      keyCellElement.classList.add('key-cell');
+      actionCellElement.textContent = controlData.action;
+      actionCellElement.classList.add('action-cell');
+
+      rowElement.append(keyCellElement, actionCellElement);
+      buffsListElement.appendChild(rowElement);
+    });
   }
 }
