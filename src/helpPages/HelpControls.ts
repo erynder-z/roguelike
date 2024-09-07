@@ -25,11 +25,6 @@ export class HelpControls extends HTMLElement {
           background-color: var(--selection-background);
         }
 
-        h1 {
-          margin: 0;
-          text-align: center;
-        }
-
         .container {
           display: flex;
           justify-content: center;
@@ -65,11 +60,11 @@ export class HelpControls extends HTMLElement {
 
         .action-cell {
           font-style: italic;
+    
         }
 
       </style>
 
-      <h1>Controls</h1>
       <div class="container">
         <table>
           <thead>

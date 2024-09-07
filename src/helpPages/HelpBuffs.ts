@@ -28,11 +28,6 @@ export class HelpBuffs extends HTMLElement {
           background-color: var(--selection-background);
         }
 
-        h1 {
-          margin: 0;
-          text-align: center;
-        }
-
          .container {
           display: flex;
           justify-content: center;
@@ -70,7 +65,6 @@ export class HelpBuffs extends HTMLElement {
         }
       </style>
 
-      <h1>Buffs</h1>
     <div class="container">
         <table>
           <thead>
