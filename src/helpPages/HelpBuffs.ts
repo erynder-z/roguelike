@@ -74,7 +74,7 @@ export class HelpBuffs extends HTMLElement {
             </tr>
           </thead>
           <tbody id="buffs-list">
-          <!-- Controls will be mapped here -->
+          <!-- Buffs will be mapped here -->
           </tbody>
         </table>
       </div>
@@ -97,20 +97,31 @@ export class HelpBuffs extends HTMLElement {
       '#buffs-list',
     ) as HTMLTableSectionElement;
 
-    buffsData.buffs.forEach(buffData => {
+    buffsData.buffs.forEach(b => {
       const rowElement = document.createElement('tr');
-      const nameCellElement = document.createElement('td');
-      const effectCellElement = document.createElement('td');
 
-      nameCellElement.textContent = buffData.buff;
-      nameCellElement.classList.add('buff-cell');
+      const nameCellElement = this.createTableCell('buff-cell');
+      const effectCellElement = this.createTableCell('effect-cell');
+
+      nameCellElement.textContent = b.buff;
       this.colorizer.colorBuffs(nameCellElement);
 
-      effectCellElement.textContent = buffData.effect;
-      effectCellElement.classList.add('effect-cell');
+      effectCellElement.textContent = b.effect;
 
       rowElement.append(nameCellElement, effectCellElement);
       buffsListElement.appendChild(rowElement);
     });
+  }
+
+  /**
+   * Creates a table cell element with the given class name.
+   *
+   * @param {string} className - The class name to add to the created element.
+   * @return {HTMLTableCellElement} - The created table cell element.
+   */
+  private createTableCell(className: string): HTMLTableCellElement {
+    const cellElement = document.createElement('td');
+    cellElement.classList.add(className);
+    return cellElement;
   }
 }
