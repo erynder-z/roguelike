@@ -1,3 +1,5 @@
+import environmentData from './environments.json';
+
 export class HelpEnvironment extends HTMLElement {
   constructor() {
     super();
@@ -22,16 +24,119 @@ export class HelpEnvironment extends HTMLElement {
           background-color: var(--selection-background);
         }
 
-        h1 {
-          margin: 0;
-          text-align: center;
+         .container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 1rem;
+
+        }
+
+        th, td {
+          padding: 0.75rem;
+          text-align: left;
+          border-bottom: 1px solid var(--whiteTransparent);
+        }
+
+        th {
+          background-color: var(--whiteTransparent);
+        }
+
+        tbody {
+        font: 1rem DejaVu Sans Mono, monospace;
+        }
+
+        .env-cell {
+          font-size: 1.75rem;
+        }
+
+        .name-cell {
+          font-weight: bold;
+        }
+
+        .about-cell {
+          font-style: italic;
         }
       </style>
 
-      <h1>Environment</h1>
-      <p>Information about the environment.</p>
+    <div class="container">
+        <table>
+          <thead>
+            <tr>
+              <th>Environment</th>
+              <th>Name</th>
+              <th>About</th>
+            </tr>
+          </thead>
+          <tbody id="environment-list">
+          <!-- Environment will be mapped here -->
+          </tbody>
+        </table>
+      </div>
     `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
+
+    this.populateEnvironmentList();
+  }
+
+  /**
+   * Populates the environment list table with data from environment.json.
+   *
+   * Loops over the environment data and creates a table row for each environment,
+   * with the character in the first column, the name in the second column, and the
+   * about text in the third column.
+   */
+  private populateEnvironmentList(): void {
+    const environmentListElement = this.shadowRoot?.querySelector(
+      '#environment-list',
+    ) as HTMLTableSectionElement;
+
+    environmentData.environments.forEach(environment => {
+      const rowElement = document.createElement('tr');
+
+      const environmentCellElement = this.createTableCell('env-cell');
+      const nameCellElement = this.createTableCell('name-cell');
+      const aboutCellElement = this.createTableCell('about-cell');
+
+      const characterSpan = document.createElement('span');
+      characterSpan.textContent = environment.char;
+      characterSpan.style.display = 'inline-block';
+      characterSpan.style.width = '2ch';
+      characterSpan.style.height = '2ch';
+      characterSpan.style.textAlign = 'center';
+      characterSpan.style.backgroundColor = environment.bgCol;
+      characterSpan.style.color = environment.fgCol;
+
+      environmentCellElement.appendChild(characterSpan);
+
+      nameCellElement.textContent = environment.name;
+      aboutCellElement.textContent = environment.about;
+
+      rowElement.append(
+        environmentCellElement,
+        nameCellElement,
+        aboutCellElement,
+      );
+      environmentListElement.appendChild(rowElement);
+    });
+  }
+
+  /**
+   * Creates a table cell element with the specified class name.
+   *
+   * @param {string} className - The class name to add to the cell element.
+   * @return {HTMLTableCellElement} The newly created table cell element.
+   */
+  private createTableCell(className: string): HTMLTableCellElement {
+    const cellElement = document.createElement('td');
+    cellElement.classList.add(className);
+    return cellElement;
   }
 }

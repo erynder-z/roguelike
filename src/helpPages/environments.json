@@ -1,0 +1,151 @@
+{
+  "environments": [
+    {
+      "char": "·",
+      "bgCol": "#4B5A52",
+      "fgCol": "#6C7D6B",
+      "name": "Floor",
+      "about": "Regular floor."
+    },
+    {
+      "char": "%",
+      "bgCol": "#3B3B3B",
+      "fgCol": "#5F5F5F",
+      "name": "Rock",
+      "about": "Typical rock. Solid, but can be dug through."
+    },
+    {
+      "char": "#",
+      "bgCol": "#1f2626",
+      "fgCol": "#4F625B",
+      "name": "Wall",
+      "about": "A sturdy wall blocking the path, providing protection and boundaries."
+    },
+    {
+      "char": "<",
+      "bgCol": "#9A493D",
+      "fgCol": "#8A2B4B",
+      "name": "Stairs up",
+      "about": "Stairs leading upwards to a higher level, offering a way to ascend."
+    },
+    {
+      "char": ">",
+      "bgCol": "#00ce8f",
+      "fgCol": "#8A2B4B",
+      "name": "Stairs down",
+      "about": "Stairs descending to a lower level, providing a path to explore deeper."
+    },
+    {
+      "char": "'",
+      "bgCol": "#4B5A52",
+      "fgCol": "#1f2626",
+      "name": "Open door",
+      "about": "An open door, allowing passage between rooms."
+    },
+    {
+      "char": "+",
+      "bgCol": "#4B5A52",
+      "fgCol": "#1f2626",
+      "name": "Closed door",
+      "about": "A closed door, blocking the way until it is opened."
+    },
+    {
+      "char": "~",
+      "bgCol": "#003366",
+      "fgCol": "#5A9FCF",
+      "name": "Deep water",
+      "about": "Impassable water surface."
+    },
+    {
+      "char": "~",
+      "bgCol": "#5A9FCF",
+      "fgCol": "#003366",
+      "name": "Shallow water",
+      "about": "Shallow water that can be crossed, though it may slow movement."
+    },
+    {
+      "char": "×",
+      "bgCol": "#ffa100",
+      "fgCol": "#fffe00",
+      "name": "Lava",
+      "about": "Molten lava that is extremely dangerous and will cause severe burns."
+    },
+    {
+      "char": "ͷ",
+      "bgCol": "#3e0a3d",
+      "fgCol": "#714f6e",
+      "name": "Obsidian",
+      "about": "An extremely hard, indestructible rock."
+    },
+    {
+      "char": "ϕ",
+      "bgCol": "#076141",
+      "fgCol": "#a1f8d9",
+      "name": "Magnetite",
+      "about": "A magnetic rock that attracts objects in its vicinity."
+    },
+    {
+      "char": "◭",
+      "bgCol": "#4B5A52",
+      "fgCol": "#ecb7ff",
+      "name": "Spiky crystal",
+      "about": "Spiky crystals emerging from the ground. Stepped on, they may cause damage."
+    },
+    {
+      "char": "⋒",
+      "bgCol": "#4B5A52",
+      "fgCol": "#5affd7",
+      "name": "Glowing mushroom",
+      "about": "A mushroom that is emitting a glowing light. Increases visibility range when nearby."
+    },
+    {
+      "char": "⋔",
+      "bgCol": "#4B5A52",
+      "fgCol": "#e917ff",
+      "name": "Poisonous mushroom",
+      "about": "A mushroom that is emitting a poisonous cloud."
+    },
+    {
+      "char": "⍝",
+      "bgCol": "#4B5A52",
+      "fgCol": "#ff0b08",
+      "name": "Confusion mushroom",
+      "about": "A mushroom that is emitting a cloud that causes confusion when inhaled."
+    },
+    {
+      "char": ".",
+      "bgCol": "#4B5A52",
+      "fgCol": "#6C7D6B",
+      "name": "Hidden trap",
+      "about": "Regular ground. Nothing special here. Or is there?"
+    },
+    {
+      "char": "⇈",
+      "bgCol": "#4B5A52",
+      "fgCol": "#f9ff5b",
+      "name": "Sprung trap",
+      "about": "Sharp spikes sprung from the ground. No longer hidden, but still dangerous."
+    },
+    {
+      "char": "⁎",
+      "bgCol": "#3b6244",
+      "fgCol": "#6C7D6B",
+      "name": "Mossy floor",
+      "about": "Patches of green moss on the ground."
+    },
+    {
+      "char": "∘",
+      "bgCol": "#232a26",
+      "fgCol": "#384037",
+      "name": "Chasm edge",
+      "about": "The edge of a chasm."
+    },
+    {
+      "char": "∘",
+      "bgCol": "#1a1f1c",
+      "fgCol": "#384037",
+      "name": "Chasm center",
+      "about": "Dark and deadly abyss."
+    }
+  ]
+}
