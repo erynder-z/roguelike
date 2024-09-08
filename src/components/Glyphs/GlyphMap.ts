@@ -20,6 +20,7 @@ export class GlyphMap {
    * @type {GlyphInfo}
    */
   private static bad: GlyphInfo = new GlyphInfo(
+    'Bad',
     'red',
     'yellow',
     false,
@@ -46,9 +47,10 @@ export class GlyphMap {
 
   private static initializeGlyphs(): number {
     const addGlyph = (info: GlyphInfo) => {
-      const glyph = Glyph[info.name as keyof typeof Glyph];
+      const glyph = Glyph[info.id as keyof typeof Glyph];
 
       const glyphInfo = new GlyphInfo(
+        info.id,
         info.fgCol,
         info.bgCol,
         info.hasSolidBg,
@@ -72,6 +74,7 @@ export class GlyphMap {
 
     // add player glyph
     addGlyph(<GlyphInfo>{
+      id: 'Player',
       char: '@',
       bgCol: '#4B5A52',
       fgCol: '#ffffff',
@@ -94,6 +97,7 @@ export class GlyphMap {
    * @param {Glyph} glyph - The glyph to add.
    */
   static addGlyph(
+    id: string,
     bgCol: string,
     fgCol: string,
     hasSolidBg: boolean,
@@ -114,6 +118,7 @@ export class GlyphMap {
     isCausingConfusion: boolean,
   ) {
     const info: GlyphInfo = new GlyphInfo(
+      id,
       fgCol,
       bgCol,
       hasSolidBg,
@@ -183,13 +188,13 @@ export class GlyphMap {
 
     switch (category) {
       case 'mob': {
-        const mob = mobsData.mobs.find(mob => mob.name === Glyph[glyph]);
+        const mob = mobsData.mobs.find(mob => mob.id === Glyph[glyph]);
         description = mob?.description || description;
         break;
       }
       case 'environment': {
         const environment = environmentData.environment.find(
-          env => env.name === Glyph[glyph],
+          env => env.id === Glyph[glyph],
         );
         description = environment?.description || description;
         break;
@@ -201,7 +206,7 @@ export class GlyphMap {
       }
       case 'corpse': {
         const corpse = corpseData.corpses.find(
-          corpse => corpse.name === Glyph[glyph],
+          corpse => corpse.id === Glyph[glyph],
         );
         description = corpse?.description || description;
         break;
