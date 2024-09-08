@@ -1,5 +1,5 @@
 import { BuffColors } from '../components/UI/BuffColors';
-import buffsData from './buffs.json';
+import buffsData from '../components/Buffs/BuffData/buffs.json';
 
 export class HelpBuffs extends HTMLElement {
   private colorizer: BuffColors;
@@ -97,20 +97,22 @@ export class HelpBuffs extends HTMLElement {
       '#buffs-list',
     ) as HTMLTableSectionElement;
 
-    buffsData.buffs.forEach(b => {
-      const rowElement = document.createElement('tr');
+    buffsData.buffs
+      .filter(b => b.help.show)
+      .forEach(b => {
+        const rowElement = document.createElement('tr');
 
-      const nameCellElement = this.createTableCell('buff-cell');
-      const effectCellElement = this.createTableCell('effect-cell');
+        const nameCellElement = this.createTableCell('buff-cell');
+        const effectCellElement = this.createTableCell('effect-cell');
 
-      nameCellElement.textContent = b.buff;
-      this.colorizer.colorBuffs(nameCellElement);
+        nameCellElement.textContent = b.buff;
+        this.colorizer.colorBuffs(nameCellElement);
 
-      effectCellElement.textContent = b.effect;
+        effectCellElement.textContent = b.help.about;
 
-      rowElement.append(nameCellElement, effectCellElement);
-      buffsListElement.appendChild(rowElement);
-    });
+        rowElement.append(nameCellElement, effectCellElement);
+        buffsListElement.appendChild(rowElement);
+      });
   }
 
   /**

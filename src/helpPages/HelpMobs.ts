@@ -1,4 +1,4 @@
-import mobData from './mobs.json';
+import mobData from '../components/Mobs/MobData/mobs.json';
 
 export class HelpMobs extends HTMLElement {
   constructor() {
@@ -99,30 +99,32 @@ export class HelpMobs extends HTMLElement {
       '#mob-list',
     ) as HTMLTableSectionElement;
 
-    mobData.mobs.forEach(mob => {
-      const rowElement = document.createElement('tr');
+    mobData.mobs
+      .filter(mob => mob.help.show)
+      .forEach(mob => {
+        const rowElement = document.createElement('tr');
 
-      const mobCellElement = this.createTableCell('mob-cell');
-      const nameCellElement = this.createTableCell('name-cell');
-      const aboutCellElement = this.createTableCell('about-cell');
+        const mobCellElement = this.createTableCell('mob-cell');
+        const nameCellElement = this.createTableCell('name-cell');
+        const aboutCellElement = this.createTableCell('about-cell');
 
-      const characterSpan = document.createElement('span');
-      characterSpan.textContent = mob.char;
-      characterSpan.style.display = 'inline-block';
-      characterSpan.style.width = '2ch';
-      characterSpan.style.height = '2ch';
-      characterSpan.style.textAlign = 'center';
-      characterSpan.style.backgroundColor = 'var(--whiteTransparent)';
-      characterSpan.style.color = mob.fgCol;
+        const characterSpan = document.createElement('span');
+        characterSpan.textContent = mob.char;
+        characterSpan.style.display = 'inline-block';
+        characterSpan.style.width = '2ch';
+        characterSpan.style.height = '2ch';
+        characterSpan.style.textAlign = 'center';
+        characterSpan.style.backgroundColor = 'var(--whiteTransparent)';
+        characterSpan.style.color = mob.fgCol;
 
-      mobCellElement.appendChild(characterSpan);
+        mobCellElement.appendChild(characterSpan);
 
-      nameCellElement.textContent = mob.name;
-      aboutCellElement.textContent = mob.about;
+        nameCellElement.textContent = mob.name;
+        aboutCellElement.textContent = mob.help.about;
 
-      rowElement.append(mobCellElement, nameCellElement, aboutCellElement);
-      mobListElement.appendChild(rowElement);
-    });
+        rowElement.append(mobCellElement, nameCellElement, aboutCellElement);
+        mobListElement.appendChild(rowElement);
+      });
   }
 
   /**

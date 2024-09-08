@@ -1,4 +1,4 @@
-import environmentData from './environments.json';
+import environmentData from '../components/Environment/EnvironmentData/environment.json';
 
 export class HelpEnvironment extends HTMLElement {
   constructor() {
@@ -98,34 +98,36 @@ export class HelpEnvironment extends HTMLElement {
       '#environment-list',
     ) as HTMLTableSectionElement;
 
-    environmentData.environments.forEach(environment => {
-      const rowElement = document.createElement('tr');
+    environmentData.environment
+      .filter(env => env.help.show)
+      .forEach(env => {
+        const rowElement = document.createElement('tr');
 
-      const environmentCellElement = this.createTableCell('env-cell');
-      const nameCellElement = this.createTableCell('name-cell');
-      const aboutCellElement = this.createTableCell('about-cell');
+        const environmentCellElement = this.createTableCell('env-cell');
+        const nameCellElement = this.createTableCell('name-cell');
+        const aboutCellElement = this.createTableCell('about-cell');
 
-      const characterSpan = document.createElement('span');
-      characterSpan.textContent = environment.char;
-      characterSpan.style.display = 'inline-block';
-      characterSpan.style.width = '2ch';
-      characterSpan.style.height = '2ch';
-      characterSpan.style.textAlign = 'center';
-      characterSpan.style.backgroundColor = environment.bgCol;
-      characterSpan.style.color = environment.fgCol;
+        const characterSpan = document.createElement('span');
+        characterSpan.textContent = env.char;
+        characterSpan.style.display = 'inline-block';
+        characterSpan.style.width = '2ch';
+        characterSpan.style.height = '2ch';
+        characterSpan.style.textAlign = 'center';
+        characterSpan.style.backgroundColor = env.bgCol;
+        characterSpan.style.color = env.fgCol;
 
-      environmentCellElement.appendChild(characterSpan);
+        environmentCellElement.appendChild(characterSpan);
 
-      nameCellElement.textContent = environment.name;
-      aboutCellElement.textContent = environment.about;
+        nameCellElement.textContent = env.name;
+        aboutCellElement.textContent = env.help.about;
 
-      rowElement.append(
-        environmentCellElement,
-        nameCellElement,
-        aboutCellElement,
-      );
-      environmentListElement.appendChild(rowElement);
-    });
+        rowElement.append(
+          environmentCellElement,
+          nameCellElement,
+          aboutCellElement,
+        );
+        environmentListElement.appendChild(rowElement);
+      });
   }
 
   /**

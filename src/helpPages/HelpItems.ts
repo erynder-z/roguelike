@@ -1,4 +1,4 @@
-import itemData from './items.json';
+import itemData from '../components/ItemObjects/ItemData/items.json';
 
 export class HelpItems extends HTMLElement {
   constructor() {
@@ -91,34 +91,36 @@ export class HelpItems extends HTMLElement {
       '#item-list',
     ) as HTMLTableSectionElement;
 
-    itemData.items.forEach(item => {
-      const rowElement = document.createElement('tr');
+    itemData.items
+      .filter(item => item.help.show)
+      .forEach(item => {
+        const rowElement = document.createElement('tr');
 
-      const environmentCellElement = this.createTableCell('item-cell');
-      const nameCellElement = this.createTableCell('name-cell');
-      const aboutCellElement = this.createTableCell('about-cell');
+        const environmentCellElement = this.createTableCell('item-cell');
+        const nameCellElement = this.createTableCell('name-cell');
+        const aboutCellElement = this.createTableCell('about-cell');
 
-      const characterSpan = document.createElement('span');
-      characterSpan.textContent = item.char;
-      characterSpan.style.display = 'inline-block';
-      characterSpan.style.width = '2ch';
-      characterSpan.style.height = '2ch';
-      characterSpan.style.textAlign = 'center';
-      characterSpan.style.backgroundColor = 'var(--whiteTransparent)';
-      characterSpan.style.color = item.fgCol;
+        const characterSpan = document.createElement('span');
+        characterSpan.textContent = item.char;
+        characterSpan.style.display = 'inline-block';
+        characterSpan.style.width = '2ch';
+        characterSpan.style.height = '2ch';
+        characterSpan.style.textAlign = 'center';
+        characterSpan.style.backgroundColor = 'var(--whiteTransparent)';
+        characterSpan.style.color = item.fgCol;
 
-      environmentCellElement.appendChild(characterSpan);
+        environmentCellElement.appendChild(characterSpan);
 
-      nameCellElement.textContent = item.name;
-      aboutCellElement.textContent = item.about;
+        nameCellElement.textContent = item.name;
+        aboutCellElement.textContent = item.help.about;
 
-      rowElement.append(
-        environmentCellElement,
-        nameCellElement,
-        aboutCellElement,
-      );
-      itemListElement.appendChild(rowElement);
-    });
+        rowElement.append(
+          environmentCellElement,
+          nameCellElement,
+          aboutCellElement,
+        );
+        itemListElement.appendChild(rowElement);
+      });
   }
 
   /**

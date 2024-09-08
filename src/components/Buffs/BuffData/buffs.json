@@ -1,0 +1,122 @@
+{
+  "buffs": [
+    {
+      "buff": "Confuse",
+      "help": {
+        "show": true,
+        "about": "Causes the target to move or act unpredictably, with a chance of performing the wrong action."
+      }
+    },
+    {
+      "buff": "Afraid",
+      "help": { "show": true, "about": "Prevents the target from attacking." }
+    },
+    {
+      "buff": "Root",
+      "help": {
+        "show": true,
+        "about": "Immobilizes the target, preventing movement but still allowing actions like attacking or casting spells."
+      }
+    },
+    {
+      "buff": "Blind",
+      "help": {
+        "show": true,
+        "about": "Blinds the target, preventing it to see it's surroundings."
+      }
+    },
+    {
+      "buff": "Paralyze",
+      "help": {
+        "show": true,
+        "about": "Completely prevents the target from moving or taking any action until the effect wears off."
+      }
+    },
+    {
+      "buff": "Slow",
+      "help": {
+        "show": true,
+        "about": "Reduces the target's movement speed and possibly their attack or casting speed."
+      }
+    },
+    {
+      "buff": "Freeze",
+      "help": {
+        "show": true,
+        "about": "Immobilizes the target, preventing both movement and actions. Similar to paralyze but also damages the target over time."
+      }
+    },
+    {
+      "buff": "Petrify",
+      "help": {
+        "show": true,
+        "about": "Turns the target into stone, completely immobilizing them and preventing all actions."
+      }
+    },
+    {
+      "buff": "Burn",
+      "help": { "show": true, "about": "Deals damage over time to the target." }
+    },
+    {
+      "buff": "Poison",
+      "help": { "show": true, "about": "Deals damage over time to the target." }
+    },
+    {
+      "buff": "Shock",
+      "help": {
+        "show": true,
+        "about": "When being attacked, the target takes additional damage but there is also a change of the attacker receiving damage in return."
+      }
+    },
+    {
+      "buff": "Charm",
+      "help": {
+        "show": true,
+        "about": "Forces the target to become friendly or neutral to the caster, preventing hostile actions."
+      }
+    },
+    {
+      "buff": "Sleep",
+      "help": {
+        "show": true,
+        "about": "Puts the target into a deep sleep, making them unable to act until they take damage or the effect wears off."
+      }
+    },
+    {
+      "buff": "Stun",
+      "help": {
+        "show": true,
+        "about": "Briefly prevents the target from acting."
+      }
+    },
+    {
+      "buff": "Bleed",
+      "help": { "show": true, "about": "Deals damage over time to the target." }
+    },
+    {
+      "buff": "Silence",
+      "help": {
+        "show": true,
+        "about": "Prevents the target from casting spells."
+      }
+    },
+    {
+      "buff": "Disarm",
+      "help": {
+        "show": true,
+        "about": "Prevents the target from using their weapons, reducing their ability to deal damage."
+      }
+    },
+    {
+      "buff": "Levitate",
+      "help": {
+        "show": true,
+        "about": "Lifts the target into the air, preventing movement and melee attacks."
+      }
+    },
+    {
+      "buff": "Lava",
+      "help": { "show": true, "about": "Deals heavy fire damage over time." }
+    }
+  ]
+}

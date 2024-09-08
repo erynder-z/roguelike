@@ -1,100 +1,145 @@
 {
   "items": [
     {
+      "id": "Dagger",
       "char": "-",
       "bgCol": "#4B5A52",
       "fgCol": "#B0A084",
       "hasSolidBg": false,
       "name": "Dagger",
-      "description": "A small, sharp blade, perfect for quick and deadly strikes."
+      "description": "A small, sharp blade, perfect for quick and deadly strikes.",
+      "help": {
+        "show": true,
+        "about": "A small, sharp blade, perfect for quick and deadly strikes."
+      }
     },
     {
+      "id": "Shield",
       "char": "[",
       "bgCol": "#4B5A52",
       "fgCol": "#8F8C79",
       "hasSolidBg": false,
       "name": "Shield",
-      "description": "A sturdy shield offering excellent protection in combat."
+      "description": "A sturdy shield offering excellent protection in combat.",
+      "help": {
+        "show": true,
+        "about": "A sturdy shield offering excellent protection in combat."
+      }
     },
     {
+      "id": "Cap",
       "char": "^",
       "bgCol": "#4B5A52",
       "fgCol": "#A67F66",
       "hasSolidBg": false,
       "name": "Cap",
-      "description": "A simple cap that offers minimal protection to the head."
+      "description": "A simple cap that offers minimal protection to the head.",
+      "help": {
+        "show": true,
+        "about": "A simple cap that offers minimal protection to the head."
+      }
     },
     {
+      "id": "Gloves",
       "char": "(",
       "bgCol": "#4B5A52",
       "fgCol": "#887F72",
       "hasSolidBg": false,
       "name": "Gloves",
-      "description": "A pair of gloves that improve grip and provide some defense."
+      "description": "A pair of gloves that improve grip and provide some defense.",
+      "help": {
+        "show": true,
+        "about": "A pair of gloves that improve grip and provide some defense."
+      }
     },
     {
+      "id": "Cape",
       "char": "}",
       "bgCol": "#4B5A52",
       "fgCol": "#947E82",
       "hasSolidBg": false,
       "name": "Cape",
-      "description": "A flowing cape that offers protection and a touch of style."
+      "description": "A flowing cape that offers protection and a touch of style.",
+      "help": {
+        "show": true,
+        "about": "A flowing cape that offers protection and a touch of style."
+      }
     },
     {
+      "id": "Pants",
       "char": "{",
       "bgCol": "#4B5A52",
       "fgCol": "#889E7C",
       "hasSolidBg": false,
       "name": "Pants",
-      "description": "A pair of durable pants providing basic leg protection."
+      "description": "A pair of durable pants providing basic leg protection.",
+      "help": {
+        "show": true,
+        "about": "A pair of durable pants providing basic leg protection."
+      }
     },
     {
+      "id": "Boots",
       "char": "[",
       "bgCol": "#4B5A52",
       "fgCol": "#7C8C8A",
       "hasSolidBg": false,
       "name": "Boots",
-      "description": "A sturdy pair of boots that offer good foot protection and comfort."
+      "description": "A sturdy pair of boots that offer good foot protection and comfort.",
+      "help": {
+        "show": true,
+        "about": "A sturdy pair of boots that offer good foot protection and comfort."
+      }
     },
     {
+      "id": "Potion",
       "char": "!",
       "bgCol": "#4B5A52",
       "fgCol": "#8B7D7A",
       "hasSolidBg": false,
       "name": "Potion",
-      "description": "A magic potion that heals some hp."
+      "description": "A magic potion that heals some hp.",
+      "help": { "show": true, "about": "A magic potion that heals some hp." }
     },
     {
+      "id": "TeleportRune",
       "char": "ᛪ",
       "bgCol": "#4B5A52",
       "fgCol": "#8B7A83",
       "hasSolidBg": false,
       "name": "TeleportRune",
-      "description": "A rune for a teleportation spell."
+      "description": "A rune for a teleportation spell.",
+      "help": { "show": true, "about": "A rune for a teleportation spell." }
     },
     {
+      "id": "Pistol",
       "char": "┌",
       "bgCol": "#4B5A52",
       "fgCol": "#8A8C76",
       "hasSolidBg": false,
       "name": "Pistol",
-      "description": "This is my boomstick!"
+      "description": "This is my boomstick!",
+      "help": { "show": true, "about": "This is my boomstick!" }
     },
     {
+      "id": "Rune",
       "char": "ᚱ",
       "bgCol": "#4B5A52",
       "fgCol": "#7F9278",
       "hasSolidBg": false,
       "name": "Rune",
-      "description": "A rune that can cast magic."
+      "description": "A rune that can cast magic.",
+      "help": { "show": true, "about": "A rune that can cast magic." }
     },
     {
+      "id": "Scroll",
       "char": "§",
       "bgCol": "#4B5A52",
       "fgCol": "#8A758E",
       "hasSolidBg": false,
       "name": "Scroll",
-      "description": "A scroll that can cast magic."
+      "description": "A scroll that can cast magic.",
+      "help": { "show": true, "about": "A scroll that can cast magic." }
     }
   ]
 }
