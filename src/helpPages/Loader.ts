@@ -1,4 +1,5 @@
 // Import all the individual help page modules
+import { CloseButton } from './CloseButton';
 import { HelpBuffs } from './HelpBuffs';
 import { HelpConcepts } from './HelpConcepts';
 import { HelpControls } from './HelpControls';
@@ -13,3 +14,4 @@ customElements.define('help-controls', HelpControls);
 customElements.define('help-environment', HelpEnvironment);
 customElements.define('help-items', HelpItems);
 customElements.define('help-mobs', HelpMobs);
+customElements.define('close-button', CloseButton);

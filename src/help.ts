@@ -1,27 +1,5 @@
 import './styles/cssReset.css';
 import './styles/style-help.css';
-import { WebviewWindow } from '@tauri-apps/api/window';
-
-const activateCloseButton = () => {
-  const helpWindow = WebviewWindow.getByLabel('help');
-  const button = document.getElementById('close-button') as HTMLButtonElement;
-
-  const closeWindow = () => {
-    if (helpWindow) {
-      helpWindow.close();
-    }
-  };
-
-  if (button) {
-    button.addEventListener('click', closeWindow);
-  }
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'C') {
-      closeWindow();
-    }
-  });
-};
 
 const initializeTabs = () => {
   const tabElements = document.querySelectorAll(
@@ -83,5 +61,4 @@ const initializeTabs = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeTabs();
-  activateCloseButton();
 });
