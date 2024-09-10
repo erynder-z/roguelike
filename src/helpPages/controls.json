@@ -15,6 +15,7 @@
     { "key": "u", "action": "Open equipment screen" },
     { "key": "s", "action": "Open spell screen" },
     { "key": "l", "action": "Look" },
+    { "key": "alt", "action": "Dig modifier key" },
     { "key": "Escape", "action": "Open options screen" }
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "concepts": [
+    {
+      "concept": "Goal",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis at dicta iure ea commodi aut nesciunt repellendus sunt, numquam recusandae nihil, totam placeat aliquam eius dignissimos cupiditate, dolor officiis. Omnis ab vero sunt libero suscipit consectetur harum molestias nostrum, mollitia fugit minus, non in commodi? Rem nesciunt odio voluptatibus eligendi!"
+    },
+    {
+      "concept": "Digging",
+      "description": "You can dig through rocks by holding the 'dig' modifier key while pressing the directional key where you want to dig."
+    },
+    {
+      "concept": "Another concept",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda soluta doloremque labore laudantium a sed cum accusantium, mollitia vel dignissimos cupiditate officia in. Beatae, ex!"
+    }
+  ]
+}
