@@ -1,6 +1,6 @@
-import conceptsData from './concepts.json';
+import otherConceptsData from './otherConcepts.json';
 
-export class HelpConcepts extends HTMLElement {
+export class HelpOther extends HTMLElement {
   constructor() {
     super();
 
@@ -67,7 +67,7 @@ export class HelpConcepts extends HTMLElement {
       '#concents-list',
     ) as HTMLDivElement;
 
-    conceptsData.concepts.forEach(
+    otherConceptsData.concepts.forEach(
       (conceptObj: { concept: string; description: string }) => {
         const conceptHeading = document.createElement('div');
         conceptHeading.classList.add('concepts-heading');
