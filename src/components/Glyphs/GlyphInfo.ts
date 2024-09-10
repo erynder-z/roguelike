@@ -3,6 +3,7 @@
  */
 export class GlyphInfo {
   constructor(
+    public id: string,
     public fgCol: string,
     public bgCol: string,
     public hasSolidBg: boolean,
@@ -20,5 +21,6 @@ export class GlyphInfo {
     public isGlowing: boolean = false,
     public isCausingPoison: boolean = false,
     public isCausingConfusion: boolean = false,
+    public help?: { show: boolean; about: string },
   ) {}
 }

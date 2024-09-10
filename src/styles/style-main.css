@@ -1,11 +1,25 @@
 @font-face {
   font-family: DejaVu Sans Mono;
-  src: url(./fonts/DejaVuSansMono.ttf) format('truetype');
+  src: url(../fonts/DejaVuSansMono.ttf) format('truetype');
 }
 
 @font-face {
   font-family: UASQUARE;
-  src: url(./fonts/UASQUARE.ttf) format('truetype');
+  src: url(../fonts/UASQUARE.ttf) format('truetype');
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-foreground);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-background);
+  border-radius: 10px;
 }
 
 :root {

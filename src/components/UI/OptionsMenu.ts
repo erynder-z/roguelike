@@ -1,5 +1,6 @@
 import { dialog } from '@tauri-apps/api';
 import { exit } from '@tauri-apps/api/process';
+import { WebviewWindow } from '@tauri-apps/api/window';
 
 export class OptionsMenu extends HTMLElement {
   constructor() {
@@ -156,8 +157,23 @@ export class OptionsMenu extends HTMLElement {
     }
   }
 
+  /**
+   * Opens a new window with the game's help documentation.
+   */
   private showHelp() {
-    alert('Help');
+    const webview = new WebviewWindow('help', {
+      url: 'help.html',
+      title: 'Meikai - Help',
+      fullscreen: true,
+    });
+
+    webview.once('tauri://created', () => {
+      // webview window successfully created
+    });
+    webview.once('tauri://error', e => {
+      console.error(e);
+      // an error occurred during webview window creation
+    });
   }
 
   /**

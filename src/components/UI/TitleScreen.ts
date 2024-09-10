@@ -1,6 +1,7 @@
 import img from '../../assets/images/title/title.webp';
 import { dialog } from '@tauri-apps/api';
 import { exit } from '@tauri-apps/api/process';
+import { WebviewWindow } from '@tauri-apps/api/window';
 
 export class TitleScreen extends HTMLElement {
   constructor() {
@@ -206,6 +207,12 @@ export class TitleScreen extends HTMLElement {
       case 'C':
         this.changeSeed();
         break;
+      case 'H':
+        this.showHelp();
+        break;
+      case 'A':
+        this.showAbout();
+        break;
       case 'Q':
         this.quitGame();
         break;
@@ -238,8 +245,23 @@ export class TitleScreen extends HTMLElement {
     );
   }
 
+  /**
+   * Opens a new window with the game's help documentation.
+   */
   private showHelp() {
-    alert('Help');
+    const webview = new WebviewWindow('help', {
+      url: 'help.html',
+      title: 'Meikai - Help',
+      fullscreen: true,
+    });
+
+    webview.once('tauri://created', () => {
+      // webview window successfully created
+    });
+    webview.once('tauri://error', e => {
+      console.error(e);
+      // an error occurred during webview window creation
+    });
   }
 
   private showAbout() {

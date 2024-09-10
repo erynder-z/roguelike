@@ -1,6 +1,7 @@
 {
   "environment": [
     {
+      "id": "Unknown",
       "char": "?",
       "bgCol": "",
       "fgCol": "red",
@@ -17,9 +18,14 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": false,
+        "about": "This is an unknown glyph."
+      }
     },
     {
+      "id": "Floor",
       "char": "·",
       "bgCol": "#4B5A52",
       "fgCol": "#6C7D6B",
@@ -36,9 +42,14 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Regular floor."
+      }
     },
     {
+      "id": "Rock",
       "char": "%",
       "bgCol": "#3B3B3B",
       "fgCol": "#5F5F5F",
@@ -55,9 +66,14 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Typical rock. Solid, but can be dug through."
+      }
     },
     {
+      "id": "Wall",
       "char": "#",
       "bgCol": "#1f2626",
       "fgCol": "#4F625B",
@@ -74,14 +90,19 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "A sturdy wall blocking the path, providing protection and boundaries."
+      }
     },
     {
+      "id": "StairsUp",
       "char": "<",
       "bgCol": "#9A493D",
       "fgCol": "#8A2B4B",
       "hasSolidBg": false,
-      "name": "StairsUp",
+      "name": "Stairs up",
       "description": "Stairs leading upwards to a higher level, offering a way to ascend.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -93,14 +114,19 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Stairs leading upwards to a higher level, offering a way to ascend."
+      }
     },
     {
+      "id": "StairsDown",
       "char": ">",
       "bgCol": "#00ce8f",
       "fgCol": "#8A2B4B",
       "hasSolidBg": false,
-      "name": "StairsDown",
+      "name": "Stairs down",
       "description": "Stairs descending to a lower level, providing a path to explore deeper.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -112,14 +138,19 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Stairs descending to a lower level, providing a path to explore deeper."
+      }
     },
     {
+      "id": "Door_Open",
       "char": "'",
       "bgCol": "#4B5A52",
       "fgCol": "#1f2626",
       "hasSolidBg": false,
-      "name": "Door_Open",
+      "name": "Open door",
       "description": "An open door, allowing easy passage between rooms.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -131,14 +162,19 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "An open door, allowing easy passage between rooms."
+      }
     },
     {
+      "id": "Door_Closed",
       "char": "+",
       "bgCol": "#4B5A52",
       "fgCol": "#1f2626",
       "hasSolidBg": false,
-      "name": "Door_Closed",
+      "name": "Closed door",
       "description": "A closed door, blocking the way until it is opened.",
       "isOpaque": true,
       "isBlockingMovement": true,
@@ -150,9 +186,14 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "A closed door, blocking the way until it is opened."
+      }
     },
     {
+      "id": "Bad",
       "char": "§",
       "bgCol": "#9A493D",
       "fgCol": "#B22222",
@@ -169,9 +210,14 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": false,
+        "about": "A harmful area that can damage or hinder anyone who steps on it."
+      }
     },
     {
+      "id": "Bullet",
       "char": "⋄",
       "bgCol": "#E0E0E0",
       "fgCol": "#B22222",
@@ -188,14 +234,16 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": { "show": false, "about": "A projectile in motion." }
     },
     {
+      "id": "DeepWater",
       "char": "~",
       "bgCol": "#003366",
       "fgCol": "#5A9FCF",
       "hasSolidBg": false,
-      "name": "DeepWater",
+      "name": "Deep Water",
       "description": "Impassable water surface.",
       "isOpaque": false,
       "isBlockingMovement": true,
@@ -207,14 +255,16 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": { "show": true, "about": "Impassable water surface." }
     },
     {
+      "id": "ShallowWater",
       "char": "~",
       "bgCol": "#5A9FCF",
       "fgCol": "#003366",
       "hasSolidBg": false,
-      "name": "ShallowWater",
+      "name": "Shallow water",
       "description": "Shallow water that can be crossed, though it may slow movement.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -226,9 +276,14 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Shallow water that can be crossed, though it may slow movement."
+      }
     },
     {
+      "id": "Lava",
       "char": "×",
       "bgCol": "#ffa100",
       "fgCol": "#fffe00",
@@ -245,9 +300,14 @@
       "isCausingBleed": false,
       "isGlowing": true,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Molten lava that is extremely dangerous and will cause severe burns."
+      }
     },
     {
+      "id": "Obsidian",
       "char": "ͷ",
       "bgCol": "#3e0a3d",
       "fgCol": "#714f6e",
@@ -264,9 +324,14 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "An extremely hard, indestructible rock."
+      }
     },
     {
+      "id": "Magnetite",
       "char": "ϕ",
       "bgCol": "#076141",
       "fgCol": "#a1f8d9",
@@ -283,14 +348,19 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "A magnetic rock that attracts objects in its vicinity."
+      }
     },
     {
+      "id": "SpikyCrystal",
       "char": "◭",
       "bgCol": "#4B5A52",
       "fgCol": "#ecb7ff",
       "hasSolidBg": false,
-      "name": "SpikyCrystal",
+      "name": "Spiky crystal",
       "description": "Spiky crystals emerging from the ground.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -302,14 +372,19 @@
       "isCausingBleed": true,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Spiky crystals emerging from the ground. Stepped on, they may cause damage."
+      }
     },
     {
+      "id": "GlowingMushroom",
       "char": "⋒",
       "bgCol": "#4B5A52",
       "fgCol": "#5affd7",
       "hasSolidBg": false,
-      "name": "GlowingMushroom",
+      "name": "Glowing mushroom",
       "description": "A mushroom that is emitting a glowing light.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -321,14 +396,19 @@
       "isCausingBleed": false,
       "isGlowing": true,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "A mushroom that is emitting a glowing light. Increases visibility range when nearby."
+      }
     },
     {
+      "id": "PoisonMushroom",
       "char": "⋔",
       "bgCol": "#4B5A52",
       "fgCol": "#e917ff",
       "hasSolidBg": false,
-      "name": "PoisonMushroom",
+      "name": "Poison mushroom",
       "description": "A mushroom that is emitting a poisonous cloud.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -340,14 +420,19 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": true,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "A mushroom that is emitting a poisonous cloud."
+      }
     },
     {
+      "id": "ConfusionMushroom",
       "char": "⍝",
       "bgCol": "#4B5A52",
       "fgCol": "#ff0b08",
       "hasSolidBg": false,
-      "name": "ConfusionMushroom",
+      "name": "Confusion mushroom",
       "description": "A mushroom that is emitting a confusing cloud.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -359,14 +444,19 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": true
+      "isCausingConfusion": true,
+      "help": {
+        "show": true,
+        "about": "A mushroom that is emitting a cloud that causes confusion when inhaled."
+      }
     },
     {
+      "id": "HiddenTrap",
       "char": ".",
       "bgCol": "#4B5A52",
       "fgCol": "#6C7D6B",
       "hasSolidBg": false,
-      "name": "HiddenTrap",
+      "name": "Hidden trap",
       "description": "Regular ground. Nothing special here. Or is it?",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -378,14 +468,19 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Regular ground. Nothing special here. Or is there?"
+      }
     },
     {
+      "id": "VisibleTrap",
       "char": "⇈",
       "bgCol": "#4B5A52",
       "fgCol": "#f9ff5b",
       "hasSolidBg": false,
-      "name": "VisibleTrap",
+      "name": "Sprung trap",
       "description": "Sharp spikes sprung from the ground.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -397,14 +492,19 @@
       "isCausingBleed": true,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Sharp spikes sprung from the ground. No longer hidden, but still dangerous."
+      }
     },
     {
+      "id": "MossyFloor",
       "char": "⁎",
       "bgCol": "#3b6244",
       "fgCol": "#6C7D6B",
       "hasSolidBg": false,
-      "name": "MossyFloor",
+      "name": "Mossy floor",
       "description": "Patches of green moss on the ground.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -416,14 +516,16 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": { "show": true, "about": "Patches of green moss on the ground." }
     },
     {
+      "id": "ChasmEdge",
       "char": "∘",
       "bgCol": "#232a26",
       "fgCol": "#384037",
       "hasSolidBg": false,
-      "name": "ChasmEdge",
+      "name": "Chasm edge",
       "description": "A large chasm in the ground.",
       "isOpaque": false,
       "isBlockingMovement": true,
@@ -435,14 +537,16 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": { "show": true, "about": "The edge of a chasm." }
     },
     {
+      "id": "ChasmCenter",
       "char": "∘",
       "bgCol": "#1a1f1c",
       "fgCol": "#384037",
       "hasSolidBg": false,
-      "name": "ChasmCenter",
+      "name": "Chasm",
       "description": "A large chasm in the ground.",
       "isOpaque": false,
       "isBlockingMovement": true,
@@ -454,7 +558,8 @@
       "isCausingBleed": false,
       "isGlowing": false,
       "isCausingPoison": false,
-      "isCausingConfusion": false
+      "isCausingConfusion": false,
+      "help": { "show": true, "about": "Dark and deadly abyss." }
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "controls": [
+    { "key": "Numpad 8", "action": "Move upwards" },
+    { "key": "Numpad 2", "action": "Move downwards" },
+    { "key": "Numpad 4", "action": "Move left" },
+    { "key": "Numpad 6", "action": "Move right" },
+    { "key": "Numpad 7", "action": "Move upwards and left" },
+    { "key": "Numpad 9", "action": "Move upwards and right" },
+    { "key": "Numpad 1", "action": "Move downwards and left" },
+    { "key": "Numpad 3", "action": "Move downwards and right" },
+    { "key": "Numpad 5", "action": "Wait" },
+    { "key": "g", "action": "Pickup item" },
+    { "key": "q", "action": "Open log" },
+    { "key": "i", "action": "Open inventory screen" },
+    { "key": "u", "action": "Open equipment screen" },
+    { "key": "s", "action": "Open spell screen" },
+    { "key": "l", "action": "Look" },
+    { "key": "alt", "action": "Dig modifier key" },
+    { "key": "Escape", "action": "Open options screen" }
+  ]
+}
