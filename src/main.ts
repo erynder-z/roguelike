@@ -3,18 +3,17 @@ import './styles/style-main.css';
 import { Builder } from './components/Builder/Builder';
 import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 import { GenerateTitleScreen } from './components/Utilities/GenerateTitleScreen';
+import { invoke } from '@tauri-apps/api/tauri';
 
 const SHOW_MENU: boolean = true;
 const seed: number = 1337;
 
 const runGameDirectly = () => {
-  document.addEventListener('DOMContentLoaded', () => {
-    const titleContainer = document.getElementById('title-container');
+  const titleContainer = document.getElementById('title-container');
 
-    if (titleContainer) titleContainer.remove();
+  if (titleContainer) titleContainer.remove();
 
-    DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder(seed), seed);
-  });
+  DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder(seed), seed);
 };
 
 if (SHOW_MENU) {
@@ -22,3 +21,7 @@ if (SHOW_MENU) {
 } else {
   runGameDirectly();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  invoke('close_splashscreen');
+});

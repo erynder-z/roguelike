@@ -76,10 +76,17 @@
         "label": "main",
         "url": "/",
         "fullscreen": true,
-        "height": 600,
         "resizable": true,
         "title": "meikai-roguelike",
-        "width": 800
+
+        "visible": false
+      },
+      {
+        "width": 400,
+        "height": 200,
+        "decorations": false,
+        "url": "splashscreen.html",
+        "label": "splashscreen"
       }
     ]
   }
