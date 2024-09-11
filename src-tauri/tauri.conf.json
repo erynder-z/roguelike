@@ -29,7 +29,8 @@
       },
       "window": {
         "create": true,
-        "close": true
+        "close": true,
+        "show": true
       }
     },
     "bundle": {
@@ -76,9 +77,7 @@
         "label": "main",
         "url": "/",
         "fullscreen": true,
-        "resizable": true,
         "title": "meikai-roguelike",
-
         "visible": false
       },
       {

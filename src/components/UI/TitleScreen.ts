@@ -253,11 +253,18 @@ export class TitleScreen extends HTMLElement {
       url: 'help.html',
       title: 'Meikai - Help',
       fullscreen: true,
+      visible: false,
     });
 
     webview.once('tauri://created', () => {
-      // webview window successfully created
+      const helpWindow = WebviewWindow.getByLabel('help');
+
+      webview.listen('content-loaded', () => {
+        const helpWindow = WebviewWindow.getByLabel('help');
+        helpWindow?.show();
+      });
     });
+
     webview.once('tauri://error', e => {
       console.error(e);
       // an error occurred during webview window creation
