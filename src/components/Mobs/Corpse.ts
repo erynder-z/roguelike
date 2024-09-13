@@ -6,12 +6,14 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * Represents the corpse of a mob.
  */
 export class Corpse {
+  public id: string = '';
   public pos: WorldPoint = new WorldPoint();
   public glyph: Glyph = Glyph.Unknown;
   public name: string = '?';
   public description: string = '';
 
   constructor(glyph: Glyph, x: number, y: number) {
+    this.id = Glyph[glyph];
     this.glyph = glyph;
     this.name = Glyph[glyph];
     this.pos.x = x;
@@ -26,6 +28,7 @@ export class Corpse {
    */
   public create(): Corpse {
     const corpse = new Corpse(this.glyph, this.pos.x, this.pos.y);
+    corpse.name = GlyphMap.getGlyphInfo(this.glyph).name;
     corpse.description = GlyphMap.getGlyphDescription(this.glyph, 'corpse');
     return corpse;
   }

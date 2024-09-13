@@ -102,6 +102,7 @@ export class GameMap implements Map {
    * @return {Mob} the added NPC
    */
   public addNPC(m: Mob): Mob {
+    m.name = GlyphMap.getGlyphInfo(m.glyph).name;
     m.description = GlyphMap.getGlyphDescription(m.glyph, 'mob');
     this.cell(m.pos).mob = m;
     this.queue.pushMob(m);
