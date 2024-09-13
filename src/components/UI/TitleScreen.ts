@@ -260,14 +260,12 @@ export class TitleScreen extends HTMLElement {
       const helpWindow = WebviewWindow.getByLabel('help');
 
       webview.listen('content-loaded', () => {
-        const helpWindow = WebviewWindow.getByLabel('help');
         helpWindow?.show();
       });
     });
 
     webview.once('tauri://error', e => {
       console.error(e);
-      // an error occurred during webview window creation
     });
   }
 
