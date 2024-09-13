@@ -35,6 +35,7 @@ export class GameMap implements Map {
    * @returns {MapCell} The map cell at the specified world point.
    */
   public cell(p: WorldPoint): MapCell {
+    if (!this.isLegalPoint(p)) return new MapCell(this.g_empty);
     return this.cells[p.y][p.x];
   }
 
