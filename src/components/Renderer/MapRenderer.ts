@@ -44,33 +44,10 @@ export class MapRenderer {
   }
 
   /**
-   * Calculates the far distance for visibility based on player position, map, and game state.
-   *
-   * @param {WorldPoint} playerPos - The position of the player on the map.
-   * @param {Map} map - The current map.
-   * @param {GameState} game - The game state containing player stats.
-   * @return {number} The calculated far distance for visibility.
-   */
-  private static getFarDist(
-    playerPos: WorldPoint,
-    map: Map,
-    game: GameState,
-  ): number {
-    const glowRange = 10;
-    const maxVisibilityRange = 75;
-    let farDist = game.stats.currentVisRange || 50;
-
-    const glowingRocks = this.countLightSources(playerPos, map, glowRange);
-    farDist *= Math.pow(2, glowingRocks);
-
-    return Math.min(farDist, maxVisibilityRange);
-  }
-
-  /**
    * Draws a cell on the terminal based on the provided parameters.
    *
    * @param {DrawableTerminal} term - The terminal to draw on.
-   * @param {TerminalPoint} t - The position on the terminal to draw at.
+   * @param {TerminalPoint} tp - The position on the terminal to draw at.
    * @param {WorldPoint} wp - The position on the map to draw.
    * @param {Map} map - The current map.
    * @param {WorldPoint} playerPos - The position of the player on the map.
@@ -197,28 +174,6 @@ export class MapRenderer {
   }
 
   /**
-   * Counts the number of light sources in the vicinity of the player position within a specified diameter.
-   *
-   * @param {WorldPoint} playerPos - The position of the player on the map.
-   * @param {Map} map - The current map.
-   * @param {number} diameter - The diameter within which to count light sources.
-   * @return {number} The count of light sources in the specified vicinity.
-   */
-  private static countLightSources(
-    playerPos: WorldPoint,
-    map: Map,
-    diameter: number,
-  ): number {
-    let lightSources = 0;
-    for (const neighbor of playerPos.getNeighbors(diameter * 0.5)) {
-      if (map.isLegalPoint(neighbor) && map.cell(neighbor).isGlowing()) {
-        lightSources++;
-      }
-    }
-    return lightSources;
-  }
-
-  /**
    * Helper function that Iterates over each cell in the view and invokes a callback function for each cell.
    *
    * @param {DrawableTerminal} term - The terminal used for drawing.
@@ -273,7 +228,7 @@ export class MapRenderer {
   ): void {
     const buffs = game.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
-    const farDist = this.getFarDist(playerPos, map, game);
+    const farDist = CanSee.getFarDist(playerPos, map, game);
 
     this.forEachCellInView(term, map, vp, (tp, wp, term, map) => {
       this.drawCell(term, tp, wp, map, playerPos, farDist, blind, false);
@@ -299,7 +254,7 @@ export class MapRenderer {
   ): void {
     const buffs = game.player.buffs;
     const blind = buffs && buffs.is(Buff.Blind);
-    const farDist = this.getFarDist(playerPos, map, game);
+    const farDist = CanSee.getFarDist(playerPos, map, game);
 
     this.forEachCellInView(term, map, vp, (tp, wp, term, map) => {
       this.drawCell(term, tp, wp, map, playerPos, farDist, blind, true);
