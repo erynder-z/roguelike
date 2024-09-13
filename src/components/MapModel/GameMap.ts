@@ -208,12 +208,16 @@ export class GameMap implements Map {
   }
 
   /**
-   * Sets the environment description for every cell.
+   * Sets the environment name and description for every cell.
    */
   public setEnvironmentDescriptions(): void {
     this.forEachCell(cell => {
       const glyph = cell.glyphEnvOnly();
-      cell.envDesc = GlyphMap.getGlyphDescription(glyph, 'environment');
+      cell.environment.name = GlyphMap.getGlyphInfo(glyph).name;
+      cell.environment.description = GlyphMap.getGlyphDescription(
+        glyph,
+        'environment',
+      );
     });
   }
 }

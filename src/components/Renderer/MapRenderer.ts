@@ -356,7 +356,10 @@ export class MapRenderer {
 
     // If the cell is visible, return the background color in unmodified or tinted form, depending on the environment
     if (isVisible)
-      return this.maybeAddTintToColor(envOnlyGlyphInfo.bgCol, cell.envEffects);
+      return this.maybeAddTintToColor(
+        envOnlyGlyphInfo.bgCol,
+        cell.environment.effects,
+      );
 
     // If the cell is not visible, darken the background color slightly
     return ManipulateColors.darkenColor(envOnlyGlyphInfo.bgCol, 0.3);
