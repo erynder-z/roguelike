@@ -5,8 +5,8 @@ import { DrawableTerminal } from '../Terminal/Types/DrawableTerminal';
 import { DrawUI } from '../Renderer/DrawUI';
 import { EventCategory, LogMessage } from '../Messages/LogMessage';
 import { GameState } from '../Builder/Types/GameState';
-import { Glyph } from '../Glyphs/Glyph';
 import { Map } from '../MapModel/Types/Map';
+import { MapCell } from '../MapModel/MapCell';
 import { ScreenMaker } from './Types/ScreenMaker';
 import { Stack } from '../Terminal/Types/Stack';
 import { WorldPoint } from '../MapModel/WorldPoint';
@@ -32,20 +32,32 @@ export class LookScreen extends BaseScreen {
   }
 
   /**
-   * Draws the screen on the provided drawable terminal.
+   * Draws the look screen on the provided drawable terminal.
+   *
+   * The look screen displays the cell information at the position of the player
+   * and draws an overlay cursor at the position of the cursor.
    *
    * @param {DrawableTerminal} term - The terminal to draw on.
    * @return {void} No return value.
    */
   public drawScreen(term: DrawableTerminal): void {
+    const cursorBgCol = '#F0F8FF';
+    const opacityFactor = 0.3;
+    const cursorEdgeCol = '#F0F8FF';
+    const borderThickness = 5;
+    const cornerSize = 1;
+
     super.drawScreen(term);
-    term.drawAt(
+    term.drawOverlayCursor(
       this.cursorPos.x,
       this.cursorPos.y,
-      '●',
-      'fuchsia',
-      '#00000000',
+      cursorBgCol,
+      opacityFactor,
+      cursorEdgeCol,
+      borderThickness,
+      cornerSize,
     );
+
     const s = this.getCellInfo(this.lookPos.x, this.lookPos.y);
     if (s) this.displayInfo(s);
   }
@@ -66,12 +78,12 @@ export class LookScreen extends BaseScreen {
     game: GameState,
   ): boolean {
     const { buffs } = game.player;
-    const { stats } = game;
     const isBlind = buffs && buffs.is(Buff.Blind);
+    const farDist = CanSee.getFarDist(playerPos, map, game);
 
     return (
       !isBlind &&
-      CanSee.isDistanceSmallerThan(pos, playerPos, stats.currentVisRange) &&
+      CanSee.isDistanceSmallerThan(pos, playerPos, farDist) &&
       CanSee.checkPointLOS_RayCast(playerPos, pos, map)
     );
   }
@@ -84,34 +96,80 @@ export class LookScreen extends BaseScreen {
    * @return {string | null} The information about the cell. Returns 'Not visible!' if the cell is not visible.
    */
   private getCellInfo(x: number, y: number): string | null {
-    const pos = new WorldPoint(x, y);
+    const point = new WorldPoint(x, y);
     const map = this.game.currentMap()!;
-    const playerPos = this.game.player.pos;
-
-    const isVisible = this.isPointVisible(pos, map, playerPos, this.game);
+    const playerPosition = this.game.player.pos;
+    const cell = map.cell(point);
+    const isVisible = this.isPointVisible(
+      point,
+      map,
+      playerPosition,
+      this.game,
+    );
 
     if (isVisible) {
-      const cell = map.cell(pos);
-      console.log(cell);
-      const mob = cell?.mob;
-      const item = cell?.obj;
-      const env = cell?.env ? Glyph[cell.env] : '';
-
-      return mob
-        ? `A lvl ${mob.level} ${mob.name}.`
-        : item
-          ? `A ${item.description()}.`
-          : env;
+      return this.generateMessageVisibleCell(cell);
     } else {
-      return 'Not visible!';
+      return this.generateMessageNotVisibleCell();
     }
+  }
+
+  /**
+   * Retrieves information about a cell that is visible.
+   *
+   * @param {MapCell} cell - The cell to retrieve the information for.
+   * @return {string} The information about the cell.
+   */
+  private generateMessageVisibleCell(cell: MapCell): string {
+    const entities = [];
+    const { mob, corpse, obj, environment } = cell;
+
+    if (mob) {
+      entities.push(`a ${mob.name.toLowerCase()}`);
+    }
+    if (corpse) {
+      entities.push(`the corpse of a ${corpse.name.toLowerCase()}`);
+    }
+    if (obj) {
+      entities.push(`a ${obj.name().toLowerCase()}`);
+    }
+
+    let message = 'You see: ';
+
+    if (entities.length > 0) {
+      entities[0] = this.capitalizeFirstLetter(entities[0]);
+
+      message += `${entities.join(' and ')} on ${environment.name.toLowerCase()}.`;
+    } else {
+      message += `${environment.description}`;
+    }
+
+    return this.capitalizeFirstLetter(message);
+  }
+
+  /**
+   * Retrieves information about a cell that is not visible.
+   *
+   * @return {string} The information about the cell.
+   */
+  private generateMessageNotVisibleCell(): string {
+    return 'Not visible from where you are!';
+  }
+
+  /**
+   * Capitalizes the first letter of a string.
+   *
+   * @param {string} str - The string to capitalize.
+   * @return {string} The capitalized string.
+   */
+  private capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   /**
    * Displays the provided information on the screen.
    *
    * @param {string} s - The information to display.
-   * @param {DrawableTerminal} term - The terminal to draw on.
    * @return {void} No return value.
    */
   private displayInfo(s: string): void {
