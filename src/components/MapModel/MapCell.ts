@@ -230,7 +230,7 @@ export class MapCell {
    * @return {boolean} True if the cell is a hidden trap, false otherwise.
    */
   public isHiddenTrap(): boolean {
-    return this.env === Glyph.HiddenTrap;
+    return this.env === Glyph.Hidden_Trap;
   }
 
   /**
@@ -239,7 +239,7 @@ export class MapCell {
    * @return {boolean} True if the cell is a chasm, false otherwise.
    */
   public isChasm(): boolean {
-    return this.env === Glyph.ChasmEdge || this.env === Glyph.ChasmCenter;
+    return this.env === Glyph.Chasm_Edge || this.env === Glyph.Chasm_Center;
   }
 
   /**
@@ -248,6 +248,6 @@ export class MapCell {
    * @return {boolean} True if the cell is water, false otherwise.
    */
   public isWater(): boolean {
-    return this.env === Glyph.ShallowWater || this.env === Glyph.DeepWater;
+    return this.env === Glyph.Shallow_Water || this.env === Glyph.Deep_Water;
   }
 }

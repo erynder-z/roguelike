@@ -25,13 +25,13 @@
       }
     },
     {
-      "id": "Floor",
+      "id": "Regular_Floor",
       "char": "·",
       "bgCol": "#4B5A52",
       "fgCol": "#6C7D6B",
       "hasSolidBg": false,
-      "name": "Floor",
-      "description": "Regular ground. Nothing special here.",
+      "name": "Regular floor",
+      "description": "Regular floor. Nothing special here.",
       "isOpaque": false,
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
@@ -97,7 +97,7 @@
       }
     },
     {
-      "id": "StairsUp",
+      "id": "Stairs_Up",
       "char": "<",
       "bgCol": "#9A493D",
       "fgCol": "#8A2B4B",
@@ -121,7 +121,7 @@
       }
     },
     {
-      "id": "StairsDown",
+      "id": "Stairs_Down",
       "char": ">",
       "bgCol": "#00ce8f",
       "fgCol": "#8A2B4B",
@@ -238,13 +238,13 @@
       "help": { "show": false, "about": "A projectile in motion." }
     },
     {
-      "id": "DeepWater",
+      "id": "Deep_Water",
       "char": "~",
       "bgCol": "#003366",
       "fgCol": "#5A9FCF",
       "hasSolidBg": false,
-      "name": "Deep Water",
-      "description": "Impassable water surface.",
+      "name": "Deep water",
+      "description": "Impassable deep water surface.",
       "isOpaque": false,
       "isBlockingMovement": true,
       "isBlockingProjectiles": false,
@@ -259,7 +259,7 @@
       "help": { "show": true, "about": "Impassable water surface." }
     },
     {
-      "id": "ShallowWater",
+      "id": "Shallow_Water",
       "char": "~",
       "bgCol": "#5A9FCF",
       "fgCol": "#003366",
@@ -355,7 +355,7 @@
       }
     },
     {
-      "id": "SpikyCrystal",
+      "id": "Spiky_Crystal",
       "char": "◭",
       "bgCol": "#4B5A52",
       "fgCol": "#ecb7ff",
@@ -379,13 +379,13 @@
       }
     },
     {
-      "id": "GlowingMushroom",
+      "id": "Glowing_Mushroom",
       "char": "⋒",
       "bgCol": "#4B5A52",
       "fgCol": "#5affd7",
       "hasSolidBg": false,
       "name": "Glowing mushroom",
-      "description": "A mushroom that is emitting a glowing light.",
+      "description": "A glowing mushroom that is emitting light.",
       "isOpaque": false,
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
@@ -403,13 +403,13 @@
       }
     },
     {
-      "id": "PoisonMushroom",
+      "id": "Poison_Mushroom",
       "char": "⋔",
       "bgCol": "#4B5A52",
       "fgCol": "#e917ff",
       "hasSolidBg": false,
       "name": "Poison mushroom",
-      "description": "A mushroom that is emitting a poisonous cloud.",
+      "description": "A poison mushroom that is emitting a deadly cloud.",
       "isOpaque": false,
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
@@ -427,13 +427,13 @@
       }
     },
     {
-      "id": "ConfusionMushroom",
+      "id": "Confusion_Mushroom",
       "char": "⍝",
       "bgCol": "#4B5A52",
       "fgCol": "#ff0b08",
       "hasSolidBg": false,
       "name": "Confusion mushroom",
-      "description": "A mushroom that is emitting a confusing cloud.",
+      "description": "A confusion mushroom that is emitting a disorienting cloud.",
       "isOpaque": false,
       "isBlockingMovement": false,
       "isBlockingProjectiles": false,
@@ -451,7 +451,7 @@
       }
     },
     {
-      "id": "HiddenTrap",
+      "id": "Hidden_Trap",
       "char": ".",
       "bgCol": "#4B5A52",
       "fgCol": "#6C7D6B",
@@ -475,7 +475,7 @@
       }
     },
     {
-      "id": "VisibleTrap",
+      "id": "Visible_Trap",
       "char": "⇈",
       "bgCol": "#4B5A52",
       "fgCol": "#f9ff5b",
@@ -499,7 +499,7 @@
       }
     },
     {
-      "id": "MossyFloor",
+      "id": "Mossy_Floor",
       "char": "⁎",
       "bgCol": "#3b6244",
       "fgCol": "#6C7D6B",
@@ -520,7 +520,7 @@
       "help": { "show": true, "about": "Patches of green moss on the ground." }
     },
     {
-      "id": "ChasmEdge",
+      "id": "Chasm_Edge",
       "char": "∘",
       "bgCol": "#232a26",
       "fgCol": "#384037",
@@ -541,7 +541,7 @@
       "help": { "show": true, "about": "The edge of a chasm." }
     },
     {
-      "id": "ChasmCenter",
+      "id": "Chasm_Center",
       "char": "∘",
       "bgCol": "#1a1f1c",
       "fgCol": "#384037",

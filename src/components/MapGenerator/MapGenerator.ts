@@ -45,8 +45,8 @@ export class MapGenerator1 {
             5,
           );
         for (const p of mossyFloorArea) {
-          if (map.cell(p).env === Glyph.Floor)
-            map.cell(p).env = Glyph.MossyFloor;
+          if (map.cell(p).env === Glyph.Regular_Floor)
+            map.cell(p).env = Glyph.Mossy_Floor;
         }
       }
     }
@@ -92,7 +92,7 @@ export class MapGenerator1 {
     filled: boolean,
     rand: RandomGenerator,
   ): void {
-    /* const centerGlyph = filled ? Glyph.Wall : Glyph.Floor; */
+    /* const centerGlyph = filled ? Glyph.Wall : Glyph.Regular_Floor; */
     const centerGlyph = filled
       ? RockGenerator.getWallRockTypes(rand, DEFAULT_LEVEL_TILES)
       : RockGenerator.getFloorRockTypes(rand, DEFAULT_LEVEL_TILES);

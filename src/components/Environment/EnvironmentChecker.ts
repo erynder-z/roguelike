@@ -15,7 +15,7 @@ export class EnvironmentChecker {
    * @return {boolean} Returns true if items can be dropped, false otherwise.
    */
   public static canItemsBeDropped(cell: MapCell): boolean {
-    return !cell.hasObject() && cell.env === Glyph.Floor;
+    return !cell.hasObject() && cell.env === Glyph.Regular_Floor;
   }
 
   /**
@@ -65,7 +65,7 @@ export class EnvironmentChecker {
     wp: WorldPoint,
     map: Map,
   ): void {
-    if (cell.glyph() === Glyph.PoisonMushroom) {
+    if (cell.glyph() === Glyph.Poison_Mushroom) {
       const neighbors = wp.getNeighbors(this.areaOfEffectRadius);
 
       for (const neighbor of neighbors) {
@@ -93,7 +93,7 @@ export class EnvironmentChecker {
     wp: WorldPoint,
     map: Map,
   ): void {
-    if (cell.glyph() === Glyph.ConfusionMushroom) {
+    if (cell.glyph() === Glyph.Confusion_Mushroom) {
       const neighbors = wp.getNeighbors(this.areaOfEffectRadius);
 
       for (const neighbor of neighbors) {
@@ -116,9 +116,9 @@ export class EnvironmentChecker {
    */
   private static getEffectFromGlyph(glyph: Glyph): EnvEffect | null {
     switch (glyph) {
-      case Glyph.PoisonMushroom:
+      case Glyph.Poison_Mushroom:
         return EnvEffect.Poison;
-      case Glyph.ConfusionMushroom:
+      case Glyph.Confusion_Mushroom:
         return EnvEffect.Confusion;
       default:
         return null;

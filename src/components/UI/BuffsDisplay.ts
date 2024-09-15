@@ -3,10 +3,8 @@ import { BuffType } from '../Buffs/Types/BuffType';
 import { BuffColors } from './BuffColors';
 
 export class BuffsDisplay extends HTMLElement {
-  private colorizer: BuffColors;
-  constructor() {
+  constructor(public colorizer: BuffColors = new BuffColors()) {
     super();
-    this.colorizer = new BuffColors();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 

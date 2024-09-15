@@ -15,7 +15,7 @@ A new biome can be added by modifying the code as follows:
       "bgCol": "#4B5A52",
       "fgCol": "#5affd7",
       "hasSolidBg": false,
-      "name": "GlowingMushroom",
+      "name": "Glowing_Mushroom",
       "description": "A mushroom that is emitting a glowing light.",
       "isOpaque": false,
       "isBlockingMovement": false,
@@ -38,7 +38,7 @@ A new biome can be added by modifying the code as follows:
 
 export enum Glyph {
   ...
-  GlowingMushroom,
+  Glowing_Mushroom,
 }
 
 ```
@@ -51,9 +51,9 @@ The glyph can be generated as a floor-tile, as a wall-tile or as both. The occur
 './src/components/MapGenerator/GenerationData/CaveLevelTiles.ts';
 
 export const CAVE_LEVEL_TILES: Tile = {
-  floor: [...{ glyph: Glyph.GlowingMushroom, occurrencePercentage: 1 }],
+  floor: [...{ glyph: Glyph.Glowing_Mushroom, occurrencePercentage: 1 }],
 
-  wall: [...{ glyph: Glyph.GlowingMushroom, occurrencePercentage: 1 }],
+  wall: [...{ glyph: Glyph.Glowing_Mushroom, occurrencePercentage: 1 }],
 };
 ```
 

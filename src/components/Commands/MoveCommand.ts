@@ -89,9 +89,9 @@ export class MoveCommand extends CommandBase {
     const cell = map.cell(position);
     let direction: number | null = null;
 
-    if (cell.env === Glyph.StairsDown) {
+    if (cell.env === Glyph.Stairs_Down) {
       direction = 1;
-    } else if (cell.env === Glyph.StairsUp) {
+    } else if (cell.env === Glyph.Stairs_Up) {
       direction = -1;
     }
 
@@ -110,11 +110,11 @@ export class MoveCommand extends CommandBase {
   private dealWithTraps(map: Map, position: WorldPoint): void {
     const cell = map.cell(position);
 
-    if (cell.env === Glyph.HiddenTrap) {
+    if (cell.env === Glyph.Hidden_Trap) {
       const msg = new LogMessage('You step on a trap!', EventCategory.trap);
 
       this.game.message(msg);
-      cell.env = Glyph.VisibleTrap;
+      cell.env = Glyph.Visible_Trap;
     }
   }
 

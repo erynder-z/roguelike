@@ -262,10 +262,10 @@ export class Builder implements Build {
     const p = new WorldPoint(x, y).addTo(pos);
 
     if (!map.cell(p).isBlocked) {
-      map.cell(p).env = Glyph.StairsDown;
-      map.addStairInfo(Glyph.StairsDown, p);
+      map.cell(p).env = Glyph.Stairs_Down;
+      map.addStairInfo(Glyph.Stairs_Down, p);
     } else {
-      this.addStair(map, rand, Glyph.StairsDown);
+      this.addStair(map, rand, Glyph.Stairs_Down);
     }
   }
 
@@ -275,8 +275,8 @@ export class Builder implements Build {
    * @returns {void}
    */
   private addStairs(map: Map, rand: RandomGenerator): void {
-    this.addStair(map, rand, Glyph.StairsDown);
-    this.addStair(map, rand, Glyph.StairsUp);
+    this.addStair(map, rand, Glyph.Stairs_Down);
+    this.addStair(map, rand, Glyph.Stairs_Up);
   }
 
   /**
@@ -289,7 +289,7 @@ export class Builder implements Build {
   private addStair(
     map: Map,
     rand: RandomGenerator,
-    stair: Glyph.StairsUp | Glyph.StairsDown,
+    stair: Glyph.Stairs_Up | Glyph.Stairs_Down,
   ): boolean {
     const p = <WorldPoint>FindFreeSpace.findFree(map, rand);
     map.cell(p).env = stair;
@@ -419,11 +419,11 @@ export class Builder implements Build {
     const a = player.pos;
     let p = new WorldPoint(a.x, a.y + 2);
     map.addObject(new ItemObject(Glyph.Shield, Slot.OffHand), p);
-    map.cell(p).env = Glyph.Floor;
+    map.cell(p).env = Glyph.Regular_Floor;
 
     p = new WorldPoint(a.x, a.y + 1);
     map.addObject(new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Poison), p);
-    map.cell(p).env = Glyph.Floor;
+    map.cell(p).env = Glyph.Regular_Floor;
   }
 
   /**

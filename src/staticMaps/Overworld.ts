@@ -50,7 +50,7 @@ export class Overworld {
     );
 
     for (const p of lake) {
-      m.cell(p).env = Glyph.DeepWater;
+      m.cell(p).env = Glyph.Deep_Water;
     }
 
     const puddle = IrregularShapeAreaGenerator.generateIrregularShapeArea(
@@ -60,7 +60,7 @@ export class Overworld {
       10,
     );
     for (const p of puddle) {
-      m.cell(p).env = Glyph.ShallowWater;
+      m.cell(p).env = Glyph.Shallow_Water;
     }
 
     const lavaPool = IrregularShapeAreaGenerator.generateIrregularShapeArea(
@@ -87,7 +87,8 @@ export class Overworld {
             5,
           );
         for (const p of mossyFloorArea) {
-          if (m.cell(p).env === Glyph.Floor) m.cell(p).env = Glyph.MossyFloor;
+          if (m.cell(p).env === Glyph.Regular_Floor)
+            m.cell(p).env = Glyph.Mossy_Floor;
         }
       }
     }

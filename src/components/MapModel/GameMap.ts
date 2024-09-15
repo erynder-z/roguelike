@@ -70,16 +70,16 @@ export class GameMap implements Map {
   /**
    * Adds information about the location of up and down stairs.
    *
-   * @param {Glyph.StairsUp | Glyph.StairsDown} glyph - The type of stair glyph (up or down).
+   * @param {Glyph.Stairs_Up | Glyph.Stairs_Down} glyph - The type of stair glyph (up or down).
    * @param {WorldPoint} pos - The position of the stair on the map.
    * @returns {void}
    */
   public addStairInfo(
-    glyph: Glyph.StairsUp | Glyph.StairsDown,
+    glyph: Glyph.Stairs_Up | Glyph.Stairs_Down,
     pos: WorldPoint,
   ): void {
-    if (glyph === Glyph.StairsUp) this.upStairPos = pos;
-    if (glyph === Glyph.StairsDown) this.downStairPos = pos;
+    if (glyph === Glyph.Stairs_Up) this.upStairPos = pos;
+    if (glyph === Glyph.Stairs_Down) this.downStairPos = pos;
   }
 
   /**
@@ -131,7 +131,7 @@ export class GameMap implements Map {
     this.queue.removeMob(mob);
 
     const corpseGlyph =
-      Glyph[`${Glyph[mob.glyph]}_Corpse` as keyof typeof Glyph];
+      Glyph[`${Glyph[mob.glyph]}Corpse` as keyof typeof Glyph];
 
     const cell = this.cell(mob.pos);
     const canDrop = EnvironmentChecker.canCorpseBeDropped(cell);

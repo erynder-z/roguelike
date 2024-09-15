@@ -58,7 +58,8 @@ export class MapGenerator_Cave {
           if (
             (dx !== 0 || dy !== 0) && // Skip center cell
             rand.generateRandomNumber() < wallProbability &&
-            this.map.cell(new WorldPoint(x + dx, y + dy)).env !== Glyph.Floor
+            this.map.cell(new WorldPoint(x + dx, y + dy)).env !==
+              Glyph.Regular_Floor
           ) {
             this.map.cell(new WorldPoint(x + dx, y + dy)).env =
               RockGenerator.getWallRockTypes(rand, CAVE_LEVEL_TILES);
@@ -103,14 +104,14 @@ export class MapGenerator_Cave {
   }
 
   private addDeepWater(map: Map, rand: RandomGenerator): void {
-    const glyph = Glyph.DeepWater;
+    const glyph = Glyph.Deep_Water;
     const waterPoolCount = 10;
     const waterPoolSize = 10;
     this.addPools(map, rand, waterPoolCount, waterPoolSize, glyph);
   }
 
   private addShallowWater(map: Map, rand: RandomGenerator): void {
-    const glyph = Glyph.ShallowWater;
+    const glyph = Glyph.Shallow_Water;
     const waterPoolCount = 10;
     const waterPoolSize = 10;
     this.addPools(map, rand, waterPoolCount, waterPoolSize, glyph);
@@ -147,7 +148,7 @@ export class MapGenerator_Cave {
   }
 
   private addMossyFloor(map: Map, rand: RandomGenerator): void {
-    const glyph = Glyph.MossyFloor;
+    const glyph = Glyph.Mossy_Floor;
     const mossyFloorCount = 10;
     const mossyFloorSize = 15;
     this.addMossyFloorPatches(
@@ -187,13 +188,14 @@ export class MapGenerator_Cave {
       );
 
     for (const point of mossyFloorPatch) {
-      if (map.cell(point).env === Glyph.Floor) map.cell(point).env = glyph;
+      if (map.cell(point).env === Glyph.Regular_Floor)
+        map.cell(point).env = glyph;
     }
   }
 
   private addChasm(map: Map, rand: RandomGenerator): void {
-    const centerGlyph = Glyph.ChasmCenter;
-    const edgeGlyph = Glyph.ChasmEdge;
+    const centerGlyph = Glyph.Chasm_Center;
+    const edgeGlyph = Glyph.Chasm_Edge;
     const chasmCount = 5;
     const chasmSize = 20;
     this.addChasmAreas(

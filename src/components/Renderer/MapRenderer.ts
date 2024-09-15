@@ -336,7 +336,7 @@ export class MapRenderer {
     // If the cell is visible
     if (isVisible) {
       // If the cell is a visible trap with a corpse return a yellow color
-      if (cell.env === Glyph.VisibleTrap && cell.corpse)
+      if (cell.env === Glyph.Visible_Trap && cell.corpse)
         return ManipulateColors.darkenColor('#f9ff5b', 0.2);
 
       // If the cell has an object with a spell, return the spell color
