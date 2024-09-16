@@ -131,7 +131,7 @@ export class GameMap implements Map {
     this.queue.removeMob(mob);
 
     const corpseGlyph =
-      Glyph[`${Glyph[mob.glyph]}Corpse` as keyof typeof Glyph];
+      Glyph[`${Glyph[mob.glyph]}_Corpse` as keyof typeof Glyph];
 
     const cell = this.cell(mob.pos);
     const canDrop = EnvironmentChecker.canCorpseBeDropped(cell);
