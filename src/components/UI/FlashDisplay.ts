@@ -1,9 +1,15 @@
 import { GameState } from '../Builder/Types/GameState';
 import { LogMessage } from '../Messages/LogMessage';
 import { MessageLog } from '../Messages/MessageLog';
+import { FlashDecorator } from './Types/FlashDecorator';
+
+import corpseData from '../Mobs/MobData/corpses.json';
+import envData from '../Environment/EnvironmentData/environment.json';
+import itemData from '../ItemObjects/ItemData/items.json';
+import mobData from '../Mobs/MobData/mobs.json';
 
 export class FlashDisplay extends HTMLElement {
-  constructor() {
+  constructor(public decorator: FlashDecorator = new FlashDecorator()) {
     super();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -35,7 +41,7 @@ export class FlashDisplay extends HTMLElement {
 
         .flash-display {
           padding: 1rem 1.5rem;
-          color: var(--yellow);
+          color: var(--white);
           font-size: 1.25rem;
         }
 
@@ -56,26 +62,34 @@ export class FlashDisplay extends HTMLElement {
 
     if (flashDisplay) {
       flashDisplay.innerHTML = '';
-      flashDisplay.textContent = msg.message;
+      const fragment = document.createDocumentFragment();
 
-      if (log.hasQueuedMessages()) {
-        const fragment = document.createDocumentFragment();
-        this.addMoreSpanToFragment(fragment, log);
-        flashDisplay.appendChild(fragment);
-      }
+      const textNode = document.createTextNode(msg.message);
+      fragment.appendChild(textNode);
+
+      this.decorateFlashDisplay(fragment, log, this.shadowRoot!);
+      flashDisplay.appendChild(fragment);
     }
   }
 
-  private addMoreSpanToFragment(fragment: DocumentFragment, log: MessageLog) {
-    const numberOfQueueMessages: number = log.len() - 1;
-    const s =
-      numberOfQueueMessages >= 2
-        ? `(+${numberOfQueueMessages} more messages)`
-        : `(+${numberOfQueueMessages} more message)`;
-    const moreSpan = document.createElement('span');
-    moreSpan.textContent = s;
-    moreSpan.classList.add('more-span');
-    fragment.appendChild(moreSpan);
+  private decorateFlashDisplay(
+    fragment: DocumentFragment,
+    log: MessageLog,
+    shadowRoot: ShadowRoot,
+  ) {
+    this.decorator.createStyles(shadowRoot, mobData.mobs, 'mob');
+    this.decorator.createStyles(shadowRoot, corpseData.corpses, 'corpse');
+    this.decorator.createStyles(shadowRoot, itemData.items, 'item');
+    this.decorator.createStyles(shadowRoot, envData.environment, 'env');
+
+    this.decorator.colorizeNames(fragment, mobData.mobs, 'mob');
+    this.decorator.colorizeNames(fragment, corpseData.corpses, 'corpse');
+    this.decorator.colorizeNames(fragment, itemData.items, 'item');
+    this.decorator.colorizeNames(fragment, envData.environment, 'env');
+
+    if (log.hasQueuedMessages())
+      // More than 1 message in queue
+      this.decorator.addMoreSpanToFragment(fragment, log);
   }
 
   public clearFlash(game: GameState) {
