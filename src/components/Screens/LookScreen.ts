@@ -128,7 +128,7 @@ export class LookScreen extends BaseScreen {
       entities.push(`a ${mob.name.toLowerCase()}`);
     }
     if (corpse) {
-      entities.push(`the corpse of a ${corpse.name.toLowerCase()}`);
+      entities.push(`a ${corpse.name.toLowerCase()}`);
     }
     if (obj) {
       entities.push(`a ${obj.name().toLowerCase()}`);
@@ -141,7 +141,7 @@ export class LookScreen extends BaseScreen {
 
       message += `${entities.join(' and ')} on ${environment.name.toLowerCase()}.`;
     } else {
-      message += `${environment.description}`;
+      message += `${environment.name}. ${environment.description}`;
     }
 
     return this.capitalizeFirstLetter(message);
