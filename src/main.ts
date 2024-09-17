@@ -3,6 +3,7 @@ import './styles/style-main.css';
 import { Builder } from './components/Builder/Builder';
 import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 import { GenerateTitleScreen } from './components/Utilities/GenerateTitleScreen';
+import { initializeColors } from './components/Utilities/color.loader';
 import { invoke } from '@tauri-apps/api/tauri';
 
 const SHOW_MENU: boolean = true;
@@ -23,5 +24,6 @@ if (SHOW_MENU) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initializeColors();
   invoke('close_splashscreen');
 });

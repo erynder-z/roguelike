@@ -1,0 +1,15 @@
+{
+  "root": {
+    "--backgroundDefault": "#111a24",
+    "--backgroundDefaultTransparent": "rgba(17, 26, 36, 0.75)",
+    "--accent": "#017f9e",
+    "--white": "#ffffff",
+    "--whiteTransparent": "rgba(255, 255, 255, 0.1)",
+    "--yellow": "#ffff00",
+    "--postMortemAccent": "#ffff00",
+    "--scrollbar-foreground": "var(--white)",
+    "--scrollbar-background": "var(--backgroundDefault)",
+    "--selection-color": "var(--white)",
+    "--selection-background": "var(--accent)"
+  }
+}
