@@ -25,7 +25,7 @@ export class TitleScreen extends HTMLElement {
           justify-content: start;
           height: 100%;
           width: 100%;
-          background: var(--background1);
+          background: var(--backgroundDefault);
           color: var(--white);
           z-index: 1;
           overflow: hidden;

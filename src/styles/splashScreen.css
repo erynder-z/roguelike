@@ -4,12 +4,12 @@
 }
 
 :root {
-  --background1: #111a24;
+  --backgroundDefault: #111a24;
   --white: #ffffff;
 }
 
 body {
-  background-color: var(--background1);
+  background-color: var(--backgroundDefault);
   color: var(--white);
   font-family: 'UASQUARE';
   display: flex;
