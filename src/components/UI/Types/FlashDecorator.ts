@@ -44,33 +44,51 @@ export class FlashDecorator {
     data: FlashDecoratorDataEntry[],
     type: 'mob' | 'corpse' | 'item' | 'env',
   ): void {
+    // Create a regex that matches any occurrence of the names in the given array
+    // with word boundaries.
     const names = data.map(entry => entry.name);
-    const regex = new RegExp(`\\b(${names.join('|')})\\b`, 'gi');
+    const regex = new RegExp(`\\b(${names.join('|')})\\b`, 'i');
 
+    // Iterate over all the child nodes of the given fragment.
     fragment.childNodes.forEach(child => {
+      // If the child is a text node, replace the text with a new fragment
+      // that contains the same text but with the names replaced with colored spans.
       if (child instanceof Text) {
         const text = child.textContent;
         const frag = document.createDocumentFragment();
         let lastIndex = 0;
 
+        let found = false;
+
+        // Iterate over all matches of the regex in the text.
         text?.replace(regex, (match, name, index) => {
+          // If we have already found a match, skip this iteration.
+          if (found) return match;
+
+          // Add the text from the last match to the current index to the fragment.
           frag.appendChild(
             document.createTextNode(text.slice(lastIndex, index)),
           );
 
+          // Create a new span element with the class name based on the name and type.
           const span = document.createElement('span');
           span.textContent = match;
           span.classList.add(`${this.sanitizeClassName(name)}-${type}-span`);
           frag.appendChild(span);
 
+          found = true;
+
+          // Update the index to the position after the current match.
           lastIndex = index + match.length;
           return match;
         });
 
+        // Add the text from the last index to the end of the text to the fragment.
         if (text?.slice(lastIndex)) {
           frag.appendChild(document.createTextNode(text.slice(lastIndex)));
         }
 
+        // Replace the child node in the fragment with the new fragment.
         fragment.replaceChild(frag, child);
       }
     });
