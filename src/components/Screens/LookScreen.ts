@@ -123,16 +123,18 @@ export class LookScreen extends BaseScreen {
   private generateMessageVisibleCell(cell: MapCell): string {
     const entities = [];
     const { mob, corpse, obj, environment } = cell;
+    const isDownStairsCell = this.game
+      .currentMap()
+      ?.downStairPos?.isEqual(this.lookPos);
+    const isUpStairsCell = this.game
+      .currentMap()
+      ?.upStairPos?.isEqual(this.lookPos);
 
-    if (mob) {
-      entities.push(`a ${mob.name.toLowerCase()}`);
-    }
-    if (corpse) {
-      entities.push(`a ${corpse.name.toLowerCase()}`);
-    }
-    if (obj) {
-      entities.push(`a ${obj.name().toLowerCase()}`);
-    }
+    if (mob) entities.push(`a ${mob.name.toLowerCase()}`);
+
+    if (corpse) entities.push(`a ${corpse.name.toLowerCase()}`);
+
+    if (obj) entities.push(`a ${obj.name().toLowerCase()}`);
 
     let message = 'You see: ';
 
@@ -143,6 +145,10 @@ export class LookScreen extends BaseScreen {
     } else {
       message += `${environment.name}. ${environment.description}`;
     }
+
+    if (isDownStairsCell) message += ' A way leading downwards.';
+
+    if (isUpStairsCell) message += ' A way leading upwards.';
 
     return this.capitalizeFirstLetter(message);
   }
