@@ -77,14 +77,14 @@ export class FlashDisplay extends HTMLElement {
     log: MessageLog,
     shadowRoot: ShadowRoot,
   ) {
-    this.decorator.createStyles(shadowRoot, mobData.mobs, 'mob');
-    this.decorator.createStyles(shadowRoot, corpseData.corpses, 'corpse');
     this.decorator.createStyles(shadowRoot, itemData.items, 'item');
+    this.decorator.createStyles(shadowRoot, corpseData.corpses, 'corpse');
+    this.decorator.createStyles(shadowRoot, mobData.mobs, 'mob');
     this.decorator.createStyles(shadowRoot, envData.environment, 'env');
 
-    this.decorator.colorizeNames(fragment, mobData.mobs, 'mob');
-    this.decorator.colorizeNames(fragment, corpseData.corpses, 'corpse');
     this.decorator.colorizeNames(fragment, itemData.items, 'item');
+    this.decorator.colorizeNames(fragment, corpseData.corpses, 'corpse');
+    this.decorator.colorizeNames(fragment, mobData.mobs, 'mob');
     this.decorator.colorizeNames(fragment, envData.environment, 'env');
 
     if (log.hasQueuedMessages())
