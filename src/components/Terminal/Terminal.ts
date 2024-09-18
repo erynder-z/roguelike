@@ -1,5 +1,5 @@
 import { DrawableTerminal } from './Types/DrawableTerminal';
-import { ManipulateColors } from '../Utilities/ManipulateColors';
+import { ManipulateColors } from '../Colors/ManipulateColors';
 import { TerminalPoint } from './TerminalPoint';
 
 /**

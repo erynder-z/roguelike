@@ -1,7 +1,7 @@
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphMap } from '../Glyphs/GlyphMap';
 import { Spell } from '../Spells/Spell';
-import { SpellColors } from '../Spells/SpellColors';
+import { SpellColors } from '../Colors/SpellColors';
 import { Slot } from './Slot';
 
 /**

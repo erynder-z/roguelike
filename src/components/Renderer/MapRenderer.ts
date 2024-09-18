@@ -6,11 +6,11 @@ import { GameState } from '../Builder/Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphInfo } from '../Glyphs/GlyphInfo';
 import { GlyphMap } from '../Glyphs/GlyphMap';
-import { ManipulateColors } from '../Utilities/ManipulateColors';
+import { ManipulateColors } from '../Colors/ManipulateColors';
 import { MapCell } from '../MapModel/MapCell';
 import { Map } from '../MapModel/Types/Map';
 import { Spell } from '../Spells/Spell';
-import { SpellColors } from '../Spells/SpellColors';
+import { SpellColors } from '../Colors/SpellColors';
 import { TerminalPoint } from '../Terminal/TerminalPoint';
 import { WorldPoint } from '../MapModel/WorldPoint';
 

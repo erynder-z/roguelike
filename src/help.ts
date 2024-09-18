@@ -1,6 +1,6 @@
 import './styles/cssReset.css';
 import './styles/style-help.css';
-import { initializeColors } from './components/Utilities/color.loader';
+import { initializeColors } from './components/Colors/color.loader';
 
 import { emit } from '@tauri-apps/api/event';
 

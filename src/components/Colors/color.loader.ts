@@ -1,4 +1,4 @@
-import colors from '../../styles/colors.json';
+import colors from './colors.json';
 
 export const initializeColors = () => {
   const root = document.documentElement;
