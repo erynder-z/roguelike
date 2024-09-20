@@ -14,7 +14,7 @@ export class FindFreeSpace {
    * @returns {WorldPoint | null} A WorldPoint representing the free space found, or null if no free space is available.
    */
   public static findFree(map: Map, rand: RandomGenerator): WorldPoint {
-    return this.find(Glyph.Floor, map, rand);
+    return this.find(Glyph.Regular_Floor, map, rand);
   }
 
   /**
@@ -74,7 +74,11 @@ export class FindFreeSpace {
           const adjacentPoint = point.copy().addTo(new WorldPoint(x, y));
           const cell = map.cell(adjacentPoint);
 
-          if (cell.env === Glyph.Floor && !cell.corpse && !cell.mob?.isPlayer)
+          if (
+            cell.env === Glyph.Regular_Floor &&
+            !cell.corpse &&
+            !cell.mob?.isPlayer
+          )
             return adjacentPoint;
         }
       }

@@ -17,7 +17,10 @@ export type Map = {
   isLegalPoint(p: WorldPoint): boolean;
   addNPC(m: Mob): Mob;
   enterMap(player: Mob, np: WorldPoint): void;
-  addStairInfo(glyph: Glyph.StairsUp | Glyph.StairsDown, pos: WorldPoint): void;
+  addStairInfo(
+    glyph: Glyph.Stairs_Up | Glyph.Stairs_Down,
+    pos: WorldPoint,
+  ): void;
   moveMob(m: Mob, p: WorldPoint): void;
   removeMob(m: Mob): void;
   mobToCorpse(m: Mob): void;

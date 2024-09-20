@@ -27,7 +27,7 @@ export class CellEffects {
    */
   public applyCellEffects(): void {
     if (this.cell.isCausingSlow()) {
-      if (this.cell.env !== Glyph.ShallowWater) {
+      if (this.cell.env !== Glyph.Shallow_Water) {
         // Shallow water is handled in this.handleWater()
         const duration = 5;
         new BuffCommand(

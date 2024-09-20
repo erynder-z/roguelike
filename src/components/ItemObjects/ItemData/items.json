@@ -45,7 +45,7 @@
       "bgCol": "#4B5A52",
       "fgCol": "#887F72",
       "hasSolidBg": false,
-      "name": "Gloves",
+      "name": "Pair of gloves",
       "description": "A pair of gloves that improve grip and provide some defense.",
       "help": {
         "show": true,
@@ -71,7 +71,7 @@
       "bgCol": "#4B5A52",
       "fgCol": "#889E7C",
       "hasSolidBg": false,
-      "name": "Pants",
+      "name": "Pair of pants",
       "description": "A pair of durable pants providing basic leg protection.",
       "help": {
         "show": true,
@@ -84,7 +84,7 @@
       "bgCol": "#4B5A52",
       "fgCol": "#7C8C8A",
       "hasSolidBg": false,
-      "name": "Boots",
+      "name": "Pair of boots",
       "description": "A sturdy pair of boots that offer good foot protection and comfort.",
       "help": {
         "show": true,
@@ -107,7 +107,7 @@
       "bgCol": "#4B5A52",
       "fgCol": "#8B7A83",
       "hasSolidBg": false,
-      "name": "TeleportRune",
+      "name": "Teleportation rune",
       "description": "A rune for a teleportation spell.",
       "help": { "show": true, "about": "A rune for a teleportation spell." }
     },

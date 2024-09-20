@@ -46,7 +46,7 @@ export class DigCommand extends CommandBase {
     const digSuccess = rand.isOneIn(10);
 
     if (digSuccess) {
-      cell.env = Glyph.Floor;
+      cell.env = Glyph.Regular_Floor;
       EnvironmentChecker.clearCellEffectInArea(newPosition, map, digCellEnv);
 
       const msg = new LogMessage(

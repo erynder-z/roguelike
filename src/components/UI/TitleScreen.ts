@@ -25,7 +25,7 @@ export class TitleScreen extends HTMLElement {
           justify-content: start;
           height: 100%;
           width: 100%;
-          background: var(--background1);
+          background: var(--backgroundDefault);
           color: var(--white);
           z-index: 1;
           overflow: hidden;
@@ -94,7 +94,6 @@ export class TitleScreen extends HTMLElement {
 
         .seed-display span {
           font-size: 1.75rem;
-          font-weight: bold;
         }
 
         .version-display {
@@ -253,14 +252,19 @@ export class TitleScreen extends HTMLElement {
       url: 'help.html',
       title: 'Meikai - Help',
       fullscreen: true,
+      visible: false,
     });
 
     webview.once('tauri://created', () => {
-      // webview window successfully created
+      const helpWindow = WebviewWindow.getByLabel('help');
+
+      webview.listen('content-loaded', () => {
+        helpWindow?.show();
+      });
     });
+
     webview.once('tauri://error', e => {
       console.error(e);
-      // an error occurred during webview window creation
     });
   }
 

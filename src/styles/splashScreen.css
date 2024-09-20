@@ -1,0 +1,22 @@
+@font-face {
+  font-family: UASQUARE;
+  src: url(../fonts/UASQUARE.ttf) format('truetype');
+}
+
+:root {
+  --backgroundDefault: #111a24;
+  --white: #ffffff;
+}
+
+body {
+  background-color: var(--backgroundDefault);
+  color: var(--white);
+  font-family: 'UASQUARE';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}

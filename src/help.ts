@@ -1,5 +1,8 @@
 import './styles/cssReset.css';
 import './styles/style-help.css';
+import { initializeColors } from './components/Colors/ColorLoader';
+
+import { emit } from '@tauri-apps/api/event';
 
 const initializeTabs = () => {
   const tabElements = document.querySelectorAll(
@@ -60,5 +63,9 @@ const initializeTabs = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  initializeColors();
   initializeTabs();
+
+  // Emit content-loaded event to show the help screen only after the DOM content is loaded
+  emit('content-loaded');
 });

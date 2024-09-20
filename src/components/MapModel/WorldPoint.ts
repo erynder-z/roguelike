@@ -84,7 +84,7 @@ export class WorldPoint {
    * Calculates the squared distance between the current point and another WorldPoint.
    * This is more efficient than calculating the actual distance.
    *
-   * @param {WorldPoint} point - The WorldPoint to calculate the squared distance to
+   * @param {WorldPoint} b - The WorldPoint to calculate the squared distance to
    * @return {number} The squared distance between the points
    */
   public squaredDistanceTo(b: WorldPoint): number {
@@ -95,7 +95,7 @@ export class WorldPoint {
   /**
    * Subtracts another WorldPoint from the current instance.
    *
-   * @param {WorldPoint} pointToSubtract - The WorldPoint to subtract
+   * @param {WorldPoint} b - The WorldPoint to subtract
    * @return {WorldPoint} The resulting WorldPoint after subtraction
    */
   public minus(b: WorldPoint): WorldPoint {

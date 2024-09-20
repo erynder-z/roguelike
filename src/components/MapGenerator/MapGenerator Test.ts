@@ -48,7 +48,7 @@ export class MapGenerator_Test {
     dimensions: WorldPoint,
     filled: boolean,
   ): void {
-    const centerGlyph = filled ? Glyph.Wall : Glyph.Floor;
+    const centerGlyph = filled ? Glyph.Wall : Glyph.Regular_Floor;
     const x2 = dimensions.x - 1;
     const y2 = dimensions.y - 1;
     const doorPositions: WorldPoint[] = [];
@@ -62,7 +62,7 @@ export class MapGenerator_Test {
           x === 0 || y === 0 || x === dimensions.x || y === dimensions.y;
         const isSecondLayer = x === 1 || y === 1 || x === x2 || y === y2;
         const glyph = isEdge
-          ? Glyph.Floor
+          ? Glyph.Regular_Floor
           : isSecondLayer
             ? Glyph.Wall
             : centerGlyph;

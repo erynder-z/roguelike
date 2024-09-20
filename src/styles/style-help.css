@@ -23,23 +23,14 @@
 }
 
 :root {
-  --background1: #111a24;
-  --background1Transparent: rgba(17, 26, 36, 0.75);
-  --accent: #017f9e;
-  --white: #ffffff;
-  --whiteTransparent: rgba(255, 255, 255, 0.1);
   --margin: 0;
   --padding: 0;
   --box-sizing: border-box;
   --scrollbar-width: thin;
-  --scrollbar-foreground: var(--white);
-  --scrollbar-background: var(--background1);
-  --selection-color: var(--white);
-  --selection-background: var(--accent);
 }
 
 body {
-  background-color: var(--background1);
+  background-color: var(--backgroundDefault);
   color: var(--white);
   font-family: 'UASQUARE';
   margin: var(--margin);
@@ -60,7 +51,7 @@ body {
 }
 
 .tab-container {
-  background-color: var(--background1);
+  background-color: var(--backgroundDefault);
   width: 100%;
   position: sticky;
   top: 0;

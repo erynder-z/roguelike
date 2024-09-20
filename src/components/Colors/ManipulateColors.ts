@@ -83,7 +83,7 @@ export class ManipulateColors {
    */
   public static tintWithGreen(hexColor: string, factor: number): string {
     if (hexColor.startsWith('#')) {
-        hexColor = hexColor.slice(1);
+      hexColor = hexColor.slice(1);
     }
 
     let r = parseInt(hexColor.slice(0, 2), 16);
@@ -97,18 +97,18 @@ export class ManipulateColors {
     const tintedColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 
     return tintedColor;
-}
+  }
 
-    /**
-     * Tints the given hex color with yellow based on the provided factor.
-     *
-     * @param {string} hexColor - The hex color to tint. It should start with a '#' character.
-     * @param {number} factor - The factor by which to tint the color. A value of 0 will return the original color, a value of 1 will return the most yellow color possible.
-     * @return {string} The tinted hex color.
-     */
-public static tintWithYellow(hexColor: string, factor: number): string {
+  /**
+   * Tints the given hex color with yellow based on the provided factor.
+   *
+   * @param {string} hexColor - The hex color to tint. It should start with a '#' character.
+   * @param {number} factor - The factor by which to tint the color. A value of 0 will return the original color, a value of 1 will return the most yellow color possible.
+   * @return {string} The tinted hex color.
+   */
+  public static tintWithYellow(hexColor: string, factor: number): string {
     if (hexColor.startsWith('#')) {
-        hexColor = hexColor.slice(1);
+      hexColor = hexColor.slice(1);
     }
 
     let r = parseInt(hexColor.slice(0, 2), 16);
@@ -122,7 +122,22 @@ public static tintWithYellow(hexColor: string, factor: number): string {
     const tintedColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 
     return tintedColor;
-}
+  }
 
+  /**
+   * Converts a hex color to an rgba color string.
+   *
+   * @param {string} hex - The hex color to convert.
+   * @param {number} transparency - The transparency of the color. A value of 0 will return a completely transparent color, a value of 1 will return a completely opaque color.
+   * @return {string} The rgba color string.
+   */
+  public static hexToRgba(hex: string, transparency: number): string {
+    transparency = Math.max(0, Math.min(1, transparency));
 
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${transparency})`;
+  }
 }

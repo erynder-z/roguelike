@@ -35,6 +35,7 @@ export class GameMap implements Map {
    * @returns {MapCell} The map cell at the specified world point.
    */
   public cell(p: WorldPoint): MapCell {
+    if (!this.isLegalPoint(p)) return new MapCell(this.g_empty);
     return this.cells[p.y][p.x];
   }
 
@@ -69,16 +70,16 @@ export class GameMap implements Map {
   /**
    * Adds information about the location of up and down stairs.
    *
-   * @param {Glyph.StairsUp | Glyph.StairsDown} glyph - The type of stair glyph (up or down).
+   * @param {Glyph.Stairs_Up | Glyph.Stairs_Down} glyph - The type of stair glyph (up or down).
    * @param {WorldPoint} pos - The position of the stair on the map.
    * @returns {void}
    */
   public addStairInfo(
-    glyph: Glyph.StairsUp | Glyph.StairsDown,
+    glyph: Glyph.Stairs_Up | Glyph.Stairs_Down,
     pos: WorldPoint,
   ): void {
-    if (glyph === Glyph.StairsUp) this.upStairPos = pos;
-    if (glyph === Glyph.StairsDown) this.downStairPos = pos;
+    if (glyph === Glyph.Stairs_Up) this.upStairPos = pos;
+    if (glyph === Glyph.Stairs_Down) this.downStairPos = pos;
   }
 
   /**
@@ -102,6 +103,7 @@ export class GameMap implements Map {
    * @return {Mob} the added NPC
    */
   public addNPC(m: Mob): Mob {
+    m.name = GlyphMap.getGlyphInfo(m.glyph).name;
     m.description = GlyphMap.getGlyphDescription(m.glyph, 'mob');
     this.cell(m.pos).mob = m;
     this.queue.pushMob(m);
@@ -208,12 +210,16 @@ export class GameMap implements Map {
   }
 
   /**
-   * Sets the environment description for every cell.
+   * Sets the environment name and description for every cell.
    */
   public setEnvironmentDescriptions(): void {
     this.forEachCell(cell => {
       const glyph = cell.glyphEnvOnly();
-      cell.envDesc = GlyphMap.getGlyphDescription(glyph, 'environment');
+      cell.environment.name = GlyphMap.getGlyphInfo(glyph).name;
+      cell.environment.description = GlyphMap.getGlyphDescription(
+        glyph,
+        'environment',
+      );
     });
   }
 }

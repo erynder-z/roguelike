@@ -1,6 +1,7 @@
 import { Glyph } from '../Glyphs/Glyph';
+import { GlyphMap } from '../Glyphs/GlyphMap';
 import { Spell } from '../Spells/Spell';
-import { SpellColors } from '../Spells/SpellColors';
+import { SpellColors } from '../Colors/SpellColors';
 import { Slot } from './Slot';
 
 /**
@@ -36,6 +37,6 @@ export class ItemObject {
    * @returns {string} The name of the item.
    */
   public name(): string {
-    return Glyph[this.glyph];
+    return GlyphMap.getGlyphInfo(this.glyph).name;
   }
 }

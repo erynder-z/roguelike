@@ -64,9 +64,9 @@ export class TeleportCommand extends CommandBase {
 
       if (
         (map.isLegalPoint(newPoint) &&
-          map.cell(newPoint).env === Glyph.ChasmEdge) ||
+          map.cell(newPoint).env === Glyph.Chasm_Edge) ||
         (map.isLegalPoint(newPoint) &&
-          map.cell(newPoint).env === Glyph.ChasmCenter)
+          map.cell(newPoint).env === Glyph.Chasm_Center)
       )
         return newPoint;
 

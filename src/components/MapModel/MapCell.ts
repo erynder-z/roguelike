@@ -13,11 +13,15 @@ export class MapCell {
   constructor(public env: Glyph) {}
 
   public mob: Mob | undefined;
-  public lit: boolean | undefined = false;
+  public lit: boolean = false;
   public obj: ItemObject | undefined;
   public sprite: Glyph | undefined;
-  public envDesc: string | undefined;
-  public envEffects: EnvEffect[] = [];
+  public environment: {
+    name: string;
+    description: string;
+    effects: EnvEffect[];
+  } = { name: '', description: '', effects: [] };
+
   public corpse: Corpse | undefined;
 
   /**
@@ -26,9 +30,9 @@ export class MapCell {
    * @param {EnvEffect} effect - The environment effect to add.
    */
   public addEnvEffect(effect: EnvEffect) {
-    if (this.envEffects.includes(effect)) return;
+    if (this.environment.effects.includes(effect)) return;
 
-    this.envEffects.push(effect);
+    this.environment.effects.push(effect);
   }
 
   /**
@@ -37,14 +41,16 @@ export class MapCell {
    * @param {EnvEffect} effect - The environment effect to remove.
    */
   public removeEnvEffect(effect: EnvEffect) {
-    this.envEffects = this.envEffects.filter(e => e !== effect);
+    this.environment.effects = this.environment.effects.filter(
+      e => e !== effect,
+    );
   }
 
   /**
    * Clears all environment effects from the current map cell.
    */
   public clearAllEnvEffects() {
-    this.envEffects = [];
+    this.environment.effects = [];
   }
 
   /**
@@ -200,7 +206,7 @@ export class MapCell {
   public isCausingPoison(): boolean {
     return (
       this.glyphInfo.isCausingPoison ||
-      this.envEffects.includes(EnvEffect.Poison) ||
+      this.environment.effects.includes(EnvEffect.Poison) ||
       false
     );
   }
@@ -213,7 +219,7 @@ export class MapCell {
   public isCausingConfusion(): boolean {
     return (
       this.glyphInfo.isCausingConfusion ||
-      this.envEffects.includes(EnvEffect.Confusion) ||
+      this.environment.effects.includes(EnvEffect.Confusion) ||
       false
     );
   }
@@ -224,7 +230,7 @@ export class MapCell {
    * @return {boolean} True if the cell is a hidden trap, false otherwise.
    */
   public isHiddenTrap(): boolean {
-    return this.env === Glyph.HiddenTrap;
+    return this.env === Glyph.Hidden_Trap;
   }
 
   /**
@@ -233,7 +239,7 @@ export class MapCell {
    * @return {boolean} True if the cell is a chasm, false otherwise.
    */
   public isChasm(): boolean {
-    return this.env === Glyph.ChasmEdge || this.env === Glyph.ChasmCenter;
+    return this.env === Glyph.Chasm_Edge || this.env === Glyph.Chasm_Center;
   }
 
   /**
@@ -242,6 +248,6 @@ export class MapCell {
    * @return {boolean} True if the cell is water, false otherwise.
    */
   public isWater(): boolean {
-    return this.env === Glyph.ShallowWater || this.env === Glyph.DeepWater;
+    return this.env === Glyph.Shallow_Water || this.env === Glyph.Deep_Water;
   }
 }

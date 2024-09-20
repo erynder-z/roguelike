@@ -43,7 +43,7 @@ export class MapGenerator_Maze {
     const { map, rand } = this;
 
     const [x, y] = [currentCell.x, currentCell.y];
-    map.cell(currentCell).env = Glyph.Floor;
+    map.cell(currentCell).env = Glyph.Regular_Floor;
 
     // Define possible directions
     const directions = this.shuffle([
