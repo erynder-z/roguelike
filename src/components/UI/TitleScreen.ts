@@ -6,8 +6,8 @@ import { WebviewWindow } from '@tauri-apps/api/window';
 export class TitleScreen extends HTMLElement {
   constructor() {
     super();
-    this.addEventListener('pass-seed', event =>
-      this.handleSeedPassed(event as CustomEvent),
+    this.addEventListener('pass-initParams', event =>
+      this.handleParamsPassed(event as CustomEvent),
     );
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
@@ -121,6 +121,9 @@ export class TitleScreen extends HTMLElement {
           <button id="new-game-button">
             <span class="underline">N</span>ew Game
           </button>
+          <button id="player-setup-button">
+            <span class="underline">P</span>layer setup
+          </button>
           <button id="change-seed-button">
             <span class="underline">C</span>hange seed
           </button>
@@ -147,6 +150,7 @@ export class TitleScreen extends HTMLElement {
 
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
+    this.playerSetup = this.playerSetup.bind(this);
     this.changeSeed = this.changeSeed.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.showAbout = this.showAbout.bind(this);
@@ -155,6 +159,9 @@ export class TitleScreen extends HTMLElement {
     shadowRoot
       .getElementById('new-game-button')
       ?.addEventListener('click', this.startNewGame);
+    shadowRoot
+      .getElementById('player-setup-button')
+      ?.addEventListener('click', this.playerSetup);
     shadowRoot
       .getElementById('change-seed-button')
       ?.addEventListener('click', this.changeSeed);
@@ -174,8 +181,8 @@ export class TitleScreen extends HTMLElement {
    * Handles the custom event 'seed-passed' and displays the current seed.
    * @param {CustomEvent} event - The custom event containing the seed.
    */
-  private handleSeedPassed(event: CustomEvent) {
-    const seed = event.detail.seed;
+  private handleParamsPassed(event: CustomEvent) {
+    const seed = event.detail.initParams.seed;
     this.displayCurrentSeed(seed);
   }
 
@@ -202,6 +209,9 @@ export class TitleScreen extends HTMLElement {
     switch (event.key) {
       case 'N':
         this.startNewGame();
+        break;
+      case 'P':
+        this.playerSetup();
         break;
       case 'C':
         this.changeSeed();
@@ -230,6 +240,10 @@ export class TitleScreen extends HTMLElement {
     this.dispatchEvent(
       new CustomEvent('start-new-game', { bubbles: true, composed: true }),
     );
+  }
+
+  public playerSetup() {
+    alert('Player Setup');
   }
 
   /**
