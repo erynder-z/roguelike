@@ -94,7 +94,6 @@ export class TitleScreen extends HTMLElement {
 
         .seed-display span {
           font-size: 1.75rem;
-          font-weight: bold;
         }
 
         .version-display {

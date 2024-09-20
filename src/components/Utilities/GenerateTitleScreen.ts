@@ -25,7 +25,7 @@ export class GenerateTitleScreen {
       DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder(seed), seed);
     });
     titleScreen.addEventListener('change-seed', () => {
-      seed = Math.floor(Math.random() * 1000000);
+      seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
       titleScreen.dispatchEvent(
         new CustomEvent('pass-seed', { detail: { seed } }),
       );

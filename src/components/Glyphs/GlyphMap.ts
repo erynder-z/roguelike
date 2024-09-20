@@ -10,9 +10,7 @@ import * as mobsData from '../Mobs/MobData/mobs.json';
  */
 export class GlyphMap {
   private static glyphsRegistry: Map<Glyph, GlyphInfo> = new Map();
-  private static initialized = GlyphMap.initializeGlyphs();
-
-  private static bad: GlyphInfo = new GlyphInfo(
+  private static defaultGlyph: GlyphInfo = new GlyphInfo(
     'Bad',
     'red',
     'yellow',
@@ -28,14 +26,14 @@ export class GlyphMap {
    * @returns {GlyphInfo} Information about the glyph, or the default bad glyph if not found.
    */
   public static getGlyphInfo(glyph: Glyph): GlyphInfo {
-    return GlyphMap.glyphsRegistry.get(glyph) || GlyphMap.bad;
+    return GlyphMap.glyphsRegistry.get(glyph) || GlyphMap.defaultGlyph;
   }
 
   /**
-   * Initializes the glyph map with default glyphs from various data sources.
-   * @returns {number} The number of glyphs initialized.
+   * Initializes the glyphs registry by adding glyphs from various data sources asynchronously.
+   * @returns {Promise<number>} The size of the glyphs registry after initialization.
    */
-  private static initializeGlyphs(): number {
+  public static async initializeGlyphs(): Promise<number> {
     const addGlyph = (info: GlyphInfo) => {
       const glyph = Glyph[info.id as keyof typeof Glyph];
       const glyphInfo = new GlyphInfo(
@@ -61,19 +59,17 @@ export class GlyphMap {
       GlyphMap.glyphsRegistry.set(glyph, glyphInfo);
     };
 
-    // Player glyph
-    addGlyph(<GlyphInfo>{
-      id: 'Player',
-      char: '@',
-      bgCol: '#4B5A52',
-      fgCol: '#ffffff',
-      hasSolidBg: false,
-      name: 'Player',
-      description: "That's you.",
-    });
-
-    // Add data from external sources
+    // Adding glyphs for player, environment, mobs, items and corpses
     [
+      {
+        id: 'Player',
+        char: '@',
+        bgCol: '#4B5A52',
+        fgCol: '#ffffff',
+        hasSolidBg: false,
+        name: 'Player',
+        description: "That's you.",
+      },
       ...environmentData['environment'],
       ...mobsData['mobs'],
       ...itemData['items'],
