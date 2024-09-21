@@ -15,7 +15,7 @@ const initializeGame = async () => {
   await GlyphMap.initializeGlyphs();
 
   if (SHOW_MENU) {
-    GenerateTitleScreen.generate(initParams);
+    GenerateTitleScreen.generate();
   } else {
     const titleContainer = document.getElementById('title-container');
     if (titleContainer) titleContainer.remove();
