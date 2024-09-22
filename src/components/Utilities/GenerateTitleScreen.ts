@@ -22,7 +22,7 @@ export class GenerateTitleScreen {
       titleContainer.remove();
 
       DynamicScreenMaker.runBuilt_InitialGameSetup(
-        new Builder(initParams.seed),
+        new Builder(initParams.seed, initParams.player),
         initParams.seed,
       );
     });

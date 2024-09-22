@@ -1,7 +1,7 @@
 import { dialog } from '@tauri-apps/api';
 import { exit } from '@tauri-apps/api/process';
 import { WebviewWindow } from '@tauri-apps/api/window';
-import { initParams } from '../../initParams/InitParams';
+import { initParams, InitParamsType } from '../../initParams/InitParams';
 
 export class TitleMenu extends HTMLElement {
   constructor() {
@@ -136,28 +136,7 @@ export class TitleMenu extends HTMLElement {
       ?.addEventListener('click', this.quitGame);
     document.addEventListener('keydown', this.handleKeyPress);
 
-    this.addEventListeners();
-  }
-
-  /**
-   * Adds event listeners to the title menu buttons.
-   *
-   * This function adds event listeners to the 'new game' and 'change seed'
-   * buttons. The 'new game' button will dispatch a 'start-new-game' event
-   * when clicked. The 'change seed' button will dispatch a 'change-seed'
-   * event when clicked.
-   *
-   * @return {void} This function does not return anything.
-   */
-  private addEventListeners(): void {
     this.displayCurrentSeed(initParams.seed);
-
-    this.shadowRoot
-      ?.getElementById('new-game-button')
-      ?.addEventListener('click', this.startNewGame);
-    this.shadowRoot
-      ?.getElementById('change-seed-button')
-      ?.addEventListener('click', this.changeSeed);
   }
 
   /**
@@ -193,15 +172,16 @@ export class TitleMenu extends HTMLElement {
 
   /**
    * Displays the current seed in the title menu.
-   * @param {number} seed - The current seed.
+   *
+   * @param {InitParamsType['seed']} seed - The current seed.
+   *
+   * @return {void} This function does not return anything.
    */
-  private displayCurrentSeed(seed: number) {
+  private displayCurrentSeed(seed: InitParamsType['seed']): void {
     const seedDisplay = this.shadowRoot?.getElementById(
       'current-seed-display',
     ) as HTMLDivElement;
-    if (seedDisplay) {
-      seedDisplay.innerHTML = `Current seed: ${seed}`;
-    }
+    if (seedDisplay) seedDisplay.innerHTML = `Current seed: ${seed}`;
   }
 
   /**
@@ -239,17 +219,13 @@ export class TitleMenu extends HTMLElement {
    * @return {void} This function does not return anything.
    */
   public playerSetup(): void {
-    const titleScreen = document.querySelector('title-screen');
-    if (titleScreen) {
-      const titleScreenShadow = titleScreen.shadowRoot;
-      const titleScreenContent = titleScreenShadow?.getElementById(
-        'title-screen-content',
-      );
-      if (titleScreenContent) {
-        titleScreenContent.innerHTML = '';
-        const playerSetup = document.createElement('player-setup');
-        titleScreenContent.appendChild(playerSetup);
-      }
+    const titleScreenContent = document
+      .querySelector('title-screen')
+      ?.shadowRoot?.getElementById('title-screen-content');
+
+    if (titleScreenContent) {
+      titleScreenContent.innerHTML = '';
+      titleScreenContent.appendChild(document.createElement('player-setup'));
     }
   }
 
