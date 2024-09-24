@@ -3,6 +3,7 @@ import * as environmentData from '../Environment/EnvironmentData/environment.jso
 import * as itemData from '../ItemObjects/ItemData/items.json';
 import { Glyph } from './Glyph';
 import { GlyphInfo } from './GlyphInfo';
+import { initParams } from '../../initParams/InitParams';
 import * as mobsData from '../Mobs/MobData/mobs.json';
 
 /**
@@ -77,9 +78,9 @@ export class GlyphMap {
       id: 'Player',
       char: '@',
       bgCol: '#4B5A52',
-      fgCol: '#ffffff',
+      fgCol: initParams.player.color,
       hasSolidBg: false,
-      name: 'Player',
+      name: initParams.player.name,
       description: 'The player character. You are here.',
     });
 

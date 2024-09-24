@@ -16,6 +16,7 @@ export class PlayerSetup extends HTMLElement {
           align-items: center;
           height: 100%;
           width: 100%;
+          line-height: 1.75;
         }
 
         .container h1 {
@@ -77,7 +78,7 @@ export class PlayerSetup extends HTMLElement {
           filter: grayscale(100%);
         }
 
-        .name-container {
+        .name-container, .color-container {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -115,6 +116,22 @@ export class PlayerSetup extends HTMLElement {
         .name-input:focus {
           font-size: 3.5rem;
         }
+
+        .color-input-container {
+          width: 100%;
+        }
+
+        .color-input {
+          display: flex;
+          height: 2.5rem;
+          border-radius: 5%;
+          padding: 0;
+          margin: 0;
+          background: none;
+          outline: none;
+          border: none;
+          cursor: pointer;
+        }
       </style>
 
       <div class="container">
@@ -135,6 +152,17 @@ export class PlayerSetup extends HTMLElement {
             />
             <div id="player-name" class="name"></div>
           </div>
+          <div class="color-container">
+            <span class="underline">C</span>olor:&nbsp;
+            <div class="color-input-container">
+              <input
+                id="player-color-input"
+                class="color-input"
+                type="color"
+                value="#FFFFFF"
+              />
+            </div>
+          </div>
         </div>
         <div class="buttons-container">
           <button id="return-button">
@@ -149,6 +177,8 @@ export class PlayerSetup extends HTMLElement {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.toggleAppearance = this.toggleAppearance.bind(this);
     this.handleNameInputChange = this.handleNameInputChange.bind(this);
+    this.handleColorInputChange = this.handleColorInputChange.bind(this);
+    this.changeColor = this.changeColor.bind(this);
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
 
     shadowRoot
@@ -160,6 +190,9 @@ export class PlayerSetup extends HTMLElement {
     shadowRoot
       .getElementById('player-name')
       ?.addEventListener('click', this.enableNameEditing.bind(this));
+    shadowRoot
+      .getElementById('player-color-input')
+      ?.addEventListener('input', this.handleColorInputChange.bind(this));
     shadowRoot
       .getElementById('return-button')
       ?.addEventListener('click', this.returnToPreviousScreen);
@@ -185,20 +218,20 @@ export class PlayerSetup extends HTMLElement {
     switch (event.key) {
       case 'N':
         this.enableNameEditing();
-
+        break;
+      case 'C':
+        this.changeColor();
         break;
       case 'R':
         this.returnToPreviousScreen();
         break;
       case 'ArrowLeft':
-        if (event.ctrlKey) {
-          this.toggleAppearance();
-        }
+        if (event.ctrlKey) this.toggleAppearance();
+
         break;
       case 'ArrowRight':
-        if (event.ctrlKey) {
-          this.toggleAppearance();
-        }
+        if (event.ctrlKey) this.toggleAppearance();
+
         break;
       case 'y':
         break;
@@ -234,9 +267,7 @@ export class PlayerSetup extends HTMLElement {
     const element = this.shadowRoot?.getElementById(
       elementId,
     ) as HTMLDivElement;
-    if (element) {
-      element.textContent = content;
-    }
+    if (element) element.textContent = content;
   }
 
   private toggleAppearance() {
@@ -260,9 +291,7 @@ export class PlayerSetup extends HTMLElement {
 
     inputElement.addEventListener('blur', this.handleNameInputChange);
     inputElement.addEventListener('keydown', event => {
-      if (event.key === 'Enter') {
-        this.handleNameInputChange();
-      }
+      if (event.key === 'Enter') this.handleNameInputChange();
     });
   }
 
@@ -283,7 +312,21 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
-  public returnToPreviousScreen() {
+  private handleColorInputChange() {
+    const colorInput = this.shadowRoot?.getElementById(
+      'player-color-input',
+    ) as HTMLInputElement;
+    initParams.player.color = colorInput?.value;
+  }
+
+  private changeColor() {
+    const colorInput = this.shadowRoot?.getElementById(
+      'player-color-input',
+    ) as HTMLInputElement;
+    if (colorInput) colorInput.click();
+  }
+
+  private returnToPreviousScreen() {
     const titleScreenContent = document
       .querySelector('title-screen')
       ?.shadowRoot?.getElementById('title-screen-content');
@@ -300,8 +343,17 @@ export class PlayerSetup extends HTMLElement {
     const shadowRoot = this.shadowRoot;
     if (shadowRoot) {
       shadowRoot
-        .getElementById('return-button')
-        ?.removeEventListener('click', this.returnToPreviousScreen);
+        ?.getElementById('player-portrait-1')
+        ?.addEventListener('click', this.toggleAppearance);
+      shadowRoot
+        ?.getElementById('player-portrait-2')
+        ?.addEventListener('click', this.toggleAppearance);
+      shadowRoot
+        ?.getElementById('player-name')
+        ?.addEventListener('click', this.enableNameEditing.bind(this));
+      shadowRoot
+        ?.getElementById('return-button')
+        ?.addEventListener('click', this.returnToPreviousScreen);
     }
   }
 }
