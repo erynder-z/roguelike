@@ -57,7 +57,6 @@ export class FlashDecorator {
         const text = child.textContent;
         const frag = document.createDocumentFragment();
         let lastIndex = 0;
-
         let found = false;
 
         // Iterate over all matches of the regex in the text.
@@ -114,13 +113,90 @@ export class FlashDecorator {
   ): void {
     const style = document.createElement('style');
     shadowRoot.appendChild(style);
-
     data.forEach(entry => {
       const className = `${this.sanitizeClassName(entry.name)}-${type}-span`;
       const cssRule = `.${className} { color: ${entry.fgCol}; font-weight: bold; }`;
 
       style.sheet?.insertRule(cssRule, style.sheet.cssRules.length);
     });
+  }
+
+  /**
+   * Replaces occurrences of the player name in the given fragment with a colored span.
+   * The span is given a class name based on the player name and the provided color.
+   *
+   * @param {DocumentFragment} fragment - The fragment to modify.
+   * @param {string} playerName - The name of the player to colorize.
+   * @param {string} color - The color to apply to the player's name.
+   *
+   * @return {void}
+   */
+  public colorizePlayerName(
+    fragment: DocumentFragment,
+    playerName: string,
+  ): void {
+    const regex = new RegExp(`\\b(${playerName})\\b`, 'i');
+
+    // Iterate over all the child nodes of the given fragment.
+    fragment.childNodes.forEach(child => {
+      if (child instanceof Text) {
+        const text = child.textContent;
+        const frag = document.createDocumentFragment();
+        let lastIndex = 0;
+
+        let found = false;
+
+        // Iterate over all matches of the regex in the text.
+        text?.replace(regex, (match, name, index) => {
+          // Skip if already found.
+          if (found) return match;
+
+          // Add text before the match.
+          frag.appendChild(
+            document.createTextNode(text.slice(lastIndex, index)),
+          );
+
+          // Create a span for the player name.
+          const span = document.createElement('span');
+          span.textContent = match;
+          const className = `player-span`;
+          span.classList.add(className);
+          frag.appendChild(span);
+
+          found = true;
+
+          // Update index after the match.
+          lastIndex = index + match.length;
+          return match;
+        });
+
+        // Add remaining text after the last match.
+        if (text?.slice(lastIndex)) {
+          frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+        }
+
+        // Replace the child text node with the new fragment.
+        fragment.replaceChild(frag, child);
+      }
+    });
+  }
+
+  /**
+   * Creates a style block for the player's name with the given color.
+   *
+   * @param {ShadowRoot} shadowRoot - The ShadowRoot to create the style block in.
+   * @param {string} color - The color to apply to the player's name.
+   *
+   * @return {void}
+   */
+  public createPlayerStyle(shadowRoot: ShadowRoot, color: string): void {
+    const style = document.createElement('style');
+    shadowRoot.appendChild(style);
+
+    const className = `player-span`;
+    const cssRule = `.${className} { color: ${color}; font-weight: bold; }`;
+
+    style.sheet?.insertRule(cssRule, style.sheet.cssRules.length);
   }
 
   /**
@@ -131,7 +207,7 @@ export class FlashDecorator {
    * @param {string} name - The string to sanitize.
    * @returns {string} The sanitized string.
    */
-  private sanitizeClassName = (name: string) => {
+  private sanitizeClassName = (name: string): string => {
     return name
       .toLowerCase()
       .replace(/\s+/g, '_')

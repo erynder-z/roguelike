@@ -123,6 +123,7 @@ export class LookScreen extends BaseScreen {
   private generateMessageVisibleCell(cell: MapCell): string {
     const entities = [];
     const { mob, corpse, obj, environment } = cell;
+    const isPlayer = mob?.isPlayer;
     const isDownStairsCell = this.game
       .currentMap()
       ?.downStairPos?.isEqual(this.lookPos);
@@ -130,7 +131,9 @@ export class LookScreen extends BaseScreen {
       .currentMap()
       ?.upStairPos?.isEqual(this.lookPos);
 
-    if (mob) entities.push(`a ${mob.name.toLowerCase()}`);
+    if (isPlayer) entities.push(this.game.player.name);
+
+    if (mob && !isPlayer) entities.push(`a ${mob.name.toLowerCase()}`);
 
     if (corpse) entities.push(`a ${corpse.name.toLowerCase()}`);
 
