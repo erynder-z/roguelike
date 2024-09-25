@@ -26,11 +26,14 @@ export class HealCommand extends CommandBase {
     const minHeal = Math.ceil(this.healAmount * 0.5);
     const maxHeal = Math.floor(this.healAmount * 0.5);
     const healPoints = randomGenerator.randomInteger(minHeal, maxHeal);
+    const isPlayer = this.mob.isPlayer;
+
+    const s = isPlayer ? 'You heal' : `${this.mob.name} heals`;
 
     HealthAdjust.heal(this.mob, healPoints);
 
     const message = new LogMessage(
-      `${this.mob.name} heals for ${healPoints} hp`,
+      `${s} ${healPoints} hp!`,
       EventCategory.heal,
     );
     this.gameInstance.message(message);
