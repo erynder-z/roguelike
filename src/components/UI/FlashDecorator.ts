@@ -1,5 +1,5 @@
-import { FlashDecoratorDataEntry } from '../FlashDecoratorTypes';
-import { MessageLog } from '../../Messages/MessageLog';
+import { FlashDecoratorDataEntry } from './Types/FlashDecoratorTypes';
+import { MessageLog } from '../Messages/MessageLog';
 
 /**
  * Utility class to add styling to flash messages.

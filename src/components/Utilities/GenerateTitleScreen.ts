@@ -1,5 +1,6 @@
 import { initParams } from '../../initParams/InitParams';
 import { Builder } from '../Builder/Builder';
+import { GlyphMap } from '../Glyphs/GlyphMap';
 import { DynamicScreenMaker } from '../Screens/DynamicScreenMaker';
 
 export class GenerateTitleScreen {
@@ -18,9 +19,9 @@ export class GenerateTitleScreen {
     document.body.insertBefore(titleContainer, document.body.firstChild);
 
     // Add event listeners to start a new game
-    titleScreen.addEventListener('start-new-game', () => {
+    titleScreen.addEventListener('start-new-game', async () => {
       titleContainer.remove();
-
+      await GlyphMap.initializeGlyphs();
       DynamicScreenMaker.runBuilt_InitialGameSetup(
         new Builder(initParams.seed, initParams.player),
         initParams.seed,

@@ -1,7 +1,7 @@
 import { GameState } from '../Builder/Types/GameState';
 import { LogMessage } from '../Messages/LogMessage';
 import { MessageLog } from '../Messages/MessageLog';
-import { FlashDecorator } from './Types/FlashDecorator';
+import { FlashDecorator } from './FlashDecorator';
 
 import corpseData from '../Mobs/MobData/corpses.json';
 import envData from '../Environment/EnvironmentData/environment.json';
