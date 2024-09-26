@@ -5,6 +5,13 @@ import { MessageLog } from '../Messages/MessageLog';
  * Utility class to add styling to flash messages.
  */
 export class FlashDecorator {
+  private styleElement: HTMLStyleElement;
+
+  constructor(shadowRoot: ShadowRoot) {
+    // Create and append the style element only once in the constructor.
+    this.styleElement = document.createElement('style');
+    shadowRoot.appendChild(this.styleElement);
+  }
   /**
    * Adds a span element to the given fragment with a message indicating
    * how many messages are in the message log's queue.
@@ -30,112 +37,33 @@ export class FlashDecorator {
   }
 
   /**
-   * Replaces occurrences of names in the given fragment with colored spans.
+   * Replaces occurrences of names (or a single name) in the given fragment with colored spans.
    * The spans are given a class name based on the type of name and the name itself.
    *
    * @param {DocumentFragment} fragment - The fragment to modify.
-   * @param {FlashDecoratorDataEntry[]} data - The array of objects containing the names to replace.
-   * @param {string} type - The type of name (e.g. 'mob', 'item', 'env').
+   * @param {FlashDecoratorDataEntry[] | string} namesOrName - The array of objects containing the names to replace or a single player name.
+   * @param {string} type - The type of name (e.g. 'mob', 'item', 'env'). Ignored if a single player name is passed.
    *
    * @return {void}
    */
-  public colorizeNames(
+  public colorize(
     fragment: DocumentFragment,
-    data: FlashDecoratorDataEntry[],
-    type: 'mob' | 'corpse' | 'item' | 'env',
+    namesOrName: FlashDecoratorDataEntry[] | string,
+    type?: 'mob' | 'corpse' | 'item' | 'env',
   ): void {
-    // Create a regex that matches any occurrence of the names in the given array
-    // with word boundaries.
-    const names = data.map(entry => entry.name);
-    const regex = new RegExp(`\\b(${names.join('|')})\\b`, 'i');
+    let regex: RegExp;
+    let createClassName: (name: string) => string;
 
-    // Iterate over all the child nodes of the given fragment.
-    fragment.childNodes.forEach(child => {
-      // If the child is a text node, replace the text with a new fragment
-      // that contains the same text but with the names replaced with colored spans.
-      if (child instanceof Text) {
-        const text = child.textContent;
-        const frag = document.createDocumentFragment();
-        let lastIndex = 0;
-        let found = false;
-
-        // Iterate over all matches of the regex in the text.
-        text?.replace(regex, (match, name, index) => {
-          // If we have already found a match, skip this iteration.
-          if (found) return match;
-
-          // Add the text from the last match to the current index to the fragment.
-          frag.appendChild(
-            document.createTextNode(text.slice(lastIndex, index)),
-          );
-
-          // Create a new span element with the class name based on the name and type.
-          const span = document.createElement('span');
-          span.textContent = match;
-          span.classList.add(`${this.sanitizeClassName(name)}-${type}-span`);
-          frag.appendChild(span);
-
-          found = true;
-
-          // Update the index to the position after the current match.
-          lastIndex = index + match.length;
-          return match;
-        });
-
-        // Add the text from the last index to the end of the text to the fragment.
-        if (text?.slice(lastIndex)) {
-          frag.appendChild(document.createTextNode(text.slice(lastIndex)));
-        }
-
-        // Replace the child node in the fragment with the new fragment.
-        fragment.replaceChild(frag, child);
-      }
-    });
-  }
-
-  /**
-   * Creates a style block in the given ShadowRoot and adds style rules
-   * for each entry in the given data array.
-   *
-   * Each rule is of the form `.id-type-span { color: fgCol; font-weight: bold; }`
-   * and is inserted at the end of the stylesheet.
-   *
-   * @param {ShadowRoot} shadowRoot - The ShadowRoot to create the style block in.
-   * @param {FlashDecoratorDataEntry[]} data - The array of objects containing the ids and fgCols to use.
-   * @param {string} type - The type of name (e.g. 'mob', 'item', 'env').
-   *
-   * @return {void}
-   */
-  public createStyles(
-    shadowRoot: ShadowRoot,
-    data: FlashDecoratorDataEntry[],
-    type: string,
-  ): void {
-    const style = document.createElement('style');
-    shadowRoot.appendChild(style);
-    data.forEach(entry => {
-      const className = `${this.sanitizeClassName(entry.name)}-${type}-span`;
-      const cssRule = `.${className} { color: ${entry.fgCol}; font-weight: bold; }`;
-
-      style.sheet?.insertRule(cssRule, style.sheet.cssRules.length);
-    });
-  }
-
-  /**
-   * Replaces occurrences of the player name in the given fragment with a colored span.
-   * The span is given a class name based on the player name and the provided color.
-   *
-   * @param {DocumentFragment} fragment - The fragment to modify.
-   * @param {string} playerName - The name of the player to colorize.
-   * @param {string} color - The color to apply to the player's name.
-   *
-   * @return {void}
-   */
-  public colorizePlayerName(
-    fragment: DocumentFragment,
-    playerName: string,
-  ): void {
-    const regex = new RegExp(`\\b(${playerName})\\b`, 'i');
+    if (typeof namesOrName === 'string') {
+      // If it's a single name
+      regex = new RegExp(`\\b(${namesOrName})\\b`, 'i');
+      createClassName = () => `player-span`;
+    } else {
+      // If it's an array of entries (FlashDecoratorDataEntry generated from JSON)
+      const names = namesOrName.map(entry => entry.name);
+      regex = new RegExp(`\\b(${names.join('|')})\\b`, 'i');
+      createClassName = name => `${this.sanitizeClassName(name)}-${type}-span`;
+    }
 
     // Iterate over all the child nodes of the given fragment.
     fragment.childNodes.forEach(child => {
@@ -143,29 +71,21 @@ export class FlashDecorator {
         const text = child.textContent;
         const frag = document.createDocumentFragment();
         let lastIndex = 0;
-
         let found = false;
 
-        // Iterate over all matches of the regex in the text.
         text?.replace(regex, (match, name, index) => {
-          // Skip if already found.
           if (found) return match;
-
-          // Add text before the match.
           frag.appendChild(
             document.createTextNode(text.slice(lastIndex, index)),
           );
 
-          // Create a span for the player name.
+          // Create span element with dynamic class
           const span = document.createElement('span');
           span.textContent = match;
-          const className = `player-span`;
-          span.classList.add(className);
+          span.classList.add(createClassName(name));
           frag.appendChild(span);
 
           found = true;
-
-          // Update index after the match.
           lastIndex = index + match.length;
           return match;
         });
@@ -175,28 +95,60 @@ export class FlashDecorator {
           frag.appendChild(document.createTextNode(text.slice(lastIndex)));
         }
 
-        // Replace the child text node with the new fragment.
         fragment.replaceChild(frag, child);
       }
     });
   }
 
+
   /**
-   * Creates a style block for the player's name with the given color.
-   *
-   * @param {ShadowRoot} shadowRoot - The ShadowRoot to create the style block in.
-   * @param {string} color - The color to apply to the player's name.
-   *
+   * Creates styles for the given data or color.
+   * 
+   * If dataOrColor is a string, it is treated as a single player style.
+   * A style rule is created for a span element with a class name of 'player-span'
+   * and the color and font weight properties are set to the given dataOrColor.
+   * 
+   * If dataOrColor is an array of FlashDecoratorDataEntry objects, it is treated as a general style.
+   * For each entry, a style rule is created for a span element with a class name of
+   * `${this.sanitizeClassName(entry.name)}-${type}-span` and the color and font weight properties are set
+   * to the entry's fgCol property.
+   * 
+   * @param {FlashDecoratorDataEntry[] | string} dataOrColor - The data or color to create styles for.
+   * @param {string} [type] - The type of style. Ignored if dataOrColor is a string.
    * @return {void}
    */
-  public createPlayerStyle(shadowRoot: ShadowRoot, color: string): void {
-    const style = document.createElement('style');
-    shadowRoot.appendChild(style);
+  public createStyles(
+    dataOrColor: FlashDecoratorDataEntry[] | string,
+    type?: string,
+  ): void {
+    if (typeof dataOrColor === 'string') {
+      // Single player style
+      const className = `player-span`;
+      const cssRule = `.${className} { color: ${dataOrColor}; font-weight: bold; }`;
+      this.appendStyleRule(cssRule);
+    } else {
+      // General style for multiple entries
+      dataOrColor.forEach(entry => {
+        const className = `${this.sanitizeClassName(entry.name)}-${type}-span`;
+        const cssRule = `.${className} { color: ${entry.fgCol}; font-weight: bold; }`;
+        this.appendStyleRule(cssRule);
+      });
+    }
+  }
 
-    const className = `player-span`;
-    const cssRule = `.${className} { color: ${color}; font-weight: bold; }`;
-
-    style.sheet?.insertRule(cssRule, style.sheet.cssRules.length);
+  /**
+   * Appends a CSS rule to the existing style element.
+   *
+   * @param {string} rule - The CSS rule to append.
+   * @return {void}
+   */
+  private appendStyleRule(rule: string): void {
+    if (this.styleElement.sheet) {
+      this.styleElement.sheet.insertRule(
+        rule,
+        this.styleElement.sheet.cssRules.length,
+      );
+    }
   }
 
   /**
