@@ -1,5 +1,6 @@
 import { initParams, InitParamsType } from '../../initParams/InitParams';
 import { boyishImage, girlishImage } from '../ImageHandler/portraitImages';
+import { getRandomName } from '../Utilities/GetRandomName';
 
 export class PlayerSetup extends HTMLElement {
   constructor() {
@@ -34,6 +35,11 @@ export class PlayerSetup extends HTMLElement {
           color: var(--white);
           border: none;
           transition: all 0.2s ease-in-out;
+        }
+
+        button.randomize-name-button {
+          padding: 0 0 0 1rem;
+          font-size: 1.75rem;
         }
 
         .container button:hover {
@@ -78,7 +84,8 @@ export class PlayerSetup extends HTMLElement {
           filter: grayscale(100%);
         }
 
-        .name-container, .color-container {
+        .name-container,
+        .color-container {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -151,6 +158,9 @@ export class PlayerSetup extends HTMLElement {
               maxlength="30"
             />
             <div id="player-name" class="name"></div>
+            <button id="randomize-name-button" class="randomize-name-button">
+              (randomi<span class="underline">z</span>e)
+            </button>
           </div>
           <div class="color-container">
             <span class="underline">C</span>olor:&nbsp;
@@ -177,6 +187,7 @@ export class PlayerSetup extends HTMLElement {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.toggleAppearance = this.toggleAppearance.bind(this);
     this.handleNameInputChange = this.handleNameInputChange.bind(this);
+    this.randomizeName = this.randomizeName.bind(this);
     this.handleColorInputChange = this.handleColorInputChange.bind(this);
     this.changeColor = this.changeColor.bind(this);
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
@@ -190,6 +201,9 @@ export class PlayerSetup extends HTMLElement {
     shadowRoot
       .getElementById('player-name')
       ?.addEventListener('click', this.enableNameEditing.bind(this));
+    shadowRoot
+      .getElementById('randomize-name-button')
+      ?.addEventListener('click', this.randomizeName.bind(this));
     shadowRoot
       .getElementById('player-color-input')
       ?.addEventListener('input', this.handleColorInputChange.bind(this));
@@ -218,6 +232,9 @@ export class PlayerSetup extends HTMLElement {
     switch (event.key) {
       case 'N':
         this.enableNameEditing();
+        break;
+      case 'z':
+        this.randomizeName();
         break;
       case 'C':
         this.changeColor();
@@ -310,6 +327,11 @@ export class PlayerSetup extends HTMLElement {
       nameElement.style.display = 'inline';
       inputElement.style.display = 'none';
     }
+  }
+
+  private randomizeName() {
+    initParams.player.name = getRandomName(initParams.player.appearance);
+    this.renderNameElement('player-name', initParams.player.name);
   }
 
   private handleColorInputChange() {
