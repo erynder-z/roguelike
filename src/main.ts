@@ -31,5 +31,5 @@ const initializeGame = async () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   await initializeGame();
-  await invoke('close_splashscreen');
+   invoke('close_splashscreen');
 });
