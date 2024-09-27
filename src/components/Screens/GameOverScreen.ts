@@ -1,3 +1,4 @@
+import { initParams } from '../../initParams/InitParams';
 import { GameState } from '../Builder/Types/GameState';
 import { PostMortem } from '../Stats/PostMortem';
 import { Stack } from '../Terminal/Types/Stack';
@@ -44,10 +45,12 @@ export class GameOverScreen implements StackScreen {
     const innerContainer = document.createElement('div');
     innerContainer.classList.add('post-mortem-container');
 
-    const heading = this.createHeading();
+    const name = this.createNameElement();
+    const heading = this.createHeadingElement();
     const messageList = this.createPostMortem();
     const info = this.createInfo();
 
+    innerContainer.appendChild(name);
     innerContainer.appendChild(heading);
     innerContainer.appendChild(messageList);
     innerContainer.appendChild(info);
@@ -59,12 +62,24 @@ export class GameOverScreen implements StackScreen {
   }
 
   /**
+   * Creates a new HTMLDivElement for the player's name at the top of the game over screen.
+   *
+   * @return {HTMLDivElement} The created HTMLDivElement containing the player's name.
+   */
+  private createNameElement(): HTMLDivElement {
+    const nameElement = document.createElement('h1');
+    nameElement.textContent = `${this.game.player.name} ✝`;
+    nameElement.style.color = initParams.player.color;
+    return nameElement;
+  }
+
+  /**
    * Creates a new HTML heading element.
    *
    * @return {HTMLHeadingElement} The newly created heading element.
    */
-  private createHeading(): HTMLHeadingElement {
-    const heading = document.createElement('h1');
+  private createHeadingElement(): HTMLHeadingElement {
+    const heading = document.createElement('h2');
     heading.textContent = 'Your journey has ended...';
     return heading;
   }
