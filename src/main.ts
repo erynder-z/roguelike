@@ -9,6 +9,8 @@ import { initParams } from './initParams/InitParams';
 import { invoke } from '@tauri-apps/api/tauri';
 
 const initializeGame = async () => {
+  if (!initParams) throw new Error('initParams not defined');
+
   const { SHOW_MENU, seed, player } = initParams;
 
   await ColorLoader.initializeColors();
