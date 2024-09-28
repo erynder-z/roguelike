@@ -11,7 +11,7 @@ export class PlayerSetup extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
-        .container {
+        :host {
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -20,10 +20,24 @@ export class PlayerSetup extends HTMLElement {
           line-height: 1.75;
         }
 
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 45ch;
+        }
+
         .container h1 {
           margin: 8rem 0 0 0;
           text-align: center;
           z-index: 1;
+        }
+
+        .player-about {
+          background: var(--whiteTransparent);
+          padding: 2rem;
+          width: 45ch;
+          border-radius: 1rem;
         }
 
         .container button {
@@ -38,8 +52,7 @@ export class PlayerSetup extends HTMLElement {
         }
 
         button.randomize-name-button {
-          padding: 0 0 0 1rem;
-          font-size: 1.75rem;
+          font-size: 1.5rem;
         }
 
         .container button:hover {
@@ -61,33 +74,35 @@ export class PlayerSetup extends HTMLElement {
 
         .appearance {
           display: flex;
-          justify-content: center;
-          gap: 2rem;
+          justify-content: space-evenly;
           margin: 4rem 0;
         }
 
         .portrait {
           transition: filter 0.2s ease;
           cursor: pointer;
+   
         }
 
         img {
           width: auto;
           height: 12rem;
+           
         }
 
         .highlight {
           filter: none;
+    
         }
 
-        .grayscale {
-          filter: grayscale(100%);
+        .inactive {
+          filter: grayscale(100%) brightness(50%);
         }
 
         .name-container,
         .color-container {
           display: flex;
-          justify-content: center;
+          justify-content: left;
           align-items: center;
           font-weight: bold;
           cursor: default;
@@ -95,7 +110,6 @@ export class PlayerSetup extends HTMLElement {
 
         .name {
           cursor: pointer;
-          flex: 1;
           font-family: 'UASQUARE';
           font-size: 2.5rem;
           font-weight: bold;
@@ -108,6 +122,7 @@ export class PlayerSetup extends HTMLElement {
 
         .name-input {
           display: none;
+          width: 100%;
           font-family: 'UASQUARE';
           font-size: 2.5rem;
           font-weight: bold;
@@ -116,12 +131,12 @@ export class PlayerSetup extends HTMLElement {
           outline: none;
           color: var(--white);
           padding: 0;
-          flex: 1;
           transition: font-size 0.2s ease-in-out;
         }
 
-        .name-input:focus {
-          font-size: 3.5rem;
+        .randomize-name-button {
+          padding: 0 0 0 1rem;
+          font-size: 1.75rem;
         }
 
         .color-input-container {
@@ -138,6 +153,13 @@ export class PlayerSetup extends HTMLElement {
           outline: none;
           border: none;
           cursor: pointer;
+        }
+
+        .info-container {
+          width: 100%;
+          font-size: 1.25rem;
+          text-align: left;
+          margin-top: 1rem;
         }
       </style>
 
@@ -174,6 +196,7 @@ export class PlayerSetup extends HTMLElement {
             </div>
           </div>
         </div>
+        <div class="info-container">Ctrl + Arrow keys to toggle appearance</div>
         <div class="buttons-container">
           <button id="return-button">
             <span class="underline">R</span>eturn
@@ -276,7 +299,7 @@ export class PlayerSetup extends HTMLElement {
     if (element) {
       element.innerHTML = imageHTML;
       element.classList.toggle('highlight', isHighlighted);
-      element.classList.toggle('grayscale', !isHighlighted);
+      element.classList.toggle('inactive', !isHighlighted);
     }
   }
 
@@ -300,7 +323,11 @@ export class PlayerSetup extends HTMLElement {
     const nameElement = this.shadowRoot?.getElementById(
       'player-name',
     ) as HTMLDivElement;
+    const randomizeButton = this.shadowRoot?.getElementById(
+      'randomize-name-button',
+    ) as HTMLButtonElement;
 
+    randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
     inputElement.value = initParams.player.name;
     nameElement.style.display = 'none';
@@ -319,6 +346,9 @@ export class PlayerSetup extends HTMLElement {
     const nameElement = this.shadowRoot?.getElementById(
       'player-name',
     ) as HTMLDivElement;
+    const randomizeButton = this.shadowRoot?.getElementById(
+      'randomize-name-button',
+    ) as HTMLButtonElement;
 
     if (inputElement) {
       const newName = inputElement.value.trim();
@@ -326,6 +356,7 @@ export class PlayerSetup extends HTMLElement {
       this.renderNameElement('player-name', initParams.player.name);
       nameElement.style.display = 'inline';
       inputElement.style.display = 'none';
+      randomizeButton.style.display = 'inline';
     }
   }
 
