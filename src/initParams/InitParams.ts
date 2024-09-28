@@ -7,6 +7,7 @@ export type InitParamsType = {
     name: string;
     appearance: 'boyish' | 'girlish';
     color: string;
+    avatar: string;
   };
 };
 
@@ -19,6 +20,7 @@ const createInitParams = (): InitParamsType => {
   const color = '#ffffff';
   const appearance: 'boyish' | 'girlish' = 'girlish';
   const name = getRandomName(appearance);
+  const avatar = '@';
 
   return {
     SHOW_MENU: true,
@@ -28,6 +30,7 @@ const createInitParams = (): InitParamsType => {
       name,
       appearance,
       color,
+      avatar,
     },
   };
 };

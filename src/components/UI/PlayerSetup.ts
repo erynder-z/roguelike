@@ -81,18 +81,15 @@ export class PlayerSetup extends HTMLElement {
         .portrait {
           transition: filter 0.2s ease;
           cursor: pointer;
-   
         }
 
         img {
           width: auto;
           height: 12rem;
-           
         }
 
         .highlight {
           filter: none;
-    
         }
 
         .inactive {
@@ -100,7 +97,8 @@ export class PlayerSetup extends HTMLElement {
         }
 
         .name-container,
-        .color-container {
+        .color-container,
+        .avatar-container {
           display: flex;
           justify-content: left;
           align-items: center;
@@ -155,6 +153,32 @@ export class PlayerSetup extends HTMLElement {
           cursor: pointer;
         }
 
+        .avatar {
+          cursor: pointer;
+          font-family: 'DejaVu Sans Mono';
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: var(--white);
+          padding: 0;
+          outline: none;
+          background: none;
+          transition: font-size 0.2s ease-in-out;
+        }
+
+        .avatar-input {
+          display: none;
+          width: 100%;
+          font-family: 'DejaVu Sans Mono';
+          font-size: 2.5rem;
+          font-weight: bold;
+          background: none;
+          border: none;
+          outline: none;
+          color: var(--white);
+          padding: 0;
+          transition: font-size 0.2s ease-in-out;
+        }
+
         .info-container {
           width: 100%;
           font-size: 1.25rem;
@@ -195,8 +219,21 @@ export class PlayerSetup extends HTMLElement {
               />
             </div>
           </div>
+          <div class="avatar-container">
+            <span class="underline">A</span>vatar:&nbsp;
+            <input
+              id="player-avatar-input"
+              class="avatar-input"
+              type="text"
+              autocomplete="off"
+              maxlength="1"
+            />
+            <div id="player-avatar" class="avatar"></div>
+          </div>
         </div>
-        <div class="info-container">Ctrl + Arrow keys to toggle appearance</div>
+        <div class="info-container">
+          Ctrl + Arrow keys to toggle appearance
+        </div>
         <div class="buttons-container">
           <button id="return-button">
             <span class="underline">R</span>eturn
@@ -207,44 +244,58 @@ export class PlayerSetup extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.toggleAppearance = this.toggleAppearance.bind(this);
-    this.handleNameInputChange = this.handleNameInputChange.bind(this);
-    this.randomizeName = this.randomizeName.bind(this);
-    this.handleColorInputChange = this.handleColorInputChange.bind(this);
-    this.changeColor = this.changeColor.bind(this);
-    this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
-
-    shadowRoot
-      .getElementById('player-portrait-1')
-      ?.addEventListener('click', this.toggleAppearance);
-    shadowRoot
-      .getElementById('player-portrait-2')
-      ?.addEventListener('click', this.toggleAppearance);
-    shadowRoot
-      .getElementById('player-name')
-      ?.addEventListener('click', this.enableNameEditing.bind(this));
-    shadowRoot
-      .getElementById('randomize-name-button')
-      ?.addEventListener('click', this.randomizeName.bind(this));
-    shadowRoot
-      .getElementById('player-color-input')
-      ?.addEventListener('input', this.handleColorInputChange.bind(this));
-    shadowRoot
-      .getElementById('return-button')
-      ?.addEventListener('click', this.returnToPreviousScreen);
-
-    document.addEventListener('keydown', this.handleKeyPress);
-
+    this.bindEvents();
     this.displayPlayer(initParams.player);
   }
 
+  private bindEvents() {
+    this.addEventListenerToElement('player-portrait-1', this.toggleAppearance);
+    this.addEventListenerToElement('player-portrait-2', this.toggleAppearance);
+    this.addEventListenerToElement(
+      'player-name',
+      this.enableNameEditing.bind(this),
+    );
+    this.addEventListenerToElement(
+      'randomize-name-button',
+      this.randomizeName.bind(this),
+    );
+    this.addEventListenerToElement(
+      'player-color-input',
+      this.handleColorInputChange.bind(this),
+    );
+    this.addEventListenerToElement(
+      'player-avatar',
+      this.enableAvatarEditing.bind(this),
+    );
+    this.addEventListenerToElement(
+      'return-button',
+      this.returnToPreviousScreen,
+    );
+
+    document.addEventListener('keydown', this.handleKeyPress.bind(this));
+  }
+
+  private addEventListenerToElement(
+    elementId: string,
+    callback: EventListener,
+  ) {
+    const element = this.shadowRoot?.getElementById(elementId);
+    if (element) {
+      element.addEventListener('click', callback);
+    }
+  }
+
   private handleKeyPress(event: KeyboardEvent) {
-    const inputElement = this.shadowRoot?.getElementById(
+    const nameInputElement = this.shadowRoot?.getElementById(
       'player-name-input',
     ) as HTMLInputElement;
+    const avatarInputElement = this.shadowRoot?.getElementById(
+      'player-avatar-input',
+    ) as HTMLInputElement;
 
-    const isFocused = this.shadowRoot?.activeElement === inputElement;
+    const isFocused =
+      this.shadowRoot?.activeElement === nameInputElement ||
+      this.shadowRoot?.activeElement === avatarInputElement;
 
     if (isFocused) {
       return; // Return early if the name input is focused.
@@ -261,6 +312,9 @@ export class PlayerSetup extends HTMLElement {
         break;
       case 'C':
         this.changeColor();
+        break;
+      case 'A':
+        this.enableAvatarEditing();
         break;
       case 'R':
         this.returnToPreviousScreen();
@@ -286,6 +340,7 @@ export class PlayerSetup extends HTMLElement {
     this.renderPortraitElement('player-portrait-2', boyishImage, !isGirlish);
 
     this.renderNameElement('player-name', player.name);
+    this.renderNameElement('player-avatar', player.avatar);
   }
 
   private renderPortraitElement(
@@ -390,6 +445,42 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
+  private enableAvatarEditing() {
+    const inputElement = this.shadowRoot?.getElementById(
+      'player-avatar-input',
+    ) as HTMLInputElement;
+    const avatarElement = this.shadowRoot?.getElementById(
+      'player-avatar',
+    ) as HTMLDivElement;
+
+    inputElement.style.display = 'flex';
+    inputElement.value = initParams.player.avatar;
+    avatarElement.style.display = 'none';
+    inputElement.focus();
+
+    inputElement.addEventListener('blur', this.handleAvatarInputChange);
+    inputElement.addEventListener('keydown', event => {
+      if (event.key === 'Enter') this.handleAvatarInputChange();
+    });
+  }
+
+  private handleAvatarInputChange() {
+    const inputElement = this.shadowRoot?.getElementById(
+      'player-avatar-input',
+    ) as HTMLInputElement;
+    const avatarElement = this.shadowRoot?.getElementById(
+      'player-avatar',
+    ) as HTMLDivElement;
+
+    if (inputElement) {
+      const newAvatar = inputElement.value.trim();
+      initParams.player.avatar = newAvatar || '@';
+      this.renderNameElement('player-avatar', initParams.player.avatar);
+      avatarElement.style.display = 'inline';
+      inputElement.style.display = 'none';
+    }
+  }
+
   private disconnectedCallback() {
     document.removeEventListener('keydown', this.handleKeyPress);
 
@@ -404,6 +495,9 @@ export class PlayerSetup extends HTMLElement {
       shadowRoot
         ?.getElementById('player-name')
         ?.addEventListener('click', this.enableNameEditing.bind(this));
+      shadowRoot
+        ?.getElementById('player-avatar')
+        ?.addEventListener('click', this.enableAvatarEditing.bind(this));
       shadowRoot
         ?.getElementById('return-button')
         ?.addEventListener('click', this.returnToPreviousScreen);

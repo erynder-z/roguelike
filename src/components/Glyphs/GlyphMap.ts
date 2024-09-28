@@ -76,7 +76,7 @@ export class GlyphMap {
       // add player glyph
       addGlyph(<GlyphInfo>{
         id: 'Player',
-        char: '@',
+        char: initParams.player.avatar,
         bgCol: '#4B5A52',
         fgCol: initParams.player.color,
         hasSolidBg: false,
