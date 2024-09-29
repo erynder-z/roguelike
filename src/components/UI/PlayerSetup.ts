@@ -176,6 +176,8 @@ export class PlayerSetup extends HTMLElement {
         }
 
         .info-container {
+          display: flex;
+          flex-direction: column;
           width: 100%;
           font-size: 1.25rem;
           text-align: left;
@@ -234,7 +236,8 @@ export class PlayerSetup extends HTMLElement {
           </div>
         </div>
         <div class="info-container">
-          Ctrl + Arrow keys to toggle appearance
+         <span>Ctrl + Arrow keys to toggle appearance</span>
+         <span>Ctrl + r to randomize all</span>
         </div>
         <div class="buttons-container">
           <button id="return-button">
@@ -262,6 +265,7 @@ export class PlayerSetup extends HTMLElement {
     this.enableAvatarEditing = this.enableAvatarEditing.bind(this);
     this.handleAvatarInputChange = this.handleAvatarInputChange.bind(this);
     this.randomizeAvatar = this.randomizeAvatar.bind(this);
+    this.randomize = this.randomize.bind(this);
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
 
     this.manageEventListener(
@@ -285,7 +289,7 @@ export class PlayerSetup extends HTMLElement {
     this.manageEventListener(
       'randomize-name-button',
       'click',
-      this.randomizeName,
+      () => this.randomize('name'),
       true,
     );
     this.manageEventListener(
@@ -297,7 +301,7 @@ export class PlayerSetup extends HTMLElement {
     this.manageEventListener(
       'randomize-color-button',
       'click',
-      this.randomizeColor,
+      () => this.randomize('color'),
       true,
     );
     this.manageEventListener(
@@ -309,7 +313,7 @@ export class PlayerSetup extends HTMLElement {
     this.manageEventListener(
       'randomize-avatar-button',
       'click',
-      this.randomizeAvatar,
+      () => this.randomize('avatar'),
       true,
     );
     this.manageEventListener(
@@ -359,32 +363,31 @@ export class PlayerSetup extends HTMLElement {
         this.enableNameEditing();
         break;
       case 'a':
-        this.randomizeName();
+        this.randomize('name');
         break;
       case 'C':
         this.changeColor();
         break;
       case 'o':
-        this.randomizeColor();
+        this.randomize('color');
         break;
       case 'A':
         this.enableAvatarEditing();
         break;
       case 'z':
-        this.randomizeAvatar();
+        this.randomize('avatar');
         break;
       case 'R':
         this.returnToPreviousScreen();
         break;
       case 'ArrowLeft':
         if (event.ctrlKey) this.toggleAppearance();
-
         break;
       case 'ArrowRight':
         if (event.ctrlKey) this.toggleAppearance();
-
         break;
-      case 'y':
+      case 'r':
+        if (event.ctrlKey) this.randomize('all');
         break;
       default:
         break;
@@ -474,12 +477,10 @@ export class PlayerSetup extends HTMLElement {
 
   private randomizeName() {
     initParams.player.name = getRandomName(initParams.player.appearance);
-    this.renderNameElement('player-name', initParams.player.name);
   }
 
   private randomizeAvatar() {
     initParams.player.avatar = getRandomUnicodeCharacter();
-    this.renderNameElement('player-avatar', initParams.player.avatar);
   }
 
   private handleColorInputChange() {
@@ -505,17 +506,6 @@ export class PlayerSetup extends HTMLElement {
     if (colorInput) {
       colorInput.value = randomColor;
       initParams.player.color = randomColor;
-    }
-  }
-
-  private returnToPreviousScreen() {
-    const titleScreenContent = document
-      .querySelector('title-screen')
-      ?.shadowRoot?.getElementById('title-screen-content');
-
-    if (titleScreenContent) {
-      titleScreenContent.innerHTML = '';
-      titleScreenContent.appendChild(document.createElement('title-menu'));
     }
   }
 
@@ -563,6 +553,47 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
+  private randomizeAppearance() {
+    initParams.player.appearance = Math.random() > 0.5 ? 'boyish' : 'girlish';
+  }
+
+  private randomize(
+    element: 'appearance' | 'name' | 'color' | 'avatar' | 'all',
+  ): void {
+    switch (element) {
+      case 'appearance':
+        this.randomizeAppearance();
+        break;
+      case 'name':
+        this.randomizeName();
+        break;
+      case 'color':
+        this.randomizeColor();
+        break;
+      case 'avatar':
+        this.randomizeAvatar();
+        break;
+      case 'all':
+        this.randomizeAppearance();
+        this.randomizeName();
+        this.randomizeColor();
+        this.randomizeAvatar();
+        break;
+    }
+    this.displayPlayer(initParams.player);
+  }
+
+  private returnToPreviousScreen() {
+    const titleScreenContent = document
+      .querySelector('title-screen')
+      ?.shadowRoot?.getElementById('title-screen-content');
+
+    if (titleScreenContent) {
+      titleScreenContent.innerHTML = '';
+      titleScreenContent.appendChild(document.createElement('title-menu'));
+    }
+  }
+
   private disconnectedCallback() {
     document.removeEventListener('keydown', this.handleKeyPress);
 
@@ -587,7 +618,7 @@ export class PlayerSetup extends HTMLElement {
     this.manageEventListener(
       'randomize-name-button',
       'click',
-      this.randomizeName,
+      () => this.randomize('name'),
       false,
     );
     this.manageEventListener(
@@ -599,13 +630,19 @@ export class PlayerSetup extends HTMLElement {
     this.manageEventListener(
       'randomize-color-button',
       'click',
-      this.randomizeColor,
+      () => this.randomize('color'),
       false,
     );
     this.manageEventListener(
       'player-avatar',
       'click',
       this.enableAvatarEditing,
+      false,
+    );
+    this.manageEventListener(
+      'randomize-avatar-button',
+      'click',
+      () => this.randomize('avatar'),
       false,
     );
     this.manageEventListener(
