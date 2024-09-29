@@ -1,6 +1,8 @@
 import { initParams, InitParamsType } from '../../initParams/InitParams';
 import { boyishImage, girlishImage } from '../ImageHandler/portraitImages';
 import { getRandomName } from '../Utilities/GetRandomName';
+import { getRandomUnicodeCharacter } from '../Utilities/GetRandomAvatar';
+import { getRandomColor } from '../Colors/GetRandomColor';
 
 export class PlayerSetup extends HTMLElement {
   constructor() {
@@ -51,8 +53,11 @@ export class PlayerSetup extends HTMLElement {
           transition: all 0.2s ease-in-out;
         }
 
-        button.randomize-name-button {
+        button.randomize-name-button,
+        button.randomize-avatar-button,
+        button.randomize-color-button {
           font-size: 1.5rem;
+          padding: 0 0 0 1rem;
         }
 
         .container button:hover {
@@ -132,15 +137,6 @@ export class PlayerSetup extends HTMLElement {
           transition: font-size 0.2s ease-in-out;
         }
 
-        .randomize-name-button {
-          padding: 0 0 0 1rem;
-          font-size: 1.75rem;
-        }
-
-        .color-input-container {
-          width: 100%;
-        }
-
         .color-input {
           display: flex;
           height: 2.5rem;
@@ -205,7 +201,7 @@ export class PlayerSetup extends HTMLElement {
             />
             <div id="player-name" class="name"></div>
             <button id="randomize-name-button" class="randomize-name-button">
-              (randomi<span class="underline">z</span>e)
+              (r<span class="underline">a</span>ndomize)
             </button>
           </div>
           <div class="color-container">
@@ -218,6 +214,9 @@ export class PlayerSetup extends HTMLElement {
                 value="#FFFFFF"
               />
             </div>
+            <button id="randomize-color-button" class="randomize-color-button">
+              (rand<span class="underline">o</span>mize)
+            </button>
           </div>
           <div class="avatar-container">
             <span class="underline">A</span>vatar:&nbsp;
@@ -229,6 +228,9 @@ export class PlayerSetup extends HTMLElement {
               maxlength="1"
             />
             <div id="player-avatar" class="avatar"></div>
+            <button id="randomize-avatar-button" class="randomize-avatar-button">
+              (randomi<span class="underline">z</span>e)
+            </button>
           </div>
         </div>
         <div class="info-container">
@@ -249,32 +251,44 @@ export class PlayerSetup extends HTMLElement {
   }
 
   private bindEvents() {
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.toggleAppearance = this.toggleAppearance.bind(this);
+    this.enableNameEditing = this.enableNameEditing.bind(this);
+    this.handleNameInputChange = this.handleNameInputChange.bind(this);
+    this.randomizeName = this.randomizeName.bind(this);
+    this.handleColorInputChange = this.handleColorInputChange.bind(this);
+    this.changeColor = this.changeColor.bind(this);
+    this.randomizeColor = this.randomizeColor.bind(this);
+    this.enableAvatarEditing = this.enableAvatarEditing.bind(this);
+    this.handleAvatarInputChange = this.handleAvatarInputChange.bind(this);
+    this.randomizeAvatar = this.randomizeAvatar.bind(this);
+    this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
+
     this.addEventListenerToElement('player-portrait-1', this.toggleAppearance);
     this.addEventListenerToElement('player-portrait-2', this.toggleAppearance);
-    this.addEventListenerToElement(
-      'player-name',
-      this.enableNameEditing.bind(this),
-    );
-    this.addEventListenerToElement(
-      'randomize-name-button',
-      this.randomizeName.bind(this),
-    );
+    this.addEventListenerToElement('player-name', this.enableNameEditing);
+    this.addEventListenerToElement('randomize-name-button', this.randomizeName);
     this.addEventListenerToElement(
       'player-color-input',
-      this.handleColorInputChange.bind(this),
+      this.handleColorInputChange,
     );
     this.addEventListenerToElement(
-      'player-avatar',
-      this.enableAvatarEditing.bind(this),
+      'randomize-color-button',
+      this.randomizeColor,
+    );
+
+    this.addEventListenerToElement('player-avatar', this.enableAvatarEditing);
+    this.addEventListenerToElement(
+      'randomize-avatar-button',
+      this.randomizeAvatar,
     );
     this.addEventListenerToElement(
       'return-button',
       this.returnToPreviousScreen,
     );
 
-    document.addEventListener('keydown', this.handleKeyPress.bind(this));
+    document.addEventListener('keydown', this.handleKeyPress);
   }
-
   private addEventListenerToElement(
     elementId: string,
     callback: EventListener,
@@ -307,14 +321,20 @@ export class PlayerSetup extends HTMLElement {
       case 'N':
         this.enableNameEditing();
         break;
-      case 'z':
+      case 'a':
         this.randomizeName();
         break;
       case 'C':
         this.changeColor();
         break;
+      case 'o':
+        this.randomizeColor();
+        break;
       case 'A':
         this.enableAvatarEditing();
+        break;
+      case 'z':
+        this.randomizeAvatar();
         break;
       case 'R':
         this.returnToPreviousScreen();
@@ -420,6 +440,11 @@ export class PlayerSetup extends HTMLElement {
     this.renderNameElement('player-name', initParams.player.name);
   }
 
+  private randomizeAvatar() {
+    initParams.player.avatar = getRandomUnicodeCharacter();
+    this.renderNameElement('player-avatar', initParams.player.avatar);
+  }
+
   private handleColorInputChange() {
     const colorInput = this.shadowRoot?.getElementById(
       'player-color-input',
@@ -432,6 +457,18 @@ export class PlayerSetup extends HTMLElement {
       'player-color-input',
     ) as HTMLInputElement;
     if (colorInput) colorInput.click();
+  }
+
+  private randomizeColor() {
+    const randomColor = getRandomColor();
+    const colorInput = this.shadowRoot?.getElementById(
+      'player-color-input',
+    ) as HTMLInputElement;
+
+    if (colorInput) {
+      colorInput.value = randomColor;
+      initParams.player.color = randomColor;
+    }
   }
 
   private returnToPreviousScreen() {
@@ -452,7 +489,11 @@ export class PlayerSetup extends HTMLElement {
     const avatarElement = this.shadowRoot?.getElementById(
       'player-avatar',
     ) as HTMLDivElement;
+    const randomizeButton = this.shadowRoot?.getElementById(
+      'randomize-avatar-button',
+    ) as HTMLButtonElement;
 
+    randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
     inputElement.value = initParams.player.avatar;
     avatarElement.style.display = 'none';
@@ -471,6 +512,9 @@ export class PlayerSetup extends HTMLElement {
     const avatarElement = this.shadowRoot?.getElementById(
       'player-avatar',
     ) as HTMLDivElement;
+    const randomizeButton = this.shadowRoot?.getElementById(
+      'randomize-avatar-button',
+    ) as HTMLButtonElement;
 
     if (inputElement) {
       const newAvatar = inputElement.value.trim();
@@ -478,6 +522,7 @@ export class PlayerSetup extends HTMLElement {
       this.renderNameElement('player-avatar', initParams.player.avatar);
       avatarElement.style.display = 'inline';
       inputElement.style.display = 'none';
+      randomizeButton.style.display = 'inline';
     }
   }
 
