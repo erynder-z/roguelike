@@ -1,8 +1,8 @@
 import { initParams, InitParamsType } from '../../initParams/InitParams';
 import { boyishImage, girlishImage } from '../ImageHandler/portraitImages';
+import { getRandomColor } from '../Colors/GetRandomColor';
 import { getRandomName } from '../Utilities/GetRandomName';
 import { getRandomUnicodeCharacter } from '../Utilities/GetRandomAvatar';
-import { getRandomColor } from '../Colors/GetRandomColor';
 
 export class PlayerSetup extends HTMLElement {
   constructor() {
@@ -264,38 +264,75 @@ export class PlayerSetup extends HTMLElement {
     this.randomizeAvatar = this.randomizeAvatar.bind(this);
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
 
-    this.addEventListenerToElement('player-portrait-1', this.toggleAppearance);
-    this.addEventListenerToElement('player-portrait-2', this.toggleAppearance);
-    this.addEventListenerToElement('player-name', this.enableNameEditing);
-    this.addEventListenerToElement('randomize-name-button', this.randomizeName);
-    this.addEventListenerToElement(
+    this.manageEventListener(
+      'player-portrait-1',
+      'click',
+      this.toggleAppearance,
+      true,
+    );
+    this.manageEventListener(
+      'player-portrait-2',
+      'click',
+      this.toggleAppearance,
+      true,
+    );
+    this.manageEventListener(
+      'player-name',
+      'click',
+      this.enableNameEditing,
+      true,
+    );
+    this.manageEventListener(
+      'randomize-name-button',
+      'click',
+      this.randomizeName,
+      true,
+    );
+    this.manageEventListener(
       'player-color-input',
+      'change',
       this.handleColorInputChange,
+      true,
     );
-    this.addEventListenerToElement(
+    this.manageEventListener(
       'randomize-color-button',
+      'click',
       this.randomizeColor,
+      true,
     );
-
-    this.addEventListenerToElement('player-avatar', this.enableAvatarEditing);
-    this.addEventListenerToElement(
+    this.manageEventListener(
+      'player-avatar',
+      'click',
+      this.enableAvatarEditing,
+      true,
+    );
+    this.manageEventListener(
       'randomize-avatar-button',
+      'click',
       this.randomizeAvatar,
+      true,
     );
-    this.addEventListenerToElement(
+    this.manageEventListener(
       'return-button',
+      'click',
       this.returnToPreviousScreen,
+      true,
     );
 
     document.addEventListener('keydown', this.handleKeyPress);
   }
-  private addEventListenerToElement(
+
+  private manageEventListener(
     elementId: string,
+    eventType: string,
     callback: EventListener,
+    add: boolean,
   ) {
     const element = this.shadowRoot?.getElementById(elementId);
-    if (element) {
-      element.addEventListener('click', callback);
+    if (add) {
+      element?.addEventListener(eventType, callback);
+    } else {
+      element?.removeEventListener(eventType, callback);
     }
   }
 
@@ -529,24 +566,54 @@ export class PlayerSetup extends HTMLElement {
   private disconnectedCallback() {
     document.removeEventListener('keydown', this.handleKeyPress);
 
-    const shadowRoot = this.shadowRoot;
-    if (shadowRoot) {
-      shadowRoot
-        ?.getElementById('player-portrait-1')
-        ?.addEventListener('click', this.toggleAppearance);
-      shadowRoot
-        ?.getElementById('player-portrait-2')
-        ?.addEventListener('click', this.toggleAppearance);
-      shadowRoot
-        ?.getElementById('player-name')
-        ?.addEventListener('click', this.enableNameEditing.bind(this));
-      shadowRoot
-        ?.getElementById('player-avatar')
-        ?.addEventListener('click', this.enableAvatarEditing.bind(this));
-      shadowRoot
-        ?.getElementById('return-button')
-        ?.addEventListener('click', this.returnToPreviousScreen);
-    }
+    this.manageEventListener(
+      'player-portrait-1',
+      'click',
+      this.toggleAppearance,
+      false,
+    );
+    this.manageEventListener(
+      'player-portrait-2',
+      'click',
+      this.toggleAppearance,
+      false,
+    );
+    this.manageEventListener(
+      'player-name',
+      'click',
+      this.enableNameEditing,
+      false,
+    );
+    this.manageEventListener(
+      'randomize-name-button',
+      'click',
+      this.randomizeName,
+      false,
+    );
+    this.manageEventListener(
+      'player-color-input',
+      'change',
+      this.handleColorInputChange,
+      false,
+    );
+    this.manageEventListener(
+      'randomize-color-button',
+      'click',
+      this.randomizeColor,
+      false,
+    );
+    this.manageEventListener(
+      'player-avatar',
+      'click',
+      this.enableAvatarEditing,
+      false,
+    );
+    this.manageEventListener(
+      'return-button',
+      'click',
+      this.returnToPreviousScreen,
+      false,
+    );
   }
 }
 customElements.define('player-setup', PlayerSetup);
