@@ -27,7 +27,6 @@
   --padding: 0;
   --box-sizing: border-box;
   --scrollbar-width: thin;
-
 }
 
 * {
@@ -172,8 +171,10 @@ li {
   margin-bottom: 2rem;
 }
 
-.gameover-screen h1 {
+.gameover-screen h1,
+.gameover-screen h2 {
   text-align: center;
+  margin-bottom: 2rem;
 }
 
 .log-screen ul li:nth-child(odd) {

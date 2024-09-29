@@ -42,7 +42,7 @@ export class DynamicScreenMaker implements ScreenMaker {
    * The title screen will dispatch a 'change-seed' event when the user chooses to change the seed.
    */
   public titleScreen(): void {
-    GenerateTitleScreen.generate(this.seed);
+    GenerateTitleScreen.generate();
   }
 
   /**

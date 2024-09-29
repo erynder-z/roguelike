@@ -1,18 +1,21 @@
+import corpseData from '../Mobs/MobData/corpses.json';
+import envData from '../Environment/EnvironmentData/environment.json';
+import { FlashDecorator } from './FlashDecorator';
 import { GameState } from '../Builder/Types/GameState';
 import { LogMessage } from '../Messages/LogMessage';
 import { MessageLog } from '../Messages/MessageLog';
-import { FlashDecorator } from './Types/FlashDecorator';
-
-import corpseData from '../Mobs/MobData/corpses.json';
-import envData from '../Environment/EnvironmentData/environment.json';
+import { initParams } from '../../initParams/InitParams';
 import itemData from '../ItemObjects/ItemData/items.json';
 import mobData from '../Mobs/MobData/mobs.json';
 
 export class FlashDisplay extends HTMLElement {
-  constructor(public decorator: FlashDecorator = new FlashDecorator()) {
+  private decorator: FlashDecorator;
+  constructor() {
     super();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
+
+    this.decorator = new FlashDecorator(shadowRoot);
 
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
@@ -67,25 +70,23 @@ export class FlashDisplay extends HTMLElement {
       const textNode = document.createTextNode(msg.message);
       fragment.appendChild(textNode);
 
-      this.decorateFlashDisplay(fragment, log, this.shadowRoot!);
+      this.decorateFlashDisplay(fragment, log);
       flashDisplay.appendChild(fragment);
     }
   }
 
-  private decorateFlashDisplay(
-    fragment: DocumentFragment,
-    log: MessageLog,
-    shadowRoot: ShadowRoot,
-  ) {
-    this.decorator.createStyles(shadowRoot, itemData.items, 'item');
-    this.decorator.createStyles(shadowRoot, corpseData.corpses, 'corpse');
-    this.decorator.createStyles(shadowRoot, mobData.mobs, 'mob');
-    this.decorator.createStyles(shadowRoot, envData.environment, 'env');
+  private decorateFlashDisplay(fragment: DocumentFragment, log: MessageLog) {
+    this.decorator.createStyles(itemData.items, 'item');
+    this.decorator.createStyles(corpseData.corpses, 'corpse');
+    this.decorator.createStyles(mobData.mobs, 'mob');
+    this.decorator.createStyles(envData.environment, 'env');
+    this.decorator.createStyles(initParams.player.color);
 
-    this.decorator.colorizeNames(fragment, itemData.items, 'item');
-    this.decorator.colorizeNames(fragment, corpseData.corpses, 'corpse');
-    this.decorator.colorizeNames(fragment, mobData.mobs, 'mob');
-    this.decorator.colorizeNames(fragment, envData.environment, 'env');
+    this.decorator.colorize(fragment, itemData.items, 'item');
+    this.decorator.colorize(fragment, corpseData.corpses, 'corpse');
+    this.decorator.colorize(fragment, mobData.mobs, 'mob');
+    this.decorator.colorize(fragment, envData.environment, 'env');
+    this.decorator.colorize(fragment, initParams.player.name);
 
     if (log.hasQueuedMessages())
       // More than 1 message in queue

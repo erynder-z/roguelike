@@ -5,6 +5,7 @@ import { Game } from './GameModel';
 import { GameState } from './Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
 import { GlyphMap } from '../Glyphs/GlyphMap';
+import { InitParamsType } from '../../initParams/InitParams';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { ItemObjectManager } from '../ItemObjects/ItemObjectManager';
@@ -26,7 +27,11 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  * The builder for creating games, levels and mobs.
  */
 export class Builder implements Build {
-  constructor(public seed: number) {}
+  constructor(
+    public seed: InitParamsType['seed'],
+    public player: InitParamsType['player'],
+  ) {}
+
   /**
    * Create and return a new Game instance.
    *
@@ -132,6 +137,7 @@ export class Builder implements Build {
    */
   public makePlayer(): Mob {
     const player = new Mob(Glyph.Player, 20, 12);
+    player.name = this.player.name;
     player.hp = 9999;
     player.maxhp = 9999;
     return player;
@@ -370,6 +376,7 @@ export class Builder implements Build {
     if (level < 1) level = 1;
 
     const glyphIndex = level + Glyph.Ant - 1;
+
     const glyph = GlyphMap.indexToGlyph(glyphIndex);
 
     return this.addNPC(glyph, pos.x, pos.y, map, level);

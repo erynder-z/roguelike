@@ -1,4 +1,6 @@
+import { initParams } from '../../initParams/InitParams';
 import { Builder } from '../Builder/Builder';
+import { GlyphMap } from '../Glyphs/GlyphMap';
 import { DynamicScreenMaker } from '../Screens/DynamicScreenMaker';
 
 export class GenerateTitleScreen {
@@ -7,9 +9,8 @@ export class GenerateTitleScreen {
    * The title screen will be passed the given seed.
    * The title screen will dispatch a 'start-new-game' event when the user chooses to start the game.
    * The title screen will dispatch a 'change-seed' event when the user chooses to change the seed.
-   * @param {number} seed the seed to pass to the title screen
    */
-  public static generate(seed: number) {
+  public static generate() {
     const titleScreen = document.createElement('title-screen');
     const titleContainer = document.createElement('div');
     titleContainer.id = 'title-container';
@@ -17,17 +18,13 @@ export class GenerateTitleScreen {
 
     document.body.insertBefore(titleContainer, document.body.firstChild);
 
-    titleScreen.dispatchEvent(
-      new CustomEvent('pass-seed', { detail: { seed } }),
-    );
-    titleScreen.addEventListener('start-new-game', () => {
+    // Add event listeners to start a new game
+    titleScreen.addEventListener('start-new-game', async () => {
       titleContainer.remove();
-      DynamicScreenMaker.runBuilt_InitialGameSetup(new Builder(seed), seed);
-    });
-    titleScreen.addEventListener('change-seed', () => {
-      seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-      titleScreen.dispatchEvent(
-        new CustomEvent('pass-seed', { detail: { seed } }),
+      await GlyphMap.initializeGlyphs();
+      DynamicScreenMaker.runBuilt_InitialGameSetup(
+        new Builder(initParams.seed, initParams.player),
+        initParams.seed,
       );
     });
   }

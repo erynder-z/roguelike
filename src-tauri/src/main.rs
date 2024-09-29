@@ -6,10 +6,8 @@ use tauri::{Manager, Window};
 
 #[tauri::command]
 async fn close_splashscreen(window: Window) {
-  // NOTE: The order is important, as closing the splashscreen window too soon can interfere with showing the main window
-  window.get_window("main").expect("no window labeled 'main' found").show().unwrap();
   window.get_window("splashscreen").expect("no window labeled 'splashscreen' found").close().unwrap();
-
+  window.get_window("main").expect("no window labeled 'main' found").show().unwrap();
 }
 
 fn main() {
