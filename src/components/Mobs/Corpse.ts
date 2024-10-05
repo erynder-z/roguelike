@@ -29,7 +29,7 @@ export class Corpse {
   public create(): Corpse {
     const corpse = new Corpse(this.glyph, this.pos.x, this.pos.y);
     corpse.name = GlyphMap.getGlyphInfo(this.glyph).name;
-    corpse.description = GlyphMap.getGlyphDescription(this.glyph, 'corpse');
+    corpse.description = GlyphMap.getGlyphDescription(this.glyph);
     return corpse;
   }
 }
