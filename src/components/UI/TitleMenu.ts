@@ -365,5 +365,3 @@ export class TitleMenu extends HTMLElement {
     }
   }
 }
-
-customElements.define('title-menu', TitleMenu);

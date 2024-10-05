@@ -55,6 +55,8 @@
       <close-button />
     </div>
   </body>
-  <script defer type="module" src="/src/helpPages/Loader.ts"></script>
+  <!-- Web Components Scripts (Loaded Normally) -->
+  <script type="module" src="/src/loaders/Help_WebComponentsLoader.ts"></script>
+  <!-- Main Script (Deferred Execution) -->
   <script defer type="module" src="/src/help.ts"></script>
 </html>

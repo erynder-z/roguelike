@@ -122,5 +122,3 @@ export class FlashDisplay extends HTMLElement {
     if (flashDisplay) flashDisplay.textContent = '';
   }
 }
-
-customElements.define('flash-display', FlashDisplay);

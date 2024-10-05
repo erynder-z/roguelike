@@ -297,5 +297,3 @@ export class OptionsMenu extends HTMLElement {
     }
   }
 }
-
-customElements.define('options-menu', OptionsMenu);

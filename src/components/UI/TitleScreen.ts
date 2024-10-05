@@ -84,4 +84,4 @@ export class TitleScreen extends HTMLElement {
   }
 }
 
-customElements.define('title-screen', TitleScreen);
+

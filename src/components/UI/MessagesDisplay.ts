@@ -96,5 +96,3 @@ export class MessagesDisplay extends HTMLElement {
     messagesDisplay.appendChild(ulElement);
   }
 }
-
-customElements.define('messages-display', MessagesDisplay);

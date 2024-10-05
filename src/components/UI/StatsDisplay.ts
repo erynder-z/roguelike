@@ -31,4 +31,4 @@ export class StatsDisplay extends HTMLElement {
   }
 }
 
-customElements.define('stats-display', StatsDisplay);
+

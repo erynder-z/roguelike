@@ -808,4 +808,4 @@ export class PlayerSetup extends HTMLElement {
     );
   }
 }
-customElements.define('player-setup', PlayerSetup);
+

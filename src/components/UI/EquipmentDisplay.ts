@@ -124,5 +124,3 @@ export class EquipmentDisplay extends HTMLElement {
     });
   }
 }
-
-customElements.define('equipment-display', EquipmentDisplay);

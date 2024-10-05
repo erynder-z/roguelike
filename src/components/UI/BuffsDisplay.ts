@@ -85,5 +85,3 @@ export class BuffsDisplay extends HTMLElement {
     }
   }
 }
-
-customElements.define('buffs-display', BuffsDisplay);
