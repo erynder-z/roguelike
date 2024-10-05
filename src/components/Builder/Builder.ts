@@ -4,7 +4,6 @@ import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { Game } from './GameModel';
 import { GameState } from './Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
-import { GlyphMap } from '../Glyphs/GlyphMap';
 import { InitParamsType } from '../../initParams/InitParams';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
@@ -346,26 +345,13 @@ export class Builder implements Build {
   }
 
   /**
-   * Adds a mob to the map with an adjusted level.
-   *
-   * @param {WorldPoint} p - The position where the mob is added.
-   * @param {Map} map - The map to which the mob is being added.
-   * @param {RandomGenerator} rand - The random generator used for adjusting the level.
-   * @return {void} This function does not return anything.
-   */
-  public addMapLevel_Mob(p: WorldPoint, map: Map, rand: RandomGenerator): void {
-    this.addMobToMapWithAdjustedLevel(p, map, rand);
-  }
-
-  /**
-   * Adds a mob to the map with an adjusted level.
-   *
+   * Adds a mob to the map at the specified position based on the map level and random generator provided.
    * @param {WorldPoint} pos - The position where the mob is added.
    * @param {Map} map - The map to which the mob is being added.
    * @param {RandomGenerator} rand - The random generator used for adjusting the level.
    * @return {Mob} The added mob.
    */
-  private addMobToMapWithAdjustedLevel(
+  public addMapLevel_Mob(
     pos: WorldPoint,
     map: Map,
     rand: RandomGenerator,
@@ -375,11 +361,36 @@ export class Builder implements Build {
 
     if (level < 1) level = 1;
 
-    const glyphIndex = level + Glyph.Ant - 1;
+    const glyphName = this.getGlyphNameByLevel(level);
 
-    const glyph = GlyphMap.indexToGlyph(glyphIndex);
+    if (!glyphName) {
+      console.warn(`No glyph found for level ${level}. Using default glyph.`);
+      return this.addNPC(Glyph.Player, pos.x, pos.y, map, level);
+    }
+
+    const glyph = Glyph[glyphName as keyof typeof Glyph];
 
     return this.addNPC(glyph, pos.x, pos.y, map, level);
+  }
+
+  /**
+   * Maps the level to the corresponding Glyph name.
+   *
+   * @param {number} level - The level number.
+   * @return {string | null} The Glyph name or null if not found.
+   */
+  private getGlyphNameByLevel(level: number): string | null {
+    const glyphNames = Object.keys(Glyph).filter(key => isNaN(Number(key)));
+
+    // Adjust the mapping logic based on your game's design
+    // For example, level 1 -> 'Ant', level 2 -> 'Bat', etc.
+
+    // Ensure that the glyphNames array is ordered appropriately
+    if (level >= 1 && level <= glyphNames.length) {
+      return glyphNames[level];
+    }
+
+    return null;
   }
 
   /**

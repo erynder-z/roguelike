@@ -1,5 +1,3 @@
-// src/loaders/GlyphLoader.ts
-
 import * as corpseData from '../components/Mobs/MobData/corpses.json';
 import * as environmentData from '../components/Environment/EnvironmentData/environment.json';
 import * as itemData from '../components/ItemObjects/ItemData/items.json';
@@ -69,7 +67,7 @@ export class GlyphLoader {
             env.isGlowing,
             env.isCausingPoison,
             env.isCausingConfusion,
-            env.help,
+            env.help, // Optional
           );
           GlyphMap.addGlyph(envGlyph);
         });
@@ -84,18 +82,18 @@ export class GlyphLoader {
             mob.char,
             mob.name,
             mob.description,
-            false, // Default values, adjust as needed
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            mob.help,
+            false, // isOpaque
+            false, // isBlockingMovement
+            false, // isBlockingProjectiles
+            false, // isDiggable
+            false, // isCausingSlow
+            false, // isCausingBurn
+            false, // isMagnetic
+            false, // isCausingBleed
+            false, // isGlowing
+            false, // isCausingPoison
+            false, // isCausingConfusion
+            mob.help, // Optional
           );
           GlyphMap.addGlyph(mobGlyph);
         });
@@ -110,18 +108,18 @@ export class GlyphLoader {
             item.char,
             item.name,
             item.description,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            item.help,
+            false, // isOpaque
+            false, // isBlockingMovement
+            false, // isBlockingProjectiles
+            false, // isDiggable
+            false, // isCausingSlow
+            false, // isCausingBurn
+            false, // isMagnetic
+            false, // isCausingBleed
+            false, // isGlowing
+            false, // isCausingPoison
+            false, // isCausingConfusion
+            item.help, // Optional
           );
           GlyphMap.addGlyph(itemGlyph);
         });
@@ -136,18 +134,18 @@ export class GlyphLoader {
             corpse.char,
             corpse.name,
             corpse.description,
-            false, // Default values, adjust as needed
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-            corpse.help,
+            false, // isOpaque
+            false, // isBlockingMovement
+            false, // isBlockingProjectiles
+            false, // isDiggable
+            false, // isCausingSlow
+            false, // isCausingBurn
+            false, // isMagnetic
+            false, // isCausingBleed
+            false, // isGlowing
+            false, // isCausingPoison
+            false, // isCausingConfusion
+            corpse.help, // Optional
           );
           GlyphMap.addGlyph(corpseGlyph);
         });
