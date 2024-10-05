@@ -108,6 +108,12 @@ export class TitleMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
+    this.displayCurrentSeed(initParams.seed);
+
+    this.bindEvents();
+  }
+
+  private bindEvents() {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
     this.playerSetup = this.playerSetup.bind(this);
@@ -116,27 +122,53 @@ export class TitleMenu extends HTMLElement {
     this.showAbout = this.showAbout.bind(this);
     this.quitGame = this.quitGame.bind(this);
 
-    shadowRoot
-      .getElementById('new-game-button')
-      ?.addEventListener('click', this.startNewGame);
-    shadowRoot
-      .getElementById('player-setup-button')
-      ?.addEventListener('click', this.playerSetup);
-    shadowRoot
-      .getElementById('change-seed-button')
-      ?.addEventListener('click', this.changeSeed);
-    shadowRoot
-      .getElementById('help-button')
-      ?.addEventListener('click', this.showHelp);
-    shadowRoot
-      .getElementById('about-window-button')
-      ?.addEventListener('click', this.showAbout);
-    shadowRoot
-      .getElementById('quit-window-button')
-      ?.addEventListener('click', this.quitGame);
-    document.addEventListener('keydown', this.handleKeyPress);
+    this.manageEventListener(
+      'new-game-button',
+      'click',
+      this.startNewGame,
+      true,
+    );
+    this.manageEventListener(
+      'player-setup-button',
+      'click',
+      this.playerSetup,
+      true,
+    );
+    this.manageEventListener(
+      'change-seed-button',
+      'click',
+      this.changeSeed,
+      true,
+    );
+    this.manageEventListener('help-button', 'click', this.showHelp, true);
+    this.manageEventListener(
+      'about-window-button',
+      'click',
+      this.showAbout,
+      true,
+    );
+    this.manageEventListener(
+      'quit-window-button',
+      'click',
+      this.quitGame,
+      true,
+    );
 
-    this.displayCurrentSeed(initParams.seed);
+    document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  private manageEventListener(
+    elementId: string,
+    eventType: string,
+    callback: EventListener,
+    add: boolean,
+  ) {
+    const element = this.shadowRoot?.getElementById(elementId);
+    if (add) {
+      element?.addEventListener(eventType, callback);
+    } else {
+      element?.removeEventListener(eventType, callback);
+    }
   }
 
   /**

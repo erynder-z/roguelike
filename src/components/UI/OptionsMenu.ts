@@ -75,35 +75,52 @@ export class OptionsMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
+    this.updateScanlinesButton();
+    this.bindEvents();
+  }
+
+  private bindEvents() {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.returnToGame = this.returnToGame.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.quitGame = this.quitGame.bind(this);
 
-    const mainContainer = document.getElementById('main-container');
-    const scanLineBtn = shadowRoot.getElementById('toggle-scanlines-button');
+    this.manageEventListener(
+      'return-to-game-button',
+      'click',
+      this.returnToGame,
+      true,
+    );
+    this.manageEventListener(
+      'toggle-scanlines-button',
+      'click',
+      this.toggleScanlines,
+      true,
+    );
+    this.manageEventListener('help-button', 'click', this.showHelp, true);
+    this.manageEventListener(
+      'quit-window-button',
+      'click',
+      this.quitGame,
+      true,
+    );
 
-    if (mainContainer && scanLineBtn) {
-      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
-      scanLineBtn.innerHTML = hasScanLinesClass
-        ? '<span class="underline">S</span>canlines ON'
-        : '<span class="underline">S</span>canlines OFF';
-    }
-
-    shadowRoot
-      .getElementById('return-to-game-button')
-      ?.addEventListener('click', this.returnToGame);
-    shadowRoot
-      .getElementById('toggle-scanlines-button')
-      ?.addEventListener('click', this.toggleScanlines);
-    shadowRoot
-      .getElementById('help-button')
-      ?.addEventListener('click', this.showHelp);
-    shadowRoot
-      .getElementById('quit-window-button')
-      ?.addEventListener('click', this.quitGame);
     document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  private manageEventListener(
+    elementId: string,
+    eventType: string,
+    callback: EventListener,
+    add: boolean,
+  ) {
+    const element = this.shadowRoot?.getElementById(elementId);
+    if (add) {
+      element?.addEventListener(eventType, callback);
+    } else {
+      element?.removeEventListener(eventType, callback);
+    }
   }
 
   private handleKeyPress(event: KeyboardEvent) {
@@ -130,6 +147,23 @@ export class OptionsMenu extends HTMLElement {
    */
   private returnToGame() {
     this.remove();
+  }
+
+  /**
+   * Updates the scanlines button text based on the current state.
+   */
+  private updateScanlinesButton() {
+    const mainContainer = document.getElementById('main-container');
+    const scanLineBtn = this.shadowRoot?.getElementById(
+      'toggle-scanlines-button',
+    );
+
+    if (mainContainer && scanLineBtn) {
+      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
+      scanLineBtn.innerHTML = hasScanLinesClass
+        ? '<span class="underline">S</span>canlines ON'
+        : '<span class="underline">S</span>canlines OFF';
+    }
   }
 
   /**
