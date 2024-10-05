@@ -100,19 +100,18 @@ export class FlashDecorator {
     });
   }
 
-
   /**
    * Creates styles for the given data or color.
-   * 
+   *
    * If dataOrColor is a string, it is treated as a single player style.
    * A style rule is created for a span element with a class name of 'player-span'
    * and the color and font weight properties are set to the given dataOrColor.
-   * 
+   *
    * If dataOrColor is an array of FlashDecoratorDataEntry objects, it is treated as a general style.
    * For each entry, a style rule is created for a span element with a class name of
    * `${this.sanitizeClassName(entry.name)}-${type}-span` and the color and font weight properties are set
    * to the entry's fgCol property.
-   * 
+   *
    * @param {FlashDecoratorDataEntry[] | string} dataOrColor - The data or color to create styles for.
    * @param {string} [type] - The type of style. Ignored if dataOrColor is a string.
    * @return {void}

@@ -113,7 +113,20 @@ export class TitleMenu extends HTMLElement {
     this.bindEvents();
   }
 
-  private bindEvents() {
+  /**
+   * Binds events to the elements inside the title menu.
+   *
+   * The function binds the following events:
+   * - New game button click event
+   * - Player setup button click event
+   * - Change seed button click event
+   * - Help button click event
+   * - About button click event
+   * - Quit button click event
+   * - Keydown event on the document
+   * @return {void}
+   */
+  private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
     this.playerSetup = this.playerSetup.bind(this);
@@ -157,12 +170,27 @@ export class TitleMenu extends HTMLElement {
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
+  /**
+   * Manage event listeners for an element.
+   *
+   * If the add parameter is true, the callback is added to the element's event
+   * listeners. If the add parameter is false, the callback is removed from the
+   * element's event listeners.
+   *
+   * @param {string} elementId - The ID of the element on which to add or remove
+   * the event listener.
+   * @param {string} eventType - The type of event to listen for.
+   * @param {EventListener} callback - The callback function to be called when the
+   * event is fired.
+   * @param {boolean} add - Whether to add or remove the event listener.
+   * @return {void}
+   */
   private manageEventListener(
     elementId: string,
     eventType: string,
     callback: EventListener,
     add: boolean,
-  ) {
+  ): void {
     const element = this.shadowRoot?.getElementById(elementId);
     if (add) {
       element?.addEventListener(eventType, callback);
@@ -176,8 +204,9 @@ export class TitleMenu extends HTMLElement {
    *
    * Listens for the keys N (new game), C (change seed), and Q (quit).
    * @param {KeyboardEvent} event - The keyboard event.
+   * @return {void}
    */
-  private handleKeyPress(event: KeyboardEvent) {
+  private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case 'N':
         this.startNewGame();
@@ -206,8 +235,7 @@ export class TitleMenu extends HTMLElement {
    * Displays the current seed in the title menu.
    *
    * @param {InitParamsType['seed']} seed - The current seed.
-   *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   private displayCurrentSeed(seed: InitParamsType['seed']): void {
     const seedDisplay = this.shadowRoot?.getElementById(
@@ -221,7 +249,7 @@ export class TitleMenu extends HTMLElement {
    *
    * This event can be listened for by other components to start a new game.
    *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   public startNewGame(): void {
     this.dispatchEvent(
@@ -234,7 +262,7 @@ export class TitleMenu extends HTMLElement {
    *
    * This function will also update the displayed seed in the title menu.
    *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   public changeSeed(): void {
     initParams.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
@@ -248,7 +276,7 @@ export class TitleMenu extends HTMLElement {
    * and replace its content with a 'player-setup' element. This element will
    * allow the user to modify their player's name and appearance.
    *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   public playerSetup(): void {
     const titleScreenContent = document
@@ -263,8 +291,9 @@ export class TitleMenu extends HTMLElement {
 
   /**
    * Opens a new window with the game's help documentation.
+   * @return {void}
    */
-  private showHelp() {
+  private showHelp(): void {
     const webview = new WebviewWindow('help', {
       url: 'help.html',
       title: 'Meikai - Help',
@@ -289,7 +318,12 @@ export class TitleMenu extends HTMLElement {
     alert('About');
   }
 
-  private async quitGame() {
+  /**
+   * Calls the Tauri backend to quit the game. Asks for confirmation before quitting.
+   *
+   * @return {Promise<void>} A promise that resolves when the game is exited.
+   */
+  private async quitGame(): Promise<void> {
     const confirm = await dialog.confirm('Are you sure you want to quit?', {
       title: 'Confirm Quit',
       type: 'warning',
@@ -306,8 +340,9 @@ export class TitleMenu extends HTMLElement {
    * This function is called when the custom element is removed from the DOM.
    * It removes event listeners for keydown and click events that were added in the
    * connectedCallback function.
+   * @return {void}
    */
-  private disconnectedCallback() {
+  private disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
     const shadowRoot = this.shadowRoot;

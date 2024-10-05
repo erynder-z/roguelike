@@ -79,7 +79,19 @@ export class OptionsMenu extends HTMLElement {
     this.bindEvents();
   }
 
-  private bindEvents() {
+  /**
+   * Bind events to the elements inside the options menu.
+   *
+   * The function binds the following events:
+   * - Return to game button click event
+   * - Toggle scanlines button click event
+   * - Help button click event
+   * - Quit button click event
+   * - Keydown event on the document
+   *
+   * @return {void}
+   */
+  private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.returnToGame = this.returnToGame.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
@@ -109,12 +121,27 @@ export class OptionsMenu extends HTMLElement {
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
+  /**
+   * Manage event listeners for an element.
+   *
+   * If the add parameter is true, the callback is added to the element's event
+   * listeners. If the add parameter is false, the callback is removed from the
+   * element's event listeners.
+   *
+   * @param {string} elementId - The ID of the element on which to add or remove
+   * the event listener.
+   * @param {string} eventType - The type of event to listen for.
+   * @param {EventListener} callback - The callback function to be called when the
+   * event is fired.
+   * @param {boolean} add - Whether to add or remove the event listener.
+   * @return {void}
+   */
   private manageEventListener(
     elementId: string,
     eventType: string,
     callback: EventListener,
     add: boolean,
-  ) {
+  ): void {
     const element = this.shadowRoot?.getElementById(elementId);
     if (add) {
       element?.addEventListener(eventType, callback);
@@ -123,7 +150,13 @@ export class OptionsMenu extends HTMLElement {
     }
   }
 
-  private handleKeyPress(event: KeyboardEvent) {
+  /**
+   * Handles key presses on the options menu.
+   *
+   * @param {KeyboardEvent} event - The keyboard event to be handled.
+   * @return {void}
+   */
+  private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case 'R':
         this.returnToGame();
@@ -144,15 +177,19 @@ export class OptionsMenu extends HTMLElement {
 
   /**
    * Removes the menu screen from the DOM.
+   *
+   * @return {void}
    */
-  private returnToGame() {
+  private returnToGame(): void {
     this.remove();
   }
 
   /**
    * Updates the scanlines button text based on the current state.
+   *
+   * @return {void}
    */
-  private updateScanlinesButton() {
+  private updateScanlinesButton(): void {
     const mainContainer = document.getElementById('main-container');
     const scanLineBtn = this.shadowRoot?.getElementById(
       'toggle-scanlines-button',
@@ -172,8 +209,10 @@ export class OptionsMenu extends HTMLElement {
    * When scanlines are on, the main container will have a class of 'scanlines'.
    *
    * The button that toggles scanlines will also be updated to reflect the state.
+   *
+   * @return {void}
    */
-  private toggleScanlines() {
+  private toggleScanlines(): void {
     const mainContainer = document.getElementById('main-container');
     const scanLineBtn = this.shadowRoot?.getElementById(
       'toggle-scanlines-button',
@@ -193,8 +232,10 @@ export class OptionsMenu extends HTMLElement {
 
   /**
    * Opens a new window with the game's help documentation.
+   *
+   * @return {void}
    */
-  private showHelp() {
+  private showHelp(): void {
     const webview = new WebviewWindow('help', {
       url: 'help.html',
       title: 'Meikai - Help',
@@ -232,8 +273,10 @@ export class OptionsMenu extends HTMLElement {
    * This function is called when the custom element is removed from the DOM.
    * It removes event listeners for keydown and click events that were added in the
    * connectedCallback function.
+   *
+   * @return {void}
    */
-  private disconnectedCallback() {
+  private disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
     const shadowRoot = this.shadowRoot;

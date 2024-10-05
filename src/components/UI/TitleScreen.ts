@@ -65,7 +65,14 @@ export class TitleScreen extends HTMLElement {
     this.addEventListener('player-setup', this.handlePlayerSetup);
   }
 
-  private handlePlayerSetup() {
+  /**
+   * Handles the 'player-setup' event by replacing the content of the title screen
+   * with a player setup element. This function is called when the user clicks
+   * the "start a new game" button on the title screen.
+   *
+   * @return {void}
+   */
+  private handlePlayerSetup(): void {
     const titleScreenContent = this.shadowRoot?.getElementById(
       'title-screen-content',
     );

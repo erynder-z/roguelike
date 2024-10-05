@@ -57,7 +57,13 @@ export class BuffsDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  public setBuffs(buffMap: Map<Buff, BuffType>) {
+  /**
+   * Updates the component's display of buffs by setting the innerHTML of the "buffs-display" div.
+   *
+   * @param {Map<Buff, BuffType>} buffMap - A Map of buffs to their corresponding remain time.
+   * @return {void}
+   */
+  public setBuffs(buffMap: Map<Buff, BuffType>): void {
     const buffsDisplay = this.shadowRoot?.querySelector('.buffs-display');
     if (buffsDisplay) {
       buffsDisplay.innerHTML = '';
