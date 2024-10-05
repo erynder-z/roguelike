@@ -1,4 +1,4 @@
-import { ColorLoader } from './components/Colors/ColorLoader';
+import { ColorLoader } from './loaders/ColorLoader';
 import './styles/cssReset.css';
 import './styles/style-help.css';
 

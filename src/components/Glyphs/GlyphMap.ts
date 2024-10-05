@@ -1,10 +1,5 @@
-import * as corpseData from '../Mobs/MobData/corpses.json';
-import * as environmentData from '../Environment/EnvironmentData/environment.json';
-import * as itemData from '../ItemObjects/ItemData/items.json';
-import { Glyph } from './Glyph';
 import { GlyphInfo } from './GlyphInfo';
-import * as mobsData from '../Mobs/MobData/mobs.json';
-import { initParams } from '../../initParams/InitParams';
+import { Glyph } from './Glyph';
 
 /**
  * Represents a map of glyphs and their corresponding information.
@@ -15,19 +10,30 @@ export class GlyphMap {
    * @type {Array<GlyphInfo>}
    */
   private static glyphsRegistry: Array<GlyphInfo> = [];
-  /*   private static ensureInit: number = GlyphMap.initializeGlyphs(); */
+
   /**
    * Information about the default or "bad" glyph.
    * @type {GlyphInfo}
    */
   private static bad: GlyphInfo = new GlyphInfo(
-    'Bad',
-    'red',
-    'yellow',
-    false,
-    '?',
-    'bad',
-    'an unknown glyph',
+    'Bad', // id
+    'red', // fgCol
+    'yellow', // bgCol
+    false, // hasSolidBg
+    '?', // char
+    'bad', // name
+    'an unknown glyph', // description
+    true, // isOpaque
+    false, // isBlockingMovement
+    false, // isBlockingProjectiles
+    false, // isDiggable
+    false, // isCausingSlow
+    false, // isCausingBurn
+    false, // isMagnetic
+    false, // isCausingBleed
+    false, // isGlowing
+    false, // isCausingPoison
+    false, // isCausingConfusion
   );
 
   /**
@@ -36,191 +42,76 @@ export class GlyphMap {
    * @returns {GlyphInfo} Information about the glyph.
    */
   public static getGlyphInfo(glyph: Glyph): GlyphInfo {
-    return glyph in GlyphMap.glyphsRegistry
-      ? GlyphMap.glyphsRegistry[glyph]
-      : GlyphMap.bad;
-  }
-
-  /**
-   * Initializes the glyph map with default glyphs asynchronously.
-   * @returns {Promise<number>} A promise that resolves to the number of glyphs initialized.
-   */
-  public static async initializeGlyphs(): Promise<number> {
-    return new Promise(resolve => {
-      const addGlyph = (info: GlyphInfo) => {
-        const glyph = Glyph[info.id as keyof typeof Glyph];
-
-        const glyphInfo = new GlyphInfo(
-          info.id,
-          info.fgCol,
-          info.bgCol,
-          info.hasSolidBg,
-          info.char,
-          info.name,
-          info.description,
-          info.isOpaque,
-          info.isBlockingMovement,
-          info.isBlockingProjectiles,
-          info.isDiggable,
-          info.isCausingSlow,
-          info.isCausingBurn,
-          info.isMagnetic,
-          info.isCausingBleed,
-          info.isGlowing,
-          info.isCausingPoison,
-          info.isCausingConfusion,
-        );
-        GlyphMap.glyphsRegistry[glyph] = glyphInfo;
-      };
-
-      // add player glyph
-      addGlyph(<GlyphInfo>{
-        id: 'Player',
-        char: initParams.player.avatar,
-        bgCol: '#4B5A52',
-        fgCol: initParams.player.color,
-        hasSolidBg: false,
-        name: initParams.player.name,
-        description: 'The player character. You are here.',
-      });
-
-      environmentData['environment'].forEach(env => addGlyph(<GlyphInfo>env));
-      mobsData['mobs'].forEach(mob => addGlyph(<GlyphInfo>mob));
-      itemData['items'].forEach(item => addGlyph(<GlyphInfo>item));
-      corpseData['corpses'].forEach(corpse => addGlyph(<GlyphInfo>corpse));
-
-      resolve(GlyphMap.glyphsRegistry.length);
-    });
+    return GlyphMap.glyphsRegistry[glyph] || GlyphMap.bad;
   }
 
   /**
    * Adds a new glyph to the glyph map.
-   * @param {string} char - The character representation of the glyph.
-   * @param {Glyph} glyph - The glyph to add.
+   * @param {GlyphInfo} info - The information of the glyph to add.
    */
-  static addGlyph(
-    id: string,
-    bgCol: string,
-    fgCol: string,
-    hasSolidBg: boolean,
-    char: string,
-    glyph: Glyph,
-    name: string,
-    desc: string,
-    isOpaque: boolean,
-    isBlockingMovement: boolean,
-    isBlockingProjectiles: boolean,
-    isDiggable: boolean,
-    isCausingSlow: boolean,
-    isCausingBurn: boolean,
-    isMagnetic: boolean,
-    isCausingBleed: boolean,
-    isGlowing: boolean,
-    isCausingPoison: boolean,
-    isCausingConfusion: boolean,
-  ) {
-    const info: GlyphInfo = new GlyphInfo(
-      id,
-      fgCol,
-      bgCol,
-      hasSolidBg,
-      char,
-      name,
-      desc,
-      isOpaque,
-      isBlockingMovement,
-      isBlockingProjectiles,
-      isDiggable,
-      isCausingSlow,
-      isCausingBurn,
-      isMagnetic,
-      isCausingBleed,
-      isGlowing,
-      isCausingPoison,
-      isCausingConfusion,
-    );
-    GlyphMap.warn(glyph);
+  public static addGlyph(info: GlyphInfo): void {
+    const glyph = Glyph[info.id as keyof typeof Glyph];
+    if (glyph === undefined) {
+      console.warn(`Glyph ID "${info.id}" is not defined in Glyph enum.`);
+      return;
+    }
     GlyphMap.glyphsRegistry[glyph] = info;
+    GlyphMap.warn(glyph);
   }
 
   /**
    * Warns if the number of glyphs in the registry differs from the expected value.
    * @param {Glyph} glyph - The glyph to compare with the registry.
    */
-  static warn(glyph: Glyph) {
-    if (GlyphMap.glyphsRegistry.length == glyph) {
+  private static warn(glyph: Glyph): void {
+    if (GlyphMap.glyphsRegistry.length === Object.keys(Glyph).length) {
       return;
     }
-    console.log(glyph, 'differs from', GlyphMap.glyphsRegistry.length);
+    console.log(
+      `Glyph ${glyph} differs from registry size ${GlyphMap.glyphsRegistry.length}`,
+    );
   }
 
   /**
    * Converts an index to a glyph.
    * @param {number} index - The index to convert.
    * @returns {Glyph} The corresponding glyph.
-   * @throws {string} Throws an error if the index is negative or too large.
+   * @throws {Error} Throws an error if the index is out of bounds.
    */
-  static max: number = Object.keys(GlyphMap.glyphsRegistry).length / 2;
-
-  /**
-   * Converts an index to a glyph.
-   * @param {number} index - The index to convert.
-   * @returns {Glyph} The corresponding glyph.
-   * @throws {string} Throws an error if the index is negative or too large.
-   */
-  static indexToGlyph(index: number): Glyph {
+  public static indexToGlyph(index: number): Glyph {
     const maxIndex = GlyphMap.glyphsRegistry.length - 1;
 
-    if (index < 0) throw `index ${index} is negative`;
+    if (index < 0) throw new Error(`Index ${index} is negative.`);
     if (index > maxIndex)
-      throw `index ${index} is too large; max is ${maxIndex}`;
+      throw new Error(`Index ${index} is too large; max is ${maxIndex}.`);
 
-    const g: Glyph = <Glyph>index;
-    return g;
+    return index as Glyph;
   }
 
   /**
    * Retrieves the description of a glyph based on its category.
    *
    * @param {Glyph} glyph - The glyph to retrieve the description for.
-   * @param {'mob' | 'environment' | 'item'} category - The category of the glyph.
    * @return {string} The description of the glyph, or 'no description' if not found.
    */
-  static getGlyphDescription(
-    glyph: Glyph,
-    category: 'mob' | 'environment' | 'object' | 'corpse',
-  ): string {
-    let description = 'no description';
+  public static getGlyphDescription(glyph: Glyph): string {
+    const info = GlyphMap.glyphsRegistry[glyph];
+    return info?.description || 'no description';
+  }
 
-    switch (category) {
-      case 'mob': {
-        const mob = mobsData.mobs.find(mob => mob.id === Glyph[glyph]);
-        description = mob?.description || description;
-        break;
-      }
-      case 'environment': {
-        const environment = environmentData.environment.find(
-          env => env.id === Glyph[glyph],
-        );
-        description = environment?.description || description;
-        break;
-      }
-      case 'object': {
-        const object = itemData.items.find(item => item.name === Glyph[glyph]);
-        description = object?.description || description;
-        break;
-      }
-      case 'corpse': {
-        const corpse = corpseData.corpses.find(
-          corpse => corpse.id === Glyph[glyph],
-        );
-        description = corpse?.description || description;
-        break;
-      }
-      default:
-        break;
-    }
+  /**
+   * Gets the current size of the glyph registry.
+   * @returns {number} The number of glyphs in the registry.
+   */
+  public static getRegistrySize(): number {
+    return GlyphMap.glyphsRegistry.length;
+  }
 
-    return description;
+  /**
+   * Retrieves all glyphs in the registry.
+   * @returns {Array<GlyphInfo>} Array of all glyph information.
+   */
+  public static getAllGlyphs(): Array<GlyphInfo> {
+    return GlyphMap.glyphsRegistry;
   }
 }

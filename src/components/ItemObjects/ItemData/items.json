@@ -102,16 +102,6 @@
       "help": { "show": true, "about": "A magic potion that heals some hp." }
     },
     {
-      "id": "TeleportRune",
-      "char": "ᛪ",
-      "bgCol": "#4B5A52",
-      "fgCol": "#8B7A83",
-      "hasSolidBg": false,
-      "name": "Teleportation rune",
-      "description": "A rune for a teleportation spell.",
-      "help": { "show": true, "about": "A rune for a teleportation spell." }
-    },
-    {
       "id": "Pistol",
       "char": "┌",
       "bgCol": "#4B5A52",

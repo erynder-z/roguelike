@@ -1,12 +1,12 @@
 import './styles/cssReset.css';
 import './styles/style-main.css';
 import { Builder } from './components/Builder/Builder';
-import { ColorLoader } from './components/Colors/ColorLoader';
+import { ColorLoader } from './loaders/ColorLoader';
 import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 import { GenerateTitleScreen } from './components/Utilities/GenerateTitleScreen';
-import { GlyphMap } from './components/Glyphs/GlyphMap';
 import { initParams } from './initParams/InitParams';
 import { invoke } from '@tauri-apps/api/tauri';
+import { GlyphLoader } from './loaders/GlyphLoader';
 
 const initializeGame = async () => {
   if (!initParams) throw new Error('initParams not defined');
@@ -14,7 +14,7 @@ const initializeGame = async () => {
   const { SHOW_MENU, seed, player } = initParams;
 
   await ColorLoader.initializeColors();
-  await GlyphMap.initializeGlyphs();
+  await GlyphLoader.initializeGlyphs();
 
   if (SHOW_MENU) {
     GenerateTitleScreen.generate();
@@ -31,5 +31,5 @@ const initializeGame = async () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   await initializeGame();
-   invoke('close_splashscreen');
+  invoke('close_splashscreen');
 });
