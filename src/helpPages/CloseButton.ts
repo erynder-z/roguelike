@@ -1,4 +1,4 @@
-import { WebviewWindow } from '@tauri-apps/api/window';
+import { getCurrentWebviewWindow } from '@tauri-apps/api/webviewWindow';
 
 export class CloseButton extends HTMLElement {
   constructor() {
@@ -48,13 +48,11 @@ export class CloseButton extends HTMLElement {
    * Adds event listeners for click and keyboard events to the button for closing the help window.
    */
   private activateCloseButton = () => {
-    const helpWindow = WebviewWindow.getByLabel('help');
+    const helpWindow = getCurrentWebviewWindow();
     const button = this.shadowRoot?.querySelector('.close-button');
 
     const closeWindow = () => {
-      if (helpWindow) {
-        helpWindow.close();
-      }
+      if (helpWindow) helpWindow.close();
     };
 
     if (button) {

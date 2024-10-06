@@ -1,6 +1,6 @@
-import { dialog } from '@tauri-apps/api';
-import { exit } from '@tauri-apps/api/process';
-import { WebviewWindow } from '@tauri-apps/api/window';
+import { ask } from '@tauri-apps/plugin-dialog';
+import { exit } from '@tauri-apps/plugin-process';
+import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
 import { initParams, InitParamsType } from '../../initParams/InitParams';
 
 export class TitleMenu extends HTMLElement {
@@ -302,10 +302,8 @@ export class TitleMenu extends HTMLElement {
     });
 
     webview.once('tauri://created', () => {
-      const helpWindow = WebviewWindow.getByLabel('help');
-
       webview.listen('content-loaded', () => {
-        helpWindow?.show();
+        webview?.show();
       });
     });
 
@@ -324,14 +322,12 @@ export class TitleMenu extends HTMLElement {
    * @return {Promise<void>} A promise that resolves when the game is exited.
    */
   private async quitGame(): Promise<void> {
-    const confirm = await dialog.confirm('Are you sure you want to quit?', {
+    const confirmation = await ask('Are you sure you want to quit?', {
       title: 'Confirm Quit',
-      type: 'warning',
+      kind: 'warning',
     });
 
-    if (confirm) {
-      await exit();
-    }
+    if (confirmation) await exit();
   }
 
   /**

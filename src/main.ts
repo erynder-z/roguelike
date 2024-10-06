@@ -5,8 +5,8 @@ import { ColorLoader } from './loaders/ColorLoader';
 import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
 import { GenerateTitleScreen } from './components/Utilities/GenerateTitleScreen';
 import { initParams } from './initParams/InitParams';
-import { invoke } from '@tauri-apps/api/tauri';
 import { GlyphLoader } from './loaders/GlyphLoader';
+import { invoke } from '@tauri-apps/api/core';
 
 const initializeGame = async () => {
   if (!initParams) throw new Error('initParams not defined');
