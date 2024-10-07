@@ -1,6 +1,6 @@
-import { dialog } from '@tauri-apps/api';
-import { exit } from '@tauri-apps/api/process';
-import { WebviewWindow } from '@tauri-apps/api/window';
+import { ask } from '@tauri-apps/plugin-dialog';
+import { exit } from '@tauri-apps/plugin-process';
+import { invoke } from '@tauri-apps/api/core';
 
 export class OptionsMenu extends HTMLElement {
   constructor() {
@@ -75,38 +75,88 @@ export class OptionsMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
+    this.updateScanlinesButton();
+    this.bindEvents();
+  }
+
+  /**
+   * Bind events to the elements inside the options menu.
+   *
+   * The function binds the following events:
+   * - Return to game button click event
+   * - Toggle scanlines button click event
+   * - Help button click event
+   * - Quit button click event
+   * - Keydown event on the document
+   *
+   * @return {void}
+   */
+  private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.returnToGame = this.returnToGame.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.quitGame = this.quitGame.bind(this);
 
-    const mainContainer = document.getElementById('main-container');
-    const scanLineBtn = shadowRoot.getElementById('toggle-scanlines-button');
+    this.manageEventListener(
+      'return-to-game-button',
+      'click',
+      this.returnToGame,
+      true,
+    );
+    this.manageEventListener(
+      'toggle-scanlines-button',
+      'click',
+      this.toggleScanlines,
+      true,
+    );
+    this.manageEventListener('help-button', 'click', this.showHelp, true);
+    this.manageEventListener(
+      'quit-window-button',
+      'click',
+      this.quitGame,
+      true,
+    );
 
-    if (mainContainer && scanLineBtn) {
-      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
-      scanLineBtn.innerHTML = hasScanLinesClass
-        ? '<span class="underline">S</span>canlines ON'
-        : '<span class="underline">S</span>canlines OFF';
-    }
-
-    shadowRoot
-      .getElementById('return-to-game-button')
-      ?.addEventListener('click', this.returnToGame);
-    shadowRoot
-      .getElementById('toggle-scanlines-button')
-      ?.addEventListener('click', this.toggleScanlines);
-    shadowRoot
-      .getElementById('help-button')
-      ?.addEventListener('click', this.showHelp);
-    shadowRoot
-      .getElementById('quit-window-button')
-      ?.addEventListener('click', this.quitGame);
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
-  private handleKeyPress(event: KeyboardEvent) {
+  /**
+   * Manage event listeners for an element.
+   *
+   * If the add parameter is true, the callback is added to the element's event
+   * listeners. If the add parameter is false, the callback is removed from the
+   * element's event listeners.
+   *
+   * @param {string} elementId - The ID of the element on which to add or remove
+   * the event listener.
+   * @param {string} eventType - The type of event to listen for.
+   * @param {EventListener} callback - The callback function to be called when the
+   * event is fired.
+   * @param {boolean} add - Whether to add or remove the event listener.
+   * @return {void}
+   */
+  private manageEventListener(
+    elementId: string,
+    eventType: string,
+    callback: EventListener,
+    add: boolean,
+  ): void {
+    const element = this.shadowRoot?.getElementById(elementId);
+    if (add) {
+      element?.addEventListener(eventType, callback);
+    } else {
+      element?.removeEventListener(eventType, callback);
+    }
+  }
+
+  /**
+   * Handles key presses on the options menu.
+   *
+   * @param {KeyboardEvent} event - The keyboard event to be handled.
+   * @return {void}
+   */
+  private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case 'R':
         this.returnToGame();
@@ -127,9 +177,30 @@ export class OptionsMenu extends HTMLElement {
 
   /**
    * Removes the menu screen from the DOM.
+   *
+   * @return {void}
    */
-  private returnToGame() {
+  private returnToGame(): void {
     this.remove();
+  }
+
+  /**
+   * Updates the scanlines button text based on the current state.
+   *
+   * @return {void}
+   */
+  private updateScanlinesButton(): void {
+    const mainContainer = document.getElementById('main-container');
+    const scanLineBtn = this.shadowRoot?.getElementById(
+      'toggle-scanlines-button',
+    );
+
+    if (mainContainer && scanLineBtn) {
+      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
+      scanLineBtn.innerHTML = hasScanLinesClass
+        ? '<span class="underline">S</span>canlines ON'
+        : '<span class="underline">S</span>canlines OFF';
+    }
   }
 
   /**
@@ -138,8 +209,10 @@ export class OptionsMenu extends HTMLElement {
    * When scanlines are on, the main container will have a class of 'scanlines'.
    *
    * The button that toggles scanlines will also be updated to reflect the state.
+   *
+   * @return {void}
    */
-  private toggleScanlines() {
+  private toggleScanlines(): void {
     const mainContainer = document.getElementById('main-container');
     const scanLineBtn = this.shadowRoot?.getElementById(
       'toggle-scanlines-button',
@@ -159,21 +232,11 @@ export class OptionsMenu extends HTMLElement {
 
   /**
    * Opens a new window with the game's help documentation.
+   *
+   * @return {void}
    */
-  private showHelp() {
-    const webview = new WebviewWindow('help', {
-      url: 'help.html',
-      title: 'Meikai - Help',
-      fullscreen: true,
-    });
-
-    webview.once('tauri://created', () => {
-      // webview window successfully created
-    });
-    webview.once('tauri://error', e => {
-      console.error(e);
-      // an error occurred during webview window creation
-    });
+  private showHelp(): void {
+    invoke('show_help_window');
   }
 
   /**
@@ -182,14 +245,12 @@ export class OptionsMenu extends HTMLElement {
    * @return {Promise<void>} A promise that resolves when the game is exited.
    */
   private async quitGame(): Promise<void> {
-    const confirm = await dialog.confirm('Are you sure you want to quit?', {
+    const confirmation = await ask('Are you sure you want to quit?', {
       title: 'Confirm Quit',
-      type: 'warning',
+      kind: 'warning',
     });
 
-    if (confirm) {
-      await exit();
-    }
+    if (confirmation) await exit();
   }
 
   /**
@@ -198,8 +259,10 @@ export class OptionsMenu extends HTMLElement {
    * This function is called when the custom element is removed from the DOM.
    * It removes event listeners for keydown and click events that were added in the
    * connectedCallback function.
+   *
+   * @return {void}
    */
-  private disconnectedCallback() {
+  private disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
     const shadowRoot = this.shadowRoot;
@@ -220,5 +283,3 @@ export class OptionsMenu extends HTMLElement {
     }
   }
 }
-
-customElements.define('options-menu', OptionsMenu);

@@ -11,7 +11,7 @@ export class EventManager {
     public screen: InteractiveScreen,
   ) {
     // Attach event listeners to relevant elements
-    const bodyElement = document.getElementById('body1');
+    const bodyElement = document.getElementById('body-main');
     bodyElement?.addEventListener('keydown', this.handleKeyDown.bind(this));
 
     window.addEventListener('resize', this.handleResize.bind(this));

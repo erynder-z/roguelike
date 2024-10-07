@@ -19,10 +19,16 @@ export class StatsDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  public setStats(stats: string) {
+  /**
+   * Sets the text content of the stats display to the given stats.
+   *
+   * @param {string} stats - The text to display in the stats display.
+   * @return {void}
+   */
+  public setStats(stats: string): void {
     const statsDisplay = this.shadowRoot?.querySelector('.stats-display');
     if (statsDisplay) statsDisplay.textContent = stats;
   }
 }
 
-customElements.define('stats-display', StatsDisplay);
+

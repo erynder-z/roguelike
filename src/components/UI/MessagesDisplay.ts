@@ -71,7 +71,13 @@ export class MessagesDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  public setMessages(messageLog: LogMessage[]) {
+  /**
+   * Sets the messages to be displayed in the component.
+   *
+   * @param {LogMessage[]} messageLog - The array of log messages to display.
+   * @return {void}
+   */
+  public setMessages(messageLog: LogMessage[]): void {
     const messagesDisplay = this.shadowRoot?.querySelector('.messages-display');
     if (!messagesDisplay) return;
 
@@ -90,5 +96,3 @@ export class MessagesDisplay extends HTMLElement {
     messagesDisplay.appendChild(ulElement);
   }
 }
-
-customElements.define('messages-display', MessagesDisplay);

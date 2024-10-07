@@ -253,7 +253,20 @@ export class PlayerSetup extends HTMLElement {
     this.displayPlayer(initParams.player);
   }
 
-  private bindEvents() {
+  /**
+   * Sets up event listeners for player setup screen.
+   *
+   * Handles events such as:
+   * - Clicking on the player portrait to toggle appearance.
+   * - Clicking on the player name to enable name editing.
+   * - Key presses to randomize name, color, or avatar.
+   * - Clicking randomize button to randomize selected attribute.
+   * - Clicking return button to go back to previous screen.
+   *
+   * Also sets up key press event listener.
+   * @return {void}
+   */
+  private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.toggleAppearance = this.toggleAppearance.bind(this);
     this.enableNameEditing = this.enableNameEditing.bind(this);
@@ -326,12 +339,27 @@ export class PlayerSetup extends HTMLElement {
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
+  /**
+   * Manage event listeners for an element.
+   *
+   * If the add parameter is true, the callback is added to the element's event
+   * listeners. If the add parameter is false, the callback is removed from the
+   * element's event listeners.
+   *
+   * @param {string} elementId - The ID of the element on which to add or remove
+   * the event listener.
+   * @param {string} eventType - The type of event to listen for.
+   * @param {EventListener} callback - The callback function to be called when the
+   * event is fired.
+   * @param {boolean} add - Whether to add or remove the event listener.
+   * @return {void}
+   */
   private manageEventListener(
     elementId: string,
     eventType: string,
     callback: EventListener,
     add: boolean,
-  ) {
+  ): void {
     const element = this.shadowRoot?.getElementById(elementId);
     if (add) {
       element?.addEventListener(eventType, callback);
@@ -340,7 +368,21 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
-  private handleKeyPress(event: KeyboardEvent) {
+  /**
+   * Handle key presses that occur while the player setup screen is active.
+   *
+   * This function is called whenever a key is pressed while the player setup
+   * screen is displayed. It checks if the name input is focused and if so,
+   * returns early. Otherwise, it checks if the pressed key corresponds to one
+   * of the keys that can be used to control the player setup screen, and if so,
+   * calls the appropriate function to handle the key press. If the pressed key
+   * does not match any of the handled keys, the function does nothing.
+   *
+   * @param {KeyboardEvent} event - The event object that contains information
+   * about the key press.
+   * @return {void}
+   */
+  private handleKeyPress(event: KeyboardEvent): void {
     const nameInputElement = this.shadowRoot?.getElementById(
       'player-name-input',
     ) as HTMLInputElement;
@@ -394,7 +436,14 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
-  private displayPlayer(player: InitParamsType['player']) {
+  /**
+   * Renders the player's current portrait, name, and avatar in the UI.
+   *
+   * @param {InitParamsType['player']} player - The player object containing the
+   * appearance, name, and avatar information.
+   * @return {void}
+   */
+  private displayPlayer(player: InitParamsType['player']): void {
     const isGirlish = player.appearance === 'girlish';
     this.renderPortraitElement('player-portrait-1', girlishImage, isGirlish);
     this.renderPortraitElement('player-portrait-2', boyishImage, !isGirlish);
@@ -403,11 +452,19 @@ export class PlayerSetup extends HTMLElement {
     this.renderNameElement('player-avatar', player.avatar);
   }
 
+  /**
+   * Renders a portrait element with the specified image HTML and highlight status.
+   *
+   * @param {string} elementId - The ID of the element to render.
+   * @param {string} imageHTML - The HTML string of the portrait image.
+   * @param {boolean} isHighlighted - Whether the portrait should be highlighted.
+   * @return {void}
+   */
   private renderPortraitElement(
     elementId: string,
     imageHTML: string,
     isHighlighted: boolean,
-  ) {
+  ): void {
     const element = this.shadowRoot?.getElementById(
       elementId,
     ) as HTMLDivElement;
@@ -418,20 +475,39 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
-  private renderNameElement(elementId: string, content: string) {
+  /**
+   * Renders a name element with the specified content.
+   *
+   * @param {string} elementId - The ID of the element to render.
+   * @param {string} content - The text content of the element.
+   * @return {void}
+   */
+  private renderNameElement(elementId: string, content: string): void {
     const element = this.shadowRoot?.getElementById(
       elementId,
     ) as HTMLDivElement;
     if (element) element.textContent = content;
   }
 
-  private toggleAppearance() {
+  /**
+   * Toggles the player's appearance between 'girlish' and 'boyish'. Updates the
+   * UI to reflect the new appearance.
+   *
+   * @return {void}
+   */
+  private toggleAppearance(): void {
     const player = initParams.player;
     player.appearance = player.appearance === 'girlish' ? 'boyish' : 'girlish';
     this.displayPlayer(player);
   }
 
-  private enableNameEditing() {
+  /**
+   * Enables the player name input element for editing, hiding the player name
+   * element and the randomize name button.
+   *
+   * @return {void}
+   */
+  private enableNameEditing(): void {
     const inputElement = this.shadowRoot?.getElementById(
       'player-name-input',
     ) as HTMLInputElement;
@@ -454,7 +530,13 @@ export class PlayerSetup extends HTMLElement {
     });
   }
 
-  private handleNameInputChange() {
+  /**
+   * Handles the blur event on the player name input element by saving the new
+   * name to initParams and hiding the input element.
+   *
+   * @return {void}
+   */
+  private handleNameInputChange(): void {
     const inputElement = this.shadowRoot?.getElementById(
       'player-name-input',
     ) as HTMLInputElement;
@@ -475,29 +557,56 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
-  private randomizeName() {
+  /**
+   * Sets the player's name to a random name based on their appearance.
+   *
+   * @return {void}
+   */
+  private randomizeName(): void {
     initParams.player.name = getRandomName(initParams.player.appearance);
   }
 
-  private randomizeAvatar() {
+  /**
+   * Sets the player's avatar to a random unicode character.
+   *
+   * @return {void}
+   */
+  private randomizeAvatar(): void {
     initParams.player.avatar = getRandomUnicodeCharacter();
   }
 
-  private handleColorInputChange() {
+  /**
+   * Handles the change event on the player color input element by saving the
+   * new color to initParams.
+   *
+   * @return {void}
+   */
+  private handleColorInputChange(): void {
     const colorInput = this.shadowRoot?.getElementById(
       'player-color-input',
     ) as HTMLInputElement;
     initParams.player.color = colorInput?.value;
   }
 
-  private changeColor() {
+  /**
+   * Simulates a click event on the player color input element, allowing the user
+   * to select a color from the color picker.
+   *
+   * @return {void}
+   */
+  private changeColor(): void {
     const colorInput = this.shadowRoot?.getElementById(
       'player-color-input',
     ) as HTMLInputElement;
     if (colorInput) colorInput.click();
   }
 
-  private randomizeColor() {
+  /**
+   * Sets the player's color to a random color.
+   *
+   * @return {void}
+   */
+  private randomizeColor(): void {
     const randomColor = getRandomColor();
     const colorInput = this.shadowRoot?.getElementById(
       'player-color-input',
@@ -509,7 +618,13 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
-  private enableAvatarEditing() {
+  /**
+   * Enables the avatar input element for editing, hiding the avatar element
+   * and randomize button.
+   *
+   * @return {void}
+   */
+  private enableAvatarEditing(): void {
     const inputElement = this.shadowRoot?.getElementById(
       'player-avatar-input',
     ) as HTMLInputElement;
@@ -532,7 +647,13 @@ export class PlayerSetup extends HTMLElement {
     });
   }
 
-  private handleAvatarInputChange() {
+  /**
+   * Handles the blur event on the player avatar input element by saving the new
+   * avatar to initParams and hiding the input element.
+   *
+   * @return {void}
+   */
+  private handleAvatarInputChange(): void {
     const inputElement = this.shadowRoot?.getElementById(
       'player-avatar-input',
     ) as HTMLInputElement;
@@ -553,10 +674,26 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
-  private randomizeAppearance() {
+  /**
+   * Randomizes the player's appearance.
+   *
+   * @return {void}
+   */
+  private randomizeAppearance(): void {
     initParams.player.appearance = Math.random() > 0.5 ? 'boyish' : 'girlish';
   }
 
+  /**
+   * Randomizes a specified part of the player's settings.
+   *
+   * Randomizes either the player's appearance, name, color, avatar, or all of
+   * the above.
+   *
+   * @param {string} element The element to randomize. Can be 'appearance',
+   * 'name', 'color', 'avatar', or 'all'.
+   *
+   * @return {void}
+   */
   private randomize(
     element: 'appearance' | 'name' | 'color' | 'avatar' | 'all',
   ): void {
@@ -583,7 +720,16 @@ export class PlayerSetup extends HTMLElement {
     this.displayPlayer(initParams.player);
   }
 
-  private returnToPreviousScreen() {
+  /**
+   * Removes the player setup screen and replaces it with a title menu.
+   *
+   * This function is called when the user clicks the "return to previous screen"
+   * button on the player setup screen. It removes the player setup screen's
+   * content and replaces it with a title menu.
+   *
+   * @return {void}
+   */
+  private returnToPreviousScreen(): void {
     const titleScreenContent = document
       .querySelector('title-screen')
       ?.shadowRoot?.getElementById('title-screen-content');
@@ -594,7 +740,16 @@ export class PlayerSetup extends HTMLElement {
     }
   }
 
-  private disconnectedCallback() {
+  /**
+   * Removes event listeners for keydown and click events.
+   *
+   * This function is called when the custom element is removed from the DOM.
+   * It removes event listeners for keydown and click events that were added in the
+   * connectedCallback function.
+   *
+   * @return {void}
+   */
+  private disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
     this.manageEventListener(
@@ -653,4 +808,4 @@ export class PlayerSetup extends HTMLElement {
     );
   }
 }
-customElements.define('player-setup', PlayerSetup);
+

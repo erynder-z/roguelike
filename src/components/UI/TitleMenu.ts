@@ -1,7 +1,7 @@
-import { dialog } from '@tauri-apps/api';
-import { exit } from '@tauri-apps/api/process';
-import { WebviewWindow } from '@tauri-apps/api/window';
+import { ask } from '@tauri-apps/plugin-dialog';
+import { exit } from '@tauri-apps/plugin-process';
 import { initParams, InitParamsType } from '../../initParams/InitParams';
+import { invoke } from '@tauri-apps/api/core';
 
 export class TitleMenu extends HTMLElement {
   constructor() {
@@ -108,6 +108,25 @@ export class TitleMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
+    this.displayCurrentSeed(initParams.seed);
+
+    this.bindEvents();
+  }
+
+  /**
+   * Binds events to the elements inside the title menu.
+   *
+   * The function binds the following events:
+   * - New game button click event
+   * - Player setup button click event
+   * - Change seed button click event
+   * - Help button click event
+   * - About button click event
+   * - Quit button click event
+   * - Keydown event on the document
+   * @return {void}
+   */
+  private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
     this.playerSetup = this.playerSetup.bind(this);
@@ -116,27 +135,68 @@ export class TitleMenu extends HTMLElement {
     this.showAbout = this.showAbout.bind(this);
     this.quitGame = this.quitGame.bind(this);
 
-    shadowRoot
-      .getElementById('new-game-button')
-      ?.addEventListener('click', this.startNewGame);
-    shadowRoot
-      .getElementById('player-setup-button')
-      ?.addEventListener('click', this.playerSetup);
-    shadowRoot
-      .getElementById('change-seed-button')
-      ?.addEventListener('click', this.changeSeed);
-    shadowRoot
-      .getElementById('help-button')
-      ?.addEventListener('click', this.showHelp);
-    shadowRoot
-      .getElementById('about-window-button')
-      ?.addEventListener('click', this.showAbout);
-    shadowRoot
-      .getElementById('quit-window-button')
-      ?.addEventListener('click', this.quitGame);
-    document.addEventListener('keydown', this.handleKeyPress);
+    this.manageEventListener(
+      'new-game-button',
+      'click',
+      this.startNewGame,
+      true,
+    );
+    this.manageEventListener(
+      'player-setup-button',
+      'click',
+      this.playerSetup,
+      true,
+    );
+    this.manageEventListener(
+      'change-seed-button',
+      'click',
+      this.changeSeed,
+      true,
+    );
+    this.manageEventListener('help-button', 'click', this.showHelp, true);
+    this.manageEventListener(
+      'about-window-button',
+      'click',
+      this.showAbout,
+      true,
+    );
+    this.manageEventListener(
+      'quit-window-button',
+      'click',
+      this.quitGame,
+      true,
+    );
 
-    this.displayCurrentSeed(initParams.seed);
+    document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  /**
+   * Manage event listeners for an element.
+   *
+   * If the add parameter is true, the callback is added to the element's event
+   * listeners. If the add parameter is false, the callback is removed from the
+   * element's event listeners.
+   *
+   * @param {string} elementId - The ID of the element on which to add or remove
+   * the event listener.
+   * @param {string} eventType - The type of event to listen for.
+   * @param {EventListener} callback - The callback function to be called when the
+   * event is fired.
+   * @param {boolean} add - Whether to add or remove the event listener.
+   * @return {void}
+   */
+  private manageEventListener(
+    elementId: string,
+    eventType: string,
+    callback: EventListener,
+    add: boolean,
+  ): void {
+    const element = this.shadowRoot?.getElementById(elementId);
+    if (add) {
+      element?.addEventListener(eventType, callback);
+    } else {
+      element?.removeEventListener(eventType, callback);
+    }
   }
 
   /**
@@ -144,8 +204,9 @@ export class TitleMenu extends HTMLElement {
    *
    * Listens for the keys N (new game), C (change seed), and Q (quit).
    * @param {KeyboardEvent} event - The keyboard event.
+   * @return {void}
    */
-  private handleKeyPress(event: KeyboardEvent) {
+  private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case 'N':
         this.startNewGame();
@@ -174,8 +235,7 @@ export class TitleMenu extends HTMLElement {
    * Displays the current seed in the title menu.
    *
    * @param {InitParamsType['seed']} seed - The current seed.
-   *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   private displayCurrentSeed(seed: InitParamsType['seed']): void {
     const seedDisplay = this.shadowRoot?.getElementById(
@@ -189,7 +249,7 @@ export class TitleMenu extends HTMLElement {
    *
    * This event can be listened for by other components to start a new game.
    *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   public startNewGame(): void {
     this.dispatchEvent(
@@ -202,7 +262,7 @@ export class TitleMenu extends HTMLElement {
    *
    * This function will also update the displayed seed in the title menu.
    *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   public changeSeed(): void {
     initParams.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
@@ -216,7 +276,7 @@ export class TitleMenu extends HTMLElement {
    * and replace its content with a 'player-setup' element. This element will
    * allow the user to modify their player's name and appearance.
    *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   public playerSetup(): void {
     const titleScreenContent = document
@@ -231,41 +291,28 @@ export class TitleMenu extends HTMLElement {
 
   /**
    * Opens a new window with the game's help documentation.
+   * @return {void}
    */
-  private showHelp() {
-    const webview = new WebviewWindow('help', {
-      url: 'help.html',
-      title: 'Meikai - Help',
-      fullscreen: true,
-      visible: false,
-    });
-
-    webview.once('tauri://created', () => {
-      const helpWindow = WebviewWindow.getByLabel('help');
-
-      webview.listen('content-loaded', () => {
-        helpWindow?.show();
-      });
-    });
-
-    webview.once('tauri://error', e => {
-      console.error(e);
-    });
+  private showHelp(): void {
+    invoke('show_help_window');
   }
 
   private showAbout() {
     alert('About');
   }
 
-  private async quitGame() {
-    const confirm = await dialog.confirm('Are you sure you want to quit?', {
+  /**
+   * Calls the Tauri backend to quit the game. Asks for confirmation before quitting.
+   *
+   * @return {Promise<void>} A promise that resolves when the game is exited.
+   */
+  private async quitGame(): Promise<void> {
+    const confirmation = await ask('Are you sure you want to quit?', {
       title: 'Confirm Quit',
-      type: 'warning',
+      kind: 'warning',
     });
 
-    if (confirm) {
-      await exit();
-    }
+    if (confirmation) await exit();
   }
 
   /**
@@ -274,8 +321,9 @@ export class TitleMenu extends HTMLElement {
    * This function is called when the custom element is removed from the DOM.
    * It removes event listeners for keydown and click events that were added in the
    * connectedCallback function.
+   * @return {void}
    */
-  private disconnectedCallback() {
+  private disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
     const shadowRoot = this.shadowRoot;
@@ -298,5 +346,3 @@ export class TitleMenu extends HTMLElement {
     }
   }
 }
-
-customElements.define('title-menu', TitleMenu);

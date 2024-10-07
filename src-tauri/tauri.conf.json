@@ -3,90 +3,67 @@
   "build": {
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
-    "devPath": "http://localhost:5173/",
-    "distDir": "../dist"
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173/"
   },
-  "package": {
-    "productName": "meikai-roguelike",
-    "version": "0.1.0"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": false,
-      "dialog": {
-        "all": false,
-        "ask": false,
-        "confirm": true,
-        "message": false,
-        "open": false,
-        "save": false
-      },
-      "process": {
-        "all": false,
-        "exit": true,
-        "relaunch": false,
-        "relaunchDangerousAllowSymlinkMacos": false
-      },
-      "window": {
-        "create": true,
-        "close": true,
-        "show": true
-      }
+  "bundle": {
+    "active": true,
+    "category": "Game",
+    "copyright": "",
+    "targets": "all",
+    "externalBin": [],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
     },
-    "bundle": {
-      "active": true,
-      "category": "Game",
-      "copyright": "",
+    "longDescription": "",
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": "",
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": null
+    },
+    "resources": [],
+    "shortDescription": "",
+    "linux": {
       "deb": {
         "depends": []
-      },
-      "externalBin": [],
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "identifier": "com.meikai.roguelike.dev",
-      "longDescription": "",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "providerShortName": null,
-        "signingIdentity": null
-      },
-      "resources": [],
-      "shortDescription": "",
-      "targets": "all",
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
       }
-    },
-    "security": {
-      "csp": null
-    },
-    "updater": {
-      "active": false
-    },
+    }
+  },
+  "productName": "meikai-roguelike",
+  "mainBinaryName": "meikai-roguelike",
+  "version": "0.1.0",
+  "identifier": "com.meikai.roguelike.dev",
+  "plugins": {},
+  "app": {
     "windows": [
       {
-        "label": "splashscreen",
-        "width": 400,
-        "height": 200,
-        "decorations": false,
-        "url": "splashscreen.html"
+        "label": "main",
+        "title": "meikai-roguelike",
+        "url": "index.html",
+        "fullscreen": true,
+        "visible": false
       },
       {
-        "label": "main",
-        "url": "/",
+        "label": "help",
+        "title": "Meikai - Help",
+        "url": "help.html",
         "fullscreen": true,
-        "title": "meikai-roguelike",
         "visible": false
       }
-    ]
+    ],
+    "security": {
+      "csp": null
+    }
   }
 }

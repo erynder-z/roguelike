@@ -97,14 +97,22 @@ export class GameMap implements Map {
   }
 
   /**
-   * Adds a new NPC to the game.
+   * Adds a new non-playable character to the map at the specified position and level.
    *
-   * @param {Mob} m - the NPC to be added
-   * @return {Mob} the added NPC
+   * @param {Mob} m - the mob to be added
+   * @returns {Mob} the newly added mob
    */
   public addNPC(m: Mob): Mob {
-    m.name = GlyphMap.getGlyphInfo(m.glyph).name;
-    m.description = GlyphMap.getGlyphDescription(m.glyph, 'mob');
+    const glyphInfo = GlyphMap.getGlyphInfo(m.glyph);
+
+    if (glyphInfo === GlyphMap.bad)
+      console.warn(`Using default glyph info for unknown glyph: ${m.glyph}`);
+
+    m.name = glyphInfo.name;
+    m.description = GlyphMap.getGlyphDescription(m.glyph);
+
+    console.log(`Adding NPC: ${m.name} at position (${m.pos.x}, ${m.pos.y})`);
+
     this.cell(m.pos).mob = m;
     this.queue.pushMob(m);
     return m;
@@ -189,7 +197,7 @@ export class GameMap implements Map {
    * @return {void}
    */
   public addObject(o: ItemObject, p: WorldPoint): void {
-    o.desc = GlyphMap.getGlyphDescription(o.glyph, 'object');
+    o.desc = GlyphMap.getGlyphDescription(o.glyph);
     if (o.spell != Spell.None)
       o.desc = ItemObjectManager.getSpellDescription(o.spell);
 
@@ -216,10 +224,7 @@ export class GameMap implements Map {
     this.forEachCell(cell => {
       const glyph = cell.glyphEnvOnly();
       cell.environment.name = GlyphMap.getGlyphInfo(glyph).name;
-      cell.environment.description = GlyphMap.getGlyphDescription(
-        glyph,
-        'environment',
-      );
+      cell.environment.description = GlyphMap.getGlyphDescription(glyph);
     });
   }
 }

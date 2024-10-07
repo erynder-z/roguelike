@@ -2,59 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Meikai - Help</title>
   </head>
-  <body>
-    <div class="help-container">
-      <!-- Tabs Navigation -->
-
-      <div class="tab-container">
-        <div class="tab active" data-target="controls">
-          C<span class="underline">o</span>ntrols
-        </div>
-        <div class="tab" data-target="buffs">
-          <span class="underline">B</span>uffs
-        </div>
-        <div class="tab" data-target="environment">
-          <span class="underline">E</span>nvironment
-        </div>
-        <div class="tab" data-target="items">
-          <span class="underline">I</span>tems
-        </div>
-        <div class="tab" data-target="mobs">
-          <span class="underline">M</span>obs
-        </div>
-        <div class="tab" data-target="concepts">
-          O<span class="underline">t</span>her
-        </div>
-      </div>
-
-      <!-- Tabs Content -->
-      <div id="controls" class="tab-content active">
-        <help-controls />
-      </div>
-      <div id="buffs" class="tab-content">
-        <help-buffs />
-      </div>
-      <div id="environment" class="tab-content">
-        <help-environment />
-      </div>
-      <div id="items" class="tab-content">
-        <help-items />
-      </div>
-      <div id="mobs" class="tab-content">
-        <help-mobs />
-      </div>
-      <div id="concepts" class="tab-content">
-        <help-other />
-      </div>
-
-      <!-- Close Button -->
-      <close-button />
-    </div>
-  </body>
-  <script defer type="module" src="/src/helpPages/Loader.ts"></script>
+  <body id="body-help"></body>
+  <!-- Web Components Scripts (Loaded Normally) -->
+  <script type="module" src="/src/loaders/Help_WebComponentsLoader.ts"></script>
+  <!-- Main Script (Deferred Execution) -->
   <script defer type="module" src="/src/help.ts"></script>
 </html>

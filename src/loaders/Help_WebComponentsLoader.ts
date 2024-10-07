@@ -1,11 +1,11 @@
 // Import all the individual help page modules
-import { CloseButton } from './CloseButton';
-import { HelpBuffs } from './HelpBuffs';
-import { HelpOther } from './HelpOther';
-import { HelpControls } from './HelpControls';
-import { HelpEnvironment } from './HelpEnvironment';
-import { HelpItems } from './HelpItems';
-import { HelpMobs } from './HelpMobs';
+import { CloseButton } from '../helpPages/CloseButton';
+import { HelpBuffs } from '../helpPages/HelpBuffs';
+import { HelpOther } from '../helpPages/HelpOther';
+import { HelpControls } from '../helpPages/HelpControls';
+import { HelpEnvironment } from '../helpPages/HelpEnvironment';
+import { HelpItems } from '../helpPages/HelpItems';
+import { HelpMobs } from '../helpPages/HelpMobs';
 
 // Define and register custom elements for each help page
 customElements.define('help-buffs', HelpBuffs);

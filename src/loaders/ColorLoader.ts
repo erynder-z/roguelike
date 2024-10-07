@@ -1,4 +1,4 @@
-import colors from './colors.json';
+import colors from '../components/Colors/colors.json';
 
 export class ColorLoader {
   /**

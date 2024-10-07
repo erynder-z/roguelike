@@ -58,7 +58,13 @@ export class FlashDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  public setFlash(msg: LogMessage, log: MessageLog) {
+  /**
+   * Sets the flash message display.
+   * @param {LogMessage} msg - The message to set.
+   * @param {MessageLog} log - The message log to check for queued messages.
+   * @returns {void}
+   */
+  public setFlash(msg: LogMessage, log: MessageLog): void {
     const flashDisplay = <HTMLElement>(
       this.shadowRoot?.querySelector('.flash-display')
     );
@@ -75,7 +81,18 @@ export class FlashDisplay extends HTMLElement {
     }
   }
 
-  private decorateFlashDisplay(fragment: DocumentFragment, log: MessageLog) {
+  /**
+   * Decorates the given DocumentFragment with colored names and a message
+   * indicating if there are more messages queued.
+   *
+   * @param {DocumentFragment} fragment - The fragment to modify.
+   * @param {MessageLog} log - The message log to check for queued messages.
+   * @return {void}
+   */
+  private decorateFlashDisplay(
+    fragment: DocumentFragment,
+    log: MessageLog,
+  ): void {
     this.decorator.createStyles(itemData.items, 'item');
     this.decorator.createStyles(corpseData.corpses, 'corpse');
     this.decorator.createStyles(mobData.mobs, 'mob');
@@ -93,12 +110,15 @@ export class FlashDisplay extends HTMLElement {
       this.decorator.addMoreSpanToFragment(fragment, log);
   }
 
-  public clearFlash(game: GameState) {
+  /**
+   * Clears the flash message display.
+   * @param {GameState} game - The game state.
+   * @returns {void}
+   */
+  public clearFlash(game: GameState): void {
     game.log.clearQueue();
 
     const flashDisplay = this.shadowRoot?.querySelector('.flash-display');
     if (flashDisplay) flashDisplay.textContent = '';
   }
 }
-
-customElements.define('flash-display', FlashDisplay);
