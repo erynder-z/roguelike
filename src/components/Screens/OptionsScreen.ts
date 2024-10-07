@@ -20,7 +20,7 @@ export class OptionsScreen extends BaseScreen {
    */
   public drawScreen(): void {
     if (!document.querySelector('options-menu')) {
-      const body = document.getElementById('body1');
+      const body = document.getElementById('body-main');
       const menuScreen = document.createElement('options-menu');
       body?.prepend(menuScreen);
     }

@@ -48,16 +48,10 @@
   "app": {
     "windows": [
       {
-        "label": "splashscreen",
-        "width": 400,
-        "height": 200,
-        "decorations": false,
-        "url": "splashscreen.html"
-      },
-      {
         "label": "main",
+        "title": "meikai-roguelike",
         "fullscreen": true,
-        "title": "meikai-roguelike"
+        "visible": false
       }
     ],
     "security": {

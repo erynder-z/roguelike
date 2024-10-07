@@ -2,48 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Meikai: Roguelike Journey to the Center of the Earth</title>
   </head>
-  <body id="body1">
-    <div id="main-container" class="main-container scanlines">
-      <!-- Stats Start -->
-      <div id="stats-container" class="stats-container">
-        <stats-display />
-      </div>
-      <!-- Stats End -->
-      <!-- Messages Start -->
-      <div id="messages-container" class="messages-container">
-        <messages-display />
-      </div>
-      <!-- Messages End -->
-      <!-- Canvas Start -->
-      <div id="canvas-container" class="canvas-container">
-        <canvas id="canvas1" class="canvas1"></canvas>
-        <div class="flash-container">
-          <flash-display />
-        </div>
-      </div>
-      <!-- Canvas End -->
-      <!-- Bottom Start -->
-      <div class="bottom-container">
-        <!-- Image Start -->
-        <div id="image-container" class="image-container"></div>
-        <!-- Image End -->
-        <!-- Buffs Start -->
-        <div class="buffs-container">
-          <buffs-display />
-        </div>
-        <!-- Buffs End -->
-        <!-- Equipment Start -->
-        <div class="equipment-container">
-          <equipment-display />
-        </div>
-        <!-- Equipment End -->
-        <!-- Bottom End -->
-      </div>
-    </div>
+  <body id="body-main">
     <!-- Web Components Scripts (Loaded Normally) -->
     <script type="module" src="/src/loaders/UI_WebComponentsLoader.ts"></script>
     <!-- Main Script (Deferred Execution) -->

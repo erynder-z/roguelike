@@ -72,7 +72,7 @@ export class DynamicScreenMaker implements ScreenMaker {
    *
    * @param {Build} builder - The builder for creating games.
    */
-  public static runBuilt_InitialGameSetup(builder: Build, seed: number) {
+  public static async runBuilt_InitialGameSetup(builder: Build, seed: number) {
     const dynamicScreenMaker = new DynamicScreenMaker(
       builder,
       (game: GameState, sm: ScreenMaker) => new GameScreen(game, sm),

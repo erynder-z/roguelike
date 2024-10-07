@@ -33,9 +33,6 @@
   margin: var(--margin);
   padding: var(--padding);
   box-sizing: var(--box-sizing);
-}
-
-* {
   scrollbar-width: var(--scrollbar-width);
   scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 }
@@ -221,7 +218,7 @@ li {
   font-size: 1.25em;
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   0% {
     opacity: 0;
   }
@@ -230,7 +227,7 @@ li {
   }
 }
 
-@keyframes fadeOut {
+@keyframes fade-out {
   0% {
     opacity: 1;
   }
@@ -240,9 +237,9 @@ li {
 }
 
 .fade-in {
-  animation: fadeIn 100ms;
+  animation: fade-in 100ms;
 }
 
 .fade-out {
-  animation: fadeOut 100ms;
+  animation: fade-out 1000ms;
 }
