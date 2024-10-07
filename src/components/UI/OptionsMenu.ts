@@ -1,6 +1,6 @@
 import { ask } from '@tauri-apps/plugin-dialog';
 import { exit } from '@tauri-apps/plugin-process';
-import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
+import { invoke } from '@tauri-apps/api/core';
 
 export class OptionsMenu extends HTMLElement {
   constructor() {
@@ -236,21 +236,7 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private showHelp(): void {
-    const webview = new WebviewWindow('help', {
-      url: 'help.html',
-      title: 'Meikai - Help',
-      fullscreen: true,
-    });
-
-    webview.once('tauri://created', () => {
-      webview.listen('content-loaded', () => {
-        webview?.show();
-      });
-    });
-    webview.once('tauri://error', e => {
-      console.error(e);
-      // an error occurred during webview window creation
-    });
+    invoke('show_help_window');
   }
 
   /**
