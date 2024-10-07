@@ -17,33 +17,66 @@ export class GenerateHelpUI {
 
     // Tabs (controls, buffs, environment, items, mobs, concepts)
     const tabs = [
-      { target: 'controls', text: 'C', underline: 'o', label: 'ntrols' },
-      { target: 'buffs', text: 'B', underline: '', label: 'uffs' },
-      { target: 'environment', text: 'E', underline: '', label: 'nvironment' },
-      { target: 'items', text: 'I', underline: '', label: 'tems' },
-      { target: 'mobs', text: 'M', underline: '', label: 'obs' },
-      { target: 'concepts', text: 'O', underline: 't', label: 'her' },
+      {
+        target: 'controls',
+        textBeforeUnderline: 'C',
+        underline: 'o',
+        textAfterUnderline: 'ntrols',
+      },
+      {
+        target: 'buffs',
+        textBeforeUnderline: '',
+        underline: 'B',
+        textAfterUnderline: 'uffs',
+      },
+      {
+        target: 'environment',
+        textBeforeUnderline: '',
+        underline: 'E',
+        textAfterUnderline: 'nvironment',
+      },
+      {
+        target: 'items',
+        textBeforeUnderline: '',
+        underline: 'I',
+        textAfterUnderline: 'tems',
+      },
+      {
+        target: 'mobs',
+        textBeforeUnderline: '',
+        underline: 'M',
+        textAfterUnderline: 'obs',
+      },
+      {
+        target: 'concepts',
+        textBeforeUnderline: 'Concep',
+        underline: 't',
+        textAfterUnderline: 's',
+      },
     ];
 
     // Generate tabs dynamically
-    for (let i = 0; i < tabs.length; i++) {
+    tabs.forEach((tabData, index) => {
       const tab = document.createElement('div');
       tab.classList.add('tab');
-      if (i === 0) tab.classList.add('active'); // Make the first tab active
-      tab.dataset.target = tabs[i].target;
+      if (index === 0) tab.classList.add('active'); // Make the first tab active
+      tab.dataset.target = tabData.target;
 
-      // Underlined text handling
-      const span = document.createElement('span');
-      span.classList.add('underline');
-      span.innerText = tabs[i].underline || tabs[i].text;
+      const beforeTextNode = document.createTextNode(
+        tabData.textBeforeUnderline,
+      );
+      const afterTextNode = document.createTextNode(tabData.textAfterUnderline);
 
-      // Append the tab contents
-      tab.innerHTML = `${tabs[i].text}`;
-      if (tabs[i].underline) tab.appendChild(span);
-      tab.innerHTML += tabs[i].label;
+      const underlineSpan = document.createElement('span');
+      underlineSpan.classList.add('underline');
+      underlineSpan.innerText = tabData.underline;
+
+      tab.appendChild(beforeTextNode);
+      tab.appendChild(underlineSpan);
+      tab.appendChild(afterTextNode);
 
       tabContainer.appendChild(tab);
-    }
+    });
 
     // Append tab container to the main help container
     helpContainer.appendChild(tabContainer);
