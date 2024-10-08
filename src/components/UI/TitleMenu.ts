@@ -1,6 +1,9 @@
 import { ask } from '@tauri-apps/plugin-dialog';
+import {
+  buildParameters,
+  BuildParametersType,
+} from '../../buildParameters/buildParameters';
 import { exit } from '@tauri-apps/plugin-process';
-import { initParams, InitParamsType } from '../../initParams/InitParams';
 import { invoke } from '@tauri-apps/api/core';
 
 export class TitleMenu extends HTMLElement {
@@ -108,7 +111,7 @@ export class TitleMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.displayCurrentSeed(initParams.seed);
+    this.displayCurrentSeed(buildParameters.seed);
 
     this.bindEvents();
   }
@@ -234,10 +237,10 @@ export class TitleMenu extends HTMLElement {
   /**
    * Displays the current seed in the title menu.
    *
-   * @param {InitParamsType['seed']} seed - The current seed.
+   * @param {BuildParametersType['seed']} seed - The current seed.
    * @return {void}
    */
-  private displayCurrentSeed(seed: InitParamsType['seed']): void {
+  private displayCurrentSeed(seed: BuildParametersType['seed']): void {
     const seedDisplay = this.shadowRoot?.getElementById(
       'current-seed-display',
     ) as HTMLDivElement;
@@ -265,8 +268,8 @@ export class TitleMenu extends HTMLElement {
    * @return {void}
    */
   public changeSeed(): void {
-    initParams.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-    this.displayCurrentSeed(initParams.seed);
+    buildParameters.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+    this.displayCurrentSeed(buildParameters.seed);
   }
 
   /**

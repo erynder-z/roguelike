@@ -2,9 +2,9 @@ import * as corpseData from '../components/Mobs/MobData/corpses.json';
 import * as environmentData from '../components/Environment/EnvironmentData/environment.json';
 import * as itemData from '../components/ItemObjects/ItemData/items.json';
 import * as mobsData from '../components/Mobs/MobData/mobs.json';
+import { buildParameters } from '../buildParameters/buildParameters';
 import { GlyphMap } from '../components/Glyphs/GlyphMap';
 import { GlyphInfo } from '../components/Glyphs/GlyphInfo';
-import { initParams } from '../initParams/InitParams';
 import {
   EnvironmentGlyph,
   MobGlyph,
@@ -26,11 +26,11 @@ export class GlyphLoader {
         // Add player glyph
         const playerGlyph = new GlyphInfo(
           'Player', // id
-          initParams.player.color, // fgCol
+          buildParameters.player.color, // fgCol
           '#4B5A52', // bgCol
           false, // hasSolidBg
-          initParams.player.avatar, // char
-          initParams.player.name, // name
+          buildParameters.player.avatar, // char
+          buildParameters.player.name, // name
           'The player character. You are here.', // description
           true, // isOpaque
           false, // isBlockingMovement

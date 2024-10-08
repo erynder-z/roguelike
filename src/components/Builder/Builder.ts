@@ -4,7 +4,7 @@ import { FindFreeSpace } from '../Utilities/FindFreeSpace';
 import { Game } from './GameModel';
 import { GameState } from './Types/GameState';
 import { Glyph } from '../Glyphs/Glyph';
-import { InitParamsType } from '../../initParams/InitParams';
+import { BuildParametersType } from '../../buildParameters/buildParameters';
 import { Inventory } from '../Inventory/Inventory';
 import { ItemObject } from '../ItemObjects/ItemObject';
 import { ItemObjectManager } from '../ItemObjects/ItemObjectManager';
@@ -27,8 +27,8 @@ import { WorldPoint } from '../MapModel/WorldPoint';
  */
 export class Builder implements Build {
   constructor(
-    public seed: InitParamsType['seed'],
-    public player: InitParamsType['player'],
+    public seed: BuildParametersType['seed'],
+    public player: BuildParametersType['player'],
   ) {}
 
   /**

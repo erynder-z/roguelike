@@ -1,4 +1,7 @@
-import { initParams, InitParamsType } from '../../initParams/InitParams';
+import {
+  buildParameters,
+  BuildParametersType,
+} from '../../buildParameters/buildParameters';
 import { boyishImage, girlishImage } from '../ImageHandler/portraitImages';
 import { getRandomColor } from '../Colors/GetRandomColor';
 import { getRandomName } from '../Utilities/GetRandomName';
@@ -250,7 +253,7 @@ export class PlayerSetup extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.bindEvents();
-    this.displayPlayer(initParams.player);
+    this.displayPlayer(buildParameters.player);
   }
 
   /**
@@ -439,11 +442,11 @@ export class PlayerSetup extends HTMLElement {
   /**
    * Renders the player's current portrait, name, and avatar in the UI.
    *
-   * @param {InitParamsType['player']} player - The player object containing the
+   * @param {BuildParametersType['player']} player - The player object containing the
    * appearance, name, and avatar information.
    * @return {void}
    */
-  private displayPlayer(player: InitParamsType['player']): void {
+  private displayPlayer(player: BuildParametersType['player']): void {
     const isGirlish = player.appearance === 'girlish';
     this.renderPortraitElement('player-portrait-1', girlishImage, isGirlish);
     this.renderPortraitElement('player-portrait-2', boyishImage, !isGirlish);
@@ -496,7 +499,7 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private toggleAppearance(): void {
-    const player = initParams.player;
+    const player = buildParameters.player;
     player.appearance = player.appearance === 'girlish' ? 'boyish' : 'girlish';
     this.displayPlayer(player);
   }
@@ -520,7 +523,7 @@ export class PlayerSetup extends HTMLElement {
 
     randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
-    inputElement.value = initParams.player.name;
+    inputElement.value = buildParameters.player.name;
     nameElement.style.display = 'none';
     inputElement.focus();
 
@@ -532,7 +535,7 @@ export class PlayerSetup extends HTMLElement {
 
   /**
    * Handles the blur event on the player name input element by saving the new
-   * name to initParams and hiding the input element.
+   * name to buildParameters and hiding the input element.
    *
    * @return {void}
    */
@@ -549,8 +552,8 @@ export class PlayerSetup extends HTMLElement {
 
     if (inputElement) {
       const newName = inputElement.value.trim();
-      initParams.player.name = newName || 'Unnamed';
-      this.renderNameElement('player-name', initParams.player.name);
+      buildParameters.player.name = newName || 'Unnamed';
+      this.renderNameElement('player-name', buildParameters.player.name);
       nameElement.style.display = 'inline';
       inputElement.style.display = 'none';
       randomizeButton.style.display = 'inline';
@@ -563,7 +566,9 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeName(): void {
-    initParams.player.name = getRandomName(initParams.player.appearance);
+    buildParameters.player.name = getRandomName(
+      buildParameters.player.appearance,
+    );
   }
 
   /**
@@ -572,12 +577,12 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeAvatar(): void {
-    initParams.player.avatar = getRandomUnicodeCharacter();
+    buildParameters.player.avatar = getRandomUnicodeCharacter();
   }
 
   /**
    * Handles the change event on the player color input element by saving the
-   * new color to initParams.
+   * new color to buildParameters.
    *
    * @return {void}
    */
@@ -585,7 +590,7 @@ export class PlayerSetup extends HTMLElement {
     const colorInput = this.shadowRoot?.getElementById(
       'player-color-input',
     ) as HTMLInputElement;
-    initParams.player.color = colorInput?.value;
+    buildParameters.player.color = colorInput?.value;
   }
 
   /**
@@ -614,7 +619,7 @@ export class PlayerSetup extends HTMLElement {
 
     if (colorInput) {
       colorInput.value = randomColor;
-      initParams.player.color = randomColor;
+      buildParameters.player.color = randomColor;
     }
   }
 
@@ -637,7 +642,7 @@ export class PlayerSetup extends HTMLElement {
 
     randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
-    inputElement.value = initParams.player.avatar;
+    inputElement.value = buildParameters.player.avatar;
     avatarElement.style.display = 'none';
     inputElement.focus();
 
@@ -649,7 +654,7 @@ export class PlayerSetup extends HTMLElement {
 
   /**
    * Handles the blur event on the player avatar input element by saving the new
-   * avatar to initParams and hiding the input element.
+   * avatar to buildParameters and hiding the input element.
    *
    * @return {void}
    */
@@ -666,8 +671,8 @@ export class PlayerSetup extends HTMLElement {
 
     if (inputElement) {
       const newAvatar = inputElement.value.trim();
-      initParams.player.avatar = newAvatar || '@';
-      this.renderNameElement('player-avatar', initParams.player.avatar);
+      buildParameters.player.avatar = newAvatar || '@';
+      this.renderNameElement('player-avatar', buildParameters.player.avatar);
       avatarElement.style.display = 'inline';
       inputElement.style.display = 'none';
       randomizeButton.style.display = 'inline';
@@ -680,7 +685,8 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeAppearance(): void {
-    initParams.player.appearance = Math.random() > 0.5 ? 'boyish' : 'girlish';
+    buildParameters.player.appearance =
+      Math.random() > 0.5 ? 'boyish' : 'girlish';
   }
 
   /**
@@ -717,7 +723,7 @@ export class PlayerSetup extends HTMLElement {
         this.randomizeAvatar();
         break;
     }
-    this.displayPlayer(initParams.player);
+    this.displayPlayer(buildParameters.player);
   }
 
   /**
@@ -808,4 +814,3 @@ export class PlayerSetup extends HTMLElement {
     );
   }
 }
-
