@@ -1,6 +1,6 @@
-import buildParams from './BuildParametersData/buildParameters.json';
-import { BuildParametersType } from './Types/BuildParametersType';
-import { getRandomName } from '../components/Utilities/GetRandomName';
+import buildParams from './buildParametersData/buildParameters.json';
+import { BuildParametersType } from './types/buildParametersType';
+import { getRandomName } from '../utilities/getRandomName';
 
 export const defaultParams: BuildParametersType = {
   SHOW_MENU: true,

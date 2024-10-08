@@ -1,12 +1,12 @@
 import './styles/cssReset.css';
 import './styles/style-main.css';
-import { Builder } from './components/Builder/Builder';
+import { Builder } from './gameBuilder/builder';
 import { buildParameters } from './buildParameters/buildParameters';
-import { ColorLoader } from './loaders/ColorLoader';
-import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
-import { GenerateMainUI } from './components/Utilities/GenerateMainUI';
-import { GenerateTitleScreen } from './components/Utilities/GenerateTitleScreen';
-import { GlyphLoader } from './loaders/GlyphLoader';
+import { ColorLoader } from './loaders/colorLoader';
+import { DynamicScreenMaker } from './gameLogic/screens/dynamicScreenMaker';
+import { GenerateMainUI } from './utilities/generateMainUI';
+import { GenerateTitleScreen } from './utilities/generateTitleScreen';
+import { GlyphLoader } from './loaders/glyphLoader';
 import { invoke } from '@tauri-apps/api/core';
 
 const initializeGame = async () => {
