@@ -1,6 +1,5 @@
 use tauri::{Manager, Runtime};
 
-/// A helper function to manage window visibility.
 async fn manage_window<R: Runtime>(
     app: tauri::AppHandle<R>,
     label: &str,
@@ -19,19 +18,16 @@ async fn manage_window<R: Runtime>(
     Ok(())
 }
 
-/// Command to show the main window.
 #[tauri::command]
 pub async fn show_main_window<R: Runtime>(app: tauri::AppHandle<R>) -> Result<(), String> {
     manage_window(app, "main", true).await
 }
 
-/// Command to show the help window.
 #[tauri::command]
 pub async fn show_help_window<R: Runtime>(app: tauri::AppHandle<R>) -> Result<(), String> {
     manage_window(app, "help", true).await
 }
 
-/// Command to hide the help window.
 #[tauri::command]
 pub async fn hide_help_window<R: Runtime>(app: tauri::AppHandle<R>) -> Result<(), String> {
     manage_window(app, "help", false).await

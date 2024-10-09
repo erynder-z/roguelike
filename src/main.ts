@@ -1,19 +1,19 @@
 import './styles/cssReset.css';
 import './styles/style-main.css';
-import { Builder } from './components/Builder/Builder';
-import { ColorLoader } from './loaders/ColorLoader';
-import { DynamicScreenMaker } from './components/Screens/DynamicScreenMaker';
-import { GenerateMainUI } from './components/Utilities/GenerateMainUI';
-import { GenerateTitleScreen } from './components/Utilities/GenerateTitleScreen';
-import { GlyphLoader } from './loaders/GlyphLoader';
-import { initParams } from './initParams/InitParams';
+import { Builder } from './gameBuilder/builder';
+import { buildParameters } from './buildParameters/buildParameters';
+import { ColorLoader } from './loaders/colorLoader';
+import { DynamicScreenMaker } from './gameLogic/screens/dynamicScreenMaker';
+import { GenerateMainUI } from './utilities/generateMainUI';
+import { GenerateTitleScreen } from './utilities/generateTitleScreen';
+import { GlyphLoader } from './loaders/glyphLoader';
 import { invoke } from '@tauri-apps/api/core';
 
 const initializeGame = async () => {
   try {
-    if (!initParams) throw new Error('initParams not defined');
+    if (!buildParameters) throw new Error('buildParameters not defined');
 
-    const { SHOW_MENU, seed, player } = initParams;
+    const { SHOW_MENU, seed, player } = buildParameters;
 
     // Parallel Initialization of Colors and Glyphs
     await Promise.all([

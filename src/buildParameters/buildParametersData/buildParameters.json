@@ -1,0 +1,12 @@
+{
+  "buildParams": {
+    "SHOW_MENU": true,
+    "seed": 0,
+    "player": {
+      "name": "",
+      "appearance": "girlish",
+      "color": "#ffffff",
+      "avatar": "@"
+    }
+  }
+}
