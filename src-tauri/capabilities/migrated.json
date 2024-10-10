@@ -15,11 +15,11 @@
     "process:default",
     {
       "identifier": "fs:allow-appdata-read",
-      "allow": [{ "path": "$APPDATA/test.json" }]
+      "allow": [{ "path": "$APPDATA" }]
     },
     {
       "identifier": "fs:allow-appdata-write",
-      "allow": [{ "path": "$APPDATA/test.json" }]
+      "allow": [{ "path": "$APPDATA" }]
     }
   ]
 }
