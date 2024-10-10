@@ -61,7 +61,7 @@ export class GlyphMap {
       return;
     }
     GlyphMap.glyphsRegistry.set(glyph, info);
-    GlyphMap.warn(glyph);
+    /*   GlyphMap.warn(glyph); */
   }
 
   /**

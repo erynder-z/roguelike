@@ -1,8 +1,9 @@
 import { ask } from '@tauri-apps/plugin-dialog';
-import { invoke } from '@tauri-apps/api/core';
 import { BuildParametersType } from '../../buildParameters/types/buildParametersType';
 import { buildParameters } from '../../buildParameters/buildParameters';
 import { exit } from '@tauri-apps/plugin-process';
+import { invoke } from '@tauri-apps/api/core';
+import { saveConfig } from '../../utilities/saveConfig';
 
 export class TitleMenu extends HTMLElement {
   constructor() {
@@ -265,9 +266,10 @@ export class TitleMenu extends HTMLElement {
    *
    * @return {void}
    */
-  public changeSeed(): void {
+  public async changeSeed(): Promise<void> {
     buildParameters.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
     this.displayCurrentSeed(buildParameters.seed);
+    await saveConfig();
   }
 
   /**

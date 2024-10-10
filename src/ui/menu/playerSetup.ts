@@ -7,6 +7,7 @@ import {
   girlishImage,
   boyishImage,
 } from '../../utilities/imageHandler/portraitImages';
+import { saveConfig } from '../../utilities/saveConfig';
 
 export class PlayerSetup extends HTMLElement {
   constructor() {
@@ -217,7 +218,6 @@ export class PlayerSetup extends HTMLElement {
                 id="player-color-input"
                 class="color-input"
                 type="color"
-                value="#FFFFFF"
               />
             </div>
             <button id="randomize-color-button" class="randomize-color-button">
@@ -453,6 +453,7 @@ export class PlayerSetup extends HTMLElement {
     this.renderPortraitElement('player-portrait-2', boyishImage, !isGirlish);
 
     this.renderNameElement('player-name', player.name);
+    this.setColorInputValue(player.color);
     this.renderNameElement('player-avatar', player.avatar);
   }
 
@@ -579,6 +580,22 @@ export class PlayerSetup extends HTMLElement {
    */
   private randomizeAvatar(): void {
     buildParameters.player.avatar = getRandomUnicodeCharacter();
+  }
+
+  /**
+   * Sets the value of the player color input element to the given color.
+   *
+   * This function is called when the player's color is changed from the
+   * player setup screen.
+   *
+   * @param {string} color - The new color for the player.
+   * @return {void}
+   */
+  private setColorInputValue(color: string): void {
+    const colorInput = this.shadowRoot?.getElementById(
+      'player-color-input',
+    ) as HTMLInputElement;
+    if (colorInput) colorInput.value = color;
   }
 
   /**
@@ -728,15 +745,16 @@ export class PlayerSetup extends HTMLElement {
   }
 
   /**
-   * Removes the player setup screen and replaces it with a title menu.
+   * Saves the current build parameters to a file and returns to the previous screen.
    *
-   * This function is called when the user clicks the "return to previous screen"
-   * button on the player setup screen. It removes the player setup screen's
-   * content and replaces it with a title menu.
-   *
-   * @return {void}
+   * This function is called when the user clicks the "start game" button on the player setup
+   * screen. It saves the current build parameters to a file and then returns to the previous
+   * screen by replacing the content of the title screen with the title menu element.
+   * @return {Promise<void>} A promise for when the file is saved and the screen is updated.
    */
-  private returnToPreviousScreen(): void {
+  private async returnToPreviousScreen(): Promise<void> {
+    await saveConfig();
+
     const titleScreenContent = document
       .querySelector('title-screen')
       ?.shadowRoot?.getElementById('title-screen-content');

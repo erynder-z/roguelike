@@ -1,8 +1,8 @@
-import buildParams from './buildParametersData/buildParameters.json';
-import { BuildParametersType } from './types/buildParametersType';
 import { getRandomName } from '../utilities/getRandomName';
+import { BuildParametersType } from './types/buildParametersType';
+import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
 
-export const defaultParams: BuildParametersType = {
+const defaultParams: BuildParametersType = {
   SHOW_MENU: true,
   seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
   player: {
@@ -12,28 +12,31 @@ export const defaultParams: BuildParametersType = {
     avatar: '@',
   },
 };
+export let buildParameters: BuildParametersType =
+  defaultParams as BuildParametersType;
 
-export const createBuildParameters = (): BuildParametersType => {
-  const params = buildParams.buildParams as BuildParametersType;
-
+export const createBuildParameters = async (): Promise<void> => {
   try {
-    return {
-      SHOW_MENU: params.SHOW_MENU || defaultParams.SHOW_MENU,
-      seed: params.seed || defaultParams.seed,
+    const params = await readTextFile('buildParamsConfig.json', {
+      baseDir: BaseDirectory.AppData,
+    });
+
+    const parsedParams = JSON.parse(params);
+
+    buildParameters = {
+      SHOW_MENU: parsedParams.SHOW_MENU,
+      seed: parsedParams.seed,
       player: {
-        name: params.player.name || defaultParams.player.name,
-        appearance: params.player.appearance || defaultParams.player.appearance,
-        color: params.player.color || defaultParams.player.color,
-        avatar: params.player.avatar || defaultParams.player.avatar,
+        name: parsedParams.player.name,
+        appearance: parsedParams.player.appearance,
+        color: parsedParams.player.color,
+        avatar: parsedParams.player.avatar,
       },
     };
   } catch (error) {
-    console.error('Error loading parameters:', error);
-    // Return default parameters if an error occurs
-
-    return defaultParams;
+    console.error('Error loading parameters, using default parameters:', error);
   }
 };
 
-// These cannot be async as they need to be available at runtime!
-export const buildParameters = createBuildParameters();
+// Call the async function to load user-specific parameters after setting defaults.
+createBuildParameters();
