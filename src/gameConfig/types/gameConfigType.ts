@@ -1,4 +1,4 @@
-export type BuildParametersType = {
+export type GameConfigType = {
   SHOW_MENU: boolean;
   scanlines: boolean;
   seed: number;

@@ -1,4 +1,4 @@
-import { buildParameters } from '../../buildParameters/buildParameters';
+import { gameConfig } from '../../gameConfig/gameConfig';
 import corpseData from '../../gameLogic/mobs/mobData/corpses.json';
 import envData from '../../gameLogic/environment/environmentData/environment.json';
 import { FlashDecorator } from './flashDecorator';
@@ -97,13 +97,13 @@ export class FlashDisplay extends HTMLElement {
     this.decorator.createStyles(corpseData.corpses, 'corpse');
     this.decorator.createStyles(mobData.mobs, 'mob');
     this.decorator.createStyles(envData.environment, 'env');
-    this.decorator.createStyles(buildParameters.player.color);
+    this.decorator.createStyles(gameConfig.player.color);
 
     this.decorator.colorize(fragment, itemData.items, 'item');
     this.decorator.colorize(fragment, corpseData.corpses, 'corpse');
     this.decorator.colorize(fragment, mobData.mobs, 'mob');
     this.decorator.colorize(fragment, envData.environment, 'env');
-    this.decorator.colorize(fragment, buildParameters.player.name);
+    this.decorator.colorize(fragment, gameConfig.player.name);
 
     if (log.hasQueuedMessages())
       // More than 1 message in queue

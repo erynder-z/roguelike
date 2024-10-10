@@ -1,5 +1,5 @@
 import { Builder } from '../gameBuilder/builder';
-import { buildParameters } from '../buildParameters/buildParameters';
+import { gameConfig } from '../gameConfig/gameConfig';
 import { DynamicScreenMaker } from '../gameLogic/screens/dynamicScreenMaker';
 import { GlyphLoader } from '../loaders/glyphLoader';
 
@@ -30,8 +30,8 @@ export class GenerateTitleScreen {
       titleContainer.remove();
       await GlyphLoader.initializeGlyphs();
       DynamicScreenMaker.runBuilt_InitialGameSetup(
-        new Builder(buildParameters.seed, buildParameters.player),
-        buildParameters.seed,
+        new Builder(gameConfig.seed, gameConfig.player),
+        gameConfig.seed,
       );
     });
   }

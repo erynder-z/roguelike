@@ -2,7 +2,7 @@ import { ask } from '@tauri-apps/plugin-dialog';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
 import { saveConfig } from '../../utilities/saveConfig';
-import { buildParameters } from '../../buildParameters/buildParameters';
+import { gameConfig } from '../../gameConfig/gameConfig';
 
 export class OptionsMenu extends HTMLElement {
   constructor() {
@@ -215,7 +215,7 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleScanlines(): void {
-    buildParameters.scanlines = !buildParameters.scanlines;
+    gameConfig.scanlines = !gameConfig.scanlines;
 
     const mainContainer = document.getElementById('main-container');
     const scanLineBtn = this.shadowRoot?.getElementById(

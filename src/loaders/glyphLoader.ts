@@ -2,7 +2,7 @@ import * as corpseData from '../gameLogic/mobs/mobData/corpses.json';
 import * as environmentData from '../gameLogic/environment/environmentData/environment.json';
 import * as itemData from '../gameLogic/itemObjects/itemData/items.json';
 import * as mobsData from '../gameLogic/mobs/mobData/mobs.json';
-import { buildParameters } from '../buildParameters/buildParameters';
+import { gameConfig } from '../gameConfig/gameConfig';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
 import {
@@ -26,11 +26,11 @@ export class GlyphLoader {
         // Add player glyph
         const playerGlyph = new GlyphInfo(
           'Player', // id
-          buildParameters.player.color, // fgCol
+          gameConfig.player.color, // fgCol
           '#4B5A52', // bgCol
           false, // hasSolidBg
-          buildParameters.player.avatar, // char
-          buildParameters.player.name, // name
+          gameConfig.player.avatar, // char
+          gameConfig.player.name, // name
           'The player character. You are here.', // description
           true, // isOpaque
           false, // isBlockingMovement

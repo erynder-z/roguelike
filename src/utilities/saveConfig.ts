@@ -1,4 +1,4 @@
-import { buildParameters } from '../buildParameters/buildParameters';
+import { gameConfig } from '../gameConfig/gameConfig';
 import { writeTextFile, BaseDirectory } from '@tauri-apps/plugin-fs';
 
 /**
@@ -11,9 +11,9 @@ import { writeTextFile, BaseDirectory } from '@tauri-apps/plugin-fs';
  * @return {Promise<void>} A promise for when the file is saved.
  */
 export const saveConfig = async (): Promise<void> => {
-  const contents = JSON.stringify(buildParameters, null, 2); // Pretty print for readability
+  const contents = JSON.stringify(gameConfig, null, 2); // Pretty print for readability
 
-  await writeTextFile('buildParamsConfig.json', contents, {
+  await writeTextFile('gameConfig.json', contents, {
     baseDir: BaseDirectory.AppData,
   });
 };

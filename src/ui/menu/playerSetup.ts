@@ -1,5 +1,5 @@
-import { buildParameters } from '../../buildParameters/buildParameters';
-import { BuildParametersType } from '../../buildParameters/types/buildParametersType';
+import { gameConfig } from '../../gameConfig/gameConfig';
+import { GameConfigType } from '../../gameConfig/types/gameConfigType';
 import { getRandomColor } from '../../utilities/colors/getRandomColor';
 import { getRandomUnicodeCharacter } from '../../utilities/getRandomAvatar';
 import { getRandomName } from '../../utilities/getRandomName';
@@ -254,7 +254,7 @@ export class PlayerSetup extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.bindEvents();
-    this.displayPlayer(buildParameters.player);
+    this.displayPlayer(gameConfig.player);
   }
 
   /**
@@ -443,11 +443,11 @@ export class PlayerSetup extends HTMLElement {
   /**
    * Renders the player's current portrait, name, and avatar in the UI.
    *
-   * @param {BuildParametersType['player']} player - The player object containing the
+   * @param {GameConfigType['player']} player - The player object containing the
    * appearance, name, and avatar information.
    * @return {void}
    */
-  private displayPlayer(player: BuildParametersType['player']): void {
+  private displayPlayer(player: GameConfigType['player']): void {
     const isGirlish = player.appearance === 'girlish';
     this.renderPortraitElement('player-portrait-1', girlishImage, isGirlish);
     this.renderPortraitElement('player-portrait-2', boyishImage, !isGirlish);
@@ -501,7 +501,7 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private toggleAppearance(): void {
-    const player = buildParameters.player;
+    const player = gameConfig.player;
     player.appearance = player.appearance === 'girlish' ? 'boyish' : 'girlish';
     this.displayPlayer(player);
   }
@@ -525,7 +525,7 @@ export class PlayerSetup extends HTMLElement {
 
     randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
-    inputElement.value = buildParameters.player.name;
+    inputElement.value = gameConfig.player.name;
     nameElement.style.display = 'none';
     inputElement.focus();
 
@@ -537,7 +537,7 @@ export class PlayerSetup extends HTMLElement {
 
   /**
    * Handles the blur event on the player name input element by saving the new
-   * name to buildParameters and hiding the input element.
+   * name to gameConfig and hiding the input element.
    *
    * @return {void}
    */
@@ -554,8 +554,8 @@ export class PlayerSetup extends HTMLElement {
 
     if (inputElement) {
       const newName = inputElement.value.trim();
-      buildParameters.player.name = newName || 'Unnamed';
-      this.renderNameElement('player-name', buildParameters.player.name);
+      gameConfig.player.name = newName || 'Unnamed';
+      this.renderNameElement('player-name', gameConfig.player.name);
       nameElement.style.display = 'inline';
       inputElement.style.display = 'none';
       randomizeButton.style.display = 'inline';
@@ -568,9 +568,7 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeName(): void {
-    buildParameters.player.name = getRandomName(
-      buildParameters.player.appearance,
-    );
+    gameConfig.player.name = getRandomName(gameConfig.player.appearance);
   }
 
   /**
@@ -579,7 +577,7 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeAvatar(): void {
-    buildParameters.player.avatar = getRandomUnicodeCharacter();
+    gameConfig.player.avatar = getRandomUnicodeCharacter();
   }
 
   /**
@@ -600,7 +598,7 @@ export class PlayerSetup extends HTMLElement {
 
   /**
    * Handles the change event on the player color input element by saving the
-   * new color to buildParameters.
+   * new color to gameConfig.
    *
    * @return {void}
    */
@@ -608,7 +606,7 @@ export class PlayerSetup extends HTMLElement {
     const colorInput = this.shadowRoot?.getElementById(
       'player-color-input',
     ) as HTMLInputElement;
-    buildParameters.player.color = colorInput?.value;
+    gameConfig.player.color = colorInput?.value;
   }
 
   /**
@@ -637,7 +635,7 @@ export class PlayerSetup extends HTMLElement {
 
     if (colorInput) {
       colorInput.value = randomColor;
-      buildParameters.player.color = randomColor;
+      gameConfig.player.color = randomColor;
     }
   }
 
@@ -660,7 +658,7 @@ export class PlayerSetup extends HTMLElement {
 
     randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
-    inputElement.value = buildParameters.player.avatar;
+    inputElement.value = gameConfig.player.avatar;
     avatarElement.style.display = 'none';
     inputElement.focus();
 
@@ -672,7 +670,7 @@ export class PlayerSetup extends HTMLElement {
 
   /**
    * Handles the blur event on the player avatar input element by saving the new
-   * avatar to buildParameters and hiding the input element.
+   * avatar to gameConfig and hiding the input element.
    *
    * @return {void}
    */
@@ -689,8 +687,8 @@ export class PlayerSetup extends HTMLElement {
 
     if (inputElement) {
       const newAvatar = inputElement.value.trim();
-      buildParameters.player.avatar = newAvatar || '@';
-      this.renderNameElement('player-avatar', buildParameters.player.avatar);
+      gameConfig.player.avatar = newAvatar || '@';
+      this.renderNameElement('player-avatar', gameConfig.player.avatar);
       avatarElement.style.display = 'inline';
       inputElement.style.display = 'none';
       randomizeButton.style.display = 'inline';
@@ -703,8 +701,7 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeAppearance(): void {
-    buildParameters.player.appearance =
-      Math.random() > 0.5 ? 'boyish' : 'girlish';
+    gameConfig.player.appearance = Math.random() > 0.5 ? 'boyish' : 'girlish';
   }
 
   /**
@@ -741,7 +738,7 @@ export class PlayerSetup extends HTMLElement {
         this.randomizeAvatar();
         break;
     }
-    this.displayPlayer(buildParameters.player);
+    this.displayPlayer(gameConfig.player);
   }
 
   /**

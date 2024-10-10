@@ -1,8 +1,8 @@
 import { getRandomName } from '../utilities/getRandomName';
-import { BuildParametersType } from './types/buildParametersType';
+import { GameConfigType } from './types/gameConfigType';
 import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
 
-const defaultParams: BuildParametersType = {
+const defaultParams: GameConfigType = {
   SHOW_MENU: true,
   scanlines: true,
   seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
@@ -13,11 +13,10 @@ const defaultParams: BuildParametersType = {
     avatar: '@',
   },
 };
-export let buildParameters: BuildParametersType =
-  defaultParams as BuildParametersType;
+export let gameConfig: GameConfigType = defaultParams as GameConfigType;
 
 /**
- * Loads the build parameters from the 'buildParamsConfig.json' file in the app data directory.
+ * Loads the build parameters from the 'gameConfig.json' file in the app data directory.
  *
  * If the file does not exist, or if there is an error reading the file, the default parameters are
  * used.
@@ -27,13 +26,13 @@ export let buildParameters: BuildParametersType =
  */
 export const createBuildParameters = async (): Promise<void> => {
   try {
-    const params = await readTextFile('buildParamsConfig.json', {
+    const params = await readTextFile('gameConfig.json', {
       baseDir: BaseDirectory.AppData,
     });
 
     const parsedParams = JSON.parse(params);
 
-    buildParameters = {
+    gameConfig = {
       SHOW_MENU: parsedParams.SHOW_MENU,
       scanlines: parsedParams.scanlines,
       seed: parsedParams.seed,

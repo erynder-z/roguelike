@@ -1,6 +1,6 @@
 import { ask } from '@tauri-apps/plugin-dialog';
-import { BuildParametersType } from '../../buildParameters/types/buildParametersType';
-import { buildParameters } from '../../buildParameters/buildParameters';
+import { GameConfigType } from '../../gameConfig/types/gameConfigType';
+import { gameConfig } from '../../gameConfig/gameConfig';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
 import { saveConfig } from '../../utilities/saveConfig';
@@ -110,7 +110,7 @@ export class TitleMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.displayCurrentSeed(buildParameters.seed);
+    this.displayCurrentSeed(gameConfig.seed);
 
     this.bindEvents();
   }
@@ -236,10 +236,10 @@ export class TitleMenu extends HTMLElement {
   /**
    * Displays the current seed in the title menu.
    *
-   * @param {BuildParametersType['seed']} seed - The current seed.
+   * @param {GameConfigType['seed']} seed - The current seed.
    * @return {void}
    */
-  private displayCurrentSeed(seed: BuildParametersType['seed']): void {
+  private displayCurrentSeed(seed: GameConfigType['seed']): void {
     const seedDisplay = this.shadowRoot?.getElementById(
       'current-seed-display',
     ) as HTMLDivElement;
@@ -267,8 +267,8 @@ export class TitleMenu extends HTMLElement {
    * @return {void}
    */
   public async changeSeed(): Promise<void> {
-    buildParameters.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-    this.displayCurrentSeed(buildParameters.seed);
+    gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+    this.displayCurrentSeed(gameConfig.seed);
     await saveConfig();
   }
 

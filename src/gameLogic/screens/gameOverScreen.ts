@@ -1,4 +1,4 @@
-import { buildParameters } from '../../buildParameters/buildParameters';
+import { gameConfig } from '../../gameConfig/gameConfig';
 import { GameState } from '../../gameBuilder/types/gameState';
 import { PostMortem } from '../stats/postMortem';
 import { ScreenMaker } from './types/ScreenMaker';
@@ -69,7 +69,7 @@ export class GameOverScreen implements StackScreen {
   private createNameElement(): HTMLDivElement {
     const nameElement = document.createElement('h1');
     nameElement.textContent = `${this.game.player.name} ✝`;
-    nameElement.style.color = buildParameters.player.color;
+    nameElement.style.color = gameConfig.player.color;
     return nameElement;
   }
 

@@ -1,7 +1,7 @@
-import { buildParameters } from '../buildParameters/buildParameters';
+import { gameConfig } from '../gameConfig/gameConfig';
 
 export class GenerateMainUI {
-  private static showScanlines: boolean = buildParameters.scanlines;
+  private static showScanlines: boolean = gameConfig.scanlines;
   public static async generate() {
     const body = document.getElementById('body-main');
 
