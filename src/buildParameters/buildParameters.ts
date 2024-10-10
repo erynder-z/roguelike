@@ -4,6 +4,7 @@ import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
 
 const defaultParams: BuildParametersType = {
   SHOW_MENU: true,
+  scanlines: true,
   seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
   player: {
     name: getRandomName('girlish'),
@@ -15,6 +16,15 @@ const defaultParams: BuildParametersType = {
 export let buildParameters: BuildParametersType =
   defaultParams as BuildParametersType;
 
+/**
+ * Loads the build parameters from the 'buildParamsConfig.json' file in the app data directory.
+ *
+ * If the file does not exist, or if there is an error reading the file, the default parameters are
+ * used.
+ *
+ * @returns {Promise<void>} A promise for when the file is loaded and the build parameters are
+ *          updated.
+ */
 export const createBuildParameters = async (): Promise<void> => {
   try {
     const params = await readTextFile('buildParamsConfig.json', {
@@ -25,6 +35,7 @@ export const createBuildParameters = async (): Promise<void> => {
 
     buildParameters = {
       SHOW_MENU: parsedParams.SHOW_MENU,
+      scanlines: parsedParams.scanlines,
       seed: parsedParams.seed,
       player: {
         name: parsedParams.player.name,
@@ -38,5 +49,4 @@ export const createBuildParameters = async (): Promise<void> => {
   }
 };
 
-// Call the async function to load user-specific parameters after setting defaults.
 createBuildParameters();
