@@ -1,4 +1,4 @@
-import { TerminalPoint } from '../terminalPoint';
+import { TerminalPoint } from '../../terminal/terminalPoint';
 
 export type DrawableTerminal = {
   dimensions: TerminalPoint;

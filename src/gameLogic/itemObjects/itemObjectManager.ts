@@ -1,7 +1,7 @@
 import { Glyph } from '../glyphs/glyph';
 import { ItemObject } from './itemObject';
-import { Map } from '../../maps/mapModel/types/map';
-import { ObjectTypes } from './types/objTypes';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
+import { ObjectTypes } from '../../types/gameLogic/itemObjects/objTypes';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { Slot } from './slot';
 import { Spell } from '../spells/spell';

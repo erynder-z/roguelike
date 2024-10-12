@@ -1,13 +1,13 @@
 import { AutoHeal } from '../../gameLogic/commands/autoHeal';
-import { Builder } from '../builder';
+import { Builder } from '../../gameBuilder/builder';
 import { Equipment } from '../../gameLogic/inventory/equipment';
 import { EventCategory, LogMessage } from '../../gameLogic/messages/logMessage';
 import { Inventory } from '../../gameLogic/inventory/inventory';
-import { Map } from '../../maps/mapModel/types/map';
-import { MapHandler } from '../mapHandler';
+import { Map } from '../gameLogic/maps/mapModel/map';
+import { MapHandler } from '../../gameBuilder/mapHandler';
 import { MessageLog } from '../../gameLogic/messages/messageLog';
 import { Mob } from '../../gameLogic/mobs/mob';
-import { MobAI } from '../../gameLogic/mobs/types/mobAI';
+import { MobAI } from '../gameLogic/mobs/mobAI';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { Stats } from '../../gameLogic/stats/stats';
 

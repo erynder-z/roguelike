@@ -1,6 +1,6 @@
 import { EventCategory } from '../gameLogic/messages/logMessage';
-import { GameState } from './types/gameState';
-import { Map } from '../maps/mapModel/types/map';
+import { GameState } from '../types/gameBuilder/gameState';
+import { Map } from '../types/gameLogic/maps/mapModel/map';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 
 /**

@@ -2,7 +2,7 @@ import { gameConfig } from '../../gameConfig/gameConfig';
 import corpseData from '../../gameLogic/mobs/mobData/corpses.json';
 import envData from '../../gameLogic/environment/environmentData/environment.json';
 import { FlashDecorator } from './flashDecorator';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import itemData from '../../gameLogic/itemObjects/itemData/items.json';
 import { LogMessage } from '../../gameLogic/messages/logMessage';
 import mobData from '../../gameLogic/mobs/mobData/mobs.json';

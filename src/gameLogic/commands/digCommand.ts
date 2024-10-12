@@ -1,13 +1,13 @@
 import { CommandBase } from './commandBase';
 import { EnvironmentChecker } from '../environment/environmentChecker';
 import { EventCategory } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
 import { GlyphMap } from '../glyphs/glyphMap';
 import { LogMessage } from '../messages/logMessage';
 import { Mob } from '../mobs/mob';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { Map } from '../../maps/mapModel/types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 
 /**
  * Represents a command to dig through rocks.

@@ -1,5 +1,5 @@
 import { gameConfig } from '../../gameConfig/gameConfig';
-import { GameConfigType } from '../../gameConfig/types/gameConfigType';
+import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { getRandomColor } from '../../utilities/colors/getRandomColor';
 import { getRandomUnicodeCharacter } from '../../utilities/getRandomAvatar';
 import { getRandomName } from '../../utilities/getRandomName';

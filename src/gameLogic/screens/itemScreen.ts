@@ -1,18 +1,18 @@
 import { BaseScreen } from './baseScreen';
-import { Command } from '../commands/types/command';
+import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
 import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { EquipCommand } from '../commands/equipCommand';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { FindObjectSpell } from '../spells/findObjectSpells';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Inventory } from '../inventory/inventory';
 import { ItemObject } from '../itemObjects/itemObject';
-import { Map } from '../../maps/mapModel/types/map';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
-import { StackScreen } from '../../terminal/types/stackScreen';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
+import { StackScreen } from '../../types/terminal/stackScreen';
 
 /**
  * Represents a screen for interacting with items.

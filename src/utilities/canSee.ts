@@ -1,6 +1,6 @@
 import { BresenhamIterator } from './bresenhamIterator';
-import { GameState } from '../gameBuilder/types/gameState';
-import { Map } from '../maps/mapModel/types/map';
+import { GameState } from '../types/gameBuilder/gameState';
+import { Map } from '../types/gameLogic/maps/mapModel/map';
 import { Mob } from '../gameLogic/mobs/mob';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 

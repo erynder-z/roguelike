@@ -1,5 +1,5 @@
 import { ask } from '@tauri-apps/plugin-dialog';
-import { GameConfigType } from '../../gameConfig/types/gameConfigType';
+import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { gameConfig } from '../../gameConfig/gameConfig';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';

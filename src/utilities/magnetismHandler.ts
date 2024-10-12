@@ -1,5 +1,5 @@
 import { GameMap } from '../maps/mapModel/gameMap';
-import { Map } from '../maps/mapModel/types/map';
+import { Map } from '../types/gameLogic/maps/mapModel/map';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 

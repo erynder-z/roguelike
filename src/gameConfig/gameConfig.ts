@@ -1,5 +1,5 @@
 import { getRandomName } from '../utilities/getRandomName';
-import { GameConfigType } from './types/gameConfigType';
+import { GameConfigType } from '../types/gameConfig/gameConfigType';
 import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
 
 const defaultParams: GameConfigType = {

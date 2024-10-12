@@ -1,13 +1,13 @@
 import { Buff } from '../gameLogic/buffs/buffEnum';
 import { CanSee } from '../utilities/canSee';
 import { DrawableTerminal } from '../terminal/types/drawableTerminal';
-import { EnvEffect } from '../maps/mapModel/types/envEffect';
-import { GameState } from '../gameBuilder/types/gameState';
+import { EnvEffect } from '../types/gameLogic/maps/mapModel/envEffect';
+import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
 import { ManipulateColors } from '../utilities/colors/manipulateColors';
-import { Map } from '../maps/mapModel/types/map';
+import { Map } from '../types/gameLogic/maps/mapModel/map';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { Spell } from '../gameLogic/spells/spell';
 import { SpellColors } from '../utilities/colors/spellColors';

@@ -1,4 +1,4 @@
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 
 /**
  * Creates a post mortem element with the game stats.

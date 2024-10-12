@@ -1,9 +1,9 @@
-import { Glyph } from '../../../gameLogic/glyphs/glyph';
-import { ItemObject } from '../../../gameLogic/itemObjects/itemObject';
-import { MapCell } from '../mapCell';
-import { Mob } from '../../../gameLogic/mobs/mob';
-import { TurnQueue } from '../../../gameLogic/turnQueue/turnQueue';
-import { WorldPoint } from '../worldPoint';
+import { Glyph } from '../../../../gameLogic/glyphs/glyph';
+import { ItemObject } from '../../../../gameLogic/itemObjects/itemObject';
+import { MapCell } from '../../../../maps/mapModel/mapCell';
+import { Mob } from '../../../../gameLogic/mobs/mob';
+import { TurnQueue } from '../../../../gameLogic/turnQueue/turnQueue';
+import { WorldPoint } from '../../../../maps/mapModel/worldPoint';
 
 export type Map = {
   dimensions: WorldPoint;

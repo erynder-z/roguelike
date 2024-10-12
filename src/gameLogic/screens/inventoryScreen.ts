@@ -1,10 +1,10 @@
 import { BaseScreen } from './baseScreen';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Inventory } from '../inventory/inventory';
 import { ItemObject } from '../itemObjects/itemObject';
 import { ItemScreen } from './itemScreen';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 
 /**
  * Represents an inventory screen.

@@ -1,6 +1,6 @@
 import { Cost } from './cost';
-import { GameState } from '../../../gameBuilder/types/gameState';
-import { Mob } from '../../mobs/mob';
+import { GameState } from '../../gameBuilder/gameState';
+import { Mob } from '../../../gameLogic/mobs/mob';
 import { WorldPoint } from '../../../maps/mapModel/worldPoint';
 
 export type Command = {

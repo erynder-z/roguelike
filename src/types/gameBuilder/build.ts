@@ -1,8 +1,8 @@
 import { GameState } from './gameState';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
-import { Map } from '../../maps/mapModel/types/map';
+import { Map } from '../gameLogic/maps/mapModel/map';
 import { Mob } from '../../gameLogic/mobs/mob';
-import { MobAI } from '../../gameLogic/mobs/types/mobAI';
+import { MobAI } from '../gameLogic/mobs/mobAI';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 

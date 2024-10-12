@@ -1,9 +1,9 @@
 import { gameConfig } from '../../gameConfig/gameConfig';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { PostMortem } from '../stats/postMortem';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
-import { StackScreen } from '../../terminal/types/stackScreen';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
+import { StackScreen } from '../../types/terminal/stackScreen';
 
 /**
  * Represents a game over screen implementation that is part of a terminal-based application stack.

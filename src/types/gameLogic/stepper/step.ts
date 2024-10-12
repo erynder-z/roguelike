@@ -1,6 +1,5 @@
 import { WorldPoint } from '../../../maps/mapModel/worldPoint';
-import { Mob } from '../../mobs/mob';
-
+import { Mob } from '../../../gameLogic/mobs/mob';
 
 export type Step = {
   executeStep(): Step | null;

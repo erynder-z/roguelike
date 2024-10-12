@@ -1,13 +1,12 @@
-import { Act } from "./act";
-import { Buff } from "../buffs/buffEnum";
-import { CommandBase } from "./commandBase";
-import { Equipment } from "../inventory/equipment";
-import { EventCategory, LogMessage } from "../messages/logMessage";
-import { GameState } from "../../gameBuilder/types/gameState";
-import { HealthAdjust } from "./healthAdjust";
-import { Mob } from "../mobs/mob";
-import { RandomGenerator } from "../../randomGenerator/randomGenerator";
-
+import { Act } from './act';
+import { Buff } from '../buffs/buffEnum';
+import { CommandBase } from './commandBase';
+import { Equipment } from '../inventory/equipment';
+import { EventCategory, LogMessage } from '../messages/logMessage';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { HealthAdjust } from './healthAdjust';
+import { Mob } from '../mobs/mob';
+import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 
 /**
  * Represents a command to hit another mob.

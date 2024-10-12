@@ -1,9 +1,9 @@
 import { GameMap } from '../../maps/mapModel/gameMap';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
-import { Map } from '../../maps/mapModel/types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { MagnetismHandler } from '../../utilities/magnetismHandler';
-import { Step } from './types/Step';
+import { Step } from '../../types/gameLogic/stepper/step';
 import { TimedStep } from './timedStep';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 

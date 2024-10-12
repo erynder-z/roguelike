@@ -1,9 +1,9 @@
 import { BaseScreen } from './baseScreen';
 import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
-import { GameState } from '../../gameBuilder/types/gameState';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
-import { Step } from '../stepper/types/Step';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
+import { Step } from '../../types/gameLogic/stepper/step';
 
 /**
  * Represents a screen that displays a timed step that damages a mob at its current position.

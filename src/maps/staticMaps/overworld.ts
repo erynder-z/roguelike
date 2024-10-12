@@ -2,7 +2,7 @@ import { FindFreeSpace } from '../../utilities/findFreeSpace';
 import { GameMap } from '../mapModel/gameMap';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { IrregularShapeAreaGenerator } from '../../utilities/irregularShapeAreaGenerator';
-import { Map } from '../mapModel/types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { OVERWORLD_LEVEL_TILES } from '../mapGenerator/generationData/overworldLevelTiles';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { RockGenerator } from '../mapGenerator/rockGenerator';

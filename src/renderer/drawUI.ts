@@ -4,12 +4,12 @@ import { EnvironmentChecker } from '../gameLogic/environment/environmentChecker'
 import { EquipmentDisplay } from '../ui/equipment/equipmentDisplay';
 import { EventCategory, LogMessage } from '../gameLogic/messages/logMessage';
 import { FlashDisplay } from '../ui/flashDisplay/flashDisplay';
-import { GameState } from '../gameBuilder/types/gameState';
+import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
 import { ImageHandler } from '../utilities/imageHandler/imageHandler';
-import { Map } from '../maps/mapModel/types/map';
+import { Map } from '../types/gameLogic/maps/mapModel/map';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { MapRenderer } from './mapRenderer';
 import { MessagesDisplay } from '../ui/messages/messagesDisplay';

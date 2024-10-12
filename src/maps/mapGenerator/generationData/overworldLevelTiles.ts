@@ -1,5 +1,5 @@
 import { Glyph } from '../../../gameLogic/glyphs/glyph';
-import { Tile } from '../types/tile';
+import { Tile } from '../../../types/gameLogic/maps/mapGenerator/tile';
 
 export const OVERWORLD_LEVEL_TILES: Tile = {
   floor: [

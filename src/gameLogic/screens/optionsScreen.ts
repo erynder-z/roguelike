@@ -1,7 +1,7 @@
 import { BaseScreen } from './baseScreen';
-import { GameState } from '../../gameBuilder/types/gameState';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 
 /**
  * Represents a screen for displaying the options menu.

@@ -1,6 +1,6 @@
-import { EnvEffect } from '../../maps/mapModel/types/envEffect';
+import { EnvEffect } from '../../types/gameLogic/maps/mapModel/envEffect';
 import { Glyph } from '../glyphs/glyph';
-import { Map } from '../../maps/mapModel/types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 

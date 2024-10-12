@@ -1,7 +1,7 @@
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
-import { Rock } from './types/rock';
-import { Tile } from './types/tile';
+import { Rock } from '../../types/gameLogic/maps/mapGenerator/rock';
+import { Tile } from '../../types/gameLogic/maps/mapGenerator/tile';
 
 /**
  * Class for generating different rock types.

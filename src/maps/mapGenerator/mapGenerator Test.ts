@@ -1,6 +1,6 @@
 import { GameMap } from '../mapModel/gameMap';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
-import { Map } from '../mapModel/types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { WorldPoint } from '../mapModel/worldPoint';
 

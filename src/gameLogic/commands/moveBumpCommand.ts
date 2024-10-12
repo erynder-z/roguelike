@@ -1,8 +1,8 @@
-import { Able } from './types/able';
+import { Able } from '../../types/gameLogic/commands/able';
 import { Act } from './act';
 import { CommandBase } from './commandBase';
 import { GameMap } from '../../maps/mapModel/gameMap';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { HitCommand } from './hitCommand';
 import { MagnetismHandler } from '../../utilities/magnetismHandler';
 import { MapCell } from '../../maps/mapModel/mapCell';

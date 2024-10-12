@@ -1,13 +1,13 @@
 import { Act } from './act';
 import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
 import { ItemObject } from '../itemObjects/itemObject';
 import { Mob } from '../mobs/mob';
 import { StairCommand } from './stairCommand';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { Map } from '../../maps/mapModel/types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 
 /**
  * Represents a move command that moves a mob in the game.

@@ -1,5 +1,5 @@
-import { GameState } from '../../../gameBuilder/types/gameState';
-import { StackScreen } from '../../../terminal/types/stackScreen';
+import { GameState } from '../../gameBuilder/gameState';
+import { StackScreen } from '../../terminal/stackScreen';
 
 export type ScreenMaker = {
   newGame(): StackScreen;

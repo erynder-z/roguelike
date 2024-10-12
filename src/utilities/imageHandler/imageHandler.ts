@@ -1,7 +1,7 @@
 import attackImages from './attackImages';
 import deathImages from './deathImages';
 import { EventCategory } from '../../gameLogic/messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import hurtImages from './hurtImages';
 import movingImages from './movingImages';
 import neutralImages from './neutralImages';

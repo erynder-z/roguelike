@@ -1,8 +1,8 @@
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { HealthAdjust } from '../commands/healthAdjust';
 import { Mob } from '../mobs/mob';
-import { Tick } from './types/buffType';
+import { Tick } from '../../types/gameLogic/buffs/buffType';
 
 /**
  * Handles a burn tick.

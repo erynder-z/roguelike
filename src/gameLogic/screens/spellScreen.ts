@@ -1,14 +1,14 @@
 import { BaseScreen } from './baseScreen';
-import { Command } from '../commands/types/command';
+import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
-import { Cost } from '../commands/types/cost';
+import { Cost } from '../../types/gameLogic/commands/cost';
 import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
-import { GameState } from '../../gameBuilder/types/gameState';
-import { ScreenMaker } from './types/ScreenMaker';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Spell } from '../spells/spell';
 import { SpellFinder } from '../spells/spellFinder';
-import { Stack } from '../../terminal/types/stack';
-import { StackScreen } from '../../terminal/types/stackScreen';
+import { Stack } from '../../types/terminal/stack';
+import { StackScreen } from '../../types/terminal/stackScreen';
 
 /**
  * Represents a screen for choosing spells.

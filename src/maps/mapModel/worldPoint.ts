@@ -1,4 +1,4 @@
-import { Map } from './types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 
 /**
  * Represents a point in the world with x and y coordinates.

@@ -4,11 +4,11 @@ import { CanSee } from '../../utilities/canSee';
 import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
-import { Map } from '../../maps/mapModel/types/map';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { MapCell } from '../../maps/mapModel/mapCell';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**

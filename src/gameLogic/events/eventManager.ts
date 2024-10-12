@@ -1,4 +1,4 @@
-import { InteractiveScreen } from '../../terminal/types/interactiveScreen';
+import { InteractiveScreen } from '../../types/terminal/interactiveScreen';
 import { ResizingTerminal } from '../../terminal/resizingTerminal';
 
 /**

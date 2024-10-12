@@ -2,9 +2,9 @@ import { BaseScreen } from './baseScreen';
 import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { GameMap } from '../../maps/mapModel/gameMap';
-import { GameState } from '../../gameBuilder/types/gameState';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 
 export class DebuggerScreen extends BaseScreen {
   public name = 'debugger-screen';

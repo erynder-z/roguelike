@@ -2,7 +2,7 @@ import { CAVE_LEVEL_TILES } from './generationData/caveLevelTiles';
 import { GameMap } from '../mapModel/gameMap';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { IrregularShapeAreaGenerator } from '../../utilities/irregularShapeAreaGenerator';
-import { Map } from '../mapModel/types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { RockGenerator } from './rockGenerator';
 import { WorldPoint } from '../mapModel/worldPoint';

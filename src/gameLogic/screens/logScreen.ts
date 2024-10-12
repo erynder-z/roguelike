@@ -1,9 +1,9 @@
 import { BaseScreen } from './baseScreen';
 import { BuffColors } from '../../ui/buffs/buffColors';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { LogMessage } from '../messages/logMessage';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 
 /**
  * Represents a screen for displaying the log messages.

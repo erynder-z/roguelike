@@ -5,7 +5,7 @@ import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { GlyphMap } from '../../gameLogic/glyphs/glyphMap';
 import { ItemObject } from '../../gameLogic/itemObjects/itemObject';
 import { ItemObjectManager } from '../../gameLogic/itemObjects/itemObjectManager';
-import { Map } from './types/map';
+import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { MapCell } from './mapCell';
 import { Mob } from '../../gameLogic/mobs/mob';
 import { Spell } from '../../gameLogic/spells/spell';

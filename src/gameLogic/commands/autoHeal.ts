@@ -1,6 +1,6 @@
 import { Buff } from '../buffs/buffEnum';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { HealthAdjust } from './healthAdjust';
 import { Mob } from '../mobs/mob';
 
