@@ -1,22 +1,22 @@
 import { CAVE_LEVEL_TILES } from './generationData/caveLevelTiles';
 import { GameMap } from '../mapModel/gameMap';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { IrregularShapeAreaGenerator } from '../../utilities/irregularShapeAreaGenerator';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { RockGenerator } from './rockGenerator';
 import { WorldPoint } from '../mapModel/worldPoint';
 
 /**
- * Map generator for cave-like environments using the Drunkard's Walk algorithm.
+ * GameMapType generator for cave-like environments using the Drunkard's Walk algorithm.
  */
 export class MapGenerator_Cave {
   constructor(
-    public map: Map,
+    public map: GameMapType,
     public rand: RandomGenerator,
   ) {}
 
-  public createCave(map: Map, rand: RandomGenerator): Map {
+  public createCave(map: GameMapType, rand: RandomGenerator): GameMapType {
     // Clear map
     this.clearMap();
 
@@ -96,21 +96,21 @@ export class MapGenerator_Cave {
     return directions[Math.floor(Math.random() * directions.length)];
   }
 
-  private addLava(map: Map, rand: RandomGenerator): void {
+  private addLava(map: GameMapType, rand: RandomGenerator): void {
     const glyph = Glyph.Lava;
     const lavaPoolCount = 10;
     const lavaPoolSize = 10;
     this.addPools(map, rand, lavaPoolCount, lavaPoolSize, glyph);
   }
 
-  private addDeepWater(map: Map, rand: RandomGenerator): void {
+  private addDeepWater(map: GameMapType, rand: RandomGenerator): void {
     const glyph = Glyph.Deep_Water;
     const waterPoolCount = 10;
     const waterPoolSize = 10;
     this.addPools(map, rand, waterPoolCount, waterPoolSize, glyph);
   }
 
-  private addShallowWater(map: Map, rand: RandomGenerator): void {
+  private addShallowWater(map: GameMapType, rand: RandomGenerator): void {
     const glyph = Glyph.Shallow_Water;
     const waterPoolCount = 10;
     const waterPoolSize = 10;
@@ -118,7 +118,7 @@ export class MapGenerator_Cave {
   }
 
   private addPools(
-    map: Map,
+    map: GameMapType,
     rand: RandomGenerator,
     poolCount: number,
     poolSize: number,
@@ -130,7 +130,7 @@ export class MapGenerator_Cave {
   }
 
   private createPools(
-    map: Map,
+    map: GameMapType,
     rand: RandomGenerator,
     size: number,
     glyph: Glyph,
@@ -147,7 +147,7 @@ export class MapGenerator_Cave {
     }
   }
 
-  private addMossyFloor(map: Map, rand: RandomGenerator): void {
+  private addMossyFloor(map: GameMapType, rand: RandomGenerator): void {
     const glyph = Glyph.Mossy_Floor;
     const mossyFloorCount = 10;
     const mossyFloorSize = 15;
@@ -161,7 +161,7 @@ export class MapGenerator_Cave {
   }
 
   private addMossyFloorPatches(
-    map: Map,
+    map: GameMapType,
     rand: RandomGenerator,
     patchCount: number,
     patchSize: number,
@@ -174,7 +174,7 @@ export class MapGenerator_Cave {
   }
 
   private createMossyFloorPatches(
-    map: Map,
+    map: GameMapType,
     rand: RandomGenerator,
     size: number,
     glyph: Glyph,
@@ -193,7 +193,7 @@ export class MapGenerator_Cave {
     }
   }
 
-  private addChasm(map: Map, rand: RandomGenerator): void {
+  private addChasm(map: GameMapType, rand: RandomGenerator): void {
     const centerGlyph = Glyph.Chasm_Center;
     const edgeGlyph = Glyph.Chasm_Edge;
     const chasmCount = 5;
@@ -209,7 +209,7 @@ export class MapGenerator_Cave {
   }
 
   private addChasmAreas(
-    map: Map,
+    map: GameMapType,
     rand: RandomGenerator,
     areaCount: number,
     areaSize: number,
@@ -223,7 +223,7 @@ export class MapGenerator_Cave {
   }
 
   private createChasmAreas(
-    map: Map,
+    map: GameMapType,
     rand: RandomGenerator,
     size: number,
     centerGlyph: Glyph,
@@ -257,7 +257,7 @@ export class MapGenerator_Cave {
     }
   }
 
-  public static generate(rand: RandomGenerator, level: number): Map {
+  public static generate(rand: RandomGenerator, level: number): GameMapType {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);

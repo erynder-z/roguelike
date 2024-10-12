@@ -1,15 +1,15 @@
 import { FindFreeSpace } from '../../utilities/findFreeSpace';
 import { GameMap } from '../mapModel/gameMap';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { IrregularShapeAreaGenerator } from '../../utilities/irregularShapeAreaGenerator';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { OVERWORLD_LEVEL_TILES } from '../mapGenerator/generationData/overworldLevelTiles';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { RockGenerator } from '../mapGenerator/rockGenerator';
 import { WorldPoint } from '../mapModel/worldPoint';
 
 export class Overworld {
-  public static generate(rand: RandomGenerator, level: number): Map {
+  public static generate(rand: RandomGenerator, level: number): GameMapType {
     const mapDimensionsX = 64;
     const mapDimensionsY = 32;
     const dim = new WorldPoint(mapDimensionsX, mapDimensionsY);

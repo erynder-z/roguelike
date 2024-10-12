@@ -2,9 +2,9 @@ import { AutoHeal } from './autoHeal';
 import { CanSee } from '../../utilities/canSee';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameMap } from '../../maps/mapModel/gameMap';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { LootManager } from '../itemObjects/lootManager';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { Mob } from '../mobs/mob';
 
 /**
@@ -90,7 +90,7 @@ export class HealthAdjust {
     game: GameState,
     shouldDisplayMessage: boolean,
   ): void {
-    const map = <Map>game.currentMap();
+    const map = <GameMapType>game.currentMap();
 
     if (shouldDisplayMessage) {
       const s = `${mob.name} dies.`;

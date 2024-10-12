@@ -1,6 +1,6 @@
 import { GameMap } from '../mapModel/gameMap';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { WorldPoint } from '../mapModel/worldPoint';
 
@@ -9,11 +9,11 @@ import { WorldPoint } from '../mapModel/worldPoint';
  */
 export class MapGenerator_Test {
   constructor(
-    public map: Map,
+    public map: GameMapType,
     public rand: RandomGenerator,
   ) {}
 
-  public loop(map: Map, rand: RandomGenerator): Map {
+  public loop(map: GameMapType, rand: RandomGenerator): GameMapType {
     const numIterations = 40;
     const upperLeft = new WorldPoint();
     const roomDimensions = new WorldPoint();
@@ -84,7 +84,7 @@ export class MapGenerator_Test {
     }
   }
 
-  public static test(level: number): Map {
+  public static test(level: number): GameMapType {
     const mapDimensionsX = 96;
     const mapDimensionsY = 48;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);

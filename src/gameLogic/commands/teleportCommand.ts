@@ -1,10 +1,10 @@
 import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
 import { Mob } from '../mobs/mob';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 
 /**
  * Represents a command to teleport a mob to a random point within a specified radius.
@@ -24,7 +24,7 @@ export class TeleportCommand extends CommandBase {
    * @return {boolean} Returns true if the mob was successfully teleported, false otherwise.
    */
   public execute(): boolean {
-    const map = this.game.currentMap() as Map;
+    const map = this.game.currentMap() as GameMapType;
     const targetPoint = this.findTeleportPoint(this.mob.pos, this.radius, map);
 
     if (!targetPoint) return false;
@@ -45,13 +45,13 @@ export class TeleportCommand extends CommandBase {
    *
    * @param {WorldPoint} center - The center point on the map.
    * @param {number} radius - The radius within which to search for a teleport point.
-   * @param {Map} map - The map on which to search for a teleport point.
+   * @param {GameMapType} map - The map on which to search for a teleport point.
    * @return {WorldPoint | null} The found teleport point or null if no valid point is found.
    */
   private findTeleportPoint(
     center: WorldPoint,
     radius: number,
-    map: Map,
+    map: GameMapType,
   ): WorldPoint | null {
     const random = this.game.rand;
     const newPoint = new WorldPoint();

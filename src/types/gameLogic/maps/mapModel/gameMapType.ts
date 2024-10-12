@@ -5,7 +5,7 @@ import { Mob } from '../../../../gameLogic/mobs/mob';
 import { TurnQueue } from '../../../../gameLogic/turnQueue/turnQueue';
 import { WorldPoint } from '../../../../maps/mapModel/worldPoint';
 
-export type Map = {
+export type GameMapType = {
   dimensions: WorldPoint;
   level: number;
   cells: MapCell[][];

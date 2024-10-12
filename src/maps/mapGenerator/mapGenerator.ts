@@ -1,28 +1,28 @@
 import { DEFAULT_LEVEL_TILES } from './generationData/defaultLevelTiles';
 import { GameMap } from '../mapModel/gameMap';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { IrregularShapeAreaGenerator } from '../../utilities/irregularShapeAreaGenerator';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { RockGenerator } from './rockGenerator';
 import { WorldPoint } from '../mapModel/worldPoint';
 
 /**
- * Map generator for standard levels.
+ * GameMapType generator for standard levels.
  */
 export class MapGenerator1 {
   constructor(
-    public map: Map,
+    public map: GameMapType,
     public rand: RandomGenerator,
   ) {}
 
   /**
    * Generates a map.
-   * @param {Map} map The map object to generate.
+   * @param {GameMapType} map The map object to generate.
    * @param {RandomGenerator} rand The random generator object.
-   * @returns {Map} The generated map.
+   * @returns {GameMapType} The generated map.
    */
-  private loop(map: Map, rand: RandomGenerator): Map {
+  private loop(map: GameMapType, rand: RandomGenerator): GameMapType {
     // Number of iterations for map generation
     const numIterations = 40;
     const upperLeft = new WorldPoint();
@@ -141,13 +141,13 @@ export class MapGenerator1 {
    * @param {WorldPoint} dim - The dimensions of the map.
    * @param {RandomGenerator} rand - The random generator object.
    * @param {number} level - The level of the map.
-   * @return {Map} The generated map.
+   * @return {GameMapType} The generated map.
    */
   public static generate(
     dim: WorldPoint,
     rand: RandomGenerator,
     level: number,
-  ): Map {
+  ): GameMapType {
     const mapDimensionsX = dim.x;
     const mapDimensionsY = dim.y;
     const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);

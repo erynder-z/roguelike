@@ -1,10 +1,10 @@
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
-import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { FindFreeSpace } from '../../utilities/findFreeSpace';
 import { EnvironmentChecker } from '../environment/environmentChecker';
-import { LogMessage, EventCategory } from '../messages/logMessage';
+import { FindFreeSpace } from '../../utilities/findFreeSpace';
 import { ItemObjectManager } from './itemObjectManager';
+import { LogMessage, EventCategory } from '../messages/logMessage';
+import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**
  * Handles loot management.
@@ -23,7 +23,7 @@ export class LootManager {
     level: number,
     maxDropRadius: number = 5,
   ): void {
-    const map = <Map>game.currentMap();
+    const map = <GameMapType>game.currentMap();
     const lootCell = map.cell(pos);
 
     if (!EnvironmentChecker.canItemsBeDropped(lootCell)) {
@@ -39,13 +39,13 @@ export class LootManager {
    * Adds a random loot object at the specified position and logs the event.
    *
    * @param {WorldPoint} pos - The position where the loot will be added.
-   * @param {Map} map - The game map.
+   * @param {GameMapType} map - The game map.
    * @param {GameState} game - The game object.
    * @param {number} level - The level of the loot.
    */
   private static addLootAndLog(
     pos: WorldPoint,
-    map: Map,
+    map: GameMapType,
     game: GameState,
     level: number,
   ): void {

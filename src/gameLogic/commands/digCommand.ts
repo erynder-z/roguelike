@@ -1,13 +1,13 @@
 import { CommandBase } from './commandBase';
 import { EnvironmentChecker } from '../environment/environmentChecker';
 import { EventCategory } from '../messages/logMessage';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
 import { GlyphMap } from '../glyphs/glyphMap';
 import { LogMessage } from '../messages/logMessage';
 import { Mob } from '../mobs/mob';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 
 /**
  * Represents a command to dig through rocks.
@@ -30,7 +30,7 @@ export class DigCommand extends CommandBase {
     const { game } = this;
     const { player, rand } = game;
 
-    const map = <Map>game.currentMap();
+    const map = <GameMapType>game.currentMap();
     const newPosition = player.pos.plus(this.dir);
     const cell = map.cell(newPosition);
     const env = cell.env;

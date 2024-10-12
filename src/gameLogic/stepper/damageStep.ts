@@ -1,7 +1,7 @@
 import { EventCategory, LogMessage } from '../messages/logMessage';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { HealthAdjust } from '../commands/healthAdjust';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { Mob } from '../mobs/mob';
 import { Step } from '../../types/gameLogic/stepper/step';
 import { TimedStep } from './timedStep';
@@ -72,7 +72,7 @@ export class DamageStep extends TimedStep {
    */
   private targetFromPosition(): Mob | null {
     if (this.pos) {
-      const map = <Map>this.game.currentMap();
+      const map = <GameMapType>this.game.currentMap();
       const cell = map.cell(this.pos);
       if (cell.mob) return cell.mob;
     }

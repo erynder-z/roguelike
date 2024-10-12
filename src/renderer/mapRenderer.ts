@@ -1,18 +1,19 @@
 import { Buff } from '../gameLogic/buffs/buffEnum';
 import { CanSee } from '../utilities/canSee';
-import { DrawableTerminal } from '../terminal/types/drawableTerminal';
+import { DrawableTerminal } from '../types/terminal/drawableTerminal';
 import { EnvEffect } from '../types/gameLogic/maps/mapModel/envEffect';
+import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
 import { ManipulateColors } from '../utilities/colors/manipulateColors';
-import { Map } from '../types/gameLogic/maps/mapModel/map';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { Spell } from '../gameLogic/spells/spell';
 import { SpellColors } from '../utilities/colors/spellColors';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
+
 
 /**
  * Sets each cell in the terminal to the appropriate glyph, information and colors.
@@ -49,7 +50,7 @@ export class MapRenderer {
    * @param {DrawableTerminal} term - The terminal to draw on.
    * @param {TerminalPoint} tp - The position on the terminal to draw at.
    * @param {WorldPoint} wp - The position on the map to draw.
-   * @param {Map} map - The current map.
+   * @param {GameMapType} map - The current map.
    * @param {WorldPoint} playerPos - The position of the player on the map.
    * @param {number} farDist - The far distance for visibility.
    * @param {boolean} blind - Indicates if the player is blind.
@@ -60,7 +61,7 @@ export class MapRenderer {
     term: DrawableTerminal,
     tp: TerminalPoint,
     wp: WorldPoint,
-    map: Map,
+    map: GameMapType,
     playerPos: WorldPoint,
     farDist: number,
     blind: boolean,
@@ -103,7 +104,7 @@ export class MapRenderer {
    *
    * @param {MapCell} cell - The cell to check visibility for.
    * @param {WorldPoint} playerPos - The position of the player on the map.
-   * @param {Map} map - The current map.
+   * @param {GameMapType} map - The current map.
    * @param {boolean} far - Indicates if the entity is far from the player.
    * @param {boolean} blind - Indicates if the player is blind.
    * @return {boolean} Whether the entity is visible under the given conditions.
@@ -111,7 +112,7 @@ export class MapRenderer {
   private static checkEntityVisibility(
     cell: MapCell,
     playerPos: WorldPoint,
-    map: Map,
+    map: GameMapType,
     far: boolean,
     blind: boolean,
   ): boolean {
@@ -134,7 +135,7 @@ export class MapRenderer {
    * @param {boolean} isRayCast - Indicates if ray casting is being used.
    * @param {WorldPoint} playerPos - The position of the player on the map.
    * @param {WorldPoint} wp - The world point.
-   * @param {Map} map - The current map.
+   * @param {GameMapType} map - The current map.
    * @return {{ fg: string; bg: string }} The foreground and background colors for the cell.
    */
   private static getCellColors(
@@ -146,7 +147,7 @@ export class MapRenderer {
     isRayCast: boolean,
     playerPos: WorldPoint,
     wp: WorldPoint,
-    map: Map,
+    map: GameMapType,
   ): { fg: string; bg: string } {
     if (far || blind) {
       return {
@@ -177,20 +178,20 @@ export class MapRenderer {
    * Helper function that Iterates over each cell in the view and invokes a callback function for each cell.
    *
    * @param {DrawableTerminal} term - The terminal used for drawing.
-   * @param {Map} map - The map containing the cells.
+   * @param {GameMapType} map - The map containing the cells.
    * @param {WorldPoint} vp - The view point on the map.
    * @param {Function} callback - The callback function to be executed for each cell.
    * @return {void}
    */
   private static forEachCellInView(
     term: DrawableTerminal,
-    map: Map,
+    map: GameMapType,
     vp: WorldPoint,
     callback: (
       tp: TerminalPoint,
       wp: WorldPoint,
       term: DrawableTerminal,
-      map: Map,
+      map: GameMapType,
     ) => void,
   ): void {
     const terminalDimensions = term.dimensions;
@@ -213,7 +214,7 @@ export class MapRenderer {
    * Draws the map normally based on the player's position and game state.
    *
    * @param {DrawableTerminal} term - The terminal used for drawing.
-   * @param {Map} map - The map to be drawn.
+   * @param {GameMapType} map - The map to be drawn.
    * @param {WorldPoint} vp - The viewpoint on the map.
    * @param {WorldPoint} playerPos - The position of the player on the map.
    * @param {GameState} game - The current game state.
@@ -221,7 +222,7 @@ export class MapRenderer {
    */
   public static drawMap_Standard(
     term: DrawableTerminal,
-    map: Map,
+    map: GameMapType,
     vp: WorldPoint,
     playerPos: WorldPoint,
     game: GameState,
@@ -239,7 +240,7 @@ export class MapRenderer {
    * Renders the map using ray casting technique.
    *
    * @param {DrawableTerminal} term - The terminal used for drawing.
-   * @param {Map} map - The map containing the cells.
+   * @param {GameMapType} map - The map containing the cells.
    * @param {WorldPoint} vp - The view point on the map.
    * @param {WorldPoint} playerPos - The position of the player on the map.
    * @param {GameState} game - The game state object.
@@ -247,7 +248,7 @@ export class MapRenderer {
    */
   public static drawMap_RayCast(
     term: DrawableTerminal,
-    map: Map,
+    map: GameMapType,
     vp: WorldPoint,
     playerPos: WorldPoint,
     game: GameState,

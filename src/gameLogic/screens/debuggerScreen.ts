@@ -1,5 +1,5 @@
 import { BaseScreen } from './baseScreen';
-import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
+import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { GameMap } from '../../maps/mapModel/gameMap';
 import { GameState } from '../../types/gameBuilder/gameState';

@@ -1,15 +1,15 @@
 import { BaseScreen } from './baseScreen';
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
-import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
+import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { EquipCommand } from '../commands/equipCommand';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { FindObjectSpell } from '../spells/findObjectSpells';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Inventory } from '../inventory/inventory';
 import { ItemObject } from '../itemObjects/itemObject';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
@@ -90,7 +90,7 @@ export class ItemScreen extends BaseScreen {
     const { game } = this;
     const { player } = game;
 
-    const map = <Map>this.game.currentMap();
+    const map = <GameMapType>this.game.currentMap();
     const c = map.cell(player.pos);
     if (c.hasObject()) {
       const msg = new LogMessage('No room to drop here!', EventCategory.unable);

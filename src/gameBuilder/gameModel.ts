@@ -2,9 +2,9 @@ import { AutoHeal } from '../gameLogic/commands/autoHeal';
 import { Builder } from './builder';
 import { Equipment } from '../gameLogic/inventory/equipment';
 import { EventCategory, LogMessage } from '../gameLogic/messages/logMessage';
+import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../types/gameBuilder/gameState';
 import { Inventory } from '../gameLogic/inventory/inventory';
-import { Map } from '../types/gameLogic/maps/mapModel/map';
 import { MapHandler } from './mapHandler';
 import { MessageLog } from '../gameLogic/messages/messageLog';
 import { Mob } from '../gameLogic/mobs/mob';
@@ -33,9 +33,9 @@ export class Game implements GameState {
   /**
    * Retrieve the current map.
    *
-   * @return {Map | null} The current map, or null if not available.
+   * @return {GameMapType | null} The current map, or null if not available.
    */
-  public currentMap(): Map | null {
+  public currentMap(): GameMapType | null {
     return this.dungeon.currentMap(this);
   }
 

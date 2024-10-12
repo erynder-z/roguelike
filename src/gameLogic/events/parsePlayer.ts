@@ -5,11 +5,11 @@ import { DebuggerScreen } from '../screens/debuggerScreen';
 import { DigCommand } from '../commands/digCommand';
 import { DoorCommand } from '../commands/doorCommand';
 import { EquipmentScreen } from '../screens/equipmentScreen';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { InventoryScreen } from '../screens/inventoryScreen';
 import { LogScreen } from '../screens/logScreen';
 import { LookScreen } from '../screens/lookScreen';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { Mob } from '../mobs/mob';
 import { MoveBumpCommand } from '../commands/moveBumpCommand';
 import { MoveCommand } from '../commands/moveCommand';
@@ -30,7 +30,7 @@ export class ParsePlayer {
     public game: GameState,
     public make: ScreenMaker,
     public player: Mob = <Mob>game.player,
-    public map: Map = <Map>game.currentMap(),
+    public map: GameMapType = <GameMapType>game.currentMap(),
   ) {}
 
   /**

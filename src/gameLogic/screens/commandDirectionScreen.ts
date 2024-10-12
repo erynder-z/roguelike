@@ -1,6 +1,6 @@
 import { BaseScreen } from './baseScreen';
 import { Command } from '../../types/gameLogic/commands/command';
-import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
+import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';

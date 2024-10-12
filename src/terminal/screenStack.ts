@@ -1,5 +1,5 @@
 import { EventManager } from '../gameLogic/events/eventManager';
-import { DrawableTerminal } from './types/drawableTerminal';
+import { DrawableTerminal } from '../types/terminal/drawableTerminal';
 import { InteractiveScreen } from '../types/terminal/interactiveScreen';
 import { Stack } from '../types/terminal/stack';
 import { StackScreen } from '../types/terminal/stackScreen';

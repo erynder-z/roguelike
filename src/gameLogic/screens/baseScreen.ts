@@ -1,4 +1,6 @@
-import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
+import { CellEffects } from '../commands/cellEffects';
+import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
+import { DrawUI } from '../../renderer/drawUI';
 import { GameMap } from '../../maps/mapModel/gameMap';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { HealthAdjust } from '../commands/healthAdjust';
@@ -8,8 +10,6 @@ import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
 import { TurnQueue } from '../turnQueue/turnQueue';
-import { CellEffects } from '../commands/cellEffects';
-import { DrawUI } from '../../renderer/drawUI';
 
 /**
  * Represents a base screen implementation that implements the StackScreen interface.

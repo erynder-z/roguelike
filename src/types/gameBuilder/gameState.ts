@@ -3,7 +3,7 @@ import { Builder } from '../../gameBuilder/builder';
 import { Equipment } from '../../gameLogic/inventory/equipment';
 import { EventCategory, LogMessage } from '../../gameLogic/messages/logMessage';
 import { Inventory } from '../../gameLogic/inventory/inventory';
-import { Map } from '../gameLogic/maps/mapModel/map';
+import { GameMapType } from '../gameLogic/maps/mapModel/gameMapType';
 import { MapHandler } from '../../gameBuilder/mapHandler';
 import { MessageLog } from '../../gameLogic/messages/messageLog';
 import { Mob } from '../../gameLogic/mobs/mob';
@@ -22,7 +22,7 @@ export type GameState = {
   inventory: Inventory | undefined;
   equipment: Equipment | undefined;
   stats: Stats;
-  currentMap(): Map | null;
+  currentMap(): GameMapType | null;
   message(msg: LogMessage): void;
   flash(msg: LogMessage): void;
   addCurrentEvent(evt: EventCategory): void;

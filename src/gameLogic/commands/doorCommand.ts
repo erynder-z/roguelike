@@ -1,11 +1,11 @@
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
 import { Mob } from '../mobs/mob';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 
 /**
  * Represents a command for interacting with doors in the game.
@@ -36,7 +36,7 @@ export class DoorCommand extends CommandBase {
   public execute(): boolean {
     const position = this.me.pos;
     const door = position.plus(this.direction);
-    const map = <Map>this.game.currentMap();
+    const map = <GameMapType>this.game.currentMap();
     const cell = map.cell(door);
 
     const defaultMsg = new LogMessage(

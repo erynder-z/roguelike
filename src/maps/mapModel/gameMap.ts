@@ -1,11 +1,11 @@
 import { Corpse } from '../../gameLogic/mobs/corpse';
 import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
 import { FindFreeSpace } from '../../utilities/findFreeSpace';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { GlyphMap } from '../../gameLogic/glyphs/glyphMap';
 import { ItemObject } from '../../gameLogic/itemObjects/itemObject';
 import { ItemObjectManager } from '../../gameLogic/itemObjects/itemObjectManager';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 import { MapCell } from './mapCell';
 import { Mob } from '../../gameLogic/mobs/mob';
 import { Spell } from '../../gameLogic/spells/spell';
@@ -15,7 +15,7 @@ import { WorldPoint } from './worldPoint';
 /**
  * Represents the current game map.
  */
-export class GameMap implements Map {
+export class GameMap implements GameMapType {
   constructor(
     public dimensions: WorldPoint,
     public g_empty: Glyph,

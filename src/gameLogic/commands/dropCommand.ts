@@ -1,9 +1,9 @@
 import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Inventory } from '../inventory/inventory';
 import { ItemObject } from '../itemObjects/itemObject';
-import { Map } from '../../types/gameLogic/maps/mapModel/map';
 
 /**
  * Represents a command to drop an item from the player's inventory.
@@ -26,7 +26,7 @@ export class DropCommand extends CommandBase {
     const { game } = this;
     const { player } = game;
 
-    const map = <Map>game.currentMap();
+    const map = <GameMapType>game.currentMap();
     const cell = map.cell(player.pos);
 
     if (cell.hasObject()) {

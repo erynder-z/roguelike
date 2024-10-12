@@ -10,7 +10,7 @@ import {
   EnvironmentGlyph,
   ItemGlyph,
   MobGlyph,
-} from '../gameLogic/glyphs/glyphTypes';
+} from '../types/gameLogic/glyphs/glyphTypes';
 
 /**
  * Responsible for loading and initializing glyphs into the GlyphMap.
