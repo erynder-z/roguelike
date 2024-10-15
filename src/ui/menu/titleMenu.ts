@@ -20,6 +20,7 @@ export class TitleMenu extends HTMLElement {
           align-items: center;
           height: 100%;
           width: 100%;
+          background: var(--backgroundDefaultTransparent);
         }
 
         .container h1 {
@@ -52,8 +53,8 @@ export class TitleMenu extends HTMLElement {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          height: 100%;
           gap: 0.5rem;
+          height: 100%;
         }
 
         .bottom-container {

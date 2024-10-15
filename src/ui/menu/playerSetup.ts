@@ -25,6 +25,7 @@ export class PlayerSetup extends HTMLElement {
           height: 100%;
           width: 100%;
           line-height: 1.75;
+          background: var(--backgroundDefaultTransparent);
         }
 
         .container {
@@ -41,10 +42,7 @@ export class PlayerSetup extends HTMLElement {
         }
 
         .player-about {
-          background: var(--whiteTransparent);
-          padding: 2rem;
           width: 45ch;
-          border-radius: 1rem;
         }
 
         .container button {
