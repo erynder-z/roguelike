@@ -2,7 +2,7 @@ import { BaseScreen } from './baseScreen';
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
 import { Cost } from '../../types/gameLogic/commands/cost';
-import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
+import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Spell } from '../spells/spell';
