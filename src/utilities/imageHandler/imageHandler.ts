@@ -1,12 +1,19 @@
-import attackImages from './attackImages';
+import { attackImages as attackImages_boyish } from './boyish/attackImages';
+import { hurtImages as hurtImages_boyish } from './boyish/hurtImages';
+import { movingImages as movingImages_boyish } from './boyish/movingImages';
+import { neutralImages as neutralImages_boyish } from './boyish/neutralImages';
+import { pistolImages as pistolImages_boyish } from './boyish/pistolImages';
+import { smileImages as smileImages_boyish } from './boyish/smileImages';
+import { attackImages as attackImages_girlish } from './girlish/attackImages';
+import { hurtImages as hurtImages_girlish } from './girlish/hurtImages';
+import { movingImages as movingImages_girlish } from './girlish/movingImages';
+import { neutralImages as neutralImages_girlish } from './girlish/neutralImages';
+import { pistolImages as pistolImages_girlish } from './girlish/pistolImages';
+import { smileImages as smileImages_girlish } from './girlish/smileImages';
+
 import deathImages from './deathImages';
 import { EventCategory } from '../../gameLogic/messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
-import hurtImages from './hurtImages';
-import movingImages from './movingImages';
-import neutralImages from './neutralImages';
-import pistolImages from './pistolImages';
-import smileImages from './smileImages';
 import {
   lvlTier00Images,
   lvlTier01Images,
@@ -19,12 +26,15 @@ import {
   lvlTier08Images,
   lvlTier09Images,
 } from './levelImages';
+import { gameConfig } from '../../gameConfig/gameConfig';
 
 /**
  * Handles displaying action images on the screen.
  */
 export class ImageHandler {
   name: string = 'image-handler';
+
+  private playerAppearance = gameConfig.player.appearance;
 
   private static instance: ImageHandler | null = null;
 
@@ -40,6 +50,18 @@ export class ImageHandler {
       ImageHandler.instance = new ImageHandler();
     }
     return ImageHandler.instance;
+  }
+
+  /**
+   * Selects an image set based on the player's appearance.
+   *
+   * @template T - The type of the image set.
+   * @param {T} boyishSet - The image set for the 'boyish' appearance.
+   * @param {T} girlishSet - The image set for the 'girlish' appearance.
+   * @return {T} The selected image set based on the player's appearance.
+   */
+  private getImageSet<T>(boyishSet: T, girlishSet: T): T {
+    return this.playerAppearance === 'boyish' ? boyishSet : girlishSet;
   }
 
   /**
@@ -86,7 +108,11 @@ export class ImageHandler {
   public handleAttackImageDisplay(game: GameState) {
     const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
-    const randomImage = rand.getRandomImageFromArray(attackImages);
+    const attackImageSet = this.getImageSet(
+      attackImages_boyish,
+      attackImages_girlish,
+    );
+    const randomImage = rand.getRandomImageFromArray(attackImageSet);
     const image = new Image();
     image.src = randomImage;
 
@@ -114,8 +140,11 @@ export class ImageHandler {
   public handleHurtImageDisplay(game: GameState) {
     const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(hurtImages);
+    const hurtImageSet = this.getImageSet(
+      hurtImages_boyish,
+      hurtImages_girlish,
+    );
+    const randomImage = rand.getRandomImageFromArray(hurtImageSet);
     const image = new Image();
     image.src = randomImage;
 
@@ -131,8 +160,11 @@ export class ImageHandler {
   public handleSmileImageDisplay(game: GameState) {
     const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(smileImages);
+    const smileImageSet = this.getImageSet(
+      smileImages_boyish,
+      smileImages_girlish,
+    );
+    const randomImage = rand.getRandomImageFromArray(smileImageSet);
     const image = new Image();
     image.src = randomImage;
 
@@ -148,8 +180,11 @@ export class ImageHandler {
   public handleMovingImageDisplay(game: GameState) {
     const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(movingImages);
+    const movingImageSet = this.getImageSet(
+      movingImages_boyish,
+      movingImages_girlish,
+    );
+    const randomImage = rand.getRandomImageFromArray(movingImageSet);
     const image = new Image();
     image.src = randomImage;
 
@@ -175,8 +210,11 @@ export class ImageHandler {
   public handlePistolImageDisplay(game: GameState): void {
     const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(pistolImages);
+    const pistolImageSet = this.getImageSet(
+      pistolImages_boyish,
+      pistolImages_girlish,
+    );
+    const randomImage = rand.getRandomImageFromArray(pistolImageSet);
     const image = new Image();
     image.src = randomImage;
 
@@ -193,8 +231,11 @@ export class ImageHandler {
   public handleNeutralImageDisplay(game: GameState): void {
     const { rand } = game;
     const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(neutralImages);
+    const neutralImageSet = this.getImageSet(
+      neutralImages_boyish,
+      neutralImages_girlish,
+    );
+    const randomImage = rand.getRandomImageFromArray(neutralImageSet);
     const image = new Image();
     image.src = randomImage;
     this.displayImage(image, evt);
@@ -248,7 +289,11 @@ export class ImageHandler {
 
     const maxLevelIndex = levelImageMapping.length - 1;
     const index = Math.min(Math.floor(lvl / 4), maxLevelIndex);
-    const images = levelImageMapping[index] || neutralImages;
+    const neutralImageSet = this.getImageSet(
+      neutralImages_boyish,
+      neutralImages_girlish,
+    );
+    const images = levelImageMapping[index] || neutralImageSet;
 
     const randomImage = rand.getRandomImageFromArray(images);
     const image = new Image();

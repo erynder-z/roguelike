@@ -95,7 +95,7 @@ export class PlayerSetup extends HTMLElement {
 
         img {
           width: auto;
-          height: 12rem;
+          height: 20rem;
         }
 
         .highlight {
@@ -194,8 +194,8 @@ export class PlayerSetup extends HTMLElement {
         <h1>Player setup</h1>
         <div class="player-about">
           <div class="appearance">
-            <div id="player-portrait-1" class="portrait"></div>
-            <div id="player-portrait-2" class="portrait"></div>
+            <div id="player-portrait-girlish" class="portrait"></div>
+            <div id="player-portrait-boyish" class="portrait"></div>
           </div>
           <div class="name-container">
             <span class="underline">N</span>ame:&nbsp;
@@ -286,15 +286,19 @@ export class PlayerSetup extends HTMLElement {
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
 
     this.manageEventListener(
-      'player-portrait-1',
+      'player-portrait-girlish',
       'click',
-      this.toggleAppearance,
+      () => {
+        this.changeAppearanceTo('girlish');
+      },
       true,
     );
     this.manageEventListener(
-      'player-portrait-2',
+      'player-portrait-boyish',
       'click',
-      this.toggleAppearance,
+      () => {
+        this.changeAppearanceTo('boyish');
+      },
       true,
     );
     this.manageEventListener(
@@ -449,8 +453,16 @@ export class PlayerSetup extends HTMLElement {
    */
   private displayPlayer(player: GameConfigType['player']): void {
     const isGirlish = player.appearance === 'girlish';
-    this.renderPortraitElement('player-portrait-1', girlishImage, isGirlish);
-    this.renderPortraitElement('player-portrait-2', boyishImage, !isGirlish);
+    this.renderPortraitElement(
+      'player-portrait-girlish',
+      girlishImage,
+      isGirlish,
+    );
+    this.renderPortraitElement(
+      'player-portrait-boyish',
+      boyishImage,
+      !isGirlish,
+    );
 
     this.renderNameElement('player-name', player.name);
     this.setColorInputValue(player.color);
@@ -503,6 +515,12 @@ export class PlayerSetup extends HTMLElement {
   private toggleAppearance(): void {
     const player = gameConfig.player;
     player.appearance = player.appearance === 'girlish' ? 'boyish' : 'girlish';
+    this.displayPlayer(player);
+  }
+
+  private changeAppearanceTo(appearance: 'boyish' | 'girlish'): void {
+    const player = gameConfig.player;
+    player.appearance = appearance;
     this.displayPlayer(player);
   }
 
