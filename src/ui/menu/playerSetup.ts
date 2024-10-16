@@ -338,7 +338,9 @@ export class PlayerSetup extends HTMLElement {
     this.manageEventListener(
       'return-button',
       'click',
-      this.returnToPreviousScreen,
+      async () => {
+        this.returnToPreviousScreen();
+      },
       true,
     );
 

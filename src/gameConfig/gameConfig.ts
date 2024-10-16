@@ -1,6 +1,11 @@
 import { getRandomName } from '../utilities/getRandomName';
 import { GameConfigType } from '../types/gameConfig/gameConfigType';
-import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
+import {
+  BaseDirectory,
+  readTextFile,
+  writeTextFile,
+  mkdir,
+} from '@tauri-apps/plugin-fs';
 
 const defaultParams: GameConfigType = {
   SHOW_MENU: true,
@@ -16,13 +21,11 @@ const defaultParams: GameConfigType = {
 export let gameConfig: GameConfigType = defaultParams as GameConfigType;
 
 /**
- * Loads the build parameters from the 'gameConfig.json' file in the app data directory.
+ * Ensures the gameConfig.json file exists, creates it if not, and loads the parameters.
  *
- * If the file does not exist, or if there is an error reading the file, the default parameters are
- * used.
+ * If the file doesn't exist, or there is an error reading it, default parameters are used and the file is created.
  *
- * @returns {Promise<void>} A promise for when the file is loaded and the build parameters are
- *          updated.
+ * @returns {Promise<void>} A promise for when the file is loaded and build parameters are updated.
  */
 export const createBuildParameters = async (): Promise<void> => {
   try {
@@ -44,7 +47,30 @@ export const createBuildParameters = async (): Promise<void> => {
       },
     };
   } catch (error) {
-    console.error('Error loading parameters, using default parameters:', error);
+    console.error(
+      'Error loading parameters or file not found, creating new file:',
+      error,
+    );
+
+    try {
+      await mkdir('', { baseDir: BaseDirectory.AppData, recursive: true });
+
+      await writeTextFile(
+        'gameConfig.json',
+        JSON.stringify(defaultParams, null, 2),
+        {
+          baseDir: BaseDirectory.AppData,
+        },
+      );
+      console.log('gameConfig.json file created with default parameters.');
+    } catch (writeError) {
+      console.error(
+        'Error writing default parameters to gameConfig.json:',
+        writeError,
+      );
+    }
+
+    gameConfig = defaultParams;
   }
 };
 
