@@ -108,22 +108,14 @@ export class DrawUI {
     const hp = player.hp;
     const maxhp = player.maxhp;
     const lvl = game.dungeon.level;
-    const nEA = game.equipment?.armorClass_reduce().toFixed(2);
+    const nEA = game.equipment?.armorClass_reduce()?.toFixed(2);
     const nAC = game.equipment?.armorClass();
     const nAP = game.equipment?.weaponDamage();
-
-    const hpDisplayText = `HP: ${hp}/${maxhp}`;
-    const lvlDisplayText = `LVL: ${lvl}`;
-    const nEADisplayText = `nEA: ${nEA}`;
-    const nACDisplayText = `nAC: ${nAC}`;
-    const nAPDisplayText = `nAP: ${nAP}`;
-
-    const display = `${hpDisplayText} ${nEADisplayText} ${nACDisplayText} ${nAPDisplayText} ${lvlDisplayText}`;
 
     const statsDisplay = document.querySelector(
       'stats-display',
     ) as StatsDisplay;
-    if (statsDisplay) statsDisplay.setStats(display);
+    if (statsDisplay) statsDisplay.setStats(hp, maxhp, lvl, nEA, nAC, nAP);
 
     this.renderBuffs(game);
   }

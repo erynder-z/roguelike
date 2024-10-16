@@ -11,6 +11,12 @@ export class StatsDisplay extends HTMLElement {
           font-size: large;
           margin: auto;
         }
+        .yellow-hp {
+          color: yellow;
+        }
+        .red-hp {
+          color: red;
+        }
       </style>
 
       <div class="stats-display"></div>
@@ -19,16 +25,34 @@ export class StatsDisplay extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
 
-  /**
-   * Sets the text content of the stats display to the given stats.
-   *
-   * @param {string} stats - The text to display in the stats display.
-   * @return {void}
-   */
-  public setStats(stats: string): void {
+  public setStats(
+    hp: number,
+    maxhp: number,
+    lvl: number,
+    nEA: string = '0.00',
+    nAC: number = 0,
+    nAP: number = 0,
+  ): void {
+    const yellowHP = hp / maxhp >= 0.25 && hp / maxhp <= 0.5;
+    const redHP = hp / maxhp <= 0.25;
+
+    let hpDisplayText = `HP: `;
+    if (redHP) {
+      hpDisplayText += `<span class="red-hp">${hp}/${maxhp}</span>`;
+    } else if (yellowHP) {
+      hpDisplayText += `<span class="yellow-hp">${hp}/${maxhp}</span>`;
+    } else {
+      hpDisplayText += `${hp}/${maxhp}`; // No color if hp is above 50%
+    }
+
+    const lvlDisplayText = `LVL: ${lvl}`;
+    const nEADisplayText = `nEA: ${nEA}`;
+    const nACDisplayText = `nAC: ${nAC}`;
+    const nAPDisplayText = `nAP: ${nAP}`;
+    const display = `${hpDisplayText} ${nEADisplayText} ${nACDisplayText} ${nAPDisplayText} ${lvlDisplayText}`;
+
     const statsDisplay = this.shadowRoot?.querySelector('.stats-display');
-    if (statsDisplay) statsDisplay.textContent = stats;
+
+    if (statsDisplay) statsDisplay.innerHTML = display;
   }
 }
-
-
