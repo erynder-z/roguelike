@@ -241,5 +241,5 @@ li {
 }
 
 .fade-out {
-  animation: fade-out 1000ms;
+  animation: fade-out 100ms;
 }
