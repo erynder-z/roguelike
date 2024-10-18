@@ -4,9 +4,9 @@ import { getRandomColor } from '../../utilities/colors/getRandomColor';
 import { getRandomUnicodeCharacter } from '../../utilities/getRandomAvatar';
 import { getRandomName } from '../../utilities/getRandomName';
 import {
-  girlishImage,
-  boyishImage,
-} from '../../utilities/imageHandler/portraitImages';
+  girlishPortrait,
+  boyishPortrait,
+} from '../../utilities/imageHandler/imageImports/portraitImages';
 import { saveConfig } from '../../utilities/saveConfig';
 
 export class PlayerSetup extends HTMLElement {
@@ -455,12 +455,12 @@ export class PlayerSetup extends HTMLElement {
     const isGirlish = player.appearance === 'girlish';
     this.renderPortraitElement(
       'player-portrait-girlish',
-      girlishImage,
+      girlishPortrait,
       isGirlish,
     );
     this.renderPortraitElement(
       'player-portrait-boyish',
-      boyishImage,
+      boyishPortrait,
       !isGirlish,
     );
 

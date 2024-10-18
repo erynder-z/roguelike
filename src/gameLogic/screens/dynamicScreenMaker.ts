@@ -4,7 +4,7 @@ import { GameScreen } from './gameScreen';
 import { GenerateTitleScreen } from '../../utilities/generateTitleScreen';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
-import { lvlTier00Images } from '../../utilities/imageHandler/levelImages';
+import { lvlTier00Images } from '../../utilities/imageHandler/imageImports/levelImages';
 import { MoreScreen } from './moreScreen';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { ScreenStack } from '../../terminal/screenStack';

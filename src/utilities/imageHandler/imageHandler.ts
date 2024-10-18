@@ -1,32 +1,7 @@
-import { attackImages as attackImages_boyish } from './boyish/attackImages';
-import { hurtImages as hurtImages_boyish } from './boyish/hurtImages';
-import { movingImages as movingImages_boyish } from './boyish/movingImages';
-import { neutralImages as neutralImages_boyish } from './boyish/neutralImages';
-import { pistolImages as pistolImages_boyish } from './boyish/pistolImages';
-import { smileImages as smileImages_boyish } from './boyish/smileImages';
-import { attackImages as attackImages_girlish } from './girlish/attackImages';
-import { hurtImages as hurtImages_girlish } from './girlish/hurtImages';
-import { movingImages as movingImages_girlish } from './girlish/movingImages';
-import { neutralImages as neutralImages_girlish } from './girlish/neutralImages';
-import { pistolImages as pistolImages_girlish } from './girlish/pistolImages';
-import { smileImages as smileImages_girlish } from './girlish/smileImages';
-
-import deathImages from './deathImages';
 import { EventCategory } from '../../gameLogic/messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
-import {
-  lvlTier00Images,
-  lvlTier01Images,
-  lvlTier02Images,
-  lvlTier03Images,
-  lvlTier04Images,
-  lvlTier05Images,
-  lvlTier06Images,
-  lvlTier07Images,
-  lvlTier08Images,
-  lvlTier09Images,
-} from './levelImages';
 import { gameConfig } from '../../gameConfig/gameConfig';
+import { images } from './imageIndex';
 
 /**
  * Handles displaying action images on the screen.
@@ -83,20 +58,31 @@ export class ImageHandler {
   }
 
   /**
-   * Displays an image on the screen.
+   * Displays an image on the screen with specified styling and animation.
    *
    * @param {HTMLImageElement} img - The image element to display.
-   * @param {string} type - The type of the image.
+   * @param {string} type - The type of the image to be displayed.
    */
-  public displayImage(img: HTMLImageElement, type: string) {
+  public displayImage(img: HTMLImageElement, type: keyof typeof EventCategory) {
+    const eventName = type;
+
     img.setAttribute('class', 'hud-image');
-    img.setAttribute('data-image', type);
+    img.setAttribute('data-image', eventName);
 
     const imageContainer = document.getElementById('image-container');
 
     if (imageContainer) {
+      const currentImage = imageContainer.querySelector('img');
+      if (currentImage) currentImage.classList.remove('animation');
+
+      // Insert the new image with opacity 0 (hidden)
       imageContainer.innerHTML = '';
       imageContainer.appendChild(img);
+
+      // Use setTimeout to delay adding the 'fade-in' class, allowing it to animate
+      setTimeout(() => {
+        img.classList.add('animation');
+      }, 10);
     }
   }
 
@@ -107,10 +93,12 @@ export class ImageHandler {
    */
   public handleAttackImageDisplay(game: GameState) {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
     const attackImageSet = this.getImageSet(
-      attackImages_boyish,
-      attackImages_girlish,
+      images.attackImages.boyish,
+      images.attackImages.girlish,
     );
     const randomImage = rand.getRandomImageFromArray(attackImageSet);
     const image = new Image();
@@ -139,16 +127,28 @@ export class ImageHandler {
    */
   public handleHurtImageDisplay(game: GameState) {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
     const hurtImageSet = this.getImageSet(
-      hurtImages_boyish,
-      hurtImages_girlish,
+      images.hurtImages.boyish,
+      images.hurtImages.girlish,
     );
     const randomImage = rand.getRandomImageFromArray(hurtImageSet);
     const image = new Image();
     image.src = randomImage;
 
-    this.displayImage(image, evt);
+    const shouldDrawImage =
+      this.getCurrentImageDataAttribute() !== 'playerDamage';
+    const maybeDrawImage = rand.randomIntegerClosedRange(0, 3) === 0;
+
+    if (shouldDrawImage) {
+      // If not already displaying a hurt image, display the image
+      this.displayImage(image, evt);
+    } else {
+      // There's a 25% chance of displaying a different image. If not, the current image remains shown.
+      if (maybeDrawImage) this.displayImage(image, evt);
+    }
     game.log.removeCurrentEvent();
   }
 
@@ -159,10 +159,12 @@ export class ImageHandler {
    */
   public handleSmileImageDisplay(game: GameState) {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
     const smileImageSet = this.getImageSet(
-      smileImages_boyish,
-      smileImages_girlish,
+      images.smileImages.boyish,
+      images.smileImages.girlish,
     );
     const randomImage = rand.getRandomImageFromArray(smileImageSet);
     const image = new Image();
@@ -179,23 +181,26 @@ export class ImageHandler {
    */
   public handleMovingImageDisplay(game: GameState) {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
     const movingImageSet = this.getImageSet(
-      movingImages_boyish,
-      movingImages_girlish,
+      images.movingImages.boyish,
+      images.movingImages.girlish,
     );
     const randomImage = rand.getRandomImageFromArray(movingImageSet);
     const image = new Image();
     image.src = randomImage;
 
+    /*    const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving'; */
     const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving';
-    const maybeDrawImage = rand.randomIntegerClosedRange(0, 9) === 0;
+    const maybeDrawImage = rand.randomIntegerClosedRange(0, 5) === 0;
 
     if (shouldDrawImage) {
       // If not currently moving, display the image
       this.displayImage(image, evt);
     } else {
-      // There's a 10% chance of displaying a different image. If not, the current image remains shown.
+      // There's a 1/6 chance of displaying a different image. If not, the current image remains shown.
       if (maybeDrawImage) this.displayImage(image, evt);
     }
     game.log.removeCurrentEvent();
@@ -209,10 +214,12 @@ export class ImageHandler {
    */
   public handlePistolImageDisplay(game: GameState): void {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
     const pistolImageSet = this.getImageSet(
-      pistolImages_boyish,
-      pistolImages_girlish,
+      images.pistolImages.boyish,
+      images.pistolImages.girlish,
     );
     const randomImage = rand.getRandomImageFromArray(pistolImageSet);
     const image = new Image();
@@ -230,15 +237,27 @@ export class ImageHandler {
    */
   public handleNeutralImageDisplay(game: GameState): void {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
     const neutralImageSet = this.getImageSet(
-      neutralImages_boyish,
-      neutralImages_girlish,
+      images.neutralImages.boyish,
+      images.neutralImages.girlish,
     );
     const randomImage = rand.getRandomImageFromArray(neutralImageSet);
     const image = new Image();
     image.src = randomImage;
-    this.displayImage(image, evt);
+
+    const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'wait';
+    const maybeDrawImage = rand.randomIntegerClosedRange(0, 3) === 0;
+
+    if (shouldDrawImage) {
+      // If not currently waiting, display the image
+      this.displayImage(image, evt);
+    } else {
+      // There's a 25% chance of displaying a different image. If not, the current image remains shown.
+      if (maybeDrawImage) this.displayImage(image, evt);
+    }
     game.log.removeCurrentEvent();
   }
 
@@ -250,9 +269,11 @@ export class ImageHandler {
    */
   public handleDeathImageDisplay(game: GameState): void {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
 
-    const randomImage = rand.getRandomImageFromArray(deathImages);
+    const randomImage = rand.getRandomImageFromArray(images.deathImages);
     const image = new Image();
     image.src = randomImage;
 
@@ -268,34 +289,36 @@ export class ImageHandler {
    */
   public handleLevelImageDisplay(game: GameState): void {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
 
     const lvl = game.dungeon.level;
 
     if (lvl == null || isNaN(lvl) || lvl < 0) return;
 
     const levelImageMapping = [
-      lvlTier00Images, // Levels 0
-      lvlTier01Images, // Levels 1-4
-      lvlTier02Images, // Levels 5-8
-      lvlTier03Images, // Levels 9-12
-      lvlTier04Images, // Levels 13-16
-      lvlTier05Images, // Levels 17-20
-      lvlTier06Images, // Levels 21-24
-      lvlTier07Images, // Levels 25-28
-      lvlTier08Images, // Levels 29-32
-      lvlTier09Images, // Levels 33-36
+      images.levelImages.lvlTier00Images, // Levels 0
+      images.levelImages.lvlTier01Images, // Levels 1-4
+      images.levelImages.lvlTier02Images, // Levels 5-8
+      images.levelImages.lvlTier03Images, // Levels 9-12
+      images.levelImages.lvlTier04Images, // Levels 13-16
+      images.levelImages.lvlTier05Images, // Levels 17-20
+      images.levelImages.lvlTier06Images, // Levels 21-24
+      images.levelImages.lvlTier07Images, // Levels 25-28
+      images.levelImages.lvlTier08Images, // Levels 29-32
+      images.levelImages.lvlTier09Images, // Levels 33-36
     ];
 
     const maxLevelIndex = levelImageMapping.length - 1;
     const index = Math.min(Math.floor(lvl / 4), maxLevelIndex);
     const neutralImageSet = this.getImageSet(
-      neutralImages_boyish,
-      neutralImages_girlish,
+      images.neutralImages.boyish,
+      images.neutralImages.girlish,
     );
-    const images = levelImageMapping[index] || neutralImageSet;
+    const imgs = levelImageMapping[index] || neutralImageSet;
 
-    const randomImage = rand.getRandomImageFromArray(images);
+    const randomImage = rand.getRandomImageFromArray(imgs);
     const image = new Image();
     image.src = randomImage;
 

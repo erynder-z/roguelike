@@ -126,6 +126,15 @@ li {
   object-fit: contain;
 }
 
+.image-container img {
+  transition: opacity 200ms ease-in-out;
+  opacity: 0;
+}
+
+.image-container img.animation {
+  opacity: 1;
+}
+
 .buffs-container {
   display: flex;
   flex-direction: column;

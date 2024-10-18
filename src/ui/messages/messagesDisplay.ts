@@ -38,7 +38,6 @@ export class MessagesDisplay extends HTMLElement {
         }
 
         .messages-display {
-          flex-grow: 1;
           overflow: auto;
         }
 
@@ -57,7 +56,7 @@ export class MessagesDisplay extends HTMLElement {
         li {
           list-style: none;
           padding: 0 0.5rem;
-        }
+              }
 
         li:nth-child(odd) {
           background-color: var(--whiteTransparent);
