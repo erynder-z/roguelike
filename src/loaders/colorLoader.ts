@@ -29,6 +29,22 @@ export class ColorLoader {
         '--postMortemAccent',
         colors.root['--postMortemAccent'],
       );
+      root.style.setProperty(
+        '--scrollbar-foreground',
+        colors.root['--scrollbar-foreground'],
+      );
+      root.style.setProperty(
+        '--scrollbar-background',
+        colors.root['--scrollbar-background'],
+      );
+      root.style.setProperty(
+        '--selection-color',
+        colors.root['--selection-color'],
+      );
+      root.style.setProperty(
+        '--selection-background',
+        colors.root['--selection-background'],
+      );
 
       resolve();
     });

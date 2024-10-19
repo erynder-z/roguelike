@@ -7,7 +7,7 @@
     "--whiteTransparent": "rgba(255, 255, 255, 0.1)",
     "--yellow": "#ffff00",
     "--postMortemAccent": "#ffff00",
-    "--scrollbar-foreground": "var(--white)",
+    "--scrollbar-foreground": "var(--whiteTransparent)",
     "--scrollbar-background": "var(--backgroundDefault)",
     "--selection-color": "var(--white)",
     "--selection-background": "var(--accent)"
