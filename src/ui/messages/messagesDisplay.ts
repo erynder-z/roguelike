@@ -16,12 +16,7 @@ export class MessagesDisplay extends HTMLElement {
         * {
           margin: var(--margin);
           padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
-
-        * {
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+          box-sizing: border-box;
         }
 
         ::selection {
@@ -32,38 +27,37 @@ export class MessagesDisplay extends HTMLElement {
         :host {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
           padding: 0 0.5rem;
           width: 100%;
         }
 
         .messages-display {
           overflow: auto;
+          scrollbar-width: thin;
+          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
         }
 
         h1 {
           margin: 0;
-          text-align: center;
+          font-size: 0.75rem;
         }
 
-        ul {
-          padding: 0;
-          flex-grow: 1;
+        .messages-display ul {
           display: flex;
-          flex-direction: column;
+          flex-direction: column-reverse;
         }
 
         li {
           list-style: none;
           padding: 0 0.5rem;
-              }
+        }
 
         li:nth-child(odd) {
           background-color: var(--whiteTransparent);
         }
       </style>
 
-      <h1>Messages</h1>
+      <h1>messages:</h1>
       <div class="messages-display"></div>
     `;
 
