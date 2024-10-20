@@ -67,12 +67,14 @@ export class LogScreen extends BaseScreen {
    */
   private createHeading(): HTMLHeadingElement {
     const heading = document.createElement('h1');
-    heading.textContent = 'Log: (Showing last 100 messages. Press q to close.)';
+    heading.textContent = 'Log: (Press q to close.)';
     return heading;
   }
 
+
   /**
-   * Creates an HTML unordered list element containing the last 100 messages from the message log.
+   * Creates an HTML unordered list element containing all the messages in the message log.
+   * The most recent message is added first, so they appear in reverse chronological order.
    *
    * @return {HTMLUListElement} The created message list element.
    */
@@ -80,12 +82,13 @@ export class LogScreen extends BaseScreen {
     const messageList = document.createElement('ul');
     const fragment = document.createDocumentFragment();
 
-    this.messageLog.slice(-100).forEach(m => {
+    for (let i = this.messageLog.length - 1; i >= 0; i--) {
+      const m = this.messageLog[i];
       const listItem = document.createElement('li');
       listItem.textContent = m.message;
       this.colorizer.colorBuffs(listItem);
       fragment.appendChild(listItem);
-    });
+    }
 
     messageList.appendChild(fragment);
     return messageList;
