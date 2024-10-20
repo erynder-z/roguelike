@@ -26,8 +26,13 @@ export enum EventCategory {
   trap,
 }
 export class LogMessage {
+  private static idCounter = 0;
+  public id: number;
+
   constructor(
     public message: string,
     public category: EventCategory,
-  ) {}
+  ) {
+    this.id = LogMessage.idCounter++;
+  }
 }
