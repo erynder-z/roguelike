@@ -27,14 +27,13 @@ export class MessageLog {
     this.queue.shift();
   }
 
+
   /**
-   * Retrieves the oldest message from the queue.
-   * @returns {LogMessage} - The oldest message in the queue, or '-' if the queue is empty.
+   * Retrieves the top message from the queue, or null if the queue is empty.
+   * @returns {LogMessage | null} - The top message, or null if the queue is empty.
    */
-  public top(): LogMessage {
-    return this.empty()
-      ? new LogMessage('', EventCategory.none)
-      : this.queue[0];
+  public top(): LogMessage | null {
+    return this.empty() ? null : this.queue[0];
   }
 
   /**
