@@ -1,4 +1,5 @@
 import { LogMessage, EventCategory } from './logMessage';
+import { StartingMessageGenerator } from '../../utilities/startingMessageGenerator/startingMessageGenerator';
 
 /**
  * The message log for storing and managing messages.
@@ -8,6 +9,11 @@ export class MessageLog {
   public archive: LogMessage[] = [];
   public currentEvent: EventCategory = EventCategory.none;
 
+  constructor() {
+    const randomMessage = StartingMessageGenerator.getRandomMessage();
+    this.archive.push(new LogMessage(randomMessage, EventCategory.none));
+  }
+
   /**
    * Adds a message to the log.
    * @param {LogMessage} msg - The message to add.
@@ -15,7 +21,6 @@ export class MessageLog {
    * @returns {void}
    */
   public message(msg: LogMessage, isFlashMsg: boolean): void {
-    /*    this.queue.push(s); */
     if (!isFlashMsg) this.archive.push(msg);
     if (isFlashMsg) this.queue.push(msg);
   }
@@ -26,7 +31,6 @@ export class MessageLog {
   public dequeue(): void {
     this.queue.shift();
   }
-
 
   /**
    * Retrieves the top message from the queue, or null if the queue is empty.
