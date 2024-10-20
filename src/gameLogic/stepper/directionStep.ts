@@ -1,9 +1,9 @@
 import { GameMap } from '../../maps/mapModel/gameMap';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
-import { Map } from '../../maps/mapModel/types/map';
 import { MagnetismHandler } from '../../utilities/magnetismHandler';
-import { Step } from './types/Step';
+import { Step } from '../../types/gameLogic/stepper/step';
 import { TimedStep } from './timedStep';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
@@ -17,7 +17,7 @@ export class DirectionStep extends TimedStep {
     public sprite: Glyph,
     public pos: WorldPoint,
     public g: GameState,
-    public map: Map = <Map>g.currentMap(),
+    public map: GameMapType = <GameMapType>g.currentMap(),
     public direction: WorldPoint | null = null,
   ) {
     super();

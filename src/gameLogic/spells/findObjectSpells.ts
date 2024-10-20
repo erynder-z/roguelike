@@ -1,13 +1,13 @@
-import { Command } from '../commands/types/command';
+import { Command } from '../../types/gameLogic/commands/command';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { ItemObject } from '../itemObjects/itemObject';
 import { MultipleUseItemCost } from '../itemObjects/multipleUseItemCost';
-import { ScreenMaker } from '../screens/types/ScreenMaker';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Spell } from './spell';
 import { SpellFinder } from './spellFinder';
-import { Stack } from '../../terminal/types/stack';
-import { StackScreen } from '../../terminal/types/stackScreen';
+import { Stack } from '../../types/terminal/stack';
+import { StackScreen } from '../../types/terminal/stackScreen';
 
 /**
  * Helper-class that provides methods for returning a Command or a StackScreen for a item.

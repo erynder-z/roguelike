@@ -1,5 +1,5 @@
 import { Mob } from '../mobs/mob';
-import { Step } from './types/Step';
+import { Step } from '../../types/gameLogic/stepper/step';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**

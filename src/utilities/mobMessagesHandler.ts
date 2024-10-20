@@ -1,6 +1,6 @@
 import { CanSee } from './canSee';
 import { GameMap } from '../maps/mapModel/gameMap';
-import { GameState } from '../gameBuilder/types/gameState';
+import { GameState } from '../types/gameBuilder/gameState';
 import { Mob } from '../gameLogic/mobs/mob';
 
 export class MobMessagesHandler {

@@ -2,11 +2,11 @@ import { Buff } from '../buffs/buffEnum';
 import { BuffCommand } from './buffCommand';
 import { CleanseBuffCommand } from './cleanseBuffCommand';
 import { EventCategory } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
 import { HealthAdjust } from './healthAdjust';
 import { LogMessage } from '../messages/logMessage';
-import { Map } from '../../maps/mapModel/types/map';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { Mob } from '../mobs/mob';
 
@@ -17,7 +17,7 @@ export class CellEffects {
   constructor(
     public me: Mob,
     public game: GameState,
-    public map: Map,
+    public map: GameMapType,
     public cell: MapCell,
   ) {}
 

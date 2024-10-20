@@ -1,13 +1,13 @@
 import { Act } from './act';
 import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
 import { ItemObject } from '../itemObjects/itemObject';
 import { Mob } from '../mobs/mob';
 import { StairCommand } from './stairCommand';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { Map } from '../../maps/mapModel/types/map';
 
 /**
  * Represents a move command that moves a mob in the game.
@@ -28,7 +28,7 @@ export class MoveCommand extends CommandBase {
    */
   public execute(): boolean {
     const newPosition = this.dir.plus(this.me.pos);
-    const map = <Map>this.game.currentMap();
+    const map = <GameMapType>this.game.currentMap();
 
     if (this.isMoveLegal(map, newPosition)) {
       if (this.me.isPlayer) this.game.addCurrentEvent(EventCategory.moving);
@@ -41,22 +41,22 @@ export class MoveCommand extends CommandBase {
   /**
    * Checks if a move is legal based on the provided map and position.
    *
-   * @param {Map} map - The map object representing the game world.
+   * @param {GameMapType} map - The map object representing the game world.
    * @param {WorldPoint} position - The position to check if it is legal to move to.
    * @return {boolean} Returns true if the move is legal, false otherwise.
    */
-  private isMoveLegal(map: Map, position: WorldPoint): boolean {
+  private isMoveLegal(map: GameMapType, position: WorldPoint): boolean {
     return !map.isBlocked(position);
   }
 
   /**
    * Moves the mob to the specified position and handles any additional actions if the mob is a player.
    *
-   * @param {Map} map - The game map representing the game world.
+   * @param {GameMapType} map - The game map representing the game world.
    * @param {WorldPoint} position - The position to move the mob to.
    * @return {void} This function does not return a value.
    */
-  private moveAndHandleExtras(map: Map, position: WorldPoint): void {
+  private moveAndHandleExtras(map: GameMapType, position: WorldPoint): void {
     this.moveMobAndResetCounter(map, position);
 
     if (this.me.isPlayer) {
@@ -69,11 +69,11 @@ export class MoveCommand extends CommandBase {
   /**
    * Moves the mob to the specified position and resets the counter for the number of turns since the last move.
    *
-   * @param {Map} map - The game map representing the game world.
+   * @param {GameMapType} map - The game map representing the game world.
    * @param {WorldPoint} position - The position to move the mob to.
    * @return {void} This function does not return a value.
    */
-  private moveMobAndResetCounter(map: Map, position: WorldPoint): void {
+  private moveMobAndResetCounter(map: GameMapType, position: WorldPoint): void {
     this.me.sinceMove = 0;
     map.moveMob(this.me, position);
   }
@@ -81,11 +81,11 @@ export class MoveCommand extends CommandBase {
   /**
    * Deals with stairs in the map.
    *
-   * @param {Map} map - The game map representing the game world.
+   * @param {GameMapType} map - The game map representing the game world.
    * @param {WorldPoint} position - The position to check for stairs.
    * @return {void} This function does not return a value.
    */
-  private dealWithStairs(map: Map, position: WorldPoint): void {
+  private dealWithStairs(map: GameMapType, position: WorldPoint): void {
     const cell = map.cell(position);
     let direction: number | null = null;
 
@@ -103,11 +103,11 @@ export class MoveCommand extends CommandBase {
   /**
    * Deals with traps on the map by checking the cell at the specified position for a hidden trap.
    *
-   * @param {Map} map - The map to check for traps.
+   * @param {GameMapType} map - The map to check for traps.
    * @param {WorldPoint} position - The position to check for traps.
    * @return {void} This function does not return a value.
    */
-  private dealWithTraps(map: Map, position: WorldPoint): void {
+  private dealWithTraps(map: GameMapType, position: WorldPoint): void {
     const cell = map.cell(position);
 
     if (cell.env === Glyph.Hidden_Trap) {
@@ -124,7 +124,7 @@ export class MoveCommand extends CommandBase {
    * @return {void} This function does not return anything.
    */
   private flashIfItem(): void {
-    const map: Map = <Map>this.game.currentMap();
+    const map: GameMapType = <GameMapType>this.game.currentMap();
     const playerPosition: WorldPoint = this.game.player.pos;
     const item: ItemObject | undefined = map.cell(playerPosition).obj;
 

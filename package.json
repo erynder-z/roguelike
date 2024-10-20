@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
-    "@tauri-apps/cli": "^2.0.0-rc.18",
+    "@tauri-apps/cli": "^2.0.3",
     "@types/node": "^22.7.4",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "eslint": "^9.11.1",
@@ -28,8 +28,9 @@
     "vite": "^5.4.8"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.0.1",
+    "@tauri-apps/api": "^2.0.2",
     "@tauri-apps/plugin-dialog": "^2.0.0",
+    "@tauri-apps/plugin-fs": "^2.0.0",
     "@tauri-apps/plugin-process": "^2.0.0"
   }
 }

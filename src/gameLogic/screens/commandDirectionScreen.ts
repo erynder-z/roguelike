@@ -1,9 +1,9 @@
 import { BaseScreen } from './baseScreen';
-import { Command } from '../commands/types/command';
-import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
-import { GameState } from '../../gameBuilder/types/gameState';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
+import { Command } from '../../types/gameLogic/commands/command';
+import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**

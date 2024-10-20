@@ -1,5 +1,5 @@
 import { Builder } from '../gameBuilder/builder';
-import { buildParameters } from '../buildParameters/buildParameters';
+import { gameConfig } from '../gameConfig/gameConfig';
 import { DynamicScreenMaker } from '../gameLogic/screens/dynamicScreenMaker';
 import { GlyphLoader } from '../loaders/glyphLoader';
 
@@ -23,15 +23,20 @@ export class GenerateTitleScreen {
     titleContainer.id = 'title-container';
     titleContainer.appendChild(titleScreen);
 
-    body.appendChild(titleContainer);
+    // Ensure the titleContainer is the first child of the body
+    if (body.firstChild) {
+      body.insertBefore(titleContainer, body.firstChild);
+    } else {
+      body.appendChild(titleContainer);
+    }
 
     // Add event listeners to start a new game
     titleScreen.addEventListener('start-new-game', async () => {
       titleContainer.remove();
       await GlyphLoader.initializeGlyphs();
       DynamicScreenMaker.runBuilt_InitialGameSetup(
-        new Builder(buildParameters.seed, buildParameters.player),
-        buildParameters.seed,
+        new Builder(gameConfig.seed, gameConfig.player),
+        gameConfig.seed,
       );
     });
   }

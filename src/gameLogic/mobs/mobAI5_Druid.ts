@@ -2,16 +2,16 @@ import { Buff } from '../buffs/buffEnum';
 import { BuffCommand } from '../commands/buffCommand';
 import { CanSee } from '../../utilities/canSee';
 import { GameMap } from '../../maps/mapModel/gameMap';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Mob } from './mob';
-import { MobAI } from './types/mobAI';
+import { MobAI } from '../../types/gameLogic/mobs/mobAI';
 import { MobAI2_Cat } from './mobAI2_Cat';
 import { MobAI3_Ant } from './mobAI3_Ant';
 import { Mood } from './moodEnum';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
-import { ScreenMaker } from '../screens/types/ScreenMaker';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { SimpleSleepAI } from './simpleSleepAI';
-import { Stack } from '../../terminal/types/stack';
+import { Stack } from '../../types/terminal/stack';
 
 /**
  * Represents an implementation of MobAI for a druid-type mob.

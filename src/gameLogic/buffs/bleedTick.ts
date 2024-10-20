@@ -1,9 +1,9 @@
 import { EventCategory } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { HealthAdjust } from '../commands/healthAdjust';
 import { LogMessage } from '../messages/logMessage';
 import { Mob } from '../mobs/mob';
-import { Tick } from './types/buffType';
+import { Tick } from '../../types/gameLogic/buffs/buffType';
 
 /**
  * Handles a bleed tick.

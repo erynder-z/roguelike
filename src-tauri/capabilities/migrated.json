@@ -12,6 +12,14 @@
     "dialog:allow-confirm",
     "process:allow-exit",
     "dialog:default",
-    "process:default"
+    "process:default",
+    {
+      "identifier": "fs:allow-appdata-read",
+      "allow": [{ "path": "$APPDATA" }]
+    },
+    {
+      "identifier": "fs:allow-appdata-write",
+      "allow": [{ "path": "$APPDATA" }]
+    }
   ]
 }

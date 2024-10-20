@@ -1,6 +1,6 @@
 import { EventCategory } from '../gameLogic/messages/logMessage';
-import { GameState } from './types/gameState';
-import { Map } from '../maps/mapModel/types/map';
+import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../types/gameBuilder/gameState';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 
 /**
@@ -8,14 +8,14 @@ import { WorldPoint } from '../maps/mapModel/worldPoint';
  */
 export class MapHandler {
   public level: number = 0;
-  public maps: Map[] = [];
+  public maps: GameMapType[] = [];
 
   /**
    * Retrieves the current map of the dungeon based on the current level.
    * @param {GameState} game - The game object.
-   * @returns {Map} The current map.
+   * @returns {GameMapType} The current map.
    */
-  public currentMap(game: GameState): Map {
+  public currentMap(game: GameState): GameMapType {
     return this.getLevel(this.level, game);
   }
 
@@ -24,9 +24,9 @@ export class MapHandler {
    * If the level does not exist, it is generated.
    * @param {number} level - The level number.
    * @param {GameState} game - The game object.
-   * @returns {Map} The map of the specified level.
+   * @returns {GameMapType} The map of the specified level.
    */
-  public getLevel(level: number, game: GameState): Map {
+  public getLevel(level: number, game: GameState): GameMapType {
     if (!this.hasLevel(level)) {
       const map = game.build.makeLevel(game.rand, level);
       this.add(map, level);
@@ -45,11 +45,11 @@ export class MapHandler {
 
   /**
    * Adds a map to a specified level of the dungeon.
-   * @param {Map} map - The map to add.
+   * @param {GameMapType} map - The map to add.
    * @param {number} level - The level number where the map should be added.
    * @returns {void}
    */
-  private add(map: Map, level: number): void {
+  private add(map: GameMapType, level: number): void {
     if (level >= this.maps.length) {
       this.extendMaps(level + 1);
     }

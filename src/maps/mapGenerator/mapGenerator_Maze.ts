@@ -6,7 +6,7 @@ import { RockGenerator } from './rockGenerator';
 import { WorldPoint } from '../mapModel/worldPoint';
 
 /**
- * Map generator for maze-like environments.
+ * GameMapType generator for maze-like environments.
  */
 export class MapGenerator_Maze {
   constructor(

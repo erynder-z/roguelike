@@ -1,6 +1,6 @@
-import { EnvEffect } from '../../maps/mapModel/types/envEffect';
+import { EnvEffect } from '../../types/gameLogic/maps/mapModel/envEffect';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../glyphs/glyph';
-import { Map } from '../../maps/mapModel/types/map';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
@@ -32,10 +32,13 @@ export class EnvironmentChecker {
    * Checks if a neighbor is within bounds of the map.
    *
    * @param {WorldPoint} neighbor - The neighboring point to check.
-   * @param {Map} map - The map containing the cells.
+   * @param {GameMapType} map - The map containing the cells.
    * @return {boolean} Returns true if the neighbor is within bounds, false otherwise.
    */
-  private static isValidNeighbor(neighbor: WorldPoint, map: Map): boolean {
+  private static isValidNeighbor(
+    neighbor: WorldPoint,
+    map: GameMapType,
+  ): boolean {
     return !neighbor.isPositionOutOfBounds(neighbor, map);
   }
 
@@ -44,10 +47,14 @@ export class EnvironmentChecker {
    *
    * @param {MapCell} cell - The cell to add effects to.
    * @param {WorldPoint} wp - The position of the cell.
-   * @param {Map} map - The map containing the cells.
+   * @param {GameMapType} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
-  public static addCellEffects(cell: MapCell, wp: WorldPoint, map: Map): void {
+  public static addCellEffects(
+    cell: MapCell,
+    wp: WorldPoint,
+    map: GameMapType,
+  ): void {
     this.addPoisonEffectToCellNeighbors(cell, wp, map);
     this.addConfusionEffectToCellNeighbors(cell, wp, map);
   }
@@ -57,13 +64,13 @@ export class EnvironmentChecker {
    *
    * @param {MapCell} cell - The cell to add the poison effect to.
    * @param {WorldPoint} wp - The position of the cell.
-   * @param {Map} map - The map containing the cells.
+   * @param {GameMapType} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
   private static addPoisonEffectToCellNeighbors(
     cell: MapCell,
     wp: WorldPoint,
-    map: Map,
+    map: GameMapType,
   ): void {
     if (cell.glyph() === Glyph.Poison_Mushroom) {
       const neighbors = wp.getNeighbors(this.areaOfEffectRadius);
@@ -85,13 +92,13 @@ export class EnvironmentChecker {
    *
    * @param {MapCell} cell - The cell to add the confusion effect to.
    * @param {WorldPoint} wp - The position of the cell.
-   * @param {Map} map - The map containing the cells.
+   * @param {GameMapType} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
   private static addConfusionEffectToCellNeighbors(
     cell: MapCell,
     wp: WorldPoint,
-    map: Map,
+    map: GameMapType,
   ): void {
     if (cell.glyph() === Glyph.Confusion_Mushroom) {
       const neighbors = wp.getNeighbors(this.areaOfEffectRadius);
@@ -129,10 +136,14 @@ export class EnvironmentChecker {
    * Clears the environmental effect in the area surrounding a specified cell.
    *
    * @param {WorldPoint} wp - The position of the cell.
-   * @param {Map} map - The map containing the cells.
+   * @param {GameMapType} map - The map containing the cells.
    * @param {Glyph} glyph - The glyph representing the environmental effect.
    */
-  public static clearCellEffectInArea(wp: WorldPoint, map: Map, glyph: Glyph) {
+  public static clearCellEffectInArea(
+    wp: WorldPoint,
+    map: GameMapType,
+    glyph: Glyph,
+  ) {
     const effect = this.getEffectFromGlyph(glyph);
 
     if (effect != null) {

@@ -1,8 +1,8 @@
 import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Inventory } from '../inventory/inventory';
-import { Map } from '../../maps/mapModel/types/map';
 
 /**
  * Represents a command to pick up an item from the game map and add it to the player's inventory.
@@ -20,7 +20,7 @@ export class PickupCommand extends CommandBase {
     const { game } = this;
     const { player } = game;
 
-    const map = <Map>game.currentMap();
+    const map = <GameMapType>game.currentMap();
     const inventory = <Inventory>game.inventory;
     const cell = map.cell(player.pos);
     const item = cell.obj;

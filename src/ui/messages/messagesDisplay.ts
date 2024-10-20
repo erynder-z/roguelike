@@ -3,10 +3,12 @@ import { LogMessage } from '../../gameLogic/messages/logMessage';
 
 export class MessagesDisplay extends HTMLElement {
   private colorizer: BuffColors;
+  private previousRenderedMessages: Set<string>;
 
   constructor() {
     super();
     this.colorizer = new BuffColors();
+    this.previousRenderedMessages = new Set();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -19,11 +21,6 @@ export class MessagesDisplay extends HTMLElement {
           box-sizing: var(--box-sizing);
         }
 
-        * {
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
-
         ::selection {
           color: var(--selection-color);
           background-color: var(--selection-background);
@@ -32,31 +29,41 @@ export class MessagesDisplay extends HTMLElement {
         :host {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
           padding: 0 0.5rem;
           width: 100%;
         }
 
         .messages-display {
-          flex-grow: 1;
           overflow: auto;
+          scrollbar-width: var(--scrollbar-width);
+          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
         }
 
         h1 {
           margin: 0;
-          text-align: center;
+          font-size: 0.75rem;
+          margin-bottom: 0.5rem;
         }
 
-        ul {
-          padding: 0;
-          flex-grow: 1;
+        .messages-display ul {
           display: flex;
-          flex-direction: column;
+          flex-direction: column-reverse;
         }
 
         li {
           list-style: none;
           padding: 0 0.5rem;
+          opacity: 0.5;
+        }
+
+        li.new-message {
+          opacity: 1;
+          animation: fade-in 0.2s ease-in;
+        }
+
+        @keyframes fade-in {
+          from { opacity: 0.5; }
+          to { opacity: 1; }
         }
 
         li:nth-child(odd) {
@@ -64,7 +71,7 @@ export class MessagesDisplay extends HTMLElement {
         }
       </style>
 
-      <h1>Messages</h1>
+      <h1>latest messages:</h1>
       <div class="messages-display"></div>
     `;
 
@@ -72,9 +79,11 @@ export class MessagesDisplay extends HTMLElement {
   }
 
   /**
-   * Sets the messages to be displayed in the component.
+   * Updates the component's display of messages by setting the innerHTML of the ".messages-display" div.
+   * If a message is new (i.e. not already in the component's previousRenderedMessages Set), it is given the class "new-message".
+   * The component uses requestAnimationFrame to schedule the update for the next frame.
    *
-   * @param {LogMessage[]} messageLog - The array of log messages to display.
+   * @param {LogMessage[]} messageLog - An array of messages to display.
    * @return {void}
    */
   public setMessages(messageLog: LogMessage[]): void {
@@ -87,12 +96,22 @@ export class MessagesDisplay extends HTMLElement {
     messageLog.forEach(m => {
       const liElement = document.createElement('li');
       liElement.textContent = m.message;
+
+      const messageId = m.id.toString();
+
+      if (!this.previousRenderedMessages.has(messageId)) {
+        liElement.classList.add('new-message');
+        this.previousRenderedMessages.add(messageId);
+      }
+
       this.colorizer.colorBuffs(liElement);
       fragment.appendChild(liElement);
     });
 
-    ulElement.appendChild(fragment);
-    messagesDisplay.innerHTML = '';
-    messagesDisplay.appendChild(ulElement);
+    requestAnimationFrame(() => {
+      messagesDisplay.innerHTML = '';
+      ulElement.appendChild(fragment);
+      messagesDisplay.appendChild(ulElement);
+    });
   }
 }

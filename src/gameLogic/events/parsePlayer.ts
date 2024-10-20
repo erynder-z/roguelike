@@ -1,24 +1,24 @@
 import { BulletCommand } from '../commands/bulletCommand';
-import { Command } from '../commands/types/command';
+import { Command } from '../../types/gameLogic/commands/command';
 import { CommandDirectionScreen } from '../screens/commandDirectionScreen';
 import { DebuggerScreen } from '../screens/debuggerScreen';
 import { DigCommand } from '../commands/digCommand';
 import { DoorCommand } from '../commands/doorCommand';
 import { EquipmentScreen } from '../screens/equipmentScreen';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { InventoryScreen } from '../screens/inventoryScreen';
 import { LogScreen } from '../screens/logScreen';
 import { LookScreen } from '../screens/lookScreen';
-import { Map } from '../../maps/mapModel/types/map';
 import { Mob } from '../mobs/mob';
 import { MoveBumpCommand } from '../commands/moveBumpCommand';
 import { MoveCommand } from '../commands/moveCommand';
 import { OptionsScreen } from '../screens/optionsScreen';
 import { PickupCommand } from '../commands/pickupCommand';
-import { ScreenMaker } from '../screens/types/ScreenMaker';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { SpellScreen } from '../screens/spellScreen';
-import { Stack } from '../../terminal/types/stack';
-import { StackScreen } from '../../terminal/types/stackScreen';
+import { Stack } from '../../types/terminal/stack';
+import { StackScreen } from '../../types/terminal/stackScreen';
 import { WaitCommand } from '../commands/waitCommand';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
@@ -30,7 +30,7 @@ export class ParsePlayer {
     public game: GameState,
     public make: ScreenMaker,
     public player: Mob = <Mob>game.player,
-    public map: Map = <Map>game.currentMap(),
+    public map: GameMapType = <GameMapType>game.currentMap(),
   ) {}
 
   /**

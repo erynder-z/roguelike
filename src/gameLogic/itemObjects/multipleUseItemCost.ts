@@ -1,6 +1,6 @@
-import { Cost } from '../commands/types/cost';
+import { Cost } from '../../types/gameLogic/commands/cost';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { ItemObject } from './itemObject';
 
 /**

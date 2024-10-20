@@ -1,14 +1,14 @@
 import { BaseScreen } from './baseScreen';
 import { Buff } from '../buffs/buffEnum';
 import { CanSee } from '../../utilities/canSee';
-import { DrawableTerminal } from '../../terminal/types/drawableTerminal';
+import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
-import { Map } from '../../maps/mapModel/types/map';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { MapCell } from '../../maps/mapModel/mapCell';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**
@@ -66,14 +66,14 @@ export class LookScreen extends BaseScreen {
    * Determines if a point is visible on the map based on player position, game stats, and visibility buffs.
    *
    * @param {WorldPoint} pos - The position of the point to check for visibility.
-   * @param {Map} map - The map object containing the point.
+   * @param {GameMapType} map - The map object containing the point.
    * @param {WorldPoint} playerPos - The position of the player.
    * @param {GameState} game - The game object containing the player and game stats.
    * @return {boolean} Returns true if the point is visible, false otherwise.
    */
   private isPointVisible(
     pos: WorldPoint,
-    map: Map,
+    map: GameMapType,
     playerPos: WorldPoint,
     game: GameState,
   ): boolean {

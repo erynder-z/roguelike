@@ -1,9 +1,9 @@
 import { BaseScreen } from './baseScreen';
 import { Equipment } from '../inventory/equipment';
-import { GameState } from '../../gameBuilder/types/gameState';
-import { ScreenMaker } from './types/ScreenMaker';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Slot } from '../itemObjects/slot';
-import { Stack } from '../../terminal/types/stack';
+import { Stack } from '../../types/terminal/stack';
 import { UnequipCommand } from '../commands/unequipCommand';
 
 /**

@@ -1,12 +1,13 @@
-import { buildParameters } from '../../buildParameters/buildParameters';
-import { BuildParametersType } from '../../buildParameters/types/buildParametersType';
+import { gameConfig } from '../../gameConfig/gameConfig';
+import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { getRandomColor } from '../../utilities/colors/getRandomColor';
 import { getRandomUnicodeCharacter } from '../../utilities/getRandomAvatar';
 import { getRandomName } from '../../utilities/getRandomName';
 import {
-  girlishImage,
-  boyishImage,
-} from '../../utilities/imageHandler/portraitImages';
+  girlishPortrait,
+  boyishPortrait,
+} from '../../utilities/imageHandler/imageImports/portraitImages';
+import { saveConfig } from '../../utilities/saveConfig';
 
 export class PlayerSetup extends HTMLElement {
   constructor() {
@@ -24,6 +25,7 @@ export class PlayerSetup extends HTMLElement {
           height: 100%;
           width: 100%;
           line-height: 1.75;
+          background: var(--backgroundDefaultTransparent);
         }
 
         .container {
@@ -40,10 +42,7 @@ export class PlayerSetup extends HTMLElement {
         }
 
         .player-about {
-          background: var(--whiteTransparent);
-          padding: 2rem;
           width: 45ch;
-          border-radius: 1rem;
         }
 
         .container button {
@@ -94,7 +93,7 @@ export class PlayerSetup extends HTMLElement {
 
         img {
           width: auto;
-          height: 12rem;
+          height: 20rem;
         }
 
         .highlight {
@@ -193,8 +192,8 @@ export class PlayerSetup extends HTMLElement {
         <h1>Player setup</h1>
         <div class="player-about">
           <div class="appearance">
-            <div id="player-portrait-1" class="portrait"></div>
-            <div id="player-portrait-2" class="portrait"></div>
+            <div id="player-portrait-girlish" class="portrait"></div>
+            <div id="player-portrait-boyish" class="portrait"></div>
           </div>
           <div class="name-container">
             <span class="underline">N</span>ame:&nbsp;
@@ -217,7 +216,6 @@ export class PlayerSetup extends HTMLElement {
                 id="player-color-input"
                 class="color-input"
                 type="color"
-                value="#FFFFFF"
               />
             </div>
             <button id="randomize-color-button" class="randomize-color-button">
@@ -254,7 +252,7 @@ export class PlayerSetup extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.bindEvents();
-    this.displayPlayer(buildParameters.player);
+    this.displayPlayer(gameConfig.player);
   }
 
   /**
@@ -286,15 +284,19 @@ export class PlayerSetup extends HTMLElement {
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
 
     this.manageEventListener(
-      'player-portrait-1',
+      'player-portrait-girlish',
       'click',
-      this.toggleAppearance,
+      () => {
+        this.changeAppearanceTo('girlish');
+      },
       true,
     );
     this.manageEventListener(
-      'player-portrait-2',
+      'player-portrait-boyish',
       'click',
-      this.toggleAppearance,
+      () => {
+        this.changeAppearanceTo('boyish');
+      },
       true,
     );
     this.manageEventListener(
@@ -336,7 +338,9 @@ export class PlayerSetup extends HTMLElement {
     this.manageEventListener(
       'return-button',
       'click',
-      this.returnToPreviousScreen,
+      async () => {
+        this.returnToPreviousScreen();
+      },
       true,
     );
 
@@ -443,16 +447,25 @@ export class PlayerSetup extends HTMLElement {
   /**
    * Renders the player's current portrait, name, and avatar in the UI.
    *
-   * @param {BuildParametersType['player']} player - The player object containing the
+   * @param {GameConfigType['player']} player - The player object containing the
    * appearance, name, and avatar information.
    * @return {void}
    */
-  private displayPlayer(player: BuildParametersType['player']): void {
+  private displayPlayer(player: GameConfigType['player']): void {
     const isGirlish = player.appearance === 'girlish';
-    this.renderPortraitElement('player-portrait-1', girlishImage, isGirlish);
-    this.renderPortraitElement('player-portrait-2', boyishImage, !isGirlish);
+    this.renderPortraitElement(
+      'player-portrait-girlish',
+      girlishPortrait,
+      isGirlish,
+    );
+    this.renderPortraitElement(
+      'player-portrait-boyish',
+      boyishPortrait,
+      !isGirlish,
+    );
 
     this.renderNameElement('player-name', player.name);
+    this.setColorInputValue(player.color);
     this.renderNameElement('player-avatar', player.avatar);
   }
 
@@ -500,8 +513,14 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private toggleAppearance(): void {
-    const player = buildParameters.player;
+    const player = gameConfig.player;
     player.appearance = player.appearance === 'girlish' ? 'boyish' : 'girlish';
+    this.displayPlayer(player);
+  }
+
+  private changeAppearanceTo(appearance: 'boyish' | 'girlish'): void {
+    const player = gameConfig.player;
+    player.appearance = appearance;
     this.displayPlayer(player);
   }
 
@@ -524,7 +543,7 @@ export class PlayerSetup extends HTMLElement {
 
     randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
-    inputElement.value = buildParameters.player.name;
+    inputElement.value = gameConfig.player.name;
     nameElement.style.display = 'none';
     inputElement.focus();
 
@@ -536,7 +555,7 @@ export class PlayerSetup extends HTMLElement {
 
   /**
    * Handles the blur event on the player name input element by saving the new
-   * name to buildParameters and hiding the input element.
+   * name to gameConfig and hiding the input element.
    *
    * @return {void}
    */
@@ -553,8 +572,8 @@ export class PlayerSetup extends HTMLElement {
 
     if (inputElement) {
       const newName = inputElement.value.trim();
-      buildParameters.player.name = newName || 'Unnamed';
-      this.renderNameElement('player-name', buildParameters.player.name);
+      gameConfig.player.name = newName || 'Unnamed';
+      this.renderNameElement('player-name', gameConfig.player.name);
       nameElement.style.display = 'inline';
       inputElement.style.display = 'none';
       randomizeButton.style.display = 'inline';
@@ -567,9 +586,7 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeName(): void {
-    buildParameters.player.name = getRandomName(
-      buildParameters.player.appearance,
-    );
+    gameConfig.player.name = getRandomName(gameConfig.player.appearance);
   }
 
   /**
@@ -578,12 +595,28 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeAvatar(): void {
-    buildParameters.player.avatar = getRandomUnicodeCharacter();
+    gameConfig.player.avatar = getRandomUnicodeCharacter();
+  }
+
+  /**
+   * Sets the value of the player color input element to the given color.
+   *
+   * This function is called when the player's color is changed from the
+   * player setup screen.
+   *
+   * @param {string} color - The new color for the player.
+   * @return {void}
+   */
+  private setColorInputValue(color: string): void {
+    const colorInput = this.shadowRoot?.getElementById(
+      'player-color-input',
+    ) as HTMLInputElement;
+    if (colorInput) colorInput.value = color;
   }
 
   /**
    * Handles the change event on the player color input element by saving the
-   * new color to buildParameters.
+   * new color to gameConfig.
    *
    * @return {void}
    */
@@ -591,7 +624,7 @@ export class PlayerSetup extends HTMLElement {
     const colorInput = this.shadowRoot?.getElementById(
       'player-color-input',
     ) as HTMLInputElement;
-    buildParameters.player.color = colorInput?.value;
+    gameConfig.player.color = colorInput?.value;
   }
 
   /**
@@ -620,7 +653,7 @@ export class PlayerSetup extends HTMLElement {
 
     if (colorInput) {
       colorInput.value = randomColor;
-      buildParameters.player.color = randomColor;
+      gameConfig.player.color = randomColor;
     }
   }
 
@@ -643,7 +676,7 @@ export class PlayerSetup extends HTMLElement {
 
     randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
-    inputElement.value = buildParameters.player.avatar;
+    inputElement.value = gameConfig.player.avatar;
     avatarElement.style.display = 'none';
     inputElement.focus();
 
@@ -655,7 +688,7 @@ export class PlayerSetup extends HTMLElement {
 
   /**
    * Handles the blur event on the player avatar input element by saving the new
-   * avatar to buildParameters and hiding the input element.
+   * avatar to gameConfig and hiding the input element.
    *
    * @return {void}
    */
@@ -672,8 +705,8 @@ export class PlayerSetup extends HTMLElement {
 
     if (inputElement) {
       const newAvatar = inputElement.value.trim();
-      buildParameters.player.avatar = newAvatar || '@';
-      this.renderNameElement('player-avatar', buildParameters.player.avatar);
+      gameConfig.player.avatar = newAvatar || '@';
+      this.renderNameElement('player-avatar', gameConfig.player.avatar);
       avatarElement.style.display = 'inline';
       inputElement.style.display = 'none';
       randomizeButton.style.display = 'inline';
@@ -686,8 +719,7 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeAppearance(): void {
-    buildParameters.player.appearance =
-      Math.random() > 0.5 ? 'boyish' : 'girlish';
+    gameConfig.player.appearance = Math.random() > 0.5 ? 'boyish' : 'girlish';
   }
 
   /**
@@ -724,19 +756,20 @@ export class PlayerSetup extends HTMLElement {
         this.randomizeAvatar();
         break;
     }
-    this.displayPlayer(buildParameters.player);
+    this.displayPlayer(gameConfig.player);
   }
 
   /**
-   * Removes the player setup screen and replaces it with a title menu.
+   * Saves the current build parameters to a file and returns to the previous screen.
    *
-   * This function is called when the user clicks the "return to previous screen"
-   * button on the player setup screen. It removes the player setup screen's
-   * content and replaces it with a title menu.
-   *
-   * @return {void}
+   * This function is called when the user clicks the "start game" button on the player setup
+   * screen. It saves the current build parameters to a file and then returns to the previous
+   * screen by replacing the content of the title screen with the title menu element.
+   * @return {Promise<void>} A promise for when the file is saved and the screen is updated.
    */
-  private returnToPreviousScreen(): void {
+  private async returnToPreviousScreen(): Promise<void> {
+    await saveConfig();
+
     const titleScreenContent = document
       .querySelector('title-screen')
       ?.shadowRoot?.getElementById('title-screen-content');

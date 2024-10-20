@@ -1,13 +1,12 @@
-import { Act } from "./act";
-import { Buff } from "../buffs/buffEnum";
-import { CommandBase } from "./commandBase";
-import { Equipment } from "../inventory/equipment";
-import { EventCategory, LogMessage } from "../messages/logMessage";
-import { GameState } from "../../gameBuilder/types/gameState";
-import { HealthAdjust } from "./healthAdjust";
-import { Mob } from "../mobs/mob";
-import { RandomGenerator } from "../../randomGenerator/randomGenerator";
-
+import { Act } from './act';
+import { Buff } from '../buffs/buffEnum';
+import { CommandBase } from './commandBase';
+import { Equipment } from '../inventory/equipment';
+import { EventCategory, LogMessage } from '../messages/logMessage';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { HealthAdjust } from './healthAdjust';
+import { Mob } from '../mobs/mob';
+import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 
 /**
  * Represents a command to hit another mob.
@@ -100,11 +99,11 @@ export class HitCommand extends CommandBase {
     const msg2 = new LogMessage(message, EventCategory.playerDamage);
     if (attacker.isPlayer) {
       game.message(msg1);
-      game.addCurrentEvent(EventCategory.playerDamage);
+      game.addCurrentEvent(EventCategory.mobDamage);
     }
     if (target.isPlayer) {
       game.message(msg2);
-      game.addCurrentEvent(EventCategory.mobDamage);
+      game.addCurrentEvent(EventCategory.playerDamage);
     }
 
     if (dmg) HealthAdjust.adjust(target, -dmg, game, attacker);

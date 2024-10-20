@@ -1,9 +1,9 @@
-import { buildParameters } from '../../buildParameters/buildParameters';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { gameConfig } from '../../gameConfig/gameConfig';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { PostMortem } from '../stats/postMortem';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
-import { StackScreen } from '../../terminal/types/stackScreen';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
+import { StackScreen } from '../../types/terminal/stackScreen';
 
 /**
  * Represents a game over screen implementation that is part of a terminal-based application stack.
@@ -69,7 +69,7 @@ export class GameOverScreen implements StackScreen {
   private createNameElement(): HTMLDivElement {
     const nameElement = document.createElement('h1');
     nameElement.textContent = `${this.game.player.name} ✝`;
-    nameElement.style.color = buildParameters.player.color;
+    nameElement.style.color = gameConfig.player.color;
     return nameElement;
   }
 

@@ -27,6 +27,9 @@
   --padding: 0;
   --box-sizing: border-box;
   --scrollbar-width: thin;
+  --scrollbar-color-thumb: var(--scrollbar-foreground);
+  --scrollbar-color-track: var(--scrollbar-background);
+  --scrollbar-width-legacy: 5px;
 }
 
 * {
@@ -124,6 +127,15 @@ li {
   max-width: 100%;
   max-height: auto;
   object-fit: contain;
+}
+
+.image-container img {
+  transition: opacity 200ms ease-in-out;
+  opacity: 0;
+}
+
+.image-container img.animation {
+  opacity: 1;
 }
 
 .buffs-container {
@@ -241,5 +253,5 @@ li {
 }
 
 .fade-out {
-  animation: fade-out 1000ms;
+  animation: fade-out 100ms;
 }

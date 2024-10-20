@@ -1,9 +1,9 @@
-import { EventCategory, LogMessage } from "../messages/logMessage";
-import { GameMap } from "../../maps/mapModel/gameMap";
-import { GameState } from "../../gameBuilder/types/gameState";
-import { Mob } from "../mobs/mob";
-import { MultiplyCommand } from "./multiplyCommand";
-import { WorldPoint } from "../../maps/mapModel/worldPoint";
+import { EventCategory, LogMessage } from '../messages/logMessage';
+import { GameMap } from '../../maps/mapModel/gameMap';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { Mob } from '../mobs/mob';
+import { MultiplyCommand } from './multiplyCommand';
+import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**
  * Represents a command that spawns a mob.

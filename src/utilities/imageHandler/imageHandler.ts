@@ -1,39 +1,22 @@
-import attackImages from './attackImages';
-import deathImages from './deathImages';
 import { EventCategory } from '../../gameLogic/messages/logMessage';
-import { GameState } from '../../gameBuilder/types/gameState';
-import hurtImages from './hurtImages';
-import movingImages from './movingImages';
-import neutralImages from './neutralImages';
-import pistolImages from './pistolImages';
-import smileImages from './smileImages';
-import {
-  lvlTier00Images,
-  lvlTier01Images,
-  lvlTier02Images,
-  lvlTier03Images,
-  lvlTier04Images,
-  lvlTier05Images,
-  lvlTier06Images,
-  lvlTier07Images,
-  lvlTier08Images,
-  lvlTier09Images,
-} from './levelImages';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { gameConfig } from '../../gameConfig/gameConfig';
+import { images } from './imageIndex';
 
 /**
  * Handles displaying action images on the screen.
  */
 export class ImageHandler {
-  name: string = 'image-handler';
-
   private static instance: ImageHandler | null = null;
+
+  private availableImages: Record<string, string[]> = {};
 
   private constructor() {}
 
   /**
-   * Returns the singleton instance of the ImageHandler class.
-   *
-   * @return {ImageHandler} The singleton instance of the ImageHandler class.
+   * Returns the single instance of the ImageHandler class.
+   * If the instance does not exist, it is created first.
+   * @returns {ImageHandler} The single instance of ImageHandler.
    */
   public static getInstance(): ImageHandler {
     if (!ImageHandler.instance) {
@@ -43,214 +26,225 @@ export class ImageHandler {
   }
 
   /**
-   * Retrieves the value of the 'data-image' attribute of the first child element
-   * of the 'image-container' element. This should be the currently displayed image. If the attribute exists, its value is returned.
-   * Otherwise, null is returned.
-   *
-   * @return {string | null} The value of the 'data-image' attribute, or null if it doesn't exist.
+   * Returns the value of the 'data-image' attribute of the currently displayed image
+   * or null if there is no displayed image.
+   * @returns The value of the 'data-image' attribute or null.
    */
   private getCurrentImageDataAttribute(): string | null {
-    const imageContainer = document.getElementById('image-container');
-    const image = imageContainer?.firstChild as HTMLImageElement;
-    const dataAttribute = image?.getAttribute('data-image');
-
-    if (dataAttribute) {
-      return dataAttribute;
-    }
-    return null;
+    const image = document.getElementById('image-container')
+      ?.firstChild as HTMLImageElement;
+    return image?.getAttribute('data-image') || null;
   }
 
   /**
-   * Displays an image on the screen.
-   *
-   * @param {HTMLImageElement} img - The image element to display.
-   * @param {string} type - The type of the image.
+   * Displays an image in the image container with the given type.
+   * @param img The image to display.
+   * @param type The type of image to display.
    */
-  public displayImage(img: HTMLImageElement, type: string) {
+  public displayImage(img: HTMLImageElement, type: keyof typeof EventCategory) {
+    const eventName = type;
+
     img.setAttribute('class', 'hud-image');
-    img.setAttribute('data-image', type);
+    img.setAttribute('data-image', eventName);
 
     const imageContainer = document.getElementById('image-container');
 
     if (imageContainer) {
       imageContainer.innerHTML = '';
       imageContainer.appendChild(img);
+
+      setTimeout(() => {
+        img.classList.add('animation');
+      }, 10);
     }
   }
 
   /**
-   * Displays an action image on the screen when attacking.
-   *
-   * @param {GameState} game - The game information containing the necessary data.
+   * Gets the correct image set based on the player's gender.
+   * @param boyishSet The set of images for a boyish player.
+   * @param girlishSet The set of images for a girlish player.
+   * @returns The correct set of images.
    */
-  public handleAttackImageDisplay(game: GameState) {
+  private getImageSet<T>(boyishSet: T, girlishSet: T): T {
+    return gameConfig.player.appearance === 'boyish' ? boyishSet : girlishSet;
+  }
+
+  /**
+   * Gets an image from the available images array, repopulating the array if empty.
+   * @param {string[]} fullImageSet - The full set of images for the player appearance.
+   * @param {string} imageType - The type of image (e.g., 'attackImages', 'hurtImages').
+   * @returns {string} The selected image to display.
+   */
+  private getNextImage(fullImageSet: string[], imageType: string): string {
+    // Initialize available images if it doesn't exist
+    if (!this.availableImages[imageType]) {
+      this.availableImages[imageType] = [...fullImageSet];
+    }
+
+    // If all images have been used, repopulate the available images
+    if (this.availableImages[imageType].length === 0) {
+      this.availableImages[imageType] = [...fullImageSet];
+    }
+
+    // Randomly select an image
+    const randomIndex = Math.floor(
+      Math.random() * this.availableImages[imageType].length,
+    );
+
+    const selectedImage = this.availableImages[imageType][randomIndex];
+
+    // Instead of splice, swap the selected image with the last one and reduce the length
+    const lastIndex = this.availableImages[imageType].length - 1;
+    [
+      this.availableImages[imageType][randomIndex],
+      this.availableImages[imageType][lastIndex],
+    ] = [
+      this.availableImages[imageType][lastIndex],
+      this.availableImages[imageType][randomIndex],
+    ];
+
+    // Remove the last element (which is now the selected image)
+    this.availableImages[imageType].length--;
+
+    return selectedImage;
+  }
+
+  /**
+   * Handles displaying an image based on the player's appearance and the current event.
+   * @param {GameState} game - The game state.
+   * @param {keyof typeof images} imageType - The type of image to display.
+   * @param {string | null} shouldDrawImageCheck - The current image's data-attribute to check against.
+   * @param {number} maybeDrawCheck - The integer to check against for randomly drawing an image.
+   * @returns {void} This function does not return anything.
+   */
+  private handleImageDisplay(
+    game: GameState,
+    imageType: keyof typeof images,
+    shouldDrawImageCheck: string | null,
+    maybeDrawCheck: number,
+  ): void {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
-    const randomImage = rand.getRandomImageFromArray(attackImages);
-    const image = new Image();
-    image.src = randomImage;
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
+
+    const fullImageSet = this.getImageSet(
+      (images[imageType] as { boyish: string[]; girlish: string[] }).boyish,
+      (images[imageType] as { boyish: string[]; girlish: string[] }).girlish,
+    );
 
     const shouldDrawImage =
-      this.getCurrentImageDataAttribute() !== 'mobDamage' &&
-      this.getCurrentImageDataAttribute() !== 'attack';
+      this.getCurrentImageDataAttribute() !== shouldDrawImageCheck;
+    const maybeDrawImage =
+      rand.randomIntegerClosedRange(0, maybeDrawCheck) === 0;
 
-    const maybeDrawImage = rand.randomIntegerClosedRange(0, 2) === 0;
+    if (shouldDrawImage || maybeDrawImage) {
+      const nextImage = this.getNextImage(fullImageSet, imageType);
+      const image = new Image();
+      image.src = nextImage;
 
-    if (shouldDrawImage) {
-      // If not currently attacking, display the image
       this.displayImage(image, evt);
-    } else {
-      // There's a 1/3 chance of displaying a different image. If not, the current image remains shown.
-      if (maybeDrawImage) this.displayImage(image, evt);
     }
+
     game.log.removeCurrentEvent();
   }
 
   /**
-   * Displays an action image on the screen when taking damage.
-   *
-   * @param {GameState} game - The game information containing the necessary data.
+   * Handles displaying an attack image for the current event.
+   * @param {GameState} game - The game state containing information about the current game.
+   */
+  public handleAttackImageDisplay(game: GameState) {
+    this.handleImageDisplay(game, 'attackImages', 'mobDamage', 2);
+  }
+
+  /**
+   * Handles displaying a hurt image for the current event.
+   * @param {GameState} game - The game state containing information about the current game.
    */
   public handleHurtImageDisplay(game: GameState) {
-    const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(hurtImages);
-    const image = new Image();
-    image.src = randomImage;
-
-    this.displayImage(image, evt);
-    game.log.removeCurrentEvent();
+    this.handleImageDisplay(game, 'hurtImages', 'playerDamage', 3);
   }
 
   /**
-   * Displays an action image on the screen when killing a mob.
-   *
-   * @param {GameState} game - The game information containing the necessary data.
+   * Handles displaying a smile image for the current event.
+   * @param {GameState} game - The game state containing information about the current game.
    */
   public handleSmileImageDisplay(game: GameState) {
-    const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(smileImages);
-    const image = new Image();
-    image.src = randomImage;
-
-    this.displayImage(image, evt);
-    game.log.removeCurrentEvent();
+    this.handleImageDisplay(game, 'smileImages', null, 0);
   }
 
   /**
-   * Displays an action image on the screen when the player is moving.
-   *
-   * @param {GameState} game - The game information containing the necessary data.
+   * Handles displaying a moving image for the current event.
+   * @param {GameState} game - The game state containing information about the current game.
    */
   public handleMovingImageDisplay(game: GameState) {
-    const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(movingImages);
-    const image = new Image();
-    image.src = randomImage;
-
-    const shouldDrawImage = this.getCurrentImageDataAttribute() !== 'moving';
-    const maybeDrawImage = rand.randomIntegerClosedRange(0, 9) === 0;
-
-    if (shouldDrawImage) {
-      // If not currently moving, display the image
-      this.displayImage(image, evt);
-    } else {
-      // There's a 10% chance of displaying a different image. If not, the current image remains shown.
-      if (maybeDrawImage) this.displayImage(image, evt);
-    }
-    game.log.removeCurrentEvent();
+    this.handleImageDisplay(game, 'movingImages', 'moving', 5);
   }
 
   /**
-   * Displays a random action image from the pistolImages array on the game screen.
-   *
-   * @param {GameState} game - The game instance.
-   * @return {void}
+   * Handles displaying a pistol image for the current event.
+   * @param {GameState} game - The game state containing information about the current game.
    */
   public handlePistolImageDisplay(game: GameState): void {
-    const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(pistolImages);
-    const image = new Image();
-    image.src = randomImage;
-
-    this.displayImage(image, evt);
-    game.log.removeCurrentEvent();
+    this.handleImageDisplay(game, 'pistolImages', null, 0);
   }
 
   /**
-   * Displays a random action image from the neutralmages array on the game screen.
+   * Handles displaying a neutral image for the current event.
    *
-   * @param {GameState} game - The game instance.
-   * @return {void}
+   * @param {GameState} game - The game state containing information about the current game.
+   * @return {void} This function does not return anything.
    */
   public handleNeutralImageDisplay(game: GameState): void {
-    const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(neutralImages);
-    const image = new Image();
-    image.src = randomImage;
-    this.displayImage(image, evt);
-    game.log.removeCurrentEvent();
+    this.handleImageDisplay(game, 'neutralImages', 'wait', 3);
   }
 
   /**
-   * Handles the display of a random death image on the game screen.
-   *
-   * @param {GameState} game - The game state object containing the necessary data.
+   * Handles displaying a death image for the current event.
+   * @param {GameState} game - The game state containing information about the current game.
    * @return {void} This function does not return anything.
    */
   public handleDeathImageDisplay(game: GameState): void {
-    const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
-
-    const randomImage = rand.getRandomImageFromArray(deathImages);
-    const image = new Image();
-    image.src = randomImage;
-
-    this.displayImage(image, evt);
-    game.log.removeCurrentEvent();
+    this.handleImageDisplay(game, 'deathImages', null, 0);
   }
 
   /**
-   * Handles the display of the level image based on the current game state.
+   * Handles displaying a random image for the current level.
    *
-   * @param {GameState} game - The current game state.
-   * @return {void} This function does not return a value.
+   * @param {GameState} game - The game state containing information about the current game.
+   * @return {void} This function does not return anything.
    */
   public handleLevelImageDisplay(game: GameState): void {
     const { rand } = game;
-    const evt = EventCategory[game.log.currentEvent];
-
+    const evt = EventCategory[
+      game.log.currentEvent
+    ] as keyof typeof EventCategory;
     const lvl = game.dungeon.level;
 
     if (lvl == null || isNaN(lvl) || lvl < 0) return;
 
     const levelImageMapping = [
-      lvlTier00Images, // Levels 0
-      lvlTier01Images, // Levels 1-4
-      lvlTier02Images, // Levels 5-8
-      lvlTier03Images, // Levels 9-12
-      lvlTier04Images, // Levels 13-16
-      lvlTier05Images, // Levels 17-20
-      lvlTier06Images, // Levels 21-24
-      lvlTier07Images, // Levels 25-28
-      lvlTier08Images, // Levels 29-32
-      lvlTier09Images, // Levels 33-36
+      images.levelImages.lvlTier00Images, // Levels 0
+      images.levelImages.lvlTier01Images, // Levels 1-4
+      images.levelImages.lvlTier02Images, // Levels 5-8
+      images.levelImages.lvlTier03Images, // Levels 9-12
+      images.levelImages.lvlTier04Images, // Levels 13-16
+      images.levelImages.lvlTier05Images, // Levels 17-20
+      images.levelImages.lvlTier06Images, // Levels 21-24
+      images.levelImages.lvlTier07Images, // Levels 25-28
+      images.levelImages.lvlTier08Images, // Levels 29-32
+      images.levelImages.lvlTier09Images, // Levels 33-36
     ];
 
     const maxLevelIndex = levelImageMapping.length - 1;
     const index = Math.min(Math.floor(lvl / 4), maxLevelIndex);
-    const images = levelImageMapping[index] || neutralImages;
+    const neutralImageSet = this.getImageSet(
+      images.neutralImages.boyish,
+      images.neutralImages.girlish,
+    );
+    const imgs = levelImageMapping[index] || neutralImageSet;
 
-    const randomImage = rand.getRandomImageFromArray(images);
+    const randomImage = rand.getRandomImageFromArray(imgs);
     const image = new Image();
     image.src = randomImage;
 

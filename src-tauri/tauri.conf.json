@@ -44,7 +44,13 @@
   "mainBinaryName": "meikai-roguelike",
   "version": "0.1.0",
   "identifier": "com.meikai.roguelike.dev",
-  "plugins": {},
+  "plugins": {
+    "plugins": {
+      "fs": {
+        "scope": ["$APPDATA/*"]
+      }
+    }
+  },
   "app": {
     "windows": [
       {

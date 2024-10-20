@@ -1,5 +1,5 @@
 import { GameMap } from '../maps/mapModel/gameMap';
-import { Map } from '../maps/mapModel/types/map';
+import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 
@@ -10,12 +10,12 @@ export class MagnetismHandler {
   /**
    * Checks for magnetism in the map at a given position and returns the first magnetic neighbor if found.
    *
-   * @param {Map} map - The game map representing the game world.
+   * @param {GameMapType} map - The game map representing the game world.
    * @param {WorldPoint} position - The position to check for magnetism.
    * @return {WorldPoint | null} The WorldPoint of the magnetic neighbor if found, otherwise null.
    */
   private static checkForMagnetismInArea(
-    map: Map,
+    map: GameMapType,
     position: WorldPoint,
   ): WorldPoint | null {
     const neighbors = position.getNeighbors(3);

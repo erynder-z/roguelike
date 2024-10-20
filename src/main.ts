@@ -1,7 +1,7 @@
 import './styles/cssReset.css';
 import './styles/style-main.css';
 import { Builder } from './gameBuilder/builder';
-import { buildParameters } from './buildParameters/buildParameters';
+import { gameConfig } from './gameConfig/gameConfig';
 import { ColorLoader } from './loaders/colorLoader';
 import { DynamicScreenMaker } from './gameLogic/screens/dynamicScreenMaker';
 import { GenerateMainUI } from './utilities/generateMainUI';
@@ -11,9 +11,9 @@ import { invoke } from '@tauri-apps/api/core';
 
 const initializeGame = async () => {
   try {
-    if (!buildParameters) throw new Error('buildParameters not defined');
+    if (!gameConfig) throw new Error('gameConfig not defined');
 
-    const { SHOW_MENU, seed, player } = buildParameters;
+    const { SHOW_MENU, seed, player } = gameConfig;
 
     // Parallel Initialization of Colors and Glyphs
     await Promise.all([

@@ -1,15 +1,15 @@
 import { BuffsDisplay } from '../ui/buffs/buffsDisplay';
-import { DrawableTerminal } from '../terminal/types/drawableTerminal';
+import { DrawableTerminal } from '../types/terminal/drawableTerminal';
 import { EnvironmentChecker } from '../gameLogic/environment/environmentChecker';
 import { EquipmentDisplay } from '../ui/equipment/equipmentDisplay';
 import { EventCategory, LogMessage } from '../gameLogic/messages/logMessage';
 import { FlashDisplay } from '../ui/flashDisplay/flashDisplay';
-import { GameState } from '../gameBuilder/types/gameState';
+import { GameState } from '../types/gameBuilder/gameState';
+import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
 import { ImageHandler } from '../utilities/imageHandler/imageHandler';
-import { Map } from '../maps/mapModel/types/map';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { MapRenderer } from './mapRenderer';
 import { MessagesDisplay } from '../ui/messages/messagesDisplay';
@@ -25,12 +25,12 @@ export class DrawUI {
   /**
    * Draws a map on a drawable terminal. The whole map is visible.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
-   * @param {Map} map - The map to draw.
+   * @param {GameMapType} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    */
   private static drawMapFullyVisible(
     term: DrawableTerminal,
-    map: Map,
+    map: GameMapType,
     vp: WorldPoint,
   ) {
     const terminalDimensions = term.dimensions;
@@ -59,14 +59,14 @@ export class DrawUI {
   /**
    * Draws a map with considerations for player position and lighting conditions.
    * @param {DrawableTerminal} term - The drawable terminal to draw on.
-   * @param {Map} map - The map to draw.
+   * @param {GameMapType} map - The map to draw.
    * @param {WorldPoint} vp - The viewport representing the point in the world where drawing starts.
    * @param {WorldPoint} playerPos - The position of the player.
    * @param {GameState} game - The game object.
    */
   private static drawMap(
     term: DrawableTerminal,
-    map: Map,
+    map: GameMapType,
     vp: WorldPoint,
     playerPos: WorldPoint,
     game: GameState,
@@ -78,13 +78,13 @@ export class DrawUI {
    * Draw the map with the player centered.
    *
    * @param {DrawableTerminal} term - the terminal to draw on
-   * @param {Map} map - the map to draw
+   * @param {GameMapType} map - the map to draw
    * @param {WorldPoint} player_pos - the position of the player
    * @param {GameState} game - the game interface
    */
   public static drawMapWithPlayerCentered(
     term: DrawableTerminal,
-    map: Map,
+    map: GameMapType,
     playerPos: WorldPoint,
     game: GameState,
   ) {
@@ -108,22 +108,14 @@ export class DrawUI {
     const hp = player.hp;
     const maxhp = player.maxhp;
     const lvl = game.dungeon.level;
-    const nEA = game.equipment?.armorClass_reduce().toFixed(2);
+    const nEA = game.equipment?.armorClass_reduce()?.toFixed(2);
     const nAC = game.equipment?.armorClass();
     const nAP = game.equipment?.weaponDamage();
-
-    const hpDisplayText = `HP: ${hp}/${maxhp}`;
-    const lvlDisplayText = `LVL: ${lvl}`;
-    const nEADisplayText = `nEA: ${nEA}`;
-    const nACDisplayText = `nAC: ${nAC}`;
-    const nAPDisplayText = `nAP: ${nAP}`;
-
-    const display = `${hpDisplayText} ${nEADisplayText} ${nACDisplayText} ${nAPDisplayText} ${lvlDisplayText}`;
 
     const statsDisplay = document.querySelector(
       'stats-display',
     ) as StatsDisplay;
-    if (statsDisplay) statsDisplay.setStats(display);
+    if (statsDisplay) statsDisplay.setStats(hp, maxhp, lvl, nEA, nAC, nAP);
 
     this.renderBuffs(game);
   }
@@ -256,12 +248,12 @@ export class DrawUI {
   /**
    * Loops over each cell in the entire map and applies a given function.
    *
-   * @param {Map} map - The game map
+   * @param {GameMapType} map - The game map
    * @param {Function} callback - The function to apply to each cell
    */
   private static forEachCellInMap(
-    map: Map,
-    callback: (w: WorldPoint, map: Map) => void,
+    map: GameMapType,
+    callback: (w: WorldPoint, map: GameMapType) => void,
   ) {
     const mapDimensions = map.dimensions;
     const w = new WorldPoint();
@@ -276,10 +268,10 @@ export class DrawUI {
   /**
    * Apply environment area effects to each cell in the map based on the given game state.
    *
-   * @param {Map} map - The game map to apply effects to
+   * @param {GameMapType} map - The game map to apply effects to
    * @return {void} This function does not return anything.
    */
-  public static addEnvironmentAreaEffectsToCells(map: Map): void {
+  public static addEnvironmentAreaEffectsToCells(map: GameMapType): void {
     this.forEachCellInMap(map, (w, map) => {
       const cell = map.cell(w);
       EnvironmentChecker.addCellEffects(cell, w, map);
@@ -287,15 +279,15 @@ export class DrawUI {
   }
 
   /**
-   * Debug draw the map on the terminal with the player's position centered. Map is completely visible.
+   * Debug draw the map on the terminal with the player's position centered. GameMapType is completely visible.
    *
    * @param {DrawableTerminal} term - the terminal to draw on
-   * @param {Map} map - the map to draw
+   * @param {GameMapType} map - the map to draw
    * @param {WorldPoint} playerPos - the position of the player
    */
   public static debugDrawMap(
     term: DrawableTerminal,
-    map: Map,
+    map: GameMapType,
     playerPos: WorldPoint,
   ) {
     if (!playerPos) playerPos = new WorldPoint();

@@ -1,8 +1,17 @@
-import img from '../../assets/images/title/title.webp';
+import img01 from '../../assets/images/title/title01.webp';
+import img02 from '../../assets/images/title/title02.webp';
+import img03 from '../../assets/images/title/title03.webp';
+import img04 from '../../assets/images/title/title04.webp';
+import img05 from '../../assets/images/title/title05.webp';
+import img06 from '../../assets/images/title/title06.webp';
 
 export class TitleScreen extends HTMLElement {
   constructor() {
     super();
+
+    const images = [img01, img02, img03, img04, img05, img06];
+
+    const img = images[Math.floor(Math.random() * images.length)];
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -83,5 +92,3 @@ export class TitleScreen extends HTMLElement {
     }
   }
 }
-
-

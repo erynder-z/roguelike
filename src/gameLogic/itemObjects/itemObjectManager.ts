@@ -1,7 +1,7 @@
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../glyphs/glyph';
 import { ItemObject } from './itemObject';
-import { Map } from '../../maps/mapModel/types/map';
-import { ObjectTypes } from './types/objTypes';
+import { ObjectTypes } from '../../types/gameLogic/itemObjects/objTypes';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { Slot } from './slot';
 import { Spell } from '../spells/spell';
@@ -40,7 +40,7 @@ export class ItemObjectManager {
   /**
    * Adds an object of a specified type to the map at a given position.
    * @param {WorldPoint} wp - The position to add the object.
-   * @param {Map} map - The map to add the object to.
+   * @param {GameMapType} map - The map to add the object to.
    * @param {RandomGenerator} rand - The random generator to use for randomness.
    * @param {Glyph} objType - The glyph representing the object type.
    * @param {number} level - The level of the object.
@@ -48,7 +48,7 @@ export class ItemObjectManager {
    */
   private static addObjTypeToMap(
     wp: WorldPoint,
-    map: Map,
+    map: GameMapType,
     rand: RandomGenerator,
     objType: Glyph,
     level: number,
@@ -63,14 +63,14 @@ export class ItemObjectManager {
   /**
    * Adds a random object of a specified level to the map at a given position.
    * @param {WorldPoint} wp - The position to add the object.
-   * @param {Map} map - The map to add the object to.
+   * @param {GameMapType} map - The map to add the object to.
    * @param {RandomGenerator} rand - The random generator to use for randomness.
    * @param {number} level - The level of the object.
    * @returns {ItemObject} The added object.
    */
   static addRandomObjectForLevel(
     wp: WorldPoint,
-    map: Map,
+    map: GameMapType,
     rand: RandomGenerator,
     level: number,
   ): ItemObject {

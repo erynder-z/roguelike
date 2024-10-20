@@ -1,9 +1,9 @@
 import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { FindFreeSpace } from '../../utilities/findFreeSpace';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { Map } from '../../maps/mapModel/types/map';
 
 /**
  * Represents a command for changing the level when using stairs.
@@ -42,13 +42,13 @@ export class StairCommand extends CommandBase {
    * Returns the new position on the map based on the direction and the new map.
    *
    * @param {string} direction - The direction of movement ('ascends' or 'descends').
-   * @param {Map} newMap - The new map to move to.
+   * @param {GameMapType} newMap - The new map to move to.
    * @param {GameState} game - The game object.
    * @return {WorldPoint} The new position on the map.
    */
   private getNewPos(
     direction: string,
-    newMap: Map,
+    newMap: GameMapType,
     game: GameState,
   ): WorldPoint {
     if (newMap.downStairPos && direction === 'ascends') {

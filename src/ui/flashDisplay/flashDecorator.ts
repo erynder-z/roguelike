@@ -1,4 +1,4 @@
-import { FlashDecoratorDataEntry } from '../types/flashDecoratorTypes';
+import { FlashDecoratorDataEntry } from '../../types/ui/flashDecoratorTypes';
 import { MessageLog } from '../../gameLogic/messages/messageLog';
 
 /**

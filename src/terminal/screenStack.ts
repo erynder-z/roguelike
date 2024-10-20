@@ -1,8 +1,8 @@
 import { EventManager } from '../gameLogic/events/eventManager';
-import { DrawableTerminal } from './types/drawableTerminal';
-import { InteractiveScreen } from './types/interactiveScreen';
-import { Stack } from './types/stack';
-import { StackScreen } from './types/stackScreen';
+import { DrawableTerminal } from '../types/terminal/drawableTerminal';
+import { InteractiveScreen } from '../types/terminal/interactiveScreen';
+import { Stack } from '../types/terminal/stack';
+import { StackScreen } from '../types/terminal/stackScreen';
 
 /**
  * Represents a stack of interactive screens in the game.

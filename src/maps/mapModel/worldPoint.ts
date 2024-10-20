@@ -1,4 +1,4 @@
-import { Map } from './types/map';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 
 /**
  * Represents a point in the world with x and y coordinates.
@@ -130,10 +130,13 @@ export class WorldPoint {
    * Checks if the given position is out of bounds on the map.
    *
    * @param {WorldPoint} position - The position to check.
-   * @param {Map} map - The game map containing dimensions for comparison.
+   * @param {GameMapType} map - The game map containing dimensions for comparison.
    * @return {boolean} True if the position is out of bounds, false otherwise.
    */
-  public isPositionOutOfBounds(position: WorldPoint, map: Map): boolean {
+  public isPositionOutOfBounds(
+    position: WorldPoint,
+    map: GameMapType,
+  ): boolean {
     return (
       position.x < 0 ||
       position.y < 0 ||

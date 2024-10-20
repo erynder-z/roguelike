@@ -1,14 +1,14 @@
-import { Build } from '../../gameBuilder/types/build';
+import { Build } from '../../types/gameBuilder/build';
 import { GameOverScreen } from './gameOverScreen';
 import { GameScreen } from './gameScreen';
 import { GenerateTitleScreen } from '../../utilities/generateTitleScreen';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
-import { lvlTier00Images } from '../../utilities/imageHandler/levelImages';
+import { lvlTier00Images } from '../../utilities/imageHandler/imageImports/levelImages';
 import { MoreScreen } from './moreScreen';
-import { ScreenMaker } from './types/ScreenMaker';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { ScreenStack } from '../../terminal/screenStack';
-import { StackScreen } from '../../terminal/types/stackScreen';
+import { StackScreen } from '../../types/terminal/stackScreen';
 
 /**
  * Represents a dynamic screen maker that can create screens based on provided game states.

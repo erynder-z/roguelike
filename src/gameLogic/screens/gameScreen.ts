@@ -1,8 +1,8 @@
 import { BaseScreen } from './baseScreen';
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { ParsePlayer } from '../events/parsePlayer';
-import { ScreenMaker } from './types/ScreenMaker';
-import { Stack } from '../../terminal/types/stack';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 
 /**
  * Represents a game screen that extends the functionality of the base screen.

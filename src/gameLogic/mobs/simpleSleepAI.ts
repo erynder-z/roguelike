@@ -1,6 +1,6 @@
-import { GameState } from '../../gameBuilder/types/gameState';
+import { GameState } from '../../types/gameBuilder/gameState';
 import { Mob } from './mob';
-import { MobAI } from './types/mobAI';
+import { MobAI } from '../../types/gameLogic/mobs/mobAI';
 import { Mood } from './moodEnum';
 
 /**
