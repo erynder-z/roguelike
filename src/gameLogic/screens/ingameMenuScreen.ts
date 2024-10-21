@@ -4,10 +4,10 @@ import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 
 /**
- * Represents a screen for displaying the options menu.
+ * Represents a screen for displaying the ingame menu.
  */
-export class OptionsScreen extends BaseScreen {
-  public name = 'options-menu';
+export class IngameMenuScreen extends BaseScreen {
+  public name = 'ingame-menu';
 
   constructor(game: GameState, make: ScreenMaker) {
     super(game, make);
@@ -19,15 +19,15 @@ export class OptionsScreen extends BaseScreen {
    * @return {void} This function does not return anything.
    */
   public drawScreen(): void {
-    if (!document.querySelector('options-menu')) {
+    if (!document.querySelector('ingame-menu')) {
       const body = document.getElementById('body-main');
-      const menuScreen = document.createElement('options-menu');
+      const menuScreen = document.createElement('ingame-menu');
       body?.prepend(menuScreen);
     }
   }
 
   /**
-   * Handles key down events for the options screen.
+   * Handles key down events for the ingame menu screen.
    *
    * This function listens for the 'R' key and pops the current screen from the stack.
    *

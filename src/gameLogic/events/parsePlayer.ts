@@ -7,13 +7,13 @@ import { DoorCommand } from '../commands/doorCommand';
 import { EquipmentScreen } from '../screens/equipmentScreen';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
+import { IngameMenuScreen } from '../screens/ingameMenuScreen';
 import { InventoryScreen } from '../screens/inventoryScreen';
 import { LogScreen } from '../screens/logScreen';
 import { LookScreen } from '../screens/lookScreen';
 import { Mob } from '../mobs/mob';
 import { MoveBumpCommand } from '../commands/moveBumpCommand';
 import { MoveCommand } from '../commands/moveCommand';
-import { OptionsScreen } from '../screens/optionsScreen';
 import { PickupCommand } from '../commands/pickupCommand';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { SpellScreen } from '../screens/spellScreen';
@@ -163,7 +163,7 @@ export class ParsePlayer {
         stackScreen = new SpellScreen(this.game, this.make);
         break;
       case 'Escape':
-        stackScreen = new OptionsScreen(this.game, this.make);
+        stackScreen = new IngameMenuScreen(this.game, this.make);
         break;
       // Debugging command
       case 'Home':

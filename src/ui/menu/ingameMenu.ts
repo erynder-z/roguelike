@@ -4,7 +4,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { saveConfig } from '../../utilities/saveConfig';
 import { gameConfig } from '../../gameConfig/gameConfig';
 
-export class OptionsMenu extends HTMLElement {
+export class IngameMenu extends HTMLElement {
   constructor() {
     super();
 
