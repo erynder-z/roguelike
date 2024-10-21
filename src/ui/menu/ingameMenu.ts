@@ -183,6 +183,8 @@ export class IngameMenu extends HTMLElement {
    * @return {void}
    */
   private returnToGame(): void {
+    const event = new CustomEvent('return-to-game', { bubbles: true });
+    this.dispatchEvent(event);
     this.remove();
   }
 

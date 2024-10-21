@@ -163,11 +163,15 @@ export class ParsePlayer {
         stackScreen = new SpellScreen(this.game, this.make);
         break;
       case 'Escape':
-        stackScreen = new IngameMenuScreen(this.game, this.make);
+        stackScreen = new IngameMenuScreen(this.game, this.make, stack);
         break;
       // Debugging command
       case 'Home':
         stackScreen = new DebuggerScreen(this.game, this.make);
+        break;
+      // Debugging command
+      case 'End':
+        console.log(stack);
         break;
     }
 

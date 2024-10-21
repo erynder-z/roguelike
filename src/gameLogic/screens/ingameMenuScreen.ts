@@ -4,13 +4,15 @@ import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 
 /**
- * Represents a screen for displaying the ingame menu.
+ * This class only creates a custom component for the ingame menu. All logic for the ingame menu is handled in the ingame-menu component.
  */
 export class IngameMenuScreen extends BaseScreen {
   public name = 'ingame-menu';
+  private stack: Stack;
 
-  constructor(game: GameState, make: ScreenMaker) {
+  constructor(game: GameState, make: ScreenMaker, stack: Stack) {
     super(game, make);
+    this.stack = stack;
   }
 
   /**
@@ -23,25 +25,12 @@ export class IngameMenuScreen extends BaseScreen {
       const body = document.getElementById('body-main');
       const menuScreen = document.createElement('ingame-menu');
       body?.prepend(menuScreen);
-    }
-  }
 
-  /**
-   * Handles key down events for the ingame menu screen.
-   *
-   * This function listens for the 'R' key and pops the current screen from the stack.
-   *
-   * @param {KeyboardEvent} event - the keyboard event
-   * @param {Stack} stack - the stack of screens
-   * @return {void}
-   */
-  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
-    switch (event.key) {
-      case 'R':
-        stack.pop();
-        break;
-      default:
-        break;
+      menuScreen.addEventListener('return-to-game', () => {
+        this.stack.pop();
+      });
     }
   }
 }
+
+/* TODO: Find a more elegant way to handle the ingame menu. Right now there are two "screens": this IngameMenuScreen thats is living on the stack and ingame-menu web-coponent that handles all the logic and display */
