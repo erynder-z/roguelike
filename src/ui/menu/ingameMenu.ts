@@ -1,8 +1,6 @@
 import { ask } from '@tauri-apps/plugin-dialog';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
-import { saveConfig } from '../../utilities/saveConfig';
-import { gameConfig } from '../../gameConfig/gameConfig';
 
 export class IngameMenu extends HTMLElement {
   constructor() {
@@ -13,7 +11,7 @@ export class IngameMenu extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
         <style>
-          .options-menu {
+          .ingame-menu {
             font-family: 'UASQUARE';
             font-size: 2.5rem;
             position: absolute;
@@ -29,12 +27,12 @@ export class IngameMenu extends HTMLElement {
             overflow: hidden;
           }
    
-          .options-menu h1 {
+          .ingame-menu h1 {
             margin-top: 12rem;  
             text-align: center;
             z-index: 1;
           }
-          .options-menu button {
+          .ingame-menu button {
             font-family: 'UASQUARE';
             padding: 1rem;
             font-size: 2.5rem;
@@ -45,7 +43,7 @@ export class IngameMenu extends HTMLElement {
             transition: all 0.2s ease-in-out;
           }
 
-          .options-menu button:hover {
+          .ingame-menu button:hover {
            cursor: pointer;
            transform: scale(1.1);
           }
@@ -64,11 +62,11 @@ export class IngameMenu extends HTMLElement {
           }
         </style>
   
-        <div class="options-menu">
-          <h1>Options</h1>
+        <div class="ingame-menu">
+          <h1>Menu</h1>
           <div class="buttons-container">
              <button id="return-to-game-button"><span class="underline">R</span>eturn to game</button>
-            <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
+            <button id="show-options-button"><span class="underline">O</span>ptions</button>
             <button id="help-button"><span class="underline">H</span>elp</button>
             <button id="quit-window-button"><span class="underline">Q</span>uit</button>
           </div>
@@ -77,7 +75,6 @@ export class IngameMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.updateScanlinesButton();
     this.bindEvents();
   }
 
@@ -96,7 +93,7 @@ export class IngameMenu extends HTMLElement {
   private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.returnToGame = this.returnToGame.bind(this);
-    this.toggleScanlines = this.toggleScanlines.bind(this);
+    this.showOptions = this.showOptions.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.quitGame = this.quitGame.bind(this);
 
@@ -107,9 +104,9 @@ export class IngameMenu extends HTMLElement {
       true,
     );
     this.manageEventListener(
-      'toggle-scanlines-button',
+      'show-options-button',
       'click',
-      this.toggleScanlines,
+      this.showOptions,
       true,
     );
     this.manageEventListener('help-button', 'click', this.showHelp, true);
@@ -163,8 +160,8 @@ export class IngameMenu extends HTMLElement {
       case 'R':
         this.returnToGame();
         break;
-      case 'S':
-        this.toggleScanlines();
+      case 'O':
+        this.showOptions();
         break;
       case 'H':
         this.showHelp();
@@ -188,52 +185,24 @@ export class IngameMenu extends HTMLElement {
     this.remove();
   }
 
-  /**
-   * Updates the scanlines button text based on the current state.
-   *
-   * @return {void}
-   */
-  private updateScanlinesButton(): void {
-    const mainContainer = document.getElementById('main-container');
-    const scanLineBtn = this.shadowRoot?.getElementById(
-      'toggle-scanlines-button',
-    );
+  private showOptions(): void {
+    const body = document.getElementById('body-main');
 
-    if (mainContainer && scanLineBtn) {
-      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
-      scanLineBtn.innerHTML = hasScanLinesClass
-        ? '<span class="underline">S</span>canlines ON'
-        : '<span class="underline">S</span>canlines OFF';
+    if (!body) {
+      console.error('Body element not found');
+      return;
     }
-  }
 
-  /**
-   * Toggles the scanlines on and off.
-   *
-   * When scanlines are on, the main container will have a class of 'scanlines'.
-   *
-   * The button that toggles scanlines will also be updated to reflect the state.
-   *
-   * @return {void}
-   */
-  private toggleScanlines(): void {
-    gameConfig.scanlines = !gameConfig.scanlines;
+    const optionsMenu = document.createElement('options-menu');
 
-    const mainContainer = document.getElementById('main-container');
-    const scanLineBtn = this.shadowRoot?.getElementById(
-      'toggle-scanlines-button',
-    );
-
-    if (mainContainer) {
-      mainContainer.classList.toggle('scanlines');
-      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
-
-      if (scanLineBtn) {
-        scanLineBtn.innerHTML = hasScanLinesClass
-          ? '<span class="underline">S</span>canlines ON'
-          : '<span class="underline">S</span>canlines OFF';
-      }
+    // Ensure the titleContainer is the first child of the body
+    if (body.firstChild) {
+      body.insertBefore(optionsMenu, body.firstChild);
+    } else {
+      body.appendChild(optionsMenu);
     }
+
+    this.remove();
   }
 
   /**
@@ -257,7 +226,6 @@ export class IngameMenu extends HTMLElement {
     });
 
     if (confirmation) {
-      await saveConfig();
       await exit();
     }
   }
@@ -280,8 +248,8 @@ export class IngameMenu extends HTMLElement {
         .getElementById('return-to-game-button')
         ?.removeEventListener('click', this.returnToGame);
       shadowRoot
-        .getElementById('toggle-scanlines-button')
-        ?.removeEventListener('click', this.toggleScanlines);
+        .getElementById('show-options-button')
+        ?.removeEventListener('click', this.showOptions);
       shadowRoot
         .getElementById('help-button')
         ?.removeEventListener('click', this.showHelp);

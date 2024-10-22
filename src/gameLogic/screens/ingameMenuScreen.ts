@@ -16,12 +16,18 @@ export class IngameMenuScreen extends BaseScreen {
   }
 
   /**
-   * Draws the options screen on the terminal if it does not already exist.
+   * Draws the in-game menu screen by creating and prepending the 'ingame-menu'
+   * element to the main body if it does not already exist, and adds an event listener
+   * to handle returning to the game. The screen is only drawn if neither 'ingame-menu'
+   * nor 'options-menu' elements are present in the document.
    *
-   * @return {void} This function does not return anything.
+   * @return {void}
    */
   public drawScreen(): void {
-    if (!document.querySelector('ingame-menu')) {
+    if (
+      !document.querySelector('ingame-menu') &&
+      !document.querySelector('options-menu')
+    ) {
       const body = document.getElementById('body-main');
       const menuScreen = document.createElement('ingame-menu');
       body?.prepend(menuScreen);
