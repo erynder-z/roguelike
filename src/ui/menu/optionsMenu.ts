@@ -1,9 +1,15 @@
 import { gameConfig } from '../../gameConfig/gameConfig';
 import { saveConfig } from '../../utilities/saveConfig';
+import { LayoutManager } from '../layoutManager/layoutManager';
 
 export class OptionsMenu extends HTMLElement {
+  private layoutManager: LayoutManager;
   constructor() {
     super();
+
+    this.layoutManager = new LayoutManager();
+
+    this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -66,6 +72,7 @@ export class OptionsMenu extends HTMLElement {
           <div class="buttons-container">
              
             <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
+            <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
             <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
           </div>
         </div>
@@ -99,12 +106,20 @@ export class OptionsMenu extends HTMLElement {
       true,
     );
     this.manageEventListener(
+      'message-display-align-button',
+      'click',
+      this.toggleMessageAlignment.bind(this),
+      true,
+    );
+
+    this.manageEventListener(
       'back-button',
       'click',
       this.returnToPreviousScreen,
       true,
     );
 
+    this.updateMessageAlignButton();
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
@@ -161,6 +176,28 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
+   * Updates the text of the message alignment button based on the current state.
+   *
+   * If the current message alignment is 'left', the button text is set to
+   * 'Message display: LEFT'. Otherwise, the button text is set to
+   * 'Message display: RIGHT'.
+   *
+   * @return {void}
+   */
+  private updateMessageAlignButton(): void {
+    const messageAlignBtn = this.shadowRoot?.getElementById(
+      'message-display-align-button',
+    );
+
+    if (messageAlignBtn) {
+      messageAlignBtn.innerHTML =
+        gameConfig.message_display === 'left'
+          ? '<span class="underline">M</span>essage display: LEFT'
+          : '<span class="underline">M</span>essage display: RIGHT';
+    }
+  }
+
+  /**
    * Toggles the scanlines setting on or off.
    *
    * Updates the {@link gameConfig.scanlines} property, and toggles the
@@ -189,13 +226,30 @@ export class OptionsMenu extends HTMLElement {
     }
   }
 
-/**
- * Updates the game configuration, creates a new ingame menu element, and ensures it appears on top of the body.
- *
- * This function saves the current game configuration, creates a new ingame menu element, and inserts it as the first child of the body element to ensure it appears on top of the existing content. Finally, it removes the current options menu.
- *
- * @return {Promise<void>} A promise for when the operation is completed.
- */
+  /**
+   * Toggles the message alignment between left and right.
+   *
+   * Updates the {@link gameConfig.message_display} property, updates the message
+   * alignment button, and sets the layout of the main container based on the
+   * current message alignment.
+   *
+   * @return {void}
+   */
+  private toggleMessageAlignment(): void {
+    gameConfig.message_display =
+      gameConfig.message_display === 'left' ? 'right' : 'left';
+
+    this.updateMessageAlignButton();
+    this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
+  }
+
+  /**
+   * Updates the game configuration, creates a new ingame menu element, and ensures it appears on top of the body.
+   *
+   * This function saves the current game configuration, creates a new ingame menu element, and inserts it as the first child of the body element to ensure it appears on top of the existing content. Finally, it removes the current options menu.
+   *
+   * @return {Promise<void>} A promise for when the operation is completed.
+   */
   private async returnToPreviousScreen(): Promise<void> {
     await saveConfig();
 
@@ -233,6 +287,9 @@ export class OptionsMenu extends HTMLElement {
       case 'S':
         this.toggleScanlines();
         break;
+      case 'M':
+        this.toggleMessageAlignment();
+        break;
       case 'R':
         this.returnToPreviousScreen();
         break;
@@ -241,15 +298,15 @@ export class OptionsMenu extends HTMLElement {
     }
   }
 
-/**
- * Removes event listeners for keydown and click events.
- *
- * This function is called when the options menu is removed from the DOM.
- * It removes event listeners for keydown on the document and click events
- * on buttons within the shadow DOM that were added in the bindEvents function.
- *
- * @return {void}
- */
+  /**
+   * Removes event listeners for keydown and click events.
+   *
+   * This function is called when the options menu is removed from the DOM.
+   * It removes event listeners for keydown on the document and click events
+   * on buttons within the shadow DOM that were added in the bindEvents function.
+   *
+   * @return {void}
+   */
   private disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
@@ -258,6 +315,9 @@ export class OptionsMenu extends HTMLElement {
       shadowRoot
         .getElementById('toggle-scanlines-button')
         ?.removeEventListener('click', this.toggleScanlines);
+      shadowRoot
+        .getElementById('message-display-align-button')
+        ?.removeEventListener('click', this.toggleMessageAlignment);
       shadowRoot
         .getElementById('back-button')
         ?.removeEventListener('click', this.returnToPreviousScreen);

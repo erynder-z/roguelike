@@ -8,6 +8,7 @@ import { GenerateMainUI } from './utilities/generateMainUI';
 import { GenerateTitleScreen } from './utilities/generateTitleScreen';
 import { GlyphLoader } from './loaders/glyphLoader';
 import { invoke } from '@tauri-apps/api/core';
+import { LayoutManager } from './ui/layoutManager/layoutManager';
 
 const initializeGame = async () => {
   try {
@@ -40,10 +41,17 @@ const initializeGame = async () => {
   }
 };
 
+// Apply layout adjustments based on gameConfig
+const adjustLayout = async () => {
+  const layoutManager = new LayoutManager();
+  layoutManager.setMessageDisplayLayout(gameConfig.message_display);
+};
+
 // DOMContentLoaded Event Listener
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     await initializeGame();
+    await adjustLayout();
     invoke('show_main_window');
   } catch (error) {
     console.error('Failed to initialize the game:', error);
