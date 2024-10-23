@@ -11,6 +11,7 @@ const defaultParams: GameConfigType = {
   SHOW_MENU: true,
   scanlines: true,
   message_display: 'left',
+  image_display: 'left',
   seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
   player: {
     name: getRandomName('girlish'),
@@ -40,6 +41,7 @@ export const createBuildParameters = async (): Promise<void> => {
       SHOW_MENU: parsedParams.SHOW_MENU,
       scanlines: parsedParams.scanlines,
       message_display: parsedParams.message_display,
+      image_display: parsedParams.image_display,
       seed: parsedParams.seed,
       player: {
         name: parsedParams.player.name,

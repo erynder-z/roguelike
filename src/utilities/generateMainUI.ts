@@ -47,6 +47,7 @@ export class GenerateMainUI {
 
     // Bottom container
     const bottomContainer = document.createElement('div');
+    bottomContainer.id = 'bottom-container';
     bottomContainer.classList.add('bottom-container');
 
     // Image container

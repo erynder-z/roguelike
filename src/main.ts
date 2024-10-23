@@ -45,6 +45,7 @@ const initializeGame = async () => {
 const adjustLayout = async () => {
   const layoutManager = new LayoutManager();
   layoutManager.setMessageDisplayLayout(gameConfig.message_display);
+  layoutManager.setImageDisplayLayout(gameConfig.image_display);
 };
 
 // DOMContentLoaded Event Listener

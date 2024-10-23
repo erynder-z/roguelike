@@ -10,6 +10,7 @@ export class OptionsMenu extends HTMLElement {
     this.layoutManager = new LayoutManager();
 
     this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
+    this.layoutManager.setImageDisplayLayout(gameConfig.image_display);
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -73,6 +74,7 @@ export class OptionsMenu extends HTMLElement {
              
             <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
             <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
+            <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
             <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
           </div>
         </div>
@@ -81,6 +83,8 @@ export class OptionsMenu extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.updateScanlinesButton();
+    this.updateMessageAlignButton();
+    this.updateImageAlignButton();
     this.bindEvents();
   }
 
@@ -111,7 +115,12 @@ export class OptionsMenu extends HTMLElement {
       this.toggleMessageAlignment.bind(this),
       true,
     );
-
+    this.manageEventListener(
+      'image-align-button',
+      'click',
+      this.toggleImageAlignment.bind(this),
+      true,
+    );
     this.manageEventListener(
       'back-button',
       'click',
@@ -119,7 +128,6 @@ export class OptionsMenu extends HTMLElement {
       true,
     );
 
-    this.updateMessageAlignButton();
     document.addEventListener('keydown', this.handleKeyPress);
   }
 
@@ -198,6 +206,26 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
+   * Updates the text of the image alignment button based on the current state.
+   *
+   * If the current image alignment is 'left', the button text is set to
+   * 'Image display: LEFT'. Otherwise, the button text is set to
+   * 'Image display: RIGHT'.
+   *
+   * @return {void}
+   */
+  private updateImageAlignButton(): void {
+    const imageAlignBtn = this.shadowRoot?.getElementById('image-align-button');
+
+    if (imageAlignBtn) {
+      imageAlignBtn.innerHTML =
+        gameConfig.image_display === 'left'
+          ? '<span class="underline">I</span>mage display: LEFT'
+          : '<span class="underline">I</span>mage display: RIGHT';
+    }
+  }
+
+  /**
    * Toggles the scanlines setting on or off.
    *
    * Updates the {@link gameConfig.scanlines} property, and toggles the
@@ -241,6 +269,23 @@ export class OptionsMenu extends HTMLElement {
 
     this.updateMessageAlignButton();
     this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
+  }
+
+  /**
+   * Toggles the image alignment between left and right.
+   *
+   * Updates the {@link gameConfig.image_display} property, updates the image
+   * alignment button, and sets the layout of the main container based on the
+   * current image alignment.
+   *
+   * @return {void}
+   */
+  private toggleImageAlignment(): void {
+    gameConfig.image_display =
+      gameConfig.image_display === 'left' ? 'right' : 'left';
+
+    this.updateImageAlignButton();
+    this.layoutManager.setImageDisplayLayout(gameConfig.image_display);
   }
 
   /**
@@ -322,6 +367,9 @@ export class OptionsMenu extends HTMLElement {
       shadowRoot
         .getElementById('message-display-align-button')
         ?.removeEventListener('click', this.toggleMessageAlignment);
+      shadowRoot
+        .getElementById('image-align-button')
+        ?.removeEventListener('click', this.toggleImageAlignment);
       shadowRoot
         .getElementById('back-button')
         ?.removeEventListener('click', this.returnToPreviousScreen);
