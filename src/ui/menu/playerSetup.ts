@@ -768,7 +768,11 @@ export class PlayerSetup extends HTMLElement {
    * @return {Promise<void>} A promise for when the file is saved and the screen is updated.
    */
   private async returnToPreviousScreen(): Promise<void> {
-    await saveConfig();
+    try {
+      await saveConfig();
+    } catch (error) {
+      console.error(error);
+    }
 
     const titleScreenContent = document
       .querySelector('title-screen')

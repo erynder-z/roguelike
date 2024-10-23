@@ -10,15 +10,19 @@ import { gameConfig } from '../gameConfig/gameConfig';
  * @returns {Promise<void>} A promise for when the configuration is saved.
  */
 export const saveConfig = async (): Promise<void> => {
-  const encoder = new TextEncoder();
-  const contents = JSON.stringify(gameConfig, null, 2); // Pretty print for readability
-  const data = encoder.encode(contents);
+  try {
+    const encoder = new TextEncoder();
+    const contents = JSON.stringify(gameConfig, null, 2); // Pretty print for readability
+    const data = encoder.encode(contents);
 
-  const file = await open('gameConfig.json', {
-    write: true,
-    create: true,
-    baseDir: BaseDirectory.AppData,
-  });
-  await file.write(data);
-  await file.close();
+    const file = await open('gameConfig.json', {
+      write: true,
+      create: true,
+      baseDir: BaseDirectory.AppData,
+    });
+    await file.write(data);
+    await file.close();
+  } catch (error) {
+    console.error(error);
+  }
 };

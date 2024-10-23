@@ -251,7 +251,11 @@ export class OptionsMenu extends HTMLElement {
    * @return {Promise<void>} A promise for when the operation is completed.
    */
   private async returnToPreviousScreen(): Promise<void> {
-    await saveConfig();
+    try {
+      await saveConfig();
+    } catch (error) {
+      console.error(error);
+    }
 
     const body = document.getElementById('body-main');
 

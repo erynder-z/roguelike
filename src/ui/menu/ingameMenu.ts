@@ -220,13 +220,17 @@ export class IngameMenu extends HTMLElement {
    * @return {Promise<void>} A promise that resolves when the game is exited.
    */
   private async quitGame(): Promise<void> {
-    const confirmation = await ask('Are you sure you want to quit?', {
-      title: 'Confirm Quit',
-      kind: 'warning',
-    });
+    try {
+      const confirmation = await ask('Are you sure you want to quit?', {
+        title: 'Confirm Quit',
+        kind: 'warning',
+      });
 
-    if (confirmation) {
-      await exit();
+      if (confirmation) {
+        await exit();
+      }
+    } catch (error) {
+      console.error('Failed to quit the game:', error);
     }
   }
 
