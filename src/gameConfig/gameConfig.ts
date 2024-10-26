@@ -9,7 +9,7 @@ import {
 
 const defaultParams: GameConfigType = {
   SHOW_MENU: true,
-  scanlines: true,
+  show_scanlines: true,
   message_display: 'left',
   image_display: 'left',
   seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
@@ -39,7 +39,7 @@ export const createBuildParameters = async (): Promise<void> => {
 
     gameConfig = {
       SHOW_MENU: parsedParams.SHOW_MENU,
-      scanlines: parsedParams.scanlines,
+      show_scanlines: parsedParams.scanlines,
       message_display: parsedParams.message_display,
       image_display: parsedParams.image_display,
       seed: parsedParams.seed,

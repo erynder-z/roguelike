@@ -1,7 +1,7 @@
 import { gameConfig } from '../gameConfig/gameConfig';
 
 export class GenerateMainUI {
-  private static showScanlines: boolean = gameConfig.scanlines;
+  private static showScanlines: boolean = gameConfig.show_scanlines;
   public static async generate() {
     const body = document.getElementById('body-main');
 

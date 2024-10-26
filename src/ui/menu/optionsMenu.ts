@@ -228,14 +228,14 @@ export class OptionsMenu extends HTMLElement {
   /**
    * Toggles the scanlines setting on or off.
    *
-   * Updates the {@link gameConfig.scanlines} property, and toggles the
+   * Updates the {@link gameConfig.show_scanlines} property, and toggles the
    * 'scanlines' class on the main container element. The button text is also
    * updated based on the current state.
    *
    * @return {void}
    */
   private toggleScanlines(): void {
-    gameConfig.scanlines = !gameConfig.scanlines;
+    gameConfig.show_scanlines = !gameConfig.show_scanlines;
 
     const mainContainer = document.getElementById('main-container');
     const scanLineBtn = this.shadowRoot?.getElementById(
