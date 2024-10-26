@@ -101,7 +101,7 @@ export class OptionsMenu extends HTMLElement {
   private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
-    this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
+    this.returnToIngameMenu = this.returnToIngameMenu.bind(this);
 
     this.manageEventListener(
       'toggle-scanlines-button',
@@ -124,7 +124,7 @@ export class OptionsMenu extends HTMLElement {
     this.manageEventListener(
       'back-button',
       'click',
-      this.returnToPreviousScreen,
+      this.returnToIngameMenu,
       true,
     );
 
@@ -289,35 +289,25 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
-   * Updates the game configuration, creates a new ingame menu element, and ensures it appears on top of the body.
+   * Returns to the ingame menu, saving the current game configuration.
    *
-   * This function saves the current game configuration, creates a new ingame menu element, and inserts it as the first child of the body element to ensure it appears on top of the existing content. Finally, it removes the current options menu.
+   * This function is called when the user clicks the "return to game" button on
+   * the options screen. It saves the current game configuration to a file, and
+   * then removes the options menu from the DOM.
    *
-   * @return {Promise<void>} A promise for when the operation is completed.
+   * In the disconnect callback, it fires a custom event that renders the ingame menu.
+   * This approach is needed to ensure that the menu is removed from the DOM before the ingame in drawn.
+   * This allows the ingame menu to be conditionally drawn and prevents the ingame menu and the options menu to be shown at the same time.
+   *
+   * @return {Promise<void>} A promise that resolves when the configuration is
+   * saved and the screen is updated.
    */
-  private async returnToPreviousScreen(): Promise<void> {
+  private async returnToIngameMenu(): Promise<void> {
     try {
       await saveConfig();
     } catch (error) {
       console.error(error);
     }
-
-    const body = document.getElementById('body-main');
-
-    if (!body) {
-      console.error('Body element not found');
-      return;
-    }
-
-    const ingameMenu = document.createElement('ingame-menu');
-
-    // Ensure the menu is the first child of the body, therefore appearing on top
-    if (body.firstChild) {
-      body.insertBefore(ingameMenu, body.firstChild);
-    } else {
-      body.appendChild(ingameMenu);
-    }
-
     this.remove();
   }
 
@@ -340,7 +330,7 @@ export class OptionsMenu extends HTMLElement {
         this.toggleMessageAlignment();
         break;
       case 'R':
-        this.returnToPreviousScreen();
+        this.returnToIngameMenu();
         break;
       default:
         break;
@@ -350,13 +340,18 @@ export class OptionsMenu extends HTMLElement {
   /**
    * Removes event listeners for keydown and click events.
    *
-   * This function is called when the options menu is removed from the DOM.
-   * It removes event listeners for keydown on the document and click events
-   * on buttons within the shadow DOM that were added in the bindEvents function.
+   * This function is called when the custom element is removed from the DOM.
+   * It removes event listeners for keydown and click events that were added in the
+   * connectedCallback function, and dispatches a custom event to open the ingame menu.
    *
    * @return {void}
    */
   private disconnectedCallback(): void {
+    const event = new CustomEvent('open-ingame-menu', {
+      bubbles: true,
+    });
+    this.dispatchEvent(event);
+
     document.removeEventListener('keydown', this.handleKeyPress);
 
     const shadowRoot = this.shadowRoot;
@@ -372,7 +367,7 @@ export class OptionsMenu extends HTMLElement {
         ?.removeEventListener('click', this.toggleImageAlignment);
       shadowRoot
         .getElementById('back-button')
-        ?.removeEventListener('click', this.returnToPreviousScreen);
+        ?.removeEventListener('click', this.returnToIngameMenu);
       document.removeEventListener('keydown', this.handleKeyPress);
     }
   }

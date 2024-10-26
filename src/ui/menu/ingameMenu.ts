@@ -186,22 +186,8 @@ export class IngameMenu extends HTMLElement {
   }
 
   private showOptions(): void {
-    const body = document.getElementById('body-main');
-
-    if (!body) {
-      console.error('Body element not found');
-      return;
-    }
-
-    const optionsMenu = document.createElement('options-menu');
-
-    // Ensure the titleContainer is the first child of the body
-    if (body.firstChild) {
-      body.insertBefore(optionsMenu, body.firstChild);
-    } else {
-      body.appendChild(optionsMenu);
-    }
-
+    const event = new CustomEvent('open-options-menu', { bubbles: true });
+    this.dispatchEvent(event);
     this.remove();
   }
 
