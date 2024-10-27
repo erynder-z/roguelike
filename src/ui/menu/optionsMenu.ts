@@ -4,6 +4,7 @@ import { LayoutManager } from '../layoutManager/layoutManager';
 
 export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
+  private shouldDisableImagAlignButton = !gameConfig.show_images;
   constructor() {
     super();
 
@@ -16,64 +17,71 @@ export class OptionsMenu extends HTMLElement {
 
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-        <style>
-          .options-menu {
-            font-family: 'UASQUARE';
-            font-size: 2.5rem;
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: start;
-            height: 100%;
-            width: 100%;        
-            backdrop-filter: brightness(60%) blur(10px);
-            color: var(--white);
-            z-index: 1;
-            overflow: hidden;
-          }
-   
-          .options-menu h1 {
-            margin-top: 12rem;  
-            text-align: center;
-            z-index: 1;
-          }
-          .options-menu button {
-            font-family: 'UASQUARE';
-            padding: 1rem;
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: none;
-            color: var(--white);
-            border: none;
-            transition: all 0.2s ease-in-out;
-          }
+      <style>
+        .options-menu {
+          font-family: 'UASQUARE';
+          font-size: 2.5rem;
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: start;
+          height: 100%;
+          width: 100%;
+          backdrop-filter: brightness(60%) blur(10px);
+          color: var(--white);
+          z-index: 1;
+          overflow: hidden;
+        }
 
-          .options-menu button:hover {
-           cursor: pointer;
-           transform: scale(1.1);
-          }
+        .options-menu h1 {
+          margin-top: 12rem;
+          text-align: center;
+          z-index: 1;
+        }
 
-          .underline {
-            text-decoration: underline;
-          }
+        .options-menu button {
+          font-family: 'UASQUARE';
+          padding: 1rem;
+          font-size: 2.5rem;
+          font-weight: bold;
+          background: none;
+          color: var(--white);
+          border: none;
+          transition: all 0.2s ease-in-out;
+        }
 
-          .buttons-container {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%;
-            gap: 0.5rem;
-          }
-        </style>
+        .options-menu button:hover {
+          cursor: pointer;
+          transform: scale(1.1);
+        }
+
+        .underline {
+          text-decoration: underline;
+        }
+
+        .buttons-container {
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 100%;
+          gap: 0.5rem;
+        }
+
+        .options-menu button.disabled {
+          color: var(--grayedOut);
+          pointer-events: none;
+          cursor: not-allowed;
+        }
+      </style>
   
         <div class="options-menu">
           <h1>Options</h1>
-          <div class="buttons-container">
-             
+          <div class="buttons-container">        
             <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
             <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
+            <button id="show-images-button">S<span class="underline">h</span>ow images</button>
             <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
             <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
           </div>
@@ -84,6 +92,7 @@ export class OptionsMenu extends HTMLElement {
 
     this.updateScanlinesButton();
     this.updateMessageAlignButton();
+    this.updateShowImagesButton();
     this.updateImageAlignButton();
     this.bindEvents();
   }
@@ -113,6 +122,12 @@ export class OptionsMenu extends HTMLElement {
       'message-display-align-button',
       'click',
       this.toggleMessageAlignment.bind(this),
+      true,
+    );
+    this.manageEventListener(
+      'show-images-button',
+      'click',
+      this.toggleShowImages.bind(this),
       true,
     );
     this.manageEventListener(
@@ -195,7 +210,7 @@ export class OptionsMenu extends HTMLElement {
   private updateMessageAlignButton(): void {
     const messageAlignBtn = this.shadowRoot?.getElementById(
       'message-display-align-button',
-    );
+    ) as HTMLButtonElement;
 
     if (messageAlignBtn) {
       messageAlignBtn.innerHTML =
@@ -206,22 +221,42 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
-   * Updates the text of the image alignment button based on the current state.
+   * Updates the text of the display images button based on the current state.
    *
-   * If the current image alignment is 'left', the button text is set to
-   * 'Image display: LEFT'. Otherwise, the button text is set to
-   * 'Image display: RIGHT'.
+   * If {@link gameConfig.show_images} is true, the button text is set to
+   * 'Show images: YES'. Otherwise, the button text is set to
+   * 'Show images: NO'.
    *
    * @return {void}
    */
+  private updateShowImagesButton(): void {
+    const displayImage = this.shadowRoot?.getElementById(
+      'show-images-button',
+    ) as HTMLButtonElement;
+
+    if (displayImage) {
+      displayImage.innerHTML =
+        gameConfig.show_images === true
+          ? 'S<span class="underline">h</span>ow images: YES'
+          : 'S<span class="underline">h</span>ow images: NO';
+    }
+  }
+
   private updateImageAlignButton(): void {
-    const imageAlignBtn = this.shadowRoot?.getElementById('image-align-button');
+    const imageAlignBtn = this.shadowRoot?.getElementById(
+      'image-align-button',
+    ) as HTMLButtonElement;
 
     if (imageAlignBtn) {
       imageAlignBtn.innerHTML =
         gameConfig.image_display === 'left'
           ? '<span class="underline">I</span>mage display: LEFT'
           : '<span class="underline">I</span>mage display: RIGHT';
+
+      imageAlignBtn.classList.toggle(
+        'disabled',
+        this.shouldDisableImagAlignButton,
+      );
     }
   }
 
@@ -269,6 +304,26 @@ export class OptionsMenu extends HTMLElement {
 
     this.updateMessageAlignButton();
     this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
+  }
+
+  /**
+   * Toggles the show images setting on or off.
+   *
+   * Updates the {@link gameConfig.show_images} property, updates the show images
+   * button, and sets the display of the image container based on the current
+   * state. Also updates the disabled status of the image alignment button.
+   *
+   * @return {void}
+   */
+  private toggleShowImages(): void {
+    gameConfig.show_images = !gameConfig.show_images;
+
+    this.updateShowImagesButton();
+    this.layoutManager.setImageDisplay(gameConfig.show_images);
+    this.layoutManager.forceSmileImageDisplay();
+
+    this.shouldDisableImagAlignButton = !gameConfig.show_images;
+    this.updateImageAlignButton();
   }
 
   /**
@@ -329,6 +384,12 @@ export class OptionsMenu extends HTMLElement {
       case 'M':
         this.toggleMessageAlignment();
         break;
+      case 'h':
+        this.toggleShowImages();
+        break;
+      case 'I':
+        this.toggleImageAlignment();
+        break;
       case 'R':
         this.returnToIngameMenu();
         break;
@@ -362,6 +423,9 @@ export class OptionsMenu extends HTMLElement {
       shadowRoot
         .getElementById('message-display-align-button')
         ?.removeEventListener('click', this.toggleMessageAlignment);
+      shadowRoot
+        .getElementById('show-images-button')
+        ?.removeEventListener('click', this.toggleShowImages);
       shadowRoot
         .getElementById('image-align-button')
         ?.removeEventListener('click', this.toggleImageAlignment);

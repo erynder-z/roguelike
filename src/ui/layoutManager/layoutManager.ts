@@ -1,3 +1,7 @@
+import { gameConfig } from '../../gameConfig/gameConfig';
+import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
+import { images } from '../../utilities/imageHandler/imageIndex';
+
 export class LayoutManager {
   private mainContainer: HTMLElement | null;
   private bottomContainer: HTMLElement | null;
@@ -34,6 +38,39 @@ export class LayoutManager {
     this.bottomContainer.style.gridTemplateColumns = layout.columns;
     this.bottomContainer.style.gridTemplateAreas = layout.areas;
     this.imageContainer.style.justifyContent = layout.justifyContent;
+  }
+
+  /**
+   * Sets the display property of the image container.
+   *
+   * @param {boolean} shouldShow - Determines whether the image container should be visible ('block') or hidden ('none').
+   * @return {void}
+   */
+  setImageDisplay(shouldShow: boolean): void {
+    if (!this.imageContainer) return;
+    this.imageContainer.style.display = shouldShow ? 'block' : 'none';
+  }
+
+  /**
+   * Forces the display of a smile image.
+   *
+   * @returns {void}
+   */
+  forceSmileImageDisplay(): void {
+    const appearance = gameConfig.player.appearance;
+
+    const smileImageSet =
+      appearance === 'boyish'
+        ? images.smileImages.boyish
+        : images.smileImages.girlish;
+
+    const randomImage =
+      smileImageSet[Math.floor(Math.random() * smileImageSet.length)];
+
+    const imageHandler = ImageHandler.getInstance();
+    const image = new Image();
+    image.src = randomImage;
+    imageHandler.displayImage(image, 'none');
   }
 
   /**

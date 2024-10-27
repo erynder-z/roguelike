@@ -1,4 +1,5 @@
 import { Build } from '../../types/gameBuilder/build';
+import { gameConfig } from '../../gameConfig/gameConfig';
 import { GameOverScreen } from './gameOverScreen';
 import { GameScreen } from './gameScreen';
 import { GenerateTitleScreen } from '../../utilities/generateTitleScreen';
@@ -81,16 +82,21 @@ export class DynamicScreenMaker implements ScreenMaker {
       (sm: ScreenMaker) => sm.newGame(),
       seed,
     );
-    this.activateImageHandler();
+    this.drawFirstImage();
     this.runDynamic(dynamicScreenMaker);
   }
 
   /**
-   * Activates the image handler and displays a random neutral image.
+   * Displays a random level change image when the game is started.
    *
-   * @return {void} This function does not return anything.
+   * The image is displayed using the {@link ImageHandler} and the image type is "lvlChange".
+   * If images are disabled in the game config, then this function does nothing.
    */
-  private static activateImageHandler(): void {
+  private static drawFirstImage(): void {
+    const shouldShowImages = gameConfig.show_images;
+
+    if (!shouldShowImages) return;
+
     const randomImage =
       lvlTier00Images[Math.floor(Math.random() * lvlTier00Images.length)];
 
