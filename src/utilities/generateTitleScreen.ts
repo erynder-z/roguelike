@@ -32,12 +32,16 @@ export class GenerateTitleScreen {
 
     // Add event listeners to start a new game
     titleScreen.addEventListener('start-new-game', async () => {
-      titleContainer.remove();
-      await GlyphLoader.initializeGlyphs();
-      DynamicScreenMaker.runBuilt_InitialGameSetup(
-        new Builder(gameConfig.seed, gameConfig.player),
-        gameConfig.seed,
-      );
+      try {
+        titleContainer.remove();
+        await GlyphLoader.initializeGlyphs();
+        DynamicScreenMaker.runBuilt_InitialGameSetup(
+          new Builder(gameConfig.seed, gameConfig.player),
+          gameConfig.seed,
+        );
+      } catch (error) {
+        console.error('Error starting new game:', error);
+      }
     });
   }
 }

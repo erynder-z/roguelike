@@ -14,7 +14,7 @@ export class EquipmentDisplay extends HTMLElement {
         * {
           margin: var(--margin);
           padding: var(--padding);
-          box-sizing: var(--box-sizing);
+          box-sizing: var(--box-sizing);   
         }
 
         * {

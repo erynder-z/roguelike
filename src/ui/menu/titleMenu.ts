@@ -270,7 +270,12 @@ export class TitleMenu extends HTMLElement {
   public async changeSeed(): Promise<void> {
     gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
     this.displayCurrentSeed(gameConfig.seed);
-    await saveConfig();
+
+    try {
+      await saveConfig();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /**
@@ -311,12 +316,16 @@ export class TitleMenu extends HTMLElement {
    * @return {Promise<void>} A promise that resolves when the game is exited.
    */
   private async quitGame(): Promise<void> {
-    const confirmation = await ask('Are you sure you want to quit?', {
-      title: 'Confirm Quit',
-      kind: 'warning',
-    });
+    try {
+      const confirmation = await ask('Are you sure you want to quit?', {
+        title: 'Confirm Quit',
+        kind: 'warning',
+      });
 
-    if (confirmation) await exit();
+      if (confirmation) await exit();
+    } catch (error) {
+      console.error('Failed to quit the game:', error);
+    }
   }
 
   /**

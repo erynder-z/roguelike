@@ -4,8 +4,9 @@ import { EnvironmentChecker } from '../gameLogic/environment/environmentChecker'
 import { EquipmentDisplay } from '../ui/equipment/equipmentDisplay';
 import { EventCategory, LogMessage } from '../gameLogic/messages/logMessage';
 import { FlashDisplay } from '../ui/flashDisplay/flashDisplay';
-import { GameState } from '../types/gameBuilder/gameState';
+import { gameConfig } from '../gameConfig/gameConfig';
 import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
@@ -168,12 +169,15 @@ export class DrawUI {
   }
 
   /**
-   * Renders action images based on the current event category in the game.
-   *
-   * @param {GameState} game - The game state containing information about the current game.
-   * @return {void} No return value.
+   * Handles displaying an image based on the current event in the game log.
+   * @param {GameState} game - The game state containing the current event.
+   * @return {void} This function does not return anything.
    */
   public static renderActionImage(game: GameState): void {
+    const shouldShowImages = gameConfig.show_images;
+
+    if (!shouldShowImages) return;
+
     const imageHandler = ImageHandler.getInstance();
 
     const currentEventCategory = game.log.currentEvent;

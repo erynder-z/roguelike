@@ -45,6 +45,7 @@ export class ColorLoader {
         '--selection-background',
         colors.root['--selection-background'],
       );
+      root.style.setProperty('--grayedOut', colors.root['--grayedOut']);
 
       resolve();
     });

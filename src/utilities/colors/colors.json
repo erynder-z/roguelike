@@ -10,6 +10,7 @@
     "--scrollbar-foreground": "var(--whiteTransparent)",
     "--scrollbar-background": "var(--backgroundDefault)",
     "--selection-color": "var(--white)",
-    "--selection-background": "var(--accent)"
+    "--selection-background": "var(--accent)",
+    "--grayedOut": "rgba(255, 255, 255, 0.3)"
   }
 }
