@@ -160,7 +160,9 @@ export class DrawUI {
   public static renderMessage(game: GameState): void {
     const { log } = game;
 
-    const messageLog = log.archive.slice(-25);
+    const messageCount = gameConfig.message_count;
+
+    const messageLog = log.archive.slice(-messageCount);
 
     const messagesDisplay = document.querySelector(
       'messages-display',

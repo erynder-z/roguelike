@@ -3,6 +3,7 @@ export type GameConfigType = {
   show_scanlines: boolean;
   show_images: boolean;
   message_display: 'left' | 'right';
+  message_count: number;
   image_display: 'left' | 'right';
   seed: number;
   player: {

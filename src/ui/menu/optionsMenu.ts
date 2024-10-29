@@ -74,18 +74,53 @@ export class OptionsMenu extends HTMLElement {
           pointer-events: none;
           cursor: not-allowed;
         }
+
+        .message-count-input-container {
+          font-weight: bold;
+        }
+
+        .message-count-input {
+          font-family: 'UASQUARE';
+          background: none;
+          border: none;
+          border-bottom: 2px solid var(--white);
+          color: var(--white);
+          font-weight: bold;
+          font-size: 2.5rem;
+        }
+
+        .message-count-input:focus {
+          outline: none;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
       </style>
-  
-        <div class="options-menu">
-          <h1>Options</h1>
-          <div class="buttons-container">        
-            <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
-            <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
-            <button id="show-images-button">S<span class="underline">h</span>ow images</button>
-            <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
-            <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
+
+      <div class="options-menu">
+        <h1>Options</h1>
+        <div class="buttons-container">
+          <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
+          <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
+          <button id="show-images-button">S<span class="underline">h</span>ow images</button>
+          <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
+          <div class="message-count-input-container">
+            <label for="message-count-input">Messages to Display (1-50):</label>
+            <input
+              type="number"
+              id="message-count-input"
+              class="message-count-input"
+              min="1"
+              max="50"
+              value="${gameConfig.message_count}"
+            />
           </div>
+          <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
         </div>
+      </div>
       `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
@@ -94,6 +129,7 @@ export class OptionsMenu extends HTMLElement {
     this.updateMessageAlignButton();
     this.updateShowImagesButton();
     this.updateImageAlignButton();
+    this.setupMessageCountInput();
     this.bindEvents();
   }
 
@@ -342,6 +378,47 @@ export class OptionsMenu extends HTMLElement {
     this.updateImageAlignButton();
     this.layoutManager.setImageDisplayLayout(gameConfig.image_display);
   }
+
+  /**
+   * Sets up the event listener for the message count input element.
+   *
+   * Attaches an 'input' event listener to the message count input element
+   * within the shadow DOM. The listener triggers the handleMessageCountChange
+   * method whenever the input value changes.
+   *
+   * @return {void}
+   */
+  private setupMessageCountInput(): void {
+    const messageCountInput = this.shadowRoot?.getElementById(
+      'message-count-input',
+    ) as HTMLInputElement;
+
+    if (messageCountInput) {
+      messageCountInput.addEventListener(
+        'input',
+        this.handleMessageCountChange,
+      );
+    }
+  }
+
+  /**
+   * Handles the input event on the message count input element.
+   *
+   * @param {Event} event The input event from the message count input element.
+   * @return {void}
+   */
+  private handleMessageCountChange = (event: Event): void => {
+    const input = event.target as HTMLInputElement;
+    const newCount = parseInt(input.value, 10);
+
+    if (!isNaN(newCount) && newCount >= 1 && newCount <= 50) {
+      gameConfig.message_count = newCount;
+    } else {
+      input.value = gameConfig.message_count.toString();
+    }
+
+    //TODO: redraw message display as soon as this gets updated.
+  };
 
   /**
    * Returns to the ingame menu, saving the current game configuration.
