@@ -4,7 +4,7 @@ import { LayoutManager } from '../layoutManager/layoutManager';
 
 export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
-  private shouldDisableImagAlignButton = !gameConfig.show_images;
+  private shouldDisableImageAlignButton = !gameConfig.show_images;
   constructor() {
     super();
 
@@ -278,6 +278,16 @@ export class OptionsMenu extends HTMLElement {
     }
   }
 
+  /**
+   * Updates the text and disabled status of the image alignment button.
+   *
+   * The text of the button is set to 'Image display: LEFT' if
+   * {@link gameConfig.image_display} is 'left', and 'Image display: RIGHT'
+   * otherwise. The button is also disabled if
+   * {@link shouldDisableImageAlignButton} is true.
+   *
+   * @return {void}
+   */
   private updateImageAlignButton(): void {
     const imageAlignBtn = this.shadowRoot?.getElementById(
       'image-align-button',
@@ -291,7 +301,7 @@ export class OptionsMenu extends HTMLElement {
 
       imageAlignBtn.classList.toggle(
         'disabled',
-        this.shouldDisableImagAlignButton,
+        this.shouldDisableImageAlignButton,
       );
     }
   }
@@ -358,7 +368,7 @@ export class OptionsMenu extends HTMLElement {
     this.layoutManager.setImageDisplay(gameConfig.show_images);
     this.layoutManager.forceSmileImageDisplay();
 
-    this.shouldDisableImagAlignButton = !gameConfig.show_images;
+    this.shouldDisableImageAlignButton = !gameConfig.show_images;
     this.updateImageAlignButton();
   }
 
