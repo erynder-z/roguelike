@@ -417,7 +417,10 @@ export class OptionsMenu extends HTMLElement {
       input.value = gameConfig.message_count.toString();
     }
 
-    //TODO: redraw message display as soon as this gets updated.
+    const customEvent = new CustomEvent('redraw-message-display', {
+      bubbles: true,
+    });
+    this.dispatchEvent(customEvent);
   };
 
   /**

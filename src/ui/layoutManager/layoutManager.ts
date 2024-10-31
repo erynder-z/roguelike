@@ -1,6 +1,8 @@
 import { gameConfig } from '../../gameConfig/gameConfig';
+import { MessageLog } from '../../gameLogic/messages/messageLog';
 import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
 import { images } from '../../utilities/imageHandler/imageIndex';
+import { MessagesDisplay } from '../messages/messagesDisplay';
 
 export class LayoutManager {
   private mainContainer: HTMLElement | null;
@@ -136,5 +138,20 @@ export class LayoutManager {
         justifyContent: 'flex-end',
       };
     }
+  }
+
+  /**
+   * Updates the messages display with the current current message count.
+   * @param {MessageLog} log - The message log to read from.
+   */
+  public redrawMessages(log: MessageLog): void {
+    const messageCount = gameConfig.message_count;
+
+    const messageLog = log.archive.slice(-messageCount);
+
+    const messagesDisplay = document.querySelector(
+      'messages-display',
+    ) as MessagesDisplay;
+    if (messagesDisplay) messagesDisplay.setMessages(messageLog);
   }
 }
