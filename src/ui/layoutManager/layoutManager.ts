@@ -4,6 +4,9 @@ import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
 import { images } from '../../utilities/imageHandler/imageIndex';
 import { MessagesDisplay } from '../messages/messagesDisplay';
 
+/**
+ *  This class handles changing and redrawing parts of the UI when needed.
+ */
 export class LayoutManager {
   private mainContainer: HTMLElement | null;
   private bottomContainer: HTMLElement | null;
@@ -146,7 +149,6 @@ export class LayoutManager {
    */
   public redrawMessages(log: MessageLog): void {
     const messageCount = gameConfig.message_count;
-
     const messageLog = log.archive.slice(-messageCount);
 
     const messagesDisplay = document.querySelector(
