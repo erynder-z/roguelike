@@ -108,7 +108,7 @@ export class OptionsMenu extends HTMLElement {
           <button id="show-images-button">S<span class="underline">h</span>ow images</button>
           <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
           <div class="message-count-input-container">
-            <label for="message-count-input">Messages to Display (1-50):</label>
+            <label for="message-count-input">M<span class="underline">e</span>ssages to Display (1-50):</label>
             <input
               type="number"
               id="message-count-input"
@@ -457,6 +457,29 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
+   * Sets focus to the message count input element and selects its content.
+   *
+   * This function is called when the user presses the "e" key on the options menu.
+   * It finds the input element in the shadow DOM and sets focus to it. To select
+   * the content of the input element, it uses setTimeout to delay the selection
+   * by 10 milliseconds, so that the focus event is processed before the selection
+   * is triggered.
+   *
+   * @return {void}
+   */
+  private focusAndSelectMessageCountInput(): void {
+    const messageCountInput = this.shadowRoot?.getElementById(
+      'message-count-input',
+    ) as HTMLInputElement;
+    if (messageCountInput) {
+      messageCountInput.focus();
+      setTimeout(() => {
+        messageCountInput.select();
+      }, 10);
+    }
+  }
+
+  /**
    * Handles key presses on the options menu.
    *
    * The function listens for two keys:
@@ -473,6 +496,9 @@ export class OptionsMenu extends HTMLElement {
         break;
       case 'M':
         this.toggleMessageAlignment();
+        break;
+      case 'e':
+        this.focusAndSelectMessageCountInput();
         break;
       case 'h':
         this.toggleShowImages();
