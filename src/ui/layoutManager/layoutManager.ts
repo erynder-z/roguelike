@@ -23,7 +23,7 @@ export class LayoutManager {
    *
    * @param {('left' | 'right')} position - The desired position of the message display.
    */
-  setMessageDisplayLayout(position: 'left' | 'right'): void {
+  public setMessageDisplayLayout(position: 'left' | 'right'): void {
     if (!this.mainContainer) return;
 
     const layout = this.getMessageDisplayLayout(position);
@@ -36,7 +36,7 @@ export class LayoutManager {
    *
    * @param {('left' | 'right')} position - The desired position of the image display.
    */
-  setImageDisplayLayout(position: 'left' | 'right'): void {
+  public setImageDisplayLayout(position: 'left' | 'right'): void {
     if (!this.bottomContainer || !this.imageContainer) return;
 
     const layout = this.getImageDisplayLayout(position);
@@ -51,7 +51,7 @@ export class LayoutManager {
    * @param {boolean} shouldShow - Determines whether the image container should be visible ('block') or hidden ('none').
    * @return {void}
    */
-  setImageDisplay(shouldShow: boolean): void {
+  public setImageDisplay(shouldShow: boolean): void {
     if (!this.imageContainer) return;
     this.imageContainer.style.display = shouldShow ? 'block' : 'none';
   }
@@ -61,7 +61,7 @@ export class LayoutManager {
    *
    * @returns {void}
    */
-  forceSmileImageDisplay(): void {
+  public forceSmileImageDisplay(): void {
     const appearance = gameConfig.player.appearance;
 
     const smileImageSet =
@@ -81,7 +81,7 @@ export class LayoutManager {
   /**
    * Resets both message and image display layouts to the default (left side).
    */
-  resetLayouts(): void {
+  public resetLayouts(): void {
     this.setMessageDisplayLayout('left');
     this.setImageDisplayLayout('left');
   }
