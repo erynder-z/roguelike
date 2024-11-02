@@ -75,7 +75,10 @@ export class IngameMenu extends HTMLElement {
           <button id="help-button">
             <span class="underline">H</span>elp
           </button>
-          <button id="quit-exit-button">
+          <button id="return-to-title-button">
+            Return to <span class="underline">t</span>itle
+          </button>
+          <button id="quit-app-button">
             <span class="underline">Q</span>uit game and exit
           </button>
         </div>
@@ -104,7 +107,8 @@ export class IngameMenu extends HTMLElement {
     this.returnToGame = this.returnToGame.bind(this);
     this.showOptions = this.showOptions.bind(this);
     this.showHelp = this.showHelp.bind(this);
-    this.quitGameExit = this.quitGameExit.bind(this);
+    this.returnToTitle = this.returnToTitle.bind(this);
+    this.quitApp = this.quitApp.bind(this);
 
     this.manageEventListener(
       'return-to-game-button',
@@ -120,11 +124,12 @@ export class IngameMenu extends HTMLElement {
     );
     this.manageEventListener('help-button', 'click', this.showHelp, true);
     this.manageEventListener(
-      'quit-exit-button',
+      'return-to-title-button',
       'click',
-      this.quitGameExit,
+      this.returnToTitle,
       true,
     );
+    this.manageEventListener('quit-app-button', 'click', this.quitApp, true);
 
     document.addEventListener('keydown', this.handleKeyPress);
   }
@@ -175,8 +180,11 @@ export class IngameMenu extends HTMLElement {
       case 'H':
         this.showHelp();
         break;
+      case 't':
+        this.returnToTitle();
+        break;
       case 'Q':
-        this.quitGameExit();
+        this.quitApp();
         break;
       default:
         break;
@@ -210,11 +218,29 @@ export class IngameMenu extends HTMLElement {
   }
 
   /**
+   * Prompts the user for confirmation before returning to the title screen.
+   *
+   * If the user confirms, the page is reloaded, effectively returning to the title screen.
+   *
+   * @return {Promise<void>} A promise that resolves when the game is exited.
+   */
+  private async returnToTitle(): Promise<void> {
+    const confirmation = await ask(
+      'Game progress will be lost. Are you sure?',
+      { title: 'Confirm Quit', kind: 'warning' },
+    );
+
+    if (confirmation) {
+      window.location.reload();
+    }
+  }
+
+  /**
    * Calls the Tauri backend to quit the game. Asks for confirmation before quitting.
    *
    * @return {Promise<void>} A promise that resolves when the game is exited.
    */
-  private async quitGameExit(): Promise<void> {
+  private async quitApp(): Promise<void> {
     try {
       const confirmation = await ask('Are you sure you want to quit?', {
         title: 'Confirm Quit',
@@ -253,8 +279,11 @@ export class IngameMenu extends HTMLElement {
         .getElementById('help-button')
         ?.removeEventListener('click', this.showHelp);
       shadowRoot
-        .getElementById('quit-exit-button')
-        ?.removeEventListener('click', this.quitGameExit);
+        .getElementById('return-title-button')
+        ?.removeEventListener('click', this.returnToTitle);
+      shadowRoot
+        .getElementById('quit-app-button')
+        ?.removeEventListener('click', this.quitApp);
       document.removeEventListener('keydown', this.handleKeyPress);
     }
   }
