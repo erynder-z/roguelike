@@ -1,7 +1,6 @@
-import { gameConfig } from '../gameConfig/gameConfig';
+import { ScanlinesHandler } from '../renderer/scanlinesHandler';
 
 export class GenerateMainUI {
-  private static showScanlines: boolean = gameConfig.show_scanlines;
   public static async generate() {
     const body = document.getElementById('body-main');
 
@@ -14,7 +13,7 @@ export class GenerateMainUI {
     const mainContainer = document.createElement('div');
     mainContainer.id = 'main-container';
     mainContainer.classList.add('main-container');
-    if (this.showScanlines) mainContainer.classList.add('scanlines');
+    ScanlinesHandler.handleScanlines(mainContainer);
 
     // Stats container
     const statsContainer = document.createElement('div');

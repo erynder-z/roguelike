@@ -10,6 +10,7 @@ import {
 const defaultParams: GameConfigType = {
   SHOW_MENU: true,
   show_scanlines: true,
+  scanline_style: 'light',
   show_images: true,
   message_display: 'left',
   message_count: 25,
@@ -42,6 +43,7 @@ export const createBuildParameters = async (): Promise<void> => {
     gameConfig = {
       SHOW_MENU: parsedParams.SHOW_MENU,
       show_scanlines: parsedParams.show_scanlines,
+      scanline_style: parsedParams.scanline_style,
       show_images: parsedParams.show_images,
       message_display: parsedParams.message_display,
       message_count: parsedParams.message_count,

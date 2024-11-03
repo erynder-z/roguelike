@@ -1,5 +1,6 @@
 import './styles/cssReset.css';
 import './styles/style-main.css';
+import './styles/scanlines.css';
 import { Builder } from './gameBuilder/builder';
 import { gameConfig } from './gameConfig/gameConfig';
 import { ColorLoader } from './loaders/colorLoader';

@@ -1,9 +1,11 @@
 import { gameConfig } from '../../gameConfig/gameConfig';
-import { saveConfig } from '../../utilities/saveConfig';
 import { LayoutManager } from '../layoutManager/layoutManager';
+import { saveConfig } from '../../utilities/saveConfig';
+import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
 
 export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
+  private shouldDisableScanlineStyleButton = !gameConfig.show_scanlines;
   private shouldDisableImageAlignButton = !gameConfig.show_images;
   constructor() {
     super();
@@ -104,6 +106,7 @@ export class OptionsMenu extends HTMLElement {
         <h1>Options</h1>
         <div class="buttons-container">
           <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
+          <button id="switch-scanline-style-button">Scanlines s<span class="underline">t</span>yle</button>
           <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
           <button id="show-images-button">S<span class="underline">h</span>ow images</button>
           <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
@@ -125,7 +128,8 @@ export class OptionsMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.updateScanlinesButton();
+    this.updateScanlinesToggleButton();
+    this.updateScanlineStyleButton();
     this.updateMessageAlignButton();
     this.updateShowImagesButton();
     this.updateImageAlignButton();
@@ -152,6 +156,12 @@ export class OptionsMenu extends HTMLElement {
       'toggle-scanlines-button',
       'click',
       this.toggleScanlines,
+      true,
+    );
+    this.manageEventListener(
+      'switch-scanline-style-button',
+      'click',
+      this.switchScanlineStyle.bind(this),
       true,
     );
     this.manageEventListener(
@@ -220,17 +230,40 @@ export class OptionsMenu extends HTMLElement {
    *
    * @return {void}
    */
-  private updateScanlinesButton(): void {
-    const mainContainer = document.getElementById('main-container');
+  private updateScanlinesToggleButton(): void {
     const scanLineBtn = this.shadowRoot?.getElementById(
       'toggle-scanlines-button',
     );
 
-    if (mainContainer && scanLineBtn) {
-      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
-      scanLineBtn.innerHTML = hasScanLinesClass
+    if (scanLineBtn) {
+      const areScanlinesToggled = gameConfig.show_scanlines;
+      scanLineBtn.innerHTML = areScanlinesToggled
         ? '<span class="underline">S</span>canlines ON'
         : '<span class="underline">S</span>canlines OFF';
+    }
+  }
+
+  /**
+   * Updates the text and disabled state of the scanline style button based on the current state.
+   *
+   * If the scanline style button is present, the button text is set to
+   * 'Scanlines style: <current style>', and the button is disabled or enabled
+   * based on the value of the shouldDisableScanlineStyleButton field.
+   *
+   * @return {void}
+   */
+  private updateScanlineStyleButton(): void {
+    const scanLineStyleBtn = this.shadowRoot?.getElementById(
+      'switch-scanline-style-button',
+    );
+
+    if (scanLineStyleBtn) {
+      scanLineStyleBtn.innerHTML = `Scanlines s<span class="underline">t</span>yle: ${gameConfig.scanline_style.toUpperCase()}`;
+
+      scanLineStyleBtn.classList.toggle(
+        'disabled',
+        this.shouldDisableScanlineStyleButton,
+      );
     }
   }
 
@@ -317,21 +350,60 @@ export class OptionsMenu extends HTMLElement {
    */
   private toggleScanlines(): void {
     gameConfig.show_scanlines = !gameConfig.show_scanlines;
+    this.shouldDisableScanlineStyleButton =
+      !this.shouldDisableScanlineStyleButton;
 
     const mainContainer = document.getElementById('main-container');
     const scanLineBtn = this.shadowRoot?.getElementById(
       'toggle-scanlines-button',
     );
 
-    if (mainContainer) {
-      mainContainer.classList.toggle('scanlines');
-      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
+    if (mainContainer && scanLineBtn) {
+      ScanlinesHandler.handleScanlines(mainContainer);
+      const areScanlinesToggled = gameConfig.show_scanlines;
 
-      if (scanLineBtn) {
-        scanLineBtn.innerHTML = hasScanLinesClass
-          ? '<span class="underline">S</span>canlines ON'
-          : '<span class="underline">S</span>canlines OFF';
-      }
+      scanLineBtn.innerHTML = areScanlinesToggled
+        ? '<span class="underline">S</span>canlines ON'
+        : '<span class="underline">S</span>canlines OFF';
+    }
+
+    this.updateScanlineStyleButton();
+  }
+
+  /**
+   * Switches the scanline style to the next available style.
+   *
+   * Updates the {@link gameConfig.scanline_style} property, and updates the
+   * button text with the new style.
+   *
+   * Applies the new style to the main container element.
+   *
+   * Tries to save the updated config to local storage.
+   *
+   * @return {void}
+   */
+  private switchScanlineStyle(): void {
+    const availableStyles = ScanlinesHandler.SCANLINES_STYLES;
+    const currentStyleIndex = availableStyles.indexOf(
+      gameConfig.scanline_style,
+    );
+
+    const nextStyleIndex = (currentStyleIndex + 1) % availableStyles.length;
+    const nextStyle = availableStyles[nextStyleIndex];
+
+    gameConfig.scanline_style = nextStyle;
+
+    this.updateScanlineStyleButton();
+
+    const mainContainer = document.getElementById('main-container');
+    if (mainContainer) {
+      ScanlinesHandler.applyScanlineStyle(mainContainer, nextStyle);
+    }
+
+    try {
+      saveConfig();
+    } catch (error) {
+      console.error('Failed to save config:', error);
     }
   }
 
@@ -494,6 +566,9 @@ export class OptionsMenu extends HTMLElement {
       case 'S':
         this.toggleScanlines();
         break;
+      case 't':
+        this.switchScanlineStyle();
+        break;
       case 'M':
         this.toggleMessageAlignment();
         break;
@@ -536,6 +611,9 @@ export class OptionsMenu extends HTMLElement {
       shadowRoot
         .getElementById('toggle-scanlines-button')
         ?.removeEventListener('click', this.toggleScanlines);
+      shadowRoot
+        .getElementById('switch-scanline-style-button')
+        ?.removeEventListener('click', this.switchScanlineStyle);
       shadowRoot
         .getElementById('message-display-align-button')
         ?.removeEventListener('click', this.toggleMessageAlignment);
