@@ -217,21 +217,26 @@ export class IngameMenu extends HTMLElement {
     invoke('show_help_window');
   }
 
+
   /**
-   * Prompts the user for confirmation before returning to the title screen.
+   * Returns to the title screen. Asks for confirmation before quitting.
    *
-   * If the user confirms, the page is reloaded, effectively returning to the title screen.
+   * If the user confirms, the page is reloaded, which causes the game to restart.
    *
-   * @return {Promise<void>} A promise that resolves when the game is exited.
+   * @return {Promise<void>} A promise that resolves when the screen is updated.
    */
   private async returnToTitle(): Promise<void> {
-    const confirmation = await ask(
-      'Game progress will be lost. Are you sure?',
-      { title: 'Confirm Quit', kind: 'warning' },
-    );
+    try {
+      const confirmation = await ask(
+        'Game progress will be lost. Are you sure?',
+        { title: 'Confirm Quit', kind: 'warning' },
+      );
 
-    if (confirmation) {
-      window.location.reload();
+      if (confirmation) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Failed to return to title:', error);
     }
   }
 
