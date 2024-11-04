@@ -1,19 +1,19 @@
-import { gameConfig } from '../../gameConfig/gameConfig';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
-import { saveConfig } from '../../utilities/saveConfig';
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
 
 export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
-  private shouldDisableScanlineStyleButton = !gameConfig.show_scanlines;
-  private shouldDisableImageAlignButton = !gameConfig.show_images;
+  private gameConfig = gameConfigManager.getConfig();
+  private shouldDisableScanlineStyleButton = !this.gameConfig.show_scanlines;
+  private shouldDisableImageAlignButton = !this.gameConfig.show_images;
   constructor() {
     super();
 
     this.layoutManager = new LayoutManager();
 
-    this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
-    this.layoutManager.setImageDisplayLayout(gameConfig.image_display);
+    this.layoutManager.setMessageDisplayLayout(this.gameConfig.message_display);
+    this.layoutManager.setImageDisplayLayout(this.gameConfig.image_display);
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
@@ -118,7 +118,7 @@ export class OptionsMenu extends HTMLElement {
               class="message-count-input"
               min="1"
               max="50"
-              value="${gameConfig.message_count}"
+              value="${this.gameConfig.message_count}"
             />
           </div>
           <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
@@ -236,7 +236,7 @@ export class OptionsMenu extends HTMLElement {
     );
 
     if (scanLineBtn) {
-      const areScanlinesToggled = gameConfig.show_scanlines;
+      const areScanlinesToggled = this.gameConfig.show_scanlines;
       scanLineBtn.innerHTML = areScanlinesToggled
         ? '<span class="underline">S</span>canlines ON'
         : '<span class="underline">S</span>canlines OFF';
@@ -258,7 +258,7 @@ export class OptionsMenu extends HTMLElement {
     );
 
     if (scanLineStyleBtn) {
-      scanLineStyleBtn.innerHTML = `Scanlines s<span class="underline">t</span>yle: ${gameConfig.scanline_style.toUpperCase()}`;
+      scanLineStyleBtn.innerHTML = `Scanlines s<span class="underline">t</span>yle: ${this.gameConfig.scanline_style.toUpperCase()}`;
 
       scanLineStyleBtn.classList.toggle(
         'disabled',
@@ -283,7 +283,7 @@ export class OptionsMenu extends HTMLElement {
 
     if (messageAlignBtn) {
       messageAlignBtn.innerHTML =
-        gameConfig.message_display === 'left'
+        this.gameConfig.message_display === 'left'
           ? '<span class="underline">M</span>essage display: LEFT'
           : '<span class="underline">M</span>essage display: RIGHT';
     }
@@ -305,7 +305,7 @@ export class OptionsMenu extends HTMLElement {
 
     if (displayImage) {
       displayImage.innerHTML =
-        gameConfig.show_images === true
+        this.gameConfig.show_images === true
           ? 'S<span class="underline">h</span>ow images: YES'
           : 'S<span class="underline">h</span>ow images: NO';
     }
@@ -328,7 +328,7 @@ export class OptionsMenu extends HTMLElement {
 
     if (imageAlignBtn) {
       imageAlignBtn.innerHTML =
-        gameConfig.image_display === 'left'
+        this.gameConfig.image_display === 'left'
           ? '<span class="underline">I</span>mage display: LEFT'
           : '<span class="underline">I</span>mage display: RIGHT';
 
@@ -349,7 +349,7 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleScanlines(): void {
-    gameConfig.show_scanlines = !gameConfig.show_scanlines;
+    this.gameConfig.show_scanlines = !this.gameConfig.show_scanlines;
     this.shouldDisableScanlineStyleButton =
       !this.shouldDisableScanlineStyleButton;
 
@@ -360,7 +360,7 @@ export class OptionsMenu extends HTMLElement {
 
     if (mainContainer && scanLineBtn) {
       ScanlinesHandler.handleScanlines(mainContainer);
-      const areScanlinesToggled = gameConfig.show_scanlines;
+      const areScanlinesToggled = this.gameConfig.show_scanlines;
 
       scanLineBtn.innerHTML = areScanlinesToggled
         ? '<span class="underline">S</span>canlines ON'
@@ -385,13 +385,13 @@ export class OptionsMenu extends HTMLElement {
   private switchScanlineStyle(): void {
     const availableStyles = ScanlinesHandler.SCANLINES_STYLES;
     const currentStyleIndex = availableStyles.indexOf(
-      gameConfig.scanline_style,
+      this.gameConfig.scanline_style,
     );
 
     const nextStyleIndex = (currentStyleIndex + 1) % availableStyles.length;
     const nextStyle = availableStyles[nextStyleIndex];
 
-    gameConfig.scanline_style = nextStyle;
+    this.gameConfig.scanline_style = nextStyle;
 
     this.updateScanlineStyleButton();
 
@@ -401,7 +401,7 @@ export class OptionsMenu extends HTMLElement {
     }
 
     try {
-      saveConfig();
+      gameConfigManager.saveConfig();
     } catch (error) {
       console.error('Failed to save config:', error);
     }
@@ -417,11 +417,11 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleMessageAlignment(): void {
-    gameConfig.message_display =
-      gameConfig.message_display === 'left' ? 'right' : 'left';
+    this.gameConfig.message_display =
+      this.gameConfig.message_display === 'left' ? 'right' : 'left';
 
     this.updateMessageAlignButton();
-    this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
+    this.layoutManager.setMessageDisplayLayout(this.gameConfig.message_display);
   }
 
   /**
@@ -434,13 +434,13 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleShowImages(): void {
-    gameConfig.show_images = !gameConfig.show_images;
+    this.gameConfig.show_images = !this.gameConfig.show_images;
 
     this.updateShowImagesButton();
-    this.layoutManager.setImageDisplay(gameConfig.show_images);
+    this.layoutManager.setImageDisplay(this.gameConfig.show_images);
     this.layoutManager.forceSmileImageDisplay();
 
-    this.shouldDisableImageAlignButton = !gameConfig.show_images;
+    this.shouldDisableImageAlignButton = !this.gameConfig.show_images;
     this.updateImageAlignButton();
   }
 
@@ -454,11 +454,11 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleImageAlignment(): void {
-    gameConfig.image_display =
-      gameConfig.image_display === 'left' ? 'right' : 'left';
+    this.gameConfig.image_display =
+      this.gameConfig.image_display === 'left' ? 'right' : 'left';
 
     this.updateImageAlignButton();
-    this.layoutManager.setImageDisplayLayout(gameConfig.image_display);
+    this.layoutManager.setImageDisplayLayout(this.gameConfig.image_display);
   }
 
   /**
@@ -494,9 +494,9 @@ export class OptionsMenu extends HTMLElement {
     const newCount = parseInt(input.value, 10);
 
     if (!isNaN(newCount) && newCount >= 1 && newCount <= 50) {
-      gameConfig.message_count = newCount;
+      this.gameConfig.message_count = newCount;
     } else {
-      input.value = gameConfig.message_count.toString();
+      input.value = this.gameConfig.message_count.toString();
     }
 
     const customEvent = new CustomEvent('redraw-message-display', {
@@ -521,7 +521,7 @@ export class OptionsMenu extends HTMLElement {
    */
   private async returnToIngameMenu(): Promise<void> {
     try {
-      await saveConfig();
+      await gameConfigManager.saveConfig();
     } catch (error) {
       console.error(error);
     }

@@ -1,5 +1,5 @@
 import { Build } from '../../types/gameBuilder/build';
-import { gameConfig } from '../../gameConfig/gameConfig';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameOverScreen } from './gameOverScreen';
 import { GameScreen } from './gameScreen';
 import { GenerateTitleScreen } from '../../utilities/generateTitleScreen';
@@ -24,6 +24,7 @@ export class DynamicScreenMaker implements ScreenMaker {
     public init: (sm: ScreenMaker) => StackScreen,
     public seed: number,
     public game: GameState | null = null,
+    
   ) {}
 
   /**
@@ -93,6 +94,7 @@ export class DynamicScreenMaker implements ScreenMaker {
    * If images are disabled in the game config, then this function does nothing.
    */
   private static drawFirstImage(): void {
+    const gameConfig = gameConfigManager.getConfig();
     const shouldShowImages = gameConfig.show_images;
 
     if (!shouldShowImages) return;

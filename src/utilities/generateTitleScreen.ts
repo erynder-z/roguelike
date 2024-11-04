@@ -1,5 +1,5 @@
 import { Builder } from '../gameBuilder/builder';
-import { gameConfig } from '../gameConfig/gameConfig';
+import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { DynamicScreenMaker } from '../gameLogic/screens/dynamicScreenMaker';
 import { GlyphLoader } from '../loaders/glyphLoader';
 
@@ -32,6 +32,7 @@ export class GenerateTitleScreen {
 
     // Add event listeners to start a new game
     titleScreen.addEventListener('start-new-game', async () => {
+      const gameConfig = gameConfigManager.getConfig();
       try {
         titleContainer.remove();
         await GlyphLoader.initializeGlyphs();

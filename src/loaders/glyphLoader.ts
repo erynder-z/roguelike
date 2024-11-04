@@ -2,7 +2,7 @@ import * as corpseData from '../gameLogic/mobs/mobData/corpses.json';
 import * as environmentData from '../gameLogic/environment/environmentData/environment.json';
 import * as itemData from '../gameLogic/itemObjects/itemData/items.json';
 import * as mobsData from '../gameLogic/mobs/mobData/mobs.json';
-import { gameConfig } from '../gameConfig/gameConfig';
+import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
 import {
@@ -21,6 +21,7 @@ export class GlyphLoader {
    * @returns {Promise<number>} The number of glyphs initialized.
    */
   public static async initializeGlyphs(): Promise<number> {
+    const gameConfig = gameConfigManager.getConfig();
     return new Promise((resolve, reject) => {
       try {
         // Add player glyph

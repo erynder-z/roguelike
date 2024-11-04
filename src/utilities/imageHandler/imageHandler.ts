@@ -1,6 +1,6 @@
 import { EventCategory } from '../../gameLogic/messages/logMessage';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
-import { gameConfig } from '../../gameConfig/gameConfig';
 import { images } from './imageIndex';
 
 /**
@@ -10,6 +10,7 @@ export class ImageHandler {
   private static instance: ImageHandler | null = null;
 
   private availableImages: Record<string, string[]> = {};
+  private gameConfig = gameConfigManager.getConfig();
 
   private constructor() {}
 
@@ -66,7 +67,9 @@ export class ImageHandler {
    * @returns The correct set of images.
    */
   private getImageSet<T>(boyishSet: T, girlishSet: T): T {
-    return gameConfig.player.appearance === 'boyish' ? boyishSet : girlishSet;
+    return this.gameConfig.player.appearance === 'boyish'
+      ? boyishSet
+      : girlishSet;
   }
 
   /**

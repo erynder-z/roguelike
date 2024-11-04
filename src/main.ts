@@ -2,7 +2,7 @@ import './styles/cssReset.css';
 import './styles/style-main.css';
 import './styles/scanlines.css';
 import { Builder } from './gameBuilder/builder';
-import { gameConfig } from './gameConfig/gameConfig';
+import { gameConfigManager } from './gameConfigManager/gameConfigManager';
 import { ColorLoader } from './loaders/colorLoader';
 import { DynamicScreenMaker } from './gameLogic/screens/dynamicScreenMaker';
 import { GenerateMainUI } from './utilities/generateMainUI';
@@ -13,7 +13,9 @@ import { LayoutManager } from './ui/layoutManager/layoutManager';
 
 const initializeGame = async () => {
   try {
-    if (!gameConfig) throw new Error('gameConfig not defined');
+    await gameConfigManager.initialize();
+
+    const gameConfig = gameConfigManager.getConfig();
 
     const { SHOW_MENU, seed, player } = gameConfig;
 
@@ -44,6 +46,7 @@ const initializeGame = async () => {
 
 // Apply layout adjustments based on gameConfig
 const adjustLayout = async () => {
+  const gameConfig = gameConfigManager.getConfig();
   const layoutManager = new LayoutManager();
   layoutManager.setMessageDisplayLayout(gameConfig.message_display);
   layoutManager.setImageDisplayLayout(gameConfig.image_display);

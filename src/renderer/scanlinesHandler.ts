@@ -1,4 +1,4 @@
-import { gameConfig } from '../gameConfig/gameConfig';
+import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 
 export type ScanlineStyles =
   | 'subtle'
@@ -51,6 +51,7 @@ export class ScanlinesHandler {
    * @param container The element to which the scanline style should be applied.
    */
   public static handleScanlines(container: HTMLElement): void {
+    const gameConfig = gameConfigManager.getConfig();
     if (gameConfig.show_scanlines) {
       const style = gameConfig.scanline_style as ScanlineStyles;
       this.applyScanlineStyle(container, style);

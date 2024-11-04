@@ -1,7 +1,7 @@
-import { gameConfig } from '../../gameConfig/gameConfig';
 import corpseData from '../../gameLogic/mobs/mobData/corpses.json';
 import envData from '../../gameLogic/environment/environmentData/environment.json';
 import { FlashDecorator } from './flashDecorator';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import itemData from '../../gameLogic/itemObjects/itemData/items.json';
 import { LogMessage } from '../../gameLogic/messages/logMessage';
@@ -10,6 +10,7 @@ import { MessageLog } from '../../gameLogic/messages/messageLog';
 
 export class FlashDisplay extends HTMLElement {
   private decorator: FlashDecorator;
+  private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
 
@@ -97,13 +98,13 @@ export class FlashDisplay extends HTMLElement {
     this.decorator.createStyles(corpseData.corpses, 'corpse');
     this.decorator.createStyles(mobData.mobs, 'mob');
     this.decorator.createStyles(envData.environment, 'env');
-    this.decorator.createStyles(gameConfig.player.color);
+    this.decorator.createStyles(this.gameConfig.player.color);
 
     this.decorator.colorize(fragment, itemData.items, 'item');
     this.decorator.colorize(fragment, corpseData.corpses, 'corpse');
     this.decorator.colorize(fragment, mobData.mobs, 'mob');
     this.decorator.colorize(fragment, envData.environment, 'env');
-    this.decorator.colorize(fragment, gameConfig.player.name);
+    this.decorator.colorize(fragment, this.gameConfig.player.name);
 
     if (log.hasQueuedMessages())
       // More than 1 message in queue

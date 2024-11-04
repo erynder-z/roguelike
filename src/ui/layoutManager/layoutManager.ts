@@ -1,8 +1,8 @@
-import { gameConfig } from '../../gameConfig/gameConfig';
-import { MessageLog } from '../../gameLogic/messages/messageLog';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
 import { images } from '../../utilities/imageHandler/imageIndex';
 import { MessagesDisplay } from '../messages/messagesDisplay';
+import { MessageLog } from '../../gameLogic/messages/messageLog';
 
 /**
  *  This class handles changing and redrawing parts of the UI when needed.
@@ -11,6 +11,7 @@ export class LayoutManager {
   private mainContainer: HTMLElement | null;
   private bottomContainer: HTMLElement | null;
   private imageContainer: HTMLElement | null;
+  private gameConfig = gameConfigManager.getConfig();
 
   constructor() {
     this.mainContainer = document.getElementById('main-container');
@@ -62,7 +63,7 @@ export class LayoutManager {
    * @returns {void}
    */
   public forceSmileImageDisplay(): void {
-    const appearance = gameConfig.player.appearance;
+    const appearance = this.gameConfig.player.appearance;
 
     const smileImageSet =
       appearance === 'boyish'
@@ -148,7 +149,7 @@ export class LayoutManager {
    * @param {MessageLog} log - The message log to read from.
    */
   public redrawMessages(log: MessageLog): void {
-    const messageCount = gameConfig.message_count;
+    const messageCount = this.gameConfig.message_count;
     const messageLog = log.archive.slice(-messageCount);
 
     const messagesDisplay = document.querySelector(

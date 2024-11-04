@@ -4,7 +4,7 @@ import { EnvironmentChecker } from '../gameLogic/environment/environmentChecker'
 import { EquipmentDisplay } from '../ui/equipment/equipmentDisplay';
 import { EventCategory, LogMessage } from '../gameLogic/messages/logMessage';
 import { FlashDisplay } from '../ui/flashDisplay/flashDisplay';
-import { gameConfig } from '../gameConfig/gameConfig';
+import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
@@ -158,6 +158,7 @@ export class DrawUI {
    * @return {void}
    */
   public static renderMessage(game: GameState): void {
+    const gameConfig = gameConfigManager.getConfig();
     const { log } = game;
 
     const messageCount = gameConfig.message_count;
@@ -176,6 +177,7 @@ export class DrawUI {
    * @return {void} This function does not return anything.
    */
   public static renderActionImage(game: GameState): void {
+    const gameConfig = gameConfigManager.getConfig();
     const shouldShowImages = gameConfig.show_images;
 
     if (!shouldShowImages) return;
