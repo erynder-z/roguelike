@@ -5,7 +5,6 @@ import { MapCell } from '../../maps/mapModel/mapCell';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 export class EnvironmentChecker {
-  name: string = 'environment-checker';
   private static areaOfEffectRadius: number = 1;
 
   /**

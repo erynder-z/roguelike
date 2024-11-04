@@ -13,7 +13,6 @@ import { Stack } from '../../types/terminal/stack';
  * Represents an AI switcher that selects the appropriate AI implementation based on the type of mob.
  */
 export class AISwitcher implements MobAI {
-  constructor(public ai1_std: MobAI) {}
   private ai2_cat: MobAI = new MobAI2_Cat();
   private ai3_ant: MobAI = new MobAI3_Ant();
   private ai4_bat: MobAI = MoodAI.stockMood(2);
@@ -21,6 +20,7 @@ export class AISwitcher implements MobAI {
   private ai_spell: MobAI = MoodAI.stockMoodSpellCaster(1, 8);
   private ai_shooter = MoodAI.stockMoodShootAI(1, 5);
   private ai_default: MobAI = MoodAI.stockMood(1);
+  constructor(public ai1_std: MobAI) {}
 
   /**
    * Executes a turn for the mob using the appropriate AI based on the mob's type.

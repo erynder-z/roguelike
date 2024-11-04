@@ -18,12 +18,12 @@ import { CanSee } from '../../utilities/canSee';
  *
  */
 export class SpellAI implements MobAI {
+  private aiTargetedMovement: MobAI = new MobAI2_Cat();
+  private aiRandomMovement: MobAI = new MobAI3_Ant();
   constructor(
     public speed: number,
     public spellRate: number,
   ) {}
-  private aiTargetedMovement: MobAI = new MobAI2_Cat();
-  private aiRandomMovement: MobAI = new MobAI3_Ant();
 
   /**
    * Takes a turn for the Mob in an awake state.

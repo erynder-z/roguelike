@@ -16,19 +16,18 @@ import { Stats } from '../gameLogic/stats/stats';
  * The game instance that holds the game state.
  */
 export class Game implements GameState {
+  public ai: MobAI | null = null;
+  public log: MessageLog = new MessageLog();
+  public dungeon: MapHandler = new MapHandler();
+  public autoHeal: AutoHeal | undefined = new AutoHeal();
+  public inventory = new Inventory();
+  public equipment = new Equipment();
+  public stats = new Stats();
   constructor(
     public rand: RandomGenerator,
     public player: Mob,
     public build: Builder,
   ) {}
-
-  ai: MobAI | null = null;
-  log: MessageLog = new MessageLog();
-  dungeon: MapHandler = new MapHandler();
-  autoHeal: AutoHeal | undefined = new AutoHeal();
-  inventory = new Inventory();
-  equipment = new Equipment();
-  stats = new Stats();
 
   /**
    * Retrieve the current map.

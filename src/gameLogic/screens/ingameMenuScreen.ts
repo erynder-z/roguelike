@@ -2,6 +2,7 @@ import { BaseScreen } from './baseScreen';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
+import { LayoutManager } from '../../ui/layoutManager/layoutManager';
 
 /**
  *  This class is only responsible for drawing the menu components. All logic for the menus is handled in the web components.
@@ -96,6 +97,11 @@ export class IngameMenuScreen extends BaseScreen {
 
       optionsMenu.addEventListener('open-ingame-menu', () => {
         this.drawIngameMenu();
+      });
+
+      optionsMenu.addEventListener('redraw-message-display', () => {
+        const layoutManager = new LayoutManager();
+        layoutManager.redrawMessages(this.game.log);
       });
     }
   }

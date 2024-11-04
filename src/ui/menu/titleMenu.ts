@@ -1,11 +1,11 @@
 import { ask } from '@tauri-apps/plugin-dialog';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameConfigType } from '../../types/gameConfig/gameConfigType';
-import { gameConfig } from '../../gameConfig/gameConfig';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
-import { saveConfig } from '../../utilities/saveConfig';
 
 export class TitleMenu extends HTMLElement {
+  private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
 
@@ -111,7 +111,7 @@ export class TitleMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.displayCurrentSeed(gameConfig.seed);
+    this.displayCurrentSeed(this.gameConfig.seed);
 
     this.bindEvents();
   }
@@ -268,11 +268,11 @@ export class TitleMenu extends HTMLElement {
    * @return {void}
    */
   public async changeSeed(): Promise<void> {
-    gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-    this.displayCurrentSeed(gameConfig.seed);
+    this.gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+    this.displayCurrentSeed(this.gameConfig.seed);
 
     try {
-      await saveConfig();
+      await gameConfigManager.saveConfig();
     } catch (error) {
       console.error(error);
     }

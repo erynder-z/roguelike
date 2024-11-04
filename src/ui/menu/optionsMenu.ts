@@ -1,19 +1,23 @@
-import { gameConfig } from '../../gameConfig/gameConfig';
-import { saveConfig } from '../../utilities/saveConfig';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
+import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
+import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
 
 export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
-  private shouldDisableImagAlignButton = !gameConfig.show_images;
+  private buttonManager: OptionsMenuButtonManager;
+  private gameConfig = gameConfigManager.getConfig();
+  private shouldDisableScanlineStyleButton = !this.gameConfig.show_scanlines;
   constructor() {
     super();
 
-    this.layoutManager = new LayoutManager();
-
-    this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
-    this.layoutManager.setImageDisplayLayout(gameConfig.image_display);
-
     const shadowRoot = this.attachShadow({ mode: 'open' });
+
+    this.layoutManager = new LayoutManager();
+    this.buttonManager = new OptionsMenuButtonManager(shadowRoot);
+
+    this.layoutManager.setMessageDisplayLayout(this.gameConfig.message_display);
+    this.layoutManager.setImageDisplayLayout(this.gameConfig.image_display);
 
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
@@ -74,26 +78,64 @@ export class OptionsMenu extends HTMLElement {
           pointer-events: none;
           cursor: not-allowed;
         }
+
+        .message-count-input-container {
+          font-weight: bold;
+        }
+
+        .message-count-input {
+          font-family: 'UASQUARE';
+          background: none;
+          border: none;
+          border-bottom: 2px solid var(--white);
+          color: var(--white);
+          font-weight: bold;
+          font-size: 2.5rem;
+        }
+
+        .message-count-input:focus {
+          outline: none;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
       </style>
-  
-        <div class="options-menu">
-          <h1>Options</h1>
-          <div class="buttons-container">        
-            <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
-            <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
-            <button id="show-images-button">S<span class="underline">h</span>ow images</button>
-            <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
-            <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
+
+      <div class="options-menu">
+        <h1>Options</h1>
+        <div class="buttons-container">
+          <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
+          <button id="switch-scanline-style-button">Scanlines s<span class="underline">t</span>yle</button>
+          <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
+          <button id="show-images-button">S<span class="underline">h</span>ow images</button>
+          <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
+          <div class="message-count-input-container">
+            <label for="message-count-input">M<span class="underline">e</span>ssages to Display (1-50):</label>
+            <input
+              type="number"
+              id="message-count-input"
+              class="message-count-input"
+              min="1"
+              max="50"
+              value="${this.gameConfig.message_count}"
+            />
           </div>
+          <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
         </div>
+      </div>
       `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.updateScanlinesButton();
-    this.updateMessageAlignButton();
-    this.updateShowImagesButton();
-    this.updateImageAlignButton();
+    this.buttonManager.updateScanlinesToggleButton();
+    this.buttonManager.updateScanlineStyleButton();
+    this.buttonManager.updateMessageAlignButton();
+    this.buttonManager.updateShowImagesButton();
+    this.buttonManager.updateImageAlignButton();
+    this.setupMessageCountInput();
     this.bindEvents();
   }
 
@@ -116,6 +158,12 @@ export class OptionsMenu extends HTMLElement {
       'toggle-scanlines-button',
       'click',
       this.toggleScanlines,
+      true,
+    );
+    this.manageEventListener(
+      'switch-scanline-style-button',
+      'click',
+      this.switchScanlineStyle.bind(this),
       true,
     );
     this.manageEventListener(
@@ -176,91 +224,6 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
-   * Updates the text of the scanlines button based on the current state.
-   *
-   * If the main container has the class 'scanlines', the button text is
-   * set to 'Scanlines ON'. Otherwise, the button text is set to
-   * 'Scanlines OFF'.
-   *
-   * @return {void}
-   */
-  private updateScanlinesButton(): void {
-    const mainContainer = document.getElementById('main-container');
-    const scanLineBtn = this.shadowRoot?.getElementById(
-      'toggle-scanlines-button',
-    );
-
-    if (mainContainer && scanLineBtn) {
-      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
-      scanLineBtn.innerHTML = hasScanLinesClass
-        ? '<span class="underline">S</span>canlines ON'
-        : '<span class="underline">S</span>canlines OFF';
-    }
-  }
-
-  /**
-   * Updates the text of the message alignment button based on the current state.
-   *
-   * If the current message alignment is 'left', the button text is set to
-   * 'Message display: LEFT'. Otherwise, the button text is set to
-   * 'Message display: RIGHT'.
-   *
-   * @return {void}
-   */
-  private updateMessageAlignButton(): void {
-    const messageAlignBtn = this.shadowRoot?.getElementById(
-      'message-display-align-button',
-    ) as HTMLButtonElement;
-
-    if (messageAlignBtn) {
-      messageAlignBtn.innerHTML =
-        gameConfig.message_display === 'left'
-          ? '<span class="underline">M</span>essage display: LEFT'
-          : '<span class="underline">M</span>essage display: RIGHT';
-    }
-  }
-
-  /**
-   * Updates the text of the display images button based on the current state.
-   *
-   * If {@link gameConfig.show_images} is true, the button text is set to
-   * 'Show images: YES'. Otherwise, the button text is set to
-   * 'Show images: NO'.
-   *
-   * @return {void}
-   */
-  private updateShowImagesButton(): void {
-    const displayImage = this.shadowRoot?.getElementById(
-      'show-images-button',
-    ) as HTMLButtonElement;
-
-    if (displayImage) {
-      displayImage.innerHTML =
-        gameConfig.show_images === true
-          ? 'S<span class="underline">h</span>ow images: YES'
-          : 'S<span class="underline">h</span>ow images: NO';
-    }
-  }
-
-  private updateImageAlignButton(): void {
-    const imageAlignBtn = this.shadowRoot?.getElementById(
-      'image-align-button',
-    ) as HTMLButtonElement;
-
-    if (imageAlignBtn) {
-      imageAlignBtn.innerHTML =
-        gameConfig.image_display === 'left'
-          ? '<span class="underline">I</span>mage display: LEFT'
-          : '<span class="underline">I</span>mage display: RIGHT';
-
-      imageAlignBtn.classList.toggle(
-        'disabled',
-        this.shouldDisableImagAlignButton,
-      );
-    }
-  }
-
-  /**
    * Toggles the scanlines setting on or off.
    *
    * Updates the {@link gameConfig.show_scanlines} property, and toggles the
@@ -270,22 +233,51 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleScanlines(): void {
-    gameConfig.show_scanlines = !gameConfig.show_scanlines;
+    this.gameConfig.show_scanlines = !this.gameConfig.show_scanlines;
+    this.shouldDisableScanlineStyleButton =
+      !this.shouldDisableScanlineStyleButton;
 
     const mainContainer = document.getElementById('main-container');
-    const scanLineBtn = this.shadowRoot?.getElementById(
-      'toggle-scanlines-button',
+
+    if (mainContainer) ScanlinesHandler.handleScanlines(mainContainer);
+
+    this.buttonManager.updateScanlinesToggleButton();
+    this.buttonManager.updateScanlineStyleButton();
+  }
+
+  /**
+   * Switches the scanline style to the next available style.
+   *
+   * Updates the {@link gameConfig.scanline_style} property, and updates the
+   * button text with the new style.
+   *
+   * Applies the new style to the main container element.
+   *
+   * Tries to save the updated config to local storage.
+   *
+   * @return {void}
+   */
+  private switchScanlineStyle(): void {
+    const availableStyles = ScanlinesHandler.SCANLINES_STYLES;
+    const currentStyleIndex = availableStyles.indexOf(
+      this.gameConfig.scanline_style,
     );
 
-    if (mainContainer) {
-      mainContainer.classList.toggle('scanlines');
-      const hasScanLinesClass = mainContainer.classList.contains('scanlines');
+    const nextStyleIndex = (currentStyleIndex + 1) % availableStyles.length;
+    const nextStyle = availableStyles[nextStyleIndex];
 
-      if (scanLineBtn) {
-        scanLineBtn.innerHTML = hasScanLinesClass
-          ? '<span class="underline">S</span>canlines ON'
-          : '<span class="underline">S</span>canlines OFF';
-      }
+    this.gameConfig.scanline_style = nextStyle;
+
+    this.buttonManager.updateScanlineStyleButton();
+
+    const mainContainer = document.getElementById('main-container');
+    if (mainContainer)
+      ScanlinesHandler.applyScanlineStyle(mainContainer, nextStyle);
+
+    try {
+      gameConfigManager.saveConfig();
+    } catch (error) {
+      console.error('Failed to save config:', error);
     }
   }
 
@@ -299,11 +291,11 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleMessageAlignment(): void {
-    gameConfig.message_display =
-      gameConfig.message_display === 'left' ? 'right' : 'left';
+    this.gameConfig.message_display =
+      this.gameConfig.message_display === 'left' ? 'right' : 'left';
 
-    this.updateMessageAlignButton();
-    this.layoutManager.setMessageDisplayLayout(gameConfig.message_display);
+    this.buttonManager.updateMessageAlignButton();
+    this.layoutManager.setMessageDisplayLayout(this.gameConfig.message_display);
   }
 
   /**
@@ -316,14 +308,15 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleShowImages(): void {
-    gameConfig.show_images = !gameConfig.show_images;
+    this.gameConfig.show_images = !this.gameConfig.show_images;
 
-    this.updateShowImagesButton();
-    this.layoutManager.setImageDisplay(gameConfig.show_images);
+    this.buttonManager.updateShowImagesButton();
+    this.layoutManager.setImageDisplay(this.gameConfig.show_images);
     this.layoutManager.forceSmileImageDisplay();
 
-    this.shouldDisableImagAlignButton = !gameConfig.show_images;
-    this.updateImageAlignButton();
+    this.buttonManager.shouldDisableImageAlignButton =
+      !this.gameConfig.show_images;
+    this.buttonManager.updateImageAlignButton();
   }
 
   /**
@@ -336,12 +329,56 @@ export class OptionsMenu extends HTMLElement {
    * @return {void}
    */
   private toggleImageAlignment(): void {
-    gameConfig.image_display =
-      gameConfig.image_display === 'left' ? 'right' : 'left';
+    this.gameConfig.image_display =
+      this.gameConfig.image_display === 'left' ? 'right' : 'left';
 
-    this.updateImageAlignButton();
-    this.layoutManager.setImageDisplayLayout(gameConfig.image_display);
+    this.buttonManager.updateImageAlignButton();
+    this.layoutManager.setImageDisplayLayout(this.gameConfig.image_display);
   }
+
+  /**
+   * Sets up the event listener for the message count input element.
+   *
+   * Attaches an 'input' event listener to the message count input element
+   * within the shadow DOM. The listener triggers the handleMessageCountChange
+   * method whenever the input value changes.
+   *
+   * @return {void}
+   */
+  private setupMessageCountInput(): void {
+    const messageCountInput = this.shadowRoot?.getElementById(
+      'message-count-input',
+    ) as HTMLInputElement;
+
+    if (messageCountInput) {
+      messageCountInput.addEventListener(
+        'input',
+        this.handleMessageCountChange,
+      );
+    }
+  }
+
+  /**
+   * Handles the input event on the message count input element.
+   *
+   * @param {Event} event The input event from the message count input element.
+   * @return {void}
+   */
+  private handleMessageCountChange = (event: Event): void => {
+    const input = event.target as HTMLInputElement;
+    const newCount = parseInt(input.value, 10);
+
+    if (!isNaN(newCount) && newCount >= 1 && newCount <= 50) {
+      this.gameConfig.message_count = newCount;
+    } else {
+      input.value = this.gameConfig.message_count.toString();
+    }
+
+    const customEvent = new CustomEvent('redraw-message-display', {
+      bubbles: true,
+    });
+    this.dispatchEvent(customEvent);
+  };
 
   /**
    * Returns to the ingame menu, saving the current game configuration.
@@ -359,11 +396,34 @@ export class OptionsMenu extends HTMLElement {
    */
   private async returnToIngameMenu(): Promise<void> {
     try {
-      await saveConfig();
+      await gameConfigManager.saveConfig();
     } catch (error) {
       console.error(error);
     }
     this.remove();
+  }
+
+  /**
+   * Sets focus to the message count input element and selects its content.
+   *
+   * This function is called when the user presses the "e" key on the options menu.
+   * It finds the input element in the shadow DOM and sets focus to it. To select
+   * the content of the input element, it uses setTimeout to delay the selection
+   * by 10 milliseconds, so that the focus event is processed before the selection
+   * is triggered.
+   *
+   * @return {void}
+   */
+  private focusAndSelectMessageCountInput(): void {
+    const messageCountInput = this.shadowRoot?.getElementById(
+      'message-count-input',
+    ) as HTMLInputElement;
+    if (messageCountInput) {
+      messageCountInput.focus();
+      setTimeout(() => {
+        messageCountInput.select();
+      }, 10);
+    }
   }
 
   /**
@@ -381,8 +441,14 @@ export class OptionsMenu extends HTMLElement {
       case 'S':
         this.toggleScanlines();
         break;
+      case 't':
+        this.switchScanlineStyle();
+        break;
       case 'M':
         this.toggleMessageAlignment();
+        break;
+      case 'e':
+        this.focusAndSelectMessageCountInput();
         break;
       case 'h':
         this.toggleShowImages();
@@ -420,6 +486,9 @@ export class OptionsMenu extends HTMLElement {
       shadowRoot
         .getElementById('toggle-scanlines-button')
         ?.removeEventListener('click', this.toggleScanlines);
+      shadowRoot
+        .getElementById('switch-scanline-style-button')
+        ?.removeEventListener('click', this.switchScanlineStyle);
       shadowRoot
         .getElementById('message-display-align-button')
         ?.removeEventListener('click', this.toggleMessageAlignment);

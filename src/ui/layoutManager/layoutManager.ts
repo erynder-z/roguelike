@@ -1,11 +1,17 @@
-import { gameConfig } from '../../gameConfig/gameConfig';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
 import { images } from '../../utilities/imageHandler/imageIndex';
+import { MessagesDisplay } from '../messages/messagesDisplay';
+import { MessageLog } from '../../gameLogic/messages/messageLog';
 
+/**
+ *  This class handles changing and redrawing parts of the UI when needed.
+ */
 export class LayoutManager {
   private mainContainer: HTMLElement | null;
   private bottomContainer: HTMLElement | null;
   private imageContainer: HTMLElement | null;
+  private gameConfig = gameConfigManager.getConfig();
 
   constructor() {
     this.mainContainer = document.getElementById('main-container');
@@ -18,7 +24,7 @@ export class LayoutManager {
    *
    * @param {('left' | 'right')} position - The desired position of the message display.
    */
-  setMessageDisplayLayout(position: 'left' | 'right'): void {
+  public setMessageDisplayLayout(position: 'left' | 'right'): void {
     if (!this.mainContainer) return;
 
     const layout = this.getMessageDisplayLayout(position);
@@ -31,7 +37,7 @@ export class LayoutManager {
    *
    * @param {('left' | 'right')} position - The desired position of the image display.
    */
-  setImageDisplayLayout(position: 'left' | 'right'): void {
+  public setImageDisplayLayout(position: 'left' | 'right'): void {
     if (!this.bottomContainer || !this.imageContainer) return;
 
     const layout = this.getImageDisplayLayout(position);
@@ -46,7 +52,7 @@ export class LayoutManager {
    * @param {boolean} shouldShow - Determines whether the image container should be visible ('block') or hidden ('none').
    * @return {void}
    */
-  setImageDisplay(shouldShow: boolean): void {
+  public setImageDisplay(shouldShow: boolean): void {
     if (!this.imageContainer) return;
     this.imageContainer.style.display = shouldShow ? 'block' : 'none';
   }
@@ -56,8 +62,8 @@ export class LayoutManager {
    *
    * @returns {void}
    */
-  forceSmileImageDisplay(): void {
-    const appearance = gameConfig.player.appearance;
+  public forceSmileImageDisplay(): void {
+    const appearance = this.gameConfig.player.appearance;
 
     const smileImageSet =
       appearance === 'boyish'
@@ -76,7 +82,7 @@ export class LayoutManager {
   /**
    * Resets both message and image display layouts to the default (left side).
    */
-  resetLayouts(): void {
+  public resetLayouts(): void {
     this.setMessageDisplayLayout('left');
     this.setImageDisplayLayout('left');
   }
@@ -136,5 +142,19 @@ export class LayoutManager {
         justifyContent: 'flex-end',
       };
     }
+  }
+
+  /**
+   * Updates the messages display with the current current message count.
+   * @param {MessageLog} log - The message log to read from.
+   */
+  public redrawMessages(log: MessageLog): void {
+    const messageCount = this.gameConfig.message_count;
+    const messageLog = log.archive.slice(-messageCount);
+
+    const messagesDisplay = document.querySelector(
+      'messages-display',
+    ) as MessagesDisplay;
+    if (messagesDisplay) messagesDisplay.setMessages(messageLog);
   }
 }

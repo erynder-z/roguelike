@@ -1,0 +1,303 @@
+.scanlines-subtle:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.05) 0.5px,
+    transparent 1.5px,
+    transparent 3px
+  );
+}
+
+.scanlines-light:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 0.5px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.scanlines-medium:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 1px,
+    transparent 3px,
+    transparent 6px
+  );
+}
+
+.scanlines-dark:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.3) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.scanlines-green:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 0, 0.1),
+    rgba(0, 255, 0, 0.1) 0.5px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.scanlines-diagonal:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1.5px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.scanlines-vertical:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1.5px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.scanlines-lcd:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.2),
+    rgba(255, 0, 0, 0.2) 1px,
+    rgba(0, 255, 0, 0.2) 1px,
+    rgba(0, 255, 0, 0.2) 2px,
+    rgba(0, 0, 255, 0.2) 2px,
+    rgba(0, 0, 255, 0.2) 3px
+  );
+}
+
+.scanlines-shadowMask:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 4px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.15),
+      rgba(255, 0, 0, 0.15) 1px,
+      rgba(0, 255, 0, 0.15) 1px,
+      rgba(0, 255, 0, 0.15) 2px,
+      rgba(0, 0, 255, 0.15) 2px,
+      rgba(0, 0, 255, 0.15) 3px
+    );
+  background-size: 4px 4px;
+}
+
+.scanlines-interlaced:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  transform: translateY(-1px);
+}
+
+.scanlines-static:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 3px,
+      transparent 5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+}
+
+.scanlines-glitch:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 255, 0.2),
+    rgba(255, 0, 255, 0.2) 1px,
+    transparent 4px,
+    transparent 8px
+  );
+  animation: glitch 0.2s infinite;
+}
+
+.scanlines-rainbow:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 2px,
+      transparent 4px
+    ),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
+}
+
+.scanlines-anaglyph:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  touch-action: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 0, 0.2),
+    rgba(255, 0, 0, 0.2) 1px,
+    rgba(0, 0, 255, 0.2) 2px,
+    rgba(0, 0, 255, 0.2) 3px,
+    transparent 4px,
+    transparent 6px
+  );
+  transform: translate(-2px, -1px);
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(5px, -2px);
+    opacity: 0.8;
+  }
+  40% {
+    transform: translate(-5px, 2px);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translate(3px, -1px);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-3px, 1px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}

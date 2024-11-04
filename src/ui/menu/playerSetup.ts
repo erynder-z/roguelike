@@ -1,4 +1,4 @@
-import { gameConfig } from '../../gameConfig/gameConfig';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { getRandomColor } from '../../utilities/colors/getRandomColor';
 import { getRandomUnicodeCharacter } from '../../utilities/getRandomAvatar';
@@ -7,9 +7,9 @@ import {
   girlishPortrait,
   boyishPortrait,
 } from '../../utilities/imageHandler/imageImports/portraitImages';
-import { saveConfig } from '../../utilities/saveConfig';
 
 export class PlayerSetup extends HTMLElement {
+  private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
 
@@ -252,7 +252,7 @@ export class PlayerSetup extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.bindEvents();
-    this.displayPlayer(gameConfig.player);
+    this.displayPlayer(this.gameConfig.player);
   }
 
   /**
@@ -513,13 +513,13 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private toggleAppearance(): void {
-    const player = gameConfig.player;
+    const player = this.gameConfig.player;
     player.appearance = player.appearance === 'girlish' ? 'boyish' : 'girlish';
     this.displayPlayer(player);
   }
 
   private changeAppearanceTo(appearance: 'boyish' | 'girlish'): void {
-    const player = gameConfig.player;
+    const player = this.gameConfig.player;
     player.appearance = appearance;
     this.displayPlayer(player);
   }
@@ -543,7 +543,7 @@ export class PlayerSetup extends HTMLElement {
 
     randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
-    inputElement.value = gameConfig.player.name;
+    inputElement.value = this.gameConfig.player.name;
     nameElement.style.display = 'none';
     inputElement.focus();
 
@@ -572,8 +572,8 @@ export class PlayerSetup extends HTMLElement {
 
     if (inputElement) {
       const newName = inputElement.value.trim();
-      gameConfig.player.name = newName || 'Unnamed';
-      this.renderNameElement('player-name', gameConfig.player.name);
+      this.gameConfig.player.name = newName || 'Unnamed';
+      this.renderNameElement('player-name', this.gameConfig.player.name);
       nameElement.style.display = 'inline';
       inputElement.style.display = 'none';
       randomizeButton.style.display = 'inline';
@@ -586,7 +586,9 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeName(): void {
-    gameConfig.player.name = getRandomName(gameConfig.player.appearance);
+    this.gameConfig.player.name = getRandomName(
+      this.gameConfig.player.appearance,
+    );
   }
 
   /**
@@ -595,7 +597,7 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeAvatar(): void {
-    gameConfig.player.avatar = getRandomUnicodeCharacter();
+    this.gameConfig.player.avatar = getRandomUnicodeCharacter();
   }
 
   /**
@@ -624,7 +626,7 @@ export class PlayerSetup extends HTMLElement {
     const colorInput = this.shadowRoot?.getElementById(
       'player-color-input',
     ) as HTMLInputElement;
-    gameConfig.player.color = colorInput?.value;
+    this.gameConfig.player.color = colorInput?.value;
   }
 
   /**
@@ -653,7 +655,7 @@ export class PlayerSetup extends HTMLElement {
 
     if (colorInput) {
       colorInput.value = randomColor;
-      gameConfig.player.color = randomColor;
+      this.gameConfig.player.color = randomColor;
     }
   }
 
@@ -676,7 +678,7 @@ export class PlayerSetup extends HTMLElement {
 
     randomizeButton.style.display = 'none';
     inputElement.style.display = 'flex';
-    inputElement.value = gameConfig.player.avatar;
+    inputElement.value = this.gameConfig.player.avatar;
     avatarElement.style.display = 'none';
     inputElement.focus();
 
@@ -705,8 +707,8 @@ export class PlayerSetup extends HTMLElement {
 
     if (inputElement) {
       const newAvatar = inputElement.value.trim();
-      gameConfig.player.avatar = newAvatar || '@';
-      this.renderNameElement('player-avatar', gameConfig.player.avatar);
+      this.gameConfig.player.avatar = newAvatar || '@';
+      this.renderNameElement('player-avatar', this.gameConfig.player.avatar);
       avatarElement.style.display = 'inline';
       inputElement.style.display = 'none';
       randomizeButton.style.display = 'inline';
@@ -719,7 +721,8 @@ export class PlayerSetup extends HTMLElement {
    * @return {void}
    */
   private randomizeAppearance(): void {
-    gameConfig.player.appearance = Math.random() > 0.5 ? 'boyish' : 'girlish';
+    this.gameConfig.player.appearance =
+      Math.random() > 0.5 ? 'boyish' : 'girlish';
   }
 
   /**
@@ -756,7 +759,7 @@ export class PlayerSetup extends HTMLElement {
         this.randomizeAvatar();
         break;
     }
-    this.displayPlayer(gameConfig.player);
+    this.displayPlayer(this.gameConfig.player);
   }
 
   /**
@@ -769,7 +772,7 @@ export class PlayerSetup extends HTMLElement {
    */
   private async returnToPreviousScreen(): Promise<void> {
     try {
-      await saveConfig();
+      await gameConfigManager.saveConfig();
     } catch (error) {
       console.error(error);
     }

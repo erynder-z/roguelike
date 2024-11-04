@@ -1,4 +1,4 @@
-import { gameConfig } from '../../gameConfig/gameConfig';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { PostMortem } from '../stats/postMortem';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
@@ -10,6 +10,7 @@ import { StackScreen } from '../../types/terminal/stackScreen';
  */
 export class GameOverScreen implements StackScreen {
   public name = 'gameover';
+  private gameConfig = gameConfigManager.getConfig();
   constructor(
     public game: GameState,
     public make: ScreenMaker,
@@ -69,7 +70,7 @@ export class GameOverScreen implements StackScreen {
   private createNameElement(): HTMLDivElement {
     const nameElement = document.createElement('h1');
     nameElement.textContent = `${this.game.player.name} ✝`;
-    nameElement.style.color = gameConfig.player.color;
+    nameElement.style.color = this.gameConfig.player.color;
     return nameElement;
   }
 

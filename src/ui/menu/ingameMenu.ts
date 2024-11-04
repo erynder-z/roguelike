@@ -10,68 +10,80 @@ export class IngameMenu extends HTMLElement {
 
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-        <style>
-          .ingame-menu {
-            font-family: 'UASQUARE';
-            font-size: 2.5rem;
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: start;
-            height: 100%;
-            width: 100%;        
-            backdrop-filter: brightness(60%) blur(10px);
-            color: var(--white);
-            z-index: 1;
-            overflow: hidden;
-          }
-   
-          .ingame-menu h1 {
-            margin-top: 12rem;  
-            text-align: center;
-            z-index: 1;
-          }
-          .ingame-menu button {
-            font-family: 'UASQUARE';
-            padding: 1rem;
-            font-size: 2.5rem;
-            font-weight: bold;
-            background: none;
-            color: var(--white);
-            border: none;
-            transition: all 0.2s ease-in-out;
-          }
+      <style>
+        .ingame-menu {
+          font-family: 'UASQUARE';
+          font-size: 2.5rem;
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: start;
+          height: 100%;
+          width: 100%;
+          backdrop-filter: brightness(60%) blur(10px);
+          color: var(--white);
+          z-index: 1;
+          overflow: hidden;
+        }
 
-          .ingame-menu button:hover {
-           cursor: pointer;
-           transform: scale(1.1);
-          }
+        .ingame-menu h1 {
+          margin-top: 12rem;
+          text-align: center;
+          z-index: 1;
+        }
 
-          .underline {
-            text-decoration: underline;
-          }
+        .ingame-menu button {
+          font-family: 'UASQUARE';
+          padding: 1rem;
+          font-size: 2.5rem;
+          font-weight: bold;
+          background: none;
+          color: var(--white);
+          border: none;
+          transition: all 0.2s ease-in-out;
+        }
 
-          .buttons-container {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%;
-            gap: 0.5rem;
-          }
-        </style>
-  
-        <div class="ingame-menu">
-          <h1>Menu</h1>
-          <div class="buttons-container">
-             <button id="return-to-game-button"><span class="underline">R</span>eturn to game</button>
-            <button id="show-options-button"><span class="underline">O</span>ptions</button>
-            <button id="help-button"><span class="underline">H</span>elp</button>
-            <button id="quit-window-button"><span class="underline">Q</span>uit</button>
-          </div>
+        .ingame-menu button:hover {
+          cursor: pointer;
+          transform: scale(1.1);
+        }
+
+        .underline {
+          text-decoration: underline;
+        }
+
+        .buttons-container {
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 100%;
+          gap: 0.5rem;
+        }
+      </style>
+
+      <div class="ingame-menu">
+        <h1>Menu</h1>
+        <div class="buttons-container">
+          <button id="return-to-game-button">
+            <span class="underline">R</span>eturn to game
+          </button>
+          <button id="show-options-button">
+            <span class="underline">O</span>ptions
+          </button>
+          <button id="help-button">
+            <span class="underline">H</span>elp
+          </button>
+          <button id="return-to-title-button">
+            Return to <span class="underline">t</span>itle
+          </button>
+          <button id="quit-app-button">
+            <span class="underline">Q</span>uit game and exit
+          </button>
         </div>
-      `;
+      </div>
+    `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
@@ -95,7 +107,8 @@ export class IngameMenu extends HTMLElement {
     this.returnToGame = this.returnToGame.bind(this);
     this.showOptions = this.showOptions.bind(this);
     this.showHelp = this.showHelp.bind(this);
-    this.quitGame = this.quitGame.bind(this);
+    this.returnToTitle = this.returnToTitle.bind(this);
+    this.quitApp = this.quitApp.bind(this);
 
     this.manageEventListener(
       'return-to-game-button',
@@ -111,11 +124,12 @@ export class IngameMenu extends HTMLElement {
     );
     this.manageEventListener('help-button', 'click', this.showHelp, true);
     this.manageEventListener(
-      'quit-window-button',
+      'return-to-title-button',
       'click',
-      this.quitGame,
+      this.returnToTitle,
       true,
     );
+    this.manageEventListener('quit-app-button', 'click', this.quitApp, true);
 
     document.addEventListener('keydown', this.handleKeyPress);
   }
@@ -166,8 +180,11 @@ export class IngameMenu extends HTMLElement {
       case 'H':
         this.showHelp();
         break;
+      case 't':
+        this.returnToTitle();
+        break;
       case 'Q':
-        this.quitGame();
+        this.quitApp();
         break;
       default:
         break;
@@ -200,12 +217,35 @@ export class IngameMenu extends HTMLElement {
     invoke('show_help_window');
   }
 
+
+  /**
+   * Returns to the title screen. Asks for confirmation before quitting.
+   *
+   * If the user confirms, the page is reloaded, which causes the game to restart.
+   *
+   * @return {Promise<void>} A promise that resolves when the screen is updated.
+   */
+  private async returnToTitle(): Promise<void> {
+    try {
+      const confirmation = await ask(
+        'Game progress will be lost. Are you sure?',
+        { title: 'Confirm Quit', kind: 'warning' },
+      );
+
+      if (confirmation) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Failed to return to title:', error);
+    }
+  }
+
   /**
    * Calls the Tauri backend to quit the game. Asks for confirmation before quitting.
    *
    * @return {Promise<void>} A promise that resolves when the game is exited.
    */
-  private async quitGame(): Promise<void> {
+  private async quitApp(): Promise<void> {
     try {
       const confirmation = await ask('Are you sure you want to quit?', {
         title: 'Confirm Quit',
@@ -244,8 +284,11 @@ export class IngameMenu extends HTMLElement {
         .getElementById('help-button')
         ?.removeEventListener('click', this.showHelp);
       shadowRoot
-        .getElementById('quit-window-button')
-        ?.removeEventListener('click', this.quitGame);
+        .getElementById('return-title-button')
+        ?.removeEventListener('click', this.returnToTitle);
+      shadowRoot
+        .getElementById('quit-app-button')
+        ?.removeEventListener('click', this.quitApp);
       document.removeEventListener('keydown', this.handleKeyPress);
     }
   }
