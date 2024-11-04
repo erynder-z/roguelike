@@ -21,13 +21,12 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  *
  */
 export class ShootAI implements MobAI {
+  private aiDir: MobAI = new MobAI2_Cat();
+  private aiRnd: MobAI = new MobAI3_Ant();
   constructor(
     public speed: number,
     public spellRate: number,
   ) {}
-
-  private aiDir: MobAI = new MobAI2_Cat();
-  private aiRnd: MobAI = new MobAI3_Ant();
 
   /**
    * Takes a turn for the Mob in a shootAI state.

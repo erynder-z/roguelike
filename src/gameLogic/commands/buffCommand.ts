@@ -23,8 +23,8 @@ export class BuffCommand extends CommandBase {
   constructor(
     public buff: Buff,
     public target: Mob,
-    game: GameState,
-    me: Mob,
+    public game: GameState,
+    public me: Mob,
     public duration: number = DEFAULT_BUFF_DURATION,
     public timeLeft: number = duration,
   ) {

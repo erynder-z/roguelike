@@ -13,9 +13,9 @@ import { Stack } from '../../types/terminal/stack';
  *
  */
 export class AwakeAI implements MobAI {
-  constructor(public speed: number) {}
   private aiTargetedMovement: MobAI = new MobAI2_Cat();
   private aiRandomMovement: MobAI = new MobAI3_Ant();
+  constructor(public speed: number) {}
 
   /**
    * Takes a turn for the Mob in an awake state.
