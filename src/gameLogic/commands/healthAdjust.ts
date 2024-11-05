@@ -38,7 +38,6 @@ export class HealthAdjust {
     const limit = mob.maxhp - mob.hp;
     if (amount > limit) amount = limit;
     mob.hp += amount;
-    /*   console.log(`heal ${mob.hp}`); */
   }
 
   /**

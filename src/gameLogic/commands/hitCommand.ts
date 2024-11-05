@@ -80,8 +80,7 @@ export class HitCommand extends CommandBase {
     if (target.isPlayer) {
       const orig = dmg;
       const factor = this.game.equipment!.armorClass_reduce();
-      dmg = Math.ceil(dmg * factor);
-      console.log(`${orig}→ ${dmg} (${factor})`);
+      dmg = Math.ceil(orig * factor);
     }
 
     const rest = target.hp - dmg;
