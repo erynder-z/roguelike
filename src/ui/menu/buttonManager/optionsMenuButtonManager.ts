@@ -14,22 +14,22 @@ export class OptionsMenuButtonManager {
   }
 
   /**
-   * Updates the text of the scanlines button based on the current state.
+   * Updates the text of the scanlines toggle button based on the current state.
    *
-   * If the main container has the class 'scanlines', the button text is
-   * set to 'Scanlines ON'. Otherwise, the button text is set to
-   * 'Scanlines OFF'.
+   * Disables or enables the scanline style button based on the current state.
    *
    * @return {void}
    */
   public updateScanlinesToggleButton(): void {
-    const scanLineBtn = this.shadowRoot?.getElementById(
+    const scanlinesButton = this.shadowRoot?.getElementById(
       'toggle-scanlines-button',
     );
 
-    if (scanLineBtn) {
-      const areScanlinesToggled = this.gameConfig.show_scanlines;
-      scanLineBtn.innerHTML = areScanlinesToggled
+    if (scanlinesButton) {
+      const scanlinesEnabled = this.gameConfig.show_scanlines;
+      this.shouldDisableScanlineStyleButton = !scanlinesEnabled;
+
+      scanlinesButton.innerHTML = scanlinesEnabled
         ? '<span class="underline">S</span>canlines ON'
         : '<span class="underline">S</span>canlines OFF';
     }

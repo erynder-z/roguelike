@@ -7,7 +7,6 @@ export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
-  private shouldDisableScanlineStyleButton = !this.gameConfig.show_scanlines;
   constructor() {
     super();
 
@@ -234,8 +233,6 @@ export class OptionsMenu extends HTMLElement {
    */
   private toggleScanlines(): void {
     this.gameConfig.show_scanlines = !this.gameConfig.show_scanlines;
-    this.shouldDisableScanlineStyleButton =
-      !this.shouldDisableScanlineStyleButton;
 
     const mainContainer = document.getElementById('main-container');
 
