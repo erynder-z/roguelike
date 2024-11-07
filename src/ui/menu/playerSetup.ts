@@ -796,7 +796,7 @@ export class PlayerSetup extends HTMLElement {
    *
    * @return {void}
    */
-  private disconnectedCallback(): void {
+  disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
     this.manageEventListener(

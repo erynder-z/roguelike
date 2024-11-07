@@ -470,7 +470,7 @@ export class OptionsMenu extends HTMLElement {
    *
    * @return {void}
    */
-  private disconnectedCallback(): void {
+  disconnectedCallback(): void {
     const event = new CustomEvent('open-ingame-menu', {
       bubbles: true,
     });
