@@ -5,7 +5,7 @@ import { Slot } from '../itemObjects/slot';
  * Represents equippable items
  */
 export class Equipment {
-  private _objs: Map<Slot, ItemObject> = new Map();
+  public _objs: Map<Slot, ItemObject> = new Map();
 
   /**
    * Adds an item to the equipment.
