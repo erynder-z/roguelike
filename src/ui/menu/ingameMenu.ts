@@ -1,11 +1,22 @@
 import { ask } from '@tauri-apps/plugin-dialog';
+import { BaseDirectory, writeTextFile, open } from '@tauri-apps/plugin-fs';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { SaveStateHandler } from '../../utilities/SaveStateHandler';
 
 export class IngameMenu extends HTMLElement {
+  private _game: GameState | null = null;
+
+  set currentGame(value: GameState | null) {
+    this._game = value;
+  }
+
+  get currentGame(): GameState | null {
+    return this._game;
+  }
   constructor() {
     super();
-
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const templateElement = document.createElement('template');
@@ -75,6 +86,9 @@ export class IngameMenu extends HTMLElement {
           <button id="help-button">
             <span class="underline">H</span>elp
           </button>
+          <button id="save-game-button">
+            <span class="underline">S</span>ave game
+          </button>
           <button id="return-to-title-button">
             Return to <span class="underline">t</span>itle
           </button>
@@ -107,6 +121,7 @@ export class IngameMenu extends HTMLElement {
     this.returnToGame = this.returnToGame.bind(this);
     this.showOptions = this.showOptions.bind(this);
     this.showHelp = this.showHelp.bind(this);
+    this.saveGame = this.saveGame.bind(this);
     this.returnToTitle = this.returnToTitle.bind(this);
     this.quitApp = this.quitApp.bind(this);
 
@@ -123,6 +138,7 @@ export class IngameMenu extends HTMLElement {
       true,
     );
     this.manageEventListener('help-button', 'click', this.showHelp, true);
+    this.manageEventListener('save-game-button', 'click', this.saveGame, true);
     this.manageEventListener(
       'return-to-title-button',
       'click',
@@ -180,6 +196,9 @@ export class IngameMenu extends HTMLElement {
       case 'H':
         this.showHelp();
         break;
+      case 'S':
+        this.saveGame();
+        break;
       case 't':
         this.returnToTitle();
         break;
@@ -217,6 +236,30 @@ export class IngameMenu extends HTMLElement {
     invoke('show_help_window');
   }
 
+  private async saveGame(): Promise<void> {
+    if (!this._game) return;
+
+    try {
+      const gameState = this._game;
+      const serializedData = SaveStateHandler.serialize(gameState);
+      const contents = JSON.stringify(serializedData, null, 2);
+
+      const file = await open('savestate.json', {
+        write: true,
+        create: true,
+        baseDir: BaseDirectory.AppData,
+      });
+
+      await writeTextFile('savestate.json', contents, {
+        baseDir: BaseDirectory.AppData,
+      });
+
+      await file.close();
+      console.log('Game saved successfully.');
+    } catch (error) {
+      console.error('Error saving game:', error);
+    }
+  }
 
   /**
    * Returns to the title screen. Asks for confirmation before quitting.
@@ -269,7 +312,7 @@ export class IngameMenu extends HTMLElement {
    *
    * @return {void}
    */
-  private disconnectedCallback(): void {
+  disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
     const shadowRoot = this.shadowRoot;

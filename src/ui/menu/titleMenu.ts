@@ -84,7 +84,10 @@ export class TitleMenu extends HTMLElement {
         <h1>Meikai: Roguelike Journey to the Center of the Earth</h1>
         <div class="buttons-container">
           <button id="new-game-button">
-            <span class="underline">N</span>ew Game
+            <span class="underline">N</span>ew game
+          </button>
+          <button id="load-game-button">
+            <span class="underline">L</span>oad game
           </button>
           <button id="player-setup-button">
             <span class="underline">P</span>layer setup
@@ -132,6 +135,7 @@ export class TitleMenu extends HTMLElement {
   private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
+    this.loadGame = this.loadGame.bind(this);
     this.playerSetup = this.playerSetup.bind(this);
     this.changeSeed = this.changeSeed.bind(this);
     this.showHelp = this.showHelp.bind(this);
@@ -144,6 +148,7 @@ export class TitleMenu extends HTMLElement {
       this.startNewGame,
       true,
     );
+    this.manageEventListener('load-game-button', 'click', this.loadGame, true);
     this.manageEventListener(
       'player-setup-button',
       'click',
@@ -261,6 +266,19 @@ export class TitleMenu extends HTMLElement {
   }
 
   /**
+   * Dispatches a 'load-game' event.
+   *
+   * This event can be listened to by other components to load a saved game.
+   *
+   * @return {void}
+   */
+  public loadGame(): void {
+    this.dispatchEvent(
+      new CustomEvent('load-game', { bubbles: true, composed: true }),
+    );
+  }
+
+  /**
    * Changes the current seed to a random value.
    *
    * This function will also update the displayed seed in the title menu.
@@ -336,7 +354,7 @@ export class TitleMenu extends HTMLElement {
    * connectedCallback function.
    * @return {void}
    */
-  private disconnectedCallback(): void {
+  disconnectedCallback(): void {
     document.removeEventListener('keydown', this.handleKeyPress);
 
     const shadowRoot = this.shadowRoot;
