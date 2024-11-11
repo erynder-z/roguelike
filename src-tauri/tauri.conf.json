@@ -54,16 +54,16 @@
   "app": {
     "windows": [
       {
-        "label": "main",
-        "title": "meikai-roguelike",
-        "url": "index.html",
+        "label": "help",
+        "title": "Meikai - Help",
+        "url": "help.html",
         "fullscreen": true,
         "visible": false
       },
       {
-        "label": "help",
-        "title": "Meikai - Help",
-        "url": "help.html",
+        "label": "main",
+        "title": "meikai-roguelike",
+        "url": "index.html",
         "fullscreen": true,
         "visible": false
       }

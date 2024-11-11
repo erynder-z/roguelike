@@ -5,7 +5,7 @@ import { Slot } from '../itemObjects/slot';
  * Represents equippable items
  */
 export class Equipment {
-  private _objs: Map<Slot, ItemObject> = new Map();
+  public _objs: Map<Slot, ItemObject> = new Map();
 
   /**
    * Adds an item to the equipment.
@@ -60,7 +60,7 @@ export class Equipment {
    */
   private legalSlot(s: Slot): void {
     if (!this.has(s)) {
-      console.log(this._objs);
+      console.error(this._objs);
       throw 'Slot does not exist!';
     }
   }
@@ -73,11 +73,11 @@ export class Equipment {
   private legalObj(o: ItemObject): void {
     const slot: Slot = o.slot;
     if (slot == Slot.NotWorn) {
-      console.log(slot, o);
+      console.error(slot, o);
       throw 'Item cannot be worn!';
     }
     if (slot == undefined) {
-      console.log(slot, o);
+      console.error(slot, o);
       throw 'Item slot is undefined!';
     }
   }

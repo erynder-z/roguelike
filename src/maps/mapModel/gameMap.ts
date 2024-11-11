@@ -111,8 +111,6 @@ export class GameMap implements GameMapType {
     m.name = glyphInfo.name;
     m.description = GlyphMap.getGlyphDescription(m.glyph);
 
-    console.log(`Adding NPC: ${m.name} at position (${m.pos.x}, ${m.pos.y})`);
-
     this.cell(m.pos).mob = m;
     this.queue.pushMob(m);
     return m;

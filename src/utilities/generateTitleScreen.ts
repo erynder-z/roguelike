@@ -1,4 +1,5 @@
 import { Builder } from '../gameBuilder/builder';
+import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
 import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { DynamicScreenMaker } from '../gameLogic/screens/dynamicScreenMaker';
 import { GlyphLoader } from '../loaders/glyphLoader';
@@ -12,7 +13,6 @@ export class GenerateTitleScreen {
    */
   public static async generate() {
     const body = document.getElementById('body-main');
-
     if (!body) {
       console.error('Body element not found');
       return;
@@ -42,6 +42,18 @@ export class GenerateTitleScreen {
         );
       } catch (error) {
         console.error('Error starting new game:', error);
+      }
+    });
+
+    titleScreen.addEventListener('load-game', async () => {
+      try {
+        const file = await readTextFile('savestate.json', {
+          baseDir: BaseDirectory.AppData,
+        });
+        const jsonData = JSON.parse(file);
+        console.log(jsonData);
+      } catch (error) {
+        console.error('Error opening file:', error);
       }
     });
   }

@@ -56,7 +56,6 @@ export class ItemScreen extends BaseScreen {
    * @returns {boolean} True if the event was handled, otherwise false.
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
-    console.log('key: ', event.key);
 
     switch (event.key) {
       case 'd':

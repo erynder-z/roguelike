@@ -1,8 +1,9 @@
 import { BaseScreen } from './baseScreen';
 import { GameState } from '../../types/gameBuilder/gameState';
+import { IngameMenu } from '../../ui/menu/ingameMenu';
+import { LayoutManager } from '../../ui/layoutManager/layoutManager';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
-import { LayoutManager } from '../../ui/layoutManager/layoutManager';
 
 /**
  *  This class is only responsible for drawing the menu components. All logic for the menus is handled in the web components.
@@ -44,7 +45,8 @@ export class IngameMenuScreen extends BaseScreen {
       !document.querySelector('options-menu')
     ) {
       const body = document.getElementById('body-main');
-      const menuScreen = document.createElement('ingame-menu');
+      const menuScreen = document.createElement('ingame-menu') as IngameMenu;
+      menuScreen.currentGame = this.game;
 
       if (!body) {
         console.error('Body element not found');

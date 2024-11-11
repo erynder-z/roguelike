@@ -62,6 +62,7 @@ li {
 }
 
 .main-container {
+  cursor: none;
   height: 100vh;
   display: grid;
   grid-template-rows: 5% 80% 15%;

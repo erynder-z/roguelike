@@ -72,10 +72,10 @@ export class GlyphMap {
    * @returns {void}
    */
   private static warn(glyph: Glyph): void {
-    if (GlyphMap.glyphsRegistry.size === Object.keys(Glyph).length) {
+    if (GlyphMap.glyphsRegistry.size === Object.keys(Glyph).length) 
       return;
-    }
-    console.log(
+    
+    console.error(
       `Glyph ${Glyph[glyph]} differs from registry size ${GlyphMap.glyphsRegistry.size}`,
     );
   }
