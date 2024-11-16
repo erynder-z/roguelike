@@ -58,14 +58,16 @@
         "title": "Meikai - Help",
         "url": "help.html",
         "fullscreen": true,
-        "visible": false
+        "visible": false,
+        "focus": false
       },
       {
         "label": "main",
         "title": "meikai-roguelike",
         "url": "index.html",
         "fullscreen": true,
-        "visible": false
+        "visible": false,
+        "focus": true
       }
     ],
     "security": {
