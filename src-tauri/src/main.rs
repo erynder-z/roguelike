@@ -11,6 +11,7 @@ fn main() {
             commands::window_commands::show_main_window,
             commands::window_commands::show_help_window,
             commands::window_commands::hide_help_window,
+            commands::window_commands::focus_main_window,
         ])
         .run(tauri::generate_context!())
         .expect("failed to run app");

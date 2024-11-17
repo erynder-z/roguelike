@@ -3,6 +3,7 @@ import './styles/style-help.css';
 import { ColorLoader } from './loaders/colorLoader';
 import { emit } from '@tauri-apps/api/event';
 import { GenerateHelpUI } from './utilities/generateHelpUI';
+import { handleGlobalKeydown } from './utilities/handleGlobalKeyDown';
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -14,4 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (error) {
     console.error('Error initializing help:', error);
   }
+
+  document.addEventListener('keydown', handleGlobalKeydown);
 });

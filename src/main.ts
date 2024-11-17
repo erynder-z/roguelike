@@ -8,6 +8,7 @@ import { DynamicScreenMaker } from './gameLogic/screens/dynamicScreenMaker';
 import { GenerateMainUI } from './utilities/generateMainUI';
 import { GenerateTitleScreen } from './utilities/generateTitleScreen';
 import { GlyphLoader } from './loaders/glyphLoader';
+import { handleGlobalKeydown } from './utilities/handleGlobalKeyDown';
 import { invoke } from '@tauri-apps/api/core';
 import { LayoutManager } from './ui/layoutManager/layoutManager';
 
@@ -61,4 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (error) {
     console.error('Failed to initialize the game:', error);
   }
+  // Capture global keydown event, in order to prevent default behavior of a key, if needed.
+  document.addEventListener('keydown', handleGlobalKeydown);
 });

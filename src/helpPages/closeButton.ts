@@ -51,7 +51,12 @@ export class CloseButton extends HTMLElement {
     const button = this.shadowRoot?.querySelector('.close-button');
 
     const closeWindow = () => {
-      invoke('hide_help_window');
+      invoke('focus_main_window');
+
+      const timeoutInMilliseconds = 1000;
+      setTimeout(() => {
+        invoke('hide_help_window');
+      }, timeoutInMilliseconds);
     };
 
     if (button) {
