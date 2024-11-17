@@ -57,9 +57,12 @@
         "label": "help",
         "title": "Meikai - Help",
         "url": "help.html",
-        "fullscreen": true,
+        "fullscreen": false,
         "visible": false,
-        "focus": false
+        "focus": false,
+        "alwaysOnTop": true,
+        "decorations": false,
+        "maximized": true
       },
       {
         "label": "main",
