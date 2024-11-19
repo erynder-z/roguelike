@@ -132,11 +132,17 @@ export class OptionsMenu extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
-    this.buttonManager.updateScanlinesToggleButton();
-    this.buttonManager.updateScanlineStyleButton();
-    this.buttonManager.updateMessageAlignButton();
-    this.buttonManager.updateShowImagesButton();
-    this.buttonManager.updateImageAlignButton();
+    this.buttonManager.updateScanlinesToggleButton(
+      this.gameConfig.show_scanlines,
+    );
+    this.buttonManager.updateScanlineStyleButton(
+      this.gameConfig.scanline_style,
+    );
+    this.buttonManager.updateMessageAlignButton(
+      this.gameConfig.message_display,
+    );
+    this.buttonManager.updateShowImagesButton(this.gameConfig.show_images);
+    this.buttonManager.updateImageAlignButton(this.gameConfig.image_display);
     this.setupMessageCountInput();
     this.bindEvents();
   }
@@ -266,8 +272,12 @@ export class OptionsMenu extends HTMLElement {
 
     if (mainContainer) ScanlinesHandler.handleScanlines(mainContainer);
 
-    this.buttonManager.updateScanlinesToggleButton();
-    this.buttonManager.updateScanlineStyleButton();
+    this.buttonManager.updateScanlinesToggleButton(
+      this.gameConfig.show_scanlines,
+    );
+    this.buttonManager.updateScanlineStyleButton(
+      this.gameConfig.scanline_style,
+    );
   }
 
   /**
@@ -293,7 +303,9 @@ export class OptionsMenu extends HTMLElement {
 
     this.gameConfig.scanline_style = nextStyle;
 
-    this.buttonManager.updateScanlineStyleButton();
+    this.buttonManager.updateScanlineStyleButton(
+      this.gameConfig.scanline_style,
+    );
 
     const mainContainer = document.getElementById('main-container');
     if (mainContainer)
@@ -309,9 +321,9 @@ export class OptionsMenu extends HTMLElement {
   /**
    * Toggles the message alignment between left and right.
    *
-   * Updates the {@link gameConfig.message_display} property, updates the message
-   * alignment button, and sets the layout of the main container based on the
-   * current message alignment.
+   * Updates the {@link gameConfig.message_display} property, updates the
+   * message alignment button, and sets the layout of the main container based on
+   * the current message alignment.
    *
    * @return {void}
    */
@@ -319,7 +331,9 @@ export class OptionsMenu extends HTMLElement {
     this.gameConfig.message_display =
       this.gameConfig.message_display === 'left' ? 'right' : 'left';
 
-    this.buttonManager.updateMessageAlignButton();
+    this.buttonManager.updateMessageAlignButton(
+      this.gameConfig.message_display,
+    );
     this.layoutManager.setMessageDisplayLayout(this.gameConfig.message_display);
   }
 
@@ -335,13 +349,13 @@ export class OptionsMenu extends HTMLElement {
   private toggleShowImages(): void {
     this.gameConfig.show_images = !this.gameConfig.show_images;
 
-    this.buttonManager.updateShowImagesButton();
+    this.buttonManager.updateShowImagesButton(this.gameConfig.show_images);
     this.layoutManager.setImageDisplay(this.gameConfig.show_images);
     this.layoutManager.forceSmileImageDisplay();
 
     this.buttonManager.shouldDisableImageAlignButton =
       !this.gameConfig.show_images;
-    this.buttonManager.updateImageAlignButton();
+    this.buttonManager.updateImageAlignButton(this.gameConfig.image_display);
   }
 
   /**
@@ -357,7 +371,7 @@ export class OptionsMenu extends HTMLElement {
     this.gameConfig.image_display =
       this.gameConfig.image_display === 'left' ? 'right' : 'left';
 
-    this.buttonManager.updateImageAlignButton();
+    this.buttonManager.updateImageAlignButton(this.gameConfig.image_display);
     this.layoutManager.setImageDisplayLayout(this.gameConfig.image_display);
   }
 
