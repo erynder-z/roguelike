@@ -7,6 +7,7 @@ export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
+  private controlSchemeName = this.gameConfig.control_scheme;
   constructor() {
     super();
 
@@ -106,6 +107,7 @@ export class OptionsMenu extends HTMLElement {
       <div class="options-menu">
         <h1>Options</h1>
         <div class="buttons-container">
+          <button id="switch-controls-button"><span class="underline">C</span>ontrol scheme</button>
           <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
           <button id="switch-scanline-style-button">Scanlines s<span class="underline">t</span>yle</button>
           <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
@@ -129,6 +131,7 @@ export class OptionsMenu extends HTMLElement {
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
+    this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
     this.buttonManager.updateScanlinesToggleButton();
     this.buttonManager.updateScanlineStyleButton();
     this.buttonManager.updateMessageAlignButton();
@@ -150,9 +153,16 @@ export class OptionsMenu extends HTMLElement {
    */
   private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.toggleControlScheme = this.toggleControlScheme.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
     this.returnToIngameMenu = this.returnToIngameMenu.bind(this);
 
+    this.manageEventListener(
+      'switch-controls-button',
+      'click',
+      this.toggleControlScheme,
+      true,
+    );
     this.manageEventListener(
       'toggle-scanlines-button',
       'click',
@@ -223,9 +233,27 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
+   * Toggles the current control scheme between 'default' and 'alternate'.
+   *
+   * Updates the game configuration with the new control scheme and updates
+   * the control scheme button to reflect the change.
+   *
+   * @return {void}
+   */
+  private toggleControlScheme(): void {
+    const currentScheme = this.gameConfig.control_scheme;
+    const newScheme = currentScheme === 'default' ? 'alternate' : 'default';
+
+    this.gameConfig.control_scheme = newScheme;
+    this.controlSchemeName = newScheme;
+
+    this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
+  }
+
+  /**
    * Toggles the scanlines setting on or off.
    *
-   * Updates the {@link gameConfig.show_scanlines} property, and toggles the
+   * Updates the {@link this.gameConfig.show_scanlines} property, and toggles the
    * 'scanlines' class on the main container element. The button text is also
    * updated based on the current state.
    *
@@ -435,6 +463,9 @@ export class OptionsMenu extends HTMLElement {
    */
   private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
+      case 'C':
+        this.toggleControlScheme();
+        break;
       case 'S':
         this.toggleScanlines();
         break;
@@ -480,6 +511,9 @@ export class OptionsMenu extends HTMLElement {
 
     const shadowRoot = this.shadowRoot;
     if (shadowRoot) {
+      shadowRoot
+        .getElementById('switch-controls-button')
+        ?.removeEventListener('click', this.toggleControlScheme);
       shadowRoot
         .getElementById('toggle-scanlines-button')
         ?.removeEventListener('click', this.toggleScanlines);

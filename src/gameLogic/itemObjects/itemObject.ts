@@ -12,8 +12,8 @@ export class ItemObject {
     public glyph: Glyph,
     public slot: Slot,
     public spell: Spell = Spell.None,
-    public level: number = 0,
-    public desc: string = '',
+    public level: number = 1,
+    public desc: string = 'some item without description',
     public charges: number = 0,
   ) {}
 

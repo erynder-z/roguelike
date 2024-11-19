@@ -14,6 +14,25 @@ export class OptionsMenuButtonManager {
   }
 
   /**
+   * Updates the text of the control scheme toggle button based on the current
+   * control scheme.
+   *
+   * @param {string} scheme - The current control scheme, either 'default' or
+   *                          'alternate'.
+   *
+   * @return {void}
+   */
+  public updateControlSchemeButton(scheme: 'default' | 'alternate'): void {
+    const controlSchemeButton = this.shadowRoot?.getElementById(
+      'switch-controls-button',
+    );
+
+    if (controlSchemeButton) {
+      controlSchemeButton.innerHTML = `<span class="underline">C</span>ontrol scheme: ${scheme.toLocaleUpperCase()}`;
+    }
+  }
+
+  /**
    * Updates the text of the scanlines toggle button based on the current state.
    *
    * Disables or enables the scanline style button based on the current state.

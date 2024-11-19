@@ -9,6 +9,7 @@ export type GameConfigType = {
   message_count: number;
   image_display: 'left' | 'right';
   seed: number;
+  control_scheme: 'default' | 'alternate';
   player: {
     name: string;
     appearance: 'boyish' | 'girlish';
