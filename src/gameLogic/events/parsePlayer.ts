@@ -1,7 +1,7 @@
 import { BulletCommand } from '../commands/bulletCommand';
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandDirectionScreen } from '../screens/commandDirectionScreen';
-import { ControlSchemeManager } from '../../controls/ControlSchemeManager';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { DebuggerScreen } from '../screens/debuggerScreen';
 import { DigCommand } from '../commands/digCommand';
 import { DoorCommand } from '../commands/doorCommand';
@@ -29,25 +29,16 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  */
 export class ParsePlayer {
   private gameConfig = gameConfigManager.getConfig();
-  private initialScheme = this.gameConfig.control_scheme || 'default';
+  private currentScheme = this.gameConfig.control_scheme || 'default';
   constructor(
     public game: GameState,
     public make: ScreenMaker,
     public player: Mob = <Mob>game.player,
     public map: GameMapType = <GameMapType>game.currentMap(),
     private controlSchemeManager: ControlSchemeManager = new ControlSchemeManager(
-      this.initialScheme,
+      this.currentScheme,
     ),
   ) {}
-
-  /**
-   * Returns the current active control scheme.
-   *
-   * @return {Record<string, string[]>} the current active control scheme
-   */
-  public getActiveControlScheme(): Record<string, string[]> {
-    return this.controlSchemeManager.getActiveScheme();
-  }
 
   /**
    * Takes a KeyboardEvent and extracts the associated key code.
@@ -105,7 +96,7 @@ export class ParsePlayer {
     stack: Stack,
     event: KeyboardEvent | null,
   ): Command | null {
-    const activeControlScheme = this.getActiveControlScheme();
+    const activeControlScheme = this.controlSchemeManager.getActiveScheme();
     const alt = event?.altKey || event?.metaKey;
     let stackScreen: StackScreen | undefined;
     const dir = new WorldPoint();

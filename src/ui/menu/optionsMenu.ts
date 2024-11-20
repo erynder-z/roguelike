@@ -1,3 +1,5 @@
+import controls from '../../controls/control_schemes.json';
+import { ControlSchemeName } from '../../controls/controlSchemeManager';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
@@ -8,6 +10,9 @@ export class OptionsMenu extends HTMLElement {
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
   private controlSchemeName = this.gameConfig.control_scheme;
+  private availableControlSchemes = Object.keys(
+    controls,
+  ) as ControlSchemeName[];
   constructor() {
     super();
 
@@ -239,19 +244,23 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
-   * Toggles the current control scheme between 'default' and 'alternate'.
+   * Toggles the control scheme setting on or off.
    *
-   * Updates the game configuration with the new control scheme and updates
-   * the control scheme button to reflect the change.
+   * Updates the {@link gameConfig.control_scheme} property, and toggles the
+   * displayed text of the control scheme button.
    *
    * @return {void}
    */
   private toggleControlScheme(): void {
-    const currentScheme = this.gameConfig.control_scheme;
-    const newScheme = currentScheme === 'default' ? 'alternate' : 'default';
+    const currentSchemeIndex = this.availableControlSchemes.indexOf(
+      this.gameConfig.control_scheme,
+    );
+    const nextSchemeIndex =
+      (currentSchemeIndex + 1) % this.availableControlSchemes.length;
+    const nextScheme = this.availableControlSchemes[nextSchemeIndex];
 
-    this.gameConfig.control_scheme = newScheme;
-    this.controlSchemeName = newScheme;
+    this.gameConfig.control_scheme = nextScheme;
+    this.controlSchemeName = nextScheme;
 
     this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
   }
@@ -259,7 +268,7 @@ export class OptionsMenu extends HTMLElement {
   /**
    * Toggles the scanlines setting on or off.
    *
-   * Updates the {@link this.gameConfig.show_scanlines} property, and toggles the
+   * Updates the {@link gameConfig.show_scanlines} property, and toggles the
    * 'scanlines' class on the main container element. The button text is also
    * updated based on the current state.
    *

@@ -21,7 +21,7 @@
     "look": ["l"],
     "open_spells": ["s"]
   },
-  "alternate": {
+  "wasd_keys": {
     "open_menu": ["Escape"],
     "debug1": ["Home"],
     "debug2": ["End"],
@@ -42,5 +42,49 @@
     "open_equipment": ["u"],
     "look": ["l"],
     "open_spells": ["m"]
+  },
+  "vi_keys_QWERTY": {
+    "open_menu": ["Escape"],
+    "debug1": ["Home"],
+    "debug2": ["End"],
+    "dig_modifier": ["Alt", "Meta"],
+    "move_left": ["h"],
+    "move_right": ["l"],
+    "move_up": ["k"],
+    "move_down": ["j"],
+    "move_up_left": ["y"],
+    "move_up_right": ["u"],
+    "move_down_left": ["b"],
+    "move_down_right": ["n"],
+    "wait": [","],
+    "show_log": ["q"],
+    "handle_door": ["c"],
+    "grab_item": ["g"],
+    "open_inventory": ["i"],
+    "open_equipment": ["u"],
+    "look": [";"],
+    "open_spells": ["s"]
+  },
+  "vi_keys_QWERTZ": {
+    "open_menu": ["Escape"],
+    "debug1": ["Home"],
+    "debug2": ["End"],
+    "dig_modifier": ["Alt", "Meta"],
+    "move_left": ["h"],
+    "move_right": ["l"],
+    "move_up": ["k"],
+    "move_down": ["j"],
+    "move_up_left": ["z"],
+    "move_up_right": ["u"],
+    "move_down_left": ["b"],
+    "move_down_right": ["n"],
+    "wait": [","],
+    "show_log": ["q"],
+    "handle_door": ["c"],
+    "grab_item": ["g"],
+    "open_inventory": ["i"],
+    "open_equipment": ["u"],
+    "look": [";"],
+    "open_spells": ["s"]
   }
 }
