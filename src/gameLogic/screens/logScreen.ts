@@ -67,10 +67,9 @@ export class LogScreen extends BaseScreen {
    */
   private createHeading(): HTMLHeadingElement {
     const heading = document.createElement('h1');
-    heading.textContent = 'Log: (Press q to close.)';
+    heading.textContent = `Log: (Press ${this.activeControlScheme.log} to close.)`;
     return heading;
   }
-
 
   /**
    * Creates an HTML unordered list element containing all the messages in the message log.
@@ -101,7 +100,7 @@ export class LogScreen extends BaseScreen {
    * @returns {boolean} - True if the event was handled successfully, otherwise false.
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
-    if (event.key === 'q') {
+    if (event.key === this.activeControlScheme.log.toString()) {
       this.fadeOutLogScreen();
       stack.pop();
       return true;

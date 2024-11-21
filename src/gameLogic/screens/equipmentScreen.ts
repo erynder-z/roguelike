@@ -113,7 +113,7 @@ export class EquipmentScreen extends BaseScreen {
    */
   private createTitleElement(): HTMLHeadingElement {
     const titleElement = document.createElement('h1');
-    titleElement.textContent = 'Equipped items: (press u to close.)';
+    titleElement.textContent = `Equipped items: (press ${this.activeControlScheme.equipment} to close.)`;
     return titleElement;
   }
 
@@ -149,7 +149,10 @@ export class EquipmentScreen extends BaseScreen {
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     const slot = this.CharacterToSlot(event.key);
 
-    if (event.key === 'u' || this.unequip(slot)) {
+    if (
+      event.key === this.activeControlScheme.equipment.toString() ||
+      this.unequip(slot)
+    ) {
       this.fadeOutEquipmentScreen();
       stack.pop();
       return true;

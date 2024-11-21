@@ -40,31 +40,7 @@ export class ParsePlayer {
     ),
   ) {}
 
-  /**
-   * Takes a KeyboardEvent and extracts the associated key code.
-   *
-   * @param {KeyboardEvent} event - the keyboard event to extract the key code from
-   * @return {string} the extracted key code
-   */
-  public static keyPressToCode(event: KeyboardEvent): string {
-    let keyCode: string = event.key;
-    switch (event.code) {
-      case 'Numpad1':
-      case 'Numpad2':
-      case 'Numpad3':
-      case 'Numpad4':
-      case 'Numpad5':
-      case 'Numpad6':
-      case 'Numpad7':
-      case 'Numpad8':
-      case 'Numpad9':
-      case 'Escape':
-      case 'Home':
-        keyCode = event.code;
-        break;
-    }
-    return keyCode;
-  }
+
 
   /**
    * Parses the given key code as a turn and executes the corresponding command.
@@ -134,7 +110,7 @@ export class ParsePlayer {
         break;
       case activeControlScheme.wait.toString():
         return this.waitCmd();
-      case activeControlScheme.show_log.toString():
+      case activeControlScheme.log.toString():
         stackScreen = new LogScreen(this.game, this.make);
         break;
       case activeControlScheme.handle_door.toString():
@@ -143,21 +119,21 @@ export class ParsePlayer {
       case activeControlScheme.grab_item.toString():
         if (this.game.inventory) return new PickupCommand(this.game);
         break;
-      case activeControlScheme.open_inventory.toString():
+      case activeControlScheme.inventory.toString():
         if (this.game.inventory)
           stackScreen = new InventoryScreen(this.game, this.make);
         break;
-      case activeControlScheme.open_equipment.toString():
+      case activeControlScheme.equipment.toString():
         if (this.game.equipment)
           stackScreen = new EquipmentScreen(this.game, this.make);
         break;
       case activeControlScheme.look.toString():
         stackScreen = new LookScreen(this.game, this.make);
         break;
-      case activeControlScheme.open_spells.toString():
+      case activeControlScheme.spells.toString():
         stackScreen = new SpellScreen(this.game, this.make);
         break;
-      case activeControlScheme.open_menu.toString():
+      case activeControlScheme.menu.toString():
         stackScreen = new IngameMenuScreen(this.game, this.make, stack);
         break;
       // Debugging command

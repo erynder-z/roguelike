@@ -1,6 +1,6 @@
 {
   "default": {
-    "open_menu": ["Escape"],
+    "menu": ["Escape"],
     "debug1": ["Home"],
     "debug2": ["End"],
     "dig_modifier": ["Alt", "Meta"],
@@ -13,16 +13,16 @@
     "move_down_left": ["Numpad1"],
     "move_down_right": ["Numpad3"],
     "wait": ["Numpad5"],
-    "show_log": ["q"],
+    "log": ["q"],
     "handle_door": ["c"],
     "grab_item": ["g"],
-    "open_inventory": ["i"],
-    "open_equipment": ["u"],
+    "inventory": ["i"],
+    "equipment": ["u"],
     "look": ["l"],
-    "open_spells": ["s"]
+    "spells": ["s"]
   },
   "wasd_keys": {
-    "open_menu": ["Escape"],
+    "menu": ["Escape"],
     "debug1": ["Home"],
     "debug2": ["End"],
     "dig_modifier": ["Alt", "Meta"],
@@ -32,19 +32,19 @@
     "move_down": ["s"],
     "move_up_left": ["q"],
     "move_up_right": ["e"],
-    "move_down_left": ["y"],
+    "move_down_left": ["x"],
     "move_down_right": ["c"],
     "wait": ["."],
-    "show_log": ["p"],
-    "handle_door": ["x"],
+    "log": ["p"],
+    "handle_door": ["y"],
     "grab_item": ["g"],
-    "open_inventory": ["i"],
-    "open_equipment": ["u"],
+    "inventory": ["i"],
+    "equipment": ["u"],
     "look": ["l"],
-    "open_spells": ["m"]
+    "spells": ["m"]
   },
   "vi_keys_QWERTY": {
-    "open_menu": ["Escape"],
+    "menu": ["Escape"],
     "debug1": ["Home"],
     "debug2": ["End"],
     "dig_modifier": ["Alt", "Meta"],
@@ -57,16 +57,16 @@
     "move_down_left": ["b"],
     "move_down_right": ["n"],
     "wait": [","],
-    "show_log": ["q"],
+    "log": ["q"],
     "handle_door": ["c"],
     "grab_item": ["g"],
-    "open_inventory": ["i"],
-    "open_equipment": ["u"],
+    "inventory": ["i"],
+    "equipment": ["u"],
     "look": [";"],
-    "open_spells": ["s"]
+    "spells": ["s"]
   },
   "vi_keys_QWERTZ": {
-    "open_menu": ["Escape"],
+    "menu": ["Escape"],
     "debug1": ["Home"],
     "debug2": ["End"],
     "dig_modifier": ["Alt", "Meta"],
@@ -79,12 +79,12 @@
     "move_down_left": ["b"],
     "move_down_right": ["n"],
     "wait": [","],
-    "show_log": ["q"],
+    "log": ["q"],
     "handle_door": ["c"],
     "grab_item": ["g"],
-    "open_inventory": ["i"],
-    "open_equipment": ["u"],
+    "inventory": ["i"],
+    "equipment": ["u"],
     "look": [";"],
-    "open_spells": ["s"]
+    "spells": ["s"]
   }
 }

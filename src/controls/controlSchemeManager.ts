@@ -22,4 +22,30 @@ export class ControlSchemeManager {
   public getActiveScheme(): Record<string, string[]> {
     return this.activeScheme;
   }
+
+  /**
+   * Takes a KeyboardEvent and extracts the associated key code.
+   *
+   * @param {KeyboardEvent} event - the keyboard event to extract the key code from
+   * @return {string} the extracted key code
+   */
+  public keyPressToCode(event: KeyboardEvent): string {
+    let keyCode: string = event.key;
+    switch (event.code) {
+      case 'Numpad1':
+      case 'Numpad2':
+      case 'Numpad3':
+      case 'Numpad4':
+      case 'Numpad5':
+      case 'Numpad6':
+      case 'Numpad7':
+      case 'Numpad8':
+      case 'Numpad9':
+      case 'Escape':
+      case 'Home':
+        keyCode = event.code;
+        break;
+    }
+    return keyCode;
+  }
 }

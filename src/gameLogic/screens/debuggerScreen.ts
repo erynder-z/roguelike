@@ -28,8 +28,8 @@ export class DebuggerScreen extends BaseScreen {
   }
 
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
-    switch (event.code) {
-      case 'Home':
+    switch (event.key) {
+      case this.activeControlScheme.debug1.toString():
         stack.pop();
         break;
     }

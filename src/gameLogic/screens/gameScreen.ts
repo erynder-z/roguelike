@@ -21,7 +21,11 @@ export class GameScreen extends BaseScreen {
    * @return {void}
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
-    this.playerKeyTurn(stack, ParsePlayer.keyPressToCode(event), event);
+    this.playerKeyTurn(
+      stack,
+      this.controlSchemeManager.keyPressToCode(event),
+      event,
+    );
   }
 
   /**
