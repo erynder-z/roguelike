@@ -44,8 +44,10 @@ export class OptionsMenu extends HTMLElement {
         }
 
         .options-menu h1 {
-          margin-top: 12rem;
-          text-align: center;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          margin: 0 1rem;
           z-index: 1;
         }
 
@@ -61,8 +63,11 @@ export class OptionsMenu extends HTMLElement {
         }
 
         .options-menu button:hover {
-          cursor: pointer;
           transform: scale(1.1);
+        }
+
+        .options-menu > * :hover {
+          cursor: pointer;
         }
 
         .underline {
@@ -70,7 +75,6 @@ export class OptionsMenu extends HTMLElement {
         }
 
         .buttons-container {
-          position: absolute;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -82,10 +86,6 @@ export class OptionsMenu extends HTMLElement {
           color: var(--grayedOut);
           pointer-events: none;
           cursor: not-allowed;
-        }
-
-        .message-count-input-container {
-          font-weight: bold;
         }
 
         .message-count-input {
@@ -112,14 +112,28 @@ export class OptionsMenu extends HTMLElement {
       <div class="options-menu">
         <h1>Options</h1>
         <div class="buttons-container">
-          <button id="switch-controls-button"><span class="underline">C</span>ontrol scheme</button>
-          <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
-          <button id="switch-scanline-style-button">Scanlines s<span class="underline">t</span>yle</button>
-          <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
-          <button id="show-images-button">S<span class="underline">h</span>ow images</button>
-          <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
-          <div class="message-count-input-container">
-            <label for="message-count-input">M<span class="underline">e</span>ssages to Display (1-50):</label>
+          <button id="switch-controls-button">
+            <span class="underline">C</span>ontrol scheme
+          </button>
+          <button id="toggle-scanlines-button">
+            <span class="underline">S</span>canlines
+          </button>
+          <button id="switch-scanline-style-button">
+            Scanlines s<span class="underline">t</span>yle
+          </button>
+          <button id="message-display-align-button">
+            <span class="underline">M</span>essage display
+          </button>
+          <button id="show-images-button">
+            S<span class="underline">h</span>ow images
+          </button>
+          <button id="image-align-button">
+            <span class="underline">I</span>mage alignment
+          </button>
+          <button id="message-count-input-button">
+            <label for="message-count-input">
+              M<span class="underline">e</span>ssages to Display (1-50):
+            </label>
             <input
               type="number"
               id="message-count-input"
@@ -128,11 +142,13 @@ export class OptionsMenu extends HTMLElement {
               max="50"
               value="${this.gameConfig.message_count}"
             />
-          </div>
-          <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
+          </button>
+          <button id="back-button">
+            <span class="underline">R</span>eturn to previous menu
+          </button>
         </div>
       </div>
-      `;
+    `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
@@ -202,6 +218,12 @@ export class OptionsMenu extends HTMLElement {
       'image-align-button',
       'click',
       this.toggleImageAlignment.bind(this),
+      true,
+    );
+    this.manageEventListener(
+      'message-count-input-button',
+      'click',
+      this.focusAndSelectMessageCountInput.bind(this),
       true,
     );
     this.manageEventListener(
