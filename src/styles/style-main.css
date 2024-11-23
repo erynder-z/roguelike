@@ -152,6 +152,30 @@ li {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 2rem;
+  scrollbar-width: var(--scrollbar-width);
+  scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+}
+
+.log-screen::-webkit-scrollbar,
+.inventory-screen::-webkit-scrollbar,
+.equipment-screen::-webkit-scrollbar,
+.gameover-screen::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.log-screen::-webkit-scrollbar-thumb,
+.inventory-screen::-webkit-scrollbar-thumb,
+.equipment-screen::-webkit-scrollbar-thumb,
+.gameover-screen::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-foreground);
+  border-radius: 4px;
+}
+
+.log-screen::-webkit-scrollbar-track,
+.inventory-screen::-webkit-scrollbar-track,
+.equipment-screen::-webkit-scrollbar-track,
+.gameover-screen::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-background);
 }
 
 .gameover-screen {
