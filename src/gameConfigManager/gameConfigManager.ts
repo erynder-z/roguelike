@@ -23,6 +23,7 @@ class GameConfigManager {
     message_count: 25,
     image_display: 'left',
     seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
+    control_scheme: 'default',
     player: {
       name: getRandomName('girlish'),
       appearance: 'girlish',

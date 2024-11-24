@@ -89,7 +89,7 @@ export class InventoryScreen extends BaseScreen {
    */
   private createTitleElement(): HTMLHeadingElement {
     const titleElement = document.createElement('h1');
-    titleElement.textContent = 'Inventory: (press i to close.)';
+    titleElement.textContent = `Inventory: (press ${this.activeControlScheme.inventory} to close.)`;
     return titleElement;
   }
 
@@ -135,7 +135,7 @@ export class InventoryScreen extends BaseScreen {
       this.fadeOutInventoryScreen();
       this.itemMenu(pos, stack);
     } else {
-      if (event.key === 'i') {
+      if (event.key === this.activeControlScheme.inventory.toString()) {
         this.fadeOutInventoryScreen();
         stack.pop();
         return true;

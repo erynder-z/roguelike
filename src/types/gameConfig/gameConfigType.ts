@@ -9,6 +9,7 @@ export type GameConfigType = {
   message_count: number;
   image_display: 'left' | 'right';
   seed: number;
+  control_scheme: 'default' | 'wasd_keys' | 'vi_keys_QWERTY' | 'vi_keys_QWERTZ';
   player: {
     name: string;
     appearance: 'boyish' | 'girlish';

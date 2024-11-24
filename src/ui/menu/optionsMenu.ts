@@ -1,3 +1,5 @@
+import controls from '../../controls/control_schemes.json';
+import { ControlSchemeName } from '../../types/controls/controlSchemeType';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
@@ -7,6 +9,10 @@ export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
+  private controlSchemeName = this.gameConfig.control_scheme;
+  private availableControlSchemes = Object.keys(
+    controls,
+  ) as ControlSchemeName[];
   constructor() {
     super();
 
@@ -38,8 +44,10 @@ export class OptionsMenu extends HTMLElement {
         }
 
         .options-menu h1 {
-          margin-top: 12rem;
-          text-align: center;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          margin: 0 1rem;
           z-index: 1;
         }
 
@@ -55,8 +63,11 @@ export class OptionsMenu extends HTMLElement {
         }
 
         .options-menu button:hover {
-          cursor: pointer;
           transform: scale(1.1);
+        }
+
+        .options-menu > * :hover {
+          cursor: pointer;
         }
 
         .underline {
@@ -64,7 +75,6 @@ export class OptionsMenu extends HTMLElement {
         }
 
         .buttons-container {
-          position: absolute;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -76,10 +86,6 @@ export class OptionsMenu extends HTMLElement {
           color: var(--grayedOut);
           pointer-events: none;
           cursor: not-allowed;
-        }
-
-        .message-count-input-container {
-          font-weight: bold;
         }
 
         .message-count-input {
@@ -106,13 +112,28 @@ export class OptionsMenu extends HTMLElement {
       <div class="options-menu">
         <h1>Options</h1>
         <div class="buttons-container">
-          <button id="toggle-scanlines-button"><span class="underline">S</span>canlines</button>
-          <button id="switch-scanline-style-button">Scanlines s<span class="underline">t</span>yle</button>
-          <button id="message-display-align-button"><span class="underline">M</span>essage display</button>
-          <button id="show-images-button">S<span class="underline">h</span>ow images</button>
-          <button id="image-align-button"><span class="underline">I</span>mage alignment</button>
-          <div class="message-count-input-container">
-            <label for="message-count-input">M<span class="underline">e</span>ssages to Display (1-50):</label>
+          <button id="switch-controls-button">
+            <span class="underline">C</span>ontrol scheme
+          </button>
+          <button id="toggle-scanlines-button">
+            <span class="underline">S</span>canlines
+          </button>
+          <button id="switch-scanline-style-button">
+            Scanlines s<span class="underline">t</span>yle
+          </button>
+          <button id="message-display-align-button">
+            <span class="underline">M</span>essage display
+          </button>
+          <button id="show-images-button">
+            S<span class="underline">h</span>ow images
+          </button>
+          <button id="image-align-button">
+            <span class="underline">I</span>mage alignment
+          </button>
+          <button id="message-count-input-button">
+            <label for="message-count-input">
+              M<span class="underline">e</span>ssages to Display (1-50):
+            </label>
             <input
               type="number"
               id="message-count-input"
@@ -121,19 +142,28 @@ export class OptionsMenu extends HTMLElement {
               max="50"
               value="${this.gameConfig.message_count}"
             />
-          </div>
-          <button id="back-button"><span class="underline">R</span>eturn to previous menu</button>
+          </button>
+          <button id="back-button">
+            <span class="underline">R</span>eturn to previous menu
+          </button>
         </div>
       </div>
-      `;
+    `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.buttonManager.updateScanlinesToggleButton();
-    this.buttonManager.updateScanlineStyleButton();
-    this.buttonManager.updateMessageAlignButton();
-    this.buttonManager.updateShowImagesButton();
-    this.buttonManager.updateImageAlignButton();
+    this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
+    this.buttonManager.updateScanlinesToggleButton(
+      this.gameConfig.show_scanlines,
+    );
+    this.buttonManager.updateScanlineStyleButton(
+      this.gameConfig.scanline_style,
+    );
+    this.buttonManager.updateMessageAlignButton(
+      this.gameConfig.message_display,
+    );
+    this.buttonManager.updateShowImagesButton(this.gameConfig.show_images);
+    this.buttonManager.updateImageAlignButton(this.gameConfig.image_display);
     this.setupMessageCountInput();
     this.bindEvents();
   }
@@ -150,9 +180,16 @@ export class OptionsMenu extends HTMLElement {
    */
   private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.toggleControlScheme = this.toggleControlScheme.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
     this.returnToIngameMenu = this.returnToIngameMenu.bind(this);
 
+    this.manageEventListener(
+      'switch-controls-button',
+      'click',
+      this.toggleControlScheme,
+      true,
+    );
     this.manageEventListener(
       'toggle-scanlines-button',
       'click',
@@ -181,6 +218,12 @@ export class OptionsMenu extends HTMLElement {
       'image-align-button',
       'click',
       this.toggleImageAlignment.bind(this),
+      true,
+    );
+    this.manageEventListener(
+      'message-count-input-button',
+      'click',
+      this.focusAndSelectMessageCountInput.bind(this),
       true,
     );
     this.manageEventListener(
@@ -223,6 +266,28 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
+   * Toggles the control scheme setting on or off.
+   *
+   * Updates the {@link gameConfig.control_scheme} property, and toggles the
+   * displayed text of the control scheme button.
+   *
+   * @return {void}
+   */
+  private toggleControlScheme(): void {
+    const currentSchemeIndex = this.availableControlSchemes.indexOf(
+      this.gameConfig.control_scheme,
+    );
+    const nextSchemeIndex =
+      (currentSchemeIndex + 1) % this.availableControlSchemes.length;
+    const nextScheme = this.availableControlSchemes[nextSchemeIndex];
+
+    this.gameConfig.control_scheme = nextScheme;
+    this.controlSchemeName = nextScheme;
+
+    this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
+  }
+
+  /**
    * Toggles the scanlines setting on or off.
    *
    * Updates the {@link gameConfig.show_scanlines} property, and toggles the
@@ -238,8 +303,12 @@ export class OptionsMenu extends HTMLElement {
 
     if (mainContainer) ScanlinesHandler.handleScanlines(mainContainer);
 
-    this.buttonManager.updateScanlinesToggleButton();
-    this.buttonManager.updateScanlineStyleButton();
+    this.buttonManager.updateScanlinesToggleButton(
+      this.gameConfig.show_scanlines,
+    );
+    this.buttonManager.updateScanlineStyleButton(
+      this.gameConfig.scanline_style,
+    );
   }
 
   /**
@@ -265,7 +334,9 @@ export class OptionsMenu extends HTMLElement {
 
     this.gameConfig.scanline_style = nextStyle;
 
-    this.buttonManager.updateScanlineStyleButton();
+    this.buttonManager.updateScanlineStyleButton(
+      this.gameConfig.scanline_style,
+    );
 
     const mainContainer = document.getElementById('main-container');
     if (mainContainer)
@@ -281,9 +352,9 @@ export class OptionsMenu extends HTMLElement {
   /**
    * Toggles the message alignment between left and right.
    *
-   * Updates the {@link gameConfig.message_display} property, updates the message
-   * alignment button, and sets the layout of the main container based on the
-   * current message alignment.
+   * Updates the {@link gameConfig.message_display} property, updates the
+   * message alignment button, and sets the layout of the main container based on
+   * the current message alignment.
    *
    * @return {void}
    */
@@ -291,7 +362,9 @@ export class OptionsMenu extends HTMLElement {
     this.gameConfig.message_display =
       this.gameConfig.message_display === 'left' ? 'right' : 'left';
 
-    this.buttonManager.updateMessageAlignButton();
+    this.buttonManager.updateMessageAlignButton(
+      this.gameConfig.message_display,
+    );
     this.layoutManager.setMessageDisplayLayout(this.gameConfig.message_display);
   }
 
@@ -307,13 +380,13 @@ export class OptionsMenu extends HTMLElement {
   private toggleShowImages(): void {
     this.gameConfig.show_images = !this.gameConfig.show_images;
 
-    this.buttonManager.updateShowImagesButton();
+    this.buttonManager.updateShowImagesButton(this.gameConfig.show_images);
     this.layoutManager.setImageDisplay(this.gameConfig.show_images);
     this.layoutManager.forceSmileImageDisplay();
 
     this.buttonManager.shouldDisableImageAlignButton =
       !this.gameConfig.show_images;
-    this.buttonManager.updateImageAlignButton();
+    this.buttonManager.updateImageAlignButton(this.gameConfig.image_display);
   }
 
   /**
@@ -329,7 +402,7 @@ export class OptionsMenu extends HTMLElement {
     this.gameConfig.image_display =
       this.gameConfig.image_display === 'left' ? 'right' : 'left';
 
-    this.buttonManager.updateImageAlignButton();
+    this.buttonManager.updateImageAlignButton(this.gameConfig.image_display);
     this.layoutManager.setImageDisplayLayout(this.gameConfig.image_display);
   }
 
@@ -435,6 +508,9 @@ export class OptionsMenu extends HTMLElement {
    */
   private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
+      case 'C':
+        this.toggleControlScheme();
+        break;
       case 'S':
         this.toggleScanlines();
         break;
@@ -480,6 +556,9 @@ export class OptionsMenu extends HTMLElement {
 
     const shadowRoot = this.shadowRoot;
     if (shadowRoot) {
+      shadowRoot
+        .getElementById('switch-controls-button')
+        ?.removeEventListener('click', this.toggleControlScheme);
       shadowRoot
         .getElementById('toggle-scanlines-button')
         ?.removeEventListener('click', this.toggleScanlines);

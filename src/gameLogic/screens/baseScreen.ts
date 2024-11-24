@@ -1,6 +1,8 @@
 import { CellEffects } from '../commands/cellEffects';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameMap } from '../../maps/mapModel/gameMap';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { HealthAdjust } from '../commands/healthAdjust';
@@ -16,10 +18,17 @@ import { TurnQueue } from '../turnQueue/turnQueue';
  */
 export class BaseScreen implements StackScreen {
   public name = 'BaseScreen';
+  public gameConfig = gameConfigManager.getConfig();
+  private currentScheme = this.gameConfig.control_scheme || 'default';
+  public controlSchemeManager: ControlSchemeManager;
+  public activeControlScheme: Record<string, string[]>;
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-  ) {}
+  ) {
+    this.controlSchemeManager = new ControlSchemeManager(this.currentScheme);
+    this.activeControlScheme = this.controlSchemeManager.getActiveScheme();
+  }
 
   /**
    * Draw the terminal.

@@ -39,8 +39,10 @@ export class IngameMenu extends HTMLElement {
         }
 
         .ingame-menu h1 {
-          margin-top: 12rem;
-          text-align: center;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          margin: 0 1rem;
           z-index: 1;
         }
 
@@ -65,7 +67,6 @@ export class IngameMenu extends HTMLElement {
         }
 
         .buttons-container {
-          position: absolute;
           display: flex;
           flex-direction: column;
           justify-content: center;

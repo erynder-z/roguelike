@@ -15,17 +15,6 @@ export class MessagesDisplay extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
-
-        ::selection {
-          color: var(--selection-color);
-          background-color: var(--selection-background);
-        }
-
         :host {
           display: flex;
           flex-direction: column;
@@ -37,6 +26,19 @@ export class MessagesDisplay extends HTMLElement {
           overflow: auto;
           scrollbar-width: var(--scrollbar-width);
           scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+        }
+
+        .messages-display::-webkit-scrollbar {
+          width: 0.25rem;
+        }
+
+        .messages-display::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-foreground);
+          border-radius: 4px;
+        }
+
+        .messages-display::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-background);
         }
 
         h1 {
@@ -62,8 +64,13 @@ export class MessagesDisplay extends HTMLElement {
         }
 
         @keyframes fade-in {
-          from { opacity: 0.5; }
-          to { opacity: 1; }
+          from {
+            opacity: 0.5;
+          }
+
+          to {
+            opacity: 1;
+          }
         }
 
         li:nth-child(odd) {

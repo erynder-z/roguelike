@@ -1,10 +1,12 @@
 import { BulletCommand } from '../commands/bulletCommand';
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandDirectionScreen } from '../screens/commandDirectionScreen';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { DebuggerScreen } from '../screens/debuggerScreen';
 import { DigCommand } from '../commands/digCommand';
 import { DoorCommand } from '../commands/doorCommand';
 import { EquipmentScreen } from '../screens/equipmentScreen';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { IngameMenuScreen } from '../screens/ingameMenuScreen';
@@ -26,42 +28,20 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  * Class responsible for parsing player input and converting it into game commands.
  */
 export class ParsePlayer {
+  private gameConfig = gameConfigManager.getConfig();
+  private currentScheme = this.gameConfig.control_scheme || 'default';
   constructor(
     public game: GameState,
     public make: ScreenMaker,
     public player: Mob = <Mob>game.player,
     public map: GameMapType = <GameMapType>game.currentMap(),
+    private controlSchemeManager: ControlSchemeManager = new ControlSchemeManager(
+      this.currentScheme,
+    ),
   ) {}
 
-  /**
-   * Converts the keyboard event to the corresponding code, taking into account specific cases for arrow and numpad keys.
-   *
-   * @param {KeyboardEvent} event - the keyboard event to convert
-   * @return {string} the corresponding key code
-   */
-  public static keyPressToCode(event: KeyboardEvent): string {
-    let keyCode: string = event.key;
-    switch (event.code) {
-      case 'ArrowUp':
-      case 'ArrowDown':
-      case 'ArrowLeft':
-      case 'ArrowRight':
-      case 'Numpad1':
-      case 'Numpad2':
-      case 'Numpad3':
-      case 'Numpad4':
-      case 'Numpad5':
-      case 'Numpad6':
-      case 'Numpad7':
-      case 'Numpad8':
-      case 'Numpad9':
-      case 'Escape':
-      case 'Home':
-        keyCode = event.code;
-        break;
-    }
-    return keyCode;
-  }
+
+
   /**
    * Parses the given key code as a turn and executes the corresponding command.
    *
@@ -92,85 +72,76 @@ export class ParsePlayer {
     stack: Stack,
     event: KeyboardEvent | null,
   ): Command | null {
-    const alt = event?.altKey;
+    const activeControlScheme = this.controlSchemeManager.getActiveScheme();
+    const alt = event?.altKey || event?.metaKey;
     let stackScreen: StackScreen | undefined;
     const dir = new WorldPoint();
 
-    if (event && alt) {
-      event.preventDefault();
-    }
+    if (event && alt) event.preventDefault();
 
     switch (char) {
-      case 'ArrowLeft':
-      case 'Numpad4':
+      case activeControlScheme.move_left.toString():
         dir.x = -1;
         break;
-      case 'ArrowRight':
-      case 'Numpad6':
+      case activeControlScheme.move_right.toString():
         dir.x = 1;
         break;
-      case 'ArrowUp':
-      case 'Numpad8':
+      case activeControlScheme.move_up.toString():
         dir.y = -1;
         break;
-      case 'ArrowDown':
-      case 'Numpad2':
+      case activeControlScheme.move_down.toString():
         dir.y = 1;
         break;
-      case 'Numpad7':
+      case activeControlScheme.move_up_left.toString():
         dir.y = -1;
         dir.x = -1;
         break;
-      case 'Numpad9':
+      case activeControlScheme.move_up_right.toString():
         dir.y = -1;
         dir.x = 1;
         break;
-      case 'Numpad1':
+      case activeControlScheme.move_down_left.toString():
         dir.y = 1;
         dir.x = -1;
         break;
-      case 'Numpad3':
+      case activeControlScheme.move_down_right.toString():
         dir.y = 1;
         dir.x = 1;
         break;
-      case '.':
-      case 'Numpad5':
+      case activeControlScheme.wait.toString():
         return this.waitCmd();
-      case 'q':
+      case activeControlScheme.log.toString():
         stackScreen = new LogScreen(this.game, this.make);
         break;
-      case 'c':
+      case activeControlScheme.handle_door.toString():
         stackScreen = this.doorCommand();
         break;
-      case 'g':
+      case activeControlScheme.grab_item.toString():
         if (this.game.inventory) return new PickupCommand(this.game);
         break;
-      /* case 'f':
-        stackScreen = this.bulletCommand(stack);
-        break; */
-      case 'i':
+      case activeControlScheme.inventory.toString():
         if (this.game.inventory)
           stackScreen = new InventoryScreen(this.game, this.make);
         break;
-      case 'u':
+      case activeControlScheme.equipment.toString():
         if (this.game.equipment)
           stackScreen = new EquipmentScreen(this.game, this.make);
         break;
-      case 'l':
+      case activeControlScheme.look.toString():
         stackScreen = new LookScreen(this.game, this.make);
         break;
-      case 's':
+      case activeControlScheme.spells.toString():
         stackScreen = new SpellScreen(this.game, this.make);
         break;
-      case 'Escape':
+      case activeControlScheme.menu.toString():
         stackScreen = new IngameMenuScreen(this.game, this.make, stack);
         break;
       // Debugging command
-      case 'Home':
+      case activeControlScheme.debug1.toString():
         stackScreen = new DebuggerScreen(this.game, this.make);
         break;
       // Debugging command
-      case 'End':
+      case activeControlScheme.debug2.toString():
         console.log(stack);
         break;
     }

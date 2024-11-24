@@ -1,4 +1,6 @@
 import { gameConfigManager } from '../../../gameConfigManager/gameConfigManager';
+import { GameConfigType } from '../../../types/gameConfig/gameConfigType';
+import { ScanlineStyles } from '../../../renderer/scanlinesHandler';
 
 /**
  * Handles changing the displayed content of buttons on the options menu.
@@ -14,43 +16,62 @@ export class OptionsMenuButtonManager {
   }
 
   /**
-   * Updates the text of the scanlines toggle button based on the current state.
+   * Updates the displayed text of the control scheme button to reflect the current active control scheme.
    *
-   * Disables or enables the scanline style button based on the current state.
-   *
-   * @return {void}
+   * @param { 'default' | 'alternate' } text - The current active control scheme.
    */
-  public updateScanlinesToggleButton(): void {
-    const scanlinesButton = this.shadowRoot?.getElementById(
-      'toggle-scanlines-button',
+  public updateControlSchemeButton(
+    text: GameConfigType['control_scheme'],
+  ): void {
+    const controlSchemeButton = this.shadowRoot?.getElementById(
+      'switch-controls-button',
     );
 
-    if (scanlinesButton) {
-      const scanlinesEnabled = this.gameConfig.show_scanlines;
-      this.shouldDisableScanlineStyleButton = !scanlinesEnabled;
-
-      scanlinesButton.innerHTML = scanlinesEnabled
-        ? '<span class="underline">S</span>canlines ON'
-        : '<span class="underline">S</span>canlines OFF';
+    if (controlSchemeButton) {
+      controlSchemeButton.innerHTML = `<span class="underline">C</span>ontrol scheme: ${text.toLocaleUpperCase()}`;
     }
   }
 
   /**
-   * Updates the text and disabled state of the scanline style button based on the current state.
+   * Updates the text and state of the scanlines toggle button based on whether
+   * scanlines are enabled.
    *
-   * If the scanline style button is present, the button text is set to
-   * 'Scanlines style: <current style>', and the button is disabled or enabled
-   * based on the value of the shouldDisableScanlineStyleButton field.
+   * Sets the button's text to 'Scanlines ON' or 'Scanlines OFF' depending on
+   * the current state. Also updates the disabled state of the scanline style
+   * button.
+   *
+   * @param {boolean} areScanlinesEnabled - Indicates if scanlines are currently enabled.
+   * @return {void}
+   */
+  public updateScanlinesToggleButton(areScanlinesEnabled: boolean): void {
+    const scanlinesButton = this.shadowRoot?.getElementById(
+      'toggle-scanlines-button',
+    );
+    if (scanlinesButton) {
+      this.shouldDisableScanlineStyleButton = !areScanlinesEnabled;
+      scanlinesButton.innerHTML = `<span class="underline">S</span>canlines ${areScanlinesEnabled ? 'ON' : 'OFF'}`;
+    }
+  }
+
+  /**
+   * Updates the text and state of the scanline style button based on the current
+   * scanline style and whether scanlines are enabled.
+   *
+   * Sets the button's text to 'Scanlines style: <current style>' and also
+   * updates the disabled state based on whether scanlines are enabled.
+   *
+   * @param {string} scanlineStyle - The current scanline style, one of the
+   *                                 values in the ScanlineStyles enum.
    *
    * @return {void}
    */
-  public updateScanlineStyleButton(): void {
+  public updateScanlineStyleButton(scanlineStyle: ScanlineStyles): void {
     const scanLineStyleBtn = this.shadowRoot?.getElementById(
       'switch-scanline-style-button',
     );
 
     if (scanLineStyleBtn) {
-      scanLineStyleBtn.innerHTML = `Scanlines s<span class="underline">t</span>yle: ${this.gameConfig.scanline_style.toUpperCase()}`;
+      scanLineStyleBtn.innerHTML = `Scanlines s<span class="underline">t</span>yle: ${scanlineStyle.toUpperCase()}`;
 
       scanLineStyleBtn.classList.toggle(
         'disabled',
@@ -60,69 +81,64 @@ export class OptionsMenuButtonManager {
   }
 
   /**
-   * Updates the text of the message alignment button based on the current state.
+   * Updates the text of the message alignment button based on the current
+   * message alignment.
    *
-   * If the current message alignment is 'left', the button text is set to
-   * 'Message display: LEFT'. Otherwise, the button text is set to
-   * 'Message display: RIGHT'.
+   * Sets the button's text to 'Message display: LEFT' or 'Message display:
+   * RIGHT', depending on the current message alignment.
+   *
+   * @param {('left' | 'right')} messageAlignment - The current message
+   *                                               alignment.
    *
    * @return {void}
    */
-  public updateMessageAlignButton(): void {
+  public updateMessageAlignButton(messageAlignment: 'left' | 'right'): void {
     const messageAlignBtn = this.shadowRoot?.getElementById(
       'message-display-align-button',
     ) as HTMLButtonElement;
 
-    if (messageAlignBtn) {
-      messageAlignBtn.innerHTML =
-        this.gameConfig.message_display === 'left'
-          ? '<span class="underline">M</span>essage display: LEFT'
-          : '<span class="underline">M</span>essage display: RIGHT';
-    }
+    if (messageAlignBtn)
+      messageAlignBtn.innerHTML = `<span class="underline">M</span>essage display: ${messageAlignment.toUpperCase()}`;
   }
 
   /**
-   * Updates the text of the display images button based on the current state.
+   * Updates the text of the show images button based on the current display status.
    *
-   * If {@link gameConfig.show_images} is true, the button text is set to
-   * 'Show images: YES'. Otherwise, the button text is set to
-   * 'Show images: NO'.
+   * Sets the button's text to 'Show images: YES' if images are displayed,
+   * and 'Show images: NO' otherwise.
    *
+   * @param {boolean} areImagesDisplayed - Indicates if images are currently displayed.
    * @return {void}
    */
-  public updateShowImagesButton(): void {
+  public updateShowImagesButton(areImagesDisplayed: boolean): void {
     const displayImage = this.shadowRoot?.getElementById(
       'show-images-button',
     ) as HTMLButtonElement;
 
-    if (displayImage) {
-      displayImage.innerHTML =
-        this.gameConfig.show_images === true
-          ? 'S<span class="underline">h</span>ow images: YES'
-          : 'S<span class="underline">h</span>ow images: NO';
-    }
+    if (displayImage)
+      displayImage.innerHTML = `S<span class="underline">h</span>ow images: ${areImagesDisplayed ? 'YES' : 'NO'}`;
   }
 
   /**
-   * Updates the text and disabled status of the image alignment button.
+   * Updates the text of the image alignment button based on the current
+   * image alignment. Also updates the disabled status of the button
+   * based on the current show images setting.
    *
-   * The text of the button is set to 'Image display: LEFT' if
-   * {@link gameConfig.image_display} is 'left', and 'Image display: RIGHT'
-   * otherwise. The button is also disabled if
-   * {@link shouldDisableImageAlignButton} is true.
+   * Sets the button's text to 'Image display: LEFT' or 'Image display:
+   * RIGHT', depending on the current image alignment.
+   *
+   * @param {('left' | 'right')} imageAlignment - The current image
+   *                                             alignment.
    *
    * @return {void}
    */
-  public updateImageAlignButton(): void {
+  public updateImageAlignButton(imageAlignment: 'left' | 'right'): void {
     const imageAlignBtn = this.shadowRoot?.getElementById(
       'image-align-button',
     ) as HTMLButtonElement;
 
     if (imageAlignBtn) {
-      imageAlignBtn.innerHTML =
-        this.gameConfig.image_display === 'left'
-          ? '<span class="underline">I</span>mage display: LEFT'
-          : '<span class="underline">I</span>mage display: RIGHT';
+      imageAlignBtn.innerHTML = `<span class="underline">I</span>mage display: ${imageAlignment.toUpperCase()}`;
 
       imageAlignBtn.classList.toggle(
         'disabled',

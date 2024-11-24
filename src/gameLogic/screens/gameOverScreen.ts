@@ -1,20 +1,20 @@
-import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
+import { BaseScreen } from './baseScreen';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { PostMortem } from '../stats/postMortem';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
-import { StackScreen } from '../../types/terminal/stackScreen';
 
 /**
  * Represents a game over screen implementation that is part of a terminal-based application stack.
  */
-export class GameOverScreen implements StackScreen {
+export class GameOverScreen extends BaseScreen {
   public name = 'gameover';
-  private gameConfig = gameConfigManager.getConfig();
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-  ) {}
+  ) {
+    super(game, make);
+  }
 
   /**
    * Draws the game over screen if it hasn't already been drawn.
@@ -109,7 +109,7 @@ export class GameOverScreen implements StackScreen {
 
     const beforeText = document.createTextNode('Press ');
     const escapeSpan = document.createElement('span');
-    escapeSpan.textContent = 'escape';
+    escapeSpan.textContent = this.activeControlScheme.menu.toString();
     const afterText = document.createTextNode(' to return to title screen.');
 
     info.appendChild(beforeText);
@@ -149,7 +149,7 @@ export class GameOverScreen implements StackScreen {
    * @return {void}
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
-    if (event.key === 'Escape') {
+    if (event.key === this.activeControlScheme.menu.toString()) {
       this.removeGameOverScreen();
       stack.pop();
       this.make.titleScreen();

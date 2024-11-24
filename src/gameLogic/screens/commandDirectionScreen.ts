@@ -13,37 +13,87 @@ export class CommandDirectionScreen extends BaseScreen {
   public name = 'command-direction-screen';
   constructor(
     public command: Command,
-    game: GameState,
-    make: ScreenMaker,
+    public game: GameState,
+    public make: ScreenMaker,
   ) {
     super(game, make);
   }
 
   /**
+   * Converts a numpad key string to its corresponding numeric character.
+   * @param {string} key - The key string to convert.
+   * @return {string} The numeric character if the key is a numpad key, otherwise the original key.
+   */
+  private convertNumpadKey(key: string): string {
+    if (key.startsWith('Numpad')) {
+      const num = key.replace('Numpad', '');
+      return !isNaN(Number(num)) ? num : key;
+    }
+    return key;
+  }
+  /**
    * Draws a message asking for input.
    * @param {DrawableTerminal} term - The terminal to draw on.
    */
-  public drawScreen(term: DrawableTerminal) {
+  public drawScreen(term: DrawableTerminal): void {
     super.drawScreen(term);
+
     term.drawText(0, 0, 'Which direction?', 'yellow', 'black');
 
-    const table = [
+    const table = this.getDirectionTable();
+    this.drawTable(term, table, 0, 2);
+  }
+
+  /**
+   * Creates the direction control table.
+   */
+  private getDirectionTable(): string[][] {
+    const convert = (key: string) => this.convertNumpadKey(key.toString());
+
+    return [
       ['↖', ' ', '↑', ' ', '↗'],
-      [' ', '7', '8', '9', ' '],
-      ['←', '4', ' ', '6', '→'],
-      [' ', '1', '2', '3', ' '],
+      [
+        ' ',
+        convert(this.activeControlScheme.move_up_left.toString()),
+        convert(this.activeControlScheme.move_up.toString()),
+        convert(this.activeControlScheme.move_up_right.toString()),
+        ' ',
+      ],
+      [
+        '←',
+        convert(this.activeControlScheme.move_left.toString()),
+        ' ',
+        convert(this.activeControlScheme.move_right.toString()),
+        '→',
+      ],
+      [
+        ' ',
+        convert(this.activeControlScheme.move_down_left.toString()),
+        convert(this.activeControlScheme.move_down.toString()),
+        convert(this.activeControlScheme.move_down_right.toString()),
+        ' ',
+      ],
       ['↙', ' ', '↓', ' ', '↘'],
     ];
+  }
 
-    const startX = 0;
-    const startY = 2;
-    const cellWidth = 1;
-    const cellHeight = 1;
-
+  /**
+   * Draws a table on the terminal.
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @param {string[][]} table - The table to draw.
+   * @param {number} startX - Starting X coordinate.
+   * @param {number} startY - Starting Y coordinate.
+   */
+  private drawTable(
+    term: DrawableTerminal,
+    table: string[][],
+    startX: number,
+    startY: number,
+  ): void {
     table.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
-        const x = cellIndex * cellWidth + startX;
-        const y = rowIndex * cellHeight + startY;
+        const x = startX + cellIndex;
+        const y = startY + rowIndex;
         term.drawText(x, y, cell, 'white', '#025');
       });
     });
@@ -58,39 +108,41 @@ export class CommandDirectionScreen extends BaseScreen {
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     stack.pop();
     const direction = new WorldPoint();
-    switch (event.key) {
-      case '4':
+
+    const char = this.controlSchemeManager.keyPressToCode(event);
+    switch (char) {
+      case this.activeControlScheme.move_left.toString():
         direction.x = -1;
         break;
 
-      case '6':
+      case this.activeControlScheme.move_right.toString():
         direction.x = 1;
         break;
 
-      case '8':
+      case this.activeControlScheme.move_up.toString():
         direction.y = -1;
         break;
 
-      case '2':
+      case this.activeControlScheme.move_down.toString():
         direction.y = 1;
         break;
 
-      case '7':
+      case this.activeControlScheme.move_up_left.toString():
         direction.x = -1;
         direction.y = -1;
         break;
 
-      case '9':
+      case this.activeControlScheme.move_up_right.toString():
         direction.x = 1;
         direction.y = -1;
         break;
 
-      case '1':
+      case this.activeControlScheme.move_down_left.toString():
         direction.x = -1;
         direction.y = 1;
         break;
 
-      case '3':
+      case this.activeControlScheme.move_down_right.toString():
         direction.x = 1;
         direction.y = 1;
         break;

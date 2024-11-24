@@ -204,36 +204,35 @@ export class LookScreen extends BaseScreen {
       this.lookPos.x += dx;
       this.lookPos.y += dy;
     };
-    switch (event.code) {
-      case 'ArrowLeft':
-      case 'Numpad4':
+
+    const char = this.controlSchemeManager.keyPressToCode(event);
+
+    switch (char) {
+      case this.activeControlScheme.move_left.toString():
         moveCursor(-1, 0);
         break;
-      case 'ArrowRight':
-      case 'Numpad6':
+      case this.activeControlScheme.move_right.toString():
         moveCursor(1, 0);
         break;
-      case 'ArrowUp':
-      case 'Numpad8':
+      case this.activeControlScheme.move_up.toString():
         moveCursor(0, -1);
         break;
-      case 'ArrowDown':
-      case 'Numpad2':
+      case this.activeControlScheme.move_down.toString():
         moveCursor(0, 1);
         break;
-      case 'Numpad7':
+      case this.activeControlScheme.move_up_left.toString():
         moveCursor(-1, -1);
         break;
-      case 'Numpad9':
+      case this.activeControlScheme.move_up_right.toString():
         moveCursor(1, -1);
         break;
-      case 'Numpad1':
+      case this.activeControlScheme.move_down_left.toString():
         moveCursor(-1, 1);
         break;
-      case 'Numpad3':
+      case this.activeControlScheme.move_down_right.toString():
         moveCursor(1, 1);
         break;
-      case 'KeyL':
+      case this.activeControlScheme.look.toString():
         DrawUI.clearFlash(this.game);
         stack.pop();
 
