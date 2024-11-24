@@ -1,5 +1,5 @@
 import controls from '../../controls/control_schemes.json';
-import { ControlSchemeName } from '../../controls/controlSchemeManager';
+import { ControlSchemeName } from '../../types/controls/controlSchemeType';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
