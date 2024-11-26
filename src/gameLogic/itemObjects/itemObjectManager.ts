@@ -5,7 +5,7 @@ import { ObjectTypes } from '../../types/gameLogic/itemObjects/objTypes';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { Slot } from './slot';
 import { Spell } from '../spells/spell';
-import * as spellData from '../../gameLogic/spells/spellData/spells.json';
+import spellData from '../../gameLogic/spells/spellData/spells.json';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**
