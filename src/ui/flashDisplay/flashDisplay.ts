@@ -13,50 +13,58 @@ export class FlashDisplay extends HTMLElement {
   private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
-
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     this.decorator = new FlashDecorator(shadowRoot);
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-      <style>
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
+    <style>
+      * {
+        margin: var(--margin);
+        padding: var(--padding);
+        box-sizing: var(--box-sizing);
+      }
 
-        * {
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
+      * {
+        scrollbar-width: var(--scrollbar-width);
+        scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+      }
 
-        ::selection {
-          color: var(--selection-color);
-          background-color: var(--selection-background);
-        }
+      ::selection {
+        color: var(--selection-color);
+        background-color: var(--selection-background);
+      }
 
-        :host {
-          position: absolute;
-          left: 0;
-          bottom: 0;
-        }
+      :host {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
 
-        .flash-display {
-          padding: 1rem 1.5rem;
-          color: var(--white);
-          font-size: 1.25rem;
-        }
+      .flash-display {
+        padding: 1rem 1.5rem;
+        color: var(--white);
+        font-size: 1.25rem;
+      }
 
-        .more-span {
-          font-weight: bold;
-        }
-      </style>
-      <div class="flash-display"></div>
-    `;
+      .more-span {
+        font-weight: bold;
+      }
+    </style>
+    <div class="flash-display"></div>
+  `;
 
-    shadowRoot.appendChild(templateElement.content.cloneNode(true));
+    this.shadowRoot?.appendChild(templateElement.content.cloneNode(true));
   }
 
   /**

@@ -15,12 +15,19 @@ export class OptionsMenu extends HTMLElement {
   ) as ControlSchemeName[];
   constructor() {
     super();
-
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-
     this.layoutManager = new LayoutManager();
+    const shadowRoot = this.attachShadow({ mode: 'open' });
     this.buttonManager = new OptionsMenuButtonManager(shadowRoot);
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     this.layoutManager.setMessageDisplayLayout(this.gameConfig.message_display);
     this.layoutManager.setImageDisplayLayout(this.gameConfig.image_display);
 
@@ -150,7 +157,7 @@ export class OptionsMenu extends HTMLElement {
       </div>
     `;
 
-    shadowRoot.appendChild(templateElement.content.cloneNode(true));
+    this.shadowRoot?.appendChild(templateElement.content.cloneNode(true));
 
     this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
     this.buttonManager.updateScanlinesToggleButton(
