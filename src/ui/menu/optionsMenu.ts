@@ -584,7 +584,6 @@ export class OptionsMenu extends HTMLElement {
       shadowRoot
         .getElementById('back-button')
         ?.removeEventListener('click', this.returnToIngameMenu);
-      document.removeEventListener('keydown', this.handleKeyPress);
     }
   }
 }

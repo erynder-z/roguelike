@@ -343,7 +343,6 @@ export class IngameMenu extends HTMLElement {
       shadowRoot
         .getElementById('quit-app-button')
         ?.removeEventListener('click', this.quitApp);
-      document.removeEventListener('keydown', this.handleKeyPress);
     }
   }
 }
