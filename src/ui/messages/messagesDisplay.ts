@@ -59,6 +59,7 @@ export class MessagesDisplay extends HTMLElement {
         .messages-display ul {
           display: flex;
           flex-direction: column-reverse;
+          padding: 0;
         }
 
         li {
