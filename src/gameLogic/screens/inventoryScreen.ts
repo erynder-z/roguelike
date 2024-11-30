@@ -14,7 +14,7 @@ export class InventoryScreen extends BaseScreen {
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public inventory: Inventory = <Inventory>game.inventory,
+    private inventory: Inventory = <Inventory>game.inventory,
   ) {
     super(game, make);
   }

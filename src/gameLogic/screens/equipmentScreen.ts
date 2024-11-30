@@ -14,7 +14,7 @@ export class EquipmentScreen extends BaseScreen {
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public equipment: Equipment = <Equipment>game.equipment,
+    private equipment: Equipment = <Equipment>game.equipment,
   ) {
     super(game, make);
   }

@@ -20,11 +20,11 @@ import { StackScreen } from '../../types/terminal/stackScreen';
 export class ItemScreen extends BaseScreen {
   public name = 'item-screen';
   constructor(
-    public obj: ItemObject,
-    public index: number,
+    private obj: ItemObject,
+    private index: number,
     public game: GameState,
     public maker: ScreenMaker,
-    public isEquipped: boolean = !!game.equipment,
+    private isEquipped: boolean = !!game.equipment,
   ) {
     super(game, maker);
   }
@@ -56,7 +56,6 @@ export class ItemScreen extends BaseScreen {
    * @returns {boolean} True if the event was handled, otherwise false.
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
-
     switch (event.key) {
       case 'd':
         this.dropItem(stack);

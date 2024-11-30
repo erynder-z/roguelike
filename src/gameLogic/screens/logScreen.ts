@@ -9,12 +9,13 @@ import { Stack } from '../../types/terminal/stack';
  * Represents a screen for displaying the log messages.
  */
 export class LogScreen extends BaseScreen {
-  private colorizer: BuffColors;
   public name: string = 'log-screen';
+  private colorizer: BuffColors;
+
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public messageLog: LogMessage[] = game.log.archive,
+    private messageLog: LogMessage[] = game.log.archive,
   ) {
     super(game, make);
 
