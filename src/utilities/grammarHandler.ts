@@ -1,6 +1,5 @@
-
 import { Buff } from '../gameLogic/buffs/buffEnum';
-import * as messagesData from '../gameLogic/messages/messagesData/messagesData.json';
+import messagesData from '../gameLogic/messages/messagesData/messagesData.json';
 
 export class GrammarHandler {
   public static BuffToAdjective(buff: Buff): string | null {

@@ -9,7 +9,16 @@ export class MessagesDisplay extends HTMLElement {
     super();
     this.colorizer = new BuffColors();
     this.previousRenderedMessages = new Set();
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const templateElement = document.createElement('template');
@@ -50,6 +59,7 @@ export class MessagesDisplay extends HTMLElement {
         .messages-display ul {
           display: flex;
           flex-direction: column-reverse;
+          padding: 0;
         }
 
         li {
@@ -82,7 +92,7 @@ export class MessagesDisplay extends HTMLElement {
       <div class="messages-display"></div>
     `;
 
-    shadowRoot.appendChild(templateElement.content.cloneNode(true));
+    shadowRoot?.appendChild(templateElement.content.cloneNode(true));
   }
 
   /**

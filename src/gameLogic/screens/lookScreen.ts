@@ -232,7 +232,7 @@ export class LookScreen extends BaseScreen {
       case this.activeControlScheme.move_down_right.toString():
         moveCursor(1, 1);
         break;
-      case this.activeControlScheme.look.toString():
+      case this.activeControlScheme.menu.toString():
         DrawUI.clearFlash(this.game);
         stack.pop();
 

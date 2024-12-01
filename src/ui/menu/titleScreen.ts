@@ -8,7 +8,16 @@ import img06 from '../../assets/images/title/title06.webp';
 export class TitleScreen extends HTMLElement {
   constructor() {
     super();
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     const images = [img01, img02, img03, img04, img05, img06];
 
     const img = images[Math.floor(Math.random() * images.length)];

@@ -1,7 +1,7 @@
-import * as corpseData from '../gameLogic/mobs/mobData/corpses.json';
-import * as environmentData from '../gameLogic/environment/environmentData/environment.json';
-import * as itemData from '../gameLogic/itemObjects/itemData/items.json';
-import * as mobsData from '../gameLogic/mobs/mobData/mobs.json';
+import corpseData from '../gameLogic/mobs/mobData/corpses.json';
+import environmentData from '../gameLogic/environment/environmentData/environment.json';
+import itemData from '../gameLogic/itemObjects/itemData/items.json';
+import mobsData from '../gameLogic/mobs/mobData/mobs.json';
 import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';

@@ -11,8 +11,8 @@ import { Step } from '../../types/gameLogic/stepper/step';
 export class StepScreen extends BaseScreen {
   public name = 'step-screen';
   constructor(
-    game: GameState,
-    make: ScreenMaker,
+    public game: GameState,
+    public make: ScreenMaker,
     public step: Step | null,
   ) {
     super(game, make);

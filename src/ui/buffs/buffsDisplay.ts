@@ -5,54 +5,63 @@ import { BuffType } from '../../types/gameLogic/buffs/buffType';
 export class BuffsDisplay extends HTMLElement {
   constructor(public colorizer: BuffColors = new BuffColors()) {
     super();
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-      <style>
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
+    <style>
+      * {
+        margin: var(--margin);
+        padding: var(--padding);
+        box-sizing: var(--box-sizing);
+      }
 
-        * {
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
+      * {
+        scrollbar-width: var(--scrollbar-width);
+        scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+      }
 
-        ::selection {
-          color: var(--selection-color);
-          background-color: var(--selection-background);
-        }
+      ::selection {
+        color: var(--selection-color);
+        background-color: var(--selection-background);
+      }
 
-        .buffs-display {
-          flex-grow: 1;
-          overflow: auto;
-        }
+      .buffs-display {
+        flex-grow: 1;
+        overflow: auto;
+      }
 
-        h1 {
-          margin: 0;
-          text-align: center;
-        }
+      h1 {
+        margin: 0;
+        text-align: center;
+      }
 
-        ul {
-          padding: 0;
-          flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-        }
+      ul {
+        padding: 0;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
 
-        li {
-          list-style: none;
-          padding: 0 0.5rem;
-        }
-      </style>
+      li {
+        list-style: none;
+        padding: 0 0.5rem;
+      }
+    </style>
 
-      <h1>Buffs</h1>
-      <div class="buffs-display"></div>
-    `;
+    <h1>Buffs</h1>
+    <div class="buffs-display"></div>
+  `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }

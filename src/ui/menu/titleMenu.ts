@@ -8,109 +8,118 @@ export class TitleMenu extends HTMLElement {
   private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-      <style>
-        .container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          height: 100%;
-          width: 100%;
-          background: var(--backgroundDefaultTransparent);
-        }
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        background: var(--backgroundDefaultTransparent);
+      }
 
-        .container h1 {
-          margin: 8rem 0 0 0;
-          text-align: center;
-          z-index: 1;
-        }
+      .container h1 {
+        margin: 8rem 0 0 0;
+        text-align: center;
+        z-index: 1;
+      }
 
-        .container button {
-          font-family: 'UASQUARE';
-          padding: 1rem;
-          font-size: 2.5rem;
-          font-weight: bold;
-          background: none;
-          color: var(--white);
-          border: none;
-          transition: all 0.2s ease-in-out;
-        }
+      .container button {
+        font-family: 'UASQUARE';
+        padding: 1rem;
+        font-size: 2.5rem;
+        font-weight: bold;
+        background: none;
+        color: var(--white);
+        border: none;
+        transition: all 0.2s ease-in-out;
+      }
 
-        .container button:hover {
-          cursor: pointer;
-          transform: scale(1.1);
-        }
+      .container button:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+      }
 
-        .underline {
-          text-decoration: underline;
-        }
+      .underline {
+        text-decoration: underline;
+      }
 
-        .buttons-container {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          gap: 0.5rem;
-          height: 100%;
-        }
+      .buttons-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5rem;
+        height: 100%;
+      }
 
-        .bottom-container {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-          margin-top: auto;
-        }
+      .bottom-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-top: auto;
+      }
 
-        .seed-display {
-          padding: 0 1rem;
-          font-size: 1.5rem;
-        }
+      .seed-display {
+        padding: 0 1rem;
+        font-size: 1.5rem;
+      }
 
-        .seed-display span {
-          font-size: 1.75rem;
-        }
+      .seed-display span {
+        font-size: 1.75rem;
+      }
 
-        .version-display {
-          padding: 0 1rem;
-          font-size: 1.5rem;
-        }
-      </style>
+      .version-display {
+        padding: 0 1rem;
+        font-size: 1.5rem;
+      }
+    </style>
 
-      <div class="container">
-        <h1>Meikai: Roguelike Journey to the Center of the Earth</h1>
-        <div class="buttons-container">
-          <button id="new-game-button">
-            <span class="underline">N</span>ew game
-          </button>
-          <button id="load-game-button">
-            <span class="underline">L</span>oad game
-          </button>
-          <button id="player-setup-button">
-            <span class="underline">P</span>layer setup
-          </button>
-          <button id="change-seed-button">
-            <span class="underline">C</span>hange seed
-          </button>
-          <button id="help-button">
-            <span class="underline">H</span>elp
-          </button>
-          <button id="about-window-button">
-            <span class="underline">A</span>bout
-          </button>
-          <button id="quit-window-button">
-            <span class="underline">Q</span>uit
-          </button>
-        </div>
-        <div class="bottom-container">
-          <div class="version-display">version: alpha</div>
-          <div id="current-seed-display" class="seed-display">current Seed</div>
-        </div>
+    <div class="container">
+      <h1>Meikai: Roguelike Journey to the Center of the Earth</h1>
+      <div class="buttons-container">
+        <button id="new-game-button">
+          <span class="underline">N</span>ew game
+        </button>
+        <button id="load-game-button">
+          <span class="underline">L</span>oad game
+        </button>
+        <button id="player-setup-button">
+          <span class="underline">P</span>layer setup
+        </button>
+        <button id="change-seed-button">
+          <span class="underline">C</span>hange seed
+        </button>
+        <button id="help-button">
+          <span class="underline">H</span>elp
+        </button>
+        <button id="about-window-button">
+          <span class="underline">A</span>bout
+        </button>
+        <button id="quit-window-button">
+          <span class="underline">Q</span>uit
+        </button>
       </div>
-    `;
+      <div class="bottom-container">
+        <div class="version-display">version: alpha</div>
+        <div id="current-seed-display" class="seed-display">current Seed</div>
+      </div>
+    </div>
+  `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 

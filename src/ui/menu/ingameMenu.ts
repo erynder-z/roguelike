@@ -1,12 +1,20 @@
 import { ask } from '@tauri-apps/plugin-dialog';
 import { BaseDirectory, writeTextFile, open } from '@tauri-apps/plugin-fs';
 import { exit } from '@tauri-apps/plugin-process';
-import { invoke } from '@tauri-apps/api/core';
 import { GameState } from '../../types/gameBuilder/gameState';
+import { invoke } from '@tauri-apps/api/core';
 import { SaveStateHandler } from '../../utilities/SaveStateHandler';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 
 export class IngameMenu extends HTMLElement {
   private _game: GameState | null = null;
+  private _isRendered = false;
+
+  private gameConfig = gameConfigManager.getConfig();
+  private currentScheme = this.gameConfig.control_scheme || 'default';
+  public controlSchemeManager: ControlSchemeManager;
+  public activeControlScheme: Record<string, string[]>;
 
   set currentGame(value: GameState | null) {
     this._game = value;
@@ -15,8 +23,30 @@ export class IngameMenu extends HTMLElement {
   get currentGame(): GameState | null {
     return this._game;
   }
+
+  set isRendered(value: boolean) {
+    this._isRendered = value;
+  }
+
+  get isRendered(): boolean {
+    return this._isRendered;
+  }
+
   constructor() {
     super();
+
+    this.controlSchemeManager = new ControlSchemeManager(this.currentScheme);
+    this.activeControlScheme = this.controlSchemeManager.getActiveScheme();
+  }
+
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const templateElement = document.createElement('template');
@@ -103,6 +133,11 @@ export class IngameMenu extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.bindEvents();
+
+    // use animation frame to ensure isRendered is set to true only after the element is fully rendered
+    requestAnimationFrame(() => {
+      this.isRendered = true;
+    });
   }
 
   /**
@@ -187,7 +222,11 @@ export class IngameMenu extends HTMLElement {
    * @return {void}
    */
   private handleKeyPress(event: KeyboardEvent): void {
+    // Prevent keyboard events before the element is fully rendered. In particular, this prevents the initial {menu} keypress to close the menu the moment it's being rendered.
+    if (!this.isRendered) return;
+
     switch (event.key) {
+      case this.activeControlScheme.menu.toString():
       case 'R':
         this.returnToGame();
         break;
@@ -333,7 +372,6 @@ export class IngameMenu extends HTMLElement {
       shadowRoot
         .getElementById('quit-app-button')
         ?.removeEventListener('click', this.quitApp);
-      document.removeEventListener('keydown', this.handleKeyPress);
     }
   }
 }

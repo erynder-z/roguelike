@@ -138,7 +138,6 @@ li {
   flex-direction: column;
 }
 
-.log-screen,
 .inventory-screen,
 .equipment-screen,
 .gameover-screen {
@@ -156,14 +155,12 @@ li {
   scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 }
 
-.log-screen::-webkit-scrollbar,
 .inventory-screen::-webkit-scrollbar,
 .equipment-screen::-webkit-scrollbar,
 .gameover-screen::-webkit-scrollbar {
   width: 0.25rem;
 }
 
-.log-screen::-webkit-scrollbar-thumb,
 .inventory-screen::-webkit-scrollbar-thumb,
 .equipment-screen::-webkit-scrollbar-thumb,
 .gameover-screen::-webkit-scrollbar-thumb {
@@ -171,7 +168,6 @@ li {
   border-radius: 4px;
 }
 
-.log-screen::-webkit-scrollbar-track,
 .inventory-screen::-webkit-scrollbar-track,
 .equipment-screen::-webkit-scrollbar-track,
 .gameover-screen::-webkit-scrollbar-track {
@@ -183,7 +179,6 @@ li {
   font-size: large;
 }
 
-.log-screen h1,
 .inventory-screen h1,
 .equipment-screen h1 {
   text-align: center;

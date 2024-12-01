@@ -4,15 +4,19 @@ import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 
 export class OptionsMenu extends HTMLElement {
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
-  private controlSchemeName = this.gameConfig.control_scheme;
+  public controlSchemeManager: ControlSchemeManager;
+  private currentScheme = this.gameConfig.control_scheme;
   private availableControlSchemes = Object.keys(
     controls,
   ) as ControlSchemeName[];
+
+  public activeControlScheme: Record<string, string[]>;
   constructor() {
     super();
 
@@ -20,7 +24,18 @@ export class OptionsMenu extends HTMLElement {
 
     this.layoutManager = new LayoutManager();
     this.buttonManager = new OptionsMenuButtonManager(shadowRoot);
+    this.controlSchemeManager = new ControlSchemeManager(this.currentScheme);
+    this.activeControlScheme = this.controlSchemeManager.getActiveScheme();
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     this.layoutManager.setMessageDisplayLayout(this.gameConfig.message_display);
     this.layoutManager.setImageDisplayLayout(this.gameConfig.image_display);
 
@@ -150,9 +165,9 @@ export class OptionsMenu extends HTMLElement {
       </div>
     `;
 
-    shadowRoot.appendChild(templateElement.content.cloneNode(true));
+    this.shadowRoot?.appendChild(templateElement.content.cloneNode(true));
 
-    this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
+    this.buttonManager.updateControlSchemeButton(this.currentScheme);
     this.buttonManager.updateScanlinesToggleButton(
       this.gameConfig.show_scanlines,
     );
@@ -282,9 +297,9 @@ export class OptionsMenu extends HTMLElement {
     const nextScheme = this.availableControlSchemes[nextSchemeIndex];
 
     this.gameConfig.control_scheme = nextScheme;
-    this.controlSchemeName = nextScheme;
+    this.currentScheme = nextScheme;
 
-    this.buttonManager.updateControlSchemeButton(this.controlSchemeName);
+    this.buttonManager.updateControlSchemeButton(this.currentScheme);
   }
 
   /**
@@ -529,6 +544,7 @@ export class OptionsMenu extends HTMLElement {
       case 'I':
         this.toggleImageAlignment();
         break;
+      case this.activeControlScheme.menu.toString():
       case 'R':
         this.returnToIngameMenu();
         break;
@@ -577,7 +593,6 @@ export class OptionsMenu extends HTMLElement {
       shadowRoot
         .getElementById('back-button')
         ?.removeEventListener('click', this.returnToIngameMenu);
-      document.removeEventListener('keydown', this.handleKeyPress);
     }
   }
 }

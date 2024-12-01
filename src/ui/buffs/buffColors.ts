@@ -1,4 +1,4 @@
-import * as messagesData from '../../gameLogic/messages/messagesData/messagesData.json';
+import messagesData from '../../gameLogic/messages/messagesData/messagesData.json';
 import { BuffText } from '../../types/ui/buffText';
 
 /**

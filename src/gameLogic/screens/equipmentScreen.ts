@@ -14,7 +14,7 @@ export class EquipmentScreen extends BaseScreen {
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public equipment: Equipment = <Equipment>game.equipment,
+    private equipment: Equipment = <Equipment>game.equipment,
   ) {
     super(game, make);
   }
@@ -113,7 +113,7 @@ export class EquipmentScreen extends BaseScreen {
    */
   private createTitleElement(): HTMLHeadingElement {
     const titleElement = document.createElement('h1');
-    titleElement.textContent = `Equipped items: (press ${this.activeControlScheme.equipment} to close.)`;
+    titleElement.textContent = `Equipped items: (press ${this.activeControlScheme.menu} to close.)`;
     return titleElement;
   }
 
@@ -150,7 +150,7 @@ export class EquipmentScreen extends BaseScreen {
     const slot = this.CharacterToSlot(event.key);
 
     if (
-      event.key === this.activeControlScheme.equipment.toString() ||
+      event.key === this.activeControlScheme.menu.toString() ||
       this.unequip(slot)
     ) {
       this.fadeOutEquipmentScreen();

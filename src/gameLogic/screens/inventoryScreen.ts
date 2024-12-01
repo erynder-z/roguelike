@@ -14,7 +14,7 @@ export class InventoryScreen extends BaseScreen {
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public inventory: Inventory = <Inventory>game.inventory,
+    private inventory: Inventory = <Inventory>game.inventory,
   ) {
     super(game, make);
   }
@@ -89,7 +89,7 @@ export class InventoryScreen extends BaseScreen {
    */
   private createTitleElement(): HTMLHeadingElement {
     const titleElement = document.createElement('h1');
-    titleElement.textContent = `Inventory: (press ${this.activeControlScheme.inventory} to close.)`;
+    titleElement.textContent = `Inventory: (press ${this.activeControlScheme.menu} to close.)`;
     return titleElement;
   }
 
@@ -135,7 +135,7 @@ export class InventoryScreen extends BaseScreen {
       this.fadeOutInventoryScreen();
       this.itemMenu(pos, stack);
     } else {
-      if (event.key === this.activeControlScheme.inventory.toString()) {
+      if (event.key === this.activeControlScheme.menu.toString()) {
         this.fadeOutInventoryScreen();
         stack.pop();
         return true;

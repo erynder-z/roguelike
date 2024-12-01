@@ -4,95 +4,104 @@ import { Slot } from '../../gameLogic/itemObjects/slot';
 export class EquipmentDisplay extends HTMLElement {
   constructor() {
     super();
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-      <style>
+    <style>
 
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);   
-        }
+      * {
+        margin: var(--margin);
+        padding: var(--padding);
+        box-sizing: var(--box-sizing);   
+      }
 
-        * {
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
+      * {
+        scrollbar-width: var(--scrollbar-width);
+        scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+      }
 
-        ::selection {
-          color: var(--selection-color);
-          background-color: var(--selection-background);
-        }
+      ::selection {
+        color: var(--selection-color);
+        background-color: var(--selection-background);
+      }
 
-        .equipment-display {
-          overflow: auto;
-          display: flex;
-          gap: 5rem;
-        }
+      .equipment-display {
+        overflow: auto;
+        display: flex;
+        gap: 5rem;
+      }
 
-        h1 {
-          margin: 0;
-          text-align: center;
-        }
+      h1 {
+        margin: 0;
+        text-align: center;
+      }
 
-        .hands,
-        .body {
-          display: flex;
-          flex-direction: column;
-        }
+      .hands,
+      .body {
+        display: flex;
+        flex-direction: column;
+      }
 
-        .equipment-slot {
-          display: flex;
-        }
+      .equipment-slot {
+        display: flex;
+      }
 
-        .equipment-slot > div:first-child {
-          width: 100px;
-          font-weight: bold;
-        }
+      .equipment-slot > div:first-child {
+        width: 100px;
+        font-weight: bold;
+      }
 
-      </style>
+    </style>
 
-      <h1>Equipment</h1>
+    <h1>Equipment</h1>
 
-      <div class="equipment-display">
-        <div class="hands">
-          <div class="equipment-slot">
-            <div>Main hand:&nbsp;</div>
-            <div id="MainHand">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Off hand:&nbsp;</div>
-            <div id="OffHand">empty</div>
-          </div>
+    <div class="equipment-display">
+      <div class="hands">
+        <div class="equipment-slot">
+          <div>Main hand:&nbsp;</div>
+          <div id="MainHand">empty</div>
         </div>
-
-        <div class="body">
-          <div class="equipment-slot">
-            <div>Head:&nbsp;</div>
-            <div id="Head">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Hands:&nbsp;</div>
-            <div id="Hands">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Back:&nbsp;</div>
-            <div id="Back">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Legs:&nbsp;</div>
-            <div id="Legs">empty</div>
-          </div>
-          <div class="equipment-slot">
-            <div>Feet:&nbsp;</div>
-            <div id="Feet">empty</div>
-          </div>
+        <div class="equipment-slot">
+          <div>Off hand:&nbsp;</div>
+          <div id="OffHand">empty</div>
         </div>
       </div>
-    `;
+
+      <div class="body">
+        <div class="equipment-slot">
+          <div>Head:&nbsp;</div>
+          <div id="Head">empty</div>
+        </div>
+        <div class="equipment-slot">
+          <div>Hands:&nbsp;</div>
+          <div id="Hands">empty</div>
+        </div>
+        <div class="equipment-slot">
+          <div>Back:&nbsp;</div>
+          <div id="Back">empty</div>
+        </div>
+        <div class="equipment-slot">
+          <div>Legs:&nbsp;</div>
+          <div id="Legs">empty</div>
+        </div>
+        <div class="equipment-slot">
+          <div>Feet:&nbsp;</div>
+          <div id="Feet">empty</div>
+        </div>
+      </div>
+    </div>
+  `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }
