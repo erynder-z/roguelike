@@ -59,8 +59,6 @@ export class LogScreenDisplay extends HTMLElement {
 
         .log-screen-list ul li {
         list-style-type: none;
-
-
         }
 
         .fade-out {

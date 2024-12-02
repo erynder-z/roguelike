@@ -58,9 +58,9 @@ export class LogScreen extends BaseScreen {
   private async fadeOutAndRemove(stack: Stack): Promise<void> {
     if (this.logScreenDisplay) {
       await this.logScreenDisplay.fadeOut();
-      console.log('peng');
+
       this.logScreenDisplay.remove();
-      this.logScreenDisplay = null;
+
       stack.pop();
     }
   }
