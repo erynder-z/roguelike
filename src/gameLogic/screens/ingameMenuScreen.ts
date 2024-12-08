@@ -108,5 +108,3 @@ export class IngameMenuScreen extends BaseScreen {
     }
   }
 }
-
-/* TODO: Maybe find a more elegant way to handle the ingame menu. Right now there are two "screens": this IngameMenuScreen thats is living on the stack and ingame-menu web-coponent that handles all the logic and display */

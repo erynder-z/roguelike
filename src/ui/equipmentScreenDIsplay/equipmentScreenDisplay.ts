@@ -1,9 +1,9 @@
-import { LogMessage } from '../../gameLogic/messages/logMessage';
-import { BuffColors } from '../buffs/buffColors';
-
-export class LogScreenDisplay extends HTMLElement {
-  private colorizer = new BuffColors();
-  private messageLog: LogMessage[] = [];
+export class EquipmentScreenDisplay extends HTMLElement {
+  private equipmentItems: {
+    char: string;
+    slot: string;
+    description: string;
+  }[] = [];
   private menuKey: string = 'Esc';
 
   constructor() {
@@ -16,7 +16,7 @@ export class LogScreenDisplay extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
-        .log-screen-display {
+        .equipment-screen-display {
           background: var(--backgroundDefaultTransparent);
           backdrop-filter: blur(5px);
           position: absolute;
@@ -24,42 +24,44 @@ export class LogScreenDisplay extends HTMLElement {
           left: 0;
           height: 100%;
           width: 100%;
-  
+
           overflow-y: auto;
           overflow-x: hidden;
           scrollbar-width: var(--scrollbar-width);
           scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
         }
 
-        .log-screen-display::-webkit-scrollbar {
+        .equipment-screen-display::-webkit-scrollbar {
           width: 0.25rem;
         }
 
-        .log-screen-display::-webkit-scrollbar-thumb {
+        .equipment-screen-display::-webkit-scrollbar-thumb {
           background-color: var(--scrollbar-foreground);
           border-radius: 4px;
         }
 
-        .log-screen-display::-webkit-scrollbar-track {
+        .equipment-screen-display::-webkit-scrollbar-track {
           background-color: var(--scrollbar-background);
         }
 
-        .log-screen-heading {
-        font-size: 1.5rem;
+        .equipment-heading {
+          font-size: 1.5rem;
           text-align: center;
           margin: 2rem;
         }
 
-        .log-screen-list ul li:nth-child(odd) {
-          background-color: var(--whiteTransparent);
-        }
-
-        .log-screen-list ul{
+        .equipment-list ul {
           padding: 0 2rem;
         }
 
-        .log-screen-list ul li {
-        list-style-type: none;
+        .equipment-list ul li {
+          list-style-type: none;
+          padding: 0.5rem;
+          cursor: pointer;
+        }
+
+        .equipment-list ul li:hover {
+          background-color: var(--hover-bg-color, #222);
         }
 
         .fade-out {
@@ -75,9 +77,9 @@ export class LogScreenDisplay extends HTMLElement {
           }
         }
       </style>
-      <div class="log-screen-display">
-        <div class="log-screen-heading">Log: (Press ${this.menuKey} to close)</div>
-        <div class="log-screen-list"></div>
+      <div class="equipment-screen-display">
+        <div class="equipment-heading">Equipped Items: (Press ${this.menuKey} to close)</div>
+        <div class="equipment-list"></div>
       </div>
     `;
 
@@ -85,12 +87,12 @@ export class LogScreenDisplay extends HTMLElement {
   }
 
   /**
-   * Sets the log messages and triggers a render.
-   * @param {LogMessage[]} messages - The log messages to display.
+   * Sets the equipment items to display.
+   * @param {{ slot: string; description: string }[]} items - The equipment items.
    */
-  set log(messages: LogMessage[]) {
-    this.messageLog = messages;
-    this.generateMessageList();
+  set items(items: { char: string; slot: string; description: string }[]) {
+    this.equipmentItems = items;
+    this.renderEquipmentList();
   }
 
   /**
@@ -100,41 +102,41 @@ export class LogScreenDisplay extends HTMLElement {
   set menuKeyText(key: string) {
     this.menuKey = key;
     const heading = this.shadowRoot?.querySelector(
-      '.log-screen-heading',
+      '.equipment-heading',
     ) as HTMLElement;
     if (heading) {
-      heading.textContent = `Log: (Press ${this.menuKey} to close)`;
+      heading.textContent = `Equipped Items: (Press ${this.menuKey} to close)`;
     }
   }
 
   /**
-   * Renders the log messages into the component.
+   * Renders the equipment list items.
+   *
+   * Clears the equipment list container, then creates a new unordered list
+   * element with list items for each equipment item.
    */
-  private generateMessageList(): void {
-    const logScreenList = this.shadowRoot?.querySelector(
-      '.log-screen-list',
+  private renderEquipmentList(): void {
+    const equipmentListContainer = this.shadowRoot?.querySelector(
+      '.equipment-list',
     ) as HTMLElement;
-    if (logScreenList) {
-      logScreenList.innerHTML = '';
-      const messageList = document.createElement('ul');
+    if (equipmentListContainer) {
+      equipmentListContainer.innerHTML = '';
+      const itemList = document.createElement('ul');
       const fragment = document.createDocumentFragment();
 
-      for (let i = this.messageLog.length - 1; i >= 0; i--) {
-        const m = this.messageLog[i];
+      this.equipmentItems.forEach(item => {
         const listItem = document.createElement('li');
-        listItem.textContent = m.message;
-        this.colorizer.colorBuffs(listItem);
+        listItem.textContent = `${item.char} - ${item.slot}: ${item.description}`; // Include character
         fragment.appendChild(listItem);
-      }
+      });
 
-      messageList.appendChild(fragment);
-      logScreenList.appendChild(messageList);
+      itemList.appendChild(fragment);
+      equipmentListContainer.appendChild(itemList);
     }
   }
 
   /**
-   * Adds the 'fade-out' class to the element and returns a promise that resolves
-   * when the fade out animation ends.
+   * Triggers a fade-out animation and resolves when it completes.
    * @returns {Promise<void>}
    */
   public fadeOut(): Promise<void> {

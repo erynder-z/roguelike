@@ -1,5 +1,6 @@
 import { BaseScreen } from './baseScreen';
 import { Equipment } from '../inventory/equipment';
+import { EquipmentScreenDisplay } from '../../ui/equipmentScreenDIsplay/equipmentScreenDisplay';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Slot } from '../itemObjects/slot';
@@ -7,10 +8,11 @@ import { Stack } from '../../types/terminal/stack';
 import { UnequipCommand } from '../commands/unequipCommand';
 
 /**
- * Represents a screen displaying the player's equipment.
+ * Represents a equipment screen.
  */
 export class EquipmentScreen extends BaseScreen {
   public name = 'equipment-screen';
+  private display: EquipmentScreenDisplay | null = null;
   constructor(
     public game: GameState,
     public make: ScreenMaker,
@@ -25,7 +27,7 @@ export class EquipmentScreen extends BaseScreen {
    * @returns {string} The character representing the slot.
    */
   private slotToCharacter(pos: Slot): string {
-    return String.fromCharCode(65 + (pos - Slot.MainHand));
+    return String.fromCharCode(97 + (pos - Slot.MainHand));
   }
 
   /**
@@ -42,102 +44,50 @@ export class EquipmentScreen extends BaseScreen {
    * Draws the equipment screen.
    */
   public drawScreen(): void {
-    const existingEquipmentScreen = document.getElementById('equipment-screen');
-    if (existingEquipmentScreen) {
-      return;
+    const container = document.getElementById('canvas-container');
+    if (!this.display) {
+      this.display = document.createElement(
+        'equipment-screen-display',
+      ) as EquipmentScreenDisplay;
+
+      container?.appendChild(this.display);
+
+      const equipmentData = this.getEquipmentData();
+      this.display.items = equipmentData;
+      this.display.menuKeyText = this.activeControlScheme.menu.toString();
     }
-    const equipmentScreen = this.createEquipmentScreen();
-    const canvasContainer = document.getElementById('canvas-container');
-    canvasContainer?.appendChild(equipmentScreen);
-  }
-
-  private createEquipmentScreen(): HTMLDivElement {
-    const equipmentScreen = document.createElement('div');
-    equipmentScreen.id = 'equipment-screen';
-    equipmentScreen.classList.add('equipment-screen', 'fade-in');
-
-    const fragment = document.createDocumentFragment();
-    const titleElement = this.createTitleElement();
-    const equipmentListElement = this.createEquipmentList();
-
-    fragment.appendChild(titleElement);
-    fragment.appendChild(equipmentListElement);
-    equipmentScreen.appendChild(fragment);
-
-    return equipmentScreen;
   }
 
   /**
-   * Fades out the equipment screen by adding the 'fade-out' class to the element with the ID 'equipment-screen'.
-   *
-   * @return {void} This function does not return anything.
+   * Formats the equipment data for the display component.
+   * @returns {Array<{ char: string; slot: string; description: string }>} Formatted equipment data.
    */
-  private fadeOutEquipmentScreen(): void {
-    const inventoryScreenElement = document.getElementById('equipment-screen');
-    if (inventoryScreenElement)
-      inventoryScreenElement.classList.add('fade-out');
-  }
-
-  /**
-   * Creates an HTML unordered list element containing a list of equipment items.
-   *
-   * @return {HTMLUListElement} The created equipment list element.
-   */
-  private createEquipmentList(): HTMLUListElement {
-    const equipmentList = document.createElement('ul');
-
+  private getEquipmentData(): {
+    char: string;
+    slot: string;
+    description: string;
+  }[] {
+    const data: { char: string; slot: string; description: string }[] = [];
     for (let slot = Slot.MainHand; slot < Slot.Last; ++slot) {
-      const itemDescription = this.getItemDescription(slot);
-      const listItem = this.createListItem(slot, itemDescription);
-      equipmentList.appendChild(listItem);
+      const item = this.equipment.get(slot);
+      data.push({
+        char: this.slotToCharacter(slot),
+        slot: Slot[slot],
+        description: item ? item.description() : 'none',
+      });
     }
-
-    return equipmentList;
+    return data;
   }
 
   /**
-   * Retrieves the description of the item in the specified slot.
-   *
-   * @param {Slot} slot - The slot to retrieve the item from.
-   * @return {string} The description of the item, or 'none' if the slot is empty.
+   * Fades out the equipment screen.
+   * @returns {Promise<void>}
    */
-  private getItemDescription(slot: Slot): string {
-    const item = this.equipment.get(slot);
-    return item ? item.description() : 'none';
-  }
-
-  /**
-   * Creates an HTML heading element with the text content 'Inventory:'.
-   *
-   * @return {HTMLHeadingElement} The created HTML heading element.
-   */
-  private createTitleElement(): HTMLHeadingElement {
-    const titleElement = document.createElement('h1');
-    titleElement.textContent = `Equipped items: (press ${this.activeControlScheme.menu} to close.)`;
-    return titleElement;
-  }
-
-  /**
-   * Creates a list item element with the given slot and item description.
-   *
-   * @param {Slot} slot - The slot to get the character for.
-   * @param {string} itemDescription - The description of the item.
-   * @return {HTMLLIElement} The created list item element.
-   */
-  private createListItem(slot: Slot, itemDescription: string): HTMLLIElement {
-    const listItem = document.createElement('li');
-    listItem.textContent = `${this.getStringCharacter(slot)} - ${Slot[slot]}: ${itemDescription}`;
-    return listItem;
-  }
-
-  /**
-   * Returns the character corresponding to the given slot.
-   *
-   * @param {Slot} slot - The slot to get the character for.
-   * @return {string} The character corresponding to the given slot.
-   */
-  private getStringCharacter(slot: Slot): string {
-    return String.fromCharCode(97 + (slot - Slot.MainHand));
+  private async fadeOutEquipmentScreen(): Promise<void> {
+    if (this.display) {
+      await this.display.fadeOut();
+      this.display.remove();
+    }
   }
 
   /**

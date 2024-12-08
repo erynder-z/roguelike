@@ -10,7 +10,7 @@ import { LogScreenDisplay } from '../../ui/logScreenDisplay/logScreenDisplay';
  */
 export class LogScreen extends BaseScreen {
   public name: string = 'log-screen';
-  private logScreenDisplay: LogScreenDisplay | null = null;
+  private display: LogScreenDisplay | null = null;
 
   constructor(
     public game: GameState,
@@ -21,19 +21,20 @@ export class LogScreen extends BaseScreen {
   }
 
   /**
-   * Renders the log screen on the terminal.
+   * Renders the log screen via a custom component.
    */
   public drawScreen(): void {
     const container = document.getElementById(
       'canvas-container',
     ) as HTMLDivElement;
-    if (!this.logScreenDisplay) {
-      this.logScreenDisplay = document.createElement(
+    if (!this.display) {
+      this.display = document.createElement(
         'log-screen-display',
       ) as LogScreenDisplay;
-      container.appendChild(this.logScreenDisplay);
+      container.appendChild(this.display);
     }
-    this.logScreenDisplay.log = this.messageLog;
+    this.display.log = this.messageLog;
+    this.display.menuKeyText = this.activeControlScheme.menu.toString();
   }
 
   /**
@@ -56,11 +57,11 @@ export class LogScreen extends BaseScreen {
    * @returns {Promise<void>} A promise that resolves when the fade out animation ends.
    */
   private async fadeOutAndRemove(stack: Stack): Promise<void> {
-    if (this.logScreenDisplay) {
-      await this.logScreenDisplay.fadeOut();
-      console.log('peng');
-      this.logScreenDisplay.remove();
-      this.logScreenDisplay = null;
+    if (this.display) {
+      await this.display.fadeOut();
+
+      this.display.remove();
+
       stack.pop();
     }
   }
