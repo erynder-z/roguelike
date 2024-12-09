@@ -1,8 +1,6 @@
 import { BaseScreen } from './baseScreen';
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
-import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
-import { DrawUI } from '../../renderer/drawUI';
 import { EquipCommand } from '../commands/equipCommand';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { FindObjectSpell } from '../spells/findObjectSpells';
@@ -13,12 +11,15 @@ import { ItemObject } from '../itemObjects/itemObject';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
+import { ItemScreenDisplay } from '../../ui/itemScreenDisplay/itemScreenDisplay';
 
 /**
  * Represents a screen for interacting with items.
  */
 export class ItemScreen extends BaseScreen {
   public name = 'item-screen';
+
+  private display: ItemScreenDisplay | null = null;
   constructor(
     private obj: ItemObject,
     private index: number,
@@ -30,23 +31,26 @@ export class ItemScreen extends BaseScreen {
   }
 
   /**
-   * Draws the item screen.
-   * @param {DrawableTerminal} term - The terminal to draw on.
+   * Draws the item screen by creating and appending an 'item-screen-display' element
+   * to the 'canvas-container' element.
    */
-  public drawScreen(term: DrawableTerminal): void {
-    super.drawScreen(term);
-    const fg = 'lightBlue';
-    const bg = '#025';
+  public drawScreen(): void {
+    const container = document.getElementById('canvas-container');
+    if (!this.display) {
+      this.display = document.createElement(
+        'item-screen-display',
+      ) as ItemScreenDisplay;
 
-    let y = 1;
+      this.display.itemDescription = this.obj.description();
+      this.display.options = [
+        { key: 'u', description: 'Use' },
+        { key: 'd', description: 'Drop' },
+        { key: 't', description: 'Throw' },
+        { key: 'w', description: 'Wear' },
+      ];
 
-    term.drawText(0, y++, `Do what with ${this.obj.description()}?`, fg, bg);
-    term.drawText(0, y++, `u use`, fg, bg);
-    term.drawText(0, y++, `d drop`, fg, bg);
-    term.drawText(0, y++, `t throw`, fg, bg);
-    term.drawText(0, y++, `w wear`, fg, bg);
-
-    DrawUI.renderMessage(this.game);
+      container?.appendChild(this.display);
+    }
   }
 
   /**
@@ -66,9 +70,14 @@ export class ItemScreen extends BaseScreen {
       case 'u':
         this.useItem(stack);
         break;
-      default:
+      case this.activeControlScheme.menu.toString():
         stack.pop();
+        break;
+      default:
+        return false;
     }
+
+    this.fadeOutItemScreen();
     return true;
   }
 
@@ -150,6 +159,18 @@ export class ItemScreen extends BaseScreen {
     } else {
       // Otherwise, if the spell is a screen, push the screen onto the stack.
       stack.push(<StackScreen>spell);
+    }
+  }
+
+  /**
+   * Fades out the item screen display and removes it from the DOM.
+   *
+   * @returns {Promise<void>} A promise that resolves when the fade out animation ends.
+   */
+  private async fadeOutItemScreen(): Promise<void> {
+    if (this.display) {
+      await this.display.fadeOut();
+      this.display.remove();
     }
   }
 }
