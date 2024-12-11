@@ -22,11 +22,11 @@ export class InventoryScreenDisplay extends HTMLElement {
           left: 0;
           height: 100%;
           width: 100%;
-
           overflow-y: auto;
           overflow-x: hidden;
           scrollbar-width: var(--scrollbar-width);
           scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+          color: var(--white);
         }
 
         .inventory-screen-display::-webkit-scrollbar {

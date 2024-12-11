@@ -24,7 +24,7 @@ export class SpellScreenDisplay extends HTMLElement {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--white);
           }
           .spell-title {
             font-size: 1.5rem;
@@ -46,6 +46,17 @@ export class SpellScreenDisplay extends HTMLElement {
             margin-top: 1rem;
             font-size: 0.9rem;
             color: #ccc;
+          }
+          .fade-out {
+          animation: fade-out 100ms;
+        }
+
+        @keyframes fade-out {
+          0% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
           }
         </style>
         <div class="spell-screen">

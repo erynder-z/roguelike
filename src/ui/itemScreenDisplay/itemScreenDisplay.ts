@@ -24,7 +24,7 @@ export class ItemScreenDisplay extends HTMLElement {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--white);
           }
           .item-description {
             font-size: 1.5rem;
@@ -36,6 +36,17 @@ export class ItemScreenDisplay extends HTMLElement {
           }
           .options li {
             margin: 0.5rem 0;
+          }
+          .fade-out {
+          animation: fade-out 100ms;
+        }
+
+        @keyframes fade-out {
+          0% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
           }
         </style>
         <div class="item-screen">
