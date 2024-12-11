@@ -1,4 +1,5 @@
 import { BuffsDisplay } from '../ui/buffs/buffsDisplay';
+import { CommandDirectionScreenDisplay } from '../ui/commandDirectionScreenDisplay/commandDirectionScreenDisplay';
 import { EquipmentDisplay } from '../ui/equipment/equipmentDisplay';
 import { EquipmentScreenDisplay } from '../ui/equipmentScreenDIsplay/equipmentScreenDisplay';
 import { FlashDisplay } from '../ui/flashDisplay/flashDisplay';
@@ -30,3 +31,7 @@ customElements.define('inventory-screen-display', InventoryScreenDisplay);
 customElements.define('equipment-screen-display', EquipmentScreenDisplay);
 customElements.define('item-screen-display', ItemScreenDisplay);
 customElements.define('spell-screen-display', SpellScreenDisplay);
+customElements.define(
+  'command-direction-screen-display',
+  CommandDirectionScreenDisplay,
+);
