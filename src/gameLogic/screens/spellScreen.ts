@@ -113,8 +113,9 @@ export class SpellScreen extends BaseScreen {
    * @param {Stack} stack - The stack object.
    */
   private handleSpellSelection(pos: number, stack: Stack): void {
-    this.itemMenu(pos, stack);
+    /*  this.game.log.clearQueue(); */
     this.closeScreen(stack);
+    this.itemMenu(pos, stack);
   }
 
   /**
@@ -123,7 +124,6 @@ export class SpellScreen extends BaseScreen {
    * @param {Stack} stack - The stack object.
    */
   private handleCancel(stack: Stack): void {
-    this.game.log.clearQueue();
     this.closeScreen(stack);
   }
 
