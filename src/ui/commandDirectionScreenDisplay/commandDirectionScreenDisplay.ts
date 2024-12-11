@@ -65,6 +65,18 @@ export class CommandDirectionScreenDisplay extends HTMLElement {
   }
 
   /**
+   * Sets the cancel key text displayed in the footer.
+   * @param {string} key - The cancel key.
+   */
+  set menuKeyText(key: string) {
+    this.menuKey = key;
+    const footing = this.shadowRoot?.querySelector(
+      '.spell-footing',
+    ) as HTMLElement;
+    if (footing) footing.textContent = `(Press ${this.menuKey} to cancel)`;
+  }
+
+  /**
    * Renders the direction table and title.
    */
   private renderDirections(): void {

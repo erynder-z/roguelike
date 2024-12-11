@@ -74,7 +74,7 @@ export class SpellScreenDisplay extends HTMLElement {
    * Sets the cancel key text displayed in the footer.
    * @param {string} key - The cancel key.
    */
-  set cancelKeyText(key: string) {
+  set menuKeyText(key: string) {
     this.menuKey = key;
     const footing = this.shadowRoot?.querySelector(
       '.spell-footing',

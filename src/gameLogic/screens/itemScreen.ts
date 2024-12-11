@@ -48,6 +48,7 @@ export class ItemScreen extends BaseScreen {
         { key: 't', description: 'Throw' },
         { key: 'w', description: 'Wear' },
       ];
+      this.display.menuKeyText = this.activeControlScheme.menu.toString();
 
       container?.appendChild(this.display);
     }

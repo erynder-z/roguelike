@@ -46,6 +46,7 @@ export class CommandDirectionScreen extends BaseScreen {
       const table = this.getDirectionTable();
       this.display.directions = table;
       this.display.title = 'Which direction?';
+      this.display.menuKeyText = this.activeControlScheme.menu.toString();
 
       container?.appendChild(this.display);
     }
@@ -147,11 +148,11 @@ export class CommandDirectionScreen extends BaseScreen {
     return this.command.setDirection(direction).turn();
   }
 
-/**
- * Closes the command direction screen with a fade-out animation and removes it from the stack.
- *
- * @param {Stack} stack - The stack of screens.
- */
+  /**
+   * Closes the command direction screen with a fade-out animation and removes it from the stack.
+   *
+   * @param {Stack} stack - The stack of screens.
+   */
   private closeScreen(stack: Stack): void {
     this.fadeOutDirectionScreen();
     stack.pop();
