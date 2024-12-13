@@ -3,12 +3,14 @@ import { GameState } from '../../types/gameBuilder/gameState';
 import { PostMortem } from '../stats/postMortem';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
+import { GameOverScreenDisplay } from '../../ui/gameOverScreenDisplay/gameOverScreenDisplay';
 
 /**
  * Represents a game over screen implementation that is part of a terminal-based application stack.
  */
 export class GameOverScreen extends BaseScreen {
   public name = 'gameover';
+  private display: GameOverScreenDisplay | null = null;
   constructor(
     public game: GameState,
     public make: ScreenMaker,
@@ -17,119 +19,40 @@ export class GameOverScreen extends BaseScreen {
   }
 
   /**
-   * Draws the game over screen if it hasn't already been drawn.
+   * Draws the game over screen.
    *
-   * @return {void} This function does not return anything.
+   * This method creates a 'game-over-screen-display' component and appends it to the
+   * 'canvas-container' if the component does not already exist.
+   *
+   * The component is populated with the player's name, color, and a post-mortem analysis
+   * of the game. The component also displays instructions for returning to the title
+   * screen.
    */
   public drawScreen(): void {
-    const container = document.getElementById(
-      'canvas-container',
-    ) as HTMLDivElement;
-    if (container.querySelector('#gameover-screen')) return;
+    const container = document.getElementById('canvas-container');
+    if (!container || container.querySelector('game-over-screen-display'))
+      return;
 
-    const gameOverScreen = this.createGameOverScreen();
-    container.appendChild(gameOverScreen);
-  }
+    if (!this.display) {
+      this.display = document.createElement(
+        'game-over-screen-display',
+      ) as GameOverScreenDisplay;
 
-  /**
-   * Creates a game over screen element using a DocumentFragment.
-   *
-   * @return {HTMLDivElement} The created game over screen element.
-   */
-  private createGameOverScreen(): HTMLDivElement {
-    const gameOverScreen = document.createElement('div');
-    gameOverScreen.id = 'gameover-screen';
-    gameOverScreen.classList.add('gameover-screen', 'fade-in');
+      this.display.playerName = `${this.game.player.name} ✝`;
+      this.display.playerColor = this.gameConfig.player.color;
+      this.display.heading = 'Your journey has ended...';
+      this.display.postMortem = new PostMortem(
+        this.game,
+      ).generatePostMortemElement().innerHTML;
+      const menuKey = `<span class="emphasize">${this.activeControlScheme.menu.toString()}</span>`;
+      this.display.info = `Press ${menuKey} to return to the title screen.`;
 
-    const fragment = document.createDocumentFragment();
-
-    const innerContainer = document.createElement('div');
-    innerContainer.classList.add('post-mortem-container');
-
-    const name = this.createNameElement();
-    const heading = this.createHeadingElement();
-    const messageList = this.createPostMortem();
-    const info = this.createInfo();
-
-    innerContainer.appendChild(name);
-    innerContainer.appendChild(heading);
-    innerContainer.appendChild(messageList);
-    innerContainer.appendChild(info);
-
-    fragment.appendChild(innerContainer);
-    gameOverScreen.appendChild(fragment);
-
-    return gameOverScreen;
-  }
-
-  /**
-   * Creates a new HTMLDivElement for the player's name at the top of the game over screen.
-   *
-   * @return {HTMLDivElement} The created HTMLDivElement containing the player's name.
-   */
-  private createNameElement(): HTMLDivElement {
-    const nameElement = document.createElement('h1');
-    nameElement.textContent = `${this.game.player.name} ✝`;
-    nameElement.style.color = this.gameConfig.player.color;
-    return nameElement;
-  }
-
-  /**
-   * Creates a new HTML heading element.
-   *
-   * @return {HTMLHeadingElement} The newly created heading element.
-   */
-  private createHeadingElement(): HTMLHeadingElement {
-    const heading = document.createElement('h2');
-    heading.textContent = 'Your journey has ended...';
-    return heading;
-  }
-
-  /**
-   * Creates a HTMLDivElement for the post-mortem content.
-   *
-   * @return {HTMLDivElement} The HTMLDivElement containing the post-mortem content.
-   */
-  private createPostMortem(): HTMLDivElement {
-    const postMortem = document.createElement('div');
-    const content = new PostMortem(this.game).generatePostMortemElement();
-
-    postMortem.appendChild(content);
-    return postMortem;
-  }
-
-  /**
-   * Creates an HTMLDivElement element.
-   *
-   * @return {HTMLDivElement} The created HTMLDivElement element.
-   */
-  private createInfo(): HTMLDivElement {
-    const info = document.createElement('div');
-    info.classList.add('gameover-info');
-
-    const beforeText = document.createTextNode('Press ');
-    const escapeSpan = document.createElement('span');
-    escapeSpan.textContent = this.activeControlScheme.menu.toString();
-    const afterText = document.createTextNode(' to return to title screen.');
-
-    info.appendChild(beforeText);
-    info.appendChild(escapeSpan);
-    info.appendChild(afterText);
-
-    return info;
-  }
-
-  /**
-   * Removes the game over screen from the document.
-   *
-   * @return {void} This function does not return anything.
-   */
-  private removeGameOverScreen(): void {
-    const gameOverScreen = document.getElementById('gameover-screen');
-    if (gameOverScreen) {
-      gameOverScreen.remove();
+      container.appendChild(this.display);
     }
   }
+
+  /**
+
 
   /**
    * Determines if the screen should be updated based on time.
@@ -150,7 +73,7 @@ export class GameOverScreen extends BaseScreen {
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
     if (event.key === this.activeControlScheme.menu.toString()) {
-      this.removeGameOverScreen();
+      this.display?.remove();
       stack.pop();
       this.make.titleScreen();
     }

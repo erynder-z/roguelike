@@ -3,6 +3,7 @@ import { CommandDirectionScreenDisplay } from '../ui/commandDirectionScreenDispl
 import { EquipmentDisplay } from '../ui/equipment/equipmentDisplay';
 import { EquipmentScreenDisplay } from '../ui/equipmentScreenDIsplay/equipmentScreenDisplay';
 import { FlashDisplay } from '../ui/flashDisplay/flashDisplay';
+import { GameOverScreenDisplay } from '../ui/gameOverScreenDisplay/gameOverScreenDisplay';
 import { MessagesDisplay } from '../ui/messages/messagesDisplay';
 import { IngameMenu } from '../ui/menu/ingameMenu';
 import { InventoryScreenDisplay } from '../ui/inventoryScreenDisplay/inventoryScreenDisplay';
@@ -35,3 +36,4 @@ customElements.define(
   'command-direction-screen-display',
   CommandDirectionScreenDisplay,
 );
+customElements.define('game-over-screen-display', GameOverScreenDisplay);
