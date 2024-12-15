@@ -138,41 +138,6 @@ li {
   flex-direction: column;
 }
 
-.log-screen ul li:nth-child(odd) {
-  background-color: var(--whiteTransparent);
-}
-
-.post-mortem-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  padding: 1em;
-}
-
-.post-mortem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  max-width: 70ch;
-  padding: 1em;
-  margin: auto;
-  line-height: 1.75;
-  font-size: 1.25em;
-}
-
-.post-mortem h2 {
-  margin: 1em 0;
-}
-
-.post-mortem li span {
-  color: var(--postMortemAccent);
-  font-weight: bold;
-  font-size: 1.25em;
-}
-
 @keyframes fade-in {
   0% {
     opacity: 0;

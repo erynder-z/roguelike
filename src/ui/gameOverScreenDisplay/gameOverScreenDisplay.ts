@@ -1,8 +1,10 @@
+import { GameState } from '../../types/gameBuilder/gameState';
+import { PostMortem } from '../postMortem/postMortem';
+
 export class GameOverScreenDisplay extends HTMLElement {
+  public game: GameState | null = null;
   public playerName: string = '';
   public playerColor: string = '';
-  public heading: string = '';
-  public postMortem: string = '';
   public info: string = '';
 
   constructor() {
@@ -47,25 +49,28 @@ export class GameOverScreenDisplay extends HTMLElement {
           background-color: var(--scrollbar-background);
         }
 
-        .title {
+        .player-name {
           text-align: center;
           font-size: 2rem;
-          margin-bottom: 2rem;
+          color: ${this.playerColor};
         }
 
-        .post-mortem {
-          margin: 1rem 0;
-          font-size: 1rem;
+        .death-message {
+          font-size: 1.5em;
+        }
+
+        .post-mortem-container {
+          padding: 1em;
         }
 
         .footer {
-          font-size: 0.875rem;
+          font-size: 2rem;
           margin-top: 1rem;
         }
 
         .emphasize {
           color: var(--accent);
-          }
+        }
 
         .fade-out {
           animation: fade-out 100ms;
@@ -75,15 +80,15 @@ export class GameOverScreenDisplay extends HTMLElement {
           0% {
             opacity: 1;
           }
-
           100% {
             opacity: 0;
           }
         }
       </style>
       <div class="game-over-screen">
-        <div class="title"></div>
-        <div class="post-mortem"></div>
+        <div class="player-name"></div>
+        <div class="death-message"></div>
+        <div class="post-mortem-container"></div>
         <div class="footer"></div>
       </div>
     `;
@@ -93,25 +98,43 @@ export class GameOverScreenDisplay extends HTMLElement {
   }
 
   /**
-   * Renders the game over screen content including the title, post-mortem, and footer information.
+   * Renders the game over screen content, including the player's name,
+   * a death message, and post-mortem statistics. This function creates
+   * a new post-mortem element, attaches the current game state to it,
+   * and appends it to the post-mortem container in the shadow DOM.
+   * It also updates the player's name and death message in their respective
+   * elements, and sets the footer content.
    */
+
   private renderContent(): void {
     if (!this.shadowRoot) return;
 
-    const titleElement = this.shadowRoot.querySelector('.title') as HTMLElement;
-    const postMortemElement = this.shadowRoot.querySelector(
-      '.post-mortem',
+    const playerNameElement = this.shadowRoot.querySelector(
+      '.player-name',
     ) as HTMLElement;
+
+    const deathMessageElement = this.shadowRoot.querySelector(
+      '.death-message',
+    ) as HTMLElement;
+
+    const postMortemContainer = this.shadowRoot.querySelector(
+      '.post-mortem-container',
+    ) as HTMLElement;
+
+    const postMortemElement = document.createElement(
+      'post-mortem',
+    ) as PostMortem;
+    postMortemElement.game = this.game;
+    postMortemContainer.appendChild(postMortemElement);
+
     const footerElement = this.shadowRoot.querySelector(
       '.footer',
     ) as HTMLElement;
 
-    if (titleElement) {
-      titleElement.textContent = `${this.playerName} - ${this.heading}`;
-      titleElement.style.color = this.playerColor;
-    }
+    if (playerNameElement) playerNameElement.innerHTML = this.playerName;
 
-    if (postMortemElement) postMortemElement.innerHTML = this.postMortem;
+    if (deathMessageElement)
+      deathMessageElement.innerHTML = `Your journey has ended...`;
 
     if (footerElement) footerElement.innerHTML = this.info;
   }

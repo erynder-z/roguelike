@@ -1,9 +1,8 @@
 import { BaseScreen } from './baseScreen';
+import { GameOverScreenDisplay } from '../../ui/gameOverScreenDisplay/gameOverScreenDisplay';
 import { GameState } from '../../types/gameBuilder/gameState';
-import { PostMortem } from '../stats/postMortem';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
-import { GameOverScreenDisplay } from '../../ui/gameOverScreenDisplay/gameOverScreenDisplay';
 
 /**
  * Represents a game over screen implementation that is part of a terminal-based application stack.
@@ -38,12 +37,10 @@ export class GameOverScreen extends BaseScreen {
         'game-over-screen-display',
       ) as GameOverScreenDisplay;
 
+      this.display.game = this.game;
       this.display.playerName = `${this.game.player.name} ✝`;
       this.display.playerColor = this.gameConfig.player.color;
-      this.display.heading = 'Your journey has ended...';
-      this.display.postMortem = new PostMortem(
-        this.game,
-      ).generatePostMortemElement().innerHTML;
+
       const menuKey = `<span class="emphasize">${this.activeControlScheme.menu.toString()}</span>`;
       this.display.info = `Press ${menuKey} to return to the title screen.`;
 
