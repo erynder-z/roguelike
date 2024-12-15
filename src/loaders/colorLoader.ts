@@ -46,6 +46,10 @@ export class ColorLoader {
         colors.root['--selection-background'],
       );
       root.style.setProperty('--grayedOut', colors.root['--grayedOut']);
+      root.style.setProperty(
+        '--popupBackground',
+        colors.root['--popupBackground'],
+      );
 
       resolve();
     });

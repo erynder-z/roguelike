@@ -1,6 +1,6 @@
 import { BaseScreen } from './baseScreen';
 import { Command } from '../../types/gameLogic/commands/command';
-import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
+import { CommandDirectionScreenDisplay } from '../../ui/commandDirectionScreenDisplay/commandDirectionScreenDisplay';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
@@ -11,6 +11,7 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  */
 export class CommandDirectionScreen extends BaseScreen {
   public name = 'command-direction-screen';
+  private display: CommandDirectionScreenDisplay | null = null;
   constructor(
     public command: Command,
     public game: GameState,
@@ -31,17 +32,24 @@ export class CommandDirectionScreen extends BaseScreen {
     }
     return key;
   }
+
   /**
-   * Draws a message asking for input.
-   * @param {DrawableTerminal} term - The terminal to draw on.
+   * Draws the command direction screen using the custom display component.
    */
-  public drawScreen(term: DrawableTerminal): void {
-    super.drawScreen(term);
+  public drawScreen(): void {
+    const container = document.getElementById('canvas-container');
+    if (!this.display) {
+      this.display = document.createElement(
+        'command-direction-screen-display',
+      ) as CommandDirectionScreenDisplay;
 
-    term.drawText(0, 0, 'Which direction?', 'yellow', 'black');
+      const table = this.getDirectionTable();
+      this.display.directions = table;
+      this.display.title = 'Which direction?';
+      this.display.menuKeyText = this.activeControlScheme.menu.toString();
 
-    const table = this.getDirectionTable();
-    this.drawTable(term, table, 0, 2);
+      container?.appendChild(this.display);
+    }
   }
 
   /**
@@ -78,35 +86,13 @@ export class CommandDirectionScreen extends BaseScreen {
   }
 
   /**
-   * Draws a table on the terminal.
-   * @param {DrawableTerminal} term - The terminal to draw on.
-   * @param {string[][]} table - The table to draw.
-   * @param {number} startX - Starting X coordinate.
-   * @param {number} startY - Starting Y coordinate.
-   */
-  private drawTable(
-    term: DrawableTerminal,
-    table: string[][],
-    startX: number,
-    startY: number,
-  ): void {
-    table.forEach((row, rowIndex) => {
-      row.forEach((cell, cellIndex) => {
-        const x = startX + cellIndex;
-        const y = startY + rowIndex;
-        term.drawText(x, y, cell, 'white', '#025');
-      });
-    });
-  }
-
-  /**
    * Handles key down event for selecting direction.
    * @param {KeyboardEvent} event - The keyboard event.
    * @param {Stack} stack - The stack of screens.
    * @returns {boolean} True if the event is handled, otherwise false.
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
-    stack.pop();
+    this.closeScreen(stack);
     const direction = new WorldPoint();
 
     const char = this.controlSchemeManager.keyPressToCode(event);
@@ -160,5 +146,26 @@ export class CommandDirectionScreen extends BaseScreen {
    */
   private actInDirection(direction: WorldPoint) {
     return this.command.setDirection(direction).turn();
+  }
+
+  /**
+   * Closes the command direction screen with a fade-out animation and removes it from the stack.
+   *
+   * @param {Stack} stack - The stack of screens.
+   */
+  private closeScreen(stack: Stack): void {
+    this.fadeOutDirectionScreen();
+    stack.pop();
+  }
+
+  /**
+   * Fades out the direction screen display and removes it from the DOM.
+   * @returns {Promise<void>} A promise that resolves when the fade out animation ends.
+   */
+  private async fadeOutDirectionScreen(): Promise<void> {
+    if (this.display) {
+      await this.display.fadeOut();
+      this.display.remove();
+    }
   }
 }

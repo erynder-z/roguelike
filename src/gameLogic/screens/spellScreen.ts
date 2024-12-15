@@ -2,19 +2,20 @@ import { BaseScreen } from './baseScreen';
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
 import { Cost } from '../../types/gameLogic/commands/cost';
-import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Spell } from '../spells/spell';
 import { SpellFinder } from '../spells/spellFinder';
 import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
+import { SpellScreenDisplay } from '../../ui/spellScreenDisplay/spellScreenDisplay';
 
 /**
  * Represents a screen for choosing spells.
  */
 export class SpellScreen extends BaseScreen {
   public name = 'spell-screen';
+  private display: SpellScreenDisplay | null = null;
   constructor(
     public game: GameState,
     public make: ScreenMaker,
@@ -43,43 +44,98 @@ export class SpellScreen extends BaseScreen {
   }
 
   /**
-   * Draws the spell screen on the provided drawable terminal.
-   *
-   * @param {DrawableTerminal} term - The terminal to draw on.
-   * @return {void} No return value.
+   * Draws the spell selection screen by creating and appending a 'spell-screen-display' element
+   * to the 'canvas-container' element. Populates the display with a list of spells and sets
+   * the title to 'Select spell:'.
    */
-  public drawScreen(term: DrawableTerminal): void {
-    super.drawScreen(term);
-    term.drawText(0, 1, 'Which spell?', 'yellow', 'black');
+  public drawScreen(): void {
+    const container = document.getElementById('canvas-container');
+    if (!this.display) {
+      this.display = document.createElement(
+        'spell-screen-display',
+      ) as SpellScreenDisplay;
 
-    const top = 1;
-    let y = top;
-    let x = 0;
+      const spells = Array.from({ length: Spell.None }, (_, i) => ({
+        key: this.positionToCharacter(i),
+        description: Spell[i],
+      }));
 
-    for (let i = 0; i < Spell.None; ++i) {
-      const c = this.positionToCharacter(i);
-      const L = Spell[i];
-      term.drawText(x, 1 + y++, `${c}: ${L}`, 'yellow', 'black');
-      if (y > 12) {
-        y = top;
-        x += 14;
-      }
+      this.display.spells = spells;
+      this.display.title = 'Select spell:';
+      this.display.menuKeyText = this.activeControlScheme.menu.toString();
+
+      container?.appendChild(this.display);
     }
   }
 
   /**
-   * Handles the key down event.
+   * Handles key down events.
    *
    * @param {KeyboardEvent} event - The keyboard event.
-   * @param {Stack} stack - The stack object.
+   * @param {Stack} stack - The stack of screens.
    * @return {boolean} True if the event was handled successfully, otherwise false.
+   * @description
+   * Handles key down events, converting the key to a spell position and calling `handleSpellSelection`
+   * if it is a valid spell key.
+   * If the key is the cancel key, calls `handleCancel` instead.
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
-    this.game.log.clearQueue();
-    stack.pop();
-    const pos = this.characterToPosition(event.key);
+    const key = event.key;
+
+    if (this.isSpellKey(key)) {
+      const pos = this.characterToPosition(key);
+      this.handleSpellSelection(pos, stack);
+      return true;
+    }
+
+    if (key === this.activeControlScheme.menu.toString()) {
+      this.handleCancel(stack);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Checks if the key corresponds to a valid spell.
+   *
+   * @param {string} key - The pressed key.
+   * @return {boolean} True if the key is a valid spell key.
+   */
+  private isSpellKey(key: string): boolean {
+    const pos = this.characterToPosition(key);
+    return pos >= 0 && pos < Spell.None && !!Spell[pos];
+  }
+
+  /**
+   * Handles the selection of a spell.
+   *
+   * @param {number} pos - The position of the selected spell.
+   * @param {Stack} stack - The stack object.
+   */
+  private handleSpellSelection(pos: number, stack: Stack): void {
+    /*  this.game.log.clearQueue(); */
+    this.closeScreen(stack);
     this.itemMenu(pos, stack);
-    return true;
+  }
+
+  /**
+   * Handles the cancellation of the spell screen.
+   *
+   * @param {Stack} stack - The stack object.
+   */
+  private handleCancel(stack: Stack): void {
+    this.closeScreen(stack);
+  }
+
+  /**
+   * Closes the spell screen with fade-out animation and removes it from the stack.
+   *
+   * @param {Stack} stack - The stack object.
+   */
+  private closeScreen(stack: Stack): void {
+    this.fadeOutSpellScreen();
+    stack.pop();
   }
 
   /**
@@ -115,6 +171,17 @@ export class SpellScreen extends BaseScreen {
       if (spell.turn()) this.npcTurns(stack);
     } else {
       stack.push(<StackScreen>spell);
+    }
+  }
+
+  /**
+   * Fades out the spell screen display and removes it from the DOM.
+   * @returns {Promise<void>} A promise that resolves when the fade out animation ends.
+   */
+  private async fadeOutSpellScreen(): Promise<void> {
+    if (this.display) {
+      await this.display.fadeOut();
+      this.display.remove();
     }
   }
 }
