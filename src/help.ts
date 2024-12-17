@@ -2,11 +2,14 @@ import './styles/cssReset.css';
 import './styles/style-help.css';
 import { ColorLoader } from './loaders/colorLoader';
 import { emit } from '@tauri-apps/api/event';
+import { gameConfigManager } from './gameConfigManager/gameConfigManager';
 import { GenerateHelpUI } from './utilities/generateHelpUI';
 import { handleGlobalKeydown } from './utilities/handleGlobalKeyDown';
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
+    await gameConfigManager.initialize();
+
     await ColorLoader.initializeColors();
     await GenerateHelpUI.generate();
 
