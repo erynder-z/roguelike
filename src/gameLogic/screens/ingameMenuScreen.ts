@@ -2,6 +2,7 @@ import { BaseScreen } from './baseScreen';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { IngameMenu } from '../../ui/menu/ingameMenu';
 import { LayoutManager } from '../../ui/layoutManager/layoutManager';
+import { OptionsMenu } from '../../ui/menu/optionsMenu';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 
@@ -88,7 +89,7 @@ export class IngameMenuScreen extends BaseScreen {
         return;
       }
 
-      const optionsMenu = document.createElement('options-menu');
+      const optionsMenu = document.createElement('options-menu') as OptionsMenu;
 
       // Ensure the titleContainer is the first child of the body
       if (body.firstChild) {
