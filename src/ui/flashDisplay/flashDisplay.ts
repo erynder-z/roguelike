@@ -71,6 +71,8 @@ export class FlashDisplay extends HTMLElement {
     const flashDisplay = <HTMLElement>(
       this.shadowRoot?.querySelector('.flash-display')
     );
+    // Hide the flash display if the message is empty
+    flashDisplay.style.visibility = msg.message == '' ? 'hidden' : 'visible';
 
     if (flashDisplay) {
       flashDisplay.innerHTML = '';
