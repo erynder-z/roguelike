@@ -2,23 +2,11 @@
   "app": {
     "windows": [
       {
-        "label": "help",
-        "title": "Meikai - Help",
-        "url": "help.html",
-        "fullscreen": false,
-        "visible": false,
-        "focus": false,
-        "alwaysOnTop": true,
-        "decorations": false,
-        "maximized": true
-      },
-      {
         "label": "main",
         "title": "meikai-roguelike",
         "url": "index.html",
         "fullscreen": true,
-        "visible": false,
-        "focus": true
+        "visible": false
       }
     ]
   }

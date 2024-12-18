@@ -9,9 +9,10 @@ fn main() {
         .plugin(tauri_plugin_dialog::init())
         .invoke_handler(tauri::generate_handler![
             commands::window_commands::show_main_window,
-            commands::window_commands::show_help_window,
-            commands::window_commands::hide_help_window,
             commands::window_commands::focus_main_window,
+            commands::window_commands::close_help_window,
+            commands::window_commands::create_hidden_help_window,
+            commands::window_commands::show_hidden_help_window
         ])
         .run(tauri::generate_context!())
         .expect("failed to run app");

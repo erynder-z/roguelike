@@ -273,7 +273,8 @@ export class IngameMenu extends HTMLElement {
    * @return {void}
    */
   private showHelp(): void {
-    invoke('show_help_window');
+    // Help window will start hidden and will be shown when the help-window DOM content is rendered.
+    invoke('create_hidden_help_window');
   }
 
   private async saveGame(): Promise<void> {
