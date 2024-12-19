@@ -30,17 +30,17 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
 export class ParsePlayer {
   private gameConfig = gameConfigManager.getConfig();
   private currentScheme = this.gameConfig.control_scheme || 'default';
+  private controlSchemeManager: ControlSchemeManager;
   constructor(
     public game: GameState,
     public make: ScreenMaker,
     public player: Mob = <Mob>game.player,
     public map: GameMapType = <GameMapType>game.currentMap(),
-    private controlSchemeManager: ControlSchemeManager = new ControlSchemeManager(
-      this.currentScheme,
-    ),
-  ) {}
-
-
+  ) {
+    this.currentScheme =
+      gameConfigManager.getConfig().control_scheme || 'default';
+    this.controlSchemeManager = new ControlSchemeManager(this.currentScheme);
+  }
 
   /**
    * Parses the given key code as a turn and executes the corresponding command.
@@ -73,6 +73,7 @@ export class ParsePlayer {
     event: KeyboardEvent | null,
   ): Command | null {
     const activeControlScheme = this.controlSchemeManager.getActiveScheme();
+
     const alt = event?.altKey || event?.metaKey;
     let stackScreen: StackScreen | undefined;
     const dir = new WorldPoint();
