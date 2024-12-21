@@ -16,6 +16,19 @@ export class GameOverScreenDisplay extends HTMLElement {
     const template = document.createElement('template');
     template.innerHTML = `
       <style>
+        ::-webkit-scrollbar {
+          width: 0.25rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-foreground);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-background);
+        }
+
         .game-over-screen {
           font-family: 'UASQUARE';
           font-size: large;
@@ -28,25 +41,10 @@ export class GameOverScreenDisplay extends HTMLElement {
           width: 100%;
           overflow-y: auto;
           overflow-x: hidden;
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-        }
-
-        .game-over-screen::-webkit-scrollbar {
-          width: 0.25rem;
-        }
-
-        .game-over-screen::-webkit-scrollbar-thumb {
-          background-color: var(--scrollbar-foreground);
-          border-radius: 4px;
-        }
-
-        .game-over-screen::-webkit-scrollbar-track {
-          background-color: var(--scrollbar-background);
         }
 
         .player-name {
