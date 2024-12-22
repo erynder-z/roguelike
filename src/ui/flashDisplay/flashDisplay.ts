@@ -71,10 +71,10 @@ export class FlashDisplay extends HTMLElement {
     const flashDisplay = <HTMLElement>(
       this.shadowRoot?.querySelector('.flash-display')
     );
-    // Hide the flash display if the message is empty
-    flashDisplay.style.visibility = msg.message == '' ? 'hidden' : 'visible';
 
     if (flashDisplay) {
+      // Hide the flash display if the message is empty
+      flashDisplay.style.visibility = msg.message == '' ? 'hidden' : 'visible';
       flashDisplay.innerHTML = '';
       const fragment = document.createDocumentFragment();
 
@@ -123,7 +123,13 @@ export class FlashDisplay extends HTMLElement {
   public clearFlash(game: GameState): void {
     game.log.clearQueue();
 
-    const flashDisplay = this.shadowRoot?.querySelector('.flash-display');
-    if (flashDisplay) flashDisplay.textContent = '';
+    const flashDisplay = this.shadowRoot?.querySelector(
+      '.flash-display',
+    ) as HTMLElement;
+
+    if (flashDisplay) {
+      flashDisplay.style.visibility = 'hidden';
+      flashDisplay.innerHTML = '';
+    }
   }
 }
