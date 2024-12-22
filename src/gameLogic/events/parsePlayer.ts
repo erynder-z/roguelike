@@ -23,6 +23,7 @@ import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
 import { WaitCommand } from '../commands/waitCommand';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
+import { DrawUI } from '../../renderer/drawUI';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -148,6 +149,7 @@ export class ParsePlayer {
     }
 
     if (stackScreen) {
+      DrawUI.clearFlash(this.game);
       stack.push(stackScreen);
       return null;
     }
