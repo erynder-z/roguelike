@@ -15,93 +15,98 @@ export class EquipmentDisplay extends HTMLElement {
    */
   connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
-
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-    <style>
+      <style>
+        * {
+          margin: var(--margin);
+          padding: var(--padding);
+          box-sizing: var(--box-sizing);
+        }
 
-      * {
-        margin: var(--margin);
-        padding: var(--padding);
-        box-sizing: var(--box-sizing);   
-      }
+        ::-webkit-scrollbar {
+          width: 0.25rem;
+        }
 
-      * {
-        scrollbar-width: var(--scrollbar-width);
-        scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-      }
+        ::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-foreground);
+          border-radius: 4px;
+        }
 
-      ::selection {
-        color: var(--selection-color);
-        background-color: var(--selection-background);
-      }
+        ::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-background);
+        }
 
-      .equipment-display {
-        overflow: auto;
-        display: flex;
-        gap: 5rem;
-      }
+        ::selection {
+          color: var(--selection-color);
+          background-color: var(--selection-background);
+        }
 
-      h1 {
-        margin: 0;
-        text-align: center;
-      }
+        .equipment-display {
+          overflow: auto;
+          display: flex;
+          gap: 5rem;
+        }
 
-      .hands,
-      .body {
-        display: flex;
-        flex-direction: column;
-      }
+        h1 {
+          margin: 0;
+          text-align: center;
+        }
 
-      .equipment-slot {
-        display: flex;
-      }
+        .hands,
+        .body {
+          display: flex;
+          flex-direction: column;
+        }
 
-      .equipment-slot > div:first-child {
-        width: 100px;
-        font-weight: bold;
-      }
+        .equipment-slot {
+          display: flex;
+        }
 
-    </style>
+        .equipment-slot > div:first-child {
+          width: 100px;
+          font-weight: bold;
+        }
+      </style>
 
-    <h1>Equipment</h1>
+      <h1>Equipment</h1>
 
-    <div class="equipment-display">
-      <div class="hands">
-        <div class="equipment-slot">
-          <div>Main hand:&nbsp;</div>
-          <div id="MainHand">empty</div>
+      <div class="equipment-display">
+        <div class="hands">
+          <div class="equipment-slot">
+            <div>Main hand:&nbsp;</div>
+            <div id="MainHand">empty</div>
+          </div>
+          <div class="equipment-slot">
+            <div>Off hand:&nbsp;</div>
+            <div id="OffHand">empty</div>
+          </div>
         </div>
-        <div class="equipment-slot">
-          <div>Off hand:&nbsp;</div>
-          <div id="OffHand">empty</div>
+
+        <div class="body">
+          <div class="equipment-slot">
+            <div>Head:&nbsp;</div>
+            <div id="Head">empty</div>
+          </div>
+          <div class="equipment-slot">
+            <div>Hands:&nbsp;</div>
+            <div id="Hands">empty</div>
+          </div>
+          <div class="equipment-slot">
+            <div>Back:&nbsp;</div>
+            <div id="Back">empty</div>
+          </div>
+          <div class="equipment-slot">
+            <div>Legs:&nbsp;</div>
+            <div id="Legs">empty</div>
+          </div>
+          <div class="equipment-slot">
+            <div>Feet:&nbsp;</div>
+            <div id="Feet">empty</div>
+          </div>
         </div>
       </div>
-
-      <div class="body">
-        <div class="equipment-slot">
-          <div>Head:&nbsp;</div>
-          <div id="Head">empty</div>
-        </div>
-        <div class="equipment-slot">
-          <div>Hands:&nbsp;</div>
-          <div id="Hands">empty</div>
-        </div>
-        <div class="equipment-slot">
-          <div>Back:&nbsp;</div>
-          <div id="Back">empty</div>
-        </div>
-        <div class="equipment-slot">
-          <div>Legs:&nbsp;</div>
-          <div id="Legs">empty</div>
-        </div>
-        <div class="equipment-slot">
-          <div>Feet:&nbsp;</div>
-          <div id="Feet">empty</div>
-        </div>
-      </div>
-    </div>
-  `;
+    `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }

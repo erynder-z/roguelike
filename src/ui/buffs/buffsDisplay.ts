@@ -16,52 +16,60 @@ export class BuffsDisplay extends HTMLElement {
    */
   connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
-
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-    <style>
-      * {
-        margin: var(--margin);
-        padding: var(--padding);
-        box-sizing: var(--box-sizing);
-      }
+      <style>
+        * {
+          margin: var(--margin);
+          padding: var(--padding);
+          box-sizing: var(--box-sizing);
+        }
 
-      * {
-        scrollbar-width: var(--scrollbar-width);
-        scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-      }
+        ::selection {
+          color: var(--selection-color);
+          background-color: var(--selection-background);
+        }
 
-      ::selection {
-        color: var(--selection-color);
-        background-color: var(--selection-background);
-      }
+        ::-webkit-scrollbar {
+          width: 0.25rem;
+        }
 
-      .buffs-display {
-        flex-grow: 1;
-        overflow: auto;
-      }
+        ::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-foreground);
+          border-radius: 4px;
+        }
 
-      h1 {
-        margin: 0;
-        text-align: center;
-      }
+        ::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-background);
+        }
 
-      ul {
-        padding: 0;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-      }
+        .buffs-display {
+          flex-grow: 1;
+          overflow: auto;
+        }
 
-      li {
-        list-style: none;
-        padding: 0 0.5rem;
-      }
-    </style>
+        h1 {
+          margin: 0;
+          text-align: center;
+        }
 
-    <h1>Buffs</h1>
-    <div class="buffs-display"></div>
-  `;
+        ul {
+          padding: 0;
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+        }
+
+        li {
+          list-style: none;
+          padding: 0 0.5rem;
+        }
+      </style>
+
+      <h1>Buffs</h1>
+
+      <div class="buffs-display"></div>
+    `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
   }

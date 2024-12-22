@@ -10,10 +10,22 @@ export class InventoryScreenDisplay extends HTMLElement {
 
   connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
-
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
+        ::-webkit-scrollbar {
+          width: 0.25rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-foreground);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-background);
+        }
+
         .inventory-screen-display {
           background: var(--backgroundDefaultTransparent);
           backdrop-filter: blur(5px);
@@ -24,22 +36,7 @@ export class InventoryScreenDisplay extends HTMLElement {
           width: 100%;
           overflow-y: auto;
           overflow-x: hidden;
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
           color: var(--white);
-        }
-
-        .inventory-screen-display::-webkit-scrollbar {
-          width: 0.25rem;
-        }
-
-        .inventory-screen-display::-webkit-scrollbar-thumb {
-          background-color: var(--scrollbar-foreground);
-          border-radius: 4px;
-        }
-
-        .inventory-screen-display::-webkit-scrollbar-track {
-          background-color: var(--scrollbar-background);
         }
 
         .inventory-heading {
@@ -70,13 +67,18 @@ export class InventoryScreenDisplay extends HTMLElement {
           0% {
             opacity: 1;
           }
+
           100% {
             opacity: 0;
           }
         }
       </style>
+
       <div class="inventory-screen-display">
-        <div class="inventory-heading">Inventory: (Press ${this.menuKey} to close)</div>
+        <div class="inventory-heading">
+          Inventory: (Press ${this.menuKey} to close)
+        </div>
+
         <div class="inventory-list"></div>
       </div>
     `;

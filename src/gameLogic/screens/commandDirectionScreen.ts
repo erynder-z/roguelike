@@ -37,7 +37,7 @@ export class CommandDirectionScreen extends BaseScreen {
    * Draws the command direction screen using the custom display component.
    */
   public drawScreen(): void {
-    const container = document.getElementById('canvas-container');
+    const canvas = document.getElementById('canvas1') as HTMLCanvasElement;
     if (!this.display) {
       this.display = document.createElement(
         'command-direction-screen-display',
@@ -48,7 +48,7 @@ export class CommandDirectionScreen extends BaseScreen {
       this.display.title = 'Which direction?';
       this.display.menuKeyText = this.activeControlScheme.menu.toString();
 
-      container?.appendChild(this.display);
+      canvas?.insertAdjacentElement('afterend', this.display);
     }
   }
 

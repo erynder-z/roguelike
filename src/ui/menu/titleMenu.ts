@@ -330,7 +330,7 @@ export class TitleMenu extends HTMLElement {
    * @return {void}
    */
   private showHelp(): void {
-    invoke('show_help_window');
+    invoke('create_hidden_help_window');
   }
 
   private showAbout() {

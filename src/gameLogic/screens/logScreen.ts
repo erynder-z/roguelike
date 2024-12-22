@@ -24,14 +24,12 @@ export class LogScreen extends BaseScreen {
    * Renders the log screen via a custom component.
    */
   public drawScreen(): void {
-    const container = document.getElementById(
-      'canvas-container',
-    ) as HTMLDivElement;
+    const canvas = document.getElementById('canvas1') as HTMLCanvasElement;
     if (!this.display) {
       this.display = document.createElement(
         'log-screen-display',
       ) as LogScreenDisplay;
-      container.appendChild(this.display);
+      canvas?.insertAdjacentElement('afterend', this.display);
     }
     this.display.log = this.messageLog;
     this.display.menuKeyText = this.activeControlScheme.menu.toString();

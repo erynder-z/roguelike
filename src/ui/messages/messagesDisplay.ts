@@ -20,7 +20,6 @@ export class MessagesDisplay extends HTMLElement {
    */
   connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
-
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
@@ -31,23 +30,21 @@ export class MessagesDisplay extends HTMLElement {
           width: 100%;
         }
 
-        .messages-display {
-          overflow: auto;
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
-
-        .messages-display::-webkit-scrollbar {
+        ::-webkit-scrollbar {
           width: 0.25rem;
         }
 
-        .messages-display::-webkit-scrollbar-thumb {
+        ::-webkit-scrollbar-thumb {
           background-color: var(--scrollbar-foreground);
           border-radius: 4px;
         }
 
-        .messages-display::-webkit-scrollbar-track {
+        ::-webkit-scrollbar-track {
           background-color: var(--scrollbar-background);
+        }
+
+        .messages-display {
+          overflow: auto;
         }
 
         h1 {

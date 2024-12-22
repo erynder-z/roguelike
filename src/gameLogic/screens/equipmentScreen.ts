@@ -44,13 +44,14 @@ export class EquipmentScreen extends BaseScreen {
    * Draws the equipment screen.
    */
   public drawScreen(): void {
-    const container = document.getElementById('canvas-container');
+    const canvas = document.getElementById('canvas1') as HTMLCanvasElement;
+
     if (!this.display) {
       this.display = document.createElement(
         'equipment-screen-display',
       ) as EquipmentScreenDisplay;
 
-      container?.appendChild(this.display);
+      canvas?.insertAdjacentElement('afterend', this.display);
 
       const equipmentData = this.getEquipmentData();
       this.display.items = equipmentData;

@@ -12,10 +12,22 @@ export class LogScreenDisplay extends HTMLElement {
 
   connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
-
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
+        ::-webkit-scrollbar {
+          width: 0.25rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-foreground);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-background);
+        }
+
         .log-screen-display {
           background: var(--backgroundDefaultTransparent);
           backdrop-filter: blur(5px);
@@ -24,28 +36,12 @@ export class LogScreenDisplay extends HTMLElement {
           left: 0;
           height: 100%;
           width: 100%;
-  
           overflow-y: auto;
           overflow-x: hidden;
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
-
-        .log-screen-display::-webkit-scrollbar {
-          width: 0.25rem;
-        }
-
-        .log-screen-display::-webkit-scrollbar-thumb {
-          background-color: var(--scrollbar-foreground);
-          border-radius: 4px;
-        }
-
-        .log-screen-display::-webkit-scrollbar-track {
-          background-color: var(--scrollbar-background);
         }
 
         .log-screen-heading {
-        font-size: 1.5rem;
+          font-size: 1.5rem;
           text-align: center;
           margin: 2rem;
         }
@@ -54,12 +50,12 @@ export class LogScreenDisplay extends HTMLElement {
           background-color: var(--whiteTransparent);
         }
 
-        .log-screen-list ul{
+        .log-screen-list ul {
           padding: 0 2rem;
         }
 
         .log-screen-list ul li {
-        list-style-type: none;
+          list-style-type: none;
         }
 
         .fade-out {
@@ -76,7 +72,9 @@ export class LogScreenDisplay extends HTMLElement {
         }
       </style>
       <div class="log-screen-display">
-        <div class="log-screen-heading">Log: (Press ${this.menuKey} to close)</div>
+        <div class="log-screen-heading">
+          Log: (Press ${this.menuKey} to close)
+        </div>
         <div class="log-screen-list"></div>
       </div>
     `;

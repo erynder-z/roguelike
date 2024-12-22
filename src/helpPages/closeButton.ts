@@ -55,7 +55,7 @@ export class CloseButton extends HTMLElement {
 
       const timeoutInMilliseconds = 1000;
       setTimeout(() => {
-        invoke('hide_help_window');
+        invoke('close_help_window');
       }, timeoutInMilliseconds);
     };
 

@@ -27,15 +27,6 @@ export class UnequipCommand extends CommandBase {
 
     const equipment = <Equipment>game.equipment;
 
-    if (!equipment.has(slot)) {
-      const label = Slot[slot];
-      const msg = new LogMessage(
-        `${label} is not equipped.`,
-        EventCategory.unable,
-      );
-      this.game.flash(msg);
-      return false;
-    }
     const obj: ItemObject | undefined = equipment.get(slot);
     if (!obj) throw 'obj is undefined';
 

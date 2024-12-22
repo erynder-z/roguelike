@@ -28,41 +28,35 @@ export class FlashDisplay extends HTMLElement {
   connectedCallback(): void {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
-    <style>
-      * {
-        margin: var(--margin);
-        padding: var(--padding);
-        box-sizing: var(--box-sizing);
-      }
-
-      * {
-        scrollbar-width: var(--scrollbar-width);
-        scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-      }
-
-      ::selection {
-        color: var(--selection-color);
-        background-color: var(--selection-background);
-      }
-
-      :host {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-      }
-
-      .flash-display {
-        padding: 1rem 1.5rem;
-        color: var(--white);
-        font-size: 1.25rem;
-      }
-
-      .more-span {
-        font-weight: bold;
-      }
-    </style>
-    <div class="flash-display"></div>
-  `;
+      <style>
+        * {
+          margin: var(--margin);
+          padding: var(--padding);
+          box-sizing: var(--box-sizing);
+        }
+        * {
+          scrollbar-width: var(--scrollbar-width);
+          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+        }
+        ::selection {
+          color: var(--selection-color);
+          background-color: var(--selection-background);
+        }
+        .flash-display {
+          background: var(--popupBackground);
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          color: var(--white);
+        }
+        .more-span {
+          font-weight: bold;
+        }
+      </style>
+      <div class="flash-display"></div>
+    `;
 
     this.shadowRoot?.appendChild(templateElement.content.cloneNode(true));
   }
@@ -79,6 +73,8 @@ export class FlashDisplay extends HTMLElement {
     );
 
     if (flashDisplay) {
+      // Hide the flash display if the message is empty
+      flashDisplay.style.visibility = msg.message == '' ? 'hidden' : 'visible';
       flashDisplay.innerHTML = '';
       const fragment = document.createDocumentFragment();
 
@@ -127,7 +123,13 @@ export class FlashDisplay extends HTMLElement {
   public clearFlash(game: GameState): void {
     game.log.clearQueue();
 
-    const flashDisplay = this.shadowRoot?.querySelector('.flash-display');
-    if (flashDisplay) flashDisplay.textContent = '';
+    const flashDisplay = this.shadowRoot?.querySelector(
+      '.flash-display',
+    ) as HTMLElement;
+
+    if (flashDisplay) {
+      flashDisplay.style.visibility = 'hidden';
+      flashDisplay.innerHTML = '';
+    }
   }
 }

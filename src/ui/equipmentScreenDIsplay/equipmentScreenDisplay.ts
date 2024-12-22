@@ -12,10 +12,22 @@ export class EquipmentScreenDisplay extends HTMLElement {
 
   connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
-
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
+        ::-webkit-scrollbar {
+          width: 0.25rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-foreground);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-background);
+        }
+
         .equipment-screen-display {
           background: var(--backgroundDefaultTransparent);
           backdrop-filter: blur(5px);
@@ -24,24 +36,8 @@ export class EquipmentScreenDisplay extends HTMLElement {
           left: 0;
           height: 100%;
           width: 100%;
-
           overflow-y: auto;
           overflow-x: hidden;
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
-
-        .equipment-screen-display::-webkit-scrollbar {
-          width: 0.25rem;
-        }
-
-        .equipment-screen-display::-webkit-scrollbar-thumb {
-          background-color: var(--scrollbar-foreground);
-          border-radius: 4px;
-        }
-
-        .equipment-screen-display::-webkit-scrollbar-track {
-          background-color: var(--scrollbar-background);
         }
 
         .equipment-heading {

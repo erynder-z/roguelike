@@ -15,9 +15,17 @@ export class HelpControls extends HTMLElement {
 
   constructor() {
     super();
+  }
 
+  /**
+   * Sets up the element's shadow root and styles it with a template.
+   * This method is called when the element is inserted into the DOM.
+   * It is called after the element is created and before the element is connected
+   * to the DOM.
+   *
+   */
+  connectedCallback(): void {
     const shadowRoot = this.attachShadow({ mode: 'open' });
-
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
@@ -125,8 +133,8 @@ export class HelpControls extends HTMLElement {
    * Binds events to the elements inside the controls help page.
    *
    * The function binds the following events:
-   * - Previous control scheme button click event
-   * - Next control scheme button click event
+   * - Click event on the previous control scheme button
+   * - Click event on the next control scheme button
    * - Keydown event on the document
    *
    * @return {void}
@@ -182,15 +190,13 @@ export class HelpControls extends HTMLElement {
   }
 
   /**
-   * Handles a click event on the "prev" or "next" control scheme button.
+   * Handles the click event of the control scheme buttons.
    *
-   * Updates the {@link controlSchemeName} property to the name of the next or
-   * previous control scheme in the list of available schemes, and updates the
-   * displayed control scheme name on the page and populates the controls table
-   * with the new control scheme.
+   * The function takes care of switching the current control scheme to the
+   * previous or next one in the list of available control schemes.
    *
-   * @param { 'prev' | 'next' } buttonDirection - The direction of the button
-   * that was clicked.
+   * @param {'prev' | 'next'} buttonDirection - The direction of the control
+   * scheme button that was clicked.
    * @return {void}
    */
   private handleControlSchemeButtonClick(
@@ -208,14 +214,14 @@ export class HelpControls extends HTMLElement {
     this.populateControlsTable(this.controlSchemeName);
   }
 
-  /**
-   * Updates the displayed control scheme name on the page.
-   *
-   * Selects the element with the ID "controls-scheme-name" and sets its text
-   * content to the uppercased control scheme name followed by " - controls".
-   *
-   * @return {void}
-   */
+/**
+ * Updates the displayed name of the control scheme in the UI.
+ *
+ * This function selects the HTML element with the ID 'controls-scheme-name'
+ * and sets its text content to the uppercase version of the current
+ * control scheme name, followed by '- controls'.
+ */
+
   private updateControlSchemeName() {
     const schemeNameElement = this.shadowRoot?.querySelector(
       '#controls-scheme-name',
@@ -224,11 +230,12 @@ export class HelpControls extends HTMLElement {
   }
 
   /**
-   * Populates the controls table with the controls of the given control scheme.
+   * Populates the controls table with the controls data for the given control
+   * scheme.
    *
-   * Selects the element with the ID "controls-list" and populates it with a table
-   * row for each control in the given control scheme. The table row contains two
-   * cells: one for the key and one for the description of the control.
+   * The function takes the given control scheme name and looks up the
+   * associated control scheme in the controlSchemes object. It then uses the
+   * controls data to populate the controls table in the UI.
    *
    * @param {ControlSchemeName} controlSchemeName - The name of the control scheme
    * to populate the table with.
@@ -263,17 +270,18 @@ export class HelpControls extends HTMLElement {
     });
   }
 
-  /**
-   * Handles key presses for navigating control schemes.
-   *
-   * This function responds to key presses of the '<' and '>' keys, interpreting
-   * them as commands to switch to the previous and next control schemes,
-   * respectively. It calls `handleControlSchemeButtonClick` with the appropriate
-   * direction based on the key pressed.
-   *
-   * @param {KeyboardEvent} event - The keyboard event that triggered the function.
-   * @return {void}
-   */
+/**
+ * Handles key presses for navigating between control schemes.
+ *
+ * This function listens for the '<' and '>' keys to switch to the previous
+ * or next control scheme, respectively. If either key is pressed, it triggers
+ * the corresponding control scheme button click handler.
+ *
+ * @param {KeyboardEvent} event - The keyboard event object containing
+ * details about the key press.
+ * @return {void}
+ */
+
   private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case '<':
@@ -297,20 +305,19 @@ export class HelpControls extends HTMLElement {
    * @return {void}
    */
   disconnectedCallback(): void {
-    const shadowRoot = this.shadowRoot;
-    if (shadowRoot) {
-      shadowRoot
-        .getElementById('switch-controls-button')
-        ?.removeEventListener('click', () =>
-          this.handleControlSchemeButtonClick('prev'),
-        );
-      shadowRoot
-        .getElementById('switch-controls-button')
-        ?.removeEventListener('click', () =>
-          this.handleControlSchemeButtonClick('next'),
-        );
+    this.manageEventListener(
+      'prev-scheme-button',
+      'click',
+      () => this.handleControlSchemeButtonClick('prev'),
+      false,
+    );
+    this.manageEventListener(
+      'next-scheme-button',
+      'click',
+      () => this.handleControlSchemeButtonClick('next'),
+      false,
+    );
 
-      document.removeEventListener('keydown', this.handleKeyPress);
-    }
+    document.removeEventListener('keydown', this.handleKeyPress);
   }
 }
