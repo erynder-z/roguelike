@@ -24,12 +24,12 @@ export class InventoryScreen extends BaseScreen {
    * Renders the inventory screen via a custom component.
    */
   public drawScreen(): void {
-    const container = document.getElementById('canvas-container');
+    const canvas = document.getElementById('canvas1') as HTMLCanvasElement;
     if (!this.display) {
       this.display = document.createElement(
         'inventory-screen-display',
       ) as InventoryScreenDisplay;
-      container?.appendChild(this.display);
+      canvas?.insertAdjacentElement('afterend', this.display);
 
       this.display.items = this.inventory.items;
       this.display.menuKeyText = this.activeControlScheme.menu.toString();

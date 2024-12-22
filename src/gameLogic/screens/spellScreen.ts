@@ -49,7 +49,7 @@ export class SpellScreen extends BaseScreen {
    * the title to 'Select spell:'.
    */
   public drawScreen(): void {
-    const container = document.getElementById('canvas-container');
+    const canvas = document.getElementById('canvas1') as HTMLCanvasElement;
     if (!this.display) {
       this.display = document.createElement(
         'spell-screen-display',
@@ -64,7 +64,7 @@ export class SpellScreen extends BaseScreen {
       this.display.title = 'Select spell:';
       this.display.menuKeyText = this.activeControlScheme.menu.toString();
 
-      container?.appendChild(this.display);
+      canvas?.insertAdjacentElement('afterend', this.display);
     }
   }
 
