@@ -1,8 +1,12 @@
+import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { Buff } from '../gameLogic/buffs/buffEnum';
 import { GameState } from '../types/gameBuilder/gameState';
+import { SerializedGameState } from '../types/utilities/saveStateHandler';
 
 export class SaveStateHandler {
-  public static serialize(gameState: GameState): any {
+  public static serialize(gameState: GameState): SerializedGameState {
+    const gameConfig = gameConfigManager.getConfig();
+
     const ai = gameState.ai;
     const log = gameState.log;
     const dungeon = gameState.dungeon;
@@ -24,6 +28,8 @@ export class SaveStateHandler {
     const serializedPlayerBuffs = this.getPlayerBuffsJson(player);
     const serializedBuild = this.getBuildJson(build);
 
+    const playerConfig = gameConfig.player;
+
     return {
       serializedAI,
       serializedLog,
@@ -35,6 +41,7 @@ export class SaveStateHandler {
       serializedPlayer,
       serializedPlayerBuffs,
       serializedBuild,
+      playerConfig,
     };
   }
 
@@ -123,6 +130,4 @@ export class SaveStateHandler {
       data: build,
     };
   }
-
-  public static deserialize(data: any): any {}
 }
