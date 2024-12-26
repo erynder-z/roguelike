@@ -1,6 +1,8 @@
 import { AISwitcher } from '../gameLogic/mobs/aiSwitcher';
+import { BuffCommand } from '../gameLogic/commands/buffCommand';
 import { Build } from '../types/gameBuilder/build';
 import { GameConfigType } from '../types/gameConfig/gameConfigType';
+import { EquipCommand } from '../gameLogic/commands/equipCommand';
 import { FindFreeSpace } from '../utilities/findFreeSpace';
 import { Game } from './gameModel';
 import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
@@ -17,6 +19,7 @@ import { MobAI } from '../types/gameLogic/mobs/mobAI';
 import { MoodAI } from '../gameLogic/mobs/moodAI';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
+import { SerializedGameState } from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';
 import { TerminalPoint } from '../terminal/terminalPoint';
@@ -44,6 +47,28 @@ export class Builder implements Build {
     this.enterFirstLevel(game, rand);
     game.ai = this.makeAI();
     this.initLevel0(game);
+
+    return game;
+  }
+
+  public restoreGame(saveState: SerializedGameState): GameState {
+    const rand = new RandomGenerator(saveState.serializedBuild.data.seed);
+    const dungeonLevel = saveState.serializedDungeon.data.level;
+    const playerPos = new WorldPoint(
+      saveState.serializedPlayer.data.pos.x,
+      saveState.serializedPlayer.data.pos.y,
+    );
+
+    const player = this.restorePlayer(saveState);
+    const game = new Game(rand, player, this);
+
+    this.restorePlayerBuffs(game, player, saveState);
+    this.restorePlayerInventory(<Inventory>game.inventory, saveState);
+    this.restorePlayerEquipment(game, saveState);
+    game.dungeon.level = dungeonLevel;
+
+    this.enterSpecificLevelAtPos(game, dungeonLevel, playerPos);
+    game.ai = this.makeAI();
 
     return game;
   }
@@ -118,6 +143,14 @@ export class Builder implements Build {
     const np = <WorldPoint>FindFreeSpace.findFree(map, rand);
 
     game.dungeon.playerSwitchLevel(dungeon.level, np, game);
+  }
+
+  private enterSpecificLevelAtPos(
+    game: GameState,
+    level: number,
+    pos: WorldPoint,
+  ): void {
+    game.dungeon.playerSwitchLevel(level, pos, game);
   }
   /**
    * Calculates the center position of the given WorldPoint dimensions.
@@ -477,5 +510,85 @@ export class Builder implements Build {
     /*     const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn);
     pistol.charges = 10;
     inv.add(pistol); */
+  }
+
+  /**
+   * Restores the player's state from the given save state.
+   *
+   * @param {SerializedGameState} saveState - The save state to restore from.
+   * @return {Mob} The restored player mob.
+   */
+  public restorePlayer(saveState: SerializedGameState): Mob {
+    const playerPos = new WorldPoint(
+      saveState.serializedPlayer.data.pos.x,
+      saveState.serializedPlayer.data.pos.y,
+    );
+
+    const player = new Mob(Glyph.Player, playerPos.x, playerPos.y);
+    player.name = saveState.serializedPlayer.data.name;
+    player.hp = saveState.serializedPlayer.data.hp;
+    player.maxhp = saveState.serializedPlayer.data.maxhp;
+    player.level = saveState.serializedPlayer.data.level;
+    return player;
+  }
+
+  /**
+   * Restores the player's buffs from the given save state.
+   *
+   * @param {GameState} game - The game state.
+   * @param {Mob} player - The player mob.
+   * @param {SerializedGameState} saveState - The save state to restore from.
+   * @return {void} This function does not return anything.
+   */
+  private restorePlayerBuffs(
+    game: GameState,
+    player: Mob,
+    saveState: SerializedGameState,
+  ): void {
+    const buffs = saveState.serializedPlayerBuffs.data;
+    for (const buff of buffs) {
+      new BuffCommand(buff.buff, player, game, player, buff.duration).execute();
+    }
+  }
+
+  /**
+   * Restores the player's inventory from the given save state.
+   *
+   * @param {Inventory} inv - The inventory to restore items into.
+   * @param {SerializedGameState} saveState - The save state to restore from.
+   * @return {void} This function does not return anything.
+   */
+
+  private restorePlayerInventory(
+    inv: Inventory,
+    saveState: SerializedGameState,
+  ): void {
+    const items = saveState.serializedInventory.data?.items;
+    if (items) {
+      for (const item of items) {
+        inv.add(new ItemObject(item.glyph, item.slot, item.spell));
+      }
+    }
+  }
+
+  /**
+   * Restores the player's equipment from the given save state.
+   *
+   * @param {GameState} game - The game state.
+   * @param {SerializedGameState} saveState - The save state to restore from.
+   * @return {void} This function does not return anything.
+   */
+  private restorePlayerEquipment(
+    game: GameState,
+    saveState: SerializedGameState,
+  ): void {
+    const items = saveState.serializedEquipment.data;
+
+    if (items) {
+      for (const item of items) {
+        const itm = new ItemObject(item[1].glyph, item[1].slot, item[1].spell);
+        new EquipCommand(itm, item[0] as number, game).execute();
+      }
+    }
   }
 }
