@@ -54,6 +54,7 @@ export class Builder implements Build {
   public restoreGame(saveState: SerializedGameState): GameState {
     const rand = new RandomGenerator(saveState.serializedBuild.data.seed);
     const dungeonLevel = saveState.serializedDungeon.data.level;
+
     const playerPos = new WorldPoint(
       saveState.serializedPlayer.data.pos.x,
       saveState.serializedPlayer.data.pos.y,
@@ -63,9 +64,8 @@ export class Builder implements Build {
     const game = new Game(rand, player, this);
 
     this.restorePlayerBuffs(game, player, saveState);
-    this.restorePlayerInventory(<Inventory>game.inventory, saveState);
+    this.restorePlayerInventory(game, saveState);
     this.restorePlayerEquipment(game, saveState);
-    game.dungeon.level = dungeonLevel;
 
     this.enterSpecificLevelAtPos(game, dungeonLevel, playerPos);
     game.ai = this.makeAI();
@@ -511,14 +511,13 @@ export class Builder implements Build {
     pistol.charges = 10;
     inv.add(pistol); */
   }
-
   /**
    * Restores the player's state from the given save state.
    *
    * @param {SerializedGameState} saveState - The save state to restore from.
    * @return {Mob} The restored player mob.
    */
-  public restorePlayer(saveState: SerializedGameState): Mob {
+  private restorePlayer(saveState: SerializedGameState): Mob {
     const playerPos = new WorldPoint(
       saveState.serializedPlayer.data.pos.x,
       saveState.serializedPlayer.data.pos.y,
@@ -538,17 +537,18 @@ export class Builder implements Build {
    * @param {GameState} game - The game state.
    * @param {Mob} player - The player mob.
    * @param {SerializedGameState} saveState - The save state to restore from.
-   * @return {void} This function does not return anything.
+   * @return {GameState} The updated game state.
    */
   private restorePlayerBuffs(
     game: GameState,
     player: Mob,
     saveState: SerializedGameState,
-  ): void {
+  ): GameState {
     const buffs = saveState.serializedPlayerBuffs.data;
     for (const buff of buffs) {
       new BuffCommand(buff.buff, player, game, player, buff.duration).execute();
     }
+    return game;
   }
 
   /**
@@ -556,19 +556,21 @@ export class Builder implements Build {
    *
    * @param {Inventory} inv - The inventory to restore items into.
    * @param {SerializedGameState} saveState - The save state to restore from.
-   * @return {void} This function does not return anything.
+   * @return {GameState} The updated game state.
    */
 
   private restorePlayerInventory(
-    inv: Inventory,
+    game: GameState,
     saveState: SerializedGameState,
-  ): void {
+  ): GameState {
+    const inv = <Inventory>game.inventory;
     const items = saveState.serializedInventory.data?.items;
     if (items) {
       for (const item of items) {
         inv.add(new ItemObject(item.glyph, item.slot, item.spell));
       }
     }
+    return game;
   }
 
   /**
@@ -576,12 +578,12 @@ export class Builder implements Build {
    *
    * @param {GameState} game - The game state.
    * @param {SerializedGameState} saveState - The save state to restore from.
-   * @return {void} This function does not return anything.
+   * @return {GameState} The updated game state.
    */
   private restorePlayerEquipment(
     game: GameState,
     saveState: SerializedGameState,
-  ): void {
+  ): GameState {
     const items = saveState.serializedEquipment.data;
 
     if (items) {
@@ -590,5 +592,6 @@ export class Builder implements Build {
         new EquipCommand(itm, item[0] as number, game).execute();
       }
     }
+    return game;
   }
 }
