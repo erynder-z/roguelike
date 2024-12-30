@@ -1,10 +1,9 @@
 import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { Buff } from '../gameLogic/buffs/buffEnum';
 import { GameState } from '../types/gameBuilder/gameState';
-import { SerializedGameState } from '../types/utilities/saveStateHandler';
 
 export class SaveStateHandler {
-  public static serialize(gameState: GameState): SerializedGameState {
+  public static serialize(gameState: GameState) {
     const gameConfig = gameConfigManager.getConfig();
 
     const ai = gameState.ai;

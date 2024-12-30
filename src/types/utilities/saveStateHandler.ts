@@ -1,7 +1,7 @@
 export type SerializedGameState = {
   serializedAI: { id: string; data: SerializedAIData };
   serializedLog: { id: string; data: SerializedLogData };
-  serializedDungeon: { id: string; data: string };
+  serializedDungeon: { id: string; data: SerializedDungeonData };
   serializedAutoHeal: { id: string; data: SerializedAutoHealData };
   serializedInventory: { id: string; data: SerializedInventoryData };
   serializedEquipment: { id: string; data: SerializedEquipmentData };
@@ -11,7 +11,7 @@ export type SerializedGameState = {
     id: string;
     data: SerializedBuffData[];
   };
-  serializedBuild: { id: string; data: string };
+  serializedBuild: { id: string; data: SerializedBuild };
   playerConfig: SerializedPlayerConfig;
 };
 
@@ -32,6 +32,11 @@ export type SerializedLogData = {
   }[];
 };
 
+export type SerializedDungeonData = {
+  level: number;
+  maps: SerializedGameMap[];
+};
+
 export type SerializedAutoHealData = {
   amount: number;
   amountToHealMin: number;
@@ -42,9 +47,9 @@ export type SerializedAutoHealData = {
 
 export type SerializedInventoryData = {
   items: {
-    glyph: string;
-    slot: string;
-    spell: string;
+    glyph: number;
+    slot: number;
+    spell: number;
     charges: number;
     level: number;
     desc: string;
@@ -111,13 +116,14 @@ export type SerializedMapCell = {
   };
 };
 
+export type SerializedBuild = {
+  player: SerializedPlayerConfig;
+  seed: number;
+};
+
 export type SerializedPlayerConfig = {
   name: string;
-  appearance: string;
+  appearance: 'boyish' | 'girlish';
   color: string;
   avatar: string;
 };
-
-export type SerializedDungeonData = any;
-
-export type SerializedBuild = any;
