@@ -77,10 +77,7 @@ export type SerializedStatsData = {
 };
 
 export type SerializedPlayerData = {
-  pos: {
-    x: number;
-    y: number;
-  };
+  pos: SerializedWorldPoint;
   name: string;
   hp: number;
   maxhp: number;
@@ -93,26 +90,28 @@ export type SerializedBuffData = {
 };
 
 export type SerializedGameMap = {
-  dimensions: string;
+  dimensions: SerializedWorldPoint;
   level: number;
-  cells: string[][];
+  cells: SerializedMapCellArray[];
   isDark: boolean;
-  upStairPos?: string;
-  downStairPos?: string;
+  upStairPos?: SerializedWorldPoint;
+  downStairPos?: SerializedWorldPoint;
   queue: string;
 };
 
+export type SerializedMapCellArray = SerializedMapCell[];
+
 export type SerializedMapCell = {
-  env: string;
-  mob?: string;
+  env: number;
+  mob?: SerializedMobData;
   lit: boolean;
-  obj?: string;
-  sprite?: string;
-  corpse?: string;
+  obj?: SerializedItemData;
+  sprite?: number;
+  corpse?: SerializedCorpseData;
   environment?: {
     name: string;
     description: string;
-    effects: string[];
+    effects: number[];
   };
 };
 
@@ -127,3 +126,33 @@ export type SerializedPlayerConfig = {
   color: string;
   avatar: string;
 };
+
+export type SerializedMobData = {
+  id: string;
+  pos: SerializedWorldPoint;
+  glyph: number;
+  name: string;
+  description: string;
+  hp: number;
+  maxhp: number;
+  mood: SerializedMobMood;
+  level: number;
+  sinceMove: number;
+  isPlayer: boolean;
+  buffs: SerializedBuffData[];
+};
+
+export type SerializedCorpseData = {
+  id: string;
+  pos: SerializedWorldPoint;
+  glyph: number;
+  name: string;
+  description: string;
+};
+
+export type SerializedWorldPoint = {
+  x: number;
+  y: number;
+};
+
+export type SerializedMobMood = any;
