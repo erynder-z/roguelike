@@ -19,11 +19,23 @@ import { MobAI } from '../types/gameLogic/mobs/mobAI';
 import { MoodAI } from '../gameLogic/mobs/moodAI';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
-import { SerializedGameState } from '../types/utilities/saveStateHandler';
+import {
+  SerializedDungeonData,
+  SerializedGameMap,
+  SerializedGameState,
+  SerializedMapCellArray,
+  SerializedMapCell,
+} from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
+import { GameMap } from '../maps/mapModel/gameMap';
+import { TurnQueue } from '../gameLogic/turnQueue/turnQueue';
+import { MapCell } from '../maps/mapModel/mapCell';
+import { Corpse } from '../gameLogic/mobs/corpse';
+import { ActiveBuffs } from '../gameLogic/buffs/activeBuffs';
+import { Mood } from '../gameLogic/mobs/moodEnum';
 
 /**
  * The builder for creating games, levels and mobs.
@@ -62,6 +74,8 @@ export class Builder implements Build {
 
     const player = this.restorePlayer(saveState);
     const game = new Game(rand, player, this);
+
+    this.restoreDungeon(game, saveState.serializedDungeon.data);
 
     this.restorePlayerBuffs(game, player, saveState);
     this.restorePlayerInventory(game, saveState);
@@ -511,6 +525,106 @@ export class Builder implements Build {
     pistol.charges = 10;
     inv.add(pistol); */
   }
+
+  private restoreDungeon(
+    game: Game,
+    serializedDungeon: SerializedDungeonData,
+  ): GameState {
+    this.setDungeonLevel(game, serializedDungeon.level);
+    this.restoreDungeonMaps(game, serializedDungeon.maps);
+    return game;
+  }
+
+  private setDungeonLevel(game: Game, level: number): void {
+    game.dungeon.level = level;
+  }
+
+  private restoreDungeonMaps(
+    game: Game,
+    dungeonMaps: SerializedGameMap[],
+  ): void {
+    game.dungeon.maps = dungeonMaps.map(map => this.restoreSingleMap(map));
+  }
+
+  private restoreSingleMap(map: SerializedGameMap): GameMap {
+    const restoredCells = this.restoreMapCells(map.cells);
+
+    const restoredMap = new GameMap(
+      new WorldPoint(map.dimensions.x, map.dimensions.y),
+      Glyph.Unknown,
+      map.level,
+      map.isDark,
+      [],
+      new WorldPoint(map.upStairPos?.x ?? 0, map.upStairPos?.y ?? 0),
+      new WorldPoint(map.downStairPos?.x ?? 0, map.downStairPos?.y ?? 0),
+      new TurnQueue(), // TODO: Properly restore turn queue
+    );
+
+    restoredMap.cells = restoredCells;
+
+    return restoredMap;
+  }
+
+  private restoreMapCells(cells: SerializedMapCellArray[]): MapCell[][] {
+    return cells.map(cellArray => this.restoreCellArray(cellArray));
+  }
+
+  private restoreCellArray(cellArray: SerializedMapCellArray): MapCell[] {
+    return cellArray.map(cell => this.restoreSingleCell(cell));
+  }
+
+  private restoreSingleCell(cell: SerializedMapCell): MapCell {
+    const newCell = new MapCell(cell.env);
+
+    if (cell.mob) {
+      newCell.mob = new Mob(Glyph.Unknown, 0, 0);
+      newCell.mob.id = cell.mob?.id ?? '';
+      newCell.mob.pos = new WorldPoint(
+        cell.mob?.pos.x ?? 0,
+        cell.mob?.pos.y ?? 0,
+      );
+      newCell.mob.glyph = cell.mob?.glyph;
+      newCell.mob.name = cell.mob.name;
+      newCell.mob.description = cell.mob.description;
+      newCell.mob.hp = cell.mob.hp;
+      newCell.mob.maxhp = cell.mob.maxhp;
+      newCell.mob.mood = Mood.Awake;
+      newCell.mob.level = cell.mob.level;
+      newCell.mob.sinceMove = cell.mob.sinceMove;
+      newCell.mob.isPlayer = cell.mob.isPlayer;
+      newCell.mob.buffs = new ActiveBuffs();
+    } else {
+      newCell.mob = undefined;
+    }
+
+    newCell.lit = cell.lit;
+    newCell.obj = cell.obj
+      ? new ItemObject(
+          cell.obj.glyph,
+          cell.obj.slot,
+          cell.obj.spell,
+          cell.obj.level,
+          cell.obj.desc,
+          cell.obj.charges,
+        )
+      : undefined;
+    newCell.sprite = cell.sprite ?? undefined;
+    newCell.environment = {
+      name: cell.environment?.name ?? '',
+      description: cell.environment?.description ?? '',
+      effects: cell.environment?.effects ?? [],
+    };
+    if (cell.corpse) {
+      newCell.corpse = new Corpse(Glyph.Unknown, 0, 0);
+      newCell.corpse.id = cell.corpse.id;
+      newCell.corpse.pos = new WorldPoint(cell.corpse.pos.x, cell.corpse.pos.y);
+      newCell.corpse.glyph = cell.corpse.glyph;
+    } else {
+      newCell.corpse = undefined;
+    }
+    return newCell;
+  }
+
   /**
    * Restores the player's state from the given save state.
    *
