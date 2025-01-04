@@ -25,6 +25,9 @@ import {
   SerializedGameState,
   SerializedMapCellArray,
   SerializedMapCell,
+  SerializedMobData,
+  SerializedItemData,
+  SerializedCorpseData,
 } from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';
@@ -35,7 +38,6 @@ import { TurnQueue } from '../gameLogic/turnQueue/turnQueue';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { Corpse } from '../gameLogic/mobs/corpse';
 import { ActiveBuffs } from '../gameLogic/buffs/activeBuffs';
-import { Mood } from '../gameLogic/mobs/moodEnum';
 
 /**
  * The builder for creating games, levels and mobs.
@@ -557,10 +559,12 @@ export class Builder implements Build {
       [],
       new WorldPoint(map.upStairPos?.x ?? 0, map.upStairPos?.y ?? 0),
       new WorldPoint(map.downStairPos?.x ?? 0, map.downStairPos?.y ?? 0),
-      new TurnQueue(), // TODO: Properly restore turn queue
+      new TurnQueue(),
     );
 
     restoredMap.cells = restoredCells;
+
+    this.restoreMapQueue(restoredMap);
 
     return restoredMap;
   }
@@ -576,53 +580,76 @@ export class Builder implements Build {
   private restoreSingleCell(cell: SerializedMapCell): MapCell {
     const newCell = new MapCell(cell.env);
 
-    if (cell.mob) {
-      newCell.mob = new Mob(Glyph.Unknown, 0, 0);
-      newCell.mob.id = cell.mob?.id ?? '';
-      newCell.mob.pos = new WorldPoint(
-        cell.mob?.pos.x ?? 0,
-        cell.mob?.pos.y ?? 0,
-      );
-      newCell.mob.glyph = cell.mob?.glyph;
-      newCell.mob.name = cell.mob.name;
-      newCell.mob.description = cell.mob.description;
-      newCell.mob.hp = cell.mob.hp;
-      newCell.mob.maxhp = cell.mob.maxhp;
-      newCell.mob.mood = Mood.Awake;
-      newCell.mob.level = cell.mob.level;
-      newCell.mob.sinceMove = cell.mob.sinceMove;
-      newCell.mob.isPlayer = cell.mob.isPlayer;
-      newCell.mob.buffs = new ActiveBuffs();
-    } else {
-      newCell.mob = undefined;
-    }
+    newCell.mob = cell.mob ? this.restoreMob(cell.mob) : undefined;
 
     newCell.lit = cell.lit;
-    newCell.obj = cell.obj
-      ? new ItemObject(
-          cell.obj.glyph,
-          cell.obj.slot,
-          cell.obj.spell,
-          cell.obj.level,
-          cell.obj.desc,
-          cell.obj.charges,
-        )
-      : undefined;
+    newCell.obj = cell.obj ? this.restoreItemObject(cell.obj) : undefined;
     newCell.sprite = cell.sprite ?? undefined;
     newCell.environment = {
       name: cell.environment?.name ?? '',
       description: cell.environment?.description ?? '',
       effects: cell.environment?.effects ?? [],
     };
-    if (cell.corpse) {
-      newCell.corpse = new Corpse(Glyph.Unknown, 0, 0);
-      newCell.corpse.id = cell.corpse.id;
-      newCell.corpse.pos = new WorldPoint(cell.corpse.pos.x, cell.corpse.pos.y);
-      newCell.corpse.glyph = cell.corpse.glyph;
-    } else {
-      newCell.corpse = undefined;
-    }
+
+    newCell.corpse = cell.corpse ? this.restoreCorpse(cell.corpse) : undefined;
+
     return newCell;
+  }
+
+  private restoreMob(serializedMob: SerializedMobData): Mob {
+    const mob = new Mob(
+      serializedMob.glyph,
+      serializedMob.pos.x,
+      serializedMob.pos.y,
+    );
+
+    mob.id = serializedMob.id;
+    mob.name = serializedMob.name;
+    mob.description = serializedMob.description;
+    mob.hp = serializedMob.hp;
+    mob.maxhp = serializedMob.maxhp;
+    mob.mood = serializedMob.mood;
+    mob.level = serializedMob.level;
+    mob.sinceMove = serializedMob.sinceMove;
+    mob.isPlayer = serializedMob.isPlayer;
+    mob.buffs = new ActiveBuffs();
+
+    return mob;
+  }
+
+  private restoreItemObject(serializedItem: SerializedItemData): ItemObject {
+    return new ItemObject(
+      serializedItem.glyph,
+      serializedItem.slot,
+      serializedItem.spell,
+      serializedItem.level,
+      serializedItem.desc,
+      serializedItem.charges,
+    );
+  }
+
+  private restoreCorpse(serializedCorpse: SerializedCorpseData): Corpse {
+    const corpse = new Corpse(
+      serializedCorpse.glyph,
+      serializedCorpse.pos.x,
+      serializedCorpse.pos.y,
+    );
+
+    corpse.id = serializedCorpse.id;
+
+    return corpse;
+  }
+
+  private restoreMapQueue(map: GameMap): void {
+    const mapCells = map.cells;
+
+    mapCells.map(cellArray => {
+      cellArray.map(cell => {
+        if (cell.mob) {
+          map.queue.pushMob(cell.mob);
+        }
+      });
+    });
   }
 
   /**
