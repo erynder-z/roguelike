@@ -17,10 +17,12 @@ import { MobAI } from '../types/gameLogic/mobs/mobAI';
 import { MoodAI } from '../gameLogic/mobs/moodAI';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
+import { SerializedGameState } from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
+import { SaveStateHandler } from '../utilities/saveStateHandler';
 
 /**
  * The builder for creating games, levels and mobs.
@@ -44,6 +46,32 @@ export class Builder implements Build {
     this.enterFirstLevel(game, rand);
     game.ai = this.makeAI();
     this.initLevel0(game);
+
+    return game;
+  }
+
+  public restoreGame(saveState: SerializedGameState): GameState {
+    const saveStateHandler = new SaveStateHandler();
+    const rand = new RandomGenerator(saveState.serializedBuild.data.seed);
+    const dungeonLevel = saveState.serializedDungeon.data.level;
+
+    const playerPos = new WorldPoint(
+      saveState.serializedPlayer.data.pos.x,
+      saveState.serializedPlayer.data.pos.y,
+    );
+
+    const player = saveStateHandler.restorePlayer(saveState);
+    const game = new Game(rand, player, this);
+
+    saveStateHandler.restoreDungeon(game, saveState.serializedDungeon.data);
+    saveStateHandler.restorePlayerBuffs(game, player, saveState);
+    saveStateHandler.restorePlayerInventory(game, saveState);
+    saveStateHandler.restorePlayerEquipment(game, saveState);
+    saveStateHandler.restoreStats(game, saveState);
+    saveStateHandler.restoreLog(game, saveState);
+
+    this.enterSpecificLevelAtPos(game, dungeonLevel, playerPos);
+    game.ai = this.makeAI();
 
     return game;
   }
@@ -118,6 +146,14 @@ export class Builder implements Build {
     const np = <WorldPoint>FindFreeSpace.findFree(map, rand);
 
     game.dungeon.playerSwitchLevel(dungeon.level, np, game);
+  }
+
+  private enterSpecificLevelAtPos(
+    game: GameState,
+    level: number,
+    pos: WorldPoint,
+  ): void {
+    game.dungeon.playerSwitchLevel(level, pos, game);
   }
   /**
    * Calculates the center position of the given WorldPoint dimensions.

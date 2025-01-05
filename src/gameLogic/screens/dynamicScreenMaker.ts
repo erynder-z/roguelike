@@ -9,11 +9,11 @@ import { lvlTier00Images } from '../../utilities/imageHandler/imageImports/level
 import { MoreScreen } from './moreScreen';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { ScreenStack } from '../../terminal/screenStack';
+import { SerializedGameState } from '../../types/utilities/saveStateHandler';
 import { StackScreen } from '../../types/terminal/stackScreen';
 
 /**
  * Represents a dynamic screen maker that can create screens based on provided game states.
-
  */
 export class DynamicScreenMaker implements ScreenMaker {
   constructor(
@@ -24,7 +24,6 @@ export class DynamicScreenMaker implements ScreenMaker {
     public init: (sm: ScreenMaker) => StackScreen,
     public seed: number,
     public game: GameState | null = null,
-    
   ) {}
 
   /**
@@ -35,6 +34,11 @@ export class DynamicScreenMaker implements ScreenMaker {
   public newGame(): StackScreen {
     this.game = this.builder.makeGame();
     return this.gameScreen(<GameState>this.game, this);
+  }
+
+  public loadGame(saveState: SerializedGameState): StackScreen {
+    const loadedGame = this.builder.restoreGame(saveState);
+    return this.gameScreen(<GameState>loadedGame, this);
   }
 
   /**
@@ -81,6 +85,23 @@ export class DynamicScreenMaker implements ScreenMaker {
       (game: GameState, sm: ScreenMaker) => new GameOverScreen(game, sm),
       (game: GameState, sm: ScreenMaker) => new MoreScreen(game, sm),
       (sm: ScreenMaker) => sm.newGame(),
+      seed,
+    );
+    this.drawFirstImage();
+    this.runDynamic(dynamicScreenMaker);
+  }
+
+  public static async runBuilt_RestoreGameSetup(
+    builder: Build,
+    seed: number,
+    saveState: SerializedGameState,
+  ) {
+    const dynamicScreenMaker = new DynamicScreenMaker(
+      builder,
+      (game: GameState, sm: ScreenMaker) => new GameScreen(game, sm),
+      (game: GameState, sm: ScreenMaker) => new GameOverScreen(game, sm),
+      (game: GameState, sm: ScreenMaker) => new MoreScreen(game, sm),
+      (sm: ScreenMaker) => sm.loadGame(saveState),
       seed,
     );
     this.drawFirstImage();

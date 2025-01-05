@@ -3,7 +3,7 @@ import { BaseDirectory, writeTextFile, open } from '@tauri-apps/plugin-fs';
 import { exit } from '@tauri-apps/plugin-process';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { invoke } from '@tauri-apps/api/core';
-import { SaveStateHandler } from '../../utilities/SaveStateHandler';
+import { SaveStateHandler } from '../../utilities/saveStateHandler';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 
@@ -277,13 +277,23 @@ export class IngameMenu extends HTMLElement {
     invoke('create_hidden_help_window');
   }
 
+  /**
+   * Saves the current game state to a file in the application's data directory.
+   *
+   * This function is called when the user clicks the "save" button on the ingame menu.
+   * It serializes the game state to a JSON object and then saves it to a file named
+   * "savestate.json" in the application's data directory.
+   *
+   * @return {Promise<void>} A promise that resolves when the game is saved.
+   */
   private async saveGame(): Promise<void> {
     if (!this._game) return;
 
     try {
+      const saveStateHandler = new SaveStateHandler();
       const gameState = this._game;
-      const serializedData = SaveStateHandler.serialize(gameState);
-      const contents = JSON.stringify(serializedData, null, 2);
+      const preparedGameState = saveStateHandler.prepareForSave(gameState);
+      const contents = JSON.stringify(preparedGameState, null, 2);
 
       const file = await open('savestate.json', {
         write: true,
