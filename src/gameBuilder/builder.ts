@@ -1,8 +1,6 @@
 import { AISwitcher } from '../gameLogic/mobs/aiSwitcher';
-import { BuffCommand } from '../gameLogic/commands/buffCommand';
 import { Build } from '../types/gameBuilder/build';
 import { GameConfigType } from '../types/gameConfig/gameConfigType';
-import { EquipCommand } from '../gameLogic/commands/equipCommand';
 import { FindFreeSpace } from '../utilities/findFreeSpace';
 import { Game } from './gameModel';
 import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
@@ -19,25 +17,12 @@ import { MobAI } from '../types/gameLogic/mobs/mobAI';
 import { MoodAI } from '../gameLogic/mobs/moodAI';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
-import {
-  SerializedDungeonData,
-  SerializedGameMap,
-  SerializedGameState,
-  SerializedMapCellArray,
-  SerializedMapCell,
-  SerializedMobData,
-  SerializedItemData,
-  SerializedCorpseData,
-} from '../types/utilities/saveStateHandler';
+import { SerializedGameState } from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
-import { GameMap } from '../maps/mapModel/gameMap';
-import { TurnQueue } from '../gameLogic/turnQueue/turnQueue';
-import { MapCell } from '../maps/mapModel/mapCell';
-import { Corpse } from '../gameLogic/mobs/corpse';
-import { ActiveBuffs } from '../gameLogic/buffs/activeBuffs';
+import { SaveStateHandler } from '../utilities/saveStateHandler';
 
 /**
  * The builder for creating games, levels and mobs.
@@ -66,6 +51,7 @@ export class Builder implements Build {
   }
 
   public restoreGame(saveState: SerializedGameState): GameState {
+    const saveStateHandler = new SaveStateHandler();
     const rand = new RandomGenerator(saveState.serializedBuild.data.seed);
     const dungeonLevel = saveState.serializedDungeon.data.level;
 
@@ -74,14 +60,15 @@ export class Builder implements Build {
       saveState.serializedPlayer.data.pos.y,
     );
 
-    const player = this.restorePlayer(saveState);
+    const player = saveStateHandler.restorePlayer(saveState);
     const game = new Game(rand, player, this);
 
-    this.restoreDungeon(game, saveState.serializedDungeon.data);
-
-    this.restorePlayerBuffs(game, player, saveState);
-    this.restorePlayerInventory(game, saveState);
-    this.restorePlayerEquipment(game, saveState);
+    saveStateHandler.restoreDungeon(game, saveState.serializedDungeon.data);
+    saveStateHandler.restorePlayerBuffs(game, player, saveState);
+    saveStateHandler.restorePlayerInventory(game, saveState);
+    saveStateHandler.restorePlayerEquipment(game, saveState);
+    saveStateHandler.restoreStats(game, saveState);
+    saveStateHandler.restoreLog(game, saveState);
 
     this.enterSpecificLevelAtPos(game, dungeonLevel, playerPos);
     game.ai = this.makeAI();
@@ -526,213 +513,5 @@ export class Builder implements Build {
     /*     const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn);
     pistol.charges = 10;
     inv.add(pistol); */
-  }
-
-  private restoreDungeon(
-    game: Game,
-    serializedDungeon: SerializedDungeonData,
-  ): GameState {
-    this.setDungeonLevel(game, serializedDungeon.level);
-    this.restoreDungeonMaps(game, serializedDungeon.maps);
-    return game;
-  }
-
-  private setDungeonLevel(game: Game, level: number): void {
-    game.dungeon.level = level;
-  }
-
-  private restoreDungeonMaps(
-    game: Game,
-    dungeonMaps: SerializedGameMap[],
-  ): void {
-    game.dungeon.maps = dungeonMaps.map(map => this.restoreSingleMap(map));
-  }
-
-  private restoreSingleMap(map: SerializedGameMap): GameMap {
-    const restoredCells = this.restoreMapCells(map.cells);
-
-    const restoredMap = new GameMap(
-      new WorldPoint(map.dimensions.x, map.dimensions.y),
-      Glyph.Unknown,
-      map.level,
-      map.isDark,
-      [],
-      new WorldPoint(map.upStairPos?.x ?? 0, map.upStairPos?.y ?? 0),
-      new WorldPoint(map.downStairPos?.x ?? 0, map.downStairPos?.y ?? 0),
-      new TurnQueue(),
-    );
-
-    restoredMap.cells = restoredCells;
-
-    this.restoreMapQueue(restoredMap);
-
-    return restoredMap;
-  }
-
-  private restoreMapCells(cells: SerializedMapCellArray[]): MapCell[][] {
-    return cells.map(cellArray => this.restoreCellArray(cellArray));
-  }
-
-  private restoreCellArray(cellArray: SerializedMapCellArray): MapCell[] {
-    return cellArray.map(cell => this.restoreSingleCell(cell));
-  }
-
-  private restoreSingleCell(cell: SerializedMapCell): MapCell {
-    const newCell = new MapCell(cell.env);
-
-    newCell.mob = cell.mob ? this.restoreMob(cell.mob) : undefined;
-
-    newCell.lit = cell.lit;
-    newCell.obj = cell.obj ? this.restoreItemObject(cell.obj) : undefined;
-    newCell.sprite = cell.sprite ?? undefined;
-    newCell.environment = {
-      name: cell.environment?.name ?? '',
-      description: cell.environment?.description ?? '',
-      effects: cell.environment?.effects ?? [],
-    };
-
-    newCell.corpse = cell.corpse ? this.restoreCorpse(cell.corpse) : undefined;
-
-    return newCell;
-  }
-
-  private restoreMob(serializedMob: SerializedMobData): Mob {
-    const mob = new Mob(
-      serializedMob.glyph,
-      serializedMob.pos.x,
-      serializedMob.pos.y,
-    );
-
-    mob.id = serializedMob.id;
-    mob.name = serializedMob.name;
-    mob.description = serializedMob.description;
-    mob.hp = serializedMob.hp;
-    mob.maxhp = serializedMob.maxhp;
-    mob.mood = serializedMob.mood;
-    mob.level = serializedMob.level;
-    mob.sinceMove = serializedMob.sinceMove;
-    mob.isPlayer = serializedMob.isPlayer;
-    mob.buffs = new ActiveBuffs();
-
-    return mob;
-  }
-
-  private restoreItemObject(serializedItem: SerializedItemData): ItemObject {
-    return new ItemObject(
-      serializedItem.glyph,
-      serializedItem.slot,
-      serializedItem.spell,
-      serializedItem.level,
-      serializedItem.desc,
-      serializedItem.charges,
-    );
-  }
-
-  private restoreCorpse(serializedCorpse: SerializedCorpseData): Corpse {
-    const corpse = new Corpse(
-      serializedCorpse.glyph,
-      serializedCorpse.pos.x,
-      serializedCorpse.pos.y,
-    );
-
-    corpse.id = serializedCorpse.id;
-
-    return corpse;
-  }
-
-  private restoreMapQueue(map: GameMap): void {
-    const mapCells = map.cells;
-
-    mapCells.map(cellArray => {
-      cellArray.map(cell => {
-        if (cell.mob) {
-          map.queue.pushMob(cell.mob);
-        }
-      });
-    });
-  }
-
-  /**
-   * Restores the player's state from the given save state.
-   *
-   * @param {SerializedGameState} saveState - The save state to restore from.
-   * @return {Mob} The restored player mob.
-   */
-  private restorePlayer(saveState: SerializedGameState): Mob {
-    const playerPos = new WorldPoint(
-      saveState.serializedPlayer.data.pos.x,
-      saveState.serializedPlayer.data.pos.y,
-    );
-
-    const player = new Mob(Glyph.Player, playerPos.x, playerPos.y);
-    player.name = saveState.serializedPlayer.data.name;
-    player.hp = saveState.serializedPlayer.data.hp;
-    player.maxhp = saveState.serializedPlayer.data.maxhp;
-    player.level = saveState.serializedPlayer.data.level;
-    return player;
-  }
-
-  /**
-   * Restores the player's buffs from the given save state.
-   *
-   * @param {GameState} game - The game state.
-   * @param {Mob} player - The player mob.
-   * @param {SerializedGameState} saveState - The save state to restore from.
-   * @return {GameState} The updated game state.
-   */
-  private restorePlayerBuffs(
-    game: GameState,
-    player: Mob,
-    saveState: SerializedGameState,
-  ): GameState {
-    const buffs = saveState.serializedPlayerBuffs.data;
-    for (const buff of buffs) {
-      new BuffCommand(buff.buff, player, game, player, buff.duration).execute();
-    }
-    return game;
-  }
-
-  /**
-   * Restores the player's inventory from the given save state.
-   *
-   * @param {Inventory} inv - The inventory to restore items into.
-   * @param {SerializedGameState} saveState - The save state to restore from.
-   * @return {GameState} The updated game state.
-   */
-
-  private restorePlayerInventory(
-    game: GameState,
-    saveState: SerializedGameState,
-  ): GameState {
-    const inv = <Inventory>game.inventory;
-    const items = saveState.serializedInventory.data?.items;
-    if (items) {
-      for (const item of items) {
-        inv.add(new ItemObject(item.glyph, item.slot, item.spell));
-      }
-    }
-    return game;
-  }
-
-  /**
-   * Restores the player's equipment from the given save state.
-   *
-   * @param {GameState} game - The game state.
-   * @param {SerializedGameState} saveState - The save state to restore from.
-   * @return {GameState} The updated game state.
-   */
-  private restorePlayerEquipment(
-    game: GameState,
-    saveState: SerializedGameState,
-  ): GameState {
-    const items = saveState.serializedEquipment.data;
-
-    if (items) {
-      for (const item of items) {
-        const itm = new ItemObject(item[1].glyph, item[1].slot, item[1].spell);
-        new EquipCommand(itm, item[0] as number, game).execute();
-      }
-    }
-    return game;
   }
 }

@@ -3,12 +3,14 @@ import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
 import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { DynamicScreenMaker } from '../gameLogic/screens/dynamicScreenMaker';
 import { GlyphLoader } from '../loaders/glyphLoader';
+import { SerializedGameState } from '../types/utilities/saveStateHandler';
 
 export class GenerateTitleScreen {
   /**
    * Generates a title screen and inserts it at the start of the document.
    * The title screen will be passed the given seed.
    * The title screen will dispatch a 'start-new-game' event when the user chooses to start the game.
+   * The title screen will dispatch a 'load-game' event when the user chooses to load a saved game.
    * The title screen will dispatch a 'change-seed' event when the user chooses to change the seed.
    */
   public static async generate() {
@@ -45,13 +47,26 @@ export class GenerateTitleScreen {
       }
     });
 
+    // Add event listeners to load a saved game
     titleScreen.addEventListener('load-game', async () => {
       try {
         const file = await readTextFile('savestate.json', {
           baseDir: BaseDirectory.AppData,
         });
-        const jsonData = JSON.parse(file);
-        console.log(jsonData);
+        const saveState: SerializedGameState = JSON.parse(file);
+        const loadedSeed = saveState.serializedBuild.data.seed;
+        const loadedPlayer = saveState.playerConfig;
+        try {
+          titleContainer.remove();
+          await GlyphLoader.initializeGlyphs();
+          DynamicScreenMaker.runBuilt_RestoreGameSetup(
+            new Builder(loadedSeed, loadedPlayer),
+            loadedSeed,
+            saveState,
+          );
+        } catch (error) {
+          console.error('Error starting new game:', error);
+        }
       } catch (error) {
         console.error('Error opening file:', error);
       }
