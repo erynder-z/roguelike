@@ -1,11 +1,11 @@
 import { ask } from '@tauri-apps/plugin-dialog';
 import { BaseDirectory, writeTextFile, open } from '@tauri-apps/plugin-fs';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { exit } from '@tauri-apps/plugin-process';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { invoke } from '@tauri-apps/api/core';
 import { SaveStateHandler } from '../../utilities/saveStateHandler';
-import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
-import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 
 export class IngameMenu extends HTMLElement {
   private _game: GameState | null = null;

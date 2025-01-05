@@ -17,12 +17,12 @@ import { MobAI } from '../types/gameLogic/mobs/mobAI';
 import { MoodAI } from '../gameLogic/mobs/moodAI';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
+import { SaveStateHandler } from '../utilities/saveStateHandler';
 import { SerializedGameState } from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
-import { SaveStateHandler } from '../utilities/saveStateHandler';
 
 /**
  * The builder for creating games, levels and mobs.
