@@ -10,6 +10,7 @@ import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { ItemObject } from '../gameLogic/itemObjects/itemObject';
 import { Inventory } from '../gameLogic/inventory/inventory';
+import { LayoutManager } from '../ui/layoutManager/layoutManager';
 import { LogMessage } from '../gameLogic/messages/logMessage';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { Mob } from '../gameLogic/mobs/mob';
@@ -506,10 +507,13 @@ export class SaveStateHandler {
   public restoreLog(game: Game, saveState: SerializedGameState): void {
     const serializedLog = saveState.serializedLog.data;
     const log = game.log;
+    const layoutManager = new LayoutManager();
 
     serializedLog.archive.forEach(msg => {
       log.archive.push(new LogMessage(msg.message, msg.category));
     });
+    // redraw messages, so the messages do not get displayed as new messages.
+    layoutManager.redrawMessages(log);
   }
 
   /**
