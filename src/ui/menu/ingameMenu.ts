@@ -5,6 +5,7 @@ import { exit } from '@tauri-apps/plugin-process';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { invoke } from '@tauri-apps/api/core';
+import { PopupHandler } from '../../utilities/popupHandler';
 import { SaveStateHandler } from '../../utilities/saveStateHandler';
 
 export class IngameMenu extends HTMLElement {
@@ -306,8 +307,11 @@ export class IngameMenu extends HTMLElement {
       });
 
       await file.close();
+
+      PopupHandler.showGoodPopup('Game saved successfully.');
       console.log('Game saved successfully.');
     } catch (error) {
+      PopupHandler.showBadPopup('Error saving game.');
       console.error('Error saving game:', error);
     }
   }

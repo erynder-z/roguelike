@@ -11,6 +11,7 @@ import { ItemScreenDisplay } from '../ui/itemScreenDisplay/itemScreenDisplay';
 import { LogScreenDisplay } from '../ui/logScreenDisplay/logScreenDisplay';
 import { OptionsMenu } from '../ui/menu/optionsMenu';
 import { PlayerSetup } from '../ui/menu/playerSetup';
+import { PopupBoxGood } from '../ui/popup/popupBoxGood';
 import { PostMortem } from '../ui/postMortem/postMortem';
 import { SpellScreenDisplay } from '../ui/spellScreenDisplay/spellScreenDisplay';
 import { StatsDisplay } from '../ui/stats/statsDisplay';
@@ -39,3 +40,4 @@ customElements.define(
 );
 customElements.define('game-over-screen-display', GameOverScreenDisplay);
 customElements.define('post-mortem', PostMortem);
+customElements.define('popup-box-good', PopupBoxGood);

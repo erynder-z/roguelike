@@ -4,6 +4,7 @@ import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { DynamicScreenMaker } from '../gameLogic/screens/dynamicScreenMaker';
 import { GlyphLoader } from '../loaders/glyphLoader';
 import { SerializedGameState } from '../types/utilities/saveStateHandler';
+import { PopupHandler } from './popupHandler';
 
 export class GenerateTitleScreen {
   /**
@@ -64,11 +65,14 @@ export class GenerateTitleScreen {
             loadedSeed,
             saveState,
           );
+          PopupHandler.showGoodPopup('Game restored!');
         } catch (error) {
-          console.error('Error starting new game:', error);
+          console.error('Error restoring game:', error);
+          PopupHandler.showBadPopup('Error restoring game!');
         }
       } catch (error) {
         console.error('Error opening file:', error);
+        PopupHandler.showBadPopup('Error opening file!');
       }
     });
   }
