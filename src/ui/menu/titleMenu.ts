@@ -228,6 +228,9 @@ export class TitleMenu extends HTMLElement {
       case 'N':
         this.startNewGame();
         break;
+      case 'L':
+        this.loadGame();
+        break;
       case 'P':
         this.playerSetup();
         break;
