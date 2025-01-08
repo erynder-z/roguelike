@@ -1,5 +1,5 @@
 import { Builder } from '../gameBuilder/builder';
-import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
+import { BaseDirectory, readFile } from '@tauri-apps/plugin-fs';
 import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { DynamicScreenMaker } from '../gameLogic/screens/dynamicScreenMaker';
 import { GlyphLoader } from '../loaders/glyphLoader';
@@ -51,10 +51,11 @@ export class GenerateTitleScreen {
     // Add event listeners to load a saved game
     titleScreen.addEventListener('load-game', async () => {
       try {
-        const file = await readTextFile('savestate.json', {
+        const binaryData = await readFile('savestate.bin', {
           baseDir: BaseDirectory.AppData,
         });
-        const saveState: SerializedGameState = JSON.parse(file);
+        const jsonString = new TextDecoder().decode(binaryData);
+        const saveState: SerializedGameState = JSON.parse(jsonString);
         const loadedSeed = saveState.serializedBuild.data.seed;
         const loadedPlayer = saveState.playerConfig;
         try {

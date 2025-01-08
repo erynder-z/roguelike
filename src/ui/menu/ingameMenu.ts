@@ -1,5 +1,5 @@
 import { ask } from '@tauri-apps/plugin-dialog';
-import { BaseDirectory, writeTextFile, open } from '@tauri-apps/plugin-fs';
+import { BaseDirectory, writeFile } from '@tauri-apps/plugin-fs';
 import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { exit } from '@tauri-apps/plugin-process';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
@@ -287,10 +287,12 @@ export class IngameMenu extends HTMLElement {
    * Saves the current game state to a file in the application's data directory.
    *
    * This function is called when the user clicks the "save" button on the ingame menu.
-   * It serializes the game state to a JSON object and then saves it to a file named
-   * "savestate.json" in the application's data directory.
+   * It serializes the current game state to a JSON string, encodes the string as binary data,
+   * and then writes the data to a file named "savestate.bin" in the application's data directory.
+   * If the file does not exist, it is created with write permissions.
    *
-   * @return {Promise<void>} A promise that resolves when the game is saved.
+   * @return {Promise<void>} A promise that resolves when the game is saved successfully,
+   * or rejects if there is an error saving the game.
    */
   private async saveGame(): Promise<void> {
     if (!this._game) return;
@@ -299,19 +301,13 @@ export class IngameMenu extends HTMLElement {
       const saveStateHandler = new SaveStateHandler();
       const gameState = this._game;
       const preparedGameState = saveStateHandler.prepareForSave(gameState);
-      const contents = JSON.stringify(preparedGameState, null, 2);
 
-      const file = await open('savestate.json', {
-        write: true,
-        create: true,
+      const jsonString = JSON.stringify(preparedGameState);
+      const binaryData = new TextEncoder().encode(jsonString);
+
+      await writeFile('savestate.bin', binaryData, {
         baseDir: BaseDirectory.AppData,
       });
-
-      await writeTextFile('savestate.json', contents, {
-        baseDir: BaseDirectory.AppData,
-      });
-
-      await file.close();
 
       PopupHandler.showGoodPopup('Game saved successfully.');
       console.log('Game saved successfully.');
