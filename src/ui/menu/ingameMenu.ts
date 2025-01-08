@@ -97,6 +97,11 @@ export class IngameMenu extends HTMLElement {
           text-decoration: underline;
         }
 
+        .disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
         .buttons-container {
           display: flex;
           flex-direction: column;
@@ -310,10 +315,24 @@ export class IngameMenu extends HTMLElement {
 
       PopupHandler.showGoodPopup('Game saved successfully.');
       console.log('Game saved successfully.');
+
+      this.disableSaveButton();
     } catch (error) {
       PopupHandler.showBadPopup('Error saving game.');
       console.error('Error saving game:', error);
     }
+  }
+
+  /**
+   * Disables the save game button.
+   *
+   * This function is called after a successful save to prevent the user from saving
+   * multiple times in a row.
+   */
+  private disableSaveButton(): void {
+    const saveButton = this.shadowRoot?.getElementById('save-game-button');
+    saveButton?.setAttribute('disabled', 'true');
+    saveButton?.classList.add('disabled');
   }
 
   /**
