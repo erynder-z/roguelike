@@ -9,9 +9,9 @@ import { PopupHandler } from '../../utilities/popupHandler';
 import { SaveStateHandler } from '../../utilities/saveStateHandler';
 
 export class IngameMenu extends HTMLElement {
-  private _game: GameState | null = null;
-  private _isRendered = false;
-  private _shouldDisableSaveKeyboardShortcut = false;
+  private game: GameState | null = null;
+  private isRendered = false;
+  private shouldDisableSaveKeyboardShortcut = false;
 
   private gameConfig = gameConfigManager.getConfig();
   private currentScheme = this.gameConfig.control_scheme || 'default';
@@ -19,19 +19,19 @@ export class IngameMenu extends HTMLElement {
   public activeControlScheme: Record<string, string[]>;
 
   set currentGame(value: GameState | null) {
-    this._game = value;
+    this.game = value;
   }
 
   get currentGame(): GameState | null {
-    return this._game;
+    return this.game;
   }
 
-  set isRendered(value: boolean) {
-    this._isRendered = value;
+  set rendered(value: boolean) {
+    this.isRendered = value;
   }
 
-  get isRendered(): boolean {
-    return this._isRendered;
+  get rendered(): boolean {
+    return this.isRendered;
   }
 
   constructor() {
@@ -141,9 +141,9 @@ export class IngameMenu extends HTMLElement {
 
     this.bindEvents();
 
-    // use animation frame to ensure isRendered is set to true only after the element is fully rendered
+    // use animation frame to ensure rendered is set to true only after the element is fully rendered
     requestAnimationFrame(() => {
-      this.isRendered = true;
+      this.rendered = true;
     });
   }
 
@@ -230,7 +230,7 @@ export class IngameMenu extends HTMLElement {
    */
   private handleKeyPress(event: KeyboardEvent): void {
     // Prevent keyboard events before the element is fully rendered. In particular, this prevents the initial {menu} keypress to close the menu the moment it's being rendered.
-    if (!this.isRendered) return;
+    if (!this.rendered) return;
 
     switch (event.key) {
       case this.activeControlScheme.menu.toString():
@@ -244,7 +244,7 @@ export class IngameMenu extends HTMLElement {
         this.showHelp();
         break;
       case 'S':
-        if (!this._shouldDisableSaveKeyboardShortcut) this.saveGame();
+        if (!this.shouldDisableSaveKeyboardShortcut) this.saveGame();
         break;
       case 't':
         this.returnToTitle();
@@ -296,11 +296,11 @@ export class IngameMenu extends HTMLElement {
    * or rejects if there is an error saving the game.
    */
   private async saveGame(): Promise<void> {
-    if (!this._game) return;
+    if (!this.game) return;
 
     try {
       const saveStateHandler = new SaveStateHandler();
-      const gameState = this._game;
+      const gameState = this.game;
       const preparedGameState = saveStateHandler.prepareForSave(gameState);
 
       const jsonString = JSON.stringify(preparedGameState);
@@ -339,7 +339,7 @@ export class IngameMenu extends HTMLElement {
    * multiple times in a row.
    */
   private disableSaveKeyboardShortcut(): void {
-    this._shouldDisableSaveKeyboardShortcut = true;
+    this.shouldDisableSaveKeyboardShortcut = true;
   }
 
   /**

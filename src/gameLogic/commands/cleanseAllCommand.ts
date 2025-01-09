@@ -22,7 +22,8 @@ export class CleanseAllCommand extends CommandBase {
   public execute(): boolean {
     const { me, game } = this;
 
-    me.buffs._map.clear();
+    const buffsMap = me.buffs.getBuffsMap();
+    buffsMap.clear();
 
     const msg = new LogMessage(`Cleansed all buffs!`, EventCategory.heal);
 
