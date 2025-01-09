@@ -1,4 +1,5 @@
 import { ask } from '@tauri-apps/plugin-dialog';
+import { BaseDirectory, readFile } from '@tauri-apps/plugin-fs';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { exit } from '@tauri-apps/plugin-process';
@@ -87,6 +88,11 @@ export class TitleMenu extends HTMLElement {
         padding: 0 1rem;
         font-size: 1.5rem;
       }
+
+       button[disabled] {
+          opacity: 0.5;
+          cursor: not-allowed;
+      }
     </style>
 
     <div class="container">
@@ -95,7 +101,7 @@ export class TitleMenu extends HTMLElement {
         <button id="new-game-button">
           <span class="underline">N</span>ew game
         </button>
-        <button id="load-game-button">
+        <button id="load-game-button" disabled>
           <span class="underline">L</span>oad game
         </button>
         <button id="player-setup-button">
@@ -124,6 +130,7 @@ export class TitleMenu extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.displayCurrentSeed(this.gameConfig.seed);
+    this.checkForSaveState();
 
     this.bindEvents();
   }
@@ -264,6 +271,39 @@ export class TitleMenu extends HTMLElement {
     if (seedDisplay) seedDisplay.innerHTML = `Current seed: ${seed}`;
   }
 
+/**
+ * Checks for the existence of a saved game state file.
+ *
+ * This function attempts to read the 'savestate.bin' file from the application's
+ * data directory. If the file is found and contains data, it enables the load game button.
+ * Logs an error message to the console if there is an issue accessing the file.
+ *
+ * @return {Promise<void>} A promise that resolves when the check is completed.
+ */
+
+  private async checkForSaveState(): Promise<void> {
+    try {
+      const binaryData = await readFile('savestate.bin', {
+        baseDir: BaseDirectory.AppData,
+      });
+      if (binaryData) this.enableLoadGameButton();
+    } catch (error) {
+      console.error('Error checking for saved game:', error);
+    }
+  }
+
+/**
+ * Enables the load game button.
+ *
+ * This function removes the 'disabled' attribute from the load game button,
+ * allowing the user to load a saved game. It is typically called after
+ * confirming the presence of a saved game state.
+ */
+
+  private enableLoadGameButton(): void {
+    const loadGameButton = this.shadowRoot?.getElementById('load-game-button');
+    if (loadGameButton) loadGameButton.removeAttribute('disabled');
+  }
   /**
    * Dispatches a 'start-new-game' event.
    *

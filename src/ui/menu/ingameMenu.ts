@@ -97,7 +97,7 @@ export class IngameMenu extends HTMLElement {
           text-decoration: underline;
         }
 
-        .disabled {
+        button[disabled] {
           opacity: 0.5;
           cursor: not-allowed;
         }
@@ -328,7 +328,6 @@ export class IngameMenu extends HTMLElement {
   private disableSaveButton(): void {
     const saveButton = this.shadowRoot?.getElementById('save-game-button');
     saveButton?.setAttribute('disabled', 'true');
-    saveButton?.classList.add('disabled');
   }
 
   /**
