@@ -11,6 +11,7 @@ import { SaveStateHandler } from '../../utilities/saveStateHandler';
 export class IngameMenu extends HTMLElement {
   private _game: GameState | null = null;
   private _isRendered = false;
+  private _shouldDisableSaveKeyboardShortcut = false;
 
   private gameConfig = gameConfigManager.getConfig();
   private currentScheme = this.gameConfig.control_scheme || 'default';
@@ -243,7 +244,7 @@ export class IngameMenu extends HTMLElement {
         this.showHelp();
         break;
       case 'S':
-        this.saveGame();
+        if (!this._shouldDisableSaveKeyboardShortcut) this.saveGame();
         break;
       case 't':
         this.returnToTitle();
@@ -313,6 +314,7 @@ export class IngameMenu extends HTMLElement {
       console.log('Game saved successfully.');
 
       this.disableSaveButton();
+      this.disableSaveKeyboardShortcut();
     } catch (error) {
       PopupHandler.showBadPopup('Error saving game.');
       console.error('Error saving game:', error);
@@ -328,6 +330,16 @@ export class IngameMenu extends HTMLElement {
   private disableSaveButton(): void {
     const saveButton = this.shadowRoot?.getElementById('save-game-button');
     saveButton?.setAttribute('disabled', 'true');
+  }
+
+  /**
+   * Disables the save game keyboard shortcut.
+   *
+   * This function is called after a successful save to prevent the user from saving
+   * multiple times in a row.
+   */
+  private disableSaveKeyboardShortcut(): void {
+    this._shouldDisableSaveKeyboardShortcut = true;
   }
 
   /**
