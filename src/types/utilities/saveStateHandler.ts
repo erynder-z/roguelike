@@ -151,6 +151,7 @@ export type SerializedPlayerData = {
 export type SerializedBuffData = {
   buff: number;
   duration: number;
+  timeLeft: number;
 };
 
 export type SerializedGameMap = {

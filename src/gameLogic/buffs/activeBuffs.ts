@@ -29,9 +29,8 @@ export class ActiveBuffs {
 
     this.map.set(buff, buffType);
 
-    if (this.shouldDisplayBuffMessage(alreadyHasBuff, game, mob)) {
+    if (this.shouldDisplayBuffMessage(alreadyHasBuff, game, mob))
       this.displayBuffMessage(buff, game, mob);
-    }
   }
 
   /**

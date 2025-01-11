@@ -63,12 +63,16 @@ export class Builder implements Build {
     const player = saveStateHandler.restorePlayer(saveState);
     const game = new Game(rand, player, this);
 
-    saveStateHandler.restoreDungeon(game, saveState.serializedDungeon.data);
     saveStateHandler.restorePlayerBuffs(game, player, saveState);
     saveStateHandler.restorePlayerInventory(game, saveState);
     saveStateHandler.restorePlayerEquipment(game, saveState);
     saveStateHandler.restoreStats(game, saveState);
     saveStateHandler.restoreLog(game, saveState);
+    saveStateHandler.restoreDungeon(
+      game,
+      saveState.serializedDungeon.data,
+      player,
+    );
 
     this.enterSpecificLevelAtPos(game, dungeonLevel, playerPos);
     game.ai = this.makeAI();
