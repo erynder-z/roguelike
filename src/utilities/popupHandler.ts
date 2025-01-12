@@ -6,16 +6,10 @@ import { PopupBoxGood } from '../ui/popup/popupBoxGood';
  */
 export class PopupHandler {
   /**
-   * Displays a good popup message to the user.
-   *
-   * @param {string} msg - The message to display in the popup.
-   * @returns {void}
-   *
-   * The popup is created as an instance of `PopupBoxGood` and appended
-   * to the element with the ID 'body-main'. If the body element is not found,
-   * an error is logged. The popup is ensured to be the first child of the body.
+   * Displays a popup box with a green background color and the given message.
+   * The popup will be automatically closed after a few seconds.
+   * @param {string} msg - The message to be displayed in the popup.
    */
-
   public static showGoodPopup(msg: string): void {
     const body = document.getElementById('body-main');
     if (!body) {
@@ -27,24 +21,12 @@ export class PopupHandler {
 
     body.appendChild(popup);
     popup.showMessage(msg);
-
-    // Ensure the titleContainer is the first child of the body
-    if (body.firstChild) {
-      body.insertBefore(popup, body.firstChild);
-    } else {
-      body.appendChild(popup);
-    }
   }
 
   /**
-   * Displays a bad popup message to the user.
-   *
-   * @param {string} msg - The message to display in the popup.
-   * @returns {void}
-   *
-   * The popup is created as an instance of `PopupBoxBad` and appended
-   * to the element with the ID 'body-main'. If the body element is not found,
-   * an error is logged. The popup is ensured to be the first child of the body.
+   * Displays a popup box with a red background color and the given message.
+   * The popup will be automatically closed after a few seconds.
+   * @param {string} msg - The message to be displayed in the popup.
    */
   public static showBadPopup(msg: string): void {
     const body = document.getElementById('body-main');
@@ -57,12 +39,5 @@ export class PopupHandler {
 
     body.appendChild(popup);
     popup.showMessage(msg);
-
-    // Ensure the titleContainer is the first child of the body
-    if (body.firstChild) {
-      body.insertBefore(popup, body.firstChild);
-    } else {
-      body.appendChild(popup);
-    }
   }
 }
