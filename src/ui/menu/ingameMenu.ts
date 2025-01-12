@@ -6,7 +6,7 @@ import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { invoke } from '@tauri-apps/api/core';
 import { PopupHandler } from '../../utilities/popupHandler';
-import { SaveStateHandler } from '../../utilities/saveStateHandlerTemp';
+import { SaveStateHandler } from '../../utilities/saveStateHandler';
 
 export class IngameMenu extends HTMLElement {
   private game: GameState | null = null;
