@@ -11,7 +11,11 @@ import { MobMessagesHandler } from '../../utilities/mobMessagesHandler';
  * Handles managing buffs on a mob.
  */
 export class ActiveBuffs {
-  _map: Map<Buff, BuffType> = new Map();
+  private map: Map<Buff, BuffType> = new Map();
+
+  public getBuffsMap(): Map<Buff, BuffType> {
+    return this.map;
+  }
 
   /**
    * Adds a buff to the collection of active buffs for a given mob.
@@ -21,13 +25,12 @@ export class ActiveBuffs {
    */
   public add(buffType: BuffType, game: GameState, mob: Mob): void {
     const buff = buffType.buff;
-    const alreadyHasBuff = this._map.has(buff);
+    const alreadyHasBuff = this.map.has(buff);
 
-    this._map.set(buff, buffType);
+    this.map.set(buff, buffType);
 
-    if (this.shouldDisplayBuffMessage(alreadyHasBuff, game, mob)) {
+    if (this.shouldDisplayBuffMessage(alreadyHasBuff, game, mob))
       this.displayBuffMessage(buff, game, mob);
-    }
   }
 
   /**
@@ -37,7 +40,7 @@ export class ActiveBuffs {
    * @param {Mob} mob - The mob to remove the buff from.
    */
   public remove(b: BuffType, game: GameState, mob: Mob): void {
-    this._map.delete(b.buff);
+    this.map.delete(b.buff);
     const buffAdj = GrammarHandler.BuffToAdjective(b.buff) || b.buff;
     const msg = new LogMessage(
       `You are no longer ${buffAdj}!`,
@@ -52,7 +55,7 @@ export class ActiveBuffs {
    * @returns {boolean} - True if the buff is active, false otherwise.
    */
   public is(buff: Buff): boolean {
-    return this._map.has(buff);
+    return this.map.has(buff);
   }
 
   /**
@@ -61,7 +64,7 @@ export class ActiveBuffs {
    * @returns {BuffType | undefined} - The information of the buff if active, otherwise undefined.
    */
   public get(buff: Buff): BuffType | undefined {
-    return this._map.get(buff);
+    return this.map.get(buff);
   }
 
   /**
@@ -81,7 +84,7 @@ export class ActiveBuffs {
    * @param {Game} game - The game object.
    */
   public ticks(mob: Mob, game: GameState): void {
-    for (const b of this._map.values()) {
+    for (const b of this.map.values()) {
       --b.timeLeft;
       if (b.effect) b.effect.tick(b.duration, b.timeLeft);
       if (b.timeLeft <= 0) this.remove(b, game, mob);

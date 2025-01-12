@@ -1,10 +1,12 @@
 import { ask } from '@tauri-apps/plugin-dialog';
+import { BaseDirectory, readFile } from '@tauri-apps/plugin-fs';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
 
 export class TitleMenu extends HTMLElement {
+  private shouldEnableLoadGameKeyboardShortcuts: boolean = true;
   private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
@@ -87,6 +89,11 @@ export class TitleMenu extends HTMLElement {
         padding: 0 1rem;
         font-size: 1.5rem;
       }
+
+       button[disabled] {
+          opacity: 0.5;
+          cursor: not-allowed;
+      }
     </style>
 
     <div class="container">
@@ -95,7 +102,7 @@ export class TitleMenu extends HTMLElement {
         <button id="new-game-button">
           <span class="underline">N</span>ew game
         </button>
-        <button id="load-game-button">
+        <button id="load-game-button" disabled>
           <span class="underline">L</span>oad game
         </button>
         <button id="player-setup-button">
@@ -124,6 +131,7 @@ export class TitleMenu extends HTMLElement {
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
     this.displayCurrentSeed(this.gameConfig.seed);
+    this.checkForSaveState();
 
     this.bindEvents();
   }
@@ -228,6 +236,9 @@ export class TitleMenu extends HTMLElement {
       case 'N':
         this.startNewGame();
         break;
+      case 'L':
+        if (this.shouldEnableLoadGameKeyboardShortcuts) this.loadGame();
+        break;
       case 'P':
         this.playerSetup();
         break;
@@ -259,6 +270,54 @@ export class TitleMenu extends HTMLElement {
       'current-seed-display',
     ) as HTMLDivElement;
     if (seedDisplay) seedDisplay.innerHTML = `Current seed: ${seed}`;
+  }
+
+  /**
+   * Checks for the existence of a saved game state file.
+   *
+   * This function attempts to read the 'savestate.bin' file from the application's
+   * data directory. If the file is found and contains data, it enables the load game button.
+   * Logs an error message to the console if there is an issue accessing the file.
+   *
+   * @return {Promise<void>} A promise that resolves when the check is completed.
+   */
+
+  private async checkForSaveState(): Promise<void> {
+    try {
+      const binaryData = await readFile('savestate.bin', {
+        baseDir: BaseDirectory.AppData,
+      });
+      if (binaryData) {
+        this.enableLoadGameButton();
+        this.enableLoadGameKeyboardShortcut();
+      }
+    } catch (error) {
+      console.error('Error checking for saved game:', error);
+    }
+  }
+
+  /**
+   * Enables the load game button.
+   *
+   * This function removes the 'disabled' attribute from the load game button,
+   * allowing the user to load a saved game. It is typically called after
+   * confirming the presence of a saved game state.
+   */
+
+  private enableLoadGameButton(): void {
+    const loadGameButton = this.shadowRoot?.getElementById('load-game-button');
+    if (loadGameButton) loadGameButton.removeAttribute('disabled');
+  }
+
+  /**
+   * Enables the load game keyboard shortcut.
+   *
+   * Sets the flag to allow keyboard shortcuts for loading a game. This function
+   * is typically called after confirming the presence of a saved game state.
+   */
+
+  private enableLoadGameKeyboardShortcut(): void {
+    this.shouldEnableLoadGameKeyboardShortcuts = true;
   }
 
   /**

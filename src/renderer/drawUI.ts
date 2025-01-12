@@ -129,7 +129,7 @@ export class DrawUI {
    */
   private static renderBuffs(game: GameState): void {
     const playerBuffs = game.player.buffs;
-    const buffMap = playerBuffs._map;
+    const buffMap = playerBuffs.getBuffsMap();
 
     const buffsDisplay = document.querySelector(
       'buffs-display',

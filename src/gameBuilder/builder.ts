@@ -17,12 +17,12 @@ import { MobAI } from '../types/gameLogic/mobs/mobAI';
 import { MoodAI } from '../gameLogic/mobs/moodAI';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
+import { SaveStateHandler } from '../utilities/saveStateHandler';
 import { SerializedGameState } from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
-import { SaveStateHandler } from '../utilities/saveStateHandler';
 
 /**
  * The builder for creating games, levels and mobs.
@@ -62,8 +62,7 @@ export class Builder implements Build {
 
     const player = saveStateHandler.restorePlayer(saveState);
     const game = new Game(rand, player, this);
-
-    saveStateHandler.restoreDungeon(game, saveState.serializedDungeon.data);
+    // Mind the order of these calls. The wrong order may cause issues.
     saveStateHandler.restorePlayerBuffs(game, player, saveState);
     saveStateHandler.restorePlayerInventory(game, saveState);
     saveStateHandler.restorePlayerEquipment(game, saveState);
@@ -71,6 +70,13 @@ export class Builder implements Build {
     saveStateHandler.restoreLog(game, saveState);
 
     this.enterSpecificLevelAtPos(game, dungeonLevel, playerPos);
+
+    saveStateHandler.restoreDungeon(
+      game,
+      saveState.serializedDungeon.data,
+      player,
+    );
+
     game.ai = this.makeAI();
 
     return game;

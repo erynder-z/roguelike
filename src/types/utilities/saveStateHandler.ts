@@ -151,6 +151,7 @@ export type SerializedPlayerData = {
 export type SerializedBuffData = {
   buff: number;
   duration: number;
+  timeLeft: number;
 };
 
 export type SerializedGameMap = {
@@ -160,7 +161,7 @@ export type SerializedGameMap = {
   isDark: boolean;
   upStairPos?: SerializedWorldPoint;
   downStairPos?: SerializedWorldPoint;
-  queue: string;
+  queue: SerializedMapQueue;
 };
 
 export type SerializedMapCellArray = SerializedMapCell[];
@@ -177,6 +178,10 @@ export type SerializedMapCell = {
     description: string;
     effects: number[];
   };
+};
+
+export type SerializedMapQueue = {
+  mobs: SerializedMobData[];
 };
 
 export type SerializedBuild = {

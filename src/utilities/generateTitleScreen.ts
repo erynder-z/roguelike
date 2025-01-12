@@ -1,9 +1,10 @@
 import { Builder } from '../gameBuilder/builder';
-import { BaseDirectory, readTextFile } from '@tauri-apps/plugin-fs';
+import { BaseDirectory, readFile } from '@tauri-apps/plugin-fs';
 import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { DynamicScreenMaker } from '../gameLogic/screens/dynamicScreenMaker';
 import { GlyphLoader } from '../loaders/glyphLoader';
 import { SerializedGameState } from '../types/utilities/saveStateHandler';
+import { PopupHandler } from './popupHandler';
 
 export class GenerateTitleScreen {
   /**
@@ -50,10 +51,11 @@ export class GenerateTitleScreen {
     // Add event listeners to load a saved game
     titleScreen.addEventListener('load-game', async () => {
       try {
-        const file = await readTextFile('savestate.json', {
+        const binaryData = await readFile('savestate.bin', {
           baseDir: BaseDirectory.AppData,
         });
-        const saveState: SerializedGameState = JSON.parse(file);
+        const jsonString = new TextDecoder().decode(binaryData);
+        const saveState: SerializedGameState = JSON.parse(jsonString);
         const loadedSeed = saveState.serializedBuild.data.seed;
         const loadedPlayer = saveState.playerConfig;
         try {
@@ -64,11 +66,14 @@ export class GenerateTitleScreen {
             loadedSeed,
             saveState,
           );
+          PopupHandler.showGoodPopup('Game restored!');
         } catch (error) {
-          console.error('Error starting new game:', error);
+          console.error('Error restoring game:', error);
+          PopupHandler.showBadPopup('Error restoring game!');
         }
       } catch (error) {
         console.error('Error opening file:', error);
+        PopupHandler.showBadPopup('Error opening file!');
       }
     });
   }

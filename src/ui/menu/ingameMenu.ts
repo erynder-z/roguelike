@@ -1,15 +1,17 @@
 import { ask } from '@tauri-apps/plugin-dialog';
-import { BaseDirectory, writeTextFile, open } from '@tauri-apps/plugin-fs';
+import { BaseDirectory, writeFile } from '@tauri-apps/plugin-fs';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { exit } from '@tauri-apps/plugin-process';
+import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { invoke } from '@tauri-apps/api/core';
+import { PopupHandler } from '../../utilities/popupHandler';
 import { SaveStateHandler } from '../../utilities/saveStateHandler';
-import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
-import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 
 export class IngameMenu extends HTMLElement {
-  private _game: GameState | null = null;
-  private _isRendered = false;
+  private game: GameState | null = null;
+  private isRendered = false;
+  private shouldDisableSaveKeyboardShortcut = false;
 
   private gameConfig = gameConfigManager.getConfig();
   private currentScheme = this.gameConfig.control_scheme || 'default';
@@ -17,19 +19,19 @@ export class IngameMenu extends HTMLElement {
   public activeControlScheme: Record<string, string[]>;
 
   set currentGame(value: GameState | null) {
-    this._game = value;
+    this.game = value;
   }
 
   get currentGame(): GameState | null {
-    return this._game;
+    return this.game;
   }
 
-  set isRendered(value: boolean) {
-    this._isRendered = value;
+  set rendered(value: boolean) {
+    this.isRendered = value;
   }
 
-  get isRendered(): boolean {
-    return this._isRendered;
+  get rendered(): boolean {
+    return this.isRendered;
   }
 
   constructor() {
@@ -96,6 +98,11 @@ export class IngameMenu extends HTMLElement {
           text-decoration: underline;
         }
 
+        button[disabled] {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
         .buttons-container {
           display: flex;
           flex-direction: column;
@@ -134,9 +141,9 @@ export class IngameMenu extends HTMLElement {
 
     this.bindEvents();
 
-    // use animation frame to ensure isRendered is set to true only after the element is fully rendered
+    // use animation frame to ensure rendered is set to true only after the element is fully rendered
     requestAnimationFrame(() => {
-      this.isRendered = true;
+      this.rendered = true;
     });
   }
 
@@ -223,7 +230,7 @@ export class IngameMenu extends HTMLElement {
    */
   private handleKeyPress(event: KeyboardEvent): void {
     // Prevent keyboard events before the element is fully rendered. In particular, this prevents the initial {menu} keypress to close the menu the moment it's being rendered.
-    if (!this.isRendered) return;
+    if (!this.rendered) return;
 
     switch (event.key) {
       case this.activeControlScheme.menu.toString():
@@ -237,7 +244,7 @@ export class IngameMenu extends HTMLElement {
         this.showHelp();
         break;
       case 'S':
-        this.saveGame();
+        if (!this.shouldDisableSaveKeyboardShortcut) this.saveGame();
         break;
       case 't':
         this.returnToTitle();
@@ -281,35 +288,58 @@ export class IngameMenu extends HTMLElement {
    * Saves the current game state to a file in the application's data directory.
    *
    * This function is called when the user clicks the "save" button on the ingame menu.
-   * It serializes the game state to a JSON object and then saves it to a file named
-   * "savestate.json" in the application's data directory.
+   * It serializes the current game state to a JSON string, encodes the string as binary data,
+   * and then writes the data to a file named "savestate.bin" in the application's data directory.
+   * If the file does not exist, it is created with write permissions.
    *
-   * @return {Promise<void>} A promise that resolves when the game is saved.
+   * @return {Promise<void>} A promise that resolves when the game is saved successfully,
+   * or rejects if there is an error saving the game.
    */
   private async saveGame(): Promise<void> {
-    if (!this._game) return;
+    if (!this.game) return;
 
     try {
       const saveStateHandler = new SaveStateHandler();
-      const gameState = this._game;
+      const gameState = this.game;
       const preparedGameState = saveStateHandler.prepareForSave(gameState);
-      const contents = JSON.stringify(preparedGameState, null, 2);
 
-      const file = await open('savestate.json', {
-        write: true,
-        create: true,
+      const jsonString = JSON.stringify(preparedGameState);
+      const binaryData = new TextEncoder().encode(jsonString);
+
+      await writeFile('savestate.bin', binaryData, {
         baseDir: BaseDirectory.AppData,
       });
 
-      await writeTextFile('savestate.json', contents, {
-        baseDir: BaseDirectory.AppData,
-      });
-
-      await file.close();
+      PopupHandler.showGoodPopup('Game saved successfully.');
       console.log('Game saved successfully.');
+
+      this.disableSaveButton();
+      this.disableSaveKeyboardShortcut();
     } catch (error) {
+      PopupHandler.showBadPopup('Error saving game.');
       console.error('Error saving game:', error);
     }
+  }
+
+  /**
+   * Disables the save game button.
+   *
+   * This function is called after a successful save to prevent the user from saving
+   * multiple times in a row.
+   */
+  private disableSaveButton(): void {
+    const saveButton = this.shadowRoot?.getElementById('save-game-button');
+    saveButton?.setAttribute('disabled', 'true');
+  }
+
+  /**
+   * Disables the save game keyboard shortcut.
+   *
+   * This function is called after a successful save to prevent the user from saving
+   * multiple times in a row.
+   */
+  private disableSaveKeyboardShortcut(): void {
+    this.shouldDisableSaveKeyboardShortcut = true;
   }
 
   /**

@@ -50,6 +50,14 @@ export class ColorLoader {
         '--popupBackground',
         colors.root['--popupBackground'],
       );
+      root.style.setProperty(
+        '--popupBackgroundGood',
+        colors.root['--popupBackgroundGood'],
+      );
+      root.style.setProperty(
+        '--popupBackgroundBad',
+        colors.root['--popupBackgroundBad'],
+      );
 
       resolve();
     });

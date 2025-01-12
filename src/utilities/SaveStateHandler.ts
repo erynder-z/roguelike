@@ -10,6 +10,7 @@ import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { ItemObject } from '../gameLogic/itemObjects/itemObject';
 import { Inventory } from '../gameLogic/inventory/inventory';
+import { LayoutManager } from '../ui/layoutManager/layoutManager';
 import { LogMessage } from '../gameLogic/messages/logMessage';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { Mob } from '../gameLogic/mobs/mob';
@@ -22,6 +23,7 @@ import {
   SerializedItemData,
   SerializedMapCell,
   SerializedMapCellArray,
+  SerializedMapQueue,
   SerializedMobData,
 } from '../types/utilities/saveStateHandler';
 import { TurnQueue } from '../gameLogic/turnQueue/turnQueue';
@@ -202,13 +204,14 @@ export class SaveStateHandler {
   private getPlayerBuffsData(
     player: GameState['player'],
   ): ReadyToSaveGameState['serializedPlayerBuffs'] {
-    const buffsArray: { buff: Buff; duration: number }[] = [];
-    const playerBuffs = player.buffs._map;
+    const buffsArray: { buff: Buff; duration: number; timeLeft: number }[] = [];
+    const playerBuffs = player.buffs.getBuffsMap();
 
     playerBuffs.forEach((value, key) => {
       buffsArray.push({
         buff: key,
         duration: value.duration,
+        timeLeft: value.timeLeft,
       });
     });
 
@@ -236,14 +239,16 @@ export class SaveStateHandler {
    * Restores the dungeon state from the serialized data.
    * @param {Game} game - The current game instance to which the dungeon state will be restored.
    * @param {SerializedDungeonData} serializedDungeon - The serialized data containing the dungeon level and maps.
+   * @param {Mob} player - The player mob.
    * @returns {GameState} - The game state after restoring the dungeon.
    */
   public restoreDungeon(
     game: Game,
     serializedDungeon: SerializedDungeonData,
+    player: Mob,
   ): GameState {
     this.setDungeonLevel(game, serializedDungeon.level);
-    this.restoreDungeonMaps(game, serializedDungeon.maps);
+    this.restoreDungeonMaps(game, serializedDungeon.maps, player);
     return game;
   }
 
@@ -260,21 +265,26 @@ export class SaveStateHandler {
    * Restores the dungeon maps from serialized data.
    * @param {Game} game - The current game instance where maps will be restored.
    * @param {SerializedGameMap[]} dungeonMaps - The serialized map data to restore.
+   * @param {Mob} player - The player mob.
    * @returns {void}
    */
   private restoreDungeonMaps(
     game: Game,
     dungeonMaps: SerializedGameMap[],
+    player: Mob,
   ): void {
-    game.dungeon.maps = dungeonMaps.map(map => this.restoreSingleMap(map));
+    game.dungeon.maps = dungeonMaps.map(map =>
+      this.restoreSingleMap(map, player),
+    );
   }
 
   /**
    * Restores a single map from the serialized data.
    * @param {SerializedGameMap} map - The serialized map data to restore.
+   * @param {Mob} player - The player mob.
    * @returns {GameMap} - The restored map.
    */
-  private restoreSingleMap(map: SerializedGameMap): GameMap {
+  private restoreSingleMap(map: SerializedGameMap, player: Mob): GameMap {
     const restoredCells = this.restoreMapCells(map.cells);
 
     const restoredMap = new GameMap(
@@ -290,7 +300,8 @@ export class SaveStateHandler {
 
     restoredMap.cells = restoredCells;
 
-    this.restoreMapQueue(restoredMap);
+    const serializedQueue = map.queue;
+    restoredMap.queue = this.restoreMapQueue(serializedQueue, player);
 
     return restoredMap;
   }
@@ -396,19 +407,22 @@ export class SaveStateHandler {
   }
 
   /**
-   * Restores the mob queue for the given map.
-   * @param {GameMap} map - The map to restore the mob queue for.
+   * Restores the turn queue of a map from the given serialized data.
+   * @param {SerializedMapQueue} serializedQueue - The serialized queue data to restore.
+   * @param {Mob} player - The player mob.
+   * @returns {TurnQueue} - The restored turn queue.
    */
-  private restoreMapQueue(map: GameMap): void {
-    const mapCells = map.cells;
-
-    mapCells.map(cellArray => {
-      cellArray.map(cell => {
-        if (cell.mob) {
-          map.queue.pushMob(cell.mob);
-        }
-      });
+  private restoreMapQueue(
+    serializedQueue: SerializedMapQueue,
+    player: Mob,
+  ): TurnQueue {
+    const newQueue = new TurnQueue();
+    serializedQueue.mobs.map(mob => {
+      const mobToPush = mob.isPlayer ? player : this.restoreMob(mob);
+      newQueue.pushMob(mobToPush);
     });
+
+    return newQueue;
   }
 
   /**
@@ -445,8 +459,16 @@ export class SaveStateHandler {
     saveState: SerializedGameState,
   ): GameState {
     const buffs = saveState.serializedPlayerBuffs.data;
+
     for (const buff of buffs) {
-      new BuffCommand(buff.buff, player, game, player, buff.duration).execute();
+      new BuffCommand(
+        buff.buff,
+        player,
+        game,
+        player,
+        buff.duration,
+        buff.timeLeft,
+      ).execute();
     }
     return game;
   }
@@ -506,10 +528,13 @@ export class SaveStateHandler {
   public restoreLog(game: Game, saveState: SerializedGameState): void {
     const serializedLog = saveState.serializedLog.data;
     const log = game.log;
+    const layoutManager = new LayoutManager();
 
     serializedLog.archive.forEach(msg => {
       log.archive.push(new LogMessage(msg.message, msg.category));
     });
+    // redraw messages, so the messages do not get displayed as new messages.
+    layoutManager.redrawMessages(log);
   }
 
   /**
