@@ -23,6 +23,7 @@ import {
   SerializedItemData,
   SerializedMapCell,
   SerializedMapCellArray,
+  SerializedMapQueue,
   SerializedMobData,
 } from '../types/utilities/saveStateHandler';
 import { TurnQueue } from '../gameLogic/turnQueue/turnQueue';
@@ -299,7 +300,8 @@ export class SaveStateHandler {
 
     restoredMap.cells = restoredCells;
 
-    this.restoreMapQueue(restoredMap, player);
+    const serializedQueue = map.queue;
+    restoredMap.queue = this.restoreMapQueue(serializedQueue, player);
 
     return restoredMap;
   }
@@ -405,21 +407,22 @@ export class SaveStateHandler {
   }
 
   /**
-   * Restores the mob queue for the given map.
-   * @param {GameMap} map - The map to restore the mob queue for.
+   * Restores the turn queue of a map from the given serialized data.
+   * @param {SerializedMapQueue} serializedQueue - The serialized queue data to restore.
    * @param {Mob} player - The player mob.
+   * @returns {TurnQueue} - The restored turn queue.
    */
-  private restoreMapQueue(map: GameMap, player: Mob): void {
-    const mapCells = map.cells;
-
-    mapCells.map(cellArray => {
-      cellArray.map(cell => {
-        if (cell.mob) {
-          const mobToPush = cell.mob.isPlayer ? player : cell.mob;
-          map.queue.pushMob(mobToPush);
-        }
-      });
+  private restoreMapQueue(
+    serializedQueue: SerializedMapQueue,
+    player: Mob,
+  ): TurnQueue {
+    const newQueue = new TurnQueue();
+    serializedQueue.mobs.map(mob => {
+      const mobToPush = mob.isPlayer ? player : this.restoreMob(mob);
+      newQueue.pushMob(mobToPush);
     });
+
+    return newQueue;
   }
 
   /**
