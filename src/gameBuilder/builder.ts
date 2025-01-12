@@ -17,7 +17,7 @@ import { MobAI } from '../types/gameLogic/mobs/mobAI';
 import { MoodAI } from '../gameLogic/mobs/moodAI';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
-import { SaveStateHandler } from '../utilities/saveStateHandler';
+import { SaveStateHandler } from '../utilities/saveStateHandlerTemp';
 import { SerializedGameState } from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';
