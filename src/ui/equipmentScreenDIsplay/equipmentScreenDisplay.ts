@@ -60,6 +60,10 @@ export class EquipmentScreenDisplay extends HTMLElement {
           background-color: var(--hover-bg-color, #222);
         }
 
+        .no-item {
+          color: var(--grayedOut);
+        }
+
         .fade-out {
           animation: fade-out 100ms;
         }
@@ -122,7 +126,9 @@ export class EquipmentScreenDisplay extends HTMLElement {
 
       this.equipmentItems.forEach(item => {
         const listItem = document.createElement('li');
-        listItem.textContent = `${item.char} - ${item.slot}: ${item.description}`; // Include character
+        listItem.textContent = `${item.char} - ${item.slot}: ${item.description}`;
+        if (item.description === 'none') listItem.classList.add('no-item');
+
         fragment.appendChild(listItem);
       });
 
