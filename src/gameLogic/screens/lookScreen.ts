@@ -1,12 +1,17 @@
 import { BaseScreen } from './baseScreen';
 import { Buff } from '../buffs/buffEnum';
 import { CanSee } from '../../utilities/canSee';
+import { Corpse } from '../mobs/corpse';
 import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { Glyph } from '../glyphs/glyph';
+import { ItemObject } from '../itemObjects/itemObject';
+import { LookScreenEntity } from '../../types/ui/lookScreenEntity';
 import { MapCell } from '../../maps/mapModel/mapCell';
+import { Mob } from '../mobs/mob';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
@@ -16,6 +21,7 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  */
 export class LookScreen extends BaseScreen {
   public name = 'look-screen';
+  private keyBindings: Map<string, LookScreenEntity> = new Map();
 
   private readonly neutralPos = new WorldPoint(32, 16);
   private readonly playerPos = new WorldPoint(
@@ -115,45 +121,139 @@ export class LookScreen extends BaseScreen {
   }
 
   /**
-   * Retrieves information about a cell that is visible.
+   * Generates a message describing the contents of a cell if it is visible.
    *
-   * @param {MapCell} cell - The cell to retrieve the information for.
-   * @return {string} The information about the cell.
+   * @param {MapCell} cell - The cell to generate the message for.
+   * @return {string} The generated message.
    */
   private generateMessageVisibleCell(cell: MapCell): string {
-    const entities = [];
+    const entities: { uniqueKey: string; entity: LookScreenEntity }[] = [];
     const { mob, corpse, obj, environment } = cell;
-    const isPlayer = mob?.isPlayer;
-    const isDownStairsCell = this.game
+    const isDownstairs = this.game
       .currentMap()
       ?.downStairPos?.isEqual(this.lookPos);
-    const isUpStairsCell = this.game
+    const isUpstairs = this.game
       .currentMap()
       ?.upStairPos?.isEqual(this.lookPos);
 
-    if (isPlayer) entities.push(this.game.player.name);
+    const usedLetters = new Set<string>();
 
-    if (mob && !isPlayer) entities.push(`a ${mob.name.toLowerCase()}`);
+    const getUniqueLetter = (name: string): string => {
+      for (const char of name.toLowerCase()) {
+        if (!usedLetters.has(char)) {
+          usedLetters.add(char);
+          return char;
+        }
+      }
+      return '*';
+    };
 
-    if (corpse) entities.push(`a ${corpse.name.toLowerCase()}`);
+    const addEntity = (name: string, entity: LookScreenEntity) => {
+      const letter = getUniqueLetter(name).toLowerCase();
+      entities.push({ uniqueKey: letter, entity });
+      this.keyBindings.set(letter, entity);
+    };
 
-    if (obj) entities.push(`a ${obj.name().toLowerCase()}`);
+    if (mob) addEntity(mob.name, this.transformIntoLookScreenEntity(mob));
+    if (corpse)
+      addEntity(corpse.name, this.transformIntoLookScreenEntity(corpse));
+    if (obj) addEntity(obj.name(), this.transformIntoLookScreenEntity(obj));
+
+    const environmentKey = getUniqueLetter(environment.name).toLowerCase();
+    const environmentDesc = `${environment.name.toLowerCase()} (${environmentKey})`;
+    this.keyBindings.set(
+      environmentKey,
+      this.transformIntoLookScreenEntity(environment),
+    );
 
     let message = 'You see: ';
 
     if (entities.length > 0) {
-      entities[0] = this.capitalizeFirstLetter(entities[0]);
-
-      message += `${entities.join(' and ')} on ${environment.name.toLowerCase()}.`;
+      const entityDescriptions = entities
+        .map(
+          e =>
+            `${e.entity.name === this.game.player.name ? '' : 'a '} ${e.entity.name} (${e.uniqueKey})`,
+        )
+        .join(' and ')
+        .concat(` on ${environmentDesc}.`);
+      message += this.capitalizeFirstLetter(entityDescriptions);
     } else {
-      message += `${environment.name}. ${environment.description}`;
+      message += this.capitalizeFirstLetter(`${environmentDesc}.`);
     }
 
-    if (isDownStairsCell) message += ' A way leading downwards.';
+    if (isDownstairs) message = 'You see: A way leading downwards.';
+    if (isUpstairs) message = 'You see: A way leading upwards.';
 
-    if (isUpStairsCell) message += ' A way leading upwards.';
+    return message;
+  }
 
-    return this.capitalizeFirstLetter(message);
+  /**
+   * Transforms a given entity into a LookScreenEntity representation.
+   *
+   * @param {Mob | Corpse | ItemObject | MapCell['environment']} entity - The entity to be transformed.
+   * @return {Omit<LookScreenEntity, 'uniqueKey'>} The transformed LookScreenEntity object without the unique key.
+   *
+   * The function identifies the type of entity provided and extracts its relevant properties
+   * to create a LookScreenEntity. It handles Mobs, Corpses, ItemObjects, and MapCell environments,
+   * assigning appropriate type, glyph, name, description, and other properties specific to the entity type.
+   * If the entity type is unrecognized, it defaults to an unknown entity representation.
+   */
+
+  private transformIntoLookScreenEntity(
+    entity: Mob | Corpse | ItemObject | MapCell['environment'],
+  ): Omit<LookScreenEntity, 'uniqueKey'> {
+    const baseEntity: Omit<LookScreenEntity, 'uniqueKey'> = {
+      type: 'unknown',
+      glyph: Glyph.Unknown,
+      name: 'Unknown entity',
+      description: 'Unknown entity',
+    };
+
+    if (entity instanceof Corpse) {
+      return {
+        ...baseEntity,
+        type: 'corpse',
+        glyph: entity.glyph,
+        name: entity.name,
+        description: entity.description,
+      };
+    } else if (entity instanceof Mob) {
+      return {
+        ...baseEntity,
+        type: 'mob',
+        glyph: entity.glyph,
+        name: entity.name,
+        description: entity.description,
+        level: entity.level,
+        hp: entity.hp,
+        maxHp: entity.maxhp,
+      };
+    } else if (entity instanceof ItemObject) {
+      return {
+        ...baseEntity,
+        type: 'item',
+        glyph: entity.glyph,
+        name: entity.name(),
+        description: entity.description(),
+        charges: entity.charges,
+        spell: entity.spell,
+      };
+    } else if (
+      'name' in entity &&
+      'description' in entity &&
+      'effects' in entity
+    ) {
+      return {
+        ...baseEntity,
+        type: 'env',
+        glyph: entity.glyph,
+        name: entity.name,
+        description: entity.description,
+        envEffects: entity.effects,
+      };
+    }
+
+    return baseEntity;
   }
 
   /**
@@ -190,6 +290,10 @@ export class LookScreen extends BaseScreen {
     DrawUI.renderFlash(this.game);
   }
 
+  private showEntityDetail(entity: LookScreenEntity): void {
+    console.log(entity);
+  }
+
   /**
    * Handles key down events and moves the cursor and look position accordingly.
    *
@@ -206,6 +310,12 @@ export class LookScreen extends BaseScreen {
     };
 
     const char = this.controlSchemeManager.keyPressToCode(event);
+
+    if (this.keyBindings.has(char)) {
+      const entity = this.keyBindings.get(char)!;
+      this.showEntityDetail(entity);
+      return;
+    }
 
     switch (char) {
       case this.activeControlScheme.move_left.toString():
