@@ -221,6 +221,7 @@ export class GameMap implements GameMapType {
   public setEnvironmentDescriptions(): void {
     this.forEachCell(cell => {
       const glyph = cell.glyphEnvOnly();
+      cell.environment.glyph = glyph;
       cell.environment.name = GlyphMap.getGlyphInfo(glyph).name;
       cell.environment.description = GlyphMap.getGlyphDescription(glyph);
     });

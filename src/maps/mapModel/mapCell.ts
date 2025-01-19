@@ -21,9 +21,7 @@ export class MapCell {
     effects: EnvEffect[];
   } = { glyph: Glyph.Unknown, name: '', description: '', effects: [] };
   public corpse: Corpse | undefined;
-  constructor(public env: Glyph) {
-    this.environment.glyph = env;
-  }
+  constructor(public env: Glyph) {}
 
   /**
    * Adds an environment effect to the current map cell if it does not already exist.
