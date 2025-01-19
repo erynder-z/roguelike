@@ -1,5 +1,6 @@
 import { BuffsDisplay } from '../ui/buffs/buffsDisplay';
 import { CommandDirectionScreenDisplay } from '../ui/commandDirectionScreenDisplay/commandDirectionScreenDisplay';
+import { EntityInfoCard } from '../ui/entityInfoDisplay/entityInfoCard';
 import { EquipmentDisplay } from '../ui/equipment/equipmentDisplay';
 import { EquipmentScreenDisplay } from '../ui/equipmentScreenDIsplay/equipmentScreenDisplay';
 import { FlashDisplay } from '../ui/flashDisplay/flashDisplay';
@@ -41,3 +42,4 @@ customElements.define(
 customElements.define('game-over-screen-display', GameOverScreenDisplay);
 customElements.define('post-mortem', PostMortem);
 customElements.define('popup-box-good', PopupBoxGood);
+customElements.define('entity-info-card', EntityInfoCard);
