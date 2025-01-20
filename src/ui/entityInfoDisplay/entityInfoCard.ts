@@ -1,4 +1,5 @@
 import { GlyphMap } from '../../gameLogic/glyphs/glyphMap';
+import { EnvEffect } from '../../types/gameLogic/maps/mapModel/envEffect';
 import { LookScreenEntity } from '../../types/ui/lookScreenEntity';
 
 export class EntityInfoCard extends HTMLElement {
@@ -27,13 +28,19 @@ export class EntityInfoCard extends HTMLElement {
           z-index: 999;
         }
 
-        .entity-title {
+        .mob-title,
+        .corpse-title,
+        .item-title,
+        .env-title {
           margin: 0;
           font-size: 1.25rem;
           font-weight: bold;
         }
 
-        .entity-glyph {
+        .mob-glyph,
+        .corpse-glyph,
+        .item-glyph,
+        .env-glyph {
           margin: 0;
           font-size: 2.5rem;
           display: flex;
@@ -45,7 +52,10 @@ export class EntityInfoCard extends HTMLElement {
           background-color: var(--whiteTransparent);
         }
 
-        .entity-description {
+        .mob-description,
+        .corpse-description,
+        .item-description,
+        .env-description {
           margin: 0;
           font-size: 1rem;
         }
@@ -72,36 +82,80 @@ export class EntityInfoCard extends HTMLElement {
           animation: fade-out 0.1s forwards;
         }
       </style>
-      <div class="entity-card">
-        <div class="entity-title"></div>
-        <div class=entity-glyph></div>
-        <div class="entity-description"></div>
-      </div>
+      <div class="entity-card"></div>
     `;
 
     shadowRoot?.appendChild(templateElement.content.cloneNode(true));
   }
 
   public fillCardDetails(entity: LookScreenEntity): void {
-    const entityTitle = this.shadowRoot?.querySelector(
-      '.entity-title',
-    ) as HTMLElement;
-    const entityGlyph = this.shadowRoot?.querySelector(
-      '.entity-glyph',
-    ) as HTMLElement;
-    const entityDescription = this.shadowRoot?.querySelector(
-      '.entity-description',
-    ) as HTMLElement;
+    const entityCard = this.shadowRoot?.querySelector('.entity-card');
+    if (!entityCard) return;
 
-    if (!entityTitle || !entityDescription || !entityGlyph) return;
+    entityCard.innerHTML = '';
 
+    console.log(entity);
+
+    const name = entity.name;
     const glyphInfo = GlyphMap.getGlyphInfo(entity.glyph);
+    const glyphChar = glyphInfo.char;
+    const glyphColor = glyphInfo.fgCol;
+    const description = entity.description;
+    const level = entity.level;
+    const hp = entity.hp;
+    const maxHp = entity.maxHp;
+    const charges = entity.charges;
+    const spell = entity.spell;
+    const envEffects = entity?.envEffects?.map(effect => EnvEffect[effect]);
 
-    entityTitle.textContent = entity.name;
-    entityGlyph.textContent = glyphInfo.char;
-    entityGlyph.style.color = glyphInfo.fgCol;
+    switch (entity.type) {
+      case 'mob':
+        entityCard.innerHTML = `
+            <div class="mob-title">${name}</div>
+            <div class="mob-glyph" style="color: ${glyphColor}">${glyphChar}</div>
+            <div class="mob-level">lvl: ${level}</div>
+            <div class="mob-hp">hp: ${hp}/${maxHp}</div>
+            <div class="mob-description">${description}</div>
+          `;
+        break;
 
-    entityDescription.textContent = entity.description;
+      case 'corpse':
+        entityCard.innerHTML = `
+                <div class="corpse-title">${name}</div>
+                <div class="corpse-glyph" style="color: ${glyphColor}">${glyphChar}</div>
+                <div class="corpse-description">${description}</div>
+              `;
+        break;
+
+      case 'item':
+        entityCard.innerHTML = `
+            <div class="item-title">${name}</div>
+            <div class="item-glyph" style="color: ${glyphColor}">${glyphChar}</div>
+            <div class="item-level">lvl: ${level}</div>
+                        <div class="item-spell">spell: ${spell}</div>
+            <div class="item-charges">charges: ${charges}</div>
+
+            <div class="item-description">${description}</div>
+          `;
+        break;
+
+      case 'env':
+        entityCard.innerHTML = `
+              <div class="env-title">${name}</div>
+              <div class="env-glyph" style="color: ${glyphColor}">${glyphChar}</div>
+              <div class="env-description">${description}</div>
+              <div class="env-effects">environment effects: ${envEffects}</div>
+            `;
+        break;
+
+      default:
+        entityCard.innerHTML = `
+            <div>${name}</div>
+            <div style="color: ${glyphColor}">${glyphChar}</div>
+            <div>${description}</div>
+          `;
+        break;
+    }
   }
 
   public fadeOutAndRemove(): void {

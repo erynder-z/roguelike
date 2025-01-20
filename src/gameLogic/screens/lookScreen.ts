@@ -4,6 +4,7 @@ import { CanSee } from '../../utilities/canSee';
 import { Corpse } from '../mobs/corpse';
 import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
+import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
@@ -15,7 +16,6 @@ import { Mob } from '../mobs/mob';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 
 /**
  * Represents a screen for looking at the player's surroundings.
