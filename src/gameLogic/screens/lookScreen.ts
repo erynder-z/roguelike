@@ -238,6 +238,7 @@ export class LookScreen extends BaseScreen {
         glyph: entity.glyph,
         name: entity.name(),
         description: entity.description(),
+        level: entity.level,
         charges: entity.charges,
         spell: entity.spell,
       };

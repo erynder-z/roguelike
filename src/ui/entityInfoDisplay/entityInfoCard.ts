@@ -1,4 +1,5 @@
 import { GlyphMap } from '../../gameLogic/glyphs/glyphMap';
+import { Spell } from '../../gameLogic/spells/spell';
 import { EnvEffect } from '../../types/gameLogic/maps/mapModel/envEffect';
 import { LookScreenEntity } from '../../types/ui/lookScreenEntity';
 
@@ -94,8 +95,6 @@ export class EntityInfoCard extends HTMLElement {
 
     entityCard.innerHTML = '';
 
-    console.log(entity);
-
     const name = entity.name;
     const glyphInfo = GlyphMap.getGlyphInfo(entity.glyph);
     const glyphChar = glyphInfo.char;
@@ -105,7 +104,7 @@ export class EntityInfoCard extends HTMLElement {
     const hp = entity.hp;
     const maxHp = entity.maxHp;
     const charges = entity.charges;
-    const spell = entity.spell;
+    const spell = entity.spell !== undefined ? Spell[entity.spell] : undefined;
     const envEffects = entity?.envEffects?.map(effect => EnvEffect[effect]);
 
     switch (entity.type) {
@@ -121,9 +120,9 @@ export class EntityInfoCard extends HTMLElement {
 
       case 'corpse':
         entityCard.innerHTML = `
-                <div class="corpse-title">${name}</div>
-                <div class="corpse-glyph" style="color: ${glyphColor}">${glyphChar}</div>
-                <div class="corpse-description">${description}</div>
+            <div class="corpse-title">${name}</div>
+            <div class="corpse-glyph" style="color: ${glyphColor}">${glyphChar}</div>
+            <div class="corpse-description">${description}</div>
               `;
         break;
 
@@ -132,19 +131,18 @@ export class EntityInfoCard extends HTMLElement {
             <div class="item-title">${name}</div>
             <div class="item-glyph" style="color: ${glyphColor}">${glyphChar}</div>
             <div class="item-level">lvl: ${level}</div>
-                        <div class="item-spell">spell: ${spell}</div>
-            <div class="item-charges">charges: ${charges}</div>
-
+            ${spell !== 'None' ? `<div class="item-spell">spell: ${spell}</div>` : ''}
+            ${spell !== 'None' ? `<div class="item-charges">charges: ${charges}</div>` : ''}
             <div class="item-description">${description}</div>
-          `;
+            `;
         break;
 
       case 'env':
         entityCard.innerHTML = `
-              <div class="env-title">${name}</div>
-              <div class="env-glyph" style="color: ${glyphColor}">${glyphChar}</div>
-              <div class="env-description">${description}</div>
-              <div class="env-effects">environment effects: ${envEffects}</div>
+            <div class="env-title">${name}</div>
+            <div class="env-glyph" style="color: ${glyphColor}">${glyphChar}</div>
+            <div class="env-description">${description}</div>
+            ${envEffects && envEffects.length > 0 ? `<div class="env-effects">environment effects: ${envEffects.join(', ')}</div>` : ''}
             `;
         break;
 
