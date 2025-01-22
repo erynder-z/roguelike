@@ -14,7 +14,7 @@ export class ItemObject {
     public spell: Spell = Spell.None,
     public level: number = 1,
     public desc: string = 'some item without description',
-    public charges: number = 0,
+    public charges: number = 1,
   ) {}
 
   /**

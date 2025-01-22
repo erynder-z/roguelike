@@ -514,10 +514,17 @@ export class Builder implements Build {
     inv.add(rune1);
 
     const rune2 = new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Bullet);
+    rune2.charges = 1;
     inv.add(rune2);
 
-    /*     const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn);
+    const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn, Spell.Bullet);
     pistol.charges = 10;
-    inv.add(pistol); */
+    inv.add(pistol);
+
+    /* for (let index = 0; index < 50; index++) {
+      const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn, Spell.Bullet);
+      pistol.charges = 10;
+      inv.add(pistol);
+    } */
   }
 }
