@@ -24,6 +24,7 @@ export class EntityInfoCard extends HTMLElement {
           justify-content: center;
           align-items: left;
           flex-direction: column;
+          max-width: 25%;
           border-radius: 10px;
           animation: fade-in 0.1s;
           z-index: 999;
@@ -33,7 +34,7 @@ export class EntityInfoCard extends HTMLElement {
         .corpse-title,
         .item-title,
         .env-title {
-          margin: 0;
+          margin: 0 auto 0.5rem auto;
           font-size: 1.25rem;
           font-weight: bold;
         }
@@ -42,7 +43,7 @@ export class EntityInfoCard extends HTMLElement {
         .corpse-glyph,
         .item-glyph,
         .env-glyph {
-          margin: 0;
+          margin: 0.5rem auto 1rem auto;
           font-size: 2.5rem;
           display: flex;
           justify-content: center;
@@ -59,6 +60,10 @@ export class EntityInfoCard extends HTMLElement {
         .env-description {
           margin: 0;
           font-size: 1rem;
+        }
+
+        .mob-level, .mob-hp, .item-level, .item-spell, .item-charges {
+          margin: 0 0 0.5rem 0;
         }
 
         @keyframes fade-in {
@@ -112,8 +117,8 @@ export class EntityInfoCard extends HTMLElement {
         entityCard.innerHTML = `
             <div class="mob-title">${name}</div>
             <div class="mob-glyph" style="color: ${glyphColor}">${glyphChar}</div>
-            <div class="mob-level">lvl: ${level}</div>
-            <div class="mob-hp">hp: ${hp}/${maxHp}</div>
+            <div class="mob-level">Mob level: ${level}</div>
+            <div class="mob-hp">HP: ${hp}/${maxHp}</div>
             <div class="mob-description">${description}</div>
           `;
         break;
@@ -130,9 +135,9 @@ export class EntityInfoCard extends HTMLElement {
         entityCard.innerHTML = `
             <div class="item-title">${name}</div>
             <div class="item-glyph" style="color: ${glyphColor}">${glyphChar}</div>
-            <div class="item-level">lvl: ${level}</div>
-            ${spell !== 'None' ? `<div class="item-spell">spell: ${spell}</div>` : ''}
-            ${spell !== 'None' ? `<div class="item-charges">charges: ${charges}</div>` : ''}
+            <div class="item-level">Item level: ${level}</div>
+            ${spell !== 'None' ? `<div class="item-spell">Item spell: ${spell}</div>` : ''}
+            ${spell !== 'None' ? `<div class="item-charges">Charges: ${charges}</div>` : ''}
             <div class="item-description">${description}</div>
             `;
         break;
@@ -142,7 +147,7 @@ export class EntityInfoCard extends HTMLElement {
             <div class="env-title">${name}</div>
             <div class="env-glyph" style="color: ${glyphColor}">${glyphChar}</div>
             <div class="env-description">${description}</div>
-            ${envEffects && envEffects.length > 0 ? `<div class="env-effects">environment effects: ${envEffects.join(', ')}</div>` : ''}
+            ${envEffects && envEffects.length > 0 ? `<div class="env-effects">Environment effects: ${envEffects.join(', ')}</div>` : ''}
             `;
         break;
 
