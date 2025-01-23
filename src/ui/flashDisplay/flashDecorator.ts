@@ -121,7 +121,7 @@ export class FlashDecorator {
     type?: string,
   ): void {
     if (typeof dataOrColor === 'string') {
-      // Single player style
+      // Player style
       const className = `player-span`;
       const cssRule = `.${className} { color: ${dataOrColor}; font-weight: bold; }`;
       this.appendStyleRule(cssRule);

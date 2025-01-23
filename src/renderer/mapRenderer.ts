@@ -14,7 +14,6 @@ import { SpellColors } from '../utilities/colors/spellColors';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 
-
 /**
  * Sets each cell in the terminal to the appropriate glyph, information and colors.
  */

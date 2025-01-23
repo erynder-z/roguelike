@@ -26,7 +26,7 @@ export class ItemObject {
 
     if (this.spell != Spell.None) {
       const quality = SpellColors.c[this.spell][1];
-      return `${quality}  ${label}`;
+      return `${quality} ${label}`;
     }
 
     return `${label}: ${this.level}`;
