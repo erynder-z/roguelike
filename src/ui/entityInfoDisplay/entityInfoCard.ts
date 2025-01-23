@@ -2,6 +2,7 @@ import { GlyphMap } from '../../gameLogic/glyphs/glyphMap';
 import { Spell } from '../../gameLogic/spells/spell';
 import { EnvEffect } from '../../types/gameLogic/maps/mapModel/envEffect';
 import { LookScreenEntity } from '../../types/ui/lookScreenEntity';
+import { SpellColors } from '../../utilities/colors/spellColors';
 
 export class EntityInfoCard extends HTMLElement {
   constructor() {
@@ -112,6 +113,9 @@ export class EntityInfoCard extends HTMLElement {
     const spell = entity.spell !== undefined ? Spell[entity.spell] : undefined;
     const envEffects = entity?.envEffects?.map(effect => EnvEffect[effect]);
 
+    const sp = entity.spell ? entity.spell : Spell.None;
+    const gCol = sp !== Spell.None ? SpellColors.c[sp][0] : glyphColor;
+
     switch (entity.type) {
       case 'mob':
         entityCard.innerHTML = `
@@ -134,7 +138,7 @@ export class EntityInfoCard extends HTMLElement {
       case 'item':
         entityCard.innerHTML = `
             <div class="item-title">${name}</div>
-            <div class="item-glyph" style="color: ${glyphColor}">${glyphChar}</div>
+            <div class="item-glyph" style="color: ${gCol ? gCol : glyphColor}">${glyphChar}</div>
             <div class="item-level">Item level: ${level}</div>
             ${spell !== 'None' ? `<div class="item-spell">Item spell: ${spell}</div>` : ''}
             ${spell !== 'None' ? `<div class="item-charges">Charges: ${charges}</div>` : ''}
