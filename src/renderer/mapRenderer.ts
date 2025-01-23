@@ -340,8 +340,8 @@ export class MapRenderer {
         return ManipulateColors.darkenColor('#f9ff5b', 0.2);
 
       // If the cell has an object with a spell, return the spell color
-      if (!cell.mob && cell.obj && cell.obj.spell !== Spell.None)
-        return SpellColors.c[cell.obj.spell][0];
+      /*   if (!cell.mob && cell.obj && cell.obj.spell !== Spell.None)
+        return SpellColors.c[cell.obj.spell][0]; */
 
       // Otherwise, return the default foreground color
       return glyphInfo.fgCol;
