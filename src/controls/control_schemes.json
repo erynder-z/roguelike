@@ -61,7 +61,7 @@
     "handle_door": ["c"],
     "grab_item": ["g"],
     "inventory": ["i"],
-    "equipment": ["u"],
+    "equipment": ["e"],
     "look": [";"],
     "spells": ["s"]
   },
@@ -83,7 +83,7 @@
     "handle_door": ["c"],
     "grab_item": ["g"],
     "inventory": ["i"],
-    "equipment": ["u"],
+    "equipment": ["e"],
     "look": [";"],
     "spells": ["s"]
   }
