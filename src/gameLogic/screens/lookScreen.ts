@@ -8,7 +8,7 @@ import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
-import { LookScreenEntity } from '../../types/ui/lookScreenEntity';
+import { DetailViewEntity } from '../../types/ui/detailViewEntity';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
@@ -19,7 +19,7 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  */
 export class LookScreen extends BaseScreen {
   public name = 'look-screen';
-  private keyBindings: Map<string, LookScreenEntity> = new Map();
+  private keyBindings: Map<string, DetailViewEntity> = new Map();
   private isEntityCardOpen = false;
 
   private readonly neutralPos = new WorldPoint(32, 16);
@@ -126,7 +126,7 @@ export class LookScreen extends BaseScreen {
    * @return {string} The generated message.
    */
   private generateMessageVisibleCell(cell: MapCell): string {
-    const entities: { uniqueKey: string; entity: LookScreenEntity }[] = [];
+    const entities: { uniqueKey: string; entity: DetailViewEntity }[] = [];
     const { mob, corpse, obj, environment } = cell;
     const detailViewHandler = new DetailViewHandler();
 
@@ -149,30 +149,30 @@ export class LookScreen extends BaseScreen {
       return '*';
     };
 
-    const addEntity = (name: string, entity: LookScreenEntity) => {
+    const addEntity = (name: string, entity: DetailViewEntity) => {
       const letter = getUniqueLetter(name).toLowerCase();
       entities.push({ uniqueKey: letter, entity });
       this.keyBindings.set(letter, entity);
     };
 
     if (mob)
-      addEntity(mob.name, detailViewHandler.transformIntoLookScreenEntity(mob));
+      addEntity(mob.name, detailViewHandler.transformIntoDetailViewEntity(mob));
     if (corpse)
       addEntity(
         corpse.name,
-        detailViewHandler.transformIntoLookScreenEntity(corpse),
+        detailViewHandler.transformIntoDetailViewEntity(corpse),
       );
     if (obj)
       addEntity(
         obj.name(),
-        detailViewHandler.transformIntoLookScreenEntity(obj),
+        detailViewHandler.transformIntoDetailViewEntity(obj),
       );
 
     const environmentKey = getUniqueLetter(environment.name).toLowerCase();
     const environmentDesc = `${environment.name.toLowerCase()} (${environmentKey})`;
     this.keyBindings.set(
       environmentKey,
-      detailViewHandler.transformIntoLookScreenEntity(environment),
+      detailViewHandler.transformIntoDetailViewEntity(environment),
     );
 
     let message = 'You see: ';
@@ -230,7 +230,7 @@ export class LookScreen extends BaseScreen {
     DrawUI.renderFlash(this.game);
   }
 
-  private showEntityDetail(entity: LookScreenEntity): void {
+  private showEntityDetail(entity: DetailViewEntity): void {
     const canvasContainer = document.getElementById('canvas-container');
     const entityCard = document.createElement(
       'entity-info-card',

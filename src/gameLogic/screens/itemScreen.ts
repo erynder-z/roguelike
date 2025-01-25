@@ -64,7 +64,7 @@ export class ItemScreen extends BaseScreen {
     ) as EntityInfoCard;
 
     const detailViewHandler = new DetailViewHandler();
-    const entity = detailViewHandler.transformIntoLookScreenEntity(obj);
+    const entity = detailViewHandler.transformIntoDetailViewEntity(obj);
 
     if (canvasContainer) canvasContainer.appendChild(entityCard);
     entityCard.id = 'entity-info-card';

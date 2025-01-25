@@ -1,27 +1,27 @@
 import { Corpse } from '../gameLogic/mobs/corpse';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { ItemObject } from '../gameLogic/itemObjects/itemObject';
-import { LookScreenEntity } from '../types/ui/lookScreenEntity';
+import { DetailViewEntity } from '../types/ui/detailViewEntity';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { Mob } from '../gameLogic/mobs/mob';
 
 export class DetailViewHandler {
   /**
-   * Transforms a given entity into a LookScreenEntity representation.
+   * Transforms a given entity into a DetailViewEntity representation.
    *
    * @param {Mob | Corpse | ItemObject | MapCell['environment']} entity - The entity to be transformed.
-   * @return {Omit<LookScreenEntity, 'uniqueKey'>} The transformed LookScreenEntity object without the unique key.
+   * @return {Omit<DetailViewEntity, 'uniqueKey'>} The transformed DetailViewEntity object without the unique key.
    *
    * The function identifies the type of entity provided and extracts its relevant properties
-   * to create a LookScreenEntity. It handles Mobs, Corpses, ItemObjects, and MapCell environments,
+   * to create a DetailViewEntity. It handles Mobs, Corpses, ItemObjects, and MapCell environments,
    * assigning appropriate type, glyph, name, description, and other properties specific to the entity type.
    * If the entity type is unrecognized, it defaults to an unknown entity representation.
    */
 
-  public transformIntoLookScreenEntity(
+  public transformIntoDetailViewEntity(
     entity: Mob | Corpse | ItemObject | MapCell['environment'],
-  ): Omit<LookScreenEntity, 'uniqueKey'> {
-    const baseEntity: Omit<LookScreenEntity, 'uniqueKey'> = {
+  ): Omit<DetailViewEntity, 'uniqueKey'> {
+    const baseEntity: Omit<DetailViewEntity, 'uniqueKey'> = {
       type: 'unknown',
       glyph: Glyph.Unknown,
       name: 'Unknown entity',
