@@ -88,7 +88,8 @@ export class ItemScreen extends BaseScreen {
         entityCard.fadeOutAndRemove();
         this.isEntityCardOpen = false;
       }
-      stack.pop();
+      // The menu key will pop the stack nevertheless, so it must be excluded.
+      if (event.key !== this.activeControlScheme.menu.toString()) stack.pop();
     }
 
     switch (event.key) {
