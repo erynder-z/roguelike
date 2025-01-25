@@ -1,17 +1,19 @@
 import { BaseScreen } from './baseScreen';
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
+import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EquipCommand } from '../commands/equipCommand';
 import { EventCategory, LogMessage } from '../messages/logMessage';
+import { DetailViewHandler } from '../../utilities/detailViewHandler';
 import { FindObjectSpell } from '../spells/findObjectSpells';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Inventory } from '../inventory/inventory';
 import { ItemObject } from '../itemObjects/itemObject';
+import { ItemScreenDisplay } from '../../ui/itemScreenDisplay/itemScreenDisplay';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
-import { ItemScreenDisplay } from '../../ui/itemScreenDisplay/itemScreenDisplay';
 
 /**
  * Represents a screen for interacting with items.
@@ -20,6 +22,7 @@ export class ItemScreen extends BaseScreen {
   public name = 'item-screen';
 
   private display: ItemScreenDisplay | null = null;
+  private isEntityCardOpen = false;
   constructor(
     private obj: ItemObject,
     private index: number,
@@ -43,15 +46,31 @@ export class ItemScreen extends BaseScreen {
 
       this.display.itemDescription = this.obj.description();
       this.display.options = [
+        { key: 'v', description: 'View' },
         { key: 'u', description: 'Use' },
         { key: 'd', description: 'Drop' },
-        { key: 't', description: 'Throw' },
         { key: 'w', description: 'Wear' },
       ];
       this.display.menuKeyText = this.activeControlScheme.menu.toString();
 
       container?.appendChild(this.display);
     }
+  }
+
+  private displayItemDetails(obj: ItemObject): void {
+    const canvasContainer = document.getElementById('canvas-container');
+    const entityCard = document.createElement(
+      'entity-info-card',
+    ) as EntityInfoCard;
+
+    const detailViewHandler = new DetailViewHandler();
+    const entity = detailViewHandler.transformIntoLookScreenEntity(obj);
+
+    if (canvasContainer) canvasContainer.appendChild(entityCard);
+    entityCard.id = 'entity-info-card';
+    entityCard.fillCardDetails(entity);
+
+    this.isEntityCardOpen = true;
   }
 
   /**
@@ -61,7 +80,21 @@ export class ItemScreen extends BaseScreen {
    * @returns {boolean} True if the event was handled, otherwise false.
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+    if (this.isEntityCardOpen) {
+      const entityCard = document.getElementById(
+        'entity-info-card',
+      ) as EntityInfoCard;
+      if (entityCard) {
+        entityCard.fadeOutAndRemove();
+        this.isEntityCardOpen = false;
+      }
+      stack.pop();
+    }
+
     switch (event.key) {
+      case 'v':
+        this.displayItemDetails(this.obj);
+        break;
       case 'd':
         this.dropItem(stack);
         break;
@@ -79,6 +112,7 @@ export class ItemScreen extends BaseScreen {
     }
 
     this.fadeOutItemScreen();
+
     return true;
   }
 
@@ -120,16 +154,19 @@ export class ItemScreen extends BaseScreen {
   }
 
   /**
-   * Checks if the item can be worn.
-   *
-   * @param {Stack} stack - The stack of screens.
-   * @return {boolean} Returns true if the item can be worn, false otherwise.
+   * Wears an item from the inventory.
+   * @param {Stack} stack - The stack to pop if the item can't be equipped.
+   * @returns {boolean} True if the item was successfully equipped, otherwise false.
    */
   private canWear(stack: Stack): boolean {
     if (!this.isEquipped) return false;
 
     const ok = new EquipCommand(this.obj, this.index, this.game).turn();
-    if (ok) this.pop_and_runNPCLoop(stack);
+    if (ok) {
+      this.pop_and_runNPCLoop(stack);
+    } else {
+      stack.pop();
+    }
     return ok;
   }
 

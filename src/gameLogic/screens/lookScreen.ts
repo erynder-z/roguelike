@@ -1,18 +1,15 @@
 import { BaseScreen } from './baseScreen';
 import { Buff } from '../buffs/buffEnum';
 import { CanSee } from '../../utilities/canSee';
-import { Corpse } from '../mobs/corpse';
+import { DetailViewHandler } from '../../utilities/detailViewHandler';
 import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
-import { Glyph } from '../glyphs/glyph';
-import { ItemObject } from '../itemObjects/itemObject';
 import { LookScreenEntity } from '../../types/ui/lookScreenEntity';
 import { MapCell } from '../../maps/mapModel/mapCell';
-import { Mob } from '../mobs/mob';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
@@ -131,6 +128,7 @@ export class LookScreen extends BaseScreen {
   private generateMessageVisibleCell(cell: MapCell): string {
     const entities: { uniqueKey: string; entity: LookScreenEntity }[] = [];
     const { mob, corpse, obj, environment } = cell;
+    const detailViewHandler = new DetailViewHandler();
 
     const isDownstairs = this.game
       .currentMap()
@@ -157,16 +155,24 @@ export class LookScreen extends BaseScreen {
       this.keyBindings.set(letter, entity);
     };
 
-    if (mob) addEntity(mob.name, this.transformIntoLookScreenEntity(mob));
+    if (mob)
+      addEntity(mob.name, detailViewHandler.transformIntoLookScreenEntity(mob));
     if (corpse)
-      addEntity(corpse.name, this.transformIntoLookScreenEntity(corpse));
-    if (obj) addEntity(obj.name(), this.transformIntoLookScreenEntity(obj));
+      addEntity(
+        corpse.name,
+        detailViewHandler.transformIntoLookScreenEntity(corpse),
+      );
+    if (obj)
+      addEntity(
+        obj.name(),
+        detailViewHandler.transformIntoLookScreenEntity(obj),
+      );
 
     const environmentKey = getUniqueLetter(environment.name).toLowerCase();
     const environmentDesc = `${environment.name.toLowerCase()} (${environmentKey})`;
     this.keyBindings.set(
       environmentKey,
-      this.transformIntoLookScreenEntity(environment),
+      detailViewHandler.transformIntoLookScreenEntity(environment),
     );
 
     let message = 'You see: ';
@@ -188,76 +194,6 @@ export class LookScreen extends BaseScreen {
     if (isUpstairs) message = 'You see: A way leading upwards.';
 
     return message;
-  }
-
-  /**
-   * Transforms a given entity into a LookScreenEntity representation.
-   *
-   * @param {Mob | Corpse | ItemObject | MapCell['environment']} entity - The entity to be transformed.
-   * @return {Omit<LookScreenEntity, 'uniqueKey'>} The transformed LookScreenEntity object without the unique key.
-   *
-   * The function identifies the type of entity provided and extracts its relevant properties
-   * to create a LookScreenEntity. It handles Mobs, Corpses, ItemObjects, and MapCell environments,
-   * assigning appropriate type, glyph, name, description, and other properties specific to the entity type.
-   * If the entity type is unrecognized, it defaults to an unknown entity representation.
-   */
-
-  private transformIntoLookScreenEntity(
-    entity: Mob | Corpse | ItemObject | MapCell['environment'],
-  ): Omit<LookScreenEntity, 'uniqueKey'> {
-    const baseEntity: Omit<LookScreenEntity, 'uniqueKey'> = {
-      type: 'unknown',
-      glyph: Glyph.Unknown,
-      name: 'Unknown entity',
-      description: 'Unknown entity',
-    };
-
-    if (entity instanceof Corpse) {
-      return {
-        ...baseEntity,
-        type: 'corpse',
-        glyph: entity.glyph,
-        name: entity.name,
-        description: entity.description,
-      };
-    } else if (entity instanceof Mob) {
-      return {
-        ...baseEntity,
-        type: 'mob',
-        glyph: entity.glyph,
-        name: entity.name,
-        description: entity.description,
-        level: entity.level,
-        hp: entity.hp,
-        maxHp: entity.maxhp,
-      };
-    } else if (entity instanceof ItemObject) {
-      return {
-        ...baseEntity,
-        type: 'item',
-        glyph: entity.glyph,
-        name: entity.name(),
-        description: entity.description(),
-        level: entity.level,
-        charges: entity.charges,
-        spell: entity.spell,
-      };
-    } else if (
-      'name' in entity &&
-      'description' in entity &&
-      'effects' in entity
-    ) {
-      return {
-        ...baseEntity,
-        type: 'env',
-        glyph: entity.glyph,
-        name: entity.name,
-        description: entity.description,
-        envEffects: entity.effects,
-      };
-    }
-
-    return baseEntity;
   }
 
   /**
