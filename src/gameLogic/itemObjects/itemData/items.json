@@ -8,6 +8,7 @@
       "hasSolidBg": false,
       "name": "Dagger",
       "description": "A small, sharp blade, perfect for quick and deadly strikes.",
+      "category": "MeleeWeapon",
       "help": {
         "show": true,
         "about": "A small, sharp blade, perfect for quick and deadly strikes."
@@ -21,6 +22,7 @@
       "hasSolidBg": false,
       "name": "Shield",
       "description": "A sturdy shield offering excellent protection in combat.",
+      "category": "Armor",
       "help": {
         "show": true,
         "about": "A sturdy shield offering excellent protection in combat."
@@ -34,6 +36,7 @@
       "hasSolidBg": false,
       "name": "Cap",
       "description": "A simple cap that offers minimal protection to the head.",
+      "category": "Armor",
       "help": {
         "show": true,
         "about": "A simple cap that offers minimal protection to the head."
@@ -47,6 +50,7 @@
       "hasSolidBg": false,
       "name": "Pair of gloves",
       "description": "A pair of gloves that improve grip and provide some defense.",
+      "category": "Armor",
       "help": {
         "show": true,
         "about": "A pair of gloves that improve grip and provide some defense."
@@ -60,6 +64,7 @@
       "hasSolidBg": false,
       "name": "Cape",
       "description": "A flowing cape that offers protection and a touch of style.",
+      "category": "Armor",
       "help": {
         "show": true,
         "about": "A flowing cape that offers protection and a touch of style."
@@ -73,6 +78,7 @@
       "hasSolidBg": false,
       "name": "Pair of pants",
       "description": "A pair of durable pants providing basic leg protection.",
+      "category": "Armor",
       "help": {
         "show": true,
         "about": "A pair of durable pants providing basic leg protection."
@@ -86,6 +92,7 @@
       "hasSolidBg": false,
       "name": "Pair of boots",
       "description": "A sturdy pair of boots that offer good foot protection and comfort.",
+      "category": "Armor",
       "help": {
         "show": true,
         "about": "A sturdy pair of boots that offer good foot protection and comfort."
@@ -99,6 +106,7 @@
       "hasSolidBg": false,
       "name": "Potion",
       "description": "A magic potion that heals some hp.",
+      "category": "Consumable",
       "help": { "show": true, "about": "A magic potion that heals some hp." }
     },
     {
@@ -109,6 +117,7 @@
       "hasSolidBg": false,
       "name": "Pistol",
       "description": "This is my boomstick!",
+      "category": "RangedWeapon",
       "help": { "show": true, "about": "This is my boomstick!" }
     },
     {
@@ -119,6 +128,7 @@
       "hasSolidBg": false,
       "name": "Rune",
       "description": "A rune that can cast magic.",
+      "category": "SpellItem",
       "help": { "show": true, "about": "A rune that can cast magic." }
     },
     {
@@ -129,6 +139,7 @@
       "hasSolidBg": false,
       "name": "Scroll",
       "description": "A scroll that can cast magic.",
+      "category": "SpellItem",
       "help": { "show": true, "about": "A scroll that can cast magic." }
     }
   ]

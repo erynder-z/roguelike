@@ -1,11 +1,14 @@
 import { BaseScreen } from './baseScreen';
 import { Buff } from '../buffs/buffEnum';
 import { CanSee } from '../../utilities/canSee';
+import { DetailViewHandler } from '../../utilities/detailViewHandler';
 import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
+import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { DetailViewEntity } from '../../types/ui/detailViewEntity';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
@@ -16,6 +19,8 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  */
 export class LookScreen extends BaseScreen {
   public name = 'look-screen';
+  private keyBindings: Map<string, DetailViewEntity> = new Map();
+  private isEntityCardOpen = false;
 
   private readonly neutralPos = new WorldPoint(32, 16);
   private readonly playerPos = new WorldPoint(
@@ -115,45 +120,80 @@ export class LookScreen extends BaseScreen {
   }
 
   /**
-   * Retrieves information about a cell that is visible.
+   * Generates a message describing the contents of a cell if it is visible.
    *
-   * @param {MapCell} cell - The cell to retrieve the information for.
-   * @return {string} The information about the cell.
+   * @param {MapCell} cell - The cell to generate the message for.
+   * @return {string} The generated message.
    */
   private generateMessageVisibleCell(cell: MapCell): string {
-    const entities = [];
+    const entities: { uniqueKey: string; entity: DetailViewEntity }[] = [];
     const { mob, corpse, obj, environment } = cell;
-    const isPlayer = mob?.isPlayer;
-    const isDownStairsCell = this.game
+    const detailViewHandler = new DetailViewHandler();
+
+    const isDownstairs = this.game
       .currentMap()
       ?.downStairPos?.isEqual(this.lookPos);
-    const isUpStairsCell = this.game
+    const isUpstairs = this.game
       .currentMap()
       ?.upStairPos?.isEqual(this.lookPos);
 
-    if (isPlayer) entities.push(this.game.player.name);
+    const usedLetters = new Set<string>();
 
-    if (mob && !isPlayer) entities.push(`a ${mob.name.toLowerCase()}`);
+    const getUniqueLetter = (name: string): string => {
+      for (const char of name.toLowerCase()) {
+        if (!usedLetters.has(char)) {
+          usedLetters.add(char);
+          return char;
+        }
+      }
+      return '*';
+    };
 
-    if (corpse) entities.push(`a ${corpse.name.toLowerCase()}`);
+    const addEntity = (name: string, entity: DetailViewEntity) => {
+      const letter = getUniqueLetter(name).toLowerCase();
+      entities.push({ uniqueKey: letter, entity });
+      this.keyBindings.set(letter, entity);
+    };
 
-    if (obj) entities.push(`a ${obj.name().toLowerCase()}`);
+    if (mob)
+      addEntity(mob.name, detailViewHandler.transformIntoDetailViewEntity(mob));
+    if (corpse)
+      addEntity(
+        corpse.name,
+        detailViewHandler.transformIntoDetailViewEntity(corpse),
+      );
+    if (obj)
+      addEntity(
+        obj.name(),
+        detailViewHandler.transformIntoDetailViewEntity(obj),
+      );
+
+    const environmentKey = getUniqueLetter(environment.name).toLowerCase();
+    const environmentDesc = `${environment.name.toLowerCase()} (${environmentKey})`;
+    this.keyBindings.set(
+      environmentKey,
+      detailViewHandler.transformIntoDetailViewEntity(environment),
+    );
 
     let message = 'You see: ';
 
     if (entities.length > 0) {
-      entities[0] = this.capitalizeFirstLetter(entities[0]);
-
-      message += `${entities.join(' and ')} on ${environment.name.toLowerCase()}.`;
+      const entityDescriptions = entities
+        .map(
+          e =>
+            `${e.entity.name === this.game.player.name ? '' : 'a '} ${e.entity.name} (${e.uniqueKey})`,
+        )
+        .join(' and ')
+        .concat(` on ${environmentDesc}.`);
+      message += this.capitalizeFirstLetter(entityDescriptions);
     } else {
-      message += `${environment.name}. ${environment.description}`;
+      message += this.capitalizeFirstLetter(`${environmentDesc}.`);
     }
 
-    if (isDownStairsCell) message += ' A way leading downwards.';
+    if (isDownstairs) message = 'You see: A way leading downwards.';
+    if (isUpstairs) message = 'You see: A way leading upwards.';
 
-    if (isUpStairsCell) message += ' A way leading upwards.';
-
-    return this.capitalizeFirstLetter(message);
+    return message;
   }
 
   /**
@@ -190,14 +230,42 @@ export class LookScreen extends BaseScreen {
     DrawUI.renderFlash(this.game);
   }
 
+  private showEntityDetail(entity: DetailViewEntity): void {
+    const canvasContainer = document.getElementById('canvas-container');
+    const entityCard = document.createElement(
+      'entity-info-card',
+    ) as EntityInfoCard;
+
+    if (canvasContainer) canvasContainer.appendChild(entityCard);
+    entityCard.id = 'entity-info-card';
+    entityCard.fillCardDetails(entity);
+
+    this.isEntityCardOpen = true;
+  }
+
   /**
-   * Handles key down events and moves the cursor and look position accordingly.
+   * Handles key down events for navigating the look screen and interacting with entities.
    *
-   * @param {KeyboardEvent} event - The keyboard event that triggered the function.
-   * @param {Stack} stack - The stack of screens.
-   * @return {void} This function does not return anything.
+   * @param {KeyboardEvent} event - The keyboard event triggered by user input.
+   * @param {Stack} stack - The stack of screens, used to manage screen transitions.
+   * @return {void} No return value.
+   * @description
+   * This function processes keyboard events to navigate the cursor on the look screen,
+   * display entity details, or exit the look screen. It also checks for open entity
+   * cards and removes them if necessary. The function utilizes key bindings to identify
+   * entities and control schemes for cursor movement.
    */
+
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
+    if (this.isEntityCardOpen) {
+      const entityCard = document.getElementById(
+        'entity-info-card',
+      ) as EntityInfoCard;
+      if (entityCard) {
+        entityCard.fadeOutAndRemove();
+        this.isEntityCardOpen = false;
+      }
+    }
     const moveCursor = (dx: number, dy: number) => {
       this.cursorPos.x += dx;
       this.cursorPos.y += dy;
@@ -206,6 +274,14 @@ export class LookScreen extends BaseScreen {
     };
 
     const char = this.controlSchemeManager.keyPressToCode(event);
+
+    if (this.keyBindings.has(char)) {
+      const entity = this.keyBindings.get(char)!;
+      this.showEntityDetail(entity);
+      return;
+    }
+
+    this.keyBindings.clear();
 
     switch (char) {
       case this.activeControlScheme.move_left.toString():

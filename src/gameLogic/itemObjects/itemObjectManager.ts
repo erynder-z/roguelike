@@ -1,6 +1,7 @@
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../glyphs/glyph';
 import { ItemObject } from './itemObject';
+import { ObjCategory } from './itemCategories';
 import { ObjectTypes } from '../../types/gameLogic/itemObjects/objTypes';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { Slot } from './slot';
@@ -13,17 +14,37 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  */
 export class ItemObjectManager {
   private static objTypes: ObjectTypes[] = [
-    { glyph: Glyph.Dagger, slot: Slot.MainHand },
-    { glyph: Glyph.Shield, slot: Slot.OffHand },
-    { glyph: Glyph.Cap, slot: Slot.Head },
-    { glyph: Glyph.Gloves, slot: Slot.Hands },
-    { glyph: Glyph.Cape, slot: Slot.Back },
-    { glyph: Glyph.Pants, slot: Slot.Legs },
-    { glyph: Glyph.Boots, slot: Slot.Feet },
-    { glyph: Glyph.Potion, slot: Slot.NotWorn },
-    { glyph: Glyph.Rune, slot: Slot.NotWorn },
-    { glyph: Glyph.Scroll, slot: Slot.NotWorn },
-    { glyph: Glyph.Pistol, slot: Slot.NotWorn },
+    {
+      glyph: Glyph.Dagger,
+      slot: Slot.MainHand,
+      category: [ObjCategory.MeleeWeapon],
+    },
+    { glyph: Glyph.Shield, slot: Slot.OffHand, category: [ObjCategory.Armor] },
+    { glyph: Glyph.Cap, slot: Slot.Head, category: [ObjCategory.Armor] },
+    { glyph: Glyph.Gloves, slot: Slot.Hands, category: [ObjCategory.Armor] },
+    { glyph: Glyph.Cape, slot: Slot.Back, category: [ObjCategory.Armor] },
+    { glyph: Glyph.Pants, slot: Slot.Legs, category: [ObjCategory.Armor] },
+    { glyph: Glyph.Boots, slot: Slot.Feet, category: [ObjCategory.Armor] },
+    {
+      glyph: Glyph.Potion,
+      slot: Slot.NotWorn,
+      category: [ObjCategory.Consumable],
+    },
+    {
+      glyph: Glyph.Rune,
+      slot: Slot.NotWorn,
+      category: [ObjCategory.SpellItem],
+    },
+    {
+      glyph: Glyph.Scroll,
+      slot: Slot.NotWorn,
+      category: [ObjCategory.SpellItem],
+    },
+    {
+      glyph: Glyph.Pistol,
+      slot: Slot.NotWorn,
+      category: [ObjCategory.RangedWeapon],
+    },
   ];
 
   private static highestSpellTier: number = Spell.None;
@@ -144,7 +165,11 @@ export class ItemObjectManager {
     template: ObjectTypes,
   ): ItemObject {
     const objectLevel = rand.adjustLevel(level);
-    const object = new ItemObject(template.glyph, template.slot);
+    const object = new ItemObject(
+      template.glyph,
+      template.slot,
+      template.category,
+    );
     object.level = objectLevel;
 
     switch (object.glyph) {

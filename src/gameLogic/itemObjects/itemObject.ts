@@ -1,5 +1,6 @@
 import { Glyph } from '../glyphs/glyph';
 import { GlyphMap } from '../glyphs/glyphMap';
+import { ObjCategory } from './itemCategories';
 import { Slot } from './slot';
 import { Spell } from '../spells/spell';
 import { SpellColors } from '../../utilities/colors/spellColors';
@@ -11,10 +12,11 @@ export class ItemObject {
   constructor(
     public glyph: Glyph,
     public slot: Slot,
+    public category: ObjCategory[] = [ObjCategory.Misc],
     public spell: Spell = Spell.None,
     public level: number = 1,
     public desc: string = 'some item without description',
-    public charges: number = 0,
+    public charges: number = 1,
   ) {}
 
   /**
@@ -26,7 +28,7 @@ export class ItemObject {
 
     if (this.spell != Spell.None) {
       const quality = SpellColors.c[this.spell][1];
-      return `${quality}  ${label}`;
+      return `${quality} ${label}`;
     }
 
     return `${label}: ${this.level}`;

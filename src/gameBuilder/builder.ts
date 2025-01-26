@@ -15,6 +15,7 @@ import { MapGenerator_Maze } from '../maps/mapGenerator/mapGenerator_Maze';
 import { Mob } from '../gameLogic/mobs/mob';
 import { MobAI } from '../types/gameLogic/mobs/mobAI';
 import { MoodAI } from '../gameLogic/mobs/moodAI';
+import { ObjCategory } from '../gameLogic/itemObjects/itemCategories';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
 import { SaveStateHandler } from '../utilities/saveStateHandler';
@@ -490,11 +491,22 @@ export class Builder implements Build {
   private addItemNextToPlayer(player: Mob, map: GameMapType): void {
     const a = player.pos;
     let p = new WorldPoint(a.x, a.y + 2);
-    map.addObject(new ItemObject(Glyph.Shield, Slot.OffHand), p);
+    map.addObject(
+      new ItemObject(Glyph.Shield, Slot.OffHand, [ObjCategory.Armor]),
+      p,
+    );
     map.cell(p).env = Glyph.Regular_Floor;
 
     p = new WorldPoint(a.x, a.y + 1);
-    map.addObject(new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Poison), p);
+    map.addObject(
+      new ItemObject(
+        Glyph.Rune,
+        Slot.NotWorn,
+        [ObjCategory.SpellItem],
+        Spell.Poison,
+      ),
+      p,
+    );
     map.cell(p).env = Glyph.Regular_Floor;
   }
 
@@ -505,19 +517,50 @@ export class Builder implements Build {
    * @return {void} This function does not return anything.
    */
   private addItemToPlayerInventory(inv: Inventory): void {
-    inv.add(new ItemObject(Glyph.Dagger, Slot.MainHand));
+    inv.add(
+      new ItemObject(Glyph.Dagger, Slot.MainHand, [ObjCategory.MeleeWeapon]),
+    );
 
-    inv.add(new ItemObject(Glyph.Potion, Slot.NotWorn, Spell.Heal));
+    inv.add(
+      new ItemObject(
+        Glyph.Potion,
+        Slot.NotWorn,
+        [ObjCategory.Consumable, ObjCategory.Special],
+        Spell.Heal,
+      ),
+    );
 
-    const rune1 = new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Teleport);
+    const rune1 = new ItemObject(
+      Glyph.Rune,
+      Slot.NotWorn,
+      [ObjCategory.SpellItem, ObjCategory.Special],
+      Spell.Teleport,
+    );
     rune1.charges = 2;
     inv.add(rune1);
 
-    const rune2 = new ItemObject(Glyph.Rune, Slot.NotWorn, Spell.Bullet);
+    const rune2 = new ItemObject(
+      Glyph.Rune,
+      Slot.NotWorn,
+      [ObjCategory.SpellItem, ObjCategory.Special],
+      Spell.Bullet,
+    );
+    rune2.charges = 1;
     inv.add(rune2);
 
-    /*     const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn);
+    const pistol = new ItemObject(
+      Glyph.Pistol,
+      Slot.NotWorn,
+      [ObjCategory.RangedWeapon, ObjCategory.Special],
+      Spell.Bullet,
+    );
     pistol.charges = 10;
-    inv.add(pistol); */
+    inv.add(pistol);
+
+    /* for (let index = 0; index < 50; index++) {
+      const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn, Spell.Bullet);
+      pistol.charges = 10;
+      inv.add(pistol);
+    } */
   }
 }

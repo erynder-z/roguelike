@@ -8,6 +8,7 @@ import { ItemObject } from '../itemObjects/itemObject';
 import { Mob } from '../mobs/mob';
 import { StairCommand } from './stairCommand';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
+import { GlyphMap } from '../glyphs/glyphMap';
 
 /**
  * Represents a move command that moves a mob in the game.
@@ -115,6 +116,10 @@ export class MoveCommand extends CommandBase {
 
       this.game.message(msg);
       cell.env = Glyph.Visible_Trap;
+
+      const newGlyphInfo = GlyphMap.getGlyphInfo(Glyph.Visible_Trap);
+      cell.environment.name = newGlyphInfo.name;
+      cell.environment.description = newGlyphInfo.description;
     }
   }
 

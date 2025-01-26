@@ -10,19 +10,18 @@ import { Mob } from '../../gameLogic/mobs/mob';
  * Represents a cell on the game map.
  */
 export class MapCell {
-  constructor(public env: Glyph) {}
-
   public mob: Mob | undefined;
   public lit: boolean = false;
   public obj: ItemObject | undefined;
   public sprite: Glyph | undefined;
   public environment: {
+    glyph: Glyph;
     name: string;
     description: string;
     effects: EnvEffect[];
-  } = { name: '', description: '', effects: [] };
-
+  } = { glyph: Glyph.Unknown, name: '', description: '', effects: [] };
   public corpse: Corpse | undefined;
+  constructor(public env: Glyph) {}
 
   /**
    * Adds an environment effect to the current map cell if it does not already exist.

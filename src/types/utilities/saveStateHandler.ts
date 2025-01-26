@@ -110,14 +110,7 @@ export type SerializedAutoHealData = {
 };
 
 export type SerializedInventoryData = {
-  items: {
-    glyph: number;
-    slot: number;
-    spell: number;
-    charges: number;
-    level: number;
-    desc: string;
-  }[];
+  items: SerializedItemData[];
 };
 
 export type SerializedItemData = {
@@ -127,6 +120,7 @@ export type SerializedItemData = {
   level: number;
   slot: number;
   spell: number;
+  category: number[];
 };
 export type SerializedEquipmentData = [number, SerializedItemData][];
 
@@ -174,6 +168,7 @@ export type SerializedMapCell = {
   sprite?: number;
   corpse?: SerializedCorpseData;
   environment?: {
+    glyph: number;
     name: string;
     description: string;
     effects: number[];

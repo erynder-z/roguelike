@@ -337,6 +337,7 @@ export class SaveStateHandler {
     newCell.obj = cell.obj ? this.restoreItemObject(cell.obj) : undefined;
     newCell.sprite = cell.sprite ?? undefined;
     newCell.environment = {
+      glyph: cell.environment?.glyph ?? Glyph.Unknown,
       name: cell.environment?.name ?? '',
       description: cell.environment?.description ?? '',
       effects: cell.environment?.effects ?? [],
@@ -382,6 +383,7 @@ export class SaveStateHandler {
     return new ItemObject(
       serializedItem.glyph,
       serializedItem.slot,
+      serializedItem.category.map(cat => cat),
       serializedItem.spell,
       serializedItem.level,
       serializedItem.desc,
@@ -489,7 +491,17 @@ export class SaveStateHandler {
     const items = saveState.serializedInventory.data?.items;
     if (items) {
       for (const item of items) {
-        inv.add(new ItemObject(item.glyph, item.slot, item.spell));
+        inv.add(
+          new ItemObject(
+            item.glyph,
+            item.slot,
+            item.category,
+            item.spell,
+            item.level,
+            item.desc,
+            item.charges,
+          ),
+        );
       }
     }
     return game;
@@ -510,7 +522,15 @@ export class SaveStateHandler {
 
     if (items) {
       for (const item of items) {
-        const itm = new ItemObject(item[1].glyph, item[1].slot, item[1].spell);
+        const itm = new ItemObject(
+          item[1].glyph,
+          item[1].slot,
+          item[1].category,
+          item[1].spell,
+          item[1].level,
+          item[1].desc,
+          item[1].charges,
+        );
         new EquipCommand(itm, item[0] as number, game).execute();
       }
     }
