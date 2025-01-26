@@ -525,7 +525,7 @@ export class Builder implements Build {
       new ItemObject(
         Glyph.Potion,
         Slot.NotWorn,
-        [ObjCategory.Consumable],
+        [ObjCategory.Consumable, ObjCategory.Special],
         Spell.Heal,
       ),
     );
@@ -533,7 +533,7 @@ export class Builder implements Build {
     const rune1 = new ItemObject(
       Glyph.Rune,
       Slot.NotWorn,
-      [ObjCategory.SpellItem],
+      [ObjCategory.SpellItem, ObjCategory.Special],
       Spell.Teleport,
     );
     rune1.charges = 2;
@@ -542,7 +542,7 @@ export class Builder implements Build {
     const rune2 = new ItemObject(
       Glyph.Rune,
       Slot.NotWorn,
-      [ObjCategory.SpellItem],
+      [ObjCategory.SpellItem, ObjCategory.Special],
       Spell.Bullet,
     );
     rune2.charges = 1;
@@ -551,7 +551,7 @@ export class Builder implements Build {
     const pistol = new ItemObject(
       Glyph.Pistol,
       Slot.NotWorn,
-      [ObjCategory.RangedWeapon],
+      [ObjCategory.RangedWeapon, ObjCategory.Special],
       Spell.Bullet,
     );
     pistol.charges = 10;

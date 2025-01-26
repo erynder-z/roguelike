@@ -1,8 +1,9 @@
 export enum ObjCategory {
-  MeleeWeapon = 'MeleeWeapon',
-  Armor = 'Armor',
-  Consumable = 'Consumable',
-  RangedWeapon = 'RangedWeapon',
-  SpellItem = 'SpellItem',
-  Misc = 'Misc',
+  MeleeWeapon = 0,
+  Armor = 1,
+  Consumable = 2,
+  RangedWeapon = 3,
+  SpellItem = 4,
+  Special = 5,
+  Misc = 6,
 }
