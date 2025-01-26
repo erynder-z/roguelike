@@ -1,5 +1,6 @@
 import { Glyph } from '../glyphs/glyph';
 import { GlyphMap } from '../glyphs/glyphMap';
+import { ObjCategory } from './itemCategories';
 import { Slot } from './slot';
 import { Spell } from '../spells/spell';
 import { SpellColors } from '../../utilities/colors/spellColors';
@@ -11,6 +12,7 @@ export class ItemObject {
   constructor(
     public glyph: Glyph,
     public slot: Slot,
+    public category: ObjCategory[] = [ObjCategory.Misc],
     public spell: Spell = Spell.None,
     public level: number = 1,
     public desc: string = 'some item without description',
