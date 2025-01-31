@@ -11,6 +11,7 @@ import { GameState } from '../../types/gameBuilder/gameState';
 import { Inventory } from '../inventory/inventory';
 import { ItemObject } from '../itemObjects/itemObject';
 import { ItemScreenDisplay } from '../../ui/itemScreenDisplay/itemScreenDisplay';
+import { ObjCategory } from '../itemObjects/itemCategories';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
@@ -45,18 +46,38 @@ export class ItemScreen extends BaseScreen {
       ) as ItemScreenDisplay;
 
       this.display.itemDescription = this.obj.description();
+
       this.display.options = [
         { key: 'v', description: 'View' },
-        { key: 'u', description: 'Use' },
         { key: 'd', description: 'Drop' },
-        { key: 'w', description: 'Wear' },
       ];
+
+      if (this.obj.category.includes(ObjCategory.Armor))
+        this.display.options.push({ key: 'w', description: 'Wear' });
+
+      if (this.obj.category.includes(ObjCategory.MeleeWeapon))
+        this.display.options.push({ key: 'q', description: 'Equip' });
+
+      if (this.obj.category.includes(ObjCategory.RangedWeapon))
+        this.display.options.push({ key: 'f', description: 'Fire' });
+
+      if (this.obj.category.includes(ObjCategory.SpellItem))
+        this.display.options.push({ key: 'c', description: 'Cast' });
+
+      if (this.obj.category.includes(ObjCategory.Consumable))
+        this.display.options.push({ key: 'u', description: 'Use' });
+
       this.display.menuKeyText = this.activeControlScheme.menu.toString();
 
       container?.appendChild(this.display);
     }
   }
 
+  /**
+   * Creates and appends an 'entity-info-card' element to the 'canvas-container' element, containing
+   * detailed information about the given item object.
+   * @param {ItemObject} obj - The item object to display.
+   */
   private displayItemDetails(obj: ItemObject): void {
     const canvasContainer = document.getElementById('canvas-container');
     const entityCard = document.createElement(
@@ -74,47 +95,71 @@ export class ItemScreen extends BaseScreen {
   }
 
   /**
-   * Handles key down events.
-   * @param {KeyboardEvent} event - The keyboard event.
-   * @param {Stack} stack - The stack interface.
-   * @returns {boolean} True if the event was handled, otherwise false.
+   * Handles key down events for the item screen.
+   * @param {KeyboardEvent} event - The keyboard event to handle.
+   * @param {Stack} stack - The stack of screens to manipulate.
+   * @returns {boolean} True if the event is handled, otherwise false.
+   * If an entity card is open and the menu key is pressed, the card is closed and the stack is popped.
+   * If a key is pressed that is shown on the item screen, the corresponding action is performed.
+   * The item screen is always faded out after handling the event.
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
-    if (this.isEntityCardOpen) {
+    const { display, activeControlScheme } = this;
+    let { isEntityCardOpen } = this;
+
+    // If the entity card is open and the menu key is pressed, close the card and pop the stack.
+    if (isEntityCardOpen && event.key === activeControlScheme.menu.toString()) {
       const entityCard = document.getElementById(
         'entity-info-card',
       ) as EntityInfoCard;
       if (entityCard) {
         entityCard.fadeOutAndRemove();
-        this.isEntityCardOpen = false;
+        isEntityCardOpen = false;
       }
       // The menu key will pop the stack nevertheless, so it must be excluded.
-      if (event.key !== this.activeControlScheme.menu.toString()) stack.pop();
+      if (event.key !== activeControlScheme.menu.toString()) stack.pop();
     }
+    // Get the keys that are currently shown on the item screen
+    const optionKeys = display?.options.map(option => option.key);
 
-    switch (event.key) {
-      case 'v':
+    // Map the keys to actions
+    const itemActions: Record<string, (stack: Stack) => void> = {
+      // Drop the item
+      d: () => this.dropItem(stack),
+      // Wear the item
+      w: () => this.canWear(stack),
+      // Equip the item
+      q: () => this.canWear(stack),
+      // Use the item
+      u: () => this.useItem(stack),
+      // Fire the item
+      f: () => this.useItem(stack),
+      // Cast the item
+      c: () => this.useItem(stack),
+      // View the item's details
+      v: () => {
         this.displayItemDetails(this.obj);
-        break;
-      case 'd':
-        this.dropItem(stack);
-        break;
-      case 'w':
-        this.canWear(stack);
-        break;
-      case 'u':
-        this.useItem(stack);
-        break;
-      case this.activeControlScheme.menu.toString():
         stack.pop();
-        break;
-      default:
-        return false;
+        this.fadeOutItemScreen();
+      },
+    };
+
+    // If the menu key is pressed, pop the stack and fade out the item screen
+    if (event.key === activeControlScheme.menu.toString()) {
+      stack.pop();
+      this.fadeOutItemScreen();
+      return true;
     }
 
-    this.fadeOutItemScreen();
+    // If the key is in the list of keys shown on the item screen and there is an action associated with it,
+    // perform the action and fade out the item screen
+    if (optionKeys?.includes(event.key) && itemActions[event.key]) {
+      itemActions[event.key](stack);
+      this.fadeOutItemScreen();
+      return true;
+    }
 
-    return true;
+    return false;
   }
 
   /**
