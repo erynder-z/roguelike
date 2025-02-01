@@ -20,8 +20,6 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
 export class LookScreen extends BaseScreen {
   public name = 'look-screen';
   private keyBindings: Map<string, DetailViewEntity> = new Map();
-  private isEntityCardOpen = false;
-
   private readonly neutralPos = new WorldPoint(32, 16);
   private readonly playerPos = new WorldPoint(
     this.game.player.pos.x,
@@ -239,8 +237,6 @@ export class LookScreen extends BaseScreen {
     if (canvasContainer) canvasContainer.appendChild(entityCard);
     entityCard.id = 'entity-info-card';
     entityCard.fillCardDetails(entity);
-
-    this.isEntityCardOpen = true;
   }
 
   /**
@@ -257,15 +253,10 @@ export class LookScreen extends BaseScreen {
    */
 
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
-    if (this.isEntityCardOpen) {
-      const entityCard = document.getElementById(
-        'entity-info-card',
-      ) as EntityInfoCard;
-      if (entityCard) {
-        entityCard.fadeOutAndRemove();
-        this.isEntityCardOpen = false;
-      }
-    }
+    const detailViewHandler = new DetailViewHandler();
+    const isEntityCardOpen = detailViewHandler.isEntityCardOpen();
+    if (isEntityCardOpen) detailViewHandler.closeOpenEntityCard();
+
     const moveCursor = (dx: number, dy: number) => {
       this.cursorPos.x += dx;
       this.cursorPos.y += dy;
@@ -311,7 +302,6 @@ export class LookScreen extends BaseScreen {
       case this.activeControlScheme.menu.toString():
         DrawUI.clearFlash(this.game);
         stack.pop();
-
         break;
     }
   }
