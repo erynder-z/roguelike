@@ -3,6 +3,7 @@ import { GameState } from '../../types/gameBuilder/gameState';
 import { ParsePlayer } from '../events/parsePlayer';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
+import { DetailViewHandler } from '../../utilities/detailViewHandler';
 
 /**
  * Represents a game screen that extends the functionality of the base screen.
@@ -21,6 +22,10 @@ export class GameScreen extends BaseScreen {
    * @return {void}
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): void {
+    const detailViewHandler = new DetailViewHandler();
+    const isEntityCardOpen = detailViewHandler.isEntityCardOpen();
+    if (isEntityCardOpen) detailViewHandler.closeOpenEntityCard();
+
     this.playerKeyTurn(
       stack,
       this.controlSchemeManager.keyPressToCode(event),

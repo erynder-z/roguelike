@@ -23,7 +23,7 @@ export class ItemScreen extends BaseScreen {
   public name = 'item-screen';
 
   private display: ItemScreenDisplay | null = null;
-  private isEntityCardOpen = false;
+
   constructor(
     private obj: ItemObject,
     private index: number,
@@ -90,35 +90,23 @@ export class ItemScreen extends BaseScreen {
     if (canvasContainer) canvasContainer.appendChild(entityCard);
     entityCard.id = 'entity-info-card';
     entityCard.fillCardDetails(entity);
-
-    this.isEntityCardOpen = true;
   }
 
   /**
-   * Handles key down events for the item screen.
-   * @param {KeyboardEvent} event - The keyboard event to handle.
-   * @param {Stack} stack - The stack of screens to manipulate.
-   * @returns {boolean} True if the event is handled, otherwise false.
-   * If an entity card is open and the menu key is pressed, the card is closed and the stack is popped.
-   * If a key is pressed that is shown on the item screen, the corresponding action is performed.
-   * The item screen is always faded out after handling the event.
+   * Handles key down events on the item screen.
+   *
+   * @param {KeyboardEvent} event - The keyboard event triggered by the user.
+   * @param {Stack} stack - The stack of screens in the application.
+   * @returns {boolean} - True if the event is handled and causes a screen transition, otherwise false.
+   * This function maps specific key presses to actions that can be performed on the item screen,
+   * such as dropping, wearing, equipping, using, firing, casting, or viewing details of an item.
+   * If the menu key is pressed, the current screen is removed from the stack. When a valid item
+   * action key is pressed, the corresponding action is executed, and the item screen fades out.
    */
+
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     const { display, activeControlScheme } = this;
-    let { isEntityCardOpen } = this;
 
-    // If the entity card is open and the menu key is pressed, close the card and pop the stack.
-    if (isEntityCardOpen && event.key === activeControlScheme.menu.toString()) {
-      const entityCard = document.getElementById(
-        'entity-info-card',
-      ) as EntityInfoCard;
-      if (entityCard) {
-        entityCard.fadeOutAndRemove();
-        isEntityCardOpen = false;
-      }
-      // The menu key will pop the stack nevertheless, so it must be excluded.
-      if (event.key !== activeControlScheme.menu.toString()) stack.pop();
-    }
     // Get the keys that are currently shown on the item screen
     const optionKeys = display?.options.map(option => option.key);
 
