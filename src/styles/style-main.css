@@ -55,6 +55,7 @@ html {
 
 canvas {
   display: block;
+  width: 100%;
 }
 
 li {
@@ -79,7 +80,6 @@ li {
   justify-content: center;
   align-items: center;
   grid-area: canvas;
-  /* border: solid var(--white) 1px; */
 }
 
 .stats-container {

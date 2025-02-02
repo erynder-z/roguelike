@@ -15,6 +15,12 @@ export class EquipmentScreenDisplay extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
+        :host {
+          --outer-margin: 6rem;
+          --minimal-width: 33%;
+          --maximal-width: 100%;
+        }
+
         ::-webkit-scrollbar {
           width: 0.25rem;
         }
@@ -29,21 +35,25 @@ export class EquipmentScreenDisplay extends HTMLElement {
         }
 
         .equipment-screen-display {
-          background: var(--backgroundDefaultTransparent);
-          backdrop-filter: blur(5px);
+          background: var(--popupBackground);
           position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          overflow-y: auto;
-          overflow-x: hidden;
+          top: 1rem;
+          left: 1rem;
+          padding: 2rem;
+          border-radius: 1rem;
+          display: flex;
+          height: calc(var(--maximal-width) - var(--outer-margin));
+          width: calc(var(--minimal-width) - var(--outer-margin));
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          color: var(--white);
         }
 
         .equipment-heading {
           font-size: 1.5rem;
           text-align: center;
-          margin: 2rem;
+          margin-bottom: 2rem;
         }
 
         .equipment-list ul {

@@ -15,6 +15,11 @@ export class LogScreenDisplay extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
+        :host {
+          --outer-margin: 6rem;
+          --minimal-width: 33%;
+          --maximal-width: 100%;
+        }
         ::-webkit-scrollbar {
           width: 0.25rem;
         }
@@ -29,21 +34,26 @@ export class LogScreenDisplay extends HTMLElement {
         }
 
         .log-screen-display {
-          background: var(--backgroundDefaultTransparent);
-          backdrop-filter: blur(5px);
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          overflow-y: auto;
-          overflow-x: hidden;
+           background: var(--popupBackground);
+           position: absolute;
+           top: 1rem;
+           left: 1rem;
+           padding: 2rem;
+           border-radius: 1rem;
+           display: flex;
+           height: calc(var(--maximal-width) - var(--outer-margin));
+           width: calc(var(--minimal-width) - var(--outer-margin));
+           flex-direction: column;
+           align-items: center;
+           color: var(--white);
+           overflow-y: auto;
+           overflow-x: hidden;
         }
 
         .log-screen-heading {
           font-size: 1.5rem;
           text-align: center;
-          margin: 2rem;
+          margin-bottom: 2rem;
         }
 
         .log-screen-list ul li:nth-child(odd) {
@@ -52,6 +62,7 @@ export class LogScreenDisplay extends HTMLElement {
 
         .log-screen-list ul {
           padding: 0 2rem;
+          heigh: 100%;
         }
 
         .log-screen-list ul li {
