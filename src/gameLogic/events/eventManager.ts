@@ -68,9 +68,6 @@ export class EventManager {
   public static runWithInteractiveScreen(
     rawScreen: InteractiveScreen,
   ): EventManager {
-    return new EventManager(
-      ResizingTerminal.createStockResizingTerminal(),
-      rawScreen,
-    );
+    return new EventManager(new ResizingTerminal(), rawScreen);
   }
 }
