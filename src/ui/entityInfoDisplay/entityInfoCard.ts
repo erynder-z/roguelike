@@ -33,10 +33,8 @@ export class EntityInfoCard extends HTMLElement {
           justify-content: center;
           height: calc(var(--maximal-width) - var(--outer-margin));
           width: calc(var(--minimal-width) - var(--outer-margin));
-          color: var(--white);
-          position: absolute;        
+          color: var(--white); 
           animation: fade-in 0.1s;
-          z-index: 999;
         }
 
         .mob-title,
