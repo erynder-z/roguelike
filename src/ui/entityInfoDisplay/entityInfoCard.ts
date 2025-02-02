@@ -14,19 +14,27 @@ export class EntityInfoCard extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
+        :host {
+          --outer-margin: 6rem;
+          --minimal-width: 33%;
+          --maximal-width: 100%;
+        }
+
         .entity-card {
+          background: var(--popupBackground);
           position: absolute;
-          top: 10%;
-          left: 10%;
-          background-color: var(--popupBackground);
-          color: var(--white);
-          padding: 1.5rem;
+          top: 1rem;
+          left: 1rem;
+          padding: 2rem;
+          border-radius: 1rem;
           display: flex;
-          justify-content: center;
-          align-items: left;
           flex-direction: column;
-          max-width: 25%;
-          border-radius: 10px;
+          align-items: center;
+          justify-content: center;
+          height: calc(var(--maximal-width) - var(--outer-margin));
+          width: calc(var(--minimal-width) - var(--outer-margin));
+          color: var(--white);
+          position: absolute;        
           animation: fade-in 0.1s;
           z-index: 999;
         }

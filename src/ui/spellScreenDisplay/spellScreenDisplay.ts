@@ -12,15 +12,22 @@ export class SpellScreenDisplay extends HTMLElement {
     const template = document.createElement('template');
     template.innerHTML = `
         <style>
+          :host {
+          --outer-margin: 6rem;
+          --minimal-width: 33%;
+          --maximal-width: 100%;
+          }
+
           .spell-screen {
             background: var(--popupBackground);
-            backdrop-filter: blur(5px);
             position: absolute;
             top: 1rem;
             left: 1rem;
             padding: 2rem;
             border-radius: 1rem;
             display: flex;
+            height: calc(var(--maximal-width) - var(--outer-margin));
+            width: calc(var(--minimal-width) - var(--outer-margin));
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -28,7 +35,7 @@ export class SpellScreenDisplay extends HTMLElement {
           }
           .spell-title {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             text-align: center;
           }
           .spell-options {

@@ -12,9 +12,13 @@ export class ItemScreenDisplay extends HTMLElement {
     const template = document.createElement('template');
     template.innerHTML = `
         <style>
-          .item-screen {
+          :host {
+           --outer-margin: 6rem;
+           --minimal-width: 33%;
+           --maximal-width: 100%;
+         }
+          .item-display-card {
             background: var(--popupBackground);
-            backdrop-filter: blur(5px);
             position: absolute;
             top: 1rem;
             left: 1rem;
@@ -24,11 +28,13 @@ export class ItemScreenDisplay extends HTMLElement {
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            height: calc(var(--maximal-width) - var(--outer-margin));
+            width: calc(var(--minimal-width) - var(--outer-margin));
             color: var(--white);
           }
           .item-description {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
           }
           .options {
             list-style: none;
@@ -49,7 +55,7 @@ export class ItemScreenDisplay extends HTMLElement {
             opacity: 0;
           }
         </style>
-        <div class="item-screen">
+        <div class="item-display-card">
           <div class="item-description"></div>
           <ul class="options"></ul>
           <div class="inventory-footing">(Press ${this.menuKey} to cancel)</div>

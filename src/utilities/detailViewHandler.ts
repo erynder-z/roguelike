@@ -1,4 +1,5 @@
 import { Corpse } from '../gameLogic/mobs/corpse';
+import { EntityInfoCard } from '../ui/entityInfoDisplay/entityInfoCard';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { ItemObject } from '../gameLogic/itemObjects/itemObject';
 import { DetailViewEntity } from '../types/ui/detailViewEntity';
@@ -17,7 +18,6 @@ export class DetailViewHandler {
    * assigning appropriate type, glyph, name, description, and other properties specific to the entity type.
    * If the entity type is unrecognized, it defaults to an unknown entity representation.
    */
-
   public transformIntoDetailViewEntity(
     entity: Mob | Corpse | ItemObject | MapCell['environment'],
   ): Omit<DetailViewEntity, 'uniqueKey'> {
@@ -74,5 +74,29 @@ export class DetailViewHandler {
     }
 
     return baseEntity;
+  }
+
+  /**
+   * Checks if the entity info card is currently open in the DOM.
+   *
+   * @return {boolean} True if the entity info card is present, false otherwise.
+   */
+  public isEntityCardOpen(): boolean {
+    const entityCardElement = document.getElementById(
+      'entity-info-card',
+    ) as EntityInfoCard;
+    return entityCardElement !== null;
+  }
+
+  /**
+   * Closes the currently open entity info card by removing it from the DOM.
+   *
+   * If there is no entity info card currently open, this function does nothing.
+   */
+  public closeOpenEntityCard(): void {
+    const entityCardElement = document.getElementById(
+      'entity-info-card',
+    ) as EntityInfoCard;
+    if (entityCardElement) entityCardElement.fadeOutAndRemove();
   }
 }
