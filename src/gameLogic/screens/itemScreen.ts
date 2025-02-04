@@ -43,51 +43,55 @@ export class ItemScreen extends BaseScreen {
    */
   public drawScreen(): void {
     const container = document.getElementById('canvas-container');
-    if (!this.display) {
-      this.display = document.createElement(
-        'item-screen-display',
-      ) as ItemScreenDisplay;
+    if (this.display) return;
 
-      this.display.itemDescription = this.obj.description();
+    this.display = document.createElement(
+      'item-screen-display',
+    ) as ItemScreenDisplay;
+    this.display.itemDescription = this.obj.description();
+    this.display.options = this.getMenuOptions();
+    this.display.menuKeyText = this.activeControlScheme.menu.toString();
+    container?.appendChild(this.display);
+  }
 
-      this.display.options = [{ key: 'v', description: 'View' }];
+  /**
+   * Generates and returns the list of options for the item screen, based on the type
+   * of item and whether it is equipped or not.
+   *
+   * @returns {Array<{ key: string; description: string }>} The list of options.
+   */
+  private getMenuOptions(): { key: string; description: string }[] {
+    const options = [{ key: 'v', description: 'View' }];
+    const { category } = this.obj;
+
+    if (!this.isEquipped) {
+      if (category.includes(ObjCategory.Armor))
+        options.push({ key: 'w', description: 'Wear' });
+      if (category.includes(ObjCategory.MeleeWeapon))
+        options.push({ key: 'q', description: 'Equip' });
+      if (category.includes(ObjCategory.RangedWeapon))
+        options.push({ key: 'f', description: 'Fire' });
+      if (category.includes(ObjCategory.SpellItem))
+        options.push({ key: 'c', description: 'Cast' });
+      if (category.includes(ObjCategory.Consumable))
+        options.push({ key: 'u', description: 'Use' });
 
       if (
-        !this.isEquipped &&
-        (this.obj.category.includes(ObjCategory.Armor) ||
-          this.obj.category.includes(ObjCategory.MeleeWeapon) ||
-          this.obj.category.includes(ObjCategory.RangedWeapon))
-      )
-        this.display.options.push({ key: 'd', description: 'Drop' });
-
-      if (this.isEquipped)
-        this.display.options.push({ key: 'n', description: 'Unequip' });
-
-      if (this.obj.category.includes(ObjCategory.Armor) && !this.isEquipped)
-        this.display.options.push({ key: 'w', description: 'Wear' });
-
-      if (
-        this.obj.category.includes(ObjCategory.MeleeWeapon) &&
-        !this.isEquipped
-      )
-        this.display.options.push({ key: 'q', description: 'Equip' });
-
-      if (
-        this.obj.category.includes(ObjCategory.RangedWeapon) &&
-        !this.isEquipped
-      )
-        this.display.options.push({ key: 'f', description: 'Fire' });
-
-      if (this.obj.category.includes(ObjCategory.SpellItem))
-        this.display.options.push({ key: 'c', description: 'Cast' });
-
-      if (this.obj.category.includes(ObjCategory.Consumable))
-        this.display.options.push({ key: 'u', description: 'Use' });
-
-      this.display.menuKeyText = this.activeControlScheme.menu.toString();
-
-      container?.appendChild(this.display);
+        category.some(c =>
+          [
+            ObjCategory.Armor,
+            ObjCategory.MeleeWeapon,
+            ObjCategory.RangedWeapon,
+          ].includes(c),
+        )
+      ) {
+        options.push({ key: 'd', description: 'Drop' });
+      }
+    } else {
+      options.push({ key: 'n', description: 'Unequip' });
     }
+
+    return options;
   }
 
   /**
