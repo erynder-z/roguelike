@@ -1,5 +1,5 @@
-import { LogMessage } from '../../gameLogic/messages/logMessage';
 import { BuffColors } from '../buffs/buffColors';
+import { LogMessage } from '../../gameLogic/messages/logMessage';
 
 export class LogScreenDisplay extends HTMLElement {
   private colorizer = new BuffColors();
@@ -84,7 +84,7 @@ export class LogScreenDisplay extends HTMLElement {
       </style>
       <div class="log-screen-display">
         <div class="log-screen-heading">
-          Log: (Press ${this.menuKey} to close)
+          Log: (Press ${this.menuKey} to close). 
         </div>
         <div class="log-screen-list"></div>
       </div>

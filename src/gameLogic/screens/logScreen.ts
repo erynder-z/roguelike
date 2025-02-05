@@ -1,9 +1,10 @@
 import { BaseScreen } from './baseScreen';
 import { GameState } from '../../types/gameBuilder/gameState';
+import { KeypressScrollHandler } from '../../utilities/KeypressScrollHandler';
 import { LogMessage } from '../messages/logMessage';
+import { LogScreenDisplay } from '../../ui/logScreenDisplay/logScreenDisplay';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
-import { LogScreenDisplay } from '../../ui/logScreenDisplay/logScreenDisplay';
 
 /**
  * Represents a screen for displaying the log messages.
@@ -42,13 +43,35 @@ export class LogScreen extends BaseScreen {
    * @returns {boolean} True if the event is handled, otherwise false.
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
-    if (event.key === this.activeControlScheme.menu.toString()) {
+    // fade out when menu key is pressed
+    if (this.isMenuKeyPressed(event)) {
       this.fadeOutAndRemove(stack);
+      return true;
+    }
+    // scroll via keypress when alt or meta key is pressed
+    if (this.isAltKeyPressed(event)) {
+      const scrollContainer = this.display?.shadowRoot?.querySelector(
+        '.log-screen-display',
+      ) as HTMLElement;
+      new KeypressScrollHandler(scrollContainer).handleVirtualScroll(event);
       return true;
     }
     return false;
   }
 
+  /**
+   * Checks if the menu key is pressed.
+   */
+  private isMenuKeyPressed(event: KeyboardEvent): boolean {
+    return event.key === this.activeControlScheme.menu.toString();
+  }
+
+  /**
+   * Checks if the Alt or Meta key is pressed.
+   */
+  private isAltKeyPressed(event: KeyboardEvent): boolean {
+    return event.altKey || event.metaKey;
+  }
   /**
    * Fades out the log screen display and removes it from the DOM. Then it pops the current screen from the stack.
    * @param {Stack} stack - The stack of screens.
