@@ -19,7 +19,8 @@
     "inventory": ["i"],
     "equipment": ["u"],
     "look": ["l"],
-    "spells": ["s"]
+    "spells": ["s"],
+    "scroll_list": ["Alt", "Meta", "Numpad8", "Numpad2"]
   },
   "wasd_keys": {
     "menu": ["Escape"],
@@ -41,7 +42,8 @@
     "inventory": ["i"],
     "equipment": ["u"],
     "look": ["l"],
-    "spells": ["m"]
+    "spells": ["m"],
+    "scroll_list": ["Alt", "Meta", "w", "s"]
   },
   "vi_keys_QWERTY": {
     "menu": ["Escape"],
@@ -63,7 +65,8 @@
     "inventory": ["i"],
     "equipment": ["e"],
     "look": [";"],
-    "spells": ["s"]
+    "spells": ["s"],
+    "scroll_list": ["Alt", "Meta", "k", "j"]
   },
   "vi_keys_QWERTZ": {
     "menu": ["Escape"],
@@ -85,6 +88,7 @@
     "inventory": ["i"],
     "equipment": ["e"],
     "look": [";"],
-    "spells": ["s"]
+    "spells": ["s"],
+    "scroll_list": ["Alt", "Meta", "k", "j"]
   }
 }
