@@ -20,4 +20,20 @@ export type DrawableTerminal = {
     borderThickness: number,
     cornerSize: number,
   ): void;
+
+  drawSlashAttackOverlay(
+    x: number,
+    y: number,
+    color: string,
+    opacityFactor: number,
+    thickness: number,
+  ): void;
+
+  drawBurstAttackOverlay(
+    x: number,
+    y: number,
+    color: string,
+    opacityFactor: number,
+    thickness: number,
+  ): void;
 };

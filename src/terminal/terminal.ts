@@ -18,9 +18,13 @@ export class Terminal implements DrawableTerminal {
   }
 
   /**
-   * Initializes the 2D rendering context of the canvas and sets initial styles.
-   * @returns The initialized 2D rendering context.
+   * Initializes and configures the canvas rendering context.
+   * Sets canvas dimensions, styles, and translation to ensure proper
+   * text alignment and rendering. Adjusts font size based on the scaling factor.
+   *
+   * @return {CanvasRenderingContext2D} The initialized and configured rendering context.
    */
+
   public initializeContext(): CanvasRenderingContext2D {
     const canvas = <HTMLCanvasElement>document.getElementById('canvas1');
 
@@ -54,8 +58,9 @@ export class Terminal implements DrawableTerminal {
   }
 
   /**
-   * Creates a stock terminal instance with predefined dimensions.
-   * @returns A Terminal instance with stock dimensions.
+   * Creates a stock terminal object with the default canvas and context.
+   *
+   * @return {Terminal} The created terminal object.
    */
   public static createStockTerminal(): Terminal {
     const defaultCanvas = <HTMLCanvasElement>document.getElementById('canvas1');
@@ -64,13 +69,12 @@ export class Terminal implements DrawableTerminal {
   }
 
   /**
-   * Draws a string of text at the specified coordinates with the given foreground and background colors.
-   * The text will wrap to the next line if it reaches the right edge of the terminal.
-   * @param x - The starting x-coordinate for drawing the text.
-   * @param y - The starting y-coordinate for drawing the text.
-   * @param text - The text to be drawn.
-   * @param foreground - The foreground color of the text.
-   * @param background - The background color of the text.
+   * Draws a string of text on the terminal at the given coordinates.
+   * @param {number} x The x-coordinate of the starting position.
+   * @param {number} y The y-coordinate of the starting position.
+   * @param {string} text The string of text to draw.
+   * @param {string} foreground The foreground color.
+   * @param {string} background The background color.
    */
   public drawText(
     x: number,
@@ -93,14 +97,19 @@ export class Terminal implements DrawableTerminal {
   }
 
   /**
-   * Draws a single character at the specified coordinates with the given foreground and background colors.
-   * This function is used by the drawText() function to draw each character of the text string.
-   * @param x - The x-coordinate of the character.
-   * @param y - The y-coordinate of the character.
-   * @param char - The character to be drawn.
-   * @param foreground - The foreground color of the character.
-   * @param background - The background color of the character.
+   * Draws a single character on the terminal at the specified coordinates.
+   *
+   * This method calculates the pixel position for the character within the grid cell
+   * and centers it. It sets the background color for the cell and clips the drawing area
+   * to ensure the character does not overflow outside its designated cell.
+   *
+   * @param {number} x - The x-coordinate of the cell position.
+   * @param {number} y - The y-coordinate of the cell position.
+   * @param {string} char - The character to draw.
+   * @param {string} foreground - The color of the character.
+   * @param {string} background - The color of the cell's background.
    */
+
   public drawAt(
     x: number,
     y: number,
@@ -137,18 +146,16 @@ export class Terminal implements DrawableTerminal {
   }
 
   /**
-   * Draws an overlay on the specified cell with the given color and opacity.
-   * The overlay is drawn as a rectangle with the specified color and opacity.
-   * The overlay has a border drawn around it with the specified border color and thickness.
-   * The border is drawn as a series of lines on the corners of the overlay.
-   * The size of the border corners is specified by the cornerSize parameter.
-   * @param x - The x-coordinate of the cell to draw the overlay on.
-   * @param y - The y-coordinate of the cell to draw the overlay on.
-   * @param color - The color of the overlay.
-   * @param opacityFactor - The opacity factor of the overlay.
-   * @param borderColor - The color of the border.
-   * @param borderThickness - The thickness of the border.
-   * @param cornerSize - The size of the border corners.
+   * Draws an overlay cursor on the terminal at the specified coordinates
+   * with a colored box and a border with a specific color and thickness.
+   *
+   * @param {number} x The x-coordinate of the cell position.
+   * @param {number} y The y-coordinate of the cell position.
+   * @param {string} color The color of the overlay.
+   * @param {number} opacityFactor The opacity factor for the overlay.
+   * @param {string} borderColor The color of the border.
+   * @param {number} borderThickness The thickness of the border.
+   * @param {number} cornerSize The size of the corners of the border.
    */
   public drawOverlayCursor(
     x: number,
@@ -213,5 +220,168 @@ export class Terminal implements DrawableTerminal {
       this.ctx.stroke();
     }
     this.ctx.restore();
+  }
+
+  /**
+   * Draws a slash attack effect on the terminal at the specified coordinates.
+   *
+   * The slash attack effect is a randomly chosen diagonal, horizontal or vertical line.
+   * The line is colored with the specified color and has the specified opacity factor and thickness.
+   *
+   * @param {number} x The x-coordinate of the cell position.
+   * @param {number} y The y-coordinate of the cell position.
+   * @param {string} color The color of the line.
+   * @param {number} opacityFactor The opacity factor for the line.
+   * @param {number} thickness The thickness of the line.
+   */
+  public drawSlashAttackOverlay(
+    x: number,
+    y: number,
+    color: string,
+    opacityFactor: number,
+    thickness: number,
+  ) {
+    // Calculate the coordinates of the top-left corner of the cell
+    const fx = x * this.horizontalSide;
+    const fy = y * this.verticalSide;
+
+    // Define the possible directions of the slash attack
+    const slashDirections = [
+      'diagonalTLBR',
+      'diagonalTRBL',
+      'horizontal',
+      'vertical',
+    ];
+
+    // Choose a random direction
+    const direction =
+      slashDirections[Math.floor(Math.random() * slashDirections.length)];
+
+    // Set the stroke color of the line
+    this.ctx.strokeStyle = ManipulateColors.hexToRgba(color, opacityFactor);
+
+    // Set the line width
+    this.ctx.lineWidth = thickness;
+
+    // Start a new path for the line
+    this.ctx.beginPath();
+
+    /**
+     * The minimum and maximum factors are used to scale the line.
+     * The factors are used to make the line a little bit longer than the cell size.
+     * The line is drawn from the center of the cell to the edge of the cell.
+     */
+    const minFactor = 0.75;
+    const maxFactor = 1.15;
+
+    // Draw the line based on the chosen direction
+    switch (direction) {
+      case 'diagonalTLBR': {
+        // Calculate the start and end points of the line
+        const startFactor = minFactor + Math.random() * (maxFactor - minFactor);
+        const endFactor = minFactor + Math.random() * (maxFactor - minFactor);
+        this.ctx.moveTo(
+          fx + this.horizontalSide * startFactor,
+          fy + this.verticalSide * startFactor,
+        );
+        this.ctx.lineTo(
+          fx + this.horizontalSide * (1 - endFactor),
+          fy + this.verticalSide * (1 - endFactor),
+        );
+        break;
+      }
+      case 'diagonalTRBL': {
+        // Calculate the start and end points of the line
+        const startFactor = minFactor + Math.random() * (maxFactor - minFactor);
+        const endFactor = minFactor + Math.random() * (maxFactor - minFactor);
+        this.ctx.moveTo(
+          fx + this.horizontalSide * (1 - startFactor),
+          fy + this.verticalSide * startFactor,
+        );
+        this.ctx.lineTo(
+          fx + this.horizontalSide * endFactor,
+          fy + this.verticalSide * (1 - endFactor),
+        );
+        break;
+      }
+      case 'horizontal': {
+        // Calculate the start and end points of the line
+        const startXFactor =
+          minFactor + Math.random() * (maxFactor - minFactor);
+        const endXFactor = minFactor + Math.random() * (maxFactor - minFactor);
+
+        // Add a small tilt to the line
+        const tiltYStart = (Math.random() - 0.5) * this.verticalSide;
+        const tiltYEnd = (Math.random() - 0.5) * this.verticalSide;
+        this.ctx.moveTo(
+          fx + this.horizontalSide * startXFactor,
+          fy + this.verticalSide * 0.5 + tiltYStart,
+        );
+        this.ctx.lineTo(
+          fx + this.horizontalSide * (1 - endXFactor),
+          fy + this.verticalSide * 0.5 + tiltYEnd,
+        );
+        break;
+      }
+      case 'vertical': {
+        // Calculate the start and end points of the line
+        const startYFactor =
+          minFactor + Math.random() * (maxFactor - minFactor);
+        const endYFactor = minFactor + Math.random() * (maxFactor - minFactor);
+
+        // Add a small tilt to the line
+        const tiltXStart = (Math.random() - 0.5) * this.horizontalSide;
+        const tiltXEnd = (Math.random() - 0.5) * this.horizontalSide;
+        this.ctx.moveTo(
+          fx + this.horizontalSide * 0.5 + tiltXStart,
+          fy + this.verticalSide * startYFactor,
+        );
+        this.ctx.lineTo(
+          fx + this.horizontalSide * 0.5 + tiltXEnd,
+          fy + this.verticalSide * (1 - endYFactor),
+        );
+        break;
+      }
+    }
+
+    // Draw the line
+    this.ctx.stroke();
+  }
+
+  /**
+   * Draws a burst attack effect on the terminal at the specified coordinates.
+   *
+   * The burst attack effect is a series of lines that are evenly spaced and
+   * radiate from the center of the cell. The lines are colored with the specified
+   * color and have the specified opacity factor and thickness.
+   *
+   * @param {number} x The x-coordinate of the cell position.
+   * @param {number} y The y-coordinate of the cell position.
+   * @param {string} color The color of the lines.
+   * @param {number} opacityFactor The opacity factor for the lines.
+   * @param {number} thickness The thickness of the lines.
+   */
+  public drawBurstAttackOverlay(
+    x: number,
+    y: number,
+    color: string,
+    opacityFactor: number,
+    thickness: number,
+  ) {
+    const fx = x * this.horizontalSide + this.horizontalSide * 0.5;
+    const fy = y * this.verticalSide + this.verticalSide * 0.5;
+
+    this.ctx.strokeStyle = ManipulateColors.hexToRgba(color, opacityFactor);
+    this.ctx.lineWidth = thickness;
+
+    this.ctx.beginPath();
+    for (let angle = 0; angle < 360; angle += 45) {
+      const rad = (angle * Math.PI) / 180;
+      const x2 = fx + Math.cos(rad) * this.horizontalSide * 0.4;
+      const y2 = fy + Math.sin(rad) * this.verticalSide * 0.4;
+      this.ctx.moveTo(fx, fy);
+      this.ctx.lineTo(x2, y2);
+    }
+    this.ctx.stroke();
   }
 }

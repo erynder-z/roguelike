@@ -1,4 +1,5 @@
 import { Act } from './act';
+import { AttackAnimationScreen } from '../screens/attackAnimationScreen';
 import { Buff } from '../buffs/buffEnum';
 import { CommandBase } from './commandBase';
 import { Equipment } from '../inventory/equipment';
@@ -7,6 +8,8 @@ import { GameState } from '../../types/gameBuilder/gameState';
 import { HealthAdjust } from './healthAdjust';
 import { Mob } from '../mobs/mob';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
+import { Stack } from '../../types/terminal/stack';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 
 /**
  * Represents a command to hit another mob.
@@ -17,6 +20,8 @@ export class HitCommand extends CommandBase {
     public me: Mob,
     public him: Mob,
     public game: GameState,
+    public stack: Stack,
+    public make: ScreenMaker,
     public act: Act = Act.Hit,
   ) {
     super(me, game);
@@ -41,6 +46,7 @@ export class HitCommand extends CommandBase {
     const damageDealer = me.name;
     const damageReceiver = this.him.name;
 
+    this.displayAttackAnimation(this.him, me);
     this.doDmg(dmg, this.him, me, game, damageDealer, damageReceiver);
 
     if (back > 0) this.doDmg(back, me, me, game, 'SHOCK', damageDealer);
@@ -221,6 +227,21 @@ export class HitCommand extends CommandBase {
     } else {
       const missVerb = isPlayerAttacker ? 'miss' : 'misses';
       return `${attackerDisplayName} ${missVerb} ${targetDisplayName}`;
+    }
+  }
+
+  private displayAttackAnimation(him: Mob, me: Mob): void {
+    const isAttackerPlayer = me.isPlayer;
+    if (!isAttackerPlayer) return;
+
+    const map = this.game.currentMap();
+    const himPos = him.pos;
+    const himCell = map?.cell(himPos);
+
+    if (himCell && himPos) {
+      this.stack.push(
+        new AttackAnimationScreen(this.game, this.make, himCell, himPos),
+      );
     }
   }
 }
