@@ -111,7 +111,7 @@ export class ParsePlayer {
         dir.x = 1;
         break;
       case activeControlScheme.wait.toString():
-        return this.waitCmd();
+        return this.waitCmd(stack);
       case activeControlScheme.log.toString():
         stackScreen = new LogScreen(this.game, this.make);
         break;
@@ -154,7 +154,7 @@ export class ParsePlayer {
       return null;
     }
     if (!dir.isEmpty())
-      return alt ? this.digInDirection(dir) : this.moveBumpCmd(dir);
+      return alt ? this.digInDirection(dir) : this.moveBumpCmd(dir, stack);
 
     return null;
   }
@@ -180,23 +180,12 @@ export class ParsePlayer {
     return new MoveCommand(dir, this.player, this.game);
   }
 
-  /**
-   * Executes the wait command.
-   *
-   * @return {Command} the wait command
-   */
-  private waitCmd(): Command {
-    return new WaitCommand(this.player, this.game);
+  private waitCmd(stack: Stack): Command {
+    return new WaitCommand(this.player, this.game, stack, this.make);
   }
 
-  /**
-   * Creates a new MoveBumpCommand with the given direction, player, and game.
-   *
-   * @param {WorldPoint} dir - the direction to move
-   * @return {Command} the newly created MoveBumpCommand
-   */
-  private moveBumpCmd(dir: WorldPoint): Command {
-    return new MoveBumpCommand(dir, this.player, this.game);
+  private moveBumpCmd(dir: WorldPoint, stack: Stack): Command {
+    return new MoveBumpCommand(dir, this.player, this.game, stack, this.make);
   }
 
   /**

@@ -8,6 +8,8 @@ import { MagnetismHandler } from '../../utilities/magnetismHandler';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { Mob } from '../mobs/mob';
 import { MoveCommand } from './moveCommand';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**
@@ -18,6 +20,8 @@ export class MoveBumpCommand extends CommandBase {
     public dir: WorldPoint,
     public me: Mob,
     public game: GameState,
+    public stack: Stack,
+    public make: ScreenMaker,
   ) {
     super(me, game);
   }
@@ -101,7 +105,7 @@ export class MoveBumpCommand extends CommandBase {
    */
   private executeMoveOrHit(cell: MapCell, mob: Mob, game: GameState): boolean {
     return cell.mob
-      ? new HitCommand(mob, cell.mob, game).turn()
+      ? new HitCommand(mob, cell.mob, game, this.stack, this.make).turn()
       : new MoveCommand(this.dir, mob, game).turn();
   }
 }

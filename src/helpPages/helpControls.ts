@@ -214,13 +214,13 @@ export class HelpControls extends HTMLElement {
     this.populateControlsTable(this.controlSchemeName);
   }
 
-/**
- * Updates the displayed name of the control scheme in the UI.
- *
- * This function selects the HTML element with the ID 'controls-scheme-name'
- * and sets its text content to the uppercase version of the current
- * control scheme name, followed by '- controls'.
- */
+  /**
+   * Updates the displayed name of the control scheme in the UI.
+   *
+   * This function selects the HTML element with the ID 'controls-scheme-name'
+   * and sets its text content to the uppercase version of the current
+   * control scheme name, followed by '- controls'.
+   */
 
   private updateControlSchemeName() {
     const schemeNameElement = this.shadowRoot?.querySelector(
@@ -250,7 +250,7 @@ export class HelpControls extends HTMLElement {
 
     controlsListElement.innerHTML = '';
 
-    const selectedScheme: ControlSchemeType = controlSchemes[controlSchemeName];
+    const selectedScheme = controlSchemes[controlSchemeName];
     if (!selectedScheme) return;
 
     controlsData.controls.forEach(({ action, description }) => {
@@ -258,10 +258,15 @@ export class HelpControls extends HTMLElement {
       const keyCell = document.createElement('td');
       const actionCell = document.createElement('td');
 
-      const keys = selectedScheme[action];
-      keyCell.textContent = keys ? keys.join(' / ') : 'N/A';
-      keyCell.classList.add('key-cell');
+      const keys = (selectedScheme as ControlSchemeType)[action] || [];
+      keyCell.textContent =
+        action === 'scroll_list'
+          ? this.formatScrollListKeys(keys)
+          : keys.length
+            ? keys.join(' / ')
+            : 'N/A';
 
+      keyCell.classList.add('key-cell');
       actionCell.textContent = description;
       actionCell.classList.add('action-cell');
 
@@ -270,17 +275,40 @@ export class HelpControls extends HTMLElement {
     });
   }
 
-/**
- * Handles key presses for navigating between control schemes.
- *
- * This function listens for the '<' and '>' keys to switch to the previous
- * or next control scheme, respectively. If either key is pressed, it triggers
- * the corresponding control scheme button click handler.
- *
- * @param {KeyboardEvent} event - The keyboard event object containing
- * details about the key press.
- * @return {void}
- */
+  /**
+   * Formats the keys for the scroll list control action into a human-readable string.
+   *
+   * If the control action contains modifiers (Alt or Meta), it will be formatted as
+   * "modifiers + keyActions". If the control action does not contain modifiers, it
+   * will be formatted as "key1 / key2 / ...". If the control action contains no keys
+   * at all, it will be formatted as "N/A".
+   *
+   * @param {string[]} keys - The list of keys associated with the scroll list control
+   * action.
+   * @return {string} The formatted string representing the scroll list control action.
+   */
+  private formatScrollListKeys(keys: string[]): string {
+    const modifiers = keys.filter(k => k === 'Alt' || k === 'Meta').join(' / ');
+    const keyActions = keys
+      .filter(k => k !== 'Alt' && k !== 'Meta')
+      .join(' | ');
+
+    return modifiers && keyActions
+      ? `${modifiers} + ${keyActions}`
+      : keys.join(' / ');
+  }
+
+  /**
+   * Handles key presses for navigating between control schemes.
+   *
+   * This function listens for the '<' and '>' keys to switch to the previous
+   * or next control scheme, respectively. If either key is pressed, it triggers
+   * the corresponding control scheme button click handler.
+   *
+   * @param {KeyboardEvent} event - The keyboard event object containing
+   * details about the key press.
+   * @return {void}
+   */
 
   private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {

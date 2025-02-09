@@ -2,10 +2,11 @@ import { BaseScreen } from './baseScreen';
 import { Equipment } from '../inventory/equipment';
 import { EquipmentScreenDisplay } from '../../ui/equipmentScreenDIsplay/equipmentScreenDisplay';
 import { GameState } from '../../types/gameBuilder/gameState';
+import { ItemObject } from '../itemObjects/itemObject';
+import { ItemScreen } from './itemScreen';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Slot } from '../itemObjects/slot';
 import { Stack } from '../../types/terminal/stack';
-import { UnequipCommand } from '../commands/unequipCommand';
 
 /**
  * Represents a equipment screen.
@@ -99,11 +100,11 @@ export class EquipmentScreen extends BaseScreen {
    */
   public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
     const slot = this.CharacterToSlot(event.key);
-
-    if (
-      event.key === this.activeControlScheme.menu.toString() ||
-      this.unequip(slot)
-    ) {
+    if (slot) {
+      this.fadeOutEquipmentScreen();
+      this.itemMenu(slot, stack);
+    }
+    if (event.key === this.activeControlScheme.menu.toString()) {
       this.fadeOutEquipmentScreen();
       stack.pop();
       return true;
@@ -112,11 +113,22 @@ export class EquipmentScreen extends BaseScreen {
   }
 
   /**
-   * Unequips an item from a slot.
-   * @param {Slot} slot - The slot from which to unequip the item.
-   * @returns {boolean} Whether the unequip action was successful.
+   * Opens the item menu for the specified slot.
+   *
+   * Retrieves the item from the given slot and, if the item exists,
+   * removes the current screen from the stack and pushes a new
+   * ItemScreen onto the stack with the retrieved item.
+   *
+   * @param {Slot} slot - The slot of the item to open the menu for.
+   * @param {Stack} stack - The stack object.
    */
-  private unequip(slot: Slot): boolean {
-    return new UnequipCommand(slot, this.game).turn();
+
+  private itemMenu(slot: Slot, stack: Stack): void {
+    const item: ItemObject | undefined = this.equipment.get(slot);
+
+    if (!item) return;
+    const pos = this.CharacterToSlot(slot.toString());
+    stack.pop();
+    stack.push(new ItemScreen(item, pos, this.game, this.make));
   }
 }

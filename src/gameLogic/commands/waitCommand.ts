@@ -4,6 +4,8 @@ import { EventCategory } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Mob } from '../mobs/mob';
 import { MoveBumpCommand } from './moveBumpCommand';
+import { Stack } from '../../types/terminal/stack';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 
 /**
  * Represents a wait command that ends the turn for the mob.
@@ -12,6 +14,8 @@ export class WaitCommand extends CommandBase {
   constructor(
     public me: Mob,
     public game: GameState,
+    public stack: Stack,
+    public make: ScreenMaker,
   ) {
     super(me, game);
   }
@@ -25,7 +29,13 @@ export class WaitCommand extends CommandBase {
 
     if (isConfused) {
       const randomDirection = game.rand.randomDirectionForcedMovement();
-      return new MoveBumpCommand(randomDirection, me, game).execute();
+      return new MoveBumpCommand(
+        randomDirection,
+        me,
+        game,
+        this.stack,
+        this.make,
+      ).execute();
     }
 
     game.addCurrentEvent(EventCategory.wait);

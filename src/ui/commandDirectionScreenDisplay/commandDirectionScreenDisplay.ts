@@ -12,15 +12,21 @@ export class CommandDirectionScreenDisplay extends HTMLElement {
     const template = document.createElement('template');
     template.innerHTML = `
         <style>
-          .command-direction-screen {
+          :host {
+            --outer-margin: 6rem;
+            --minimal-width: 33%;
+            --maximal-width: 100%;
+        }
+          .command-direction-screen-display {
             background: var(--popupBackground);
-            backdrop-filter: blur(5px);
             position: absolute;
             top: 1rem;
             left: 1rem;
             padding: 2rem;
             border-radius: 1rem;
             display: flex;
+            height: calc(var(--maximal-width) - var(--outer-margin));
+            width: calc(var(--minimal-width) - var(--outer-margin));
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -53,7 +59,7 @@ export class CommandDirectionScreenDisplay extends HTMLElement {
             opacity: 0;
           }
         </style>
-        <div class="command-direction-screen">
+        <div class="command-direction-screen-display">
           <div class="title"></div>
           <div class="directions-table"></div>
           <div class="spell-footing">(Press ${this.menuKey} to cancel)</div>
