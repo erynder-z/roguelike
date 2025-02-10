@@ -2,6 +2,16 @@ import { DrawableTerminal } from '../types/terminal/drawableTerminal';
 import { ManipulateColors } from '../utilities/colors/manipulateColors';
 import { TerminalPoint } from './terminalPoint';
 
+const SLASH_DIRECTIONS = [
+  'diagonalTLBR',
+  'diagonalTRBL',
+  'horizontal',
+  'vertical',
+];
+const MIN_FACTOR = 0.75;
+const MAX_FACTOR = 1.15;
+const FACTOR_RANGE = MAX_FACTOR - MIN_FACTOR;
+
 /**
  * Represents a terminal for drawing text on a canvas.
  */
@@ -234,6 +244,7 @@ export class Terminal implements DrawableTerminal {
    * @param {number} opacityFactor The opacity factor for the line.
    * @param {number} thickness The thickness of the line.
    */
+
   public drawSlashAttackOverlay(
     x: number,
     y: number,
@@ -241,111 +252,82 @@ export class Terminal implements DrawableTerminal {
     opacityFactor: number,
     thickness: number,
   ) {
-    // Calculate the coordinates of the top-left corner of the cell
-    const fx = x * this.horizontalSide;
-    const fy = y * this.verticalSide;
+    // Cache frequently used values locally.
+    const { horizontalSide, verticalSide, ctx } = this;
+    const fx = x * horizontalSide;
+    const fy = y * verticalSide;
 
-    // Define the possible directions of the slash attack
-    const slashDirections = [
-      'diagonalTLBR',
-      'diagonalTRBL',
-      'horizontal',
-      'vertical',
-    ];
-
-    // Choose a random direction
+    // Use a precomputed constant array and bitwise floor.
     const direction =
-      slashDirections[Math.floor(Math.random() * slashDirections.length)];
+      SLASH_DIRECTIONS[(Math.random() * SLASH_DIRECTIONS.length) | 0];
 
-    // Set the stroke color of the line
-    this.ctx.strokeStyle = ManipulateColors.hexToRgba(color, opacityFactor);
+    // Set stroke style and width.
+    ctx.strokeStyle = ManipulateColors.hexToRgba(color, opacityFactor);
+    ctx.lineWidth = thickness;
+    ctx.beginPath();
 
-    // Set the line width
-    this.ctx.lineWidth = thickness;
-
-    // Start a new path for the line
-    this.ctx.beginPath();
-
-    /**
-     * The minimum and maximum factors are used to scale the line.
-     * The factors are used to make the line a little bit longer than the cell size.
-     * The line is drawn from the center of the cell to the edge of the cell.
-     */
-    const minFactor = 0.75;
-    const maxFactor = 1.15;
-
-    // Draw the line based on the chosen direction
+    // Depending on the direction, compute endpoints.
     switch (direction) {
       case 'diagonalTLBR': {
-        // Calculate the start and end points of the line
-        const startFactor = minFactor + Math.random() * (maxFactor - minFactor);
-        const endFactor = minFactor + Math.random() * (maxFactor - minFactor);
-        this.ctx.moveTo(
-          fx + this.horizontalSide * startFactor,
-          fy + this.verticalSide * startFactor,
+        const startFactor = MIN_FACTOR + Math.random() * FACTOR_RANGE;
+        const endFactor = MIN_FACTOR + Math.random() * FACTOR_RANGE;
+        ctx.moveTo(
+          fx + horizontalSide * startFactor,
+          fy + verticalSide * startFactor,
         );
-        this.ctx.lineTo(
-          fx + this.horizontalSide * (1 - endFactor),
-          fy + this.verticalSide * (1 - endFactor),
+        ctx.lineTo(
+          fx + horizontalSide * (1 - endFactor),
+          fy + verticalSide * (1 - endFactor),
         );
         break;
       }
       case 'diagonalTRBL': {
-        // Calculate the start and end points of the line
-        const startFactor = minFactor + Math.random() * (maxFactor - minFactor);
-        const endFactor = minFactor + Math.random() * (maxFactor - minFactor);
-        this.ctx.moveTo(
-          fx + this.horizontalSide * (1 - startFactor),
-          fy + this.verticalSide * startFactor,
+        const startFactor = MIN_FACTOR + Math.random() * FACTOR_RANGE;
+        const endFactor = MIN_FACTOR + Math.random() * FACTOR_RANGE;
+        ctx.moveTo(
+          fx + horizontalSide * (1 - startFactor),
+          fy + verticalSide * startFactor,
         );
-        this.ctx.lineTo(
-          fx + this.horizontalSide * endFactor,
-          fy + this.verticalSide * (1 - endFactor),
+        ctx.lineTo(
+          fx + horizontalSide * endFactor,
+          fy + verticalSide * (1 - endFactor),
         );
         break;
       }
       case 'horizontal': {
-        // Calculate the start and end points of the line
-        const startXFactor =
-          minFactor + Math.random() * (maxFactor - minFactor);
-        const endXFactor = minFactor + Math.random() * (maxFactor - minFactor);
-
-        // Add a small tilt to the line
-        const tiltYStart = (Math.random() - 0.5) * this.verticalSide;
-        const tiltYEnd = (Math.random() - 0.5) * this.verticalSide;
-        this.ctx.moveTo(
-          fx + this.horizontalSide * startXFactor,
-          fy + this.verticalSide * 0.5 + tiltYStart,
+        const startXFactor = MIN_FACTOR + Math.random() * FACTOR_RANGE;
+        const endXFactor = MIN_FACTOR + Math.random() * FACTOR_RANGE;
+        const tiltYStart = (Math.random() - 0.5) * verticalSide;
+        const tiltYEnd = (Math.random() - 0.5) * verticalSide;
+        ctx.moveTo(
+          fx + horizontalSide * startXFactor,
+          fy + verticalSide * 0.5 + tiltYStart,
         );
-        this.ctx.lineTo(
-          fx + this.horizontalSide * (1 - endXFactor),
-          fy + this.verticalSide * 0.5 + tiltYEnd,
+        ctx.lineTo(
+          fx + horizontalSide * (1 - endXFactor),
+          fy + verticalSide * 0.5 + tiltYEnd,
         );
         break;
       }
       case 'vertical': {
-        // Calculate the start and end points of the line
-        const startYFactor =
-          minFactor + Math.random() * (maxFactor - minFactor);
-        const endYFactor = minFactor + Math.random() * (maxFactor - minFactor);
-
-        // Add a small tilt to the line
-        const tiltXStart = (Math.random() - 0.5) * this.horizontalSide;
-        const tiltXEnd = (Math.random() - 0.5) * this.horizontalSide;
-        this.ctx.moveTo(
-          fx + this.horizontalSide * 0.5 + tiltXStart,
-          fy + this.verticalSide * startYFactor,
+        const startYFactor = MIN_FACTOR + Math.random() * FACTOR_RANGE;
+        const endYFactor = MIN_FACTOR + Math.random() * FACTOR_RANGE;
+        const tiltXStart = (Math.random() - 0.5) * horizontalSide;
+        const tiltXEnd = (Math.random() - 0.5) * horizontalSide;
+        ctx.moveTo(
+          fx + horizontalSide * 0.5 + tiltXStart,
+          fy + verticalSide * startYFactor,
         );
-        this.ctx.lineTo(
-          fx + this.horizontalSide * 0.5 + tiltXEnd,
-          fy + this.verticalSide * (1 - endYFactor),
+        ctx.lineTo(
+          fx + horizontalSide * 0.5 + tiltXEnd,
+          fy + verticalSide * (1 - endYFactor),
         );
         break;
       }
     }
 
-    // Draw the line
-    this.ctx.stroke();
+    // Render the line.
+    ctx.stroke();
   }
 
   /**
