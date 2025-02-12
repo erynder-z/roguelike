@@ -4,16 +4,15 @@ import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
-import { MapCell } from '../../maps/mapModel/mapCell';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 export class AttackAnimationScreen extends BaseScreen {
-  public name = 'attack-animation-screen';
+  public name = 'player-attack-animation-screen';
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public cell: MapCell,
     public pos: WorldPoint,
+    public isAttackByPlayer: boolean,
   ) {
     super(game, make);
   }
@@ -29,24 +28,39 @@ export class AttackAnimationScreen extends BaseScreen {
     return false;
   }
 
-/**
- * Draws the attack animation screen on the provided drawable terminal.
- *
- * This method configures the player's color and calculates the target
- * position for the attack animation based on the player's current position
- * and a neutral terminal position. It then draws a slash attack overlay
- * at the calculated target position with a specified color, opacity, and
- * thickness.
- *
- * @param {DrawableTerminal} term - The terminal to draw the attack animation on.
- * @return {void} No return value.
- */
-
   public drawScreen(term: DrawableTerminal): void {
+    if (this.isAttackByPlayer) {
+      this.playerAttackAnimation(term);
+    } else {
+      this.mobAttackAnimation(term);
+    }
+  }
+
+  /**
+   * Called when the screen is updated due to time.
+   *
+   * @param {Stack} stack - The stack of screens.
+   * @return {boolean} Returns true if the screen should be popped from the stack, false otherwise.
+   */
+  public onTime(stack: Stack): boolean {
+    stack.pop();
+    return true;
+  }
+
+  /**
+   * Draws the player attack animation on the terminal.
+   *
+   * The attack animation is a series of lines that are evenly spaced and
+   * radiate from the center of the cell the player is in. The lines are colored
+   * with the player's color and have the specified opacity factor and thickness.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   */
+  private playerAttackAnimation(term: DrawableTerminal) {
     const gameConfig = gameConfigManager.getConfig();
     const playerColor = gameConfig.player.color;
     const color = playerColor;
-    const opacityFactor = 0.6;
+    const opacityFactor = 0.9;
     const thickness = 1;
 
     const terminalNeutralPos = new WorldPoint(32, 16);
@@ -60,7 +74,7 @@ export class AttackAnimationScreen extends BaseScreen {
     const targetX = targetPos.x + offsetX;
     const targetY = targetPos.y + offsetY;
 
-    term.drawSlashAttackOverlay(
+    term.drawLongerSlashAttackOverlay(
       targetX,
       targetY,
       color,
@@ -70,13 +84,28 @@ export class AttackAnimationScreen extends BaseScreen {
   }
 
   /**
-   * Called when the screen is updated due to time.
+   * Draws the mob attack animation on the terminal.
    *
-   * @param {Stack} stack - The stack of screens.
-   * @return {boolean} Returns true if the screen should be popped from the stack, false otherwise.
+   * The attack animation is a single line that is drawn at the center of the
+   * screen. The line is colored with a bright red color and has the specified
+   * opacity factor and thickness.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on.
    */
-  public onTime(stack: Stack): boolean {
-    stack.pop();
-    return true;
+  private mobAttackAnimation(term: DrawableTerminal) {
+    const opacityFactor = 0.9;
+    const thickness = 2;
+    const color = '#a7001b';
+
+    const terminalNeutralPos = new WorldPoint(32, 16);
+    const relativePlayerPos = terminalNeutralPos;
+
+    term.drawShorterSlashAttackOverlay(
+      relativePlayerPos.x,
+      relativePlayerPos.y,
+      color,
+      opacityFactor,
+      thickness,
+    );
   }
 }

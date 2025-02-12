@@ -21,7 +21,7 @@ export type DrawableTerminal = {
     cornerSize: number,
   ): void;
 
-  drawSlashAttackOverlay(
+  drawBurstAttackOverlay(
     x: number,
     y: number,
     color: string,
@@ -29,11 +29,29 @@ export type DrawableTerminal = {
     thickness: number,
   ): void;
 
-  drawBurstAttackOverlay(
+  drawLongerSlashAttackOverlay(
     x: number,
     y: number,
     color: string,
     opacityFactor: number,
     thickness: number,
+  ): void;
+
+  drawShorterSlashAttackOverlay(
+    x: number,
+    y: number,
+    color: string,
+    opacityFactor: number,
+    thickness: number,
+  ): void;
+
+  drawSlashOverlay(
+    x: number,
+    y: number,
+    color: string,
+    opacityFactor: number,
+    thickness: number,
+    minFactor: number,
+    factorRange: number,
   ): void;
 };
