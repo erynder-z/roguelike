@@ -4,5 +4,6 @@
  * @param {KeyboardEvent} event - The keyboard event to handle.
  */
 export const handleGlobalKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Escape') event.preventDefault();
+  if (event.key === 'Escape' || event?.altKey || event?.metaKey)
+    event.preventDefault();
 };
