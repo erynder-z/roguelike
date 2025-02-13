@@ -241,6 +241,7 @@ export class HitCommand extends CommandBase {
     const map = this.game.currentMap();
     const himPos = him.pos;
     const himCell = map?.cell(himPos);
+    const isDig = false;
 
     if (himCell && himPos)
       this.stack.push(
@@ -249,6 +250,7 @@ export class HitCommand extends CommandBase {
           this.make,
           himPos,
           isAttackByPlayer,
+          isDig,
         ),
       );
   }

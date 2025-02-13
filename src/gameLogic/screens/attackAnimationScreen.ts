@@ -7,12 +7,14 @@ import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 export class AttackAnimationScreen extends BaseScreen {
-  public name = 'player-attack-animation-screen';
+  public name = 'attack-animation-screen';
+
   constructor(
     public game: GameState,
     public make: ScreenMaker,
     public pos: WorldPoint,
     public isAttackByPlayer: boolean,
+    public isDig: boolean,
   ) {
     super(game, make);
   }
@@ -28,55 +30,64 @@ export class AttackAnimationScreen extends BaseScreen {
     return false;
   }
 
+  /**
+   * Draws the attack animation on the terminal.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @return {void} No return value.
+   */
   public drawScreen(term: DrawableTerminal): void {
-    if (this.isAttackByPlayer) {
-      this.playerAttackAnimation(term);
-    } else {
-      this.mobAttackAnimation(term);
+    if (this.isDig) {
+      this.drawAttackAnimation(term, 'burst');
+      return;
     }
+
+    const attackType = this.isAttackByPlayer ? 'longerSlash' : 'shorterSlash';
+    this.drawAttackAnimation(term, attackType);
   }
 
   /**
-   * Called when the screen is updated due to time.
+   * Removes the attack animation screen from the stack.
    *
    * @param {Stack} stack - The stack of screens.
-   * @return {boolean} Returns true if the screen should be popped from the stack, false otherwise.
+   * @return {boolean} True if the screen was popped successfully, otherwise false.
    */
   public onTime(stack: Stack): boolean {
     stack.pop();
     return true;
   }
 
-  /**
-   * Draws the player attack animation on the terminal.
-   *
-   * The attack animation is a series of lines that are evenly spaced and
-   * radiate from the center of the cell the player is in. The lines are colored
-   * with the player's color and have the specified opacity factor and thickness.
-   *
-   * @param {DrawableTerminal} term - The terminal to draw on.
-   */
-  private playerAttackAnimation(term: DrawableTerminal) {
+/**
+ * Draws an attack animation of a specified type on the terminal.
+ *
+ * Determines the color, opacity, and thickness of the attack based on its type
+ * and utilizes the corresponding draw method to render the attack overlay.
+ *
+ * @param {DrawableTerminal} term - The terminal to draw the animation on.
+ * @param {'longerSlash' | 'shorterSlash' | 'burst'} type - The type of attack to draw.
+ */
+
+  private drawAttackAnimation(
+    term: DrawableTerminal,
+    type: 'longerSlash' | 'shorterSlash' | 'burst',
+  ) {
     const gameConfig = gameConfigManager.getConfig();
-    const playerColor = gameConfig.player.color;
-    const color = playerColor;
+    const color = type === 'shorterSlash' ? '#a7001b' : gameConfig.player.color;
     const opacityFactor = 0.9;
-    const thickness = 1;
+    const thickness = type === 'shorterSlash' ? 2 : 1;
 
-    const terminalNeutralPos = new WorldPoint(32, 16);
-    const relativePlayerPos = terminalNeutralPos;
-    const playerPos = this.game.player.pos;
-    const targetPos = this.pos;
+    const targetPos = this.getTargetPosition();
+    const drawMethod =
+      type === 'longerSlash'
+        ? term.drawLongerSlashAttackOverlay
+        : type === 'shorterSlash'
+          ? term.drawShorterSlashAttackOverlay
+          : term.drawBurstAttackOverlay;
 
-    const offsetX = relativePlayerPos.x - playerPos.x;
-    const offsetY = relativePlayerPos.y - playerPos.y;
-
-    const targetX = targetPos.x + offsetX;
-    const targetY = targetPos.y + offsetY;
-
-    term.drawLongerSlashAttackOverlay(
-      targetX,
-      targetY,
+    drawMethod.call(
+      term,
+      targetPos.x,
+      targetPos.y,
       color,
       opacityFactor,
       thickness,
@@ -84,28 +95,18 @@ export class AttackAnimationScreen extends BaseScreen {
   }
 
   /**
-   * Draws the mob attack animation on the terminal.
+   * Calculates the position of the target mob on the terminal based on its world position,
+   * taking into account the player's position.
    *
-   * The attack animation is a single line that is drawn at the center of the
-   * screen. The line is colored with a bright red color and has the specified
-   * opacity factor and thickness.
-   *
-   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @return {WorldPoint} The position of the target mob on the terminal.
    */
-  private mobAttackAnimation(term: DrawableTerminal) {
-    const opacityFactor = 0.9;
-    const thickness = 2;
-    const color = '#a7001b';
+  private getTargetPosition(): WorldPoint {
+    const terminalCenter = new WorldPoint(32, 16);
+    const playerPos = this.game.player.pos;
 
-    const terminalNeutralPos = new WorldPoint(32, 16);
-    const relativePlayerPos = terminalNeutralPos;
-
-    term.drawShorterSlashAttackOverlay(
-      relativePlayerPos.x,
-      relativePlayerPos.y,
-      color,
-      opacityFactor,
-      thickness,
+    return new WorldPoint(
+      this.pos.x + (terminalCenter.x - playerPos.x),
+      this.pos.y + (terminalCenter.y - playerPos.y),
     );
   }
 }

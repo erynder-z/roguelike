@@ -7,7 +7,10 @@ import { Glyph } from '../glyphs/glyph';
 import { GlyphMap } from '../glyphs/glyphMap';
 import { LogMessage } from '../messages/logMessage';
 import { Mob } from '../mobs/mob';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
+import { AttackAnimationScreen } from '../screens/attackAnimationScreen';
 
 /**
  * Represents a command to dig through rocks.
@@ -17,6 +20,8 @@ export class DigCommand extends CommandBase {
     public dir: WorldPoint,
     public me: Mob,
     public game: GameState,
+    public stack: Stack,
+    public make: ScreenMaker,
   ) {
     super(me, game);
   }
@@ -44,6 +49,10 @@ export class DigCommand extends CommandBase {
 
     const digCellEnv = cell.env;
     const digSuccess = rand.isOneIn(10);
+
+    this.stack.push(
+      new AttackAnimationScreen(this.game, this.make, newPosition, true, true),
+    );
 
     if (digSuccess) {
       cell.env = Glyph.Regular_Floor;

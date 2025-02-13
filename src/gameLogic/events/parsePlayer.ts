@@ -154,7 +154,9 @@ export class ParsePlayer {
       return null;
     }
     if (!dir.isEmpty())
-      return alt ? this.digInDirection(dir) : this.moveBumpCmd(dir, stack);
+      return alt
+        ? this.digInDirection(dir, stack)
+        : this.moveBumpCmd(dir, stack);
 
     return null;
   }
@@ -166,8 +168,8 @@ export class ParsePlayer {
    * @param {WorldPoint} dir - The direction in which to dig.
    * @return {Command} A new DigCommand object.
    */
-  private digInDirection(dir: WorldPoint): Command {
-    return new DigCommand(dir, this.player, this.game);
+  private digInDirection(dir: WorldPoint, stack: Stack): Command {
+    return new DigCommand(dir, this.player, this.game, stack, this.make);
   }
 
   /**
