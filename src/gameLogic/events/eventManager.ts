@@ -44,7 +44,7 @@ export class EventManager {
    * @return {void} No return value.
    */
   private initTimer(): void {
-    const interval_ms = 100;
+    const interval_ms = 50;
     setInterval(this.onTimer.bind(this), interval_ms);
   }
 
