@@ -4,4 +4,5 @@ export type Stack = {
   pop(): void;
   push(screen: StackScreen): void;
   getCurrentScreen(): StackScreen;
+  removeScreen(screen: StackScreen): void;
 };

@@ -53,19 +53,19 @@ export class AttackAnimationScreen extends BaseScreen {
    * @return {boolean} True if the screen was popped successfully, otherwise false.
    */
   public onTime(stack: Stack): boolean {
-    stack.pop();
+    stack.removeScreen(this);
     return true;
   }
 
-/**
- * Draws an attack animation of a specified type on the terminal.
- *
- * Determines the color, opacity, and thickness of the attack based on its type
- * and utilizes the corresponding draw method to render the attack overlay.
- *
- * @param {DrawableTerminal} term - The terminal to draw the animation on.
- * @param {'longerSlash' | 'shorterSlash' | 'burst'} type - The type of attack to draw.
- */
+  /**
+   * Draws an attack animation of a specified type on the terminal.
+   *
+   * Determines the color, opacity, and thickness of the attack based on its type
+   * and utilizes the corresponding draw method to render the attack overlay.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw the animation on.
+   * @param {'longerSlash' | 'shorterSlash' | 'burst'} type - The type of attack to draw.
+   */
 
   private drawAttackAnimation(
     term: DrawableTerminal,
