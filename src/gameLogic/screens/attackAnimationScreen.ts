@@ -4,16 +4,17 @@ import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
-import { MapCell } from '../../maps/mapModel/mapCell';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 export class AttackAnimationScreen extends BaseScreen {
   public name = 'attack-animation-screen';
+
   constructor(
     public game: GameState,
     public make: ScreenMaker,
-    public cell: MapCell,
     public pos: WorldPoint,
+    public isAttackByPlayer: boolean,
+    public isDig: boolean,
   ) {
     super(game, make);
   }
@@ -29,40 +30,64 @@ export class AttackAnimationScreen extends BaseScreen {
     return false;
   }
 
-/**
- * Draws the attack animation screen on the provided drawable terminal.
- *
- * This method configures the player's color and calculates the target
- * position for the attack animation based on the player's current position
- * and a neutral terminal position. It then draws a slash attack overlay
- * at the calculated target position with a specified color, opacity, and
- * thickness.
- *
- * @param {DrawableTerminal} term - The terminal to draw the attack animation on.
- * @return {void} No return value.
- */
-
+  /**
+   * Draws the attack animation on the terminal.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @return {void} No return value.
+   */
   public drawScreen(term: DrawableTerminal): void {
+    if (this.isDig) {
+      this.drawAttackAnimation(term, 'burst');
+      return;
+    }
+
+    const attackType = this.isAttackByPlayer ? 'longerSlash' : 'shorterSlash';
+    this.drawAttackAnimation(term, attackType);
+  }
+
+  /**
+   * Removes the attack animation screen from the stack.
+   *
+   * @param {Stack} stack - The stack of screens.
+   * @return {boolean} True if the screen was popped successfully, otherwise false.
+   */
+  public onTime(stack: Stack): boolean {
+    stack.removeScreen(this);
+    return true;
+  }
+
+  /**
+   * Draws an attack animation of a specified type on the terminal.
+   *
+   * Determines the color, opacity, and thickness of the attack based on its type
+   * and utilizes the corresponding draw method to render the attack overlay.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw the animation on.
+   * @param {'longerSlash' | 'shorterSlash' | 'burst'} type - The type of attack to draw.
+   */
+
+  private drawAttackAnimation(
+    term: DrawableTerminal,
+    type: 'longerSlash' | 'shorterSlash' | 'burst',
+  ) {
     const gameConfig = gameConfigManager.getConfig();
-    const playerColor = gameConfig.player.color;
-    const color = playerColor;
-    const opacityFactor = 0.6;
-    const thickness = 1;
+    const color = type === 'shorterSlash' ? '#a7001b' : gameConfig.player.color;
+    const opacityFactor = 0.9;
+    const thickness = type === 'shorterSlash' ? 2 : 1;
 
-    const terminalNeutralPos = new WorldPoint(32, 16);
-    const relativePlayerPos = terminalNeutralPos;
-    const playerPos = this.game.player.pos;
-    const targetPos = this.pos;
+    const targetPos = this.getTargetPosition();
+    const drawMethod =
+      type === 'longerSlash'
+        ? term.drawLongerSlashAttackOverlay
+        : type === 'shorterSlash'
+          ? term.drawShorterSlashAttackOverlay
+          : term.drawBurstAttackOverlay;
 
-    const offsetX = relativePlayerPos.x - playerPos.x;
-    const offsetY = relativePlayerPos.y - playerPos.y;
-
-    const targetX = targetPos.x + offsetX;
-    const targetY = targetPos.y + offsetY;
-
-    term.drawSlashAttackOverlay(
-      targetX,
-      targetY,
+    drawMethod.call(
+      term,
+      targetPos.x,
+      targetPos.y,
       color,
       opacityFactor,
       thickness,
@@ -70,13 +95,18 @@ export class AttackAnimationScreen extends BaseScreen {
   }
 
   /**
-   * Called when the screen is updated due to time.
+   * Calculates the position of the target mob on the terminal based on its world position,
+   * taking into account the player's position.
    *
-   * @param {Stack} stack - The stack of screens.
-   * @return {boolean} Returns true if the screen should be popped from the stack, false otherwise.
+   * @return {WorldPoint} The position of the target mob on the terminal.
    */
-  public onTime(stack: Stack): boolean {
-    stack.pop();
-    return true;
+  private getTargetPosition(): WorldPoint {
+    const terminalCenter = new WorldPoint(32, 16);
+    const playerPos = this.game.player.pos;
+
+    return new WorldPoint(
+      this.pos.x + (terminalCenter.x - playerPos.x),
+      this.pos.y + (terminalCenter.y - playerPos.y),
+    );
   }
 }

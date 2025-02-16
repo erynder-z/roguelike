@@ -82,9 +82,14 @@ export class BaseScreen implements StackScreen {
     for (m = queue.next(); !m.isPlayer && !this.over(s); m = queue.next()) {
       this.npcTurn(m, player, s);
     }
-    this.handleMessages(s);
-    if (this.game.stats.currentTurnReceivedDmg >= 0)
+    if (this.game.stats.currentTurnReceivedDmg >= 1) {
+      HealthAdjust.handlePlayerDamageEvent(
+        this.game.player,
+        this.game.stats.currentTurnReceivedDmg,
+        this.game,
+      );
       this.game.stats.resetCurrentTurnReceivedDmg();
+    }
   }
 
   /**
@@ -117,24 +122,6 @@ export class BaseScreen implements StackScreen {
       s.push(this.make.gameOver());
     }
     return over;
-  }
-
-  /**
-   * Handle flash messages. Independent from the the Messages-Display component.
-   * @param {Stack} s - The stack of Screens.
-   * @returns {void}
-   */
-  private handleMessages(s: Stack): void {
-    if (!this.game.log) return;
-
-    if (this.game.stats.currentTurnReceivedDmg >= 1)
-      HealthAdjust.handlePlayerDamageEvent(
-        this.game.player,
-        this.game.stats.currentTurnReceivedDmg,
-        this.game,
-      );
-
-    if (this.game.log.hasQueuedMessages()) s.push(this.make.more(this.game));
   }
 
   /**

@@ -220,24 +220,31 @@ export class DrawUI {
   }
 
   /**
-   * Renders a flash message on the screen.
-   *
-   * @param {GameState} game - The game instance to retrieve the flash message from.
-   * @return {void} This function does not return anything.
+   * Handles displaying a flash message for queued messages in the log.
+   * This function is called at the start of each turn and is responsible for
+   * displaying any messages that were queued up during the previous turn.
+   * @param {GameState} game - The game state containing the log.
+   * @returns {void} This function does not return anything.
    */
   public static renderFlash(game: GameState): void {
     const { log } = game;
 
     if (!log) return;
 
-    const topMessage = log.top();
-    const s = topMessage ? topMessage.message : '';
+    const queuedMessages = log.queue;
+    const msgs = [];
+    for (let i = 0; i < queuedMessages.length; i++) {
+      const msg = new LogMessage(queuedMessages[i].message, EventCategory.none);
+      msgs.push(msg);
+    }
+
+    log.clearQueue();
 
     const flashDisplay = document.querySelector(
       'flash-display',
     ) as FlashDisplay;
-    const msg = new LogMessage(s, EventCategory.none);
-    if (flashDisplay) flashDisplay.setFlash(msg, log);
+
+    if (flashDisplay) flashDisplay.setFlash(msgs, log);
   }
 
   /**

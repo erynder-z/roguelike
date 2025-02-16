@@ -6,11 +6,11 @@ import { GenerateTitleScreen } from '../../utilities/generateTitleScreen';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
 import { lvlTier00Images } from '../../utilities/imageHandler/imageImports/levelImages';
-import { MoreScreen } from './moreScreen';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { ScreenStack } from '../../terminal/screenStack';
 import { SerializedGameState } from '../../types/utilities/saveStateHandler';
 import { StackScreen } from '../../types/terminal/stackScreen';
+import { SomeScreen } from './someScreen';
 
 /**
  * Represents a dynamic screen maker that can create screens based on provided game states.
@@ -20,7 +20,7 @@ export class DynamicScreenMaker implements ScreenMaker {
     public builder: Build,
     public gameScreen: (game: GameState, sm: ScreenMaker) => StackScreen,
     public overScreen: (game: GameState, sm: ScreenMaker) => StackScreen,
-    public moreScreen: (game: GameState, sm: ScreenMaker) => StackScreen,
+    public someScreen: (game: GameState, sm: ScreenMaker) => StackScreen,
     public init: (sm: ScreenMaker) => StackScreen,
     public seed: number,
     public game: GameState | null = null,
@@ -60,8 +60,8 @@ export class DynamicScreenMaker implements ScreenMaker {
     return this.overScreen(<GameState>this.game, this);
   }
 
-  public more(game: GameState | null): StackScreen {
-    return this.moreScreen(<GameState>game, this);
+  public something(game: GameState | null): StackScreen {
+    return this.someScreen(<GameState>game, this);
   }
 
   /**
@@ -83,7 +83,7 @@ export class DynamicScreenMaker implements ScreenMaker {
       builder,
       (game: GameState, sm: ScreenMaker) => new GameScreen(game, sm),
       (game: GameState, sm: ScreenMaker) => new GameOverScreen(game, sm),
-      (game: GameState, sm: ScreenMaker) => new MoreScreen(game, sm),
+      (game: GameState, sm: ScreenMaker) => new SomeScreen(game, sm),
       (sm: ScreenMaker) => sm.newGame(),
       seed,
     );
@@ -100,7 +100,7 @@ export class DynamicScreenMaker implements ScreenMaker {
       builder,
       (game: GameState, sm: ScreenMaker) => new GameScreen(game, sm),
       (game: GameState, sm: ScreenMaker) => new GameOverScreen(game, sm),
-      (game: GameState, sm: ScreenMaker) => new MoreScreen(game, sm),
+      (game: GameState, sm: ScreenMaker) => new SomeScreen(game, sm),
       (sm: ScreenMaker) => sm.loadGame(saveState),
       seed,
     );

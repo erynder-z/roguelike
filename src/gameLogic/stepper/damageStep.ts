@@ -13,7 +13,7 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
 export class DamageStep extends TimedStep {
   constructor(
     public amount: number,
-    public _rangedWeaponType: RangedWeaponType,
+    public weaponType: RangedWeaponType,
     public actor: Mob,
     public game: GameState,
     public target: Mob | null = null,
@@ -85,7 +85,7 @@ export class DamageStep extends TimedStep {
    * @return {RangedWeaponType} The type of ranged weapon.
    */
   public rangedWeaponType(): RangedWeaponType {
-    return this._rangedWeaponType;
+    return this.weaponType;
   }
 }
 

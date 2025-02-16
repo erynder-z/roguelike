@@ -46,7 +46,6 @@ export class HitCommand extends CommandBase {
     const damageDealer = me.name;
     const damageReceiver = this.him.name;
 
-    this.displayAttackAnimation(this.him, me);
     this.doDmg(dmg, this.him, me, game, damageDealer, damageReceiver);
 
     if (back > 0) this.doDmg(back, me, me, game, 'SHOCK', damageDealer);
@@ -105,10 +104,12 @@ export class HitCommand extends CommandBase {
     if (attacker.isPlayer) {
       game.message(msg1);
       game.addCurrentEvent(EventCategory.mobDamage);
+      this.displayAttackAnimation(target, true);
     }
     if (target.isPlayer) {
       game.message(msg2);
       game.addCurrentEvent(EventCategory.playerDamage);
+      this.displayAttackAnimation(target, false);
     }
 
     if (dmg) HealthAdjust.adjust(target, -dmg, game, attacker);
@@ -230,18 +231,27 @@ export class HitCommand extends CommandBase {
     }
   }
 
-  private displayAttackAnimation(him: Mob, me: Mob): void {
-    const isAttackerPlayer = me.isPlayer;
-    if (!isAttackerPlayer) return;
-
+  /**
+   * Pushes an AttackAnimationScreen onto the stack if the target mob is in a cell.
+   *
+   * @param {Mob} him - The mob that is being attacked.
+   * @param {boolean} isAttackByPlayer - True if the attack is by the player, false otherwise.
+   */
+  private displayAttackAnimation(him: Mob, isAttackByPlayer: boolean): void {
     const map = this.game.currentMap();
     const himPos = him.pos;
     const himCell = map?.cell(himPos);
+    const isDig = false;
 
-    if (himCell && himPos) {
+    if (himCell && himPos)
       this.stack.push(
-        new AttackAnimationScreen(this.game, this.make, himCell, himPos),
+        new AttackAnimationScreen(
+          this.game,
+          this.make,
+          himPos,
+          isAttackByPlayer,
+          isDig,
+        ),
       );
-    }
   }
 }

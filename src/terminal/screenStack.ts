@@ -10,13 +10,13 @@ import { StackScreen } from '../types/terminal/stackScreen';
  */
 export class ScreenStack implements Stack, InteractiveScreen {
   public name: string = 'stack';
-  public currentScreen: StackScreen[] = [];
+  public screens: StackScreen[] = [];
   /**
    * Remove and return the last element from the currentScreen array, as well as remove the screen from the DOM.
    */
   public pop() {
-    this.removeScreen();
-    return this.currentScreen.pop();
+    this.fadeOutAndRemoveScreen();
+    return this.screens.pop();
   }
   /**
    * Push a new screen onto the stack.
@@ -24,7 +24,7 @@ export class ScreenStack implements Stack, InteractiveScreen {
    * @param {StackScreen} screen - the screen to push onto the stack
    */
   public push(screen: StackScreen) {
-    this.currentScreen.push(screen);
+    this.screens.push(screen);
   }
   /**
    * Get the current screen.
@@ -32,7 +32,18 @@ export class ScreenStack implements Stack, InteractiveScreen {
    * @return {StackScreen} the current screen
    */
   public getCurrentScreen(): StackScreen {
-    return this.currentScreen[this.currentScreen.length - 1];
+    return this.screens[this.screens.length - 1];
+  }
+
+  /**
+   * Removes a screen from the stack.
+   * @param {StackScreen} screen - the screen to be removed
+   */
+  public removeScreen(screen: StackScreen): void {
+    const index = this.screens.indexOf(screen);
+    if (index !== -1) {
+      this.screens.splice(index, 1);
+    }
   }
 
   /**
@@ -47,7 +58,7 @@ export class ScreenStack implements Stack, InteractiveScreen {
     }
   }
 
-  private removeScreen() {
+  private fadeOutAndRemoveScreen() {
     const currentScreenElement = document.getElementById(
       this.getCurrentScreen().name,
     );

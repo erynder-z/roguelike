@@ -63,23 +63,33 @@ export class FlashDisplay extends HTMLElement {
 
   /**
    * Sets the flash message display.
-   * @param {LogMessage} msg - The message to set.
+   * @param {LogMessage[]} msgs - The messages to set.
    * @param {MessageLog} log - The message log to check for queued messages.
    * @returns {void}
    */
-  public setFlash(msg: LogMessage, log: MessageLog): void {
-    const flashDisplay = <HTMLElement>(
-      this.shadowRoot?.querySelector('.flash-display')
-    );
+  public setFlash(msgs: LogMessage[], log: MessageLog): void {
+    const flashDisplay = this.shadowRoot?.querySelector(
+      '.flash-display',
+    ) as HTMLElement;
 
     if (flashDisplay) {
-      // Hide the flash display if the message is empty
-      flashDisplay.style.visibility = msg.message == '' ? 'hidden' : 'visible';
+      // Only display if at least one message has content.
+      const hasContent = msgs.some(msg => msg.message !== '');
+      flashDisplay.style.visibility = hasContent ? 'visible' : 'hidden';
       flashDisplay.innerHTML = '';
+
       const fragment = document.createDocumentFragment();
 
-      const textNode = document.createTextNode(msg.message);
-      fragment.appendChild(textNode);
+      msgs.forEach((msg, index) => {
+        if (msg.message !== '') {
+          const textNode = document.createTextNode(msg.message);
+          fragment.appendChild(textNode);
+          // Insert a line break between messages (if not the last message)
+          if (index < msgs.length - 1) {
+            fragment.appendChild(document.createElement('br'));
+          }
+        }
+      });
 
       this.decorateFlashDisplay(fragment, log);
       flashDisplay.appendChild(fragment);
