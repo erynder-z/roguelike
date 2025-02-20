@@ -1,4 +1,6 @@
+import { AttackAnimationScreen } from './attackAnimationScreen';
 import { BaseScreen } from './baseScreen';
+import { DamageStep } from '../stepper/damageStep';
 import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
@@ -40,15 +42,34 @@ export class StepScreen extends BaseScreen {
   }
 
   /**
-   * Executes the onTime function.
-   *
+   * Handles the timed step screen.
    * @param {Stack} stack - The stack of screens.
-   * @return {boolean} Returns true if the step is not null and the step is executed successfully, otherwise false.
-   * @throws {string} Throws an error if the step is null.
+   * @return {boolean} True if the screen should be updated, false otherwise.
    */
   public onTime(stack: Stack): boolean {
     if (this.step == null) throw 'step is null';
-    this.step = this.step.executeStep();
+
+    const currentStep = this.step.executeStep();
+    this.step = currentStep;
+
+    if (currentStep instanceof DamageStep) {
+      const pos = currentStep.pos;
+      const isAttackByPlayer = currentStep.actor.isPlayer;
+      const isDig = false;
+      const isRanged = true;
+      if (pos)
+        stack.push(
+          new AttackAnimationScreen(
+            this.game,
+            this.make,
+            pos,
+            isAttackByPlayer,
+            isDig,
+            isRanged,
+          ),
+        );
+    }
+
     if (this.step) return true;
 
     this.pop_and_runNPCLoop(stack);
