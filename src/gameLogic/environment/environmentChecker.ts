@@ -159,4 +159,44 @@ export class EnvironmentChecker {
       }
     }
   }
+  /**
+   * Adds blood to the cell at the given position based on the given damage ratio.
+   *
+   * The amount of blood added is determined by the following thresholds:
+   * - little damage (0-20%): adds 0.2 blood
+   * - medium damage (20-50%): adds 0.5 blood
+   * - big damage (50-70%): adds 0.7 blood
+   * - extreme damage (70%+): adds 1.0 blood
+   *
+   * @param {WorldPoint} wp - The position of the cell to add blood to.
+   * @param {GameMapType} map - The map containing the cell.
+   * @param {number} dmgRatio - The damage ratio to add blood based on.
+   */
+  public static addBloodToCell(
+    wp: WorldPoint,
+    map: GameMapType,
+    dmgRatio: number,
+  ): void {
+    const cell = map.cell(wp);
+    cell.bloody.isBloody = true;
+
+    const LITTLE_DAMAGE_THRESHOLD = 0.2;
+    const MEDIUM_DAMAGE_THRESHOLD = 0.5;
+    const BIG_DAMAGE_THRESHOLD = 0.7;
+
+    switch (true) {
+      case dmgRatio <= LITTLE_DAMAGE_THRESHOLD:
+        cell.bloody.intensity += 0.2;
+        break;
+      case dmgRatio <= MEDIUM_DAMAGE_THRESHOLD:
+        cell.bloody.intensity += 0.5;
+        break;
+      case dmgRatio <= BIG_DAMAGE_THRESHOLD:
+        cell.bloody.intensity += 0.7;
+        break;
+      default:
+        cell.bloody.intensity += 1.0;
+        break;
+    }
+  }
 }
