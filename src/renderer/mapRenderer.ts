@@ -379,11 +379,11 @@ export class MapRenderer {
    * Tints the given color with red to represent bloodiness based on the specified modifier.
    *
    * @param {string} color - The original color to be tinted.
-   * @param {number} modifier - The intensity factor by which to tint the color with red.
+   * @param {number} modifier - The intensity factor by which to tint the color with blood-red.
    * @return {string} The color tinted with red to represent bloodiness.
    */
 
   private static addBloodiness(color: string, modifier: number): string {
-    return ManipulateColors.tintWithRed(color, modifier);
+    return ManipulateColors.tintWithBlood(color, modifier);
   }
 }

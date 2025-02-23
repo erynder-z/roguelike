@@ -557,6 +557,12 @@ export class Builder implements Build {
     pistol.charges = 10;
     inv.add(pistol);
 
+    const strongDagger = new ItemObject(Glyph.Dagger, Slot.MainHand, [
+      ObjCategory.MeleeWeapon,
+    ]);
+    strongDagger.level = 50;
+    inv.add(strongDagger);
+
     /* for (let index = 0; index < 50; index++) {
       const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn, Spell.Bullet);
       pistol.charges = 10;
