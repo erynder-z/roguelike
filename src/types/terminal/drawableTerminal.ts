@@ -54,4 +54,12 @@ export type DrawableTerminal = {
     minFactor: number,
     factorRange: number,
   ): void;
+
+  drawProjectileExplosion(
+    x: number,
+    y: number,
+    explosionColor: string,
+    opacityFactor: number,
+    thickness: number,
+  ): void;
 };

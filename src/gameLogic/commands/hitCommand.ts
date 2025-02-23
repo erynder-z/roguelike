@@ -2,6 +2,7 @@ import { Act } from './act';
 import { AttackAnimationScreen } from '../screens/attackAnimationScreen';
 import { Buff } from '../buffs/buffEnum';
 import { CommandBase } from './commandBase';
+import { EnvironmentChecker } from '../environment/environmentChecker';
 import { Equipment } from '../inventory/equipment';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
@@ -112,7 +113,10 @@ export class HitCommand extends CommandBase {
       this.displayAttackAnimation(target, false);
     }
 
-    if (dmg) HealthAdjust.adjust(target, -dmg, game, attacker);
+    if (dmg) {
+      this.handleBlood(target, dmg);
+      HealthAdjust.adjust(target, -dmg, game, attacker);
+    }
   }
 
   /**
@@ -242,6 +246,7 @@ export class HitCommand extends CommandBase {
     const himPos = him.pos;
     const himCell = map?.cell(himPos);
     const isDig = false;
+    const isRanged = false;
 
     if (himCell && himPos)
       this.stack.push(
@@ -251,7 +256,31 @@ export class HitCommand extends CommandBase {
           himPos,
           isAttackByPlayer,
           isDig,
+          isRanged,
         ),
       );
+  }
+
+  /**
+   * Adds blood to the ground if a mob was significantly damaged (lost at least 25% of its HP) or if a random chance is met.
+   *
+   * @param {Mob} target - The mob that was damaged.
+   * @param {number} dmg - The amount of damage that was dealt to the mob.
+   */
+  private handleBlood(target: Mob, dmg: number): void {
+    if (!target.pos || target.hp <= 0) return;
+
+    const map = this.game.currentMap();
+    if (!map) return;
+
+    const damageRatio = dmg / target.maxhp;
+    const chance = dmg / target.hp;
+
+    const SIGNIFICANT_DAMAGE_THRESHOLD = 0.25;
+
+    // Apply blood if either significant damage occurred or if a random chance is met.
+    if (damageRatio >= SIGNIFICANT_DAMAGE_THRESHOLD || Math.random() < chance) {
+      EnvironmentChecker.addBloodToCell(target.pos, map, damageRatio);
+    }
   }
 }

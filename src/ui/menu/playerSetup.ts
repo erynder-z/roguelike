@@ -247,8 +247,8 @@ export class PlayerSetup extends HTMLElement {
           </div>
         </div>
         <div class="info-container">
-         <span>Ctrl + Arrow keys to toggle appearance</span>
-         <span>Ctrl + r to randomize all</span>
+         <span>Meta + Arrow keys to toggle appearance</span>
+         <span>Meta + r to randomize all</span>
         </div>
         <div class="buttons-container">
           <button id="return-button">
@@ -440,13 +440,13 @@ export class PlayerSetup extends HTMLElement {
         this.returnToPreviousScreen();
         break;
       case 'ArrowLeft':
-        if (event.ctrlKey) this.toggleAppearance();
+        if (event.metaKey) this.toggleAppearance();
         break;
       case 'ArrowRight':
-        if (event.ctrlKey) this.toggleAppearance();
+        if (event.metaKey) this.toggleAppearance();
         break;
       case 'r':
-        if (event.ctrlKey) this.randomize('all');
+        if (event.metaKey) this.randomize('all');
         break;
       default:
         break;

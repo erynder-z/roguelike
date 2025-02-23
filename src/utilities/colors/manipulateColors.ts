@@ -124,6 +124,22 @@ export class ManipulateColors {
     return tintedColor;
   }
 
+  public static tintWithBlood(hexColor: string, factor: number): string {
+    if (hexColor.startsWith('#')) {
+      hexColor = hexColor.slice(1);
+    }
+
+    const r = parseInt(hexColor.slice(0, 2), 16);
+    const g = parseInt(hexColor.slice(2, 4), 16);
+    const b = parseInt(hexColor.slice(4, 6), 16);
+
+    const newR = Math.min(255, Math.floor(r + (255 - r) * factor));
+    const newG = Math.min(255, Math.floor(g * (1 - factor * 0.5)));
+    const newB = Math.min(255, Math.floor(b * (1 - factor * 0.5)));
+
+    return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+  }
+
   /**
    * Converts a hex color to an rgba color string.
    *

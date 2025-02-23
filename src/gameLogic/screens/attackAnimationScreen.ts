@@ -15,6 +15,7 @@ export class AttackAnimationScreen extends BaseScreen {
     public pos: WorldPoint,
     public isAttackByPlayer: boolean,
     public isDig: boolean,
+    public isRanged: boolean,
   ) {
     super(game, make);
   }
@@ -42,6 +43,11 @@ export class AttackAnimationScreen extends BaseScreen {
       return;
     }
 
+    if (this.isRanged) {
+      this.drawAttackAnimation(term, 'ranged');
+      return;
+    }
+
     const attackType = this.isAttackByPlayer ? 'longerSlash' : 'shorterSlash';
     this.drawAttackAnimation(term, attackType);
   }
@@ -56,42 +62,74 @@ export class AttackAnimationScreen extends BaseScreen {
     stack.removeScreen(this);
     return true;
   }
-
   /**
-   * Draws an attack animation of a specified type on the terminal.
+   * Draws the attack animation of a given type on the given terminal.
    *
-   * Determines the color, opacity, and thickness of the attack based on its type
-   * and utilizes the corresponding draw method to render the attack overlay.
-   *
-   * @param {DrawableTerminal} term - The terminal to draw the animation on.
-   * @param {'longerSlash' | 'shorterSlash' | 'burst'} type - The type of attack to draw.
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @param {string} type - The type of attack animation to draw. Must be one of
+   *   'longerSlash', 'shorterSlash', 'burst', or 'ranged'.
+   * @return {void} No return value.
    */
-
   private drawAttackAnimation(
     term: DrawableTerminal,
-    type: 'longerSlash' | 'shorterSlash' | 'burst',
-  ) {
+    type: 'longerSlash' | 'shorterSlash' | 'burst' | 'ranged',
+  ): void {
+    const { color, opacityFactor, thickness } = this.getAnimationParams(type);
+    const targetPos = this.getTargetPosition();
+    const drawingMethod = this.getDrawingMethod(term, type);
+    drawingMethod(targetPos.x, targetPos.y, color, opacityFactor, thickness);
+  }
+
+  /**
+   * Gets the parameters for the attack animation given the type of attack.
+   *
+   * @param {string} type - The type of attack animation to draw. Must be one of
+   *   'longerSlash', 'shorterSlash', 'burst', or 'ranged'.
+   * @returns {{ color: string, opacityFactor: number, thickness: number }}
+   *   An object with the color, opacity factor, and line thickness for the attack
+   *   animation.
+   */
+  private getAnimationParams(
+    type: 'longerSlash' | 'shorterSlash' | 'burst' | 'ranged',
+  ): { color: string; opacityFactor: number; thickness: number } {
     const gameConfig = gameConfigManager.getConfig();
     const color = type === 'shorterSlash' ? '#a7001b' : gameConfig.player.color;
     const opacityFactor = 0.9;
     const thickness = type === 'shorterSlash' ? 2 : 1;
+    return { color, opacityFactor, thickness };
+  }
 
-    const targetPos = this.getTargetPosition();
-    const drawMethod =
-      type === 'longerSlash'
-        ? term.drawLongerSlashAttackOverlay
-        : type === 'shorterSlash'
-          ? term.drawShorterSlashAttackOverlay
-          : term.drawBurstAttackOverlay;
-
-    drawMethod.call(
-      term,
-      targetPos.x,
-      targetPos.y,
-      color,
-      opacityFactor,
-      thickness,
-    );
+  /**
+   * Returns the drawing method on the given terminal that corresponds to the
+   * given type of attack animation.
+   *
+   * @param {DrawableTerminal} term - The terminal to draw on.
+   * @param {string} type - The type of attack animation to draw. Must be one of
+   *   'longerSlash', 'shorterSlash', 'burst', or 'ranged'.
+   * @returns {(x: number, y: number, color: string, opacityFactor: number,
+   *     thickness: number) => void} The drawing method on the given terminal.
+   */
+  private getDrawingMethod(
+    term: DrawableTerminal,
+    type: 'longerSlash' | 'shorterSlash' | 'burst' | 'ranged',
+  ): (
+    x: number,
+    y: number,
+    color: string,
+    opacityFactor: number,
+    thickness: number,
+  ) => void {
+    switch (type) {
+      case 'longerSlash':
+        return term.drawLongerSlashAttackOverlay.bind(term);
+      case 'shorterSlash':
+        return term.drawShorterSlashAttackOverlay.bind(term);
+      case 'ranged':
+        return term.drawProjectileExplosion.bind(term);
+      case 'burst':
+      default:
+        return term.drawBurstAttackOverlay.bind(term);
+    }
   }
 
   /**

@@ -21,6 +21,10 @@ export class MapCell {
     effects: EnvEffect[];
   } = { glyph: Glyph.Unknown, name: '', description: '', effects: [] };
   public corpse: Corpse | undefined;
+  public bloody: { isBloody: boolean; intensity: number } = {
+    isBloody: false,
+    intensity: 0,
+  };
   constructor(public env: Glyph) {}
 
   /**

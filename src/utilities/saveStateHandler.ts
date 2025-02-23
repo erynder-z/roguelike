@@ -342,8 +342,8 @@ export class SaveStateHandler {
       description: cell.environment?.description ?? '',
       effects: cell.environment?.effects ?? [],
     };
-
     newCell.corpse = cell.corpse ? this.restoreCorpse(cell.corpse) : undefined;
+    newCell.bloody = cell.bloody ?? { isBloody: false, intensity: 0 };
 
     return newCell;
   }

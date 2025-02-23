@@ -423,4 +423,57 @@ export class Terminal implements DrawableTerminal {
     }
     ctx.stroke();
   }
+
+  /**
+   * Draws a projectile explosion on the terminal at the specified coordinates.
+   *
+   * Radiates randomly positioned and angled lines from the center of the cell at the
+   * specified coordinates.
+   *
+   * @param {number} x - The x-coordinate of the cell.
+   * @param {number} y - The y-coordinate of the cell.
+   * @param {string} explosionColor - The color of the explosion.
+   * @param {number} opacityFactor - The opacity factor for the explosion.
+   * @param {number} thickness - The thickness of the explosion lines.
+   */
+  public drawProjectileExplosion(
+    x: number,
+    y: number,
+    explosionColor: string,
+    opacityFactor: number,
+    thickness: number,
+  ): void {
+    const centerX = x * this.horizontalSide + this.horizontalSide / 2;
+    const centerY = y * this.verticalSide + this.verticalSide / 2;
+
+    const numRays = 12;
+
+    this.ctx.save();
+    {
+      this.ctx.strokeStyle = ManipulateColors.hexToRgba(
+        explosionColor,
+        opacityFactor,
+      );
+      this.ctx.lineWidth = thickness;
+      this.ctx.beginPath();
+
+      for (let i = 0; i < numRays; i++) {
+        const baseAngle = (i / numRays) * Math.PI * 2;
+
+        const randomAngle =
+          baseAngle + (Math.random() - 0.5) * (Math.PI / numRays);
+
+        const rayLength = this.horizontalSide * (0.2 + Math.random() * 0.2);
+
+        const x2 = centerX + Math.cos(randomAngle) * rayLength;
+        const y2 = centerY + Math.sin(randomAngle) * rayLength;
+
+        this.ctx.moveTo(centerX, centerY);
+        this.ctx.lineTo(x2, y2);
+      }
+
+      this.ctx.stroke();
+    }
+    this.ctx.restore();
+  }
 }

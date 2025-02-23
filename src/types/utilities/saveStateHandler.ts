@@ -167,6 +167,7 @@ export type SerializedMapCell = {
   obj?: SerializedItemData;
   sprite?: number;
   corpse?: SerializedCorpseData;
+  bloody?: { isBloody: boolean; intensity: number };
   environment?: {
     glyph: number;
     name: string;

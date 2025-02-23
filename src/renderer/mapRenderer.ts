@@ -24,26 +24,6 @@ export class MapRenderer {
   private static farLitColor: string = '#485460';
 
   /**
-   * Conditionally adds a tint to the background color based on the environment effects.
-   *
-   * @param {string} bgColor - The background color to tint.
-   * @param {EnvEffect[]} envEffects - The array of environment effects.
-   * @return {string} The tinted background color. If no tint is added, the original background color is returned.
-   */
-  private static maybeAddTintToColor(
-    bgColor: string,
-    envEffects: EnvEffect[],
-  ): string {
-    if (envEffects.includes(EnvEffect.Confusion)) {
-      return ManipulateColors.tintWithRed(bgColor, 0.1);
-    }
-    if (envEffects.includes(EnvEffect.Poison)) {
-      return ManipulateColors.tintWithPink(bgColor, 0.1);
-    }
-    return bgColor;
-  }
-
-  /**
    * Draws a cell on the terminal based on the provided parameters.
    *
    * @param {DrawableTerminal} term - The terminal to draw on.
@@ -299,25 +279,40 @@ export class MapRenderer {
   }
 
   /**
-   * Returns the background color for the raycast algorithm based on the visibility of the cell and its environment.
+   * Calculates the background color for a cell in ray casting mode.
    *
-   * @param {boolean} isVisible - Indicates whether the cell is visible or not.
-   * @param {MapCell} cell - The map cell to determine the background color for.
+   * This method takes into account the visibility of the cell and applies the
+   * appropriate darkness modifier. If the cell is bloody, it also tints the
+   * background color with a red tone based on the blood intensity.
+   *
+   * @param {boolean} isVisible - Flag indicating if the cell is visible.
+   * @param {MapCell} cell - The cell to determine the color for.
    * @return {string} The calculated background color.
    */
   private static getRayCastBgCol(isVisible: boolean, cell: MapCell): string {
-    // Get the glyph information for the cell's environment
     const envOnlyGlyphInfo = GlyphMap.getGlyphInfo(cell.env);
+    let bgColor: string;
 
-    // If the cell is visible, return the background color in unmodified or tinted form, depending on the environment
-    if (isVisible)
-      return this.maybeAddTintToColor(
+    if (isVisible) {
+      bgColor = this.addEnvEffectsTint(
         envOnlyGlyphInfo.bgCol,
         cell.environment.effects,
       );
+    } else {
+      bgColor = ManipulateColors.darkenColor(envOnlyGlyphInfo.bgCol, 0.3);
+    }
 
-    // If the cell is not visible, darken the background color slightly
-    return ManipulateColors.darkenColor(envOnlyGlyphInfo.bgCol, 0.3);
+    if (cell.bloody && cell.bloody.isBloody) {
+      const intensity = cell.bloody.intensity;
+      const modifier_LOS = intensity * 0.2;
+      const modifier_NO_LOS = intensity * 0.1;
+
+      bgColor = isVisible
+        ? this.addBloodiness(bgColor, modifier_LOS)
+        : this.addBloodiness(bgColor, modifier_NO_LOS);
+    }
+
+    return bgColor;
   }
 
   /**
@@ -358,5 +353,37 @@ export class MapRenderer {
       // Return the unlit color if the cell is not visible and not lit
       return this.unlitColor;
     }
+  }
+
+  /**
+   * Adds a tint to the given background color based on the specified environment effects.
+   *
+   * @param {string} bgColor - The background color to tint.
+   * @param {EnvEffect[]} envEffects - The environment effects to consider.
+   * @return {string} The tinted background color.
+   */
+  private static addEnvEffectsTint(
+    bgColor: string,
+    envEffects: EnvEffect[],
+  ): string {
+    if (envEffects.includes(EnvEffect.Confusion)) {
+      return ManipulateColors.tintWithRed(bgColor, 0.1);
+    }
+    if (envEffects.includes(EnvEffect.Poison)) {
+      return ManipulateColors.tintWithPink(bgColor, 0.1);
+    }
+    return bgColor;
+  }
+
+  /**
+   * Tints the given color with red to represent bloodiness based on the specified modifier.
+   *
+   * @param {string} color - The original color to be tinted.
+   * @param {number} modifier - The intensity factor by which to tint the color with blood-red.
+   * @return {string} The color tinted with red to represent bloodiness.
+   */
+
+  private static addBloodiness(color: string, modifier: number): string {
+    return ManipulateColors.tintWithBlood(color, modifier);
   }
 }
