@@ -1,8 +1,8 @@
 import { Act } from './act';
 import { AttackAnimationScreen } from '../screens/attackAnimationScreen';
+import { BloodVisualsHandler } from '../../utilities/BloodVisualsHandler';
 import { Buff } from '../buffs/buffEnum';
 import { CommandBase } from './commandBase';
-import { EnvironmentChecker } from '../environment/environmentChecker';
 import { Equipment } from '../inventory/equipment';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
@@ -114,7 +114,7 @@ export class HitCommand extends CommandBase {
     }
 
     if (dmg) {
-      this.handleBlood(target, dmg);
+      BloodVisualsHandler.handleBlood(target, dmg, game);
       HealthAdjust.adjust(target, -dmg, game, attacker);
     }
   }
@@ -259,28 +259,5 @@ export class HitCommand extends CommandBase {
           isRanged,
         ),
       );
-  }
-
-  /**
-   * Adds blood to the ground if a mob was significantly damaged (lost at least 25% of its HP) or if a random chance is met.
-   *
-   * @param {Mob} target - The mob that was damaged.
-   * @param {number} dmg - The amount of damage that was dealt to the mob.
-   */
-  private handleBlood(target: Mob, dmg: number): void {
-    if (!target.pos || target.hp <= 0) return;
-
-    const map = this.game.currentMap();
-    if (!map) return;
-
-    const damageRatio = dmg / target.maxhp;
-    const chance = dmg / target.hp;
-
-    const SIGNIFICANT_DAMAGE_THRESHOLD = 0.25;
-
-    // Apply blood if either significant damage occurred or if a random chance is met.
-    if (damageRatio >= SIGNIFICANT_DAMAGE_THRESHOLD || Math.random() < chance) {
-      EnvironmentChecker.addBloodToCell(target.pos, map, damageRatio);
-    }
   }
 }
