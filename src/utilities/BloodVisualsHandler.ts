@@ -1,11 +1,15 @@
 import { CanSee } from './canSee';
 import { EnvironmentChecker } from '../gameLogic/environment/environmentChecker';
+import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../types/gameBuilder/gameState';
 import { Mob } from '../gameLogic/mobs/mob';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 
 export class BloodVisualsHandler {
+  private static gameConfig = gameConfigManager.getConfig();
+  private static bloodLevel = this.gameConfig.blood_level;
+
   /**
    * Handles the application of blood visuals on the game map when a mob takes damage.
    *
@@ -18,36 +22,34 @@ export class BloodVisualsHandler {
    * @param {number} dmg - The amount of damage dealt to the mob.
    * @param {GameState} game - The current state of the game.
    */
-
   public static handleBlood(target: Mob, dmg: number, game: GameState): void {
+    if (this.bloodLevel === 0) return; // No blood if bloodLevel is 0
     if (!target.pos || target.hp <= 0) return;
 
     const map = game.currentMap();
-
     if (!map) return;
 
     const damageRatio = dmg / target.maxhp;
     const chance = dmg / target.hp;
 
     const SIGNIFICANT_DAMAGE_THRESHOLD = 0.25;
-
-    // Apply blood if either significant damage occurred or if a random chance is met.
     if (damageRatio >= SIGNIFICANT_DAMAGE_THRESHOLD || Math.random() < chance) {
       this.addBloodToCell(target.pos, map, damageRatio);
     }
   }
 
   /**
-   * Adds blood to a specified cell on the map based on the damage ratio.
+   * Adds blood effects to a specific cell on the game map based on damage ratio.
    *
-   * This function marks the cell as bloody and increases its blood intensity,
-   * clamping it to a maximum intensity. Depending on the given damage ratio,
-   * it may also trigger a blood splash effect to neighboring cells.
+   * This function marks the cell as bloody and calculates the blood intensity
+   * considering the current blood level and damage ratio. If the damage ratio
+   * exceeds predefined thresholds, blood splash effects may also be applied
+   * to neighboring cells. Blood intensity is capped at a maximum value
+   * determined by the blood level.
    *
-   * @param {WorldPoint} wp - The world point of the cell to add blood to.
-   * @param {GameMapType} map - The map containing the cell.
-   * @param {number} dmgRatio - The ratio of damage taken, determining blood intensity and splash.
-   * @return {void} This function does not return a value.
+   * @param {WorldPoint} wp - The world point representing the cell's position.
+   * @param {GameMapType} map - The map containing the cells.
+   * @param {number} dmgRatio - The ratio of damage dealt relative to the maximum health.
    */
 
   private static addBloodToCell(
@@ -57,43 +59,48 @@ export class BloodVisualsHandler {
   ): void {
     const cell = map.cell(wp);
     cell.bloody.isBloody = true;
-    const MAX_BLOOD_INTENSITY = 2.0;
+
+    const MAX_BLOOD_INTENSITY =
+      this.bloodLevel === 3 ? 2.0 : this.bloodLevel === 2 ? 1.5 : 1.0;
 
     const thresholds = [
-      { threshold: 0.2, blood: 0.2, splashArea: 0, splashIntensity: 0 },
-      { threshold: 0.5, blood: 0.5, splashArea: 1, splashIntensity: 0.5 },
-      { threshold: 0.7, blood: 0.7, splashArea: 2, splashIntensity: 0.7 },
-      { threshold: Infinity, blood: 1.0, splashArea: 3, splashIntensity: 1.0 },
+      { threshold: 0.2, blood: 0.5, splashArea: 0, splashIntensity: 0 },
+      { threshold: 0.5, blood: 1.0, splashArea: 1, splashIntensity: 1.0 },
+      { threshold: 0.7, blood: 1.5, splashArea: 2, splashIntensity: 1.5 },
+      { threshold: Infinity, blood: 2.0, splashArea: 3, splashIntensity: 2.0 },
     ];
 
     const entry = thresholds.find(t => dmgRatio <= t.threshold);
     if (entry) {
-      const randomModifier = 1 + (Math.random() * 0.2 - 0.1);
-      const finalBlood = entry.blood * randomModifier;
+      const randomModifier = 1 + (Math.random() * 0.3 - 0.15);
+      const bloodMultiplier =
+        this.bloodLevel === 3 ? 1.75 : this.bloodLevel === 2 ? 1.25 : 1.0;
+      const finalBlood = entry.blood * randomModifier * bloodMultiplier;
 
-      // Accumulate blood intensity and clamp to the maximum.
       cell.bloody.intensity = Math.min(
         cell.bloody.intensity + finalBlood,
         MAX_BLOOD_INTENSITY,
       );
 
       if (entry.splashArea > 0) {
-        this.addBloodSplash(wp, map, entry.splashArea, entry.splashIntensity);
+        this.addBloodSplash(
+          wp,
+          map,
+          entry.splashArea,
+          entry.splashIntensity * bloodMultiplier,
+        );
       }
     }
   }
 
   /**
-   * Spreads blood from a source cell to surrounding cells in a given area.
-   *
-   * The blood intensity is determined by the distance from the source cell,
-   * and there is a chance to reduce the intensity on the outer edge.
-   *
-   * @param {WorldPoint} wp - The source cell of the blood splash.
+   * Spreads blood to neighboring cells based on the given area, base intensity, and blood level.
+   * The intensity of the blood is modified based on distance from the center and randomness.
+   * The blood level multiplies the final intensity.
+   * @param {WorldPoint} wp - The center of the blood splash.
    * @param {GameMapType} map - The map containing the cells.
-   * @param {number} area - The radius of the blood splash area.
+   * @param {number} area - The area of the blood splash.
    * @param {number} baseIntensity - The base intensity of the blood splash.
-   * @return {void} This function does not return a value.
    */
   private static addBloodSplash(
     wp: WorldPoint,
@@ -103,7 +110,8 @@ export class BloodVisualsHandler {
   ): void {
     const bloodAreaRadius = area;
     const neighbors = wp.getNeighbors(bloodAreaRadius);
-    const MAX_BLOOD_INTENSITY = 2.0;
+    const MAX_BLOOD_INTENSITY =
+      this.bloodLevel === 3 ? 2.0 : this.bloodLevel === 2 ? 1.5 : 1.0;
 
     for (const neighbor of neighbors) {
       if (!EnvironmentChecker.isValidNeighbor(neighbor, map)) continue;
@@ -112,17 +120,18 @@ export class BloodVisualsHandler {
       const neighborCell = map.cell(neighbor);
       const distanceFromCenter = wp.distanceTo(neighbor);
       const intensityModifier = 1 - distanceFromCenter / bloodAreaRadius;
-      const randomModifier = 1 + (Math.random() * 0.2 - 0.1);
-      let finalIntensity = baseIntensity * intensityModifier * randomModifier;
+      const randomModifier = 1 + (Math.random() * 0.3 - 0.15);
+      const bloodMultiplier =
+        this.bloodLevel === 3 ? 1.75 : this.bloodLevel === 2 ? 1.25 : 1.0;
+      let finalIntensity =
+        baseIntensity * intensityModifier * randomModifier * bloodMultiplier;
 
-      // Reduce intensity on the outer edge.
-      if (distanceFromCenter >= bloodAreaRadius - 1 && Math.random() < 0.5) {
+      if (distanceFromCenter >= bloodAreaRadius - 2 && Math.random() < 0.5) {
         finalIntensity *= 0.5;
       }
 
       if (finalIntensity > 0) {
         neighborCell.bloody.isBloody = true;
-        // Accumulate the intensity and clamp to MAX_BLOOD_INTENSITY.
         neighborCell.bloody.intensity = Math.min(
           neighborCell.bloody.intensity + finalIntensity,
           MAX_BLOOD_INTENSITY,
