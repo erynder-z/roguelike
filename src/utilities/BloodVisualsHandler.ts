@@ -7,8 +7,9 @@ import { Mob } from '../gameLogic/mobs/mob';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 
 export class BloodVisualsHandler {
-  private static gameConfig = gameConfigManager.getConfig();
-  private static bloodLevel = this.gameConfig.blood_level;
+  private static get bloodIntensity(): number {
+    return gameConfigManager.getConfig().blood_intensity;
+  }
 
   /**
    * Handles the application of blood visuals on the game map when a mob takes damage.
@@ -23,7 +24,7 @@ export class BloodVisualsHandler {
    * @param {GameState} game - The current state of the game.
    */
   public static handleBlood(target: Mob, dmg: number, game: GameState): void {
-    if (this.bloodLevel === 0) return; // No blood if bloodLevel is 0
+    if (this.bloodIntensity === 0) return; // No blood if bloodIntensity is 0
     if (!target.pos || target.hp <= 0) return;
 
     const map = game.currentMap();
@@ -42,10 +43,10 @@ export class BloodVisualsHandler {
    * Adds blood effects to a specific cell on the game map based on damage ratio.
    *
    * This function marks the cell as bloody and calculates the blood intensity
-   * considering the current blood level and damage ratio. If the damage ratio
+   * considering the current blood intensity and damage ratio. If the damage ratio
    * exceeds predefined thresholds, blood splash effects may also be applied
    * to neighboring cells. Blood intensity is capped at a maximum value
-   * determined by the blood level.
+   * determined by the blood intensity.
    *
    * @param {WorldPoint} wp - The world point representing the cell's position.
    * @param {GameMapType} map - The map containing the cells.
@@ -61,7 +62,7 @@ export class BloodVisualsHandler {
     cell.bloody.isBloody = true;
 
     const MAX_BLOOD_INTENSITY =
-      this.bloodLevel === 3 ? 2.0 : this.bloodLevel === 2 ? 1.5 : 1.0;
+      this.bloodIntensity === 3 ? 2.0 : this.bloodIntensity === 2 ? 1.5 : 1.0;
 
     const thresholds = [
       { threshold: 0.2, blood: 0.5, splashArea: 0, splashIntensity: 0 },
@@ -74,7 +75,11 @@ export class BloodVisualsHandler {
     if (entry) {
       const randomModifier = 1 + (Math.random() * 0.3 - 0.15);
       const bloodMultiplier =
-        this.bloodLevel === 3 ? 1.75 : this.bloodLevel === 2 ? 1.25 : 1.0;
+        this.bloodIntensity === 3
+          ? 1.75
+          : this.bloodIntensity === 2
+            ? 1.25
+            : 1.0;
       const finalBlood = entry.blood * randomModifier * bloodMultiplier;
 
       cell.bloody.intensity = Math.min(
@@ -94,9 +99,9 @@ export class BloodVisualsHandler {
   }
 
   /**
-   * Spreads blood to neighboring cells based on the given area, base intensity, and blood level.
+   * Spreads blood to neighboring cells based on the given area, base intensity, and blood intensity.
    * The intensity of the blood is modified based on distance from the center and randomness.
-   * The blood level multiplies the final intensity.
+   * The blood intensity multiplies the final intensity.
    * @param {WorldPoint} wp - The center of the blood splash.
    * @param {GameMapType} map - The map containing the cells.
    * @param {number} area - The area of the blood splash.
@@ -111,7 +116,7 @@ export class BloodVisualsHandler {
     const bloodAreaRadius = area;
     const neighbors = wp.getNeighbors(bloodAreaRadius);
     const MAX_BLOOD_INTENSITY =
-      this.bloodLevel === 3 ? 2.0 : this.bloodLevel === 2 ? 1.5 : 1.0;
+      this.bloodIntensity === 3 ? 2.0 : this.bloodIntensity === 2 ? 1.5 : 1.0;
 
     for (const neighbor of neighbors) {
       if (!EnvironmentChecker.isValidNeighbor(neighbor, map)) continue;
@@ -122,7 +127,11 @@ export class BloodVisualsHandler {
       const intensityModifier = 1 - distanceFromCenter / bloodAreaRadius;
       const randomModifier = 1 + (Math.random() * 0.3 - 0.15);
       const bloodMultiplier =
-        this.bloodLevel === 3 ? 1.75 : this.bloodLevel === 2 ? 1.25 : 1.0;
+        this.bloodIntensity === 3
+          ? 1.75
+          : this.bloodIntensity === 2
+            ? 1.25
+            : 1.0;
       let finalIntensity =
         baseIntensity * intensityModifier * randomModifier * bloodMultiplier;
 
