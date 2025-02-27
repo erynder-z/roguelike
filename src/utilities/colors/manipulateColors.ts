@@ -124,6 +124,29 @@ export class ManipulateColors {
     return tintedColor;
   }
 
+  /**
+   * Tints the given hex color with blue based on the provided factor.
+   *
+   * @param {string} hexColor - The hex color to tint. It should start with a '#' character.
+   * @param {number} factor - The factor by which to tint the color. A value of 0 will return the original color, a value of 1 will return the most blue color possible.
+   * @return {string} The tinted hex color.
+   */
+  public static tintWithBlue(hexColor: string, factor: number): string {
+    if (hexColor.startsWith('#')) {
+      hexColor = hexColor.slice(1);
+    }
+
+    const r = parseInt(hexColor.slice(0, 2), 16);
+    const g = parseInt(hexColor.slice(2, 4), 16);
+    const b = parseInt(hexColor.slice(4, 6), 16);
+
+    const newR = Math.floor(r * (1 - factor));
+    const newG = Math.floor(g * (1 - factor));
+    const newB = Math.min(255, Math.floor(b + (255 - b) * factor));
+
+    return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+  }
+
   public static tintWithBlood(hexColor: string, factor: number): string {
     if (hexColor.startsWith('#')) {
       hexColor = hexColor.slice(1);

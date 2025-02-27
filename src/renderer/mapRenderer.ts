@@ -367,7 +367,7 @@ export class MapRenderer {
     envEffects: EnvEffect[],
   ): string {
     if (envEffects.includes(EnvEffect.Confusion)) {
-      return ManipulateColors.tintWithRed(bgColor, 0.1);
+      return ManipulateColors.tintWithBlue(bgColor, 0.1);
     }
     if (envEffects.includes(EnvEffect.Poison)) {
       return ManipulateColors.tintWithPink(bgColor, 0.1);
