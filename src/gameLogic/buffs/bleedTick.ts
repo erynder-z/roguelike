@@ -81,7 +81,9 @@ export class BleedTick implements Tick {
       );
     }
 
-    BloodVisualsHandler.handleBlood(this.mob, damage, this.game);
+    const intensity = 0.2;
+
+    BloodVisualsHandler.handleTickBlood(this.mob, intensity, this.game);
     HealthAdjust.damage(this.mob, damage, this.game, null);
   }
 }

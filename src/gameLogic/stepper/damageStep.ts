@@ -60,7 +60,7 @@ export class DamageStep extends TimedStep {
       this.game.message(msg);
 
       if (this.amount > 0)
-        BloodVisualsHandler.handleBlood(tgt, this.amount, this.game);
+        BloodVisualsHandler.handleAttackBlood(tgt, this.amount, this.game);
 
       HealthAdjust.damage(tgt, this.amount, this.game, this.actor);
     } else {

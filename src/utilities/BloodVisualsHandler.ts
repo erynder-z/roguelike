@@ -12,18 +12,16 @@ export class BloodVisualsHandler {
   }
 
   /**
-   * Handles the application of blood visuals on the game map when a mob takes damage.
-   *
-   * This function calculates the damage ratio and determines whether to
-   * apply blood effects on the target's map cell based on the damage
-   * threshold or a probabilistic chance. If the conditions are met, blood
-   * is added to the cell, visually indicating damage taken by the mob.
-   *
-   * @param {Mob} target - The mob that received damage.
-   * @param {number} dmg - The amount of damage dealt to the mob.
-   * @param {GameState} game - The current state of the game.
+   * Handles adding blood to a cell when a mob is attacked.
+   * @param {Mob} target - The mob that was attacked.
+   * @param {number} dmg - The amount of damage dealt to the target.
+   * @param {GameState} game - The game state containing information about the current game.
    */
-  public static handleBlood(target: Mob, dmg: number, game: GameState): void {
+  public static handleAttackBlood(
+    target: Mob,
+    dmg: number,
+    game: GameState,
+  ): void {
     if (this.bloodIntensity === 0) return; // No blood if bloodIntensity is 0
     if (!target.pos || target.hp <= 0) return;
 
@@ -37,6 +35,25 @@ export class BloodVisualsHandler {
     if (damageRatio >= SIGNIFICANT_DAMAGE_THRESHOLD || Math.random() < chance) {
       this.addBloodToCell(target.pos, map, damageRatio);
     }
+  }
+
+  /**
+   * Handles adding blood to a cell when a bleed tick is triggered.
+   * @param {Mob} target - The mob whose position will have blood added.
+   * @param {number} intensity - The intensity of the blood to be added.
+   * @param {GameState} game - The game state containing information about the current game.
+   */
+
+  public static handleTickBlood(
+    target: Mob,
+    intensity: number,
+    game: GameState,
+  ): void {
+    if (this.bloodIntensity === 0) return;
+    const map = game.currentMap();
+    if (!map) return;
+
+    this.addBloodToCell(target.pos, map, intensity);
   }
 
   /**

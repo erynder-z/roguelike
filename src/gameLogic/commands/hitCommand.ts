@@ -114,7 +114,7 @@ export class HitCommand extends CommandBase {
     }
 
     if (dmg) {
-      BloodVisualsHandler.handleBlood(target, dmg, game);
+      BloodVisualsHandler.handleAttackBlood(target, dmg, game);
       HealthAdjust.adjust(target, -dmg, game, attacker);
     }
   }
