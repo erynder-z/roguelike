@@ -573,10 +573,18 @@ export class Builder implements Build {
     strongPistol.charges = 10;
     inv.add(strongPistol);
 
-    /* for (let index = 0; index < 50; index++) {
-      const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn, Spell.Bullet);
-      pistol.charges = 10;
-      inv.add(pistol);
-    } */
+    for (let index = 0; index < 50; index++) {
+      const potion = new ItemObject(
+        Glyph.Potion,
+        Slot.NotWorn,
+        [ObjCategory.Consumable],
+        Spell.Heal,
+        1,
+        'some potion',
+        1,
+      );
+
+      inv.add(potion);
+    }
   }
 }
