@@ -3,6 +3,7 @@ import { GameState } from '../../types/gameBuilder/gameState';
 import { Inventory } from '../inventory/inventory';
 import { InventoryScreenDisplay } from '../../ui/inventoryScreenDisplay/inventoryScreenDisplay';
 import { ItemScreen } from './itemScreen';
+import { KeypressScrollHandler } from '../../utilities/KeypressScrollHandler';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 
@@ -60,6 +61,15 @@ export class InventoryScreen extends BaseScreen {
       stack.pop();
       return true;
     }
+
+    // scroll via keypress when alt or meta key is pressed
+    if (this.isAltKeyPressed(event)) {
+      const scrollContainer = this.display?.shadowRoot?.querySelector(
+        '.inventory-screen-display',
+      ) as HTMLElement;
+      new KeypressScrollHandler(scrollContainer).handleVirtualScroll(event);
+      return true;
+    }
     return false;
   }
 
@@ -78,5 +88,12 @@ export class InventoryScreen extends BaseScreen {
     const item = this.inventory.items[pos];
     stack.pop();
     stack.push(new ItemScreen(item, pos, this.game, this.make));
+  }
+
+  /**
+   * Checks if the Alt or Meta key is pressed.
+   */
+  private isAltKeyPressed(event: KeyboardEvent): boolean {
+    return event.altKey || event.metaKey;
   }
 }
