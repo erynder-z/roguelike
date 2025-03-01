@@ -137,7 +137,19 @@ export class LookScreen extends BaseScreen {
 
     const usedLetters = new Set<string>();
 
+    const addControlSchemeKeyLetters = (
+      controlScheme: Record<string, string[]>,
+    ) => {
+      const controlSchemeKeyLetters: string[] =
+        Object.values(controlScheme).flat();
+
+      controlSchemeKeyLetters.map(key => {
+        usedLetters.add(key);
+      });
+    };
+
     const getUniqueLetter = (name: string): string => {
+      addControlSchemeKeyLetters(this.activeControlScheme);
       for (const char of name.toLowerCase()) {
         if (!usedLetters.has(char)) {
           usedLetters.add(char);
