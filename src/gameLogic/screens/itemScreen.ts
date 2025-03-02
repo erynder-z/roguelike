@@ -3,12 +3,9 @@ import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
 import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EquipCommand } from '../commands/equipCommand';
-import { EventCategory, LogMessage } from '../messages/logMessage';
 import { DetailViewHandler } from '../../utilities/detailViewHandler';
 import { FindObjectSpell } from '../spells/findObjectSpells';
-import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
-import { Inventory } from '../inventory/inventory';
 import { ItemObject } from '../itemObjects/itemObject';
 import { ItemScreenDisplay } from '../../ui/itemScreenDisplay/itemScreenDisplay';
 import { ObjCategory } from '../itemObjects/itemCategories';
@@ -17,6 +14,7 @@ import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
 import { Slot } from '../itemObjects/slot';
 import { UnequipCommand } from '../commands/unequipCommand';
+import { DropCommand } from '../commands/dropCommand';
 
 /**
  * Represents a screen for interacting with items.
@@ -174,40 +172,17 @@ export class ItemScreen extends BaseScreen {
   }
 
   /**
-   * Drops the item from the inventory.
-   * @param {Stack} stack - The stack interface.
+   * Drops an item from the player's inventory and removes the item screen.
+   *
+   * @param {Stack} stack - The stack of screens to pop if the item is successfully dropped.
+   * @returns {void}
    */
   private dropItem(stack: Stack): void {
-    if (this.dropInventoryItem()) this.pop_and_runNPCLoop(stack);
-  }
-
-  /**
-   * Drops the item from the inventory.
-   * @returns {boolean} True if the item was dropped successfully, otherwise false.
-   */
-  private dropInventoryItem(): boolean {
-    const { game } = this;
-    const { player } = game;
-
-    const map = <GameMapType>this.game.currentMap();
-    const c = map.cell(player.pos);
-    if (c.hasObject()) {
-      const msg = new LogMessage('No room to drop here!', EventCategory.unable);
-      game.flash(msg);
-      return false;
+    if (new DropCommand(this.obj, this.index, this.game).execute()) {
+      this.pop_and_runNPCLoop(stack);
+    } else {
+      stack.pop();
     }
-    c.obj = this.obj;
-
-    const inventory = <Inventory>game.inventory;
-    inventory.removeIndex(this.index);
-
-    const msg = new LogMessage(
-      `Dropped ${this.obj.description()}.`,
-      EventCategory.drop,
-    );
-    game.message(msg);
-
-    return true;
   }
 
   /**
