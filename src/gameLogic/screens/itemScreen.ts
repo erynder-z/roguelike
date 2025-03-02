@@ -4,6 +4,7 @@ import { CommandBase } from '../commands/commandBase';
 import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EquipCommand } from '../commands/equipCommand';
 import { DetailViewHandler } from '../../utilities/detailViewHandler';
+import { DropCommand } from '../commands/dropCommand';
 import { FindObjectSpell } from '../spells/findObjectSpells';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { ItemObject } from '../itemObjects/itemObject';
@@ -14,7 +15,6 @@ import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
 import { Slot } from '../itemObjects/slot';
 import { UnequipCommand } from '../commands/unequipCommand';
-import { DropCommand } from '../commands/dropCommand';
 
 /**
  * Represents a screen for interacting with items.
@@ -80,6 +80,8 @@ export class ItemScreen extends BaseScreen {
             ObjCategory.Armor,
             ObjCategory.MeleeWeapon,
             ObjCategory.RangedWeapon,
+            ObjCategory.SpellItem,
+            ObjCategory.Consumable,
           ].includes(c),
         )
       ) {
