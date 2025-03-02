@@ -16,4 +16,5 @@ export type GameConfigType = {
     color: string;
     avatar: string;
   };
+  blood_intensity: number;
 };

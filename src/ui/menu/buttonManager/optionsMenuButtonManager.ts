@@ -19,6 +19,7 @@ export class OptionsMenuButtonManager {
    * Updates the displayed text of the control scheme button to reflect the current active control scheme.
    *
    * @param { 'default' | 'alternate' } text - The current active control scheme.
+   * @returns {void}
    */
   public updateControlSchemeButton(
     text: GameConfigType['control_scheme'],
@@ -60,9 +61,7 @@ export class OptionsMenuButtonManager {
    * Sets the button's text to 'Scanlines style: <current style>' and also
    * updates the disabled state based on whether scanlines are enabled.
    *
-   * @param {string} scanlineStyle - The current scanline style, one of the
-   *                                 values in the ScanlineStyles enum.
-   *
+   * @param {string} scanlineStyle - The current scanline style, one of the values in the ScanlineStyles enum.
    * @return {void}
    */
   public updateScanlineStyleButton(scanlineStyle: ScanlineStyles): void {
@@ -87,9 +86,7 @@ export class OptionsMenuButtonManager {
    * Sets the button's text to 'Message display: LEFT' or 'Message display:
    * RIGHT', depending on the current message alignment.
    *
-   * @param {('left' | 'right')} messageAlignment - The current message
-   *                                               alignment.
-   *
+   * @param {('left' | 'right')} messageAlignment - The current message alignment.
    * @return {void}
    */
   public updateMessageAlignButton(messageAlignment: 'left' | 'right'): void {
@@ -127,9 +124,7 @@ export class OptionsMenuButtonManager {
    * Sets the button's text to 'Image display: LEFT' or 'Image display:
    * RIGHT', depending on the current image alignment.
    *
-   * @param {('left' | 'right')} imageAlignment - The current image
-   *                                             alignment.
-   *
+   * @param {('left' | 'right')} imageAlignment - The current image alignment.
    * @return {void}
    */
   public updateImageAlignButton(imageAlignment: 'left' | 'right'): void {
@@ -145,5 +140,28 @@ export class OptionsMenuButtonManager {
         this.shouldDisableImageAlignButton,
       );
     }
+  }
+
+  /**
+   * Updates the text of the blood intensity button based on the current blood intensity.
+   *
+   * Sets the button's text to 'Blood intensity: OFF', 'Blood intensity: NORMAL',
+   * 'Blood intensity: HIGH', or 'Blood intensity: ULTRA', depending on the current
+   * blood intensity.
+   *
+   * @param {number} bloodIntensity - The current blood intensity, one of the values in the BloodIntensity enum.
+   * @return {void}
+   */
+  public updateBloodIntensityButton(bloodIntensity: number): void {
+    const bloodIntensityBtn = this.shadowRoot?.getElementById(
+      'blood-intensity-button',
+    ) as HTMLButtonElement;
+
+    if (!bloodIntensityBtn) return;
+
+    const bloodLevels = ['OFF', 'NORMAL', 'HIGH', 'ULTRA'];
+    const text = bloodLevels[bloodIntensity] ?? 'UNKNOWN';
+
+    bloodIntensityBtn.innerHTML = `<span class="underline">B</span>lood intensity: ${text}`;
   }
 }

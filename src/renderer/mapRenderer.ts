@@ -347,7 +347,7 @@ export class MapRenderer {
         if (cell.env === Glyph.Unknown) return glyphInfo.bgCol;
 
         // Otherwise, darken the foreground color
-        return ManipulateColors.darkenColor(glyphInfo.fgCol, 0.0);
+        return ManipulateColors.darkenColor(glyphInfo.fgCol, 0.3);
       }
 
       // Return the unlit color if the cell is not visible and not lit
@@ -367,7 +367,7 @@ export class MapRenderer {
     envEffects: EnvEffect[],
   ): string {
     if (envEffects.includes(EnvEffect.Confusion)) {
-      return ManipulateColors.tintWithRed(bgColor, 0.1);
+      return ManipulateColors.tintWithBlue(bgColor, 0.1);
     }
     if (envEffects.includes(EnvEffect.Poison)) {
       return ManipulateColors.tintWithPink(bgColor, 0.1);

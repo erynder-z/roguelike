@@ -4,6 +4,7 @@ import { HealthAdjust } from '../commands/healthAdjust';
 import { LogMessage } from '../messages/logMessage';
 import { Mob } from '../mobs/mob';
 import { Tick } from '../../types/gameLogic/buffs/buffType';
+import { BloodVisualsHandler } from '../../utilities/bloodVisualsHandler';
 
 /**
  * Handles a bleed tick.
@@ -80,6 +81,9 @@ export class BleedTick implements Tick {
       );
     }
 
+    const intensity = 0.2;
+
+    BloodVisualsHandler.handleTickBlood(this.mob, intensity, this.game);
     HealthAdjust.damage(this.mob, damage, this.game, null);
   }
 }

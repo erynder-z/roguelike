@@ -30,6 +30,7 @@ class GameConfigManager {
       color: '#ffffff',
       avatar: '@',
     },
+    blood_intensity: 1,
   };
 
   private constructor() {

@@ -563,10 +563,28 @@ export class Builder implements Build {
     strongDagger.level = 50;
     inv.add(strongDagger);
 
-    /* for (let index = 0; index < 50; index++) {
-      const pistol = new ItemObject(Glyph.Pistol, Slot.NotWorn, Spell.Bullet);
-      pistol.charges = 10;
-      inv.add(pistol);
-    } */
+    const strongPistol = new ItemObject(
+      Glyph.Pistol,
+      Slot.NotWorn,
+      [ObjCategory.RangedWeapon, ObjCategory.Special],
+      Spell.Bullet,
+    );
+    strongPistol.level = 50;
+    strongPistol.charges = 10;
+    inv.add(strongPistol);
+
+    for (let index = 0; index < 50; index++) {
+      const potion = new ItemObject(
+        Glyph.Potion,
+        Slot.NotWorn,
+        [ObjCategory.Consumable],
+        Spell.Heal,
+        1,
+        'some potion',
+        1,
+      );
+
+      inv.add(potion);
+    }
   }
 }

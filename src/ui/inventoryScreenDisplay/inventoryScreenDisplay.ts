@@ -1,4 +1,5 @@
 import { ItemObject } from '../../gameLogic/itemObjects/itemObject';
+import keysJson from '../../utilities/commonKeyboardChars.json';
 
 export class InventoryScreenDisplay extends HTMLElement {
   private inventoryItems: ItemObject[] = [];
@@ -44,8 +45,10 @@ export class InventoryScreenDisplay extends HTMLElement {
           width: calc(var(--minimal-width) - var(--outer-margin));
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: start;
           color: var(--white);
+          overflow-y: auto;
+          overflow-x: hidden;
         }
 
         .inventory-heading {
@@ -54,18 +57,17 @@ export class InventoryScreenDisplay extends HTMLElement {
           margin-bottom: 2rem;
         }
 
+        .inventory-list {
+          width: 100%;
+        }
+
         .inventory-list ul {
           padding: 0 2rem;
+          width: 100%;
         }
 
         .inventory-list ul li {
           list-style-type: none;
-          padding: 0.5rem;
-          cursor: pointer;
-        }
-
-        .inventory-list ul li:hover {
-          background-color: var(--hover-bg-color, #222);
         }
 
         .fade-out {
@@ -122,9 +124,10 @@ export class InventoryScreenDisplay extends HTMLElement {
    * Renders the inventory list items.
    *
    * Clears the inventory list container, then creates a new unordered list
-   * element with list items for each inventory item. Each list item is assigned
-   * a data-index attribute for the associated inventory item index.
-   * The list items are then appended to the container.
+   * element with list items for each inventory item. The list items are assigned
+   * data-index attributes with the index of the item in the inventoryItems array.
+   * The list items are also assigned text content with a key (a number for the first
+   * 10 items and a question mark for items after that) and the description of the item.
    */
   private renderInventoryList(): void {
     const inventoryListContainer = this.shadowRoot?.querySelector(
@@ -136,8 +139,9 @@ export class InventoryScreenDisplay extends HTMLElement {
       const fragment = document.createDocumentFragment();
 
       this.inventoryItems.forEach((item, index) => {
+        const key = index < keysJson.keys.length ? keysJson.keys[index] : '?';
         const listItem = document.createElement('li');
-        listItem.textContent = `${String.fromCharCode(97 + index)}: ${item.description()}`;
+        listItem.textContent = `${key}: ${item.description()}`;
         listItem.dataset.index = index.toString();
         fragment.appendChild(listItem);
       });

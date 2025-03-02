@@ -430,7 +430,7 @@
       "id": "Confusion_Mushroom",
       "char": "⍝",
       "bgCol": "#4B5A52",
-      "fgCol": "#ff0b08",
+      "fgCol": "#2a9ad5",
       "hasSolidBg": false,
       "name": "Confusion mushroom",
       "description": "A confusion mushroom that is emitting a disorienting cloud.",

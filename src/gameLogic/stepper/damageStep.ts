@@ -1,3 +1,4 @@
+import { BloodVisualsHandler } from '../../utilities/bloodVisualsHandler';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
@@ -57,6 +58,9 @@ export class DamageStep extends TimedStep {
       );
 
       this.game.message(msg);
+
+      if (this.amount > 0)
+        BloodVisualsHandler.handleAttackBlood(tgt, this.amount, this.game);
 
       HealthAdjust.damage(tgt, this.amount, this.game, this.actor);
     } else {

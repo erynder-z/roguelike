@@ -158,6 +158,9 @@ export class OptionsMenu extends HTMLElement {
               value="${this.gameConfig.message_count}"
             />
           </button>
+          <button id="blood-intensity-button">
+            <span class="underline">B</span>lood intensity
+          </button>
           <button id="back-button">
             <span class="underline">R</span>eturn to previous menu
           </button>
@@ -180,6 +183,9 @@ export class OptionsMenu extends HTMLElement {
     this.buttonManager.updateShowImagesButton(this.gameConfig.show_images);
     this.buttonManager.updateImageAlignButton(this.gameConfig.image_display);
     this.setupMessageCountInput();
+    this.buttonManager.updateBloodIntensityButton(
+      this.gameConfig.blood_intensity,
+    );
     this.bindEvents();
   }
 
@@ -239,6 +245,12 @@ export class OptionsMenu extends HTMLElement {
       'message-count-input-button',
       'click',
       this.focusAndSelectMessageCountInput.bind(this),
+      true,
+    );
+    this.manageEventListener(
+      'blood-intensity-button',
+      'click',
+      this.toggleBloodIntensity.bind(this),
       true,
     );
     this.manageEventListener(
@@ -466,6 +478,21 @@ export class OptionsMenu extends HTMLElement {
   };
 
   /**
+   * Cycles through the blood intensity options (0 = no blood, 1 = light blood, 2 = medium blood, 3 = heavy blood).
+   *
+   * Updates the {@link gameConfig.blood_intensity} property, updates the blood intensity button,
+   * and sets the blood intensity of the game.
+   *
+   * @return {void}
+   */
+  private toggleBloodIntensity(): void {
+    this.gameConfig.blood_intensity = (this.gameConfig.blood_intensity + 1) % 4;
+    this.buttonManager.updateBloodIntensityButton(
+      this.gameConfig.blood_intensity,
+    );
+  }
+
+  /**
    * Returns to the ingame menu, saving the current game configuration.
    *
    * This function is called when the user clicks the "return to game" button on
@@ -512,15 +539,24 @@ export class OptionsMenu extends HTMLElement {
   }
 
   /**
-   * Handles key presses on the options menu.
+   * Handles key presses in the options menu.
    *
-   * The function listens for two keys:
-   * - S: Toggles scanlines.
-   * - R: Returns to the previous screen.
+   * This function listens for specific key presses and triggers corresponding
+   * actions within the options menu. The key actions include:
+   * - 'C': Toggles the control scheme.
+   * - 'S': Toggles the scanlines.
+   * - 't': Switches the scanline style.
+   * - 'M': Toggles message alignment.
+   * - 'e': Focuses and selects the message count input.
+   * - 'h': Toggles the display of images.
+   * - 'I': Toggles image alignment.
+   * - 'B': Toggles the blood intensity.
+   * - Menu key or 'R': Returns to the ingame menu.
    *
-   * @param {KeyboardEvent} event - The keyboard event.
+   * @param {KeyboardEvent} event - The keyboard event to be handled.
    * @return {void}
    */
+
   private handleKeyPress(event: KeyboardEvent): void {
     switch (event.key) {
       case 'C':
@@ -543,6 +579,9 @@ export class OptionsMenu extends HTMLElement {
         break;
       case 'I':
         this.toggleImageAlignment();
+        break;
+      case 'B':
+        this.toggleBloodIntensity();
         break;
       case this.activeControlScheme.menu.toString():
       case 'R':
@@ -590,6 +629,9 @@ export class OptionsMenu extends HTMLElement {
       shadowRoot
         .getElementById('image-align-button')
         ?.removeEventListener('click', this.toggleImageAlignment);
+      shadowRoot
+        .getElementById('blood-intensity-button')
+        ?.removeEventListener('click', this.toggleBloodIntensity);
       shadowRoot
         .getElementById('back-button')
         ?.removeEventListener('click', this.returnToIngameMenu);

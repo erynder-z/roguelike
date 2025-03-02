@@ -50,8 +50,19 @@ export class DigCommand extends CommandBase {
     const digCellEnv = cell.env;
     const digSuccess = rand.isOneIn(10);
 
+    const isAttackByPlayer = true;
+    const isDig = true;
+    const isRanged = false;
+
     this.stack.push(
-      new AttackAnimationScreen(this.game, this.make, newPosition, true, true),
+      new AttackAnimationScreen(
+        this.game,
+        this.make,
+        newPosition,
+        isAttackByPlayer,
+        isDig,
+        isRanged,
+      ),
     );
 
     if (digSuccess) {
