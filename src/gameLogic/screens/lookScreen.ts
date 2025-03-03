@@ -109,7 +109,7 @@ export class LookScreen extends BaseScreen {
       playerPosition,
       this.game,
     );
-
+    console.log(cell);
     if (isVisible) {
       return this.generateMessageVisibleCell(cell);
     } else {

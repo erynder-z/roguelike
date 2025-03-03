@@ -370,6 +370,7 @@ export class SaveStateHandler {
     mob.sinceMove = serializedMob.sinceMove;
     mob.isPlayer = serializedMob.isPlayer;
     mob.buffs = new ActiveBuffs();
+    mob.bloody = serializedMob.bloody;
 
     return mob;
   }
@@ -444,6 +445,7 @@ export class SaveStateHandler {
     player.hp = saveState.serializedPlayer.data.hp;
     player.maxhp = saveState.serializedPlayer.data.maxhp;
     player.level = saveState.serializedPlayer.data.level;
+    player.bloody = saveState.serializedPlayer.data.bloody;
     return player;
   }
 

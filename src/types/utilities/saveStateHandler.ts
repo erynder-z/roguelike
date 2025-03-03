@@ -140,6 +140,7 @@ export type SerializedPlayerData = {
   hp: number;
   maxhp: number;
   level: number;
+  bloody: { isBloody: boolean; intensity: number };
 };
 
 export type SerializedBuffData = {
@@ -205,6 +206,7 @@ export type SerializedMobData = {
   sinceMove: number;
   isPlayer: boolean;
   buffs: SerializedBuffData[];
+  bloody: { isBloody: boolean; intensity: number };
 };
 
 export type SerializedCorpseData = {

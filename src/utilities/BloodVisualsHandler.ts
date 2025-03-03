@@ -115,6 +115,7 @@ export class BloodVisualsHandler {
     }
   }
 
+
   /**
    * Spreads blood to neighboring cells based on the given area, base intensity, and blood intensity.
    * The intensity of the blood is modified based on distance from the center and randomness.
@@ -162,6 +163,13 @@ export class BloodVisualsHandler {
           neighborCell.bloody.intensity + finalIntensity,
           MAX_BLOOD_INTENSITY,
         );
+        if (neighborCell.mob) {
+          neighborCell.mob.bloody.isBloody = true;
+          neighborCell.mob.bloody.intensity = Math.min(
+            neighborCell.mob.bloody.intensity + finalIntensity,
+            MAX_BLOOD_INTENSITY,
+          );
+        }
       }
     }
   }

@@ -147,10 +147,21 @@ export class ManipulateColors {
     return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
   }
 
+  /**
+   * Tints the given hex color with blood-like intensity based on the provided factor.
+   *
+   * @param {string} hexColor - The hex color to tint. It should start with a '#' character.
+   * @param {number} factor - The factor by which to tint the color. A value of 0 will return the original color, while a value close to 1 will result in a more blood-like tint.
+   * @return {string} The tinted hex color.
+   */
+
   public static tintWithBlood(hexColor: string, factor: number): string {
     if (hexColor.startsWith('#')) {
       hexColor = hexColor.slice(1);
     }
+
+    // Ensure factor is between 0 and 2 in order to prevent invalid color values
+    factor = Math.min(factor, 2);
 
     const r = parseInt(hexColor.slice(0, 2), 16);
     const g = parseInt(hexColor.slice(2, 4), 16);
