@@ -86,12 +86,22 @@ export class CellEffects {
   }
 
   /**
-   * Handles the effect of a mob entering a water cell, specifically removing fire buffs.
+   * Handles the effects of water on a mob.
    *
-   * @param {Mob} mob - the current mob
-   * @return {void}
+   * @param {Mob} mob - The mob to affect.
+   *
+   * If the mob is bloody, clears the blood.
+   * Applies a slow debuff for 2 turns.
+   * Removes any active burn or lava buffs.
    */
   private handleWater(mob: Mob): void {
+    // remove .5 intensity of blood if mob is bloody
+    if (
+      mob.bloody.isBloody &&
+      (mob.bloody.intensity = Math.max(0, mob.bloody.intensity - 0.5)) === 0
+    )
+      mob.bloody.isBloody = false;
+
     const duration = 2;
     new BuffCommand(Buff.Slow, mob, this.game, mob, duration).execute();
 
