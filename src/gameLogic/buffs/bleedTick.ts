@@ -4,7 +4,7 @@ import { HealthAdjust } from '../commands/healthAdjust';
 import { LogMessage } from '../messages/logMessage';
 import { Mob } from '../mobs/mob';
 import { Tick } from '../../types/gameLogic/buffs/buffType';
-import { BloodVisualsHandler } from '../../utilities/bloodVisualsHandler';
+import { BloodVisualsHandler } from '../../utilities/temp';
 
 /**
  * Handles a bleed tick.

@@ -1,6 +1,6 @@
 import { Act } from './act';
 import { AttackAnimationScreen } from '../screens/attackAnimationScreen';
-import { BloodVisualsHandler } from '../../utilities/bloodVisualsHandler';
+import { BloodVisualsHandler } from '../../utilities/temp';
 import { Buff } from '../buffs/buffEnum';
 import { CommandBase } from './commandBase';
 import { Equipment } from '../inventory/equipment';

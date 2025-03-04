@@ -1,4 +1,4 @@
-import { BloodVisualsHandler } from '../../utilities/bloodVisualsHandler';
+import { BloodVisualsHandler } from '../../utilities/temp';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
