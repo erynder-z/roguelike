@@ -37,7 +37,9 @@ export class BaseScreen implements StackScreen {
    * @return {void}
    */
   public drawScreen(term: DrawableTerminal): void {
-    DrawUI.addEnvironmentAreaEffectsToCells(<GameMap>this.game.currentMap());
+    DrawUI.addDynamicEnvironmentAreaEffectsToCells(
+      <GameMap>this.game.currentMap(),
+    );
     DrawUI.drawMapWithPlayerCentered(
       term,
       <GameMap>this.game.currentMap(),

@@ -286,10 +286,12 @@ export class DrawUI {
    * @param {GameMapType} map - The game map to apply effects to
    * @return {void} This function does not return anything.
    */
-  public static addEnvironmentAreaEffectsToCells(map: GameMapType): void {
+  public static addDynamicEnvironmentAreaEffectsToCells(
+    map: GameMapType,
+  ): void {
     this.forEachCellInMap(map, (w, map) => {
       const cell = map.cell(w);
-      EnvironmentChecker.addCellEffects(cell, w, map);
+      EnvironmentChecker.addDynamicCellEffects(cell, w, map);
     });
   }
 

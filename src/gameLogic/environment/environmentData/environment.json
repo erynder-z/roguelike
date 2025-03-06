@@ -560,6 +560,30 @@
       "isCausingPoison": false,
       "isCausingConfusion": false,
       "help": { "show": true, "about": "Dark and deadly abyss." }
+    },
+    {
+      "id": "Arcane_Sigil",
+      "char": "Ϟ",
+      "bgCol": "#4B5A52",
+      "fgCol": "#f90685",
+      "hasSolidBg": false,
+      "name": "Arcane sigil",
+      "description": "A glowing sigil inscribed into the ground. Unknown magical properties.",
+      "isOpaque": false,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": false,
+      "isGlowing": true,
+      "isCausingPoison": false,
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "A glowing sigil with unknown magical properties. Could be beneficial... or dangerous."
+      }
     }
   ]
 }

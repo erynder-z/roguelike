@@ -228,6 +228,24 @@ export class MapCell {
   }
 
   /**
+   * Checks if the current cell is healing.
+   *
+   * @return {boolean} True if the cell is healing, false otherwise.
+   */
+  public isHealing(): boolean {
+    return this.environment.effects.includes(EnvEffect.Heal) || false;
+  }
+
+  /**
+   * Determines if the current cell is blinding.
+   *
+   * @return {boolean} True if the cell is blinding, false otherwise.
+   */
+  public isCausingBlind(): boolean {
+    return this.environment.effects.includes(EnvEffect.Blind) || false;
+  }
+
+  /**
    * Checks if the current cell is a hidden trap.
    *
    * @return {boolean} True if the cell is a hidden trap, false otherwise.

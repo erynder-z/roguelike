@@ -9,6 +9,7 @@ export const OVERWORLD_LEVEL_TILES: Tile = {
     { glyph: Glyph.Poison_Mushroom, occurrencePercentage: 1 },
     { glyph: Glyph.Confusion_Mushroom, occurrencePercentage: 1 },
     { glyph: Glyph.Hidden_Trap, occurrencePercentage: 1 },
+    { glyph: Glyph.Arcane_Sigil, occurrencePercentage: 0.1 },
   ],
   wall: [
     { glyph: Glyph.Wall, occurrencePercentage: 84 },

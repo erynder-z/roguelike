@@ -1,4 +1,5 @@
 import { CAVE_LEVEL_TILES } from './generationData/caveLevelTiles';
+import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
 import { GameMap } from '../mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
@@ -71,7 +72,8 @@ export class MapGenerator_Cave {
     this.addShallowWater(map, rand);
     this.addLava(map, rand);
     this.addMossyFloor(map, rand);
-    this.addChasm(map, rand); // Add the chasm
+    this.addChasm(map, rand);
+    this.processCells(map);
 
     return map;
   }
@@ -253,6 +255,20 @@ export class MapGenerator_Cave {
             }
           }
         }
+      }
+    }
+  }
+
+  /**
+   * Loops over every cell on the map and applies any necessary modifications.
+   * @param {GameMapType} map The map to process.
+   */
+  private processCells(map: GameMapType): void {
+    for (let y = 0; y < map.dimensions.y; y++) {
+      for (let x = 0; x < map.dimensions.x; x++) {
+        const position = new WorldPoint(x, y);
+
+        EnvironmentChecker.addStaticCellEffects(map.cell(position));
       }
     }
   }

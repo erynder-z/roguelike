@@ -5,6 +5,7 @@ import { EventCategory } from '../messages/logMessage';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
+import { HealCommand } from './healCommand';
 import { HealthAdjust } from './healthAdjust';
 import { LogMessage } from '../messages/logMessage';
 import { MapCell } from '../../maps/mapModel/mapCell';
@@ -79,6 +80,22 @@ export class CellEffects {
         this.me,
         duration,
       ).execute();
+    }
+
+    if (this.cell.isCausingBlind()) {
+      const duration = 5;
+      new BuffCommand(
+        Buff.Blind,
+        this.me,
+        this.game,
+        this.me,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isHealing()) {
+      const randomAmount = this.game.rand.randomInteger(1, this.me.maxhp);
+      new HealCommand(randomAmount, this.me, this.game).execute();
     }
 
     if (this.cell.isWater()) this.handleWater(this.me);
