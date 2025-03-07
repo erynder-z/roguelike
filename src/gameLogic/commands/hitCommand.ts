@@ -83,9 +83,12 @@ export class HitCommand extends CommandBase {
     me: string,
     him: string,
   ) {
+    const orig = dmg;
     if (target.isPlayer) {
-      const orig = dmg;
       const factor = this.game.equipment!.armorClass_reduce();
+      dmg = Math.ceil(orig * factor);
+    } else {
+      const factor = game.stats.damageDealModifier;
       dmg = Math.ceil(orig * factor);
     }
 
