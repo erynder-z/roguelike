@@ -10,6 +10,7 @@ export class Stats {
   public damageReceivedCounter = 0;
   public currentTurnReceivedDmg = 0;
   public damageDealModifier = 1.0;
+  public damageReceiveModifier = 1.0;
 
   /**
    * Adjusts the default visibility range by the specified amount.
@@ -117,5 +118,35 @@ export class Stats {
    */
   public resetDamageDealModifier(): void {
     this.damageDealModifier = 1.0;
+  }
+
+  /**
+   * Increases the damage received modifier by the given amount.
+   *
+   * @param {number} amount - The amount to increase the modifier by.
+   * @return {void} This function does not return a value.
+   */
+  public increaseDamageReceiveModifier(amount: number): void {
+    this.damageReceiveModifier += amount;
+  }
+
+  /**
+   * Decreases the damage received modifier by the given amount.
+   *
+   * @param {number} amount - The amount to decrease the modifier by.
+   * @return {void} This function does not return a value.
+   */
+  public decreaseDamageReceiveModifier(amount: number): void {
+    this.damageReceiveModifier -= amount;
+  }
+
+  /**
+   * Resets the damage received modifier to 1.0, removing any temporary
+   * damage increase or decrease.
+   *
+   * @return {void} This function does not return a value.
+   */
+  public resetDamageReceiveModifier(): void {
+    this.damageReceiveModifier = 1.0;
   }
 }
