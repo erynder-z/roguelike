@@ -113,6 +113,12 @@
       "textColor": "#FF8C00",
       "noun": "burn",
       "adjective": "burning"
+    },
+    {
+      "buff": "AttackUp",
+      "textColor": "#00cdff",
+      "noun": "strong",
+      "adjective": "feeling stronger"
     }
   ]
 }

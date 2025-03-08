@@ -128,6 +128,13 @@ export class EnvironmentChecker {
     }
   }
 
+  /**
+   * Adds a random arcane sigil effect to the given cell if it contains an Arcane Sigil glyph.
+   *
+   * @param {MapCell} cell - The cell to potentially add an arcane sigil effect to.
+   * @return {void} This function does not return a value.
+   */
+
   private static addArcaneSigilEffect(cell: MapCell): void {
     if (cell.glyph() === Glyph.Arcane_Sigil) {
       const effect = randomEnvEffect();

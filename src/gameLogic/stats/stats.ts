@@ -90,24 +90,13 @@ export class Stats {
   }
 
   /**
-   * Increases the damage deal modifier by the given amount.
+   * Adjusts the damage deal modifier by the given amount.
    *
-   * @param {number} amount - The amount to increase the modifier by.
+   * @param {number} amount - The amount to adjust the modifier by.
    * @return {void} This function does not return a value.
    */
-  public increaseDamageDealModifier(amount: number): void {
+  public adjustDamageDealModifier(amount: number): void {
     this.damageDealModifier += amount;
-  }
-
-  /**
-   * Decreases the damage deal modifier by the specified amount.
-   *
-   * @param {number} amount - The amount to decrease the modifier by.
-   * @return {void} This function does not return a value.
-   */
-
-  public decreaseDamageDealModifier(amount: number): void {
-    this.damageDealModifier -= amount;
   }
 
   /**
@@ -121,23 +110,13 @@ export class Stats {
   }
 
   /**
-   * Increases the damage received modifier by the given amount.
+   * Adjusts the damage received modifier by the given amount.
    *
-   * @param {number} amount - The amount to increase the modifier by.
+   * @param {number} amount - The amount to adjust the modifier by.
    * @return {void} This function does not return a value.
    */
-  public increaseDamageReceiveModifier(amount: number): void {
+  public adjustDamageReceiveModifier(amount: number): void {
     this.damageReceiveModifier += amount;
-  }
-
-  /**
-   * Decreases the damage received modifier by the given amount.
-   *
-   * @param {number} amount - The amount to decrease the modifier by.
-   * @return {void} This function does not return a value.
-   */
-  public decreaseDamageReceiveModifier(amount: number): void {
-    this.damageReceiveModifier -= amount;
   }
 
   /**

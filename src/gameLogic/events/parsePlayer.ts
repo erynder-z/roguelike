@@ -141,10 +141,11 @@ export class ParsePlayer {
       // Debugging command
       case activeControlScheme.debug1.toString():
         stackScreen = new DebuggerScreen(this.game, this.make);
+        console.log('stack: ', stack);
+        console.log('game: ', this.game);
         break;
       // Debugging command
       case activeControlScheme.debug2.toString():
-        console.log(stack);
         break;
     }
 

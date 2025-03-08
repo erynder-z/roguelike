@@ -1,5 +1,6 @@
 import { Buff } from '../buffs/buffEnum';
 import { BuffCommand } from './buffCommand';
+import { BuffCommandWithAmount } from './buffCommandWithAmount';
 import { CleanseBuffCommand } from './cleanseBuffCommand';
 import { EventCategory } from '../messages/logMessage';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
@@ -89,6 +90,21 @@ export class CellEffects {
         this.me,
         this.game,
         this.me,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isCausingAttackUp()) {
+      const duration = 50;
+      const amount = this.game.rand.randomFloat(1, 2);
+      this.game.stats.adjustDamageDealModifier(amount);
+
+      new BuffCommandWithAmount(
+        Buff.AttackUp,
+        this.me,
+        this.game,
+        this.me,
+        amount,
         duration,
       ).execute();
     }
