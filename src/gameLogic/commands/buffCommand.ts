@@ -77,7 +77,7 @@ export class BuffCommand extends CommandBase {
    * @param {GameState} game - the game where the mob exists
    * @param {Mob} mob - the mob to add the buff to
    */
-  private addBuffToMob(active: BuffType, game: GameState, mob: Mob) {
+  public addBuffToMob(active: BuffType, game: GameState, mob: Mob) {
     mob.buffs.add(active, game, mob);
   }
 }

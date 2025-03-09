@@ -1,6 +1,5 @@
 import { Buff } from '../buffs/buffEnum';
 import { BuffCommand } from './buffCommand';
-import { BuffCommandWithAmount } from './buffCommandWithAmount';
 import { CleanseBuffCommand } from './cleanseBuffCommand';
 import { EventCategory } from '../messages/logMessage';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
@@ -11,6 +10,7 @@ import { HealthAdjust } from './healthAdjust';
 import { LogMessage } from '../messages/logMessage';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { Mob } from '../mobs/mob';
+import { StatChangeBuffCommand } from './statChangeBuffCommand';
 
 /**
  * Manages adding effects to a mob at a given position.
@@ -99,7 +99,7 @@ export class CellEffects {
       const amount = this.game.rand.randomFloat(1, 2);
       this.game.stats.adjustDamageDealModifier(amount);
 
-      new BuffCommandWithAmount(
+      new StatChangeBuffCommand(
         Buff.AttackUp,
         this.me,
         this.game,

@@ -1,15 +1,13 @@
 import { AttackDamageChangeTick } from '../buffs/attackDamageChangeTick';
 import { Buff } from '../buffs/buffEnum';
+import { BuffCommand } from './buffCommand';
 import { BuffType, Tick } from '../../types/gameLogic/buffs/buffType';
-import { CommandBase } from './commandBase';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Mob } from '../mobs/mob';
 
-const DEFAULT_BUFF_DURATION = 8;
-/**
- * Represents a buff command that requires an extra factor value.
- */
-export class BuffCommandWithAmount extends CommandBase {
+const DEFAULT_BUFF_DURATION = 50;
+
+export class StatChangeBuffCommand extends BuffCommand {
   constructor(
     public buff: Buff,
     public target: Mob,
@@ -19,7 +17,7 @@ export class BuffCommandWithAmount extends CommandBase {
     public duration: number = DEFAULT_BUFF_DURATION,
     public timeLeft: number = duration,
   ) {
-    super(me, game);
+    super(buff, target, game, me, duration, timeLeft);
   }
 
   /**
@@ -43,18 +41,7 @@ export class BuffCommandWithAmount extends CommandBase {
       effect: effect,
     };
 
-    this.addBuffToMob(active, this.game, this.target);
+    super.addBuffToMob(active, this.game, this.target);
     return true;
-  }
-
-  /**
-   * Add a buff to a mob in the game.
-   *
-   * @param {BuffType} active - the buff to add
-   * @param {GameState} game - the game where the mob exists
-   * @param {Mob} mob - the mob to add the buff to
-   */
-  private addBuffToMob(active: BuffType, game: GameState, mob: Mob) {
-    mob.buffs.add(active, game, mob);
   }
 }
