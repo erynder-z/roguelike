@@ -119,6 +119,12 @@
       "textColor": "#00cdff",
       "noun": "strong",
       "adjective": "feeling stronger"
+    },
+    {
+      "buff": "AttackDown",
+      "textColor": "#ED5D12",
+      "noun": "weak",
+      "adjective": "feeling waker"
     }
   ]
 }

@@ -4,6 +4,7 @@ export enum EnvEffect {
   Heal,
   Blind,
   AttackUp,
+  AttackDown,
 }
 
 /**

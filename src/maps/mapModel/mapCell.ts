@@ -255,6 +255,15 @@ export class MapCell {
   }
 
   /**
+   * Checks if the current cell is causing an attack down effect.
+   *
+   * @return {boolean} True if the cell is causing an attack down effect, false otherwise.
+   */
+  public isCausingAttackDown(): boolean {
+    return this.environment.effects.includes(EnvEffect.AttackDown) || false;
+  }
+
+  /**
    * Checks if the current cell is a hidden trap.
    *
    * @return {boolean} True if the cell is a hidden trap, false otherwise.

@@ -32,6 +32,9 @@ export class StatChangeBuffCommand extends BuffCommand {
       case Buff.AttackUp:
         effect = new AttackDamageChangeTick(target, game, amount);
         break;
+      case Buff.AttackDown:
+        effect = new AttackDamageChangeTick(target, game, -amount);
+        break;
     }
 
     const active: BuffType = {

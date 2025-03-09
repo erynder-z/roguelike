@@ -109,6 +109,21 @@ export class CellEffects {
       ).execute();
     }
 
+    if (this.cell.isCausingAttackDown()) {
+      const duration = 50;
+      const amount = this.game.rand.randomFloat(0, 1);
+      this.game.stats.adjustDamageDealModifier(-amount);
+
+      new StatChangeBuffCommand(
+        Buff.AttackDown,
+        this.me,
+        this.game,
+        this.me,
+        amount,
+        duration,
+      ).execute();
+    }
+
     if (this.cell.isHealing()) {
       const randomAmount = this.game.rand.randomInteger(1, this.me.maxhp);
       new HealCommand(randomAmount, this.me, this.game).execute();
