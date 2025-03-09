@@ -228,6 +228,60 @@ export class MapCell {
   }
 
   /**
+   * Checks if the current cell is healing.
+   *
+   * @return {boolean} True if the cell is healing, false otherwise.
+   */
+  public isHealing(): boolean {
+    return this.environment.effects.includes(EnvEffect.Heal) || false;
+  }
+
+  /**
+   * Determines if the current cell is blinding.
+   *
+   * @return {boolean} True if the cell is blinding, false otherwise.
+   */
+  public isCausingBlind(): boolean {
+    return this.environment.effects.includes(EnvEffect.Blind) || false;
+  }
+
+  /**
+   * Checks if the current cell is causing an attack up effect.
+   *
+   * @return {boolean} True if the cell is causing an attack up effect, false otherwise.
+   */
+  public isCausingAttackUp(): boolean {
+    return this.environment.effects.includes(EnvEffect.AttackUp) || false;
+  }
+
+  /**
+   * Checks if the current cell is causing an attack down effect.
+   *
+   * @return {boolean} True if the cell is causing an attack down effect, false otherwise.
+   */
+  public isCausingAttackDown(): boolean {
+    return this.environment.effects.includes(EnvEffect.AttackDown) || false;
+  }
+
+  /**
+   * Checks if the current cell is causing a defense up effect.
+   *
+   * @return {boolean} True if the cell is causing a defense up effect, false otherwise.
+   */
+  public isCausingDefenseUp(): boolean {
+    return this.environment.effects.includes(EnvEffect.DefenseUp) || false;
+  }
+
+  /**
+   * Checks if the current cell is causing a defense down effect.
+   *
+   * @return {boolean} True if the cell is causing a defense down effect, false otherwise.
+   */
+  public isCausingDefenseDown(): boolean {
+    return this.environment.effects.includes(EnvEffect.DefenseDown) || false;
+  }
+
+  /**
    * Checks if the current cell is a hidden trap.
    *
    * @return {boolean} True if the cell is a hidden trap, false otherwise.

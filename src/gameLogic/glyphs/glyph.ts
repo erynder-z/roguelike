@@ -93,4 +93,5 @@ export enum Glyph {
   Mossy_Floor,
   Chasm_Edge,
   Chasm_Center,
+  Arcane_Sigil,
 }

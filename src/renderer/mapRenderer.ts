@@ -338,6 +338,13 @@ export class MapRenderer {
       /*   if (!cell.mob && cell.obj && cell.obj.spell !== Spell.None)
         return SpellColors.c[cell.obj.spell][0]; */
 
+      // If the mob in the cell is bloody, tint the foreground color with a red tone
+      if (cell.mob?.bloody.isBloody) {
+        const intensity = cell.mob?.bloody.intensity;
+        const modifier = intensity * 0.5;
+        return this.addBloodiness(glyphInfo.fgCol, modifier);
+      }
+
       // Otherwise, return the default foreground color
       return glyphInfo.fgCol;
       // If the cell is not visible
@@ -345,7 +352,6 @@ export class MapRenderer {
       // If the cell is lit or if the player is on the cell and If the cell's environment is unknown, return the background color
       if (cell.lit || cell.mob?.isPlayer) {
         if (cell.env === Glyph.Unknown) return glyphInfo.bgCol;
-
         // Otherwise, darken the foreground color
         return ManipulateColors.darkenColor(glyphInfo.fgCol, 0.3);
       }

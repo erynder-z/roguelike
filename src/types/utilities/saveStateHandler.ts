@@ -127,8 +127,10 @@ export type SerializedEquipmentData = [number, SerializedItemData][];
 export type SerializedStatsData = {
   currentTurnReceivedDmg: number;
   currentVisRange: number;
+  damageDealModifier: number;
   damageDealtCounter: number;
   damageReceivedCounter: number;
+  damageReceiveModifier: number;
   defaultVisRange: number;
   mobKillCounter: number;
   turnCounter: number;
@@ -140,12 +142,16 @@ export type SerializedPlayerData = {
   hp: number;
   maxhp: number;
   level: number;
+  bloody: { isBloody: boolean; intensity: number };
 };
 
 export type SerializedBuffData = {
   buff: number;
   duration: number;
   timeLeft: number;
+  effect?:
+    | { amount: number; game: SerializedGameState; mob: SerializedMobData }
+    | undefined;
 };
 
 export type SerializedGameMap = {
@@ -205,6 +211,7 @@ export type SerializedMobData = {
   sinceMove: number;
   isPlayer: boolean;
   buffs: SerializedBuffData[];
+  bloody: { isBloody: boolean; intensity: number };
 };
 
 export type SerializedCorpseData = {

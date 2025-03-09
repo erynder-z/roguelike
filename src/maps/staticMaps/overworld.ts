@@ -1,3 +1,4 @@
+import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
 import { FindFreeSpace } from '../../utilities/findFreeSpace';
 import { GameMap } from '../mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
@@ -39,6 +40,7 @@ export class Overworld {
         if (edge) {
           m.cell(p).env = Glyph.Rock;
         }
+        EnvironmentChecker.addStaticCellEffects(m.cell(p));
       }
     }
 

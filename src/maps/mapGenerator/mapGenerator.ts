@@ -1,4 +1,5 @@
 import { DEFAULT_LEVEL_TILES } from './generationData/defaultLevelTiles';
+import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
 import { GameMap } from '../mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
@@ -50,6 +51,8 @@ export class MapGenerator1 {
         }
       }
     }
+
+    this.processCells(map);
     return map;
   }
 
@@ -132,6 +135,20 @@ export class MapGenerator1 {
       const index = rand.randomInteger(0, doorPositions.length);
       const position = doorPositions[index];
       this.map.cell(position).env = Glyph.Door_Closed;
+    }
+  }
+
+  /**
+   * Loops over every cell on the map and applies any necessary modifications.
+   * @param {GameMapType} map The map to process.
+   */
+  private processCells(map: GameMapType): void {
+    for (let y = 0; y < map.dimensions.y; y++) {
+      for (let x = 0; x < map.dimensions.x; x++) {
+        const position = new WorldPoint(x, y);
+
+        EnvironmentChecker.addStaticCellEffects(map.cell(position));
+      }
     }
   }
 

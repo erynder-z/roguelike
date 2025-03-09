@@ -5,10 +5,12 @@ import { EventCategory } from '../messages/logMessage';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
+import { HealCommand } from './healCommand';
 import { HealthAdjust } from './healthAdjust';
 import { LogMessage } from '../messages/logMessage';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { Mob } from '../mobs/mob';
+import { StatChangeBuffCommand } from './statChangeBuffCommand';
 
 /**
  * Manages adding effects to a mob at a given position.
@@ -81,17 +83,103 @@ export class CellEffects {
       ).execute();
     }
 
+    if (this.cell.isCausingBlind()) {
+      const duration = 5;
+      new BuffCommand(
+        Buff.Blind,
+        this.me,
+        this.game,
+        this.me,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isCausingAttackUp()) {
+      const duration = 50;
+      const amount = this.game.rand.randomFloat(0, 1);
+      this.game.stats.adjustDamageDealModifier(amount);
+
+      new StatChangeBuffCommand(
+        Buff.AttackUp,
+        this.me,
+        this.game,
+        this.me,
+        amount,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isCausingAttackDown()) {
+      const duration = 50;
+      const amount = this.game.rand.randomFloat(0, 1);
+      this.game.stats.adjustDamageDealModifier(-amount);
+
+      new StatChangeBuffCommand(
+        Buff.AttackDown,
+        this.me,
+        this.game,
+        this.me,
+        amount,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isCausingDefenseUp()) {
+      const duration = 50;
+      const amount = this.game.rand.randomFloat(0, 1);
+      this.game.stats.adjustDamageReceiveModifier(-amount);
+
+      new StatChangeBuffCommand(
+        Buff.DefenseUp,
+        this.me,
+        this.game,
+        this.me,
+        amount,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isCausingDefenseDown()) {
+      const duration = 50;
+      const amount = this.game.rand.randomFloat(0, 1);
+      this.game.stats.adjustDamageReceiveModifier(amount);
+
+      new StatChangeBuffCommand(
+        Buff.DefenseDown,
+        this.me,
+        this.game,
+        this.me,
+        amount,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isHealing()) {
+      const randomAmount = this.game.rand.randomInteger(1, this.me.maxhp);
+      new HealCommand(randomAmount, this.me, this.game).execute();
+    }
+
     if (this.cell.isWater()) this.handleWater(this.me);
     if (this.cell.isChasm()) this.handleChasm(this.me);
   }
 
   /**
-   * Handles the effect of a mob entering a water cell, specifically removing fire buffs.
+   * Handles the effects of water on a mob.
    *
-   * @param {Mob} mob - the current mob
-   * @return {void}
+   * @param {Mob} mob - The mob to affect.
+   *
+   * If the mob is bloody, clears the blood.
+   * Applies a slow debuff for 2 turns.
+   * Removes any active burn or lava buffs.
    */
   private handleWater(mob: Mob): void {
+    // remove .5 intensity of blood if mob is bloody
+    if (
+      mob.bloody.isBloody &&
+      (mob.bloody.intensity = Math.max(0, mob.bloody.intensity - 0.5)) === 0
+    )
+      mob.bloody.isBloody = false;
+
     const duration = 2;
     new BuffCommand(Buff.Slow, mob, this.game, mob, duration).execute();
 

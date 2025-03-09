@@ -66,14 +66,15 @@ export class HitCommand extends CommandBase {
   }
 
   /**
-   * Deals damage to the target mob, taking into account armor class reduction for player targets.
+   * Applies damage to a target mob, adjusting based on player status and equipment.
    *
-   * @param {number} dmg - The amount of damage to deal.
-   * @param {Mob} target - The mob to receive the damage.
-   * @param {Mob} attacker - The mob causing the damage.
-   * @param {GameState} game - The game object.
-   * @param {string} me - The name of the attacking mob.
-   * @param {string} him - The name of the target mob.
+   * @param {number} dmg - The initial damage amount to be dealt.
+   * @param {Mob} target - The mob receiving the damage.
+   * @param {Mob} attacker - The mob inflicting the damage.
+   * @param {GameState} game - The current game state.
+   * @param {string} me - The name of the attacker.
+   * @param {string} him - The name of the target.
+   * @return {void} This function does not return anything.
    */
   private doDmg(
     dmg: number,
@@ -82,11 +83,15 @@ export class HitCommand extends CommandBase {
     game: GameState,
     me: string,
     him: string,
-  ) {
+  ): void {
+    const orig = dmg;
     if (target.isPlayer) {
-      const orig = dmg;
-      const factor = this.game.equipment!.armorClass_reduce();
-      dmg = Math.ceil(orig * factor);
+      const equipmentFactor = this.game.equipment!.armorClass_reduce();
+      const statsFactor = this.game.stats.damageReceiveModifier;
+      dmg = Math.ceil(orig * equipmentFactor * statsFactor);
+    } else {
+      const statsFactor = game.stats.damageDealModifier;
+      dmg = Math.ceil(orig * statsFactor);
     }
 
     const rest = target.hp - dmg;

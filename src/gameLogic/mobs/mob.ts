@@ -20,6 +20,10 @@ export class Mob {
   public sinceMove: number = 0;
   public isPlayer: boolean = false;
   public buffs: ActiveBuffs = new ActiveBuffs();
+  public bloody: { isBloody: boolean; intensity: number } = {
+    isBloody: false,
+    intensity: 0,
+  };
   constructor(glyph: Glyph, x: number, y: number) {
     this.isPlayer = glyph == Glyph.Player;
     this.glyph = glyph;

@@ -70,6 +70,28 @@ export class RandomNumberGeneratorBase extends RandomNumberGenerator {
   }
 
   /**
+   * Generates a random float within the specified range, limited to two decimal places.
+   * @param {number} lower - The lower bound of the range.
+   * @param {number} [higher=0] - The upper bound of the range.
+   * @returns {number} A random float within the specified range, rounded to two decimal places.
+   */
+  public randomFloat(lower: number, higher: number = 0): number {
+    if (!higher) {
+      higher = lower;
+      lower = 0;
+    }
+    if (lower > higher) {
+      const swap = lower;
+      lower = higher;
+      higher = swap;
+    }
+    const range = higher - lower;
+    const draw = this.generateRandomNumber() * range;
+    const result = draw + lower;
+    return parseFloat(result.toFixed(2));
+  }
+
+  /**
    * Checks if a random integer from 0 to N-1 equals 0.
    * @param {number} N - The number to check against.
    * @returns {boolean} true if a random integer from 0 to N-1 equals 0, otherwise false.

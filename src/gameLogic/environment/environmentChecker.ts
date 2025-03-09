@@ -1,4 +1,7 @@
-import { EnvEffect } from '../../types/gameLogic/maps/mapModel/envEffect';
+import {
+  EnvEffect,
+  randomEnvEffect,
+} from '../../types/gameLogic/maps/mapModel/envEffect';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../glyphs/glyph';
 import { MapCell } from '../../maps/mapModel/mapCell';
@@ -42,20 +45,31 @@ export class EnvironmentChecker {
   }
 
   /**
-   * Add all environmental effects to the given cell.
+   * Add all environmental effects to the given cell. These will be updated every time the screen is redrawn
    *
    * @param {MapCell} cell - The cell to add effects to.
    * @param {WorldPoint} wp - The position of the cell.
    * @param {GameMapType} map - The map containing the cells.
    * @return {void} This function does not return a value.
    */
-  public static addCellEffects(
+  public static addDynamicCellEffects(
     cell: MapCell,
     wp: WorldPoint,
     map: GameMapType,
   ): void {
     this.addPoisonEffectToCellNeighbors(cell, wp, map);
     this.addConfusionEffectToCellNeighbors(cell, wp, map);
+  }
+
+  /**
+   * Adds all static environmental effects to the given cell.
+   * These shall only be used on map generation!
+   *
+   * @param {MapCell} cell - The cell to add effects to.
+   * @return {void} This function does not return a value.
+   */
+  public static addStaticCellEffects(cell: MapCell): void {
+    this.addArcaneSigilEffect(cell);
   }
 
   /**
@@ -111,6 +125,20 @@ export class EnvironmentChecker {
 
         neighborCell.addEnvEffect(EnvEffect.Confusion);
       }
+    }
+  }
+
+  /**
+   * Adds a random arcane sigil effect to the given cell if it contains an Arcane Sigil glyph.
+   *
+   * @param {MapCell} cell - The cell to potentially add an arcane sigil effect to.
+   * @return {void} This function does not return a value.
+   */
+
+  private static addArcaneSigilEffect(cell: MapCell): void {
+    if (cell.glyph() === Glyph.Arcane_Sigil) {
+      const effect = randomEnvEffect();
+      cell.addEnvEffect(effect);
     }
   }
 

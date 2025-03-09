@@ -113,6 +113,30 @@
       "textColor": "#FF8C00",
       "noun": "burn",
       "adjective": "burning"
+    },
+    {
+      "buff": "AttackUp",
+      "textColor": "#00cdff",
+      "noun": "strong",
+      "adjective": "feeling stronger"
+    },
+    {
+      "buff": "AttackDown",
+      "textColor": "#ED5D12",
+      "noun": "weak",
+      "adjective": "feeling waker"
+    },
+    {
+      "buff": "DefenseUp",
+      "textColor": "#00cdff",
+      "noun": "resilient",
+      "adjective": "feeling resilient"
+    },
+    {
+      "buff": "DefenseDown",
+      "textColor": "#ED5D12",
+      "noun": "exposed",
+      "adjective": "feeling vulnerable"
     }
   ]
 }
