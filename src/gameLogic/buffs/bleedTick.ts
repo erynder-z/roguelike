@@ -1,10 +1,10 @@
+import { BloodVisualsHandler } from '../../utilities/bloodVisualsHandler';
 import { EventCategory } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { HealthAdjust } from '../commands/healthAdjust';
 import { LogMessage } from '../messages/logMessage';
 import { Mob } from '../mobs/mob';
 import { Tick } from '../../types/gameLogic/buffs/buffType';
-import { BloodVisualsHandler } from '../../utilities/bloodVisualsHandler';
 
 /**
  * Handles a bleed tick.
@@ -16,8 +16,8 @@ export class BleedTick implements Tick {
   private static readonly RESTING_TURNS_THRESHOLD: number = 2;
 
   constructor(
-    private readonly mob: Mob,
-    private readonly game: GameState,
+    public mob: Mob,
+    public game: GameState,
   ) {}
 
   /**

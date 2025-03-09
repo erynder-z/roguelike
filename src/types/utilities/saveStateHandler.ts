@@ -127,8 +127,10 @@ export type SerializedEquipmentData = [number, SerializedItemData][];
 export type SerializedStatsData = {
   currentTurnReceivedDmg: number;
   currentVisRange: number;
+  damageDealModifier: number;
   damageDealtCounter: number;
   damageReceivedCounter: number;
+  damageReceivedModifier: number;
   defaultVisRange: number;
   mobKillCounter: number;
   turnCounter: number;
@@ -147,6 +149,9 @@ export type SerializedBuffData = {
   buff: number;
   duration: number;
   timeLeft: number;
+  effect?:
+    | { amount: number; game: SerializedGameState; mob: SerializedMobData }
+    | undefined;
 };
 
 export type SerializedGameMap = {

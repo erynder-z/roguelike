@@ -7,9 +7,9 @@ import { Tick } from '../../types/gameLogic/buffs/buffType';
  */
 export class AttackDamageChangeTick implements Tick {
   constructor(
-    private readonly mob: Mob,
-    private readonly game: GameState,
-    private amount: number,
+    public mob: Mob,
+    public game: GameState,
+    public amount: number,
   ) {}
 
   /**

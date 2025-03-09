@@ -28,6 +28,8 @@ import {
 } from '../types/utilities/saveStateHandler';
 import { TurnQueue } from '../gameLogic/turnQueue/turnQueue';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
+import { Tick } from '../types/gameLogic/buffs/buffType';
+import { StatChangeBuffCommand } from '../gameLogic/commands/statChangeBuffCommand';
 
 /**
  * Handles serializing and deserializing the game state to and from JSON.
@@ -204,7 +206,12 @@ export class SaveStateHandler {
   private getPlayerBuffsData(
     player: GameState['player'],
   ): ReadyToSaveGameState['serializedPlayerBuffs'] {
-    const buffsArray: { buff: Buff; duration: number; timeLeft: number }[] = [];
+    const buffsArray: {
+      buff: Buff;
+      duration: number;
+      timeLeft: number;
+      effect: Tick | undefined;
+    }[] = [];
     const playerBuffs = player.buffs.getBuffsMap();
 
     playerBuffs.forEach((value, key) => {
@@ -212,6 +219,7 @@ export class SaveStateHandler {
         buff: key,
         duration: value.duration,
         timeLeft: value.timeLeft,
+        effect: value.effect,
       });
     });
 
@@ -452,10 +460,10 @@ export class SaveStateHandler {
   /**
    * Restores the player's buffs from the given save state.
    *
-   * @param {GameState} game - The game state.
+   * @param {GameState} game - The game to restore the buffs to.
    * @param {Mob} player - The player mob.
    * @param {SerializedGameState} saveState - The save state to restore from.
-   * @return {GameState} The updated game state.
+   * @returns {GameState} - The game state after restoring the buffs.
    */
   public restorePlayerBuffs(
     game: GameState,
@@ -465,16 +473,38 @@ export class SaveStateHandler {
     const buffs = saveState.serializedPlayerBuffs.data;
 
     for (const buff of buffs) {
-      new BuffCommand(
-        buff.buff,
-        player,
-        game,
-        player,
-        buff.duration,
-        buff.timeLeft,
-      ).execute();
+      if (this.isStatChangingBuff(buff.buff) && buff.effect) {
+        new StatChangeBuffCommand(
+          buff.buff,
+          player,
+          game,
+          player,
+          buff.effect?.amount,
+          buff.duration,
+          buff.timeLeft,
+        ).execute();
+      } else {
+        new BuffCommand(
+          buff.buff,
+          player,
+          game,
+          player,
+          buff.duration,
+          buff.timeLeft,
+        ).execute();
+      }
     }
     return game;
+  }
+
+  /**
+   * Determines whether the given buff enum value is a stat changing buff.
+   * This is used to determine whether a buff should be executed as a stat changing buff or not.
+   * @param {number} buffEnumValue - The value of the enum to check.
+   * @returns {boolean} True if the buff is a stat changing buff, false otherwise.
+   */
+  private isStatChangingBuff(buffEnumValue: number): boolean {
+    return buffEnumValue === Buff.AttackUp;
   }
 
   /**
@@ -585,5 +615,9 @@ export class SaveStateHandler {
       serializedStats.damageReceivedCounter || 0;
     restoredStats.currentTurnReceivedDmg =
       serializedStats.currentTurnReceivedDmg || 0;
+    restoredStats.damageDealModifier =
+      serializedStats.damageDealModifier || 1.0;
+    restoredStats.damageReceiveModifier =
+      serializedStats.damageReceivedModifier || 1.0;
   }
 }

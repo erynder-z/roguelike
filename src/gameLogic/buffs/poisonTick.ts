@@ -11,8 +11,8 @@ export class PoisonTick implements Tick {
   private readonly poisonDamage: number = 1;
 
   constructor(
-    private readonly mob: Mob,
-    private readonly game: GameState,
+    public mob: Mob,
+    public game: GameState,
   ) {}
 
   /**
