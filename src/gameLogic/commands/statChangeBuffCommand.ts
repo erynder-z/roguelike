@@ -2,6 +2,7 @@ import { AttackDamageChangeTick } from '../buffs/attackDamageChangeTick';
 import { Buff } from '../buffs/buffEnum';
 import { BuffCommand } from './buffCommand';
 import { BuffType, Tick } from '../../types/gameLogic/buffs/buffType';
+import { DefenseChangeTick } from '../buffs/defenseChangeTick';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Mob } from '../mobs/mob';
 
@@ -27,13 +28,21 @@ export class StatChangeBuffCommand extends BuffCommand {
   public execute(): boolean {
     const { game, target, amount } = this;
 
+    const absoluteAmount = Math.abs(amount); // The amount can be negative, if loading a saved game, but needs to be a positive value for the logic to work
+
     let effect: Tick | undefined = undefined;
     switch (this.buff) {
       case Buff.AttackUp:
-        effect = new AttackDamageChangeTick(target, game, amount);
+        effect = new AttackDamageChangeTick(target, game, absoluteAmount);
         break;
       case Buff.AttackDown:
-        effect = new AttackDamageChangeTick(target, game, -amount);
+        effect = new AttackDamageChangeTick(target, game, -absoluteAmount);
+        break;
+      case Buff.DefenseUp:
+        effect = new DefenseChangeTick(target, game, -absoluteAmount);
+        break;
+      case Buff.DefenseDown:
+        effect = new DefenseChangeTick(target, game, absoluteAmount);
         break;
     }
 

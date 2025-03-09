@@ -96,7 +96,7 @@ export class CellEffects {
 
     if (this.cell.isCausingAttackUp()) {
       const duration = 50;
-      const amount = this.game.rand.randomFloat(1, 2);
+      const amount = this.game.rand.randomFloat(0, 1);
       this.game.stats.adjustDamageDealModifier(amount);
 
       new StatChangeBuffCommand(
@@ -116,6 +116,36 @@ export class CellEffects {
 
       new StatChangeBuffCommand(
         Buff.AttackDown,
+        this.me,
+        this.game,
+        this.me,
+        amount,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isCausingDefenseUp()) {
+      const duration = 50;
+      const amount = this.game.rand.randomFloat(0, 1);
+      this.game.stats.adjustDamageReceiveModifier(-amount);
+
+      new StatChangeBuffCommand(
+        Buff.DefenseUp,
+        this.me,
+        this.game,
+        this.me,
+        amount,
+        duration,
+      ).execute();
+    }
+
+    if (this.cell.isCausingDefenseDown()) {
+      const duration = 50;
+      const amount = this.game.rand.randomFloat(0, 1);
+      this.game.stats.adjustDamageReceiveModifier(amount);
+
+      new StatChangeBuffCommand(
+        Buff.DefenseDown,
         this.me,
         this.game,
         this.me,

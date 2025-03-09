@@ -264,6 +264,24 @@ export class MapCell {
   }
 
   /**
+   * Checks if the current cell is causing a defense up effect.
+   *
+   * @return {boolean} True if the cell is causing a defense up effect, false otherwise.
+   */
+  public isCausingDefenseUp(): boolean {
+    return this.environment.effects.includes(EnvEffect.DefenseUp) || false;
+  }
+
+  /**
+   * Checks if the current cell is causing a defense down effect.
+   *
+   * @return {boolean} True if the cell is causing a defense down effect, false otherwise.
+   */
+  public isCausingDefenseDown(): boolean {
+    return this.environment.effects.includes(EnvEffect.DefenseDown) || false;
+  }
+
+  /**
    * Checks if the current cell is a hidden trap.
    *
    * @return {boolean} True if the cell is a hidden trap, false otherwise.

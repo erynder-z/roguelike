@@ -5,6 +5,8 @@ export enum EnvEffect {
   Blind,
   AttackUp,
   AttackDown,
+  DefenseUp,
+  DefenseDown,
 }
 
 /**

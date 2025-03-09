@@ -130,7 +130,7 @@ export type SerializedStatsData = {
   damageDealModifier: number;
   damageDealtCounter: number;
   damageReceivedCounter: number;
-  damageReceivedModifier: number;
+  damageReceiveModifier: number;
   defaultVisRange: number;
   mobKillCounter: number;
   turnCounter: number;

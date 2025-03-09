@@ -20,4 +20,6 @@ export enum Buff {
   Lava = 18,
   AttackUp = 19,
   AttackDown = 20,
+  DefenseUp = 21,
+  DefenseDown = 22,
 }

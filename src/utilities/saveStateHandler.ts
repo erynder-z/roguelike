@@ -504,7 +504,12 @@ export class SaveStateHandler {
    * @returns {boolean} True if the buff is a stat changing buff, false otherwise.
    */
   private isStatChangingBuff(buffEnumValue: number): boolean {
-    return buffEnumValue === Buff.AttackUp;
+    return (
+      buffEnumValue === Buff.AttackUp ||
+      buffEnumValue === Buff.AttackDown ||
+      buffEnumValue === Buff.DefenseUp ||
+      buffEnumValue === Buff.DefenseDown
+    );
   }
 
   /**
@@ -618,6 +623,6 @@ export class SaveStateHandler {
     restoredStats.damageDealModifier =
       serializedStats.damageDealModifier || 1.0;
     restoredStats.damageReceiveModifier =
-      serializedStats.damageReceivedModifier || 1.0;
+      serializedStats.damageReceiveModifier || 1.0;
   }
 }
