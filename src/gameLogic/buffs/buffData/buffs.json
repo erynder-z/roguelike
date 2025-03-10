@@ -117,6 +117,22 @@
     {
       "buff": "Lava",
       "help": { "show": true, "about": "Deals heavy fire damage over time." }
+    },
+    {
+      "buff": "AttackUp",
+      "help": { "show": true, "about": "Increases attack damage by 1-100%." }
+    },
+    {
+      "buff": "AttackDown",
+      "help": { "show": true, "about": "Decreases attack damage by 1-100%." }
+    },
+    {
+      "buff": "DefenseUp",
+      "help": { "show": true, "about": "Decreases damage taken by 1-100%." }
+    },
+    {
+      "buff": "DefenseDown",
+      "help": { "show": true, "about": "Increases damage taken by 1-100%." }
     }
   ]
 }
