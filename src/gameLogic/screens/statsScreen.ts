@@ -1,0 +1,96 @@
+import { BaseScreen } from './baseScreen';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { KeypressScrollHandler } from '../../utilities/KeypressScrollHandler';
+import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
+import { Stack } from '../../types/terminal/stack';
+import { StatsScreenDisplay } from '../../ui/statsScreenDisplay/statsScreenDisplay';
+
+/**
+ * Represents a screen for displaying the player stats
+ */
+export class StatsScreen extends BaseScreen {
+  public name: string = 'stats-screen';
+  private display: StatsScreenDisplay | null = null;
+
+  constructor(
+    public game: GameState,
+    public make: ScreenMaker,
+  ) {
+    super(game, make);
+  }
+
+  /**
+   * Renders the stats screen via a custom component.
+   */
+  public drawScreen(): void {
+    const canvas = document.getElementById('canvas1') as HTMLCanvasElement;
+    if (!this.display) {
+      this.display = document.createElement(
+        'stats-screen-display',
+      ) as StatsScreenDisplay;
+
+      this.display.currentStats = this.game.stats;
+      this.display.currentPlayer = this.game.player;
+      if (this.game.equipment)
+        this.display.currentEquipment = this.game.equipment;
+      this.display.menuKeyText = this.activeControlScheme.menu.toString();
+
+      canvas?.insertAdjacentElement('afterend', this.display);
+
+      this.display.setHPColor();
+      this.display.setBuffs(this.game.player.buffs.getBuffsMap());
+    }
+  }
+
+  /**
+   * Handles key down events and fades out the screen if the menu key is pressed.
+   * @param {KeyboardEvent} event - The keyboard event.
+   * @param {Stack} stack - The stack.
+   * @returns {boolean} True if the event is handled, otherwise false.
+   */
+  public handleKeyDownEvent(event: KeyboardEvent, stack: Stack): boolean {
+    // fade out when menu key is pressed
+    if (this.isMenuKeyPressed(event)) {
+      this.fadeOutAndRemove(stack);
+      return true;
+    }
+    // scroll via keypress when alt or meta key is pressed
+    if (this.isAltKeyPressed(event)) {
+      const scrollContainer = this.display?.shadowRoot?.querySelector(
+        '.stats-screen-display',
+      ) as HTMLElement;
+      new KeypressScrollHandler(scrollContainer).handleVirtualScroll(event);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Checks if the menu key is pressed.
+   */
+  private isMenuKeyPressed(event: KeyboardEvent): boolean {
+    return event.key === this.activeControlScheme.menu.toString();
+  }
+
+  /**
+   * Checks if the Alt or Meta key is pressed.
+   */
+  private isAltKeyPressed(event: KeyboardEvent): boolean {
+    return event.altKey || event.metaKey;
+  }
+
+  /**
+   * Fades out the log screen display and removes it from the DOM. Then it pops the current screen from the stack.
+   * @param {Stack} stack - The stack of screens.
+   * @returns {Promise<void>} A promise that resolves when the fade out animation ends.
+   */
+  private async fadeOutAndRemove(stack: Stack): Promise<void> {
+    if (this.display) {
+      await this.display.fadeOut();
+
+      this.display.remove();
+
+      stack.pop();
+    }
+  }
+}

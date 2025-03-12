@@ -15,6 +15,7 @@ import { PlayerSetup } from '../ui/menu/playerSetup';
 import { PopupBoxGood } from '../ui/popup/popupBoxGood';
 import { PostMortem } from '../ui/postMortem/postMortem';
 import { SpellScreenDisplay } from '../ui/spellScreenDisplay/spellScreenDisplay';
+import { StatsScreenDisplay } from '../ui/statsScreenDisplay/statsScreenDisplay';
 import { StatsDisplay } from '../ui/stats/statsDisplay';
 import { TitleMenu } from '../ui/menu/titleMenu';
 import { TitleScreen } from '../ui/menu/titleScreen';
@@ -35,6 +36,7 @@ customElements.define('inventory-screen-display', InventoryScreenDisplay);
 customElements.define('equipment-screen-display', EquipmentScreenDisplay);
 customElements.define('item-screen-display', ItemScreenDisplay);
 customElements.define('spell-screen-display', SpellScreenDisplay);
+customElements.define('stats-screen-display', StatsScreenDisplay);
 customElements.define(
   'command-direction-screen-display',
   CommandDirectionScreenDisplay,

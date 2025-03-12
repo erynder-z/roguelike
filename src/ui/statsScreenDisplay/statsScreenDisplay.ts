@@ -1,9 +1,9 @@
 import { Buff } from '../../gameLogic/buffs/buffEnum';
 import { BuffColors } from '../buffs/buffColors';
 import { BuffType } from '../../types/gameLogic/buffs/buffType';
-import { Stats } from '../../gameLogic/stats/stats';
-import { Mob } from '../../gameLogic/mobs/mob';
 import { Equipment } from '../../gameLogic/inventory/equipment';
+import { Mob } from '../../gameLogic/mobs/mob';
+import { Stats } from '../../gameLogic/stats/stats';
 
 export class StatsScreenDisplay extends HTMLElement {
   public colorizer: BuffColors = new BuffColors();

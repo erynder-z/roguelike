@@ -573,7 +573,7 @@ export class Builder implements Build {
     strongPistol.charges = 10;
     inv.add(strongPistol);
 
-    for (let index = 0; index < 50; index++) {
+    for (let index = 0; index < 10; index++) {
       const potion = new ItemObject(
         Glyph.Potion,
         Slot.NotWorn,
