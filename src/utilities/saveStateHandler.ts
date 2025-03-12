@@ -611,8 +611,9 @@ export class SaveStateHandler {
     const restoredStats = game.stats;
     const serializedStats = saveState.serializedStats.data;
 
-    restoredStats.defaultVisRange = serializedStats.defaultVisRange || 50;
-    restoredStats.currentVisRange = serializedStats.currentVisRange || 50;
+    restoredStats.visibilityRange = serializedStats.visibilityRange || 50;
+    restoredStats.currentVisibilityRange =
+      serializedStats.currentVisibilityRange || 50;
     restoredStats.turnCounter = serializedStats.turnCounter || 1;
     restoredStats.mobKillCounter = serializedStats.mobKillCounter || 0;
     restoredStats.damageDealtCounter = serializedStats.damageDealtCounter || 0;

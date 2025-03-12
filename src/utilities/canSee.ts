@@ -134,7 +134,7 @@ export class CanSee {
   ): number {
     const glowRange = 10;
     const maxVisibilityRange = 75;
-    let farDist = game.stats.currentVisRange || 50;
+    let farDist = game.stats.currentVisibilityRange || 50;
 
     const glowingRocks = this.countLightSources(playerPos, map, glowRange);
     farDist *= Math.pow(2, glowingRocks);

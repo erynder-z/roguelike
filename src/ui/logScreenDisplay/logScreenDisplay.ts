@@ -62,7 +62,7 @@ export class LogScreenDisplay extends HTMLElement {
 
         .log-screen-list ul {
           padding: 0 2rem;
-          heigh: 100%;
+          height: 100%;
         }
 
         .log-screen-list ul li {
