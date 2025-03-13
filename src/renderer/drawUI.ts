@@ -11,10 +11,10 @@ import { Glyph } from '../gameLogic/glyphs/glyph';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
 import { ImageHandler } from '../utilities/imageHandler/imageHandler';
+import { LevelInfo } from '../ui/levelInfo/levelInfo';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { MapRenderer } from './mapRenderer';
 import { MessagesDisplay } from '../ui/messages/messagesDisplay';
-import { StatsDisplay } from '../ui/stats/statsDisplay';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 
@@ -98,27 +98,11 @@ export class DrawUI {
     this.drawMap(term, map, viewport, playerPos, game);
   }
 
-  /**
-   * Renders the player stats on the terminal.
-   *
-   * @param {GameState} game - the game instance to retrieve player stats from
-   * @return {void}
-   */
-  public static renderStats(game: GameState): void {
-    const player = game.player;
-    const hp = player.hp;
-    const maxhp = player.maxhp;
+  public static renderLevelInfo(game: GameState): void {
     const lvl = game.dungeon.level;
-    const nEA = game.equipment?.armorClass_reduce()?.toFixed(2);
-    const nAC = game.equipment?.armorClass();
-    const nAP = game.equipment?.weaponDamage();
 
-    const statsDisplay = document.querySelector(
-      'stats-display',
-    ) as StatsDisplay;
-    if (statsDisplay) statsDisplay.setStats(hp, maxhp, lvl, nEA, nAC, nAP);
-
-    this.renderBuffs(game);
+    const levelInfoDisplay = document.querySelector('level-info') as LevelInfo;
+    if (levelInfoDisplay) levelInfoDisplay.setInfo(lvl);
   }
 
   /**
@@ -127,7 +111,7 @@ export class DrawUI {
    * @param {GameState} game - the game instance containing the player's buffs
    * @return {void}
    */
-  private static renderBuffs(game: GameState): void {
+  public static renderBuffs(game: GameState): void {
     const playerBuffs = game.player.buffs;
     const buffMap = playerBuffs.getBuffsMap();
 

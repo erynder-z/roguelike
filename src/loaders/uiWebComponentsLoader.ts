@@ -9,6 +9,7 @@ import { MessagesDisplay } from '../ui/messages/messagesDisplay';
 import { IngameMenu } from '../ui/menu/ingameMenu';
 import { InventoryScreenDisplay } from '../ui/inventoryScreenDisplay/inventoryScreenDisplay';
 import { ItemScreenDisplay } from '../ui/itemScreenDisplay/itemScreenDisplay';
+import { LevelInfo } from '../ui/levelInfo/levelInfo';
 import { LogScreenDisplay } from '../ui/logScreenDisplay/logScreenDisplay';
 import { OptionsMenu } from '../ui/menu/optionsMenu';
 import { PlayerSetup } from '../ui/menu/playerSetup';
@@ -16,7 +17,7 @@ import { PopupBoxGood } from '../ui/popup/popupBoxGood';
 import { PostMortem } from '../ui/postMortem/postMortem';
 import { SpellScreenDisplay } from '../ui/spellScreenDisplay/spellScreenDisplay';
 import { StatsScreenDisplay } from '../ui/statsScreenDisplay/statsScreenDisplay';
-import { StatsDisplay } from '../ui/stats/statsDisplay';
+
 import { TitleMenu } from '../ui/menu/titleMenu';
 import { TitleScreen } from '../ui/menu/titleScreen';
 
@@ -24,7 +25,7 @@ import { TitleScreen } from '../ui/menu/titleScreen';
 customElements.define('title-screen', TitleScreen);
 customElements.define('title-menu', TitleMenu);
 customElements.define('player-setup', PlayerSetup);
-customElements.define('stats-display', StatsDisplay);
+customElements.define('level-info', LevelInfo);
 customElements.define('messages-display', MessagesDisplay);
 customElements.define('buffs-display', BuffsDisplay);
 customElements.define('equipment-display', EquipmentDisplay);

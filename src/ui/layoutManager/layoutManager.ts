@@ -101,7 +101,7 @@ export class LayoutManager {
       return {
         columns: '15% 85%',
         areas: `
-          'stats stats'
+          'lvl-info lvl-info'
           'messages canvas'
           'bottom bottom'
         `,
@@ -110,7 +110,7 @@ export class LayoutManager {
       return {
         columns: '85% 15%',
         areas: `
-          'stats stats'
+          'lvl-info lvl-info'
           'canvas messages'
           'bottom bottom'
         `,
