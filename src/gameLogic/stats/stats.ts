@@ -2,8 +2,8 @@
  * Manage player related stats
  */
 export class Stats {
-  public visibilityRange = 10;
-  public currentVisibilityRange = 10;
+  public visibilityRange = 15;
+  public currentVisibilityRange = 15;
   public turnCounter = 1;
   public mobKillCounter = 0;
   public damageDealtCounter = 0;
@@ -18,7 +18,7 @@ export class Stats {
    * @param {number} amount - The amount by which to adjust the default visibility range.
    * @return {void} This function does not return a value.
    */
-  public adjustvisibilityRange(amount: number): void {
+  public adjustVisibilityRange(amount: number): void {
     this.visibilityRange = amount;
   }
 
