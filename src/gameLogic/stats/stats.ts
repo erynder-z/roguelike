@@ -28,7 +28,7 @@ export class Stats {
    * @param {number} amount - The amount by which to adjust the current visibility range.
    * @return {void} This function does not return anything.
    */
-  public adjustcurrentVisibilityRange(amount: number): void {
+  public adjustCurrentVisibilityRange(amount: number): void {
     this.currentVisibilityRange = amount;
   }
 

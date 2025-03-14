@@ -65,11 +65,19 @@ export class MapHandler {
     this.maps.length = len;
   }
 
+  /**
+   * Adjusts the current visibility range of the player based on the current level
+   * being dark or not.
+   * @param {GameState} game - The game object.
+   * @returns {void}
+   */
   private adjustLevelVisibilityRange(game: GameState): void {
     if (this.currentMap(game).isDark) {
-      game.stats.adjustcurrentVisibilityRange(6);
+      game.stats.adjustCurrentVisibilityRange(
+        parseFloat((game.stats.visibilityRange * 0.25).toFixed(1)),
+      );
     } else {
-      game.stats.adjustcurrentVisibilityRange(game.stats.visibilityRange);
+      game.stats.adjustCurrentVisibilityRange(game.stats.visibilityRange);
     }
   }
 
