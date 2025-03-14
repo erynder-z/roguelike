@@ -2,8 +2,8 @@
  * Manage player related stats
  */
 export class Stats {
-  public visibilityRange = 50;
-  public currentVisibilityRange = 50;
+  public visibilityRange = 10;
+  public currentVisibilityRange = 10;
   public turnCounter = 1;
   public mobKillCounter = 0;
   public damageDealtCounter = 0;
