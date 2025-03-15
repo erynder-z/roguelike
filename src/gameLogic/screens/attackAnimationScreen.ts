@@ -139,7 +139,10 @@ export class AttackAnimationScreen extends BaseScreen {
    * @return {WorldPoint} The position of the target mob on the terminal.
    */
   private getTargetPosition(): WorldPoint {
-    const terminalCenter = new WorldPoint(32, 16);
+    const terminalCenter = new WorldPoint(
+      Math.floor(this.gameConfig.terminal_dimensions.width * 0.5),
+      Math.floor(this.gameConfig.terminal_dimensions.height * 0.5),
+    );
     const playerPos = this.game.player.pos;
 
     return new WorldPoint(

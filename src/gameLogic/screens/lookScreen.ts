@@ -19,8 +19,11 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  */
 export class LookScreen extends BaseScreen {
   public name = 'look-screen';
-  private keyBindings: Map<string, DetailViewEntity> = new Map();
-  private readonly neutralPos = new WorldPoint(32, 16);
+  public keyBindings: Map<string, DetailViewEntity> = new Map();
+  private readonly neutralPos = new WorldPoint(
+    Math.floor(this.gameConfig.terminal_dimensions.width * 0.5),
+    Math.floor(this.gameConfig.terminal_dimensions.height * 0.5),
+  );
   private readonly playerPos = new WorldPoint(
     this.game.player.pos.x,
     this.game.player.pos.y,
