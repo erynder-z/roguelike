@@ -167,7 +167,9 @@ export class MapRenderer {
     }
 
     if (isDim) {
-      resultColors.fg = ManipulateColors.darkenColor(resultColors.fg, 0.3);
+      resultColors.fg = glyphInfo.hasSolidBg
+        ? this.farLitColor
+        : ManipulateColors.darkenColor(resultColors.fg, 0.3);
       resultColors.bg = glyphInfo.hasSolidBg
         ? this.unlitColorSolidBg
         : this.unlitColor;
