@@ -17,6 +17,10 @@ export class EventManager {
     window.addEventListener('resize', this.handleResize.bind(this));
     this.handleResize();
     this.initTimer();
+
+    document.fonts.ready.then(() => {
+      this.handleFontChange();
+    });
   }
 
   /**
@@ -28,6 +32,15 @@ export class EventManager {
     this.screen.drawScreen(this.term);
   }
 
+  /**
+   * Handles a font change event by updating the terminal font.
+   *
+   * The EventManager listens for a font change event and updates the terminal font when the event is triggered.
+   */
+  public handleFontChange(): void {
+    this.term.updateFont();
+    this.screen.drawScreen(this.term);
+  }
   /**
    * Handles the keyboard input event by updating the raw screen based on the input.
    *

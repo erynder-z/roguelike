@@ -20,7 +20,7 @@ export class MobMessagesHandler {
     const map = game.currentMap() as GameMap;
 
     // Check if the player is within visibility range of the mob.
-    const visibilityRange = game.stats.currentVisRange;
+    const visibilityRange = game.stats.currentVisibilityRange;
     const visRadius = visibilityRange / 2;
     const isWithinRange = CanSee.isDistanceSmallerThan(
       mob.pos,

@@ -2,6 +2,7 @@ import { BulletCommand } from '../commands/bulletCommand';
 import { Command } from '../../types/gameLogic/commands/command';
 import { CommandDirectionScreen } from '../screens/commandDirectionScreen';
 import { ControlSchemeManager } from '../../controls/controlSchemeManager';
+import { DrawUI } from '../../renderer/drawUI';
 import { DebuggerScreen } from '../screens/debuggerScreen';
 import { DigCommand } from '../commands/digCommand';
 import { DoorCommand } from '../commands/doorCommand';
@@ -21,9 +22,9 @@ import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { SpellScreen } from '../screens/spellScreen';
 import { Stack } from '../../types/terminal/stack';
 import { StackScreen } from '../../types/terminal/stackScreen';
+import { StatsScreen } from '../screens/statsScreen';
 import { WaitCommand } from '../commands/waitCommand';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { DrawUI } from '../../renderer/drawUI';
 
 /**
  * Class responsible for parsing player input and converting it into game commands.
@@ -134,6 +135,9 @@ export class ParsePlayer {
         break;
       case activeControlScheme.spells.toString():
         stackScreen = new SpellScreen(this.game, this.make);
+        break;
+      case activeControlScheme.stats.toString():
+        stackScreen = new StatsScreen(this.game, this.make);
         break;
       case activeControlScheme.menu.toString():
         stackScreen = new IngameMenuScreen(this.game, this.make, stack);

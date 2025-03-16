@@ -10,8 +10,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     await gameConfigManager.initialize();
 
-    await ColorLoader.initializeColors();
-    await GenerateHelpUI.generate();
+    // Parallel Initialization of Colors and UI
+    await Promise.all([
+      ColorLoader.initializeColors(),
+      GenerateHelpUI.generate(),
+    ]);
 
     // Unhide the help window that is hidden on initialization for a better user experience
     invoke('show_hidden_help_window');

@@ -63,7 +63,6 @@ export class EquipmentScreenDisplay extends HTMLElement {
         .equipment-list ul li {
           list-style-type: none;
           padding: 0.5rem;
-          cursor: pointer;
         }
 
         .equipment-list ul li:hover {

@@ -101,7 +101,7 @@ export class LayoutManager {
       return {
         columns: '15% 85%',
         areas: `
-          'stats stats'
+          'lvl-info lvl-info'
           'messages canvas'
           'bottom bottom'
         `,
@@ -110,7 +110,7 @@ export class LayoutManager {
       return {
         columns: '85% 15%',
         areas: `
-          'stats stats'
+          'lvl-info lvl-info'
           'canvas messages'
           'bottom bottom'
         `,
@@ -156,5 +156,15 @@ export class LayoutManager {
       'messages-display',
     ) as MessagesDisplay;
     if (messagesDisplay) messagesDisplay.setMessages(messageLog);
+  }
+
+  /**
+   * Updates the global CSS variable `--game-font` with the current terminal font from the game config.
+   */
+  public updateFont(): void {
+    document.documentElement.style.setProperty(
+      '--game-font',
+      `"${this.gameConfig.terminal.font}"`,
+    );
   }
 }

@@ -31,6 +31,14 @@ class GameConfigManager {
       avatar: '@',
     },
     blood_intensity: 1,
+    terminal: {
+      dimensions: {
+        width: 64,
+        height: 40,
+      },
+      scaling_factor: 0.8,
+      font: 'DejaVu Sans Mono',
+    },
   };
 
   private constructor() {

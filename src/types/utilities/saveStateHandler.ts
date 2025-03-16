@@ -126,12 +126,12 @@ export type SerializedEquipmentData = [number, SerializedItemData][];
 
 export type SerializedStatsData = {
   currentTurnReceivedDmg: number;
-  currentVisRange: number;
+  currentVisibilityRange: number;
   damageDealModifier: number;
   damageDealtCounter: number;
   damageReceivedCounter: number;
   damageReceiveModifier: number;
-  defaultVisRange: number;
+  visibilityRange: number;
   mobKillCounter: number;
   turnCounter: number;
 };

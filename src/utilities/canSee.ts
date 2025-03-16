@@ -120,24 +120,28 @@ export class CanSee {
   }
 
   /**
-   * Calculates the far distance for visibility based on player position, map, and game state.
+   * Calculates the maximum distance at which entities can be seen by the player,
+   * taking into account the player's current visibility range, light sources in the
+   * vicinity, and a maximum visibility limit.
    *
    * @param {WorldPoint} playerPos - The position of the player on the map.
-   * @param {GameMapType} map - The current map.
-   * @param {GameState} game - The game state containing player stats.
-   * @return {number} The calculated far distance for visibility.
+   * @param {GameMapType} map - The current game map.
+   * @param {GameState} game - The game state, containing player stats and buffs.
+   * @returns {number} The maximum distance at which entities can be seen by the player.
    */
+
   public static getFarDist(
     playerPos: WorldPoint,
     map: GameMapType,
     game: GameState,
   ): number {
     const glowRange = 10;
-    const maxVisibilityRange = 75;
-    let farDist = game.stats.currentVisRange || 50;
+    const maxVisibilityRange = 100;
+    let farDist = game.stats.currentVisibilityRange || 15;
 
     const glowingRocks = this.countLightSources(playerPos, map, glowRange);
-    farDist *= Math.pow(2, glowingRocks);
+    const additionalDistancePerGlowingRock = 20;
+    farDist += glowingRocks * additionalDistancePerGlowingRock;
 
     return Math.min(farDist, maxVisibilityRange);
   }
@@ -156,7 +160,7 @@ export class CanSee {
     diameter: number,
   ): number {
     let lightSources = 0;
-    for (const neighbor of playerPos.getNeighbors(diameter * 0.5)) {
+    for (const neighbor of playerPos.getNeighbors(Math.floor(diameter * 0.5))) {
       if (map.isLegalPoint(neighbor) && map.cell(neighbor).isGlowing()) {
         lightSources++;
       }

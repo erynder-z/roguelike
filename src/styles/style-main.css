@@ -4,6 +4,26 @@
 }
 
 @font-face {
+  font-family: 0xProto;
+  src: url(../fonts/0xProto-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: GoodOldDOS;
+  src: url(../fonts/GoodOldDOS.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: SimplyMono-Book;
+  src: url(../fonts/SimplyMono-Book.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: TerminusTTF;
+  src: url(../fonts/SimplyMono-Book.ttf) format('truetype');
+}
+
+@font-face {
   font-family: UASQUARE;
   src: url(../fonts/UASQUARE.ttf) format('truetype');
 }
@@ -49,13 +69,15 @@ html {
   background: var(--backgroundDefault);
   color: var(--white);
   overflow: hidden;
-  font-family: 'DejaVu Sans Mono', monospace;
+  font-family: var(--game-font, 'DejaVu Sans Mono'), monospace;
   font-size: small;
 }
 
 canvas {
   display: block;
   width: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 li {
@@ -66,10 +88,10 @@ li {
   /* cursor: none; */
   height: 100vh;
   display: grid;
-  grid-template-rows: 5% 80% 15%;
+  grid-template-rows: 2% 83% 15%;
   grid-template-columns: 15% 85%;
   grid-template-areas:
-    'stats stats'
+    'lvl-info lvl-info'
     'messages canvas'
     'bottom bottom';
 }
@@ -82,12 +104,13 @@ li {
   grid-area: canvas;
 }
 
-.stats-container {
-  grid-area: stats;
+.lvl-info-container {
+  grid-area: lvl-info;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   gap: 1rem;
+  padding: 0 1rem;
 }
 
 .messages-container {
