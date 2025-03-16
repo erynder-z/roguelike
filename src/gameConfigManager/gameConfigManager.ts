@@ -16,10 +16,6 @@ class GameConfigManager {
   private config: GameConfigType;
   private readonly defaultParams: GameConfigType = {
     SHOW_MENU: true,
-    terminal_dimensions: {
-      width: 64,
-      height: 40,
-    },
     show_scanlines: true,
     scanline_style: 'light',
     show_images: true,
@@ -35,6 +31,12 @@ class GameConfigManager {
       avatar: '@',
     },
     blood_intensity: 1,
+    terminal: {
+      dimensions: {
+        width: 64,
+        height: 40,
+      },
+    },
   };
 
   private constructor() {
