@@ -140,8 +140,8 @@ export class AttackAnimationScreen extends BaseScreen {
    */
   private getTargetPosition(): WorldPoint {
     const terminalCenter = new WorldPoint(
-      Math.floor(this.gameConfig.terminal_dimensions.width * 0.5),
-      Math.floor(this.gameConfig.terminal_dimensions.height * 0.5),
+      Math.floor(this.gameConfig.terminal.dimensions.width * 0.5),
+      Math.floor(this.gameConfig.terminal.dimensions.height * 0.5),
     );
     const playerPos = this.game.player.pos;
 

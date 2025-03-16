@@ -4,6 +4,26 @@
 }
 
 @font-face {
+  font-family: 0xProto;
+  src: url(../fonts/0xProto-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: GoodOldDOS;
+  src: url(../fonts/GoodOldDOS.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: SimplyMono-Book;
+  src: url(../fonts/SimplyMono-Book.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: TerminusTTF;
+  src: url(../fonts/SimplyMono-Book.ttf) format('truetype');
+}
+
+@font-face {
   font-family: UASQUARE;
   src: url(../fonts/UASQUARE.ttf) format('truetype');
 }
@@ -49,7 +69,7 @@ html {
   background: var(--backgroundDefault);
   color: var(--white);
   overflow: hidden;
-  font-family: 'DejaVu Sans Mono', monospace;
+  font-family: var(--game-font, 'DejaVu Sans Mono'), monospace;
   font-size: small;
 }
 

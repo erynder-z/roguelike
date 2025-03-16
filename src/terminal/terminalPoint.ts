@@ -11,8 +11,8 @@ export class TerminalPoint {
 
   private static gameConfig = gameConfigManager.getConfig();
   public static TerminalDimensions = new TerminalPoint(
-    this.gameConfig.terminal_dimensions.width,
-    this.gameConfig.terminal_dimensions.height,
+    this.gameConfig.terminal.dimensions.width,
+    this.gameConfig.terminal.dimensions.height,
   );
   public static MapDimensions = new TerminalPoint(96, 48);
 }

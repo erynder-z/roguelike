@@ -1,5 +1,6 @@
 import * as colorData from '../utilities/colors/colors.json';
 import { DrawableTerminal } from '../types/terminal/drawableTerminal';
+import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { ManipulateColors } from '../utilities/colors/manipulateColors';
 import { TerminalPoint } from './terminalPoint';
 
@@ -20,13 +21,13 @@ const SHORT_FACTOR_RANGE = SHORT_MAX_FACTOR - SHORT_MIN_FACTOR;
  * Represents a terminal for drawing text on a canvas.
  */
 export class Terminal implements DrawableTerminal {
+  private gameConfig = gameConfigManager.getConfig();
   constructor(
     public dimensions: TerminalPoint,
     public ctx: CanvasRenderingContext2D,
     public horizontalSide: number = 1,
     public verticalSide: number = 1,
     public sideLength: number = 40,
-    public scalingFactor: number = 0.8,
   ) {
     // (Re)initialize the context with the desired settings.
     this.ctx = this.initializeContext();
@@ -41,14 +42,10 @@ export class Terminal implements DrawableTerminal {
    */
   public initializeContext(): CanvasRenderingContext2D {
     const canvas = document.getElementById('canvas1') as HTMLCanvasElement;
-    if (!canvas) {
-      throw new Error('Canvas with id "canvas1" not found.');
-    }
+    if (!canvas) throw new Error('Canvas with id "canvas1" not found.');
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      throw new Error('Unable to get 2D context from canvas.');
-    }
+    if (!ctx) throw new Error('Unable to get 2D context from canvas.');
 
     // Set canvas dimensions based on the terminal grid and side length.
     canvas.width = this.dimensions.x * this.sideLength;
@@ -59,20 +56,33 @@ export class Terminal implements DrawableTerminal {
     this.verticalSide = this.sideLength;
 
     // Calculate the font size based on the side length and scaling factor.
-    const squeeze: number = this.sideLength * this.scalingFactor;
+    const squeeze: number =
+      this.sideLength * this.gameConfig.terminal.scaling_factor;
 
     // Configure canvas styles.
     ctx.fillStyle = colorData.root['--backgroundDefault'];
     ctx.strokeStyle = colorData.root['--backgroundDefault'];
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = `${squeeze}px "DejaVu Sans Mono", monospace`;
+    ctx.font = `${squeeze}px "${this.gameConfig.terminal.font}", monospace`;
 
     // Center the drawing context in the canvas.
     ctx.translate(canvas.width / 2, canvas.height / 2);
     ctx.translate(-canvas.width / 2, -canvas.height / 2);
 
     return ctx;
+  }
+
+  /**
+   * Updates the font size and family of the canvas rendering context.
+   * The font size is calculated based on the terminal cell side length and a scaling factor,
+   * and the font family is retrieved from the game configuration.
+   *
+   * @return {void}
+   */
+
+  public updateFont(): void {
+    this.ctx.font = `${this.sideLength * this.gameConfig.terminal.scaling_factor}px "${this.gameConfig.terminal.font}", monospace`;
   }
 
   /**
