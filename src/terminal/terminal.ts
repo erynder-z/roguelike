@@ -1,3 +1,4 @@
+import * as colorData from '../utilities/colors/colors.json';
 import { DrawableTerminal } from '../types/terminal/drawableTerminal';
 import { ManipulateColors } from '../utilities/colors/manipulateColors';
 import { TerminalPoint } from './terminalPoint';
@@ -61,8 +62,8 @@ export class Terminal implements DrawableTerminal {
     const squeeze: number = this.sideLength * this.scalingFactor;
 
     // Configure canvas styles.
-    ctx.fillStyle = '#111a24';
-    ctx.strokeStyle = 'white';
+    ctx.fillStyle = colorData.root['--backgroundDefault'];
+    ctx.strokeStyle = colorData.root['--backgroundDefault'];
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = `${squeeze}px "DejaVu Sans Mono", monospace`;
