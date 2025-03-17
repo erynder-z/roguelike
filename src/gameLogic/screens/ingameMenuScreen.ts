@@ -1,8 +1,8 @@
 import { BaseScreen } from './baseScreen';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { IngameMenu } from '../../ui/menu/ingameMenu';
+import { IngameOptions } from '../../ui/menu/ingameOptions';
 import { LayoutManager } from '../../ui/layoutManager/layoutManager';
-import { OptionsMenu } from '../../ui/menu/optionsMenu';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 
@@ -32,7 +32,7 @@ export class IngameMenuScreen extends BaseScreen {
 
   /**
    * Draws the in-game menu by creating and inserting the 'ingame-menu' element
-   * into the main body of the document if neither 'ingame-menu' nor 'options-menu'
+   * into the main body of the document if neither 'ingame-menu' nor 'ingame-options'
    * elements are present. This function ensures the body element exists before
    * attempting insertion. It also adds event listeners to the menu to handle
    * opening the options menu and returning to the game.
@@ -43,7 +43,7 @@ export class IngameMenuScreen extends BaseScreen {
   private drawIngameMenu(): void {
     if (
       !document.querySelector('ingame-menu') &&
-      !document.querySelector('options-menu')
+      !document.querySelector('ingame-options')
     ) {
       const body = document.getElementById('body-main');
       const menuScreen = document.createElement('ingame-menu') as IngameMenu;
@@ -71,8 +71,8 @@ export class IngameMenuScreen extends BaseScreen {
   }
 
   /**
-   * Draws the options menu by creating and inserting the 'options-menu' element
-   * into the main body of the document if the 'options-menu' element does not
+   * Draws the options menu by creating and inserting the 'ingame-options' element
+   * into the main body of the document if the 'ingame-options' element does not
    * already exist. This function ensures the body element exists before
    * attempting insertion. It also adds event listeners to the menu to handle
    * opening the ingame menu.
@@ -81,7 +81,7 @@ export class IngameMenuScreen extends BaseScreen {
    * @return {void}
    */
   private drawOptionsMenu(): void {
-    if (!document.querySelector('options-menu')) {
+    if (!document.querySelector('ingame-options')) {
       const body = document.getElementById('body-main');
 
       if (!body) {
@@ -89,7 +89,9 @@ export class IngameMenuScreen extends BaseScreen {
         return;
       }
 
-      const optionsMenu = document.createElement('options-menu') as OptionsMenu;
+      const optionsMenu = document.createElement(
+        'ingame-options',
+      ) as IngameOptions;
 
       // Ensure the titleContainer is the first child of the body
       if (body.firstChild) {

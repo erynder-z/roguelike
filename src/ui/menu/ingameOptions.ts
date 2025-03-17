@@ -1,12 +1,12 @@
 import controls from '../../controls/control_schemes.json';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { ControlSchemeName } from '../../types/controls/controlSchemeType';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
-import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 
-export class OptionsMenu extends HTMLElement {
+export class IngameOptions extends HTMLElement {
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
