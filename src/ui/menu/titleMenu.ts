@@ -49,11 +49,11 @@ export class TitleMenu extends HTMLElement {
         color: var(--white);
         border: none;
         transition: all 0.2s ease-in-out;
+        cursor: pointer;
       }
 
       .container button:hover {
-        cursor: pointer;
-        transform: scale(1.1);
+        transform: rotate(4deg);
       }
 
       .underline {
@@ -107,6 +107,9 @@ export class TitleMenu extends HTMLElement {
         </button>
         <button id="player-setup-button">
           <span class="underline">P</span>layer setup
+        </button>
+         <button id="main-options-button">
+          <span class="underline">O</span>ptions
         </button>
         <button id="change-seed-button">
           <span class="underline">C</span>hange seed
@@ -173,9 +176,15 @@ export class TitleMenu extends HTMLElement {
       true,
     );
     this.manageEventListener(
-      'change-seed-button',
+      'main-options-button',
       'click',
       this.changeSeed,
+      true,
+    );
+    this.manageEventListener(
+      'change-seed-button',
+      'click',
+      this.showOptions,
       true,
     );
     this.manageEventListener('help-button', 'click', this.showHelp, true);
@@ -241,6 +250,9 @@ export class TitleMenu extends HTMLElement {
         break;
       case 'P':
         this.playerSetup();
+        break;
+      case 'O':
+        this.showOptions();
         break;
       case 'C':
         this.changeSeed();
@@ -381,6 +393,26 @@ export class TitleMenu extends HTMLElement {
     if (titleScreenContent) {
       titleScreenContent.innerHTML = '';
       titleScreenContent.appendChild(document.createElement('player-setup'));
+    }
+  }
+
+  /**
+   * Replaces the title screen content with the main options menu.
+   *
+   * This function queries the first 'title-screen' element in the document,
+   * clears its content, and appends a 'main-options' element.
+   *
+   * @return {void}
+   */
+
+  public showOptions(): void {
+    const titleScreenContent = document
+      .querySelector('title-screen')
+      ?.shadowRoot?.getElementById('title-screen-content');
+
+    if (titleScreenContent) {
+      titleScreenContent.innerHTML = '';
+      titleScreenContent.appendChild(document.createElement('main-options'));
     }
   }
 

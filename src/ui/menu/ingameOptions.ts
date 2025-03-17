@@ -44,12 +44,12 @@ export class IngameOptions extends HTMLElement {
       <style>
         .options-menu {
           font-family: 'UASQUARE';
-          font-size: 2.5rem;
+          font-size: 2rem;
           position: absolute;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: start;
+          justify-content: center;
           height: 100%;
           width: 100%;
           backdrop-filter: brightness(60%) blur(10px);
@@ -69,32 +69,54 @@ export class IngameOptions extends HTMLElement {
         .options-menu button {
           font-family: 'UASQUARE';
           padding: 1rem;
-          font-size: 2.5rem;
+          font-size: 2rem;
           font-weight: bold;
           background: none;
           color: var(--white);
           border: none;
           transition: all 0.2s ease-in-out;
+          cursor: pointer;
         }
 
         .options-menu button:hover {
-          transform: scale(1.1);
-        }
-
-        .options-menu > * :hover {
-          cursor: pointer;
-        }
+          transform: rotate(4deg);
+      }
 
         .underline {
           text-decoration: underline;
         }
 
-        .buttons-container {
+        .info-container {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          height: 100%;
+          width: 100%;
           gap: 0.5rem;
+        }
+
+        .info-span {
+          font-size: 2.5rem;
+          width: 67%;
+        }
+
+        .info-span::after {
+          content: "";
+          display: block;
+          width: 100%;
+          height: 2px;
+          background-color: var(--white);
+        }
+
+        .info-container div {
+          width: max-content;
+          margin: 0 auto;
+        }
+
+        .info-text {
+          text-align: center;
+          font-weight: bold;
+          color: var(--grayedOut);
+          cursor: not-allowed;
         }
 
         .options-menu button.disabled {
@@ -110,7 +132,7 @@ export class IngameOptions extends HTMLElement {
           border-bottom: 2px solid var(--white);
           color: var(--white);
           font-weight: bold;
-          font-size: 2.5rem;
+          font-size: 2rem;
         }
 
         .message-count-input:focus {
@@ -122,20 +144,53 @@ export class IngameOptions extends HTMLElement {
           -webkit-appearance: none;
           margin: 0;
         }
+
+        .options-menu .back-button {
+          font-size: 2.5rem;
+          margin-top: 2rem;
+        }
+
+        .explanation {
+          font-size: 1rem;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          margin: 0 1rem;
+          z-index: 1;
+        }
       </style>
 
       <div class="options-menu">
         <h1>Options</h1>
-        <div class="buttons-container">
+        <span class="info-span">Core</span>
+        <div class="info-container">
+          <div class="info-text">
+            Current seed: ${this.gameConfig.seed} *
+          </div>
+          <div class="info-text">
+            Current font: ${this.gameConfig.terminal.font} *
+          </div>
+          <div class="info-text">
+            Current terminal dimensions: ${this.gameConfig.terminal.dimensions.width} x ${this.gameConfig.terminal.dimensions.height} *
+          </div>
+        </div>
+        <span class="info-span">Controls</span>
+        <div class="info-container">
           <button id="switch-controls-button">
             <span class="underline">C</span>ontrol scheme
           </button>
+        </div>
+        <span class="info-span">Graphics</span>
+        <div class="info-container">
           <button id="toggle-scanlines-button">
             <span class="underline">S</span>canlines
           </button>
           <button id="switch-scanline-style-button">
             Scanlines s<span class="underline">t</span>yle
           </button>
+        </div>
+        <span class="info-span">UI</span>
+        <div class="info-container">
           <button id="message-display-align-button">
             <span class="underline">M</span>essage display
           </button>
@@ -158,12 +213,18 @@ export class IngameOptions extends HTMLElement {
               value="${this.gameConfig.message_count}"
             />
           </button>
+        </div>
+        <span class="info-span">Misc</span>
+        <div class="info-container">
           <button id="blood-intensity-button">
             <span class="underline">B</span>lood intensity
           </button>
-          <button id="back-button">
-            <span class="underline">R</span>eturn to previous menu
-          </button>
+        </div>
+        <button id="back-button" class="back-button">
+          <span class="underline">R</span>eturn to previous menu
+        </button>
+        <div class="explanation">
+          * These values can only be changed from main menu.
         </div>
       </div>
     `;

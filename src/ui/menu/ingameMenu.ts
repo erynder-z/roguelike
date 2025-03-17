@@ -87,11 +87,11 @@ export class IngameMenu extends HTMLElement {
           color: var(--white);
           border: none;
           transition: all 0.2s ease-in-out;
+          cursor: pointer;
         }
 
         .ingame-menu button:hover {
-          cursor: pointer;
-          transform: scale(1.1);
+          transform: rotate(4deg);
         }
 
         .underline {
