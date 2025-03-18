@@ -429,12 +429,6 @@ export class IngameOptions extends HTMLElement {
     const mainContainer = document.getElementById('main-container');
     if (mainContainer)
       ScanlinesHandler.applyScanlineStyle(mainContainer, nextStyle);
-
-    try {
-      gameConfigManager.saveConfig();
-    } catch (error) {
-      console.error('Failed to save config:', error);
-    }
   }
 
   /**
