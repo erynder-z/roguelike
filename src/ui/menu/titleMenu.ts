@@ -1,13 +1,10 @@
 import { ask } from '@tauri-apps/plugin-dialog';
 import { BaseDirectory, readFile } from '@tauri-apps/plugin-fs';
-import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
-import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
 
 export class TitleMenu extends HTMLElement {
   private shouldEnableLoadGameKeyboardShortcuts: boolean = true;
-  private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
   }
@@ -76,15 +73,6 @@ export class TitleMenu extends HTMLElement {
         margin-top: auto;
       }
 
-      .seed-display {
-        padding: 0 1rem;
-        font-size: 1.5rem;
-      }
-
-      .seed-display span {
-        font-size: 1.75rem;
-      }
-
       .version-display {
         padding: 0 1rem;
         font-size: 1.5rem;
@@ -108,11 +96,8 @@ export class TitleMenu extends HTMLElement {
         <button id="player-setup-button">
           <span class="underline">P</span>layer setup
         </button>
-         <button id="main-options-button">
+         <button id="title-options-button">
           <span class="underline">O</span>ptions
-        </button>
-        <button id="change-seed-button">
-          <span class="underline">C</span>hange seed
         </button>
         <button id="help-button">
           <span class="underline">H</span>elp
@@ -126,38 +111,37 @@ export class TitleMenu extends HTMLElement {
       </div>
       <div class="bottom-container">
         <div class="version-display">version: alpha</div>
-        <div id="current-seed-display" class="seed-display">current Seed</div>
       </div>
     </div>
   `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.displayCurrentSeed(this.gameConfig.seed);
     this.checkForSaveState();
-
     this.bindEvents();
   }
 
   /**
-   * Binds events to the elements inside the title menu.
+   * Binds events to the elements in the title menu.
    *
    * The function binds the following events:
-   * - New game button click event
-   * - Player setup button click event
-   * - Change seed button click event
-   * - Help button click event
-   * - About button click event
-   * - Quit button click event
+   * - Click event on the new game button
+   * - Click event on the load game button
+   * - Click event on the player setup button
+   * - Click event on the options button
+   * - Click event on the help button
+   * - Click event on the about button
+   * - Click event on the quit button
    * - Keydown event on the document
+   *
    * @return {void}
    */
+
   private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
     this.loadGame = this.loadGame.bind(this);
     this.playerSetup = this.playerSetup.bind(this);
-    this.changeSeed = this.changeSeed.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.showAbout = this.showAbout.bind(this);
     this.quitGame = this.quitGame.bind(this);
@@ -176,13 +160,7 @@ export class TitleMenu extends HTMLElement {
       true,
     );
     this.manageEventListener(
-      'main-options-button',
-      'click',
-      this.changeSeed,
-      true,
-    );
-    this.manageEventListener(
-      'change-seed-button',
+      'title-options-button',
       'click',
       this.showOptions,
       true,
@@ -234,10 +212,18 @@ export class TitleMenu extends HTMLElement {
   }
 
   /**
-   * Handles key presses.
+   * Handles key presses on the title menu.
    *
-   * Listens for the keys N (new game), C (change seed), and Q (quit).
-   * @param {KeyboardEvent} event - The keyboard event.
+   * Listens for the following keys and calls the corresponding method to navigate the title menu:
+   * - N: startNewGame
+   * - L: loadGame
+   * - P: playerSetup
+   * - O: showOptions
+   * - H: showHelp
+   * - A: showAbout
+   * - Q: quitGame
+   *
+   * @param {KeyboardEvent} event - The keyboard event to be handled.
    * @return {void}
    */
   private handleKeyPress(event: KeyboardEvent): void {
@@ -254,9 +240,6 @@ export class TitleMenu extends HTMLElement {
       case 'O':
         this.showOptions();
         break;
-      case 'C':
-        this.changeSeed();
-        break;
       case 'H':
         this.showHelp();
         break;
@@ -269,19 +252,6 @@ export class TitleMenu extends HTMLElement {
       default:
         break;
     }
-  }
-
-  /**
-   * Displays the current seed in the title menu.
-   *
-   * @param {GameConfigType['seed']} seed - The current seed.
-   * @return {void}
-   */
-  private displayCurrentSeed(seed: GameConfigType['seed']): void {
-    const seedDisplay = this.shadowRoot?.getElementById(
-      'current-seed-display',
-    ) as HTMLDivElement;
-    if (seedDisplay) seedDisplay.innerHTML = `Current seed: ${seed}`;
   }
 
   /**
@@ -359,24 +329,6 @@ export class TitleMenu extends HTMLElement {
   }
 
   /**
-   * Changes the current seed to a random value.
-   *
-   * This function will also update the displayed seed in the title menu.
-   *
-   * @return {void}
-   */
-  public async changeSeed(): Promise<void> {
-    this.gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-    this.displayCurrentSeed(this.gameConfig.seed);
-
-    try {
-      await gameConfigManager.saveConfig();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  /**
    * Shows the player setup screen.
    *
    * This function will query the first 'title-screen' element in the document
@@ -400,7 +352,7 @@ export class TitleMenu extends HTMLElement {
    * Replaces the title screen content with the main options menu.
    *
    * This function queries the first 'title-screen' element in the document,
-   * clears its content, and appends a 'main-options' element.
+   * clears its content, and appends a 'title-menu-options' element.
    *
    * @return {void}
    */
@@ -412,7 +364,9 @@ export class TitleMenu extends HTMLElement {
 
     if (titleScreenContent) {
       titleScreenContent.innerHTML = '';
-      titleScreenContent.appendChild(document.createElement('main-options'));
+      titleScreenContent.appendChild(
+        document.createElement('title-menu-options'),
+      );
     }
   }
 
@@ -462,9 +416,6 @@ export class TitleMenu extends HTMLElement {
       shadowRoot
         .getElementById('new-game-button')
         ?.removeEventListener('click', this.startNewGame);
-      shadowRoot
-        .getElementById('change-seed-button')
-        ?.removeEventListener('click', this.changeSeed);
       shadowRoot
         .getElementById('help-button')
         ?.removeEventListener('click', this.showHelp);

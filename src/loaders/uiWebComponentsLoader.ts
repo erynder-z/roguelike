@@ -17,13 +17,14 @@ import { PopupBoxGood } from '../ui/popup/popupBoxGood';
 import { PostMortem } from '../ui/postMortem/postMortem';
 import { SpellScreenDisplay } from '../ui/spellScreenDisplay/spellScreenDisplay';
 import { StatsScreenDisplay } from '../ui/statsScreenDisplay/statsScreenDisplay';
-
 import { TitleMenu } from '../ui/menu/titleMenu';
+import { TitleMenuOptions } from '../ui/menu/titleMenuOptions';
 import { TitleScreen } from '../ui/menu/titleScreen';
 
 // Define and register custom elements for each UI element
 customElements.define('title-screen', TitleScreen);
 customElements.define('title-menu', TitleMenu);
+customElements.define('title-menu-options', TitleMenuOptions);
 customElements.define('player-setup', PlayerSetup);
 customElements.define('level-info', LevelInfo);
 customElements.define('messages-display', MessagesDisplay);
