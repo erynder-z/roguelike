@@ -94,13 +94,11 @@ export class Terminal implements DrawableTerminal {
     const defaultCanvas = document.getElementById(
       'canvas1',
     ) as HTMLCanvasElement;
-    if (!defaultCanvas) {
-      throw new Error('Canvas with id "canvas1" not found.');
-    }
+    if (!defaultCanvas) throw new Error('Canvas with id "canvas1" not found.');
+
     const defaultCtx = defaultCanvas.getContext('2d');
-    if (!defaultCtx) {
-      throw new Error('Unable to get 2D context from canvas.');
-    }
+    if (!defaultCtx) throw new Error('Unable to get 2D context from canvas.');
+
     return new Terminal(TerminalPoint.TerminalDimensions, defaultCtx);
   }
 
