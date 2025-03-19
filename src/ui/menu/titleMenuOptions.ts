@@ -6,6 +6,7 @@ import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
+import { KeypressScrollHandler } from '../../utilities/KeypressScrollHandler';
 
 export class TitleMenuOptions extends HTMLElement {
   private layoutManager: LayoutManager;
@@ -39,6 +40,19 @@ export class TitleMenuOptions extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
+        ::-webkit-scrollbar {
+          width: 0.25rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: var(--scrollbar-foreground);
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background-color: var(--scrollbar-background);
+        }
+
         .options-menu {
           font-family: 'UASQUARE';
           font-size: 2rem;
@@ -52,15 +66,7 @@ export class TitleMenuOptions extends HTMLElement {
           background: var(--backgroundDefaultTransparent);
           color: var(--white);
           z-index: 1;
-          overflow: hidden;
-        }
-
-        .options-menu h1 {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          margin: 0 1rem;
-          z-index: 1;
+          overflow-x: auto;
         }
 
         .options-menu button {
@@ -77,7 +83,7 @@ export class TitleMenuOptions extends HTMLElement {
 
         .options-menu button:hover {
           transform: rotate(4deg);
-      }
+        }
 
         .underline {
           text-decoration: underline;
@@ -93,11 +99,11 @@ export class TitleMenuOptions extends HTMLElement {
 
         .info-span {
           font-size: 2.5rem;
-          width: 67%;
+          width: 45%;
         }
 
         .info-span::after {
-          content: "";
+          content: '';
           display: block;
           width: 100%;
           height: 2px;
@@ -114,6 +120,10 @@ export class TitleMenuOptions extends HTMLElement {
           font-weight: bold;
           color: var(--grayedOut);
           cursor: not-allowed;
+        }
+
+        .explanation {
+          font-size: 1rem;
         }
 
         .options-menu button.disabled {
@@ -136,40 +146,45 @@ export class TitleMenuOptions extends HTMLElement {
           outline: none;
         }
 
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
+        input[type='number']::-webkit-inner-spin-button,
+        input[type='number']::-webkit-outer-spin-button {
           -webkit-appearance: none;
           margin: 0;
         }
 
-        .options-menu .back-button {
-          font-size: 2.5rem;
-          margin-top: 2rem;
+        .title {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          margin: 0 1rem;
+          z-index: 1;
+          font-size: 5rem;
         }
 
-        .explanation {
-          font-size: 1rem;
-          position: absolute;
+        .options-menu .back-button {
+          position: fixed;
           bottom: 0;
           right: 0;
           margin: 0 1rem;
           z-index: 1;
+          font-size: 2.5rem;
         }
-
       </style>
 
       <div class="options-menu">
-        <h1>Options</h1>
         <span class="info-span">Core</span>
         <div class="info-container">
           <button id="current-seed-button" class="current-seed-display">
             Current see<span class="underline">d</span>: ${this.gameConfig.seed}
           </button>
-          <div class="info-text">
+          <button id="current-font-button" class="current-font-display">
             Current font: ${this.gameConfig.terminal.font}
-          </div>
+          </button>
           <div class="info-text">
             Current terminal dimensions: ${this.gameConfig.terminal.dimensions.width} x ${this.gameConfig.terminal.dimensions.height} *
+          </div>
+          <div class="explanation">
+            * Changing these will alter any saved games!
           </div>
         </div>
         <span class="info-span">Controls</span>
@@ -218,12 +233,10 @@ export class TitleMenuOptions extends HTMLElement {
             <span class="underline">B</span>lood intensity
           </button>
         </div>
+        <div class="title">Options</div>
         <button id="back-button" class="back-button">
           <span class="underline">R</span>eturn to previous menu
         </button>
-          <div class="explanation">
-          * Changing these will alter any saved games!
-        </div>
       </div>
     `;
 
@@ -624,6 +637,13 @@ export class TitleMenuOptions extends HTMLElement {
   }
 
   /**
+   * Checks if the Alt or Meta key is pressed.
+   */
+  private isAltKeyPressed(event: KeyboardEvent): boolean {
+    return event.altKey || event.metaKey;
+  }
+
+  /**
    * Handles key presses on the options menu.
    *
    * Listens for the following keys and calls the corresponding method to update the game config:
@@ -642,6 +662,19 @@ export class TitleMenuOptions extends HTMLElement {
    * @return {void}
    */
   private handleKeyPress(event: KeyboardEvent): void {
+    // scroll via keypress when alt or meta key is pressed
+    if (this.isAltKeyPressed(event)) {
+      const titleScreen = document.querySelector('title-screen') as HTMLElement;
+      const menuOptions = titleScreen?.shadowRoot?.querySelector(
+        'title-menu-options',
+      ) as HTMLElement;
+      const targetElement = menuOptions?.shadowRoot?.querySelector(
+        '.options-menu',
+      ) as HTMLElement;
+
+      new KeypressScrollHandler(targetElement).handleVirtualScroll(event);
+    }
+
     switch (event.key) {
       case 'd':
         this.changeSeed();

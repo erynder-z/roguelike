@@ -22,7 +22,7 @@ export class TitleMenu extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
     <style>
-      .container {
+      .title-screen-container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -31,13 +31,13 @@ export class TitleMenu extends HTMLElement {
         background: var(--backgroundDefaultTransparent);
       }
 
-      .container h1 {
+      .title-screen-container h1 {
         margin: 8rem 0 0 0;
         text-align: center;
         z-index: 1;
       }
 
-      .container button {
+      .title-screen-container button {
         font-family: 'UASQUARE';
         padding: 1rem;
         font-size: 2.5rem;
@@ -49,7 +49,7 @@ export class TitleMenu extends HTMLElement {
         cursor: pointer;
       }
 
-      .container button:hover {
+      .title-screen-container button:hover {
         transform: rotate(4deg);
       }
 
@@ -84,7 +84,7 @@ export class TitleMenu extends HTMLElement {
       }
     </style>
 
-    <div class="container">
+    <div class="title-screen-container">
       <h1>Meikai: Roguelike Journey to the Center of the Earth</h1>
       <div class="buttons-container">
         <button id="new-game-button">

@@ -58,14 +58,6 @@ export class IngameOptions extends HTMLElement {
           overflow: hidden;
         }
 
-        .options-menu h1 {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          margin: 0 1rem;
-          z-index: 1;
-        }
-
         .options-menu button {
           font-family: 'UASQUARE';
           padding: 1rem;
@@ -96,7 +88,7 @@ export class IngameOptions extends HTMLElement {
 
         .info-span {
           font-size: 2.5rem;
-          width: 67%;
+          width: 45%;
         }
 
         .info-span::after {
@@ -117,6 +109,10 @@ export class IngameOptions extends HTMLElement {
           font-weight: bold;
           color: var(--grayedOut);
           cursor: not-allowed;
+        }
+            
+        .explanation {
+          font-size: 1rem;
         }
 
         .options-menu button.disabled {
@@ -145,23 +141,26 @@ export class IngameOptions extends HTMLElement {
           margin: 0;
         }
 
-        .options-menu .back-button {
-          font-size: 2.5rem;
-          margin-top: 2rem;
+       .title {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          margin: 0 1rem;
+          z-index: 1;
+          font-size: 5rem;
         }
 
-        .explanation {
-          font-size: 1rem;
-          position: absolute;
+        .options-menu .back-button {
+          position: fixed;
           bottom: 0;
           right: 0;
           margin: 0 1rem;
           z-index: 1;
+          font-size: 2.5rem;
         }
       </style>
 
       <div class="options-menu">
-        <h1>Options</h1>
         <span class="info-span">Core</span>
         <div class="info-container">
           <div class="info-text">
@@ -173,6 +172,9 @@ export class IngameOptions extends HTMLElement {
           <div class="info-text">
             Current terminal dimensions: ${this.gameConfig.terminal.dimensions.width} x ${this.gameConfig.terminal.dimensions.height} *
           </div>
+           <div class="explanation">
+          * These values can only be changed from main menu.
+        </div>
         </div>
         <span class="info-span">Controls</span>
         <div class="info-container">
@@ -220,12 +222,11 @@ export class IngameOptions extends HTMLElement {
             <span class="underline">B</span>lood intensity
           </button>
         </div>
+        <div class="title">Options</div>
         <button id="back-button" class="back-button">
           <span class="underline">R</span>eturn to previous menu
         </button>
-        <div class="explanation">
-          * These values can only be changed from main menu.
-        </div>
+       
       </div>
     `;
 
