@@ -1,11 +1,11 @@
 @font-face {
   font-family: DejaVu Sans Mono;
-  src: url(../fonts/ui/DejaVuSansMono.ttf) format('truetype');
+  src: url(../fonts/DejaVuSansMono.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: UASQUARE;
-  src: url(../fonts/ui/UASQUARE.ttf) format('truetype');
+  font-family: UA Squared;
+  src: url(../fonts/UASQUARE.ttf) format('truetype');
 }
 
 ::-webkit-scrollbar {
@@ -32,7 +32,7 @@
 body {
   background-color: var(--backgroundDefault);
   color: var(--white);
-  font-family: 'UASQUARE';
+  font-family: 'UA Squared';
   margin: var(--margin);
   padding: var(--padding);
   scrollbar-width: var(--scrollbar-width);

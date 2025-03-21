@@ -88,10 +88,8 @@ class GameConfigManager {
         this.config = this.defaultParams;
       }
 
-      // Load fonts
       await FontHandler.loadFonts();
 
-      // Update font list
       this.updateFonts();
     } catch (error) {
       console.error('Error initializing game config or loading fonts:', error);
@@ -106,11 +104,11 @@ class GameConfigManager {
   }
 
   /**
-   * Updates the list of fonts available in the document by retrieving the list of
-   * font faces from the document and extracting the family names from them.
+   * Updates the list of fonts available in the document.
    *
-   * This is called whenever the game configuration is initialized or updated to
-   * ensure that the list of fonts is always up to date.
+   * This is called during initialization and after saving the config.
+   *
+   * The list of fonts is used to populate the font select dropdown.
    */
   private updateFonts(): void {
     this.fonts = Array.from(document.fonts).map(fontFace => fontFace.family);

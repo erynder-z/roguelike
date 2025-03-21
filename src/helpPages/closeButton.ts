@@ -15,7 +15,7 @@ export class CloseButton extends HTMLElement {
         }
 
         .close-button {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           padding: 0.5rem 1.25rem;
           background: none;
           border: none;

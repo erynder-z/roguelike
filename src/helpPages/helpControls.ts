@@ -58,7 +58,7 @@ export class HelpControls extends HTMLElement {
         }
 
         .control-scheme-button {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           padding: 0.5rem 1.25rem;
           background: none;
           border: none;

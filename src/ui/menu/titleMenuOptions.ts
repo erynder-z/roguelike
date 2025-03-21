@@ -17,7 +17,8 @@ export class TitleMenuOptions extends HTMLElement {
   private availableControlSchemes = Object.keys(
     controls,
   ) as ControlSchemeName[];
-  public activeControlScheme: Record<string, string[]>;
+  private activeControlScheme: Record<string, string[]>;
+
   constructor() {
     super();
 
@@ -54,7 +55,7 @@ export class TitleMenuOptions extends HTMLElement {
         }
 
         .options-menu {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           font-size: 2rem;
           position: absolute;
           display: flex;
@@ -70,7 +71,7 @@ export class TitleMenuOptions extends HTMLElement {
         }
 
         .options-menu button {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           padding: 1rem;
           font-size: 2rem;
           font-weight: bold;
@@ -133,7 +134,7 @@ export class TitleMenuOptions extends HTMLElement {
         }
 
         .message-count-input {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           background: none;
           border: none;
           border-bottom: 2px solid var(--white);
@@ -178,7 +179,7 @@ export class TitleMenuOptions extends HTMLElement {
             Current see<span class="underline">d</span>: ${this.gameConfig.seed}
           </button>
           <button id="current-font-button" class="current-font-display">
-            Current font: ${this.gameConfig.terminal.font}
+            Current <span class="underline">f</span>ont: ${this.gameConfig.terminal.font}
           </button>
           <div class="info-text">
             Current terminal dimensions: ${this.gameConfig.terminal.dimensions.width} x ${this.gameConfig.terminal.dimensions.height} *
@@ -287,7 +288,7 @@ export class TitleMenuOptions extends HTMLElement {
     this.manageEventListener(
       'current-font-button',
       'click',
-      this.changeFont,
+      this.changeFont.bind(this),
       true,
     );
     this.manageEventListener(
@@ -408,6 +409,14 @@ export class TitleMenuOptions extends HTMLElement {
     }
   }
 
+  /**
+   * Updates the displayed font in the title menu to the current font.
+   *
+   * This function is called when the font is changed, and will update the displayed
+   * font in the title menu.
+   *
+   * @return {void}
+   */
   private displayCurrentFont(): void {
     const fontButton = this.shadowRoot?.getElementById(
       'current-font-button',
@@ -416,12 +425,35 @@ export class TitleMenuOptions extends HTMLElement {
       fontButton.innerHTML = `Current font: ${this.gameConfig.terminal.font}`;
   }
 
+  /**
+   * Cycles through the available fonts and updates the terminal font to the next one.
+   *
+   * This function retrieves all available font families from the document and finds the index of the current font in the list.
+   * It then selects the next font in the list, updates the game configuration with this new font, and updates the displayed font in the UI.
+   * The updated configuration is saved, and the layout manager is notified to update the font accordingly.
+   *
+   * @return {Promise<void>} A promise that resolves when the font has been changed and the configuration is saved.
+   */
+
   public async changeFont(): Promise<void> {
+    const fonts = Array.from(document.fonts).map(fontFace => fontFace.family);
+
+    const currentFont = this.gameConfig.terminal.font;
+    const index = fonts.indexOf(currentFont);
+
+    const nextFontIndex = (index + 1) % fonts.length;
+    const nextFont = fonts[nextFontIndex];
+
+    this.gameConfig.terminal.font = nextFont;
+
+    this.displayCurrentFont();
+
     try {
       await gameConfigManager.saveConfig();
     } catch (error) {
-      console.error(error);
+      console.error('Error saving the configuration:', error);
     }
+    this.layoutManager.updateFont();
   }
 
   /**
@@ -700,6 +732,9 @@ export class TitleMenuOptions extends HTMLElement {
     switch (event.key) {
       case 'd':
         this.changeSeed();
+        break;
+      case 'f':
+        this.changeFont();
         break;
       case 'C':
         this.toggleControlScheme();

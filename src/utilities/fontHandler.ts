@@ -23,14 +23,10 @@ export class FontHandler {
   static async loadFonts(): Promise<void> {
     try {
       this.fonts = await invoke<FontInfo[]>('get_fonts_from_directory', {
-        dir: '../fonts/term',
+        dir: '../fonts',
       });
 
       await Promise.all(this.fonts.map(font => this.loadFont(font)));
-
-      if (this.fonts.length > 0) {
-        this.applyFontToBody(this.fonts[0].name);
-      }
 
       this.applySelectedFont();
     } catch (err) {
@@ -39,21 +35,29 @@ export class FontHandler {
   }
 
   /**
-   * Loads a font into the document from the specified FontInfo object.
+   * Loads a single font from the given path and name.
    *
-   * This function creates a new FontFace object using the provided font's name
-   * and path, attempts to load it, and then adds it to the document's font list.
-   * If the font fails to load, an error is logged to the console.
-   *
-   * @param font - An object containing the name and path of the font to be loaded.
-   * @returns A promise that resolves when the font is successfully loaded or logs an error if it fails.
+   * This function is called by loadFonts, and it is responsible for loading a single font
+   * from the given path and name. It first checks if the font is already loaded by checking
+   * if the font's name is in the list of all document fonts. If it is not loaded, it creates a
+   * FontFace object with the given name and path, and then loads the font by calling the
+   * load method. If the load is successful, the font is added to the document's font collection.
+   * If the load fails, an error is logged to the console.
+   * @param {FontInfo} font A FontInfo object containing the name and path of the font to load.
+   * @returns A promise that resolves when the font is successfully loaded, or logs an error if it fails.
    */
-
   private static async loadFont(font: FontInfo): Promise<void> {
+    const fontAlreadyLoaded = Array.from(document.fonts).some(
+      fontFace => fontFace.family === font.name,
+    );
+
+    if (fontAlreadyLoaded) return;
+
     const fontFace = new FontFace(
       font.name,
       `url(${font.path}), format('truetype')`,
     );
+
     try {
       await fontFace.load();
       document.fonts.add(fontFace);
@@ -73,23 +77,6 @@ export class FontHandler {
 
   static getAvailableFonts(): string[] {
     return this.fonts.map(f => f.name);
-  }
-
-  static applyFontToElement(fontName: string, el: HTMLElement): void {
-    el.style.fontFamily = `"${fontName}", monospace`;
-  }
-
-  /**
-   * Applies the given font to the document's body element.
-   *
-   * Updates the 'font-family' CSS property of the document's body element to
-   * reflect the given font name. This ensures that any elements that are not
-   * explicitly styled with a font will use the given font.
-   *
-   * @param fontName - The name of the font to apply to the document's body element.
-   */
-  static applyFontToBody(fontName: string): void {
-    document.body.style.fontFamily = `"${fontName}", monospace`;
   }
 
   /**

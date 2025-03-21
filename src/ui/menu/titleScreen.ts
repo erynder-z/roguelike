@@ -28,7 +28,7 @@ export class TitleScreen extends HTMLElement {
     templateElement.innerHTML = `
       <style>
         .title-screen {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           font-size: 2.5rem;
           position: absolute;
           height: 100%;

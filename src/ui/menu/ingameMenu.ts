@@ -55,7 +55,7 @@ export class IngameMenu extends HTMLElement {
     templateElement.innerHTML = `
       <style>
         .ingame-menu {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           font-size: 2.5rem;
           position: absolute;
           display: flex;
@@ -79,7 +79,7 @@ export class IngameMenu extends HTMLElement {
         }
 
         .ingame-menu button {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           padding: 1rem;
           font-size: 2.5rem;
           font-weight: bold;

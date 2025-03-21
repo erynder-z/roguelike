@@ -38,7 +38,7 @@ export class TitleMenu extends HTMLElement {
       }
 
       .title-screen-container button {
-        font-family: 'UASQUARE';
+        font-family: 'UA Squared';
         padding: 1rem;
         font-size: 2.5rem;
         font-weight: bold;

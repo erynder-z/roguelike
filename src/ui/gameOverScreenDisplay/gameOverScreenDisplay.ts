@@ -30,7 +30,7 @@ export class GameOverScreenDisplay extends HTMLElement {
         }
 
         .game-over-screen {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           font-size: large;
           background: var(--backgroundDefaultTransparent);
           backdrop-filter: blur(5px);

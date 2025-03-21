@@ -55,7 +55,7 @@ export class PlayerSetup extends HTMLElement {
         }
 
         .container button {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           padding: 1rem;
           font-size: 2.5rem;
           font-weight: bold;
@@ -125,7 +125,7 @@ export class PlayerSetup extends HTMLElement {
 
         .name {
           cursor: pointer;
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           font-size: 2.5rem;
           font-weight: bold;
           color: var(--white);
@@ -138,7 +138,7 @@ export class PlayerSetup extends HTMLElement {
         .name-input {
           display: none;
           width: 100%;
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           font-size: 2.5rem;
           font-weight: bold;
           background: none;

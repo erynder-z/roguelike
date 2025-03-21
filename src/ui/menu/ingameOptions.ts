@@ -43,7 +43,7 @@ export class IngameOptions extends HTMLElement {
     templateElement.innerHTML = `
       <style>
         .options-menu {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           font-size: 2rem;
           position: absolute;
           display: flex;
@@ -59,7 +59,7 @@ export class IngameOptions extends HTMLElement {
         }
 
         .options-menu button {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           padding: 1rem;
           font-size: 2rem;
           font-weight: bold;
@@ -122,7 +122,7 @@ export class IngameOptions extends HTMLElement {
         }
 
         .message-count-input {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           background: none;
           border: none;
           border-bottom: 2px solid var(--white);
