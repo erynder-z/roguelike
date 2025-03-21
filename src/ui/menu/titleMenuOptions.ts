@@ -285,6 +285,12 @@ export class TitleMenuOptions extends HTMLElement {
       true,
     );
     this.manageEventListener(
+      'current-font-button',
+      'click',
+      this.changeFont,
+      true,
+    );
+    this.manageEventListener(
       'switch-controls-button',
       'click',
       this.toggleControlScheme,
@@ -395,6 +401,22 @@ export class TitleMenuOptions extends HTMLElement {
     this.gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
     this.displayCurrentSeed(this.gameConfig.seed);
 
+    try {
+      await gameConfigManager.saveConfig();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  private displayCurrentFont(): void {
+    const fontButton = this.shadowRoot?.getElementById(
+      'current-font-button',
+    ) as HTMLDivElement;
+    if (fontButton)
+      fontButton.innerHTML = `Current font: ${this.gameConfig.terminal.font}`;
+  }
+
+  public async changeFont(): Promise<void> {
     try {
       await gameConfigManager.saveConfig();
     } catch (error) {

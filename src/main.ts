@@ -5,7 +5,6 @@ import { Builder } from './gameBuilder/builder';
 import { gameConfigManager } from './gameConfigManager/gameConfigManager';
 import { ColorLoader } from './loaders/colorLoader';
 import { DynamicScreenMaker } from './gameLogic/screens/dynamicScreenMaker';
-import { FontLoader } from './loaders/fontLoader';
 import { GenerateMainUI } from './utilities/generateMainUI';
 import { GenerateTitleScreen } from './utilities/generateTitleScreen';
 import { GlyphLoader } from './loaders/glyphLoader';
@@ -23,7 +22,6 @@ const initializeGame = async () => {
 
     // Parallel Initialization of Colors and Glyphs
     await Promise.all([
-      FontLoader.initializeFont(),
       ColorLoader.initializeColors(),
       GlyphLoader.initializeGlyphs(),
     ]);

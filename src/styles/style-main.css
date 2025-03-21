@@ -1,31 +1,11 @@
 @font-face {
   font-family: DejaVu Sans Mono;
-  src: url(../fonts/DejaVuSansMono.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 0xProto;
-  src: url(../fonts/0xProto-Regular.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: GoodOldDOS;
-  src: url(../fonts/GoodOldDOS.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: SimplyMono-Book;
-  src: url(../fonts/SimplyMono-Book.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: TerminusTTF;
-  src: url(../fonts/SimplyMono-Book.ttf) format('truetype');
+  src: url(../fonts/ui/DejaVuSansMono.ttf) format('truetype');
 }
 
 @font-face {
   font-family: UASQUARE;
-  src: url(../fonts/UASQUARE.ttf) format('truetype');
+  src: url(../fonts/ui/UASQUARE.ttf) format('truetype');
 }
 
 ::-webkit-scrollbar {
