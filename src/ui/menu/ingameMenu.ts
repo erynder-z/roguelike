@@ -1,6 +1,7 @@
 import { ask } from '@tauri-apps/plugin-dialog';
 import { BaseDirectory, writeFile } from '@tauri-apps/plugin-fs';
 import { ControlSchemeManager } from '../../controls/controlSchemeManager';
+import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 import { exit } from '@tauri-apps/plugin-process';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
@@ -9,6 +10,7 @@ import { PopupHandler } from '../../utilities/popupHandler';
 import { SaveStateHandler } from '../../utilities/saveStateHandler';
 
 export class IngameMenu extends HTMLElement {
+  private eventTracker = new EventListenerTracker();
   private game: GameState | null = null;
   private isRendered = false;
   private shouldDisableSaveKeyboardShortcut = false;
@@ -168,59 +170,43 @@ export class IngameMenu extends HTMLElement {
     this.returnToTitle = this.returnToTitle.bind(this);
     this.quitApp = this.quitApp.bind(this);
 
-    this.manageEventListener(
+    const root = this.shadowRoot;
+
+    this.eventTracker.addById(
+      root,
       'return-to-game-button',
       'click',
       this.returnToGame,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'show-options-button',
       'click',
       this.showOptions,
-      true,
     );
-    this.manageEventListener('help-button', 'click', this.showHelp, true);
-    this.manageEventListener('save-game-button', 'click', this.saveGame, true);
-    this.manageEventListener(
+
+    this.eventTracker.addById(root, 'help-button', 'click', this.showHelp);
+
+    this.eventTracker.addById(root, 'save-game-button', 'click', this.saveGame);
+
+    this.eventTracker.addById(
+      root,
       'return-to-title-button',
       'click',
       this.returnToTitle,
-      true,
     );
-    this.manageEventListener('quit-app-button', 'click', this.quitApp, true);
 
-    document.addEventListener('keydown', this.handleKeyPress);
+    this.eventTracker.addById(root, 'quit-app-button', 'click', this.quitApp);
+
+    this.eventTracker.add(
+      document,
+      'keydown',
+      this.handleKeyPress as EventListener,
+    );
   }
 
-  /**
-   * Manage event listeners for an element.
-   *
-   * If the add parameter is true, the callback is added to the element's event
-   * listeners. If the add parameter is false, the callback is removed from the
-   * element's event listeners.
-   *
-   * @param {string} elementId - The ID of the element on which to add or remove
-   * the event listener.
-   * @param {string} eventType - The type of event to listen for.
-   * @param {EventListener} callback - The callback function to be called when the
-   * event is fired.
-   * @param {boolean} add - Whether to add or remove the event listener.
-   * @return {void}
-   */
-  private manageEventListener(
-    elementId: string,
-    eventType: string,
-    callback: EventListener,
-    add: boolean,
-  ): void {
-    const element = this.shadowRoot?.getElementById(elementId);
-    if (add) {
-      element?.addEventListener(eventType, callback);
-    } else {
-      element?.removeEventListener(eventType, callback);
-    }
-  }
+
 
   /**
    * Handles key presses on the options menu.
@@ -394,25 +380,6 @@ export class IngameMenu extends HTMLElement {
    * @return {void}
    */
   disconnectedCallback(): void {
-    document.removeEventListener('keydown', this.handleKeyPress);
-
-    const shadowRoot = this.shadowRoot;
-    if (shadowRoot) {
-      shadowRoot
-        .getElementById('return-to-game-button')
-        ?.removeEventListener('click', this.returnToGame);
-      shadowRoot
-        .getElementById('show-options-button')
-        ?.removeEventListener('click', this.showOptions);
-      shadowRoot
-        .getElementById('help-button')
-        ?.removeEventListener('click', this.showHelp);
-      shadowRoot
-        .getElementById('return-title-button')
-        ?.removeEventListener('click', this.returnToTitle);
-      shadowRoot
-        .getElementById('quit-app-button')
-        ?.removeEventListener('click', this.quitApp);
-    }
+    this.eventTracker.removeAll();
   }
 }

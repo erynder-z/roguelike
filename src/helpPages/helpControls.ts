@@ -4,9 +4,11 @@ import {
   ControlSchemeName,
   ControlSchemeType,
 } from '../types/controls/controlSchemeType';
+import { EventListenerTracker } from '../utilities/eventListenerTracker';
 import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 
 export class HelpControls extends HTMLElement {
+  private eventTracker = new EventListenerTracker();
   private gameConfig = gameConfigManager.getConfig();
   private controlSchemeName: ControlSchemeName = this.gameConfig.control_scheme;
   private availableControlSchemes = Object.keys(
@@ -144,49 +146,21 @@ export class HelpControls extends HTMLElement {
     this.handleControlSchemeButtonClick =
       this.handleControlSchemeButtonClick.bind(this);
 
-    this.manageEventListener(
-      'prev-scheme-button',
-      'click',
-      () => this.handleControlSchemeButtonClick('prev'),
-      true,
-    );
-    this.manageEventListener(
-      'next-scheme-button',
-      'click',
-      () => this.handleControlSchemeButtonClick('next'),
-      true,
+    const root = this.shadowRoot;
+
+    this.eventTracker.addById(root, 'prev-scheme-button', 'click', () =>
+      this.handleControlSchemeButtonClick('prev'),
     );
 
-    document.addEventListener('keydown', this.handleKeyPress);
-  }
+    this.eventTracker.addById(root, 'next-scheme-button', 'click', () =>
+      this.handleControlSchemeButtonClick('next'),
+    );
 
-  /**
-   * Manage event listeners for an element.
-   *
-   * If the add parameter is true, the callback is added to the element's event
-   * listeners. If the add parameter is false, the callback is removed from the
-   * element's event listeners.
-   *
-   * @param {string} elementId - The ID of the element on which to add or remove
-   * the event listener.
-   * @param {string} eventType - The type of event to listen for.
-   * @param {EventListener} callback - The callback function to be called when the
-   * event is fired.
-   * @param {boolean} add - Whether to add or remove the event listener.
-   * @return {void}
-   */
-  private manageEventListener(
-    elementId: string,
-    eventType: string,
-    callback: EventListener,
-    add: boolean,
-  ): void {
-    const element = this.shadowRoot?.getElementById(elementId);
-    if (add) {
-      element?.addEventListener(eventType, callback);
-    } else {
-      element?.removeEventListener(eventType, callback);
-    }
+    this.eventTracker.add(
+      document,
+      'keydown',
+      this.handleKeyPress as EventListener,
+    );
   }
 
   /**
@@ -333,19 +307,6 @@ export class HelpControls extends HTMLElement {
    * @return {void}
    */
   disconnectedCallback(): void {
-    this.manageEventListener(
-      'prev-scheme-button',
-      'click',
-      () => this.handleControlSchemeButtonClick('prev'),
-      false,
-    );
-    this.manageEventListener(
-      'next-scheme-button',
-      'click',
-      () => this.handleControlSchemeButtonClick('next'),
-      false,
-    );
-
-    document.removeEventListener('keydown', this.handleKeyPress);
+    this.eventTracker.removeAll();
   }
 }

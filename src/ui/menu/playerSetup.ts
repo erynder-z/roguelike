@@ -1,6 +1,7 @@
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { getRandomColor } from '../../utilities/colors/getRandomColor';
+import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 import { getRandomUnicodeCharacter } from '../../utilities/getRandomAvatar';
 import { getRandomName } from '../../utilities/getRandomName';
 import {
@@ -9,6 +10,7 @@ import {
 } from '../../utilities/imageHandler/imageImports/portraitImages';
 
 export class PlayerSetup extends HTMLElement {
+  private eventTracker = new EventListenerTracker();
   private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
@@ -292,97 +294,63 @@ export class PlayerSetup extends HTMLElement {
     this.randomize = this.randomize.bind(this);
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
 
-    this.manageEventListener(
-      'player-portrait-girlish',
-      'click',
-      () => {
-        this.changeAppearanceTo('girlish');
-      },
-      true,
-    );
-    this.manageEventListener(
-      'player-portrait-boyish',
-      'click',
-      () => {
-        this.changeAppearanceTo('boyish');
-      },
-      true,
-    );
-    this.manageEventListener(
+    const root = this.shadowRoot;
+
+    this.eventTracker.addById(root, 'player-portrait-girlish', 'click', () => {
+      this.changeAppearanceTo('girlish');
+    });
+
+    this.eventTracker.addById(root, 'player-portrait-boyish', 'click', () => {
+      this.changeAppearanceTo('boyish');
+    });
+
+    this.eventTracker.addById(
+      root,
       'player-name',
       'click',
       this.enableNameEditing,
-      true,
     );
-    this.manageEventListener(
-      'randomize-name-button',
-      'click',
-      () => this.randomize('name'),
-      true,
+
+    this.eventTracker.addById(root, 'randomize-name-button', 'click', () =>
+      this.randomize('name'),
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'player-color-input',
       'change',
       this.handleColorInputChange,
-      true,
     );
-    this.manageEventListener(
-      'randomize-color-button',
-      'click',
-      () => this.randomize('color'),
-      true,
+
+    this.eventTracker.addById(root, 'randomize-color-button', 'click', () =>
+      this.randomize('color'),
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'player-avatar',
       'click',
       this.enableAvatarEditing,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'randomize-avatar-button',
-      'click',
-      () => this.randomize('avatar'),
-      true,
-    );
-    this.manageEventListener(
-      'return-button',
       'click',
       async () => {
         this.returnToPreviousScreen();
       },
-      true,
     );
 
-    document.addEventListener('keydown', this.handleKeyPress);
-  }
+    this.eventTracker.addById(root, 'return-button', 'click', () =>
+      this.randomize('avatar'),
+    );
 
-  /**
-   * Manage event listeners for an element.
-   *
-   * If the add parameter is true, the callback is added to the element's event
-   * listeners. If the add parameter is false, the callback is removed from the
-   * element's event listeners.
-   *
-   * @param {string} elementId - The ID of the element on which to add or remove
-   * the event listener.
-   * @param {string} eventType - The type of event to listen for.
-   * @param {EventListener} callback - The callback function to be called when the
-   * event is fired.
-   * @param {boolean} add - Whether to add or remove the event listener.
-   * @return {void}
-   */
-  private manageEventListener(
-    elementId: string,
-    eventType: string,
-    callback: EventListener,
-    add: boolean,
-  ): void {
-    const element = this.shadowRoot?.getElementById(elementId);
-    if (add) {
-      element?.addEventListener(eventType, callback);
-    } else {
-      element?.removeEventListener(eventType, callback);
-    }
+    this.eventTracker.add(
+      document,
+      'keydown',
+      this.handleKeyPress as EventListener,
+    );
   }
 
   /**
@@ -797,70 +765,14 @@ export class PlayerSetup extends HTMLElement {
   }
 
   /**
-   * Removes event listeners for keydown and click events.
+   * Removes all event listeners from the element.
    *
-   * This function is called when the custom element is removed from the DOM.
-   * It removes event listeners for keydown and click events that were added in the
-   * connectedCallback function.
+   * This method is called when the element is removed from the DOM.
+   * It removes all event listeners that were added in the connectedCallback method.
    *
    * @return {void}
    */
   disconnectedCallback(): void {
-    document.removeEventListener('keydown', this.handleKeyPress);
-
-    this.manageEventListener(
-      'player-portrait-1',
-      'click',
-      this.toggleAppearance,
-      false,
-    );
-    this.manageEventListener(
-      'player-portrait-2',
-      'click',
-      this.toggleAppearance,
-      false,
-    );
-    this.manageEventListener(
-      'player-name',
-      'click',
-      this.enableNameEditing,
-      false,
-    );
-    this.manageEventListener(
-      'randomize-name-button',
-      'click',
-      () => this.randomize('name'),
-      false,
-    );
-    this.manageEventListener(
-      'player-color-input',
-      'change',
-      this.handleColorInputChange,
-      false,
-    );
-    this.manageEventListener(
-      'randomize-color-button',
-      'click',
-      () => this.randomize('color'),
-      false,
-    );
-    this.manageEventListener(
-      'player-avatar',
-      'click',
-      this.enableAvatarEditing,
-      false,
-    );
-    this.manageEventListener(
-      'randomize-avatar-button',
-      'click',
-      () => this.randomize('avatar'),
-      false,
-    );
-    this.manageEventListener(
-      'return-button',
-      'click',
-      this.returnToPreviousScreen,
-      false,
-    );
+    this.eventTracker.removeAll();
   }
 }

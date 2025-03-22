@@ -1,9 +1,11 @@
 import { ask } from '@tauri-apps/plugin-dialog';
 import { BaseDirectory, readFile } from '@tauri-apps/plugin-fs';
+import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
 
 export class TitleMenu extends HTMLElement {
+  private eventTracker = new EventListenerTracker();
   private shouldEnableLoadGameKeyboardShortcuts: boolean = true;
   constructor() {
     super();
@@ -146,69 +148,51 @@ export class TitleMenu extends HTMLElement {
     this.showAbout = this.showAbout.bind(this);
     this.quitGame = this.quitGame.bind(this);
 
-    this.manageEventListener(
+    const root = this.shadowRoot;
+
+    this.eventTracker.addById(
+      root,
       'new-game-button',
       'click',
       this.startNewGame,
-      true,
     );
-    this.manageEventListener('load-game-button', 'click', this.loadGame, true);
-    this.manageEventListener(
+
+    this.eventTracker.addById(root, 'load-game-button', 'click', this.loadGame);
+
+    this.eventTracker.addById(
+      root,
       'player-setup-button',
       'click',
       this.playerSetup,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'title-options-button',
       'click',
       this.showOptions,
-      true,
     );
-    this.manageEventListener('help-button', 'click', this.showHelp, true);
-    this.manageEventListener(
+
+    this.eventTracker.addById(root, 'help-button', 'click', this.showHelp);
+
+    this.eventTracker.addById(
+      root,
       'about-window-button',
       'click',
       this.showAbout,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'quit-window-button',
       'click',
       this.quitGame,
-      true,
     );
 
-    document.addEventListener('keydown', this.handleKeyPress);
-  }
-
-  /**
-   * Manage event listeners for an element.
-   *
-   * If the add parameter is true, the callback is added to the element's event
-   * listeners. If the add parameter is false, the callback is removed from the
-   * element's event listeners.
-   *
-   * @param {string} elementId - The ID of the element on which to add or remove
-   * the event listener.
-   * @param {string} eventType - The type of event to listen for.
-   * @param {EventListener} callback - The callback function to be called when the
-   * event is fired.
-   * @param {boolean} add - Whether to add or remove the event listener.
-   * @return {void}
-   */
-  private manageEventListener(
-    elementId: string,
-    eventType: string,
-    callback: EventListener,
-    add: boolean,
-  ): void {
-    const element = this.shadowRoot?.getElementById(elementId);
-    if (add) {
-      element?.addEventListener(eventType, callback);
-    } else {
-      element?.removeEventListener(eventType, callback);
-    }
+    this.eventTracker.add(
+      document,
+      'keydown',
+      this.handleKeyPress as EventListener,
+    );
   }
 
   /**
@@ -409,22 +393,6 @@ export class TitleMenu extends HTMLElement {
    * @return {void}
    */
   disconnectedCallback(): void {
-    document.removeEventListener('keydown', this.handleKeyPress);
-
-    const shadowRoot = this.shadowRoot;
-    if (shadowRoot) {
-      shadowRoot
-        .getElementById('new-game-button')
-        ?.removeEventListener('click', this.startNewGame);
-      shadowRoot
-        .getElementById('help-button')
-        ?.removeEventListener('click', this.showHelp);
-      shadowRoot
-        .getElementById('about-window-button')
-        ?.removeEventListener('click', this.showAbout);
-      shadowRoot
-        .getElementById('quit-window-button')
-        ?.removeEventListener('click', this.quitGame);
-    }
+    this.eventTracker.removeAll();
   }
 }

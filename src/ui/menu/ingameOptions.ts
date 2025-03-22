@@ -5,8 +5,10 @@ import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
+import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 
 export class IngameOptions extends HTMLElement {
+  private eventTracker = new EventListenerTracker();
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
@@ -274,91 +276,76 @@ export class IngameOptions extends HTMLElement {
     this.toggleBloodIntensity = this.toggleBloodIntensity.bind(this);
     this.returnToIngameMenu = this.returnToIngameMenu.bind(this);
 
-    this.manageEventListener(
+    const root = this.shadowRoot;
+
+    this.eventTracker.addById(
+      root,
       'switch-controls-button',
       'click',
       this.toggleControlScheme,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'toggle-scanlines-button',
       'click',
       this.toggleScanlines,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'switch-scanline-style-button',
       'click',
       this.switchScanlineStyle,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'message-display-align-button',
       'click',
       this.toggleMessageAlignment,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'show-images-button',
       'click',
       this.toggleShowImages,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'image-align-button',
       'click',
       this.toggleImageAlignment,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'message-count-input-button',
       'click',
       this.focusAndSelectMessageCountInput,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'blood-intensity-button',
       'click',
       this.toggleBloodIntensity,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'back-button',
       'click',
       this.returnToIngameMenu,
-      true,
     );
 
-    document.addEventListener('keydown', this.handleKeyPress);
-  }
-
-  /**
-   * Manages event listeners for an element.
-   *
-   * If the add parameter is true, the callback is added to the element's event
-   * listeners. If the add parameter is false, the callback is removed from the
-   * element's event listeners.
-   *
-   * @param {string} elementId - The ID of the element on which to add or remove
-   * the event listener.
-   * @param {string} eventType - The type of event to listen for.
-   * @param {EventListener} callback - The callback function to be called when the
-   * event is fired.
-   * @param {boolean} add - Whether to add or remove the event listener.
-   * @return {void}
-   */
-  private manageEventListener(
-    elementId: string,
-    eventType: string,
-    callback: EventListener,
-    add: boolean,
-  ): void {
-    const element = this.shadowRoot?.getElementById(elementId);
-    if (add) {
-      element?.addEventListener(eventType, callback);
-    } else {
-      element?.removeEventListener(eventType, callback);
-    }
+    this.eventTracker.add(
+      document,
+      'keydown',
+      this.handleKeyPress as EventListener,
+    );
   }
 
   /**
@@ -670,34 +657,6 @@ export class IngameOptions extends HTMLElement {
     });
     this.dispatchEvent(event);
 
-    document.removeEventListener('keydown', this.handleKeyPress);
-
-    const shadowRoot = this.shadowRoot;
-    if (shadowRoot) {
-      shadowRoot
-        .getElementById('switch-controls-button')
-        ?.removeEventListener('click', this.toggleControlScheme);
-      shadowRoot
-        .getElementById('toggle-scanlines-button')
-        ?.removeEventListener('click', this.toggleScanlines);
-      shadowRoot
-        .getElementById('switch-scanline-style-button')
-        ?.removeEventListener('click', this.switchScanlineStyle);
-      shadowRoot
-        .getElementById('message-display-align-button')
-        ?.removeEventListener('click', this.toggleMessageAlignment);
-      shadowRoot
-        .getElementById('show-images-button')
-        ?.removeEventListener('click', this.toggleShowImages);
-      shadowRoot
-        .getElementById('image-align-button')
-        ?.removeEventListener('click', this.toggleImageAlignment);
-      shadowRoot
-        .getElementById('blood-intensity-button')
-        ?.removeEventListener('click', this.toggleBloodIntensity);
-      shadowRoot
-        .getElementById('back-button')
-        ?.removeEventListener('click', this.returnToIngameMenu);
-    }
+    this.eventTracker.removeAll();
   }
 }

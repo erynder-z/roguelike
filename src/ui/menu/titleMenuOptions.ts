@@ -1,6 +1,7 @@
 import controls from '../../controls/control_schemes.json';
 import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { ControlSchemeName } from '../../types/controls/controlSchemeType';
+import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { KeypressScrollHandler } from '../../utilities/KeypressScrollHandler';
@@ -9,6 +10,7 @@ import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManag
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
 
 export class TitleMenuOptions extends HTMLElement {
+  private eventTracker = new EventListenerTracker();
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
@@ -275,22 +277,22 @@ export class TitleMenuOptions extends HTMLElement {
   }
 
   /**
-   * Binds events to the elements inside the options menu.
+   * Bind events to the elements inside the options menu.
    *
    * The function binds the following events:
-   * - Click event on the current seed button
-   * - Click event on the current font button
-   * - Input event on the terminal dimensions width input
-   * - Input event on the terminal dimensions height input
-   * - Click event on the switch control scheme button
-   * - Click event on the toggle scanlines button
-   * - Click event on the switch scanline style button
-   * - Click event on the message display alignment button
-   * - Click event on the show images button
-   * - Click event on the image alignment button
-   * - Click event on the message count input button
-   * - Click event on the blood intensity button
-   * - Click event on the back button
+   * - Change current seed button click event
+   * - Change current font button click event
+   * - Change terminal dimensions button click event
+   * - Switch control scheme button click event
+   * - Toggle scanlines button click event
+   * - Switch scanline style button click event
+   * - Toggle message alignment button click event
+   * - Toggle show images button click event
+   * - Toggle image alignment button click event
+   * - Focus and select message count input button click event
+   * - Toggle blood intensity button click event
+   * - Return to previous screen button click event
+   * - Keydown event on the document
    *
    * @return {void}
    */
@@ -310,115 +312,92 @@ export class TitleMenuOptions extends HTMLElement {
     this.toggleBloodIntensity = this.toggleBloodIntensity.bind(this);
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
 
-    this.manageEventListener(
+    const root = this.shadowRoot;
+
+    this.eventTracker.addById(
+      root,
       'current-seed-button',
       'click',
       this.changeSeed,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'current-font-button',
       'click',
       this.changeFont,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'terminal-dimensions-width-input',
       'input',
       () => this.changeTerminalDimensions('width'),
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'terminal-dimensions-height-input',
       'input',
       () => this.changeTerminalDimensions('height'),
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'switch-controls-button',
       'click',
       this.toggleControlScheme,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'toggle-scanlines-button',
       'click',
       this.toggleScanlines,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'switch-scanline-style-button',
       'click',
       this.switchScanlineStyle,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'message-display-align-button',
       'click',
       this.toggleMessageAlignment,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'show-images-button',
       'click',
       this.toggleShowImages,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'image-align-button',
       'click',
       this.toggleImageAlignment,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'message-count-input-button',
       'click',
       this.focusAndSelectMessageCountInput,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'blood-intensity-button',
       'click',
       this.toggleBloodIntensity,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'back-button',
       'click',
       this.returnToPreviousScreen,
-      true,
     );
 
-    document.addEventListener('keydown', this.handleKeyPress);
-  }
-
-  /**
-   * Manages event listeners for an element.
-   *
-   * If the add parameter is true, the callback is added to the element's event
-   * listeners. If the add parameter is false, the callback is removed from the
-   * element's event listeners.
-   *
-   * @param {string} elementId - The ID of the element on which to add or remove
-   * the event listener.
-   * @param {string} eventType - The type of event to listen for.
-   * @param {EventListener} callback - The callback function to be called when the
-   * event is fired.
-   * @param {boolean} add - Whether to add or remove the event listener.
-   * @return {void}
-   */
-  private manageEventListener(
-    elementId: string,
-    eventType: string,
-    callback: EventListener,
-    add: boolean,
-  ): void {
-    const element = this.shadowRoot?.getElementById(elementId);
-    if (add) {
-      element?.addEventListener(eventType, callback);
-    } else {
-      element?.removeEventListener(eventType, callback);
-    }
+    this.eventTracker.add(
+      document,
+      'keydown',
+      this.handleKeyPress as EventListener,
+    );
   }
 
   /**
@@ -588,15 +567,15 @@ export class TitleMenuOptions extends HTMLElement {
     this.buttonManager.updateControlSchemeButton(this.currentScheme);
   }
 
-/**
- * Toggles the scanlines setting on or off.
- *
- * Updates the {@link gameConfig.show_scanlines} property, and toggles the
- * 'scanlines' class on the main container element. The button text is also
- * updated based on the current state.
- *
- * @return {void}
- */
+  /**
+   * Toggles the scanlines setting on or off.
+   *
+   * Updates the {@link gameConfig.show_scanlines} property, and toggles the
+   * 'scanlines' class on the main container element. The button text is also
+   * updated based on the current state.
+   *
+   * @return {void}
+   */
 
   private toggleScanlines(): void {
     this.gameConfig.show_scanlines = !this.gameConfig.show_scanlines;
@@ -613,15 +592,15 @@ export class TitleMenuOptions extends HTMLElement {
     );
   }
 
-/**
- * Switches to the next scanline style in the sequence.
- *
- * Updates the {@link gameConfig.scanline_style} property to the next available
- * style in the list of scanline styles. The button text for the scanline style
- * is also updated to reflect the new style.
- *
- * @return {void}
- */
+  /**
+   * Switches to the next scanline style in the sequence.
+   *
+   * Updates the {@link gameConfig.scanline_style} property to the next available
+   * style in the list of scanline styles. The button text for the scanline style
+   * is also updated to reflect the new style.
+   *
+   * @return {void}
+   */
 
   private switchScanlineStyle(): void {
     const availableStyles = ScanlinesHandler.SCANLINES_STYLES;
@@ -760,16 +739,16 @@ export class TitleMenuOptions extends HTMLElement {
     if (!isNaN(newCount)) this.gameConfig.terminal.dimensions[side] = newCount;
   }
 
-/**
- * Updates the message count value based on the user's input.
- *
- * Parses the input value from the event's target and updates the game configuration's
- * message count if the value is a valid number within the range of 1 to 50. If the value
- * is not valid, resets the input to the current message count in the game configuration.
- *
- * @param {Event} event - The input event containing the new value for the message count.
- * @return {void}
- */
+  /**
+   * Updates the message count value based on the user's input.
+   *
+   * Parses the input value from the event's target and updates the game configuration's
+   * message count if the value is a valid number within the range of 1 to 50. If the value
+   * is not valid, resets the input to the current message count in the game configuration.
+   *
+   * @param {Event} event - The input event containing the new value for the message count.
+   * @return {void}
+   */
 
   private updateMessageCountValue(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -915,43 +894,14 @@ export class TitleMenuOptions extends HTMLElement {
   }
 
   /**
-   * Removes event listeners for keydown and click events.
+   * Removes all event listeners from the element.
    *
-   * This function is called when the custom element is removed from the DOM.
-   * It removes event listeners for keydown and click events that were added in the
-   * connectedCallback function, and dispatches a custom event to open the ingame menu.
+   * This method is called when the element is removed from the DOM.
+   * It removes all event listeners that were added in the connectedCallback method.
    *
    * @return {void}
    */
   disconnectedCallback(): void {
-    document.removeEventListener('keydown', this.handleKeyPress);
-
-    const shadowRoot = this.shadowRoot;
-    if (shadowRoot) {
-      shadowRoot
-        .getElementById('switch-controls-button')
-        ?.removeEventListener('click', this.toggleControlScheme);
-      shadowRoot
-        .getElementById('toggle-scanlines-button')
-        ?.removeEventListener('click', this.toggleScanlines);
-      shadowRoot
-        .getElementById('switch-scanline-style-button')
-        ?.removeEventListener('click', this.switchScanlineStyle);
-      shadowRoot
-        .getElementById('message-display-align-button')
-        ?.removeEventListener('click', this.toggleMessageAlignment);
-      shadowRoot
-        .getElementById('show-images-button')
-        ?.removeEventListener('click', this.toggleShowImages);
-      shadowRoot
-        .getElementById('image-align-button')
-        ?.removeEventListener('click', this.toggleImageAlignment);
-      shadowRoot
-        .getElementById('blood-intensity-button')
-        ?.removeEventListener('click', this.toggleBloodIntensity);
-      shadowRoot
-        .getElementById('back-button')
-        ?.removeEventListener('click', this.returnToPreviousScreen);
-    }
+    this.eventTracker.removeAll();
   }
 }
