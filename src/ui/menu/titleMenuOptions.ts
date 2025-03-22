@@ -3,10 +3,10 @@ import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { ControlSchemeName } from '../../types/controls/controlSchemeType';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameConfigType } from '../../types/gameConfig/gameConfigType';
+import { KeypressScrollHandler } from '../../utilities/KeypressScrollHandler';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
-import { KeypressScrollHandler } from '../../utilities/KeypressScrollHandler';
 
 export class TitleMenuOptions extends HTMLElement {
   private layoutManager: LayoutManager;
@@ -116,13 +116,6 @@ export class TitleMenuOptions extends HTMLElement {
           margin: 0 auto;
         }
 
-        .info-text {
-          text-align: center;
-          font-weight: bold;
-          color: var(--grayedOut);
-          cursor: not-allowed;
-        }
-
         .explanation {
           font-size: 1rem;
         }
@@ -133,7 +126,8 @@ export class TitleMenuOptions extends HTMLElement {
           cursor: not-allowed;
         }
 
-        .message-count-input {
+        .message-count-input,
+        .terminal-dimensions-input {
           font-family: 'UA Squared';
           background: none;
           border: none;
@@ -143,7 +137,8 @@ export class TitleMenuOptions extends HTMLElement {
           font-size: 2rem;
         }
 
-        .message-count-input:focus {
+        .message-count-input:focus,
+        .terminal-dimensions-input:focus {
           outline: none;
         }
 
@@ -179,13 +174,30 @@ export class TitleMenuOptions extends HTMLElement {
             Current see<span class="underline">d</span>: ${this.gameConfig.seed}
           </button>
           <button id="current-font-button" class="current-font-display">
-            Current <span class="underline">f</span>ont: ${this.gameConfig.terminal.font}
+            Current <span class="underline">f</span>ont:
+            ${this.gameConfig.terminal.font}
           </button>
-          <div class="info-text">
-            Current terminal dimensions: ${this.gameConfig.terminal.dimensions.width} x ${this.gameConfig.terminal.dimensions.height} *
-          </div>
+          <button class="terminal-dimensions-button">
+            Current terminal dimensions ( <span class="underline">w</span>idth x <span class="underline">h</span>eight ):
+            <input
+              type="number"
+              id="terminal-dimensions-width-input"
+              class="terminal-dimensions-input"
+              min="1"
+              max="255"
+              value="${this.gameConfig.terminal.dimensions.width}"
+            /> x
+            <input
+              type="number"
+              id="terminal-dimensions-height-input"
+              class="terminal-dimensions-input"
+              min="1"
+              max="255"
+              value="${this.gameConfig.terminal.dimensions.height}"
+            /> *
+          </button>
           <div class="explanation">
-            * Changing these will alter any saved games!
+            * Changing these will alter any saved games! Default: 64 x 40
           </div>
         </div>
         <span class="info-span">Controls</span>
@@ -209,7 +221,7 @@ export class TitleMenuOptions extends HTMLElement {
             <span class="underline">M</span>essage display
           </button>
           <button id="show-images-button">
-            S<span class="underline">h</span>ow images
+            Sh<span class="underline">o</span>w images
           </button>
           <button id="image-align-button">
             <span class="underline">I</span>mage alignment
@@ -266,17 +278,36 @@ export class TitleMenuOptions extends HTMLElement {
    * Binds events to the elements inside the options menu.
    *
    * The function binds the following events:
-   * - Toggle scanlines button click event
-   * - Back button click event
-   * - Keydown event on the document
+   * - Click event on the current seed button
+   * - Click event on the current font button
+   * - Input event on the terminal dimensions width input
+   * - Input event on the terminal dimensions height input
+   * - Click event on the switch control scheme button
+   * - Click event on the toggle scanlines button
+   * - Click event on the switch scanline style button
+   * - Click event on the message display alignment button
+   * - Click event on the show images button
+   * - Click event on the image alignment button
+   * - Click event on the message count input button
+   * - Click event on the blood intensity button
+   * - Click event on the back button
    *
    * @return {void}
    */
   private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.changeFont = this.changeFont.bind(this);
+    this.changeTerminalDimensions = this.changeTerminalDimensions.bind(this);
     this.changeSeed = this.changeSeed.bind(this);
     this.toggleControlScheme = this.toggleControlScheme.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
+    this.switchScanlineStyle = this.switchScanlineStyle.bind(this);
+    this.toggleMessageAlignment = this.toggleMessageAlignment.bind(this);
+    this.toggleShowImages = this.toggleShowImages.bind(this);
+    this.toggleImageAlignment = this.toggleImageAlignment.bind(this);
+    this.focusAndSelectMessageCountInput =
+      this.focusAndSelectMessageCountInput.bind(this);
+    this.toggleBloodIntensity = this.toggleBloodIntensity.bind(this);
     this.returnToPreviousScreen = this.returnToPreviousScreen.bind(this);
 
     this.manageEventListener(
@@ -288,7 +319,19 @@ export class TitleMenuOptions extends HTMLElement {
     this.manageEventListener(
       'current-font-button',
       'click',
-      this.changeFont.bind(this),
+      this.changeFont,
+      true,
+    );
+    this.manageEventListener(
+      'terminal-dimensions-width-input',
+      'input',
+      () => this.changeTerminalDimensions('width'),
+      true,
+    );
+    this.manageEventListener(
+      'terminal-dimensions-height-input',
+      'input',
+      () => this.changeTerminalDimensions('height'),
       true,
     );
     this.manageEventListener(
@@ -306,37 +349,37 @@ export class TitleMenuOptions extends HTMLElement {
     this.manageEventListener(
       'switch-scanline-style-button',
       'click',
-      this.switchScanlineStyle.bind(this),
+      this.switchScanlineStyle,
       true,
     );
     this.manageEventListener(
       'message-display-align-button',
       'click',
-      this.toggleMessageAlignment.bind(this),
+      this.toggleMessageAlignment,
       true,
     );
     this.manageEventListener(
       'show-images-button',
       'click',
-      this.toggleShowImages.bind(this),
+      this.toggleShowImages,
       true,
     );
     this.manageEventListener(
       'image-align-button',
       'click',
-      this.toggleImageAlignment.bind(this),
+      this.toggleImageAlignment,
       true,
     );
     this.manageEventListener(
       'message-count-input-button',
       'click',
-      this.focusAndSelectMessageCountInput.bind(this),
+      this.focusAndSelectMessageCountInput,
       true,
     );
     this.manageEventListener(
       'blood-intensity-button',
       'click',
-      this.toggleBloodIntensity.bind(this),
+      this.toggleBloodIntensity,
       true,
     );
     this.manageEventListener(
@@ -401,12 +444,6 @@ export class TitleMenuOptions extends HTMLElement {
   public async changeSeed(): Promise<void> {
     this.gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
     this.displayCurrentSeed(this.gameConfig.seed);
-
-    try {
-      await gameConfigManager.saveConfig();
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   /**
@@ -448,12 +485,85 @@ export class TitleMenuOptions extends HTMLElement {
 
     this.displayCurrentFont();
 
-    try {
-      await gameConfigManager.saveConfig();
-    } catch (error) {
-      console.error('Error saving the configuration:', error);
-    }
     this.layoutManager.updateFont();
+  }
+
+  /**
+   * Adds an event listener to the input field for changing the terminal dimensions.
+   *
+   * The event listener is added to the input field for the specified side (width or height).
+   * When the input field is changed, the handleInputChange function is called with the event
+   * and the side as arguments.
+   *
+   * @param {string} side - The side to change the terminal dimensions for.
+   * @return {void}
+   */
+  private changeTerminalDimensions(side: 'width' | 'height'): void {
+    let input: HTMLInputElement | null = null;
+    switch (side) {
+      case 'width':
+        input = this.shadowRoot?.getElementById(
+          'terminal-dimensions-width-input',
+        ) as HTMLInputElement;
+        input.addEventListener('input', event =>
+          this.handleInputChange(event, 'terminal-width'),
+        );
+        break;
+      case 'height':
+        input = this.shadowRoot?.getElementById(
+          'terminal-dimensions-height-input',
+        ) as HTMLInputElement;
+        input.addEventListener('input', event =>
+          this.handleInputChange(event, 'terminal-height'),
+        );
+        break;
+    }
+  }
+
+  /**
+   * Sets focus to the terminal height input element and selects its content.
+   *
+   * This function is called when the user presses the "h" key on the options menu.
+   * It finds the input element in the shadow DOM and sets focus to it. To select
+   * the content of the input element, it uses setTimeout to delay the selection
+   * by 10 milliseconds, so that the focus event is processed before the selection
+   * is triggered.
+   *
+   * @return {void}
+   */
+  private focusAndSelectTerminalHeightInput(): void {
+    const heightInput = this.shadowRoot?.getElementById(
+      'terminal-dimensions-height-input',
+    ) as HTMLInputElement;
+    if (heightInput) {
+      heightInput.focus();
+      setTimeout(() => {
+        heightInput.select();
+      }, 10);
+    }
+  }
+
+  /**
+   * Sets focus to the terminal width input element and selects its content.
+   *
+   * This function is called when the user presses the "w" key on the options menu.
+   * It finds the input element in the shadow DOM and sets focus to it. To select
+   * the content of the input element, it uses setTimeout to delay the selection
+   * by 10 milliseconds, so that the focus event is processed before the selection
+   * is triggered.
+   *
+   * @return {void}
+   */
+  private focusAndSelectTerminalWidthInput(): void {
+    const widthInput = this.shadowRoot?.getElementById(
+      'terminal-dimensions-width-input',
+    ) as HTMLInputElement;
+    if (widthInput) {
+      widthInput.focus();
+      setTimeout(() => {
+        widthInput.select();
+      }, 10);
+    }
   }
 
   /**
@@ -478,15 +588,16 @@ export class TitleMenuOptions extends HTMLElement {
     this.buttonManager.updateControlSchemeButton(this.currentScheme);
   }
 
-  /**
-   * Toggles the scanlines setting on or off.
-   *
-   * Updates the {@link gameConfig.show_scanlines} property, and toggles the
-   * 'scanlines' class on the main container element. The button text is also
-   * updated based on the current state.
-   *
-   * @return {void}
-   */
+/**
+ * Toggles the scanlines setting on or off.
+ *
+ * Updates the {@link gameConfig.show_scanlines} property, and toggles the
+ * 'scanlines' class on the main container element. The button text is also
+ * updated based on the current state.
+ *
+ * @return {void}
+ */
+
   private toggleScanlines(): void {
     this.gameConfig.show_scanlines = !this.gameConfig.show_scanlines;
 
@@ -502,18 +613,16 @@ export class TitleMenuOptions extends HTMLElement {
     );
   }
 
-  /**
-   * Switches the scanline style to the next available style.
-   *
-   * Updates the {@link gameConfig.scanline_style} property, and updates the
-   * button text with the new style.
-   *
-   * Applies the new style to the main container element.
-   *
-   * Tries to save the updated config to local storage.
-   *
-   * @return {void}
-   */
+/**
+ * Switches to the next scanline style in the sequence.
+ *
+ * Updates the {@link gameConfig.scanline_style} property to the next available
+ * style in the list of scanline styles. The button text for the scanline style
+ * is also updated to reflect the new style.
+ *
+ * @return {void}
+ */
+
   private switchScanlineStyle(): void {
     const availableStyles = ScanlinesHandler.SCANLINES_STYLES;
     const currentStyleIndex = availableStyles.indexOf(
@@ -533,9 +642,9 @@ export class TitleMenuOptions extends HTMLElement {
   /**
    * Toggles the message alignment between left and right.
    *
-   * Updates the {@link gameConfig.message_display} property, updates the
-   * message alignment button, and sets the layout of the main container based on
-   * the current message alignment.
+   * Updates the {@link gameConfig.message_display} property, updates the message
+   * alignment button, and sets the layout of the main container based on the
+   * current message alignment.
    *
    * @return {void}
    */
@@ -550,16 +659,14 @@ export class TitleMenuOptions extends HTMLElement {
   }
 
   /**
-   * Toggles the visibility of images in the game.
+   * Toggles the show images setting on or off.
    *
-   * Flips the {@link gameConfig.show_images} property between true and false,
-   * updates the show images button accordingly, and adjusts the disabled status
-   * of the image alignment button based on the new state. Ensures that the UI
-   * reflects the current setting for image display.
+   * Updates the {@link gameConfig.show_images} property, updates the show images
+   * button, and sets the display of the image container based on the current
+   * state. Also updates the disabled status of the image alignment button.
    *
    * @return {void}
    */
-
   private toggleShowImages(): void {
     this.gameConfig.show_images = !this.gameConfig.show_images;
 
@@ -573,13 +680,12 @@ export class TitleMenuOptions extends HTMLElement {
   /**
    * Toggles the image alignment between left and right.
    *
-   * Updates the {@link gameConfig.image_display} property and refreshes the
-   * text and state of the image alignment button to reflect the current
-   * alignment setting.
+   * Updates the {@link gameConfig.image_display} property, updates the image
+   * alignment button, and sets the layout of the image container based on the
+   * current image alignment.
    *
    * @return {void}
    */
-
   private toggleImageAlignment(): void {
     this.gameConfig.image_display =
       this.gameConfig.image_display === 'left' ? 'right' : 'left';
@@ -592,7 +698,7 @@ export class TitleMenuOptions extends HTMLElement {
    * Sets up the event listener for the message count input element.
    *
    * Attaches an 'input' event listener to the message count input element
-   * within the shadow DOM. The listener triggers the handleMessageCountChange
+   * within the shadow DOM. The listener triggers the {@link handleInputChange}
    * method whenever the input value changes.
    *
    * @return {void}
@@ -603,20 +709,69 @@ export class TitleMenuOptions extends HTMLElement {
     ) as HTMLInputElement;
 
     if (messageCountInput) {
-      messageCountInput.addEventListener(
-        'input',
-        this.handleMessageCountChange,
+      messageCountInput.addEventListener('input', event =>
+        this.handleInputChange(event, 'message'),
       );
     }
   }
 
   /**
-   * Handles the input event on the message count input element.
+   * Handles changes to the input values of the message count, terminal width, or
+   * terminal height inputs.
    *
-   * @param {Event} event The input event from the message count input element.
+   * @param {Event} event - The input event.
+   * @param {string} type - The type of input that triggered this event.
+   *   Valid values are 'message', 'terminal-width', and 'terminal-height'.
    * @return {void}
    */
-  private handleMessageCountChange = (event: Event): void => {
+  private handleInputChange = (
+    event: Event,
+    type: 'message' | 'terminal-width' | 'terminal-height',
+  ): void => {
+    switch (type) {
+      case 'message':
+        this.updateMessageCountValue(event);
+        break;
+      case 'terminal-width':
+        this.updateTerminalDimensionsValue(event, 'width');
+        break;
+      case 'terminal-height':
+        this.updateTerminalDimensionsValue(event, 'height');
+        break;
+      default:
+        break;
+    }
+  };
+
+  /**
+   * Updates the terminal dimensions when the user changes the input values.
+   *
+   * @param {Event} event - The input event.
+   * @param {string} side - The side of the terminal that is being updated.
+   * @return {void}
+   */
+  private updateTerminalDimensionsValue(
+    event: Event,
+    side: 'width' | 'height',
+  ): void {
+    const input = event.target as HTMLInputElement;
+    const newCount = parseInt(input.value, 10);
+
+    if (!isNaN(newCount)) this.gameConfig.terminal.dimensions[side] = newCount;
+  }
+
+/**
+ * Updates the message count value based on the user's input.
+ *
+ * Parses the input value from the event's target and updates the game configuration's
+ * message count if the value is a valid number within the range of 1 to 50. If the value
+ * is not valid, resets the input to the current message count in the game configuration.
+ *
+ * @param {Event} event - The input event containing the new value for the message count.
+ * @return {void}
+ */
+
+  private updateMessageCountValue(event: Event): void {
     const input = event.target as HTMLInputElement;
     const newCount = parseInt(input.value, 10);
 
@@ -625,13 +780,13 @@ export class TitleMenuOptions extends HTMLElement {
     } else {
       input.value = this.gameConfig.message_count.toString();
     }
-  };
+  }
 
   /**
-   * Cycles through the blood intensity options (0 = no blood, 1 = light blood, 2 = medium blood, 3 = heavy blood).
+   * Toggles the blood intensity of the game by cycling through the available blood intensities.
    *
-   * Updates the {@link gameConfig.blood_intensity} property, updates the blood intensity button,
-   * and sets the blood intensity of the game.
+   * The blood intensity is cycled through the following values:
+   * 0 (no blood), 1 (light blood), 2 (medium blood), 3 (heavy blood).
    *
    * @return {void}
    */
@@ -697,24 +852,6 @@ export class TitleMenuOptions extends HTMLElement {
     return event.altKey || event.metaKey;
   }
 
-  /**
-   * Handles key presses on the options menu.
-   *
-   * Listens for the following keys and calls the corresponding method to update the game config:
-   * - d: changeSeed
-   * - C: toggleControlScheme
-   * - S: toggleScanlines
-   * - t: switchScanlineStyle
-   * - M: toggleMessageAlignment
-   * - e: focusAndSelectMessageCountInput
-   * - h: toggleShowImages
-   * - I: toggleImageAlignment
-   * - B: toggleBloodIntensity
-   * - R or this.activeControlScheme.menu.toString(): returnToPreviousScreen
-   *
-   * @param {KeyboardEvent} event - The keyboard event to be handled.
-   * @return {void}
-   */
   private handleKeyPress(event: KeyboardEvent): void {
     // scroll via keypress when alt or meta key is pressed
     if (this.isAltKeyPressed(event)) {
@@ -736,6 +873,14 @@ export class TitleMenuOptions extends HTMLElement {
       case 'f':
         this.changeFont();
         break;
+      case 'w':
+        event.preventDefault();
+        this.focusAndSelectTerminalWidthInput();
+        break;
+      case 'h':
+        event.preventDefault();
+        this.focusAndSelectTerminalHeightInput();
+        break;
       case 'C':
         this.toggleControlScheme();
         break;
@@ -751,7 +896,7 @@ export class TitleMenuOptions extends HTMLElement {
       case 'e':
         this.focusAndSelectMessageCountInput();
         break;
-      case 'h':
+      case 'o':
         this.toggleShowImages();
         break;
       case 'I':
