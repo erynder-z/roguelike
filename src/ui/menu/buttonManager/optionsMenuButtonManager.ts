@@ -113,7 +113,7 @@ export class OptionsMenuButtonManager {
     ) as HTMLButtonElement;
 
     if (displayImage)
-      displayImage.innerHTML = `S<span class="underline">h</span>ow images: ${areImagesDisplayed ? 'YES' : 'NO'}`;
+      displayImage.innerHTML = `Sh<span class="underline">o</span>w images: ${areImagesDisplayed ? 'YES' : 'NO'}`;
   }
 
   /**

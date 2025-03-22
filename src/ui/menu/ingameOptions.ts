@@ -197,7 +197,7 @@ export class IngameOptions extends HTMLElement {
             <span class="underline">M</span>essage display
           </button>
           <button id="show-images-button">
-            S<span class="underline">h</span>ow images
+            Sh<span class="underline">o</span>ow images
           </button>
           <button id="image-align-button">
             <span class="underline">I</span>mage alignment
@@ -265,6 +265,13 @@ export class IngameOptions extends HTMLElement {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.toggleControlScheme = this.toggleControlScheme.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
+    this.switchScanlineStyle = this.switchScanlineStyle.bind(this);
+    this.toggleMessageAlignment = this.toggleMessageAlignment.bind(this);
+    this.toggleShowImages = this.toggleShowImages.bind(this);
+    this.toggleImageAlignment = this.toggleImageAlignment.bind(this);
+    this.focusAndSelectMessageCountInput =
+      this.focusAndSelectMessageCountInput.bind(this);
+    this.toggleBloodIntensity = this.toggleBloodIntensity.bind(this);
     this.returnToIngameMenu = this.returnToIngameMenu.bind(this);
 
     this.manageEventListener(
@@ -282,37 +289,37 @@ export class IngameOptions extends HTMLElement {
     this.manageEventListener(
       'switch-scanline-style-button',
       'click',
-      this.switchScanlineStyle.bind(this),
+      this.switchScanlineStyle,
       true,
     );
     this.manageEventListener(
       'message-display-align-button',
       'click',
-      this.toggleMessageAlignment.bind(this),
+      this.toggleMessageAlignment,
       true,
     );
     this.manageEventListener(
       'show-images-button',
       'click',
-      this.toggleShowImages.bind(this),
+      this.toggleShowImages,
       true,
     );
     this.manageEventListener(
       'image-align-button',
       'click',
-      this.toggleImageAlignment.bind(this),
+      this.toggleImageAlignment,
       true,
     );
     this.manageEventListener(
       'message-count-input-button',
       'click',
-      this.focusAndSelectMessageCountInput.bind(this),
+      this.focusAndSelectMessageCountInput,
       true,
     );
     this.manageEventListener(
       'blood-intensity-button',
       'click',
-      this.toggleBloodIntensity.bind(this),
+      this.toggleBloodIntensity,
       true,
     );
     this.manageEventListener(
@@ -630,7 +637,7 @@ export class IngameOptions extends HTMLElement {
       case 'e':
         this.focusAndSelectMessageCountInput();
         break;
-      case 'h':
+      case 'o':
         this.toggleShowImages();
         break;
       case 'I':
