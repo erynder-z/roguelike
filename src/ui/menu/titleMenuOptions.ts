@@ -54,24 +54,22 @@ export class TitleMenuOptions extends HTMLElement {
 
         ::-webkit-scrollbar-track {
           background-color: var(--scrollbar-background);
-        }
+        }   
 
         .options-menu {
           font-family: 'UA Squared';
           font-size: 2rem;
-          position: absolute;
           display: flex;
+          justify-content: center;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
           height: 100%;
-          width: 100%;
           background: var(--backgroundDefaultTransparent);
           color: var(--white);
           z-index: 1;
-          overflow-x: auto;
+          overflow-x: hidden;
         }
-
+        
         .options-menu button {
           font-family: 'UA Squared';
           padding: 1rem;
@@ -85,7 +83,7 @@ export class TitleMenuOptions extends HTMLElement {
         }
 
         .options-menu button:hover {
-          transform: rotate(4deg);
+          transform: translateX(8px) scale(1.05);
         }
 
         .underline {
@@ -96,7 +94,6 @@ export class TitleMenuOptions extends HTMLElement {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          width: 100%;
           gap: 0.5rem;
         }
 
@@ -121,12 +118,6 @@ export class TitleMenuOptions extends HTMLElement {
         .explanation {
           font-size: 1rem;
           font-weight: normal;
-        }
-
-        .options-menu button.disabled {
-          color: var(--grayedOut);
-          pointer-events: none;
-          cursor: not-allowed;
         }
 
         .message-count-input,

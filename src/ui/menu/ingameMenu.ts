@@ -93,7 +93,7 @@ export class IngameMenu extends HTMLElement {
         }
 
         .ingame-menu button:hover {
-          transform: rotate(4deg);
+          transform: translateX(8px) scale(1.05);
         }
 
         .underline {
@@ -205,8 +205,6 @@ export class IngameMenu extends HTMLElement {
       this.handleKeyPress as EventListener,
     );
   }
-
-
 
   /**
    * Handles key presses on the options menu.

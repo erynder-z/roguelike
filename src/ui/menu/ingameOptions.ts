@@ -74,7 +74,7 @@ export class IngameOptions extends HTMLElement {
         }
 
         .options-menu button:hover {
-          transform: rotate(4deg);
+          transform: translateX(8px) scale(1.05);
       }
 
         .underline {
