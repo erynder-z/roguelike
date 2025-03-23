@@ -175,9 +175,12 @@ export class IngameOptions extends HTMLElement {
           <div class="info-text">
             Current terminal dimensions: ${this.gameConfig.terminal.dimensions.width} x ${this.gameConfig.terminal.dimensions.height} *
           </div>
-           <div class="explanation">
-          * These values can only be changed from main menu.
-        </div>
+          <div class="info-text">
+            Current terminal scaling factor: ${this.gameConfig.terminal.scaling_factor} *
+          </div>
+          <div class="explanation">
+            * These values can only be changed from main menu.
+          </div>
         </div>
         <span class="info-span">Controls</span>
         <div class="info-container">
@@ -229,7 +232,6 @@ export class IngameOptions extends HTMLElement {
         <button id="back-button" class="back-button">
           <span class="underline">R</span>eturn to previous menu
         </button>
-       
       </div>
     `;
 

@@ -120,6 +120,7 @@ export class TitleMenuOptions extends HTMLElement {
 
         .explanation {
           font-size: 1rem;
+          font-weight: normal;
         }
 
         .options-menu button.disabled {
@@ -129,7 +130,8 @@ export class TitleMenuOptions extends HTMLElement {
         }
 
         .message-count-input,
-        .terminal-dimensions-input {
+        .terminal-dimensions-input,
+        .scaling-factor-input {
           font-family: 'UA Squared';
           background: none;
           border: none;
@@ -140,7 +142,8 @@ export class TitleMenuOptions extends HTMLElement {
         }
 
         .message-count-input:focus,
-        .terminal-dimensions-input:focus {
+        .terminal-dimensions-input:focus,
+        .scaling-factor-input:focus {
           outline: none;
         }
 
@@ -183,24 +186,39 @@ export class TitleMenuOptions extends HTMLElement {
             Current terminal dimensions ( <span class="underline">w</span>idth x <span class="underline">h</span>eight ):
             <input
               type="number"
-              id="terminal-dimensions-width-input"
-              class="terminal-dimensions-input"
               min="1"
               max="255"
+              id="terminal-dimensions-width-input"
+              class="terminal-dimensions-input"
               value="${this.gameConfig.terminal.dimensions.width}"
             /> x
             <input
               type="number"
-              id="terminal-dimensions-height-input"
-              class="terminal-dimensions-input"
               min="1"
               max="255"
+              id="terminal-dimensions-height-input"
+              class="terminal-dimensions-input"
               value="${this.gameConfig.terminal.dimensions.height}"
             /> *
+            <div class="explanation">
+              * Changing these will alter any saved games! Default: 64 x 40
+            </div>
           </button>
-          <div class="explanation">
-            * Changing these will alter any saved games! Default: 64 x 40
-          </div>
+          <button id="scaling-factor-input-button">
+            <label for="scaling-factor-input">
+              Current terminal sca<span class="underline">l</span>ing factor:
+            </label>
+            <input
+              type="number"
+              step="0.1"
+              min="0"
+              max="2"
+              id="scaling-factor-input"
+              class="scaling-factor-input"
+              value="${this.gameConfig.terminal.scaling_factor}"
+            />
+            <div class="explanation">(Default: 0.8)</div>
+          </button>
         </div>
         <span class="info-span">Controls</span>
         <div class="info-container">
@@ -234,10 +252,10 @@ export class TitleMenuOptions extends HTMLElement {
             </label>
             <input
               type="number"
-              id="message-count-input"
-              class="message-count-input"
               min="1"
               max="50"
+              id="message-count-input"
+              class="message-count-input"
               value="${this.gameConfig.message_count}"
             />
           </button>
@@ -269,6 +287,7 @@ export class TitleMenuOptions extends HTMLElement {
     );
     this.buttonManager.updateShowImagesButton(this.gameConfig.show_images);
     this.buttonManager.updateImageAlignButton(this.gameConfig.image_display);
+    this.setupScalingFactorInput();
     this.setupMessageCountInput();
     this.buttonManager.updateBloodIntensityButton(
       this.gameConfig.blood_intensity,
@@ -340,6 +359,12 @@ export class TitleMenuOptions extends HTMLElement {
     );
     this.eventTracker.addById(
       root,
+      'scaling-factor-input',
+      'input',
+      this.focusAndSelectScalingFactorInput,
+    );
+    this.eventTracker.addById(
+      root,
       'switch-controls-button',
       'click',
       this.toggleControlScheme,
@@ -398,6 +423,235 @@ export class TitleMenuOptions extends HTMLElement {
       'keydown',
       this.handleKeyPress as EventListener,
     );
+  }
+
+  /**
+   * Sets up the event listener for the scaling factor input element.
+   *
+   * Attaches an 'input' event listener to the scaling factor input element
+   * within the shadow DOM. The listener triggers the {@link handleInputChange}
+   * method whenever the input value changes.
+   *
+   * @return {void}
+   */
+  private setupScalingFactorInput(): void {
+    const scalingFactorInput = this.shadowRoot?.getElementById(
+      'scaling-factor-input',
+    ) as HTMLInputElement;
+
+    if (scalingFactorInput) {
+      scalingFactorInput.addEventListener('input', event =>
+        this.handleInputChange(event, 'scaling'),
+      );
+    }
+  }
+
+  /**
+   * Sets up the event listener for the message count input element.
+   *
+   * Attaches an 'input' event listener to the message count input element
+   * within the shadow DOM. The listener triggers the {@link handleInputChange}
+   * method whenever the input value changes.
+   *
+   * @return {void}
+   */
+  private setupMessageCountInput(): void {
+    const messageCountInput = this.shadowRoot?.getElementById(
+      'message-count-input',
+    ) as HTMLInputElement;
+
+    if (messageCountInput) {
+      messageCountInput.addEventListener('input', event =>
+        this.handleInputChange(event, 'message'),
+      );
+    }
+  }
+
+  /**
+   * Sets focus to the terminal height input element and selects its content.
+   *
+   * This function is called when the user presses the "h" key on the options menu.
+   * It finds the input element in the shadow DOM and sets focus to it. To select
+   * the content of the input element, it uses setTimeout to delay the selection
+   * by 10 milliseconds, so that the focus event is processed before the selection
+   * is triggered.
+   *
+   * @return {void}
+   */
+  private focusAndSelectTerminalHeightInput(): void {
+    const heightInput = this.shadowRoot?.getElementById(
+      'terminal-dimensions-height-input',
+    ) as HTMLInputElement;
+    if (heightInput) {
+      heightInput.focus();
+      setTimeout(() => {
+        heightInput.select();
+      }, 10);
+    }
+  }
+
+  /**
+   * Sets focus to the terminal width input element and selects its content.
+   *
+   * This function is called when the user presses the "w" key on the options menu.
+   * It finds the input element in the shadow DOM and sets focus to it. To select
+   * the content of the input element, it uses setTimeout to delay the selection
+   * by 10 milliseconds, so that the focus event is processed before the selection
+   * is triggered.
+   *
+   * @return {void}
+   */
+  private focusAndSelectTerminalWidthInput(): void {
+    const widthInput = this.shadowRoot?.getElementById(
+      'terminal-dimensions-width-input',
+    ) as HTMLInputElement;
+    if (widthInput) {
+      widthInput.focus();
+      setTimeout(() => {
+        widthInput.select();
+      }, 10);
+    }
+  }
+
+  /**
+   * Sets focus to the scaling factor input element and selects its content.
+   *
+   * This function is called when the user presses the "l" key on the options menu.
+   * It finds the input element in the shadow DOM and sets focus to it. To select
+   * the content of the input element, it uses setTimeout to delay the selection
+   * by 10 milliseconds, so that the focus event is processed before the selection
+   * is triggered.
+   *
+   * @return {void}
+   */
+  private focusAndSelectScalingFactorInput(): void {
+    const scalingFactorInput = this.shadowRoot?.getElementById(
+      'scaling-factor-input',
+    ) as HTMLInputElement;
+    if (scalingFactorInput) {
+      scalingFactorInput.focus();
+      setTimeout(() => {
+        scalingFactorInput.select();
+      }, 10);
+    }
+  }
+
+  /**
+   * Sets focus to the message count input element and selects its content.
+   *
+   * This function is called when the user presses the "e" key on the options menu.
+   * It finds the input element in the shadow DOM and sets focus to it. To select
+   * the content of the input element, it uses setTimeout to delay the selection
+   * by 10 milliseconds, so that the focus event is processed before the selection
+   * is triggered.
+   *
+   * @return {void}
+   */
+  private focusAndSelectMessageCountInput(): void {
+    const messageCountInput = this.shadowRoot?.getElementById(
+      'message-count-input',
+    ) as HTMLInputElement;
+    if (messageCountInput) {
+      messageCountInput.focus();
+      setTimeout(() => {
+        messageCountInput.select();
+      }, 10);
+    }
+  }
+
+  /**
+   * Handles input change events for different configuration settings.
+   *
+   * Depending on the type of setting being changed, this method updates the
+   * corresponding value in the game configuration by calling the appropriate
+   * update method.
+   *
+   * @param {Event} event - The input event containing the new value.
+   * @param {string} type - The type of configuration setting being updated.
+   * @return {void}
+   */
+  private handleInputChange = (
+    event: Event,
+    type: 'message' | 'terminal-width' | 'terminal-height' | 'scaling',
+  ): void => {
+    switch (type) {
+      case 'message':
+        this.updateMessageCountValue(event);
+        break;
+      case 'terminal-width':
+        this.updateTerminalDimensionsValue(event, 'width');
+        break;
+      case 'terminal-height':
+        this.updateTerminalDimensionsValue(event, 'height');
+        break;
+      case 'scaling':
+        this.updateScalingFactorValue(event);
+        break;
+      default:
+        break;
+    }
+  };
+
+  /**
+   * Updates the terminal dimensions when the user changes the input values.
+   *
+   * @param {Event} event - The input event.
+   * @param {string} side - The side of the terminal that is being updated.
+   * @return {void}
+   */
+  private updateTerminalDimensionsValue(
+    event: Event,
+    side: 'width' | 'height',
+  ): void {
+    const input = event.target as HTMLInputElement;
+    const newCount = parseInt(input.value, 10);
+
+    if (!isNaN(newCount)) this.gameConfig.terminal.dimensions[side] = newCount;
+  }
+
+  /**
+   * Updates the scaling factor for the terminal based on the user's input.
+   *
+   * Parses the input value from the event's target as a floating-point number and updates
+   * the game configuration's terminal scaling factor if the value is a valid number within
+   * the range of 0 to 2. If the value is not valid, resets the input to the current scaling
+   * factor in the game configuration.
+   *
+   * @param {Event} event - The input event containing the new value for the scaling factor.
+   * @return {void}
+   */
+
+  private updateScalingFactorValue(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const newCount = parseFloat(input.value);
+
+    if (!isNaN(newCount) && newCount >= 0 && newCount <= 2) {
+      this.gameConfig.terminal.scaling_factor = newCount;
+    } else {
+      input.value = this.gameConfig.terminal.scaling_factor.toString();
+    }
+  }
+
+  /**
+   * Updates the message count value based on the user's input.
+   *
+   * Parses the input value from the event's target and updates the game configuration's
+   * message count if the value is a valid number within the range of 1 to 50. If the value
+   * is not valid, resets the input to the current message count in the game configuration.
+   *
+   * @param {Event} event - The input event containing the new value for the message count.
+   * @return {void}
+   */
+
+  private updateMessageCountValue(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const newCount = parseInt(input.value, 10);
+
+    if (!isNaN(newCount) && newCount >= 1 && newCount <= 50) {
+      this.gameConfig.message_count = newCount;
+    } else {
+      input.value = this.gameConfig.message_count.toString();
+    }
   }
 
   /**
@@ -467,52 +721,6 @@ export class TitleMenuOptions extends HTMLElement {
           this.handleInputChange(event, 'terminal-height'),
         );
         break;
-    }
-  }
-
-  /**
-   * Sets focus to the terminal height input element and selects its content.
-   *
-   * This function is called when the user presses the "h" key on the options menu.
-   * It finds the input element in the shadow DOM and sets focus to it. To select
-   * the content of the input element, it uses setTimeout to delay the selection
-   * by 10 milliseconds, so that the focus event is processed before the selection
-   * is triggered.
-   *
-   * @return {void}
-   */
-  private focusAndSelectTerminalHeightInput(): void {
-    const heightInput = this.shadowRoot?.getElementById(
-      'terminal-dimensions-height-input',
-    ) as HTMLInputElement;
-    if (heightInput) {
-      heightInput.focus();
-      setTimeout(() => {
-        heightInput.select();
-      }, 10);
-    }
-  }
-
-  /**
-   * Sets focus to the terminal width input element and selects its content.
-   *
-   * This function is called when the user presses the "w" key on the options menu.
-   * It finds the input element in the shadow DOM and sets focus to it. To select
-   * the content of the input element, it uses setTimeout to delay the selection
-   * by 10 milliseconds, so that the focus event is processed before the selection
-   * is triggered.
-   *
-   * @return {void}
-   */
-  private focusAndSelectTerminalWidthInput(): void {
-    const widthInput = this.shadowRoot?.getElementById(
-      'terminal-dimensions-width-input',
-    ) as HTMLInputElement;
-    if (widthInput) {
-      widthInput.focus();
-      setTimeout(() => {
-        widthInput.select();
-      }, 10);
     }
   }
 
@@ -645,94 +853,6 @@ export class TitleMenuOptions extends HTMLElement {
   }
 
   /**
-   * Sets up the event listener for the message count input element.
-   *
-   * Attaches an 'input' event listener to the message count input element
-   * within the shadow DOM. The listener triggers the {@link handleInputChange}
-   * method whenever the input value changes.
-   *
-   * @return {void}
-   */
-  private setupMessageCountInput(): void {
-    const messageCountInput = this.shadowRoot?.getElementById(
-      'message-count-input',
-    ) as HTMLInputElement;
-
-    if (messageCountInput) {
-      messageCountInput.addEventListener('input', event =>
-        this.handleInputChange(event, 'message'),
-      );
-    }
-  }
-
-  /**
-   * Handles changes to the input values of the message count, terminal width, or
-   * terminal height inputs.
-   *
-   * @param {Event} event - The input event.
-   * @param {string} type - The type of input that triggered this event.
-   *   Valid values are 'message', 'terminal-width', and 'terminal-height'.
-   * @return {void}
-   */
-  private handleInputChange = (
-    event: Event,
-    type: 'message' | 'terminal-width' | 'terminal-height',
-  ): void => {
-    switch (type) {
-      case 'message':
-        this.updateMessageCountValue(event);
-        break;
-      case 'terminal-width':
-        this.updateTerminalDimensionsValue(event, 'width');
-        break;
-      case 'terminal-height':
-        this.updateTerminalDimensionsValue(event, 'height');
-        break;
-      default:
-        break;
-    }
-  };
-
-  /**
-   * Updates the terminal dimensions when the user changes the input values.
-   *
-   * @param {Event} event - The input event.
-   * @param {string} side - The side of the terminal that is being updated.
-   * @return {void}
-   */
-  private updateTerminalDimensionsValue(
-    event: Event,
-    side: 'width' | 'height',
-  ): void {
-    const input = event.target as HTMLInputElement;
-    const newCount = parseInt(input.value, 10);
-
-    if (!isNaN(newCount)) this.gameConfig.terminal.dimensions[side] = newCount;
-  }
-
-  /**
-   * Updates the message count value based on the user's input.
-   *
-   * Parses the input value from the event's target and updates the game configuration's
-   * message count if the value is a valid number within the range of 1 to 50. If the value
-   * is not valid, resets the input to the current message count in the game configuration.
-   *
-   * @param {Event} event - The input event containing the new value for the message count.
-   * @return {void}
-   */
-
-  private updateMessageCountValue(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const newCount = parseInt(input.value, 10);
-
-    if (!isNaN(newCount) && newCount >= 1 && newCount <= 50) {
-      this.gameConfig.message_count = newCount;
-    } else {
-      input.value = this.gameConfig.message_count.toString();
-    }
-  }
-
-  /**
    * Toggles the blood intensity of the game by cycling through the available blood intensities.
    *
    * The blood intensity is cycled through the following values:
@@ -773,35 +893,23 @@ export class TitleMenuOptions extends HTMLElement {
   }
 
   /**
-   * Sets focus to the message count input element and selects its content.
-   *
-   * This function is called when the user presses the "e" key on the options menu.
-   * It finds the input element in the shadow DOM and sets focus to it. To select
-   * the content of the input element, it uses setTimeout to delay the selection
-   * by 10 milliseconds, so that the focus event is processed before the selection
-   * is triggered.
-   *
-   * @return {void}
-   */
-  private focusAndSelectMessageCountInput(): void {
-    const messageCountInput = this.shadowRoot?.getElementById(
-      'message-count-input',
-    ) as HTMLInputElement;
-    if (messageCountInput) {
-      messageCountInput.focus();
-      setTimeout(() => {
-        messageCountInput.select();
-      }, 10);
-    }
-  }
-
-  /**
    * Checks if the Alt or Meta key is pressed.
    */
   private isAltKeyPressed(event: KeyboardEvent): boolean {
     return event.altKey || event.metaKey;
   }
 
+  /**
+   * Handles key presses on the options menu.
+   *
+   * This function is called whenever a key is pressed while the options menu is active.
+   * It checks if the pressed key corresponds to one of the keys that can be used to control
+   * the options menu, and if so, calls the appropriate function to handle the key press.
+   * If the pressed key does not match any of the handled keys, the function does nothing.
+   *
+   * @param {KeyboardEvent} event - The keyboard event to be handled.
+   * @return {void}
+   */
   private handleKeyPress(event: KeyboardEvent): void {
     // scroll via keypress when alt or meta key is pressed
     if (this.isAltKeyPressed(event)) {
@@ -830,6 +938,10 @@ export class TitleMenuOptions extends HTMLElement {
       case 'h':
         event.preventDefault();
         this.focusAndSelectTerminalHeightInput();
+        break;
+      case 'l':
+        event.preventDefault();
+        this.focusAndSelectScalingFactorInput();
         break;
       case 'C':
         this.toggleControlScheme();
