@@ -1,13 +1,12 @@
 import { ask } from '@tauri-apps/plugin-dialog';
 import { BaseDirectory, readFile } from '@tauri-apps/plugin-fs';
-import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
-import { GameConfigType } from '../../types/gameConfig/gameConfigType';
+import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 import { exit } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
 
 export class TitleMenu extends HTMLElement {
+  private eventTracker = new EventListenerTracker();
   private shouldEnableLoadGameKeyboardShortcuts: boolean = true;
-  private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
   }
@@ -25,7 +24,7 @@ export class TitleMenu extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
     <style>
-      .container {
+      .title-screen-container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -34,14 +33,14 @@ export class TitleMenu extends HTMLElement {
         background: var(--backgroundDefaultTransparent);
       }
 
-      .container h1 {
+      .title-screen-container h1 {
         margin: 8rem 0 0 0;
         text-align: center;
         z-index: 1;
       }
 
-      .container button {
-        font-family: 'UASQUARE';
+      .title-screen-container button {
+        font-family: 'UA Squared';
         padding: 1rem;
         font-size: 2.5rem;
         font-weight: bold;
@@ -49,11 +48,11 @@ export class TitleMenu extends HTMLElement {
         color: var(--white);
         border: none;
         transition: all 0.2s ease-in-out;
+        cursor: pointer;
       }
 
-      .container button:hover {
-        cursor: pointer;
-        transform: scale(1.1);
+      .title-screen-container button:hover {
+        transform: translateX(8px) scale(1.05);
       }
 
       .underline {
@@ -76,15 +75,6 @@ export class TitleMenu extends HTMLElement {
         margin-top: auto;
       }
 
-      .seed-display {
-        padding: 0 1rem;
-        font-size: 1.5rem;
-      }
-
-      .seed-display span {
-        font-size: 1.75rem;
-      }
-
       .version-display {
         padding: 0 1rem;
         font-size: 1.5rem;
@@ -96,7 +86,7 @@ export class TitleMenu extends HTMLElement {
       }
     </style>
 
-    <div class="container">
+    <div class="title-screen-container">
       <h1>Meikai: Roguelike Journey to the Center of the Earth</h1>
       <div class="buttons-container">
         <button id="new-game-button">
@@ -108,8 +98,8 @@ export class TitleMenu extends HTMLElement {
         <button id="player-setup-button">
           <span class="underline">P</span>layer setup
         </button>
-        <button id="change-seed-button">
-          <span class="underline">C</span>hange seed
+         <button id="title-options-button">
+          <span class="underline">O</span>ptions
         </button>
         <button id="help-button">
           <span class="underline">H</span>elp
@@ -123,112 +113,101 @@ export class TitleMenu extends HTMLElement {
       </div>
       <div class="bottom-container">
         <div class="version-display">version: alpha</div>
-        <div id="current-seed-display" class="seed-display">current Seed</div>
       </div>
     </div>
   `;
 
     shadowRoot.appendChild(templateElement.content.cloneNode(true));
 
-    this.displayCurrentSeed(this.gameConfig.seed);
     this.checkForSaveState();
-
     this.bindEvents();
   }
 
   /**
-   * Binds events to the elements inside the title menu.
+   * Binds events to the elements in the title menu.
    *
    * The function binds the following events:
-   * - New game button click event
-   * - Player setup button click event
-   * - Change seed button click event
-   * - Help button click event
-   * - About button click event
-   * - Quit button click event
+   * - Click event on the new game button
+   * - Click event on the load game button
+   * - Click event on the player setup button
+   * - Click event on the options button
+   * - Click event on the help button
+   * - Click event on the about button
+   * - Click event on the quit button
    * - Keydown event on the document
+   *
    * @return {void}
    */
+
   private bindEvents(): void {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
     this.loadGame = this.loadGame.bind(this);
     this.playerSetup = this.playerSetup.bind(this);
-    this.changeSeed = this.changeSeed.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.showAbout = this.showAbout.bind(this);
     this.quitGame = this.quitGame.bind(this);
 
-    this.manageEventListener(
+    const root = this.shadowRoot;
+
+    this.eventTracker.addById(
+      root,
       'new-game-button',
       'click',
       this.startNewGame,
-      true,
     );
-    this.manageEventListener('load-game-button', 'click', this.loadGame, true);
-    this.manageEventListener(
+
+    this.eventTracker.addById(root, 'load-game-button', 'click', this.loadGame);
+
+    this.eventTracker.addById(
+      root,
       'player-setup-button',
       'click',
       this.playerSetup,
-      true,
     );
-    this.manageEventListener(
-      'change-seed-button',
+
+    this.eventTracker.addById(
+      root,
+      'title-options-button',
       'click',
-      this.changeSeed,
-      true,
+      this.showOptions,
     );
-    this.manageEventListener('help-button', 'click', this.showHelp, true);
-    this.manageEventListener(
+
+    this.eventTracker.addById(root, 'help-button', 'click', this.showHelp);
+
+    this.eventTracker.addById(
+      root,
       'about-window-button',
       'click',
       this.showAbout,
-      true,
     );
-    this.manageEventListener(
+    this.eventTracker.addById(
+      root,
       'quit-window-button',
       'click',
       this.quitGame,
-      true,
     );
 
-    document.addEventListener('keydown', this.handleKeyPress);
+    this.eventTracker.add(
+      document,
+      'keydown',
+      this.handleKeyPress as EventListener,
+    );
   }
 
   /**
-   * Manage event listeners for an element.
+   * Handles key presses on the title menu.
    *
-   * If the add parameter is true, the callback is added to the element's event
-   * listeners. If the add parameter is false, the callback is removed from the
-   * element's event listeners.
+   * Listens for the following keys and calls the corresponding method to navigate the title menu:
+   * - N: startNewGame
+   * - L: loadGame
+   * - P: playerSetup
+   * - O: showOptions
+   * - H: showHelp
+   * - A: showAbout
+   * - Q: quitGame
    *
-   * @param {string} elementId - The ID of the element on which to add or remove
-   * the event listener.
-   * @param {string} eventType - The type of event to listen for.
-   * @param {EventListener} callback - The callback function to be called when the
-   * event is fired.
-   * @param {boolean} add - Whether to add or remove the event listener.
-   * @return {void}
-   */
-  private manageEventListener(
-    elementId: string,
-    eventType: string,
-    callback: EventListener,
-    add: boolean,
-  ): void {
-    const element = this.shadowRoot?.getElementById(elementId);
-    if (add) {
-      element?.addEventListener(eventType, callback);
-    } else {
-      element?.removeEventListener(eventType, callback);
-    }
-  }
-
-  /**
-   * Handles key presses.
-   *
-   * Listens for the keys N (new game), C (change seed), and Q (quit).
-   * @param {KeyboardEvent} event - The keyboard event.
+   * @param {KeyboardEvent} event - The keyboard event to be handled.
    * @return {void}
    */
   private handleKeyPress(event: KeyboardEvent): void {
@@ -242,8 +221,8 @@ export class TitleMenu extends HTMLElement {
       case 'P':
         this.playerSetup();
         break;
-      case 'C':
-        this.changeSeed();
+      case 'O':
+        this.showOptions();
         break;
       case 'H':
         this.showHelp();
@@ -257,19 +236,6 @@ export class TitleMenu extends HTMLElement {
       default:
         break;
     }
-  }
-
-  /**
-   * Displays the current seed in the title menu.
-   *
-   * @param {GameConfigType['seed']} seed - The current seed.
-   * @return {void}
-   */
-  private displayCurrentSeed(seed: GameConfigType['seed']): void {
-    const seedDisplay = this.shadowRoot?.getElementById(
-      'current-seed-display',
-    ) as HTMLDivElement;
-    if (seedDisplay) seedDisplay.innerHTML = `Current seed: ${seed}`;
   }
 
   /**
@@ -347,24 +313,6 @@ export class TitleMenu extends HTMLElement {
   }
 
   /**
-   * Changes the current seed to a random value.
-   *
-   * This function will also update the displayed seed in the title menu.
-   *
-   * @return {void}
-   */
-  public async changeSeed(): Promise<void> {
-    this.gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-    this.displayCurrentSeed(this.gameConfig.seed);
-
-    try {
-      await gameConfigManager.saveConfig();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  /**
    * Shows the player setup screen.
    *
    * This function will query the first 'title-screen' element in the document
@@ -381,6 +329,28 @@ export class TitleMenu extends HTMLElement {
     if (titleScreenContent) {
       titleScreenContent.innerHTML = '';
       titleScreenContent.appendChild(document.createElement('player-setup'));
+    }
+  }
+
+  /**
+   * Replaces the title screen content with the main options menu.
+   *
+   * This function queries the first 'title-screen' element in the document,
+   * clears its content, and appends a 'title-menu-options' element.
+   *
+   * @return {void}
+   */
+
+  public showOptions(): void {
+    const titleScreenContent = document
+      .querySelector('title-screen')
+      ?.shadowRoot?.getElementById('title-screen-content');
+
+    if (titleScreenContent) {
+      titleScreenContent.innerHTML = '';
+      titleScreenContent.appendChild(
+        document.createElement('title-menu-options'),
+      );
     }
   }
 
@@ -423,25 +393,6 @@ export class TitleMenu extends HTMLElement {
    * @return {void}
    */
   disconnectedCallback(): void {
-    document.removeEventListener('keydown', this.handleKeyPress);
-
-    const shadowRoot = this.shadowRoot;
-    if (shadowRoot) {
-      shadowRoot
-        .getElementById('new-game-button')
-        ?.removeEventListener('click', this.startNewGame);
-      shadowRoot
-        .getElementById('change-seed-button')
-        ?.removeEventListener('click', this.changeSeed);
-      shadowRoot
-        .getElementById('help-button')
-        ?.removeEventListener('click', this.showHelp);
-      shadowRoot
-        .getElementById('about-window-button')
-        ?.removeEventListener('click', this.showAbout);
-      shadowRoot
-        .getElementById('quit-window-button')
-        ?.removeEventListener('click', this.quitGame);
-    }
+    this.eventTracker.removeAll();
   }
 }

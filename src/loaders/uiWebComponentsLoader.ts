@@ -7,23 +7,24 @@ import { FlashDisplay } from '../ui/flashDisplay/flashDisplay';
 import { GameOverScreenDisplay } from '../ui/gameOverScreenDisplay/gameOverScreenDisplay';
 import { MessagesDisplay } from '../ui/messages/messagesDisplay';
 import { IngameMenu } from '../ui/menu/ingameMenu';
+import { IngameOptions } from '../ui/menu/ingameOptions';
 import { InventoryScreenDisplay } from '../ui/inventoryScreenDisplay/inventoryScreenDisplay';
 import { ItemScreenDisplay } from '../ui/itemScreenDisplay/itemScreenDisplay';
 import { LevelInfo } from '../ui/levelInfo/levelInfo';
 import { LogScreenDisplay } from '../ui/logScreenDisplay/logScreenDisplay';
-import { OptionsMenu } from '../ui/menu/optionsMenu';
 import { PlayerSetup } from '../ui/menu/playerSetup';
 import { PopupBoxGood } from '../ui/popup/popupBoxGood';
 import { PostMortem } from '../ui/postMortem/postMortem';
 import { SpellScreenDisplay } from '../ui/spellScreenDisplay/spellScreenDisplay';
 import { StatsScreenDisplay } from '../ui/statsScreenDisplay/statsScreenDisplay';
-
 import { TitleMenu } from '../ui/menu/titleMenu';
+import { TitleMenuOptions } from '../ui/menu/titleMenuOptions';
 import { TitleScreen } from '../ui/menu/titleScreen';
 
 // Define and register custom elements for each UI element
 customElements.define('title-screen', TitleScreen);
 customElements.define('title-menu', TitleMenu);
+customElements.define('title-menu-options', TitleMenuOptions);
 customElements.define('player-setup', PlayerSetup);
 customElements.define('level-info', LevelInfo);
 customElements.define('messages-display', MessagesDisplay);
@@ -31,7 +32,7 @@ customElements.define('buffs-display', BuffsDisplay);
 customElements.define('equipment-display', EquipmentDisplay);
 customElements.define('flash-display', FlashDisplay);
 customElements.define('ingame-menu', IngameMenu);
-customElements.define('options-menu', OptionsMenu);
+customElements.define('ingame-options', IngameOptions);
 customElements.define('log-screen-display', LogScreenDisplay);
 customElements.define('inventory-screen-display', InventoryScreenDisplay);
 customElements.define('equipment-screen-display', EquipmentScreenDisplay);

@@ -1,3 +1,4 @@
+import { FontHandler } from '../utilities/fontHandler';
 import { getRandomName } from '../utilities/getRandomName';
 import { GameConfigType } from '../types/gameConfig/gameConfigType';
 import {
@@ -40,6 +41,7 @@ class GameConfigManager {
       font: 'DejaVu Sans Mono',
     },
   };
+  private fonts: string[] = [];
 
   private constructor() {
     this.config = this.defaultParams;
@@ -57,32 +59,40 @@ class GameConfigManager {
   }
 
   /**
-   * Initializes the configuration by loading from gameConfig.json if available.
-   * Creates the file with default parameters if it doesn't exist.
+   * Initializes the game configuration manager.
+   *
+   * If the configuration file (gameConfig.json) does not exist, it is created with default parameters.
+   * If the configuration file does exist, it is loaded and the parameters are used to update the game
+   * configuration.
+   *
+   * @returns A promise that resolves when the game config is successfully initialized.
    */
   public async initialize(): Promise<void> {
     try {
+      // Load configuration file or use default if not found
       const params = await readTextFile('gameConfig.json', {
         baseDir: BaseDirectory.AppData,
-      });
-      this.config = { ...this.config, ...JSON.parse(params) };
-    } catch (error) {
-      console.error(
-        'Error loading parameters or file not found, creating new file:',
-        error,
-      );
-
-      try {
+      }).catch(async error => {
+        console.error(
+          'Error loading parameters or file not found, creating new file:',
+          error,
+        );
         await mkdir('', { baseDir: BaseDirectory.AppData, recursive: true });
         await this.saveConfig();
-      } catch (writeError) {
-        console.error(
-          'Error writing default parameters to gameConfig.json:',
-          writeError,
-        );
+        return null;
+      });
+
+      if (params) {
+        this.config = { ...this.config, ...JSON.parse(params) };
+      } else {
+        this.config = this.defaultParams;
       }
 
-      this.config = this.defaultParams;
+      await FontHandler.loadFonts();
+
+      this.updateFonts();
+    } catch (error) {
+      console.error('Error initializing game config or loading fonts:', error);
     }
   }
 
@@ -91,6 +101,27 @@ class GameConfigManager {
    */
   public getConfig(): GameConfigType {
     return this.config;
+  }
+
+  /**
+   * Updates the list of fonts available in the document.
+   *
+   * This is called during initialization and after saving the config.
+   *
+   * The list of fonts is used to populate the font select dropdown.
+   */
+  private updateFonts(): void {
+    this.fonts = Array.from(document.fonts).map(fontFace => fontFace.family);
+  }
+
+  /**
+   * Returns the list of font families available in the document.
+   *
+   * This list is updated whenever the game configuration is initialized or updated.
+   * @returns The list of font families available in the document.
+   */
+  public getFonts(): string[] {
+    return this.fonts;
   }
 
   /**

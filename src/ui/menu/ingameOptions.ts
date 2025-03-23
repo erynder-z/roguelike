@@ -1,15 +1,17 @@
 import controls from '../../controls/control_schemes.json';
+import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { ControlSchemeName } from '../../types/controls/controlSchemeType';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
-import { ControlSchemeManager } from '../../controls/controlSchemeManager';
+import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 
-export class OptionsMenu extends HTMLElement {
+export class IngameOptions extends HTMLElement {
+  private gameConfig = gameConfigManager.getConfig();
+  private eventTracker: EventListenerTracker;
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
-  private gameConfig = gameConfigManager.getConfig();
   public controlSchemeManager: ControlSchemeManager;
   private currentScheme = this.gameConfig.control_scheme;
   private availableControlSchemes = Object.keys(
@@ -22,6 +24,7 @@ export class OptionsMenu extends HTMLElement {
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
+    this.eventTracker = new EventListenerTracker();
     this.layoutManager = new LayoutManager();
     this.buttonManager = new OptionsMenuButtonManager(shadowRoot);
     this.controlSchemeManager = new ControlSchemeManager(this.currentScheme);
@@ -43,13 +46,13 @@ export class OptionsMenu extends HTMLElement {
     templateElement.innerHTML = `
       <style>
         .options-menu {
-          font-family: 'UASQUARE';
-          font-size: 2.5rem;
+          font-family: 'UA Squared';
+          font-size: 2rem;
           position: absolute;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: start;
+          justify-content: center;
           height: 100%;
           width: 100%;
           backdrop-filter: brightness(60%) blur(10px);
@@ -58,43 +61,61 @@ export class OptionsMenu extends HTMLElement {
           overflow: hidden;
         }
 
-        .options-menu h1 {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          margin: 0 1rem;
-          z-index: 1;
-        }
-
         .options-menu button {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           padding: 1rem;
-          font-size: 2.5rem;
+          font-size: 2rem;
           font-weight: bold;
           background: none;
           color: var(--white);
           border: none;
           transition: all 0.2s ease-in-out;
+          cursor: pointer;
         }
 
         .options-menu button:hover {
-          transform: scale(1.1);
-        }
-
-        .options-menu > * :hover {
-          cursor: pointer;
-        }
+          transform: translateX(8px) scale(1.05);
+      }
 
         .underline {
           text-decoration: underline;
         }
 
-        .buttons-container {
+        .info-container {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          height: 100%;
+          width: 100%;
           gap: 0.5rem;
+        }
+
+        .info-span {
+          font-size: 2.5rem;
+          width: 45%;
+        }
+
+        .info-span::after {
+          content: "";
+          display: block;
+          width: 100%;
+          height: 2px;
+          background-color: var(--white);
+        }
+
+        .info-container div {
+          width: max-content;
+          margin: 0 auto;
+        }
+
+        .info-text {
+          text-align: center;
+          font-weight: bold;
+          color: var(--grayedOut);
+          cursor: not-allowed;
+        }
+            
+        .explanation {
+          font-size: 1rem;
         }
 
         .options-menu button.disabled {
@@ -104,13 +125,13 @@ export class OptionsMenu extends HTMLElement {
         }
 
         .message-count-input {
-          font-family: 'UASQUARE';
+          font-family: 'UA Squared';
           background: none;
           border: none;
           border-bottom: 2px solid var(--white);
           color: var(--white);
           font-weight: bold;
-          font-size: 2.5rem;
+          font-size: 2rem;
         }
 
         .message-count-input:focus {
@@ -122,25 +143,67 @@ export class OptionsMenu extends HTMLElement {
           -webkit-appearance: none;
           margin: 0;
         }
+
+       .title {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          margin: 0 1rem;
+          z-index: 1;
+          font-size: 5rem;
+        }
+
+        .options-menu .back-button {
+          position: fixed;
+          bottom: 0;
+          right: 0;
+          margin: 0 1rem;
+          z-index: 1;
+          font-size: 2.5rem;
+        }
       </style>
 
       <div class="options-menu">
-        <h1>Options</h1>
-        <div class="buttons-container">
+        <span class="info-span">Core</span>
+        <div class="info-container">
+          <div class="info-text">
+            Current seed: ${this.gameConfig.seed} *
+          </div>
+          <div class="info-text">
+            Current font: ${this.gameConfig.terminal.font} *
+          </div>
+          <div class="info-text">
+            Current terminal dimensions: ${this.gameConfig.terminal.dimensions.width} x ${this.gameConfig.terminal.dimensions.height} *
+          </div>
+          <div class="info-text">
+            Current terminal scaling factor: ${this.gameConfig.terminal.scaling_factor} *
+          </div>
+          <div class="explanation">
+            * These values can only be changed from main menu.
+          </div>
+        </div>
+        <span class="info-span">Controls</span>
+        <div class="info-container">
           <button id="switch-controls-button">
             <span class="underline">C</span>ontrol scheme
           </button>
+        </div>
+        <span class="info-span">Graphics</span>
+        <div class="info-container">
           <button id="toggle-scanlines-button">
             <span class="underline">S</span>canlines
           </button>
           <button id="switch-scanline-style-button">
             Scanlines s<span class="underline">t</span>yle
           </button>
+        </div>
+        <span class="info-span">UI</span>
+        <div class="info-container">
           <button id="message-display-align-button">
             <span class="underline">M</span>essage display
           </button>
           <button id="show-images-button">
-            S<span class="underline">h</span>ow images
+            Sh<span class="underline">o</span>ow images
           </button>
           <button id="image-align-button">
             <span class="underline">I</span>mage alignment
@@ -158,13 +221,17 @@ export class OptionsMenu extends HTMLElement {
               value="${this.gameConfig.message_count}"
             />
           </button>
+        </div>
+        <span class="info-span">Misc</span>
+        <div class="info-container">
           <button id="blood-intensity-button">
             <span class="underline">B</span>lood intensity
           </button>
-          <button id="back-button">
-            <span class="underline">R</span>eturn to previous menu
-          </button>
         </div>
+        <div class="title">Options</div>
+        <button id="back-button" class="back-button">
+          <span class="underline">R</span>eturn to previous menu
+        </button>
       </div>
     `;
 
@@ -203,93 +270,85 @@ export class OptionsMenu extends HTMLElement {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.toggleControlScheme = this.toggleControlScheme.bind(this);
     this.toggleScanlines = this.toggleScanlines.bind(this);
+    this.switchScanlineStyle = this.switchScanlineStyle.bind(this);
+    this.toggleMessageAlignment = this.toggleMessageAlignment.bind(this);
+    this.toggleShowImages = this.toggleShowImages.bind(this);
+    this.toggleImageAlignment = this.toggleImageAlignment.bind(this);
+    this.focusAndSelectMessageCountInput =
+      this.focusAndSelectMessageCountInput.bind(this);
+    this.toggleBloodIntensity = this.toggleBloodIntensity.bind(this);
     this.returnToIngameMenu = this.returnToIngameMenu.bind(this);
 
-    this.manageEventListener(
+    const root = this.shadowRoot;
+
+    this.eventTracker.addById(
+      root,
       'switch-controls-button',
       'click',
       this.toggleControlScheme,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'toggle-scanlines-button',
       'click',
       this.toggleScanlines,
-      true,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'switch-scanline-style-button',
       'click',
-      this.switchScanlineStyle.bind(this),
-      true,
+      this.switchScanlineStyle,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'message-display-align-button',
       'click',
-      this.toggleMessageAlignment.bind(this),
-      true,
+      this.toggleMessageAlignment,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'show-images-button',
       'click',
-      this.toggleShowImages.bind(this),
-      true,
+      this.toggleShowImages,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'image-align-button',
       'click',
-      this.toggleImageAlignment.bind(this),
-      true,
+      this.toggleImageAlignment,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'message-count-input-button',
       'click',
-      this.focusAndSelectMessageCountInput.bind(this),
-      true,
+      this.focusAndSelectMessageCountInput,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'blood-intensity-button',
       'click',
-      this.toggleBloodIntensity.bind(this),
-      true,
+      this.toggleBloodIntensity,
     );
-    this.manageEventListener(
+
+    this.eventTracker.addById(
+      root,
       'back-button',
       'click',
       this.returnToIngameMenu,
-      true,
     );
 
-    document.addEventListener('keydown', this.handleKeyPress);
-  }
-
-  /**
-   * Manages event listeners for an element.
-   *
-   * If the add parameter is true, the callback is added to the element's event
-   * listeners. If the add parameter is false, the callback is removed from the
-   * element's event listeners.
-   *
-   * @param {string} elementId - The ID of the element on which to add or remove
-   * the event listener.
-   * @param {string} eventType - The type of event to listen for.
-   * @param {EventListener} callback - The callback function to be called when the
-   * event is fired.
-   * @param {boolean} add - Whether to add or remove the event listener.
-   * @return {void}
-   */
-  private manageEventListener(
-    elementId: string,
-    eventType: string,
-    callback: EventListener,
-    add: boolean,
-  ): void {
-    const element = this.shadowRoot?.getElementById(elementId);
-    if (add) {
-      element?.addEventListener(eventType, callback);
-    } else {
-      element?.removeEventListener(eventType, callback);
-    }
+    this.eventTracker.add(
+      document,
+      'keydown',
+      this.handleKeyPress as EventListener,
+    );
   }
 
   /**
@@ -368,12 +427,6 @@ export class OptionsMenu extends HTMLElement {
     const mainContainer = document.getElementById('main-container');
     if (mainContainer)
       ScanlinesHandler.applyScanlineStyle(mainContainer, nextStyle);
-
-    try {
-      gameConfigManager.saveConfig();
-    } catch (error) {
-      console.error('Failed to save config:', error);
-    }
   }
 
   /**
@@ -574,7 +627,7 @@ export class OptionsMenu extends HTMLElement {
       case 'e':
         this.focusAndSelectMessageCountInput();
         break;
-      case 'h':
+      case 'o':
         this.toggleShowImages();
         break;
       case 'I':
@@ -607,34 +660,6 @@ export class OptionsMenu extends HTMLElement {
     });
     this.dispatchEvent(event);
 
-    document.removeEventListener('keydown', this.handleKeyPress);
-
-    const shadowRoot = this.shadowRoot;
-    if (shadowRoot) {
-      shadowRoot
-        .getElementById('switch-controls-button')
-        ?.removeEventListener('click', this.toggleControlScheme);
-      shadowRoot
-        .getElementById('toggle-scanlines-button')
-        ?.removeEventListener('click', this.toggleScanlines);
-      shadowRoot
-        .getElementById('switch-scanline-style-button')
-        ?.removeEventListener('click', this.switchScanlineStyle);
-      shadowRoot
-        .getElementById('message-display-align-button')
-        ?.removeEventListener('click', this.toggleMessageAlignment);
-      shadowRoot
-        .getElementById('show-images-button')
-        ?.removeEventListener('click', this.toggleShowImages);
-      shadowRoot
-        .getElementById('image-align-button')
-        ?.removeEventListener('click', this.toggleImageAlignment);
-      shadowRoot
-        .getElementById('blood-intensity-button')
-        ?.removeEventListener('click', this.toggleBloodIntensity);
-      shadowRoot
-        .getElementById('back-button')
-        ?.removeEventListener('click', this.returnToIngameMenu);
-    }
+    this.eventTracker.removeAll();
   }
 }

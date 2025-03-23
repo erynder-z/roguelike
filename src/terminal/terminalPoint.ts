@@ -9,10 +9,12 @@ export class TerminalPoint {
     public y: number = 0,
   ) {}
 
-  private static gameConfig = gameConfigManager.getConfig();
-  public static TerminalDimensions = new TerminalPoint(
-    this.gameConfig.terminal.dimensions.width,
-    this.gameConfig.terminal.dimensions.height,
-  );
+  public static get TerminalDimensions(): TerminalPoint {
+    const gameConfig = gameConfigManager.getConfig();
+    return new TerminalPoint(
+      gameConfig.terminal.dimensions.width,
+      gameConfig.terminal.dimensions.height,
+    );
+  }
   public static MapDimensions = new TerminalPoint(96, 48);
 }
