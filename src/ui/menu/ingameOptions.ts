@@ -8,10 +8,10 @@ import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
 import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 
 export class IngameOptions extends HTMLElement {
-  private eventTracker = new EventListenerTracker();
+  private gameConfig = gameConfigManager.getConfig();
+  private eventTracker: EventListenerTracker;
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
-  private gameConfig = gameConfigManager.getConfig();
   public controlSchemeManager: ControlSchemeManager;
   private currentScheme = this.gameConfig.control_scheme;
   private availableControlSchemes = Object.keys(
@@ -24,6 +24,7 @@ export class IngameOptions extends HTMLElement {
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
+    this.eventTracker = new EventListenerTracker();
     this.layoutManager = new LayoutManager();
     this.buttonManager = new OptionsMenuButtonManager(shadowRoot);
     this.controlSchemeManager = new ControlSchemeManager(this.currentScheme);

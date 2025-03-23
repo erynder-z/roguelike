@@ -10,7 +10,7 @@ import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManag
 import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
 
 export class TitleMenuOptions extends HTMLElement {
-  private eventTracker = new EventListenerTracker();
+  private eventTracker: EventListenerTracker;
   private layoutManager: LayoutManager;
   private buttonManager: OptionsMenuButtonManager;
   private gameConfig = gameConfigManager.getConfig();
@@ -26,6 +26,7 @@ export class TitleMenuOptions extends HTMLElement {
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
+    this.eventTracker = new EventListenerTracker();
     this.layoutManager = new LayoutManager();
     this.buttonManager = new OptionsMenuButtonManager(shadowRoot);
     this.controlSchemeManager = new ControlSchemeManager(this.currentScheme);
