@@ -333,18 +333,13 @@ export class PlayerSetup extends HTMLElement {
       this.enableAvatarEditing,
     );
 
-    this.eventTracker.addById(
-      root,
-      'randomize-avatar-button',
-      'click',
-      async () => {
-        this.returnToPreviousScreen();
-      },
-    );
-
-    this.eventTracker.addById(root, 'return-button', 'click', () =>
+    this.eventTracker.addById(root, 'randomize-avatar-button', 'click', () =>
       this.randomize('avatar'),
     );
+
+    this.eventTracker.addById(root, 'return-button', 'click', async () => {
+      this.returnToPreviousScreen();
+    });
 
     this.eventTracker.add(
       document,
