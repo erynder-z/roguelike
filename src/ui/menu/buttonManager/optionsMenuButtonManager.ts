@@ -164,4 +164,33 @@ export class OptionsMenuButtonManager {
 
     bloodIntensityBtn.innerHTML = `<span class="underline">B</span>lood intensity: ${text}`;
   }
+
+  /**
+   * Displays the current seed in the title menu.
+   *
+   * @param {GameConfigType['seed']} seed - The current seed.
+   * @return {void}
+   */
+  public displayCurrentSeed(seed: GameConfigType['seed']): void {
+    const seedButton = this.shadowRoot?.getElementById(
+      'current-seed-button',
+    ) as HTMLDivElement;
+    if (seedButton) seedButton.innerHTML = `Current seed: ${seed}`;
+  }
+
+  /**
+   * Updates the displayed font in the title menu to the current font.
+   *
+   * This function is called when the font is changed, and will update the displayed
+   * font in the title menu.
+   *
+   * @return {void}
+   */
+  public displayCurrentFont(): void {
+    const fontButton = this.shadowRoot?.getElementById(
+      'current-font-button',
+    ) as HTMLDivElement;
+    if (fontButton)
+      fontButton.innerHTML = `Current font: ${this.gameConfig.terminal.font}`;
+  }
 }

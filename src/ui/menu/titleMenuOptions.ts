@@ -3,7 +3,6 @@ import { ControlSchemeManager } from '../../controls/controlSchemeManager';
 import { ControlSchemeName } from '../../types/controls/controlSchemeType';
 import { EventListenerTracker } from '../../utilities/eventListenerTracker';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
-import { GameConfigType } from '../../types/gameConfig/gameConfigType';
 import { KeypressScrollHandler } from '../../utilities/KeypressScrollHandler';
 import { LayoutManager } from '../layoutManager/layoutManager';
 import { OptionsMenuButtonManager } from './buttonManager/optionsMenuButtonManager';
@@ -402,19 +401,6 @@ export class TitleMenuOptions extends HTMLElement {
   }
 
   /**
-   * Displays the current seed in the title menu.
-   *
-   * @param {GameConfigType['seed']} seed - The current seed.
-   * @return {void}
-   */
-  private displayCurrentSeed(seed: GameConfigType['seed']): void {
-    const seedButton = this.shadowRoot?.getElementById(
-      'current-seed-button',
-    ) as HTMLDivElement;
-    if (seedButton) seedButton.innerHTML = `Current seed: ${seed}`;
-  }
-
-  /**
    * Changes the current seed to a random value.
    *
    * This function will also update the displayed seed in the title menu.
@@ -423,23 +409,7 @@ export class TitleMenuOptions extends HTMLElement {
    */
   public async changeSeed(): Promise<void> {
     this.gameConfig.seed = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-    this.displayCurrentSeed(this.gameConfig.seed);
-  }
-
-  /**
-   * Updates the displayed font in the title menu to the current font.
-   *
-   * This function is called when the font is changed, and will update the displayed
-   * font in the title menu.
-   *
-   * @return {void}
-   */
-  private displayCurrentFont(): void {
-    const fontButton = this.shadowRoot?.getElementById(
-      'current-font-button',
-    ) as HTMLDivElement;
-    if (fontButton)
-      fontButton.innerHTML = `Current font: ${this.gameConfig.terminal.font}`;
+    this.buttonManager.displayCurrentSeed(this.gameConfig.seed);
   }
 
   /**
@@ -463,7 +433,7 @@ export class TitleMenuOptions extends HTMLElement {
 
     this.gameConfig.terminal.font = nextFont;
 
-    this.displayCurrentFont();
+    this.buttonManager.displayCurrentFont();
 
     this.layoutManager.updateFont();
   }
