@@ -1,11 +1,11 @@
 @font-face {
   font-family: DejaVu Sans Mono;
-  src: url(../fonts/DejaVuSansMono.ttf) format('truetype');
+  src: url(../assets/fonts/DejaVuSansMono.ttf) format('truetype');
 }
 
 @font-face {
   font-family: UA Squared;
-  src: url(../fonts/UASQUARE.ttf) format('truetype');
+  src: url(../assets/fonts/UASQUARE.ttf) format('truetype');
 }
 
 ::-webkit-scrollbar {
