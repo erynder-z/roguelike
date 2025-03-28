@@ -191,6 +191,6 @@ export class OptionsMenuButtonManager {
       'current-font-button',
     ) as HTMLDivElement;
     if (fontButton)
-      fontButton.innerHTML = `Current font: ${this.gameConfig.terminal.font}`;
+      fontButton.innerHTML = `Current font: ${this.gameConfig.terminal.font}  <div class="explanation"> * Add custom fonts by placing ttf-fonts in $APPDATA/fonts/</div>  `;
   }
 }
