@@ -19,12 +19,6 @@ export class BuffsDisplay extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
-
         ::selection {
           color: var(--selection-color);
           background-color: var(--selection-background);
@@ -44,20 +38,19 @@ export class BuffsDisplay extends HTMLElement {
         }
 
         .buffs-display {
-          flex-grow: 1;
           overflow: auto;
         }
 
         h1 {
-          margin: 0;
           text-align: center;
+          font-size: 1.5rem;
         }
 
         ul {
           padding: 0;
-          flex-grow: 1;
           display: flex;
-          flex-direction: column;
+          flex-wrap: wrap;
+          gap: 1rem;
         }
 
         li {
