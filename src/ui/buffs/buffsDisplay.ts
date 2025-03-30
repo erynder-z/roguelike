@@ -19,12 +19,6 @@ export class BuffsDisplay extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
-
         ::selection {
           color: var(--selection-color);
           background-color: var(--selection-background);
@@ -44,20 +38,19 @@ export class BuffsDisplay extends HTMLElement {
         }
 
         .buffs-display {
-          flex-grow: 1;
           overflow: auto;
         }
 
         h1 {
-          margin: 0;
           text-align: center;
+          font-size: 1.5rem;
         }
 
         ul {
           padding: 0;
-          flex-grow: 1;
           display: flex;
-          flex-direction: column;
+          flex-wrap: wrap;
+          gap: 1rem;
         }
 
         li {
@@ -75,9 +68,8 @@ export class BuffsDisplay extends HTMLElement {
   }
 
   /**
-   * Updates the component's display of buffs by setting the innerHTML of the "buffs-display" div.
-   *
-   * @param {Map<Buff, BuffType>} buffMap - A Map of buffs to their corresponding remain time.
+   * Updates the element's shadow root to display the given map of buffs.
+   * @param {Map<Buff, BuffType>} buffMap - A map of buffs to their types.
    * @return {void}
    */
   public setBuffs(buffMap: Map<Buff, BuffType>): void {
@@ -88,17 +80,48 @@ export class BuffsDisplay extends HTMLElement {
       const ulElement = document.createElement('ul');
       const fragment = document.createDocumentFragment();
 
-      buffMap.forEach((buff, key) => {
-        const listItem = document.createElement('li');
-        const remainTime = buff.timeLeft;
-        listItem.textContent = `${Buff[key]}: ${remainTime}`;
-
-        this.colorizer.colorBuffs(listItem);
-        fragment.appendChild(listItem);
-      });
+      if (!buffMap.size) {
+        this.displayNoBuffs(fragment);
+      } else {
+        this.displayBuffList(buffMap, fragment);
+      }
 
       ulElement.appendChild(fragment);
       buffsDisplay.appendChild(ulElement);
     }
+  }
+
+  /**
+   * Displays a message in the given fragment indicating that there are no buffs.
+   *
+   * @param {DocumentFragment} fragment - The fragment to modify.
+   * @return {void}
+   */
+  private displayNoBuffs(fragment: DocumentFragment): void {
+    const listItem = document.createElement('li');
+    listItem.textContent = 'No buffs';
+    fragment.appendChild(listItem);
+  }
+
+  /**
+   * Iterates over the given map of buffs and creates a list item for each buff.
+   * The text content of the list item is the name of the buff and the remaining time.
+   * The colorizer is used to color the list item according to the buff type.
+   * @param {Map<Buff, BuffType>} buffMap - The map of buffs to their types.
+   * @param {DocumentFragment} fragment - The fragment to which the list items should be appended.
+   * @return {void}
+   */
+  private displayBuffList(
+    buffMap: Map<Buff, BuffType>,
+    fragment: DocumentFragment,
+  ): void {
+    buffMap.forEach((buff, key) => {
+      const listItem = document.createElement('li');
+      const remainTime = buff.timeLeft;
+      listItem.textContent = `${Buff[key]}: ${remainTime}`;
+
+      this.colorizer.colorBuffs(listItem);
+      fragment.appendChild(listItem);
+    });
   }
 }

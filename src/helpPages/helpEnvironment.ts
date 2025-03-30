@@ -1,6 +1,8 @@
+import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import environmentData from '../gameLogic/environment/environmentData/environment.json';
 
 export class HelpEnvironment extends HTMLElement {
+  private gameConfig = gameConfigManager.getConfig();
   constructor() {
     super();
 
@@ -8,17 +10,7 @@ export class HelpEnvironment extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
-
-        * {
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
-
+       
         ::selection {
           color: var(--selection-color);
           background-color: var(--selection-background);
@@ -35,7 +27,12 @@ export class HelpEnvironment extends HTMLElement {
           width: 100%;
           border-collapse: collapse;
           margin-top: 1rem;
+          font-family: DejaVu Sans Mono, monospace;
+        }
 
+        .header-row th {
+          font-family: UA Squared, monospace;
+          font-size: 1.25rem;
         }
 
         th, td {
@@ -46,14 +43,6 @@ export class HelpEnvironment extends HTMLElement {
 
         th {
           background-color: var(--whiteTransparent);
-        }
-
-        tbody {
-        font: 1rem DejaVu Sans Mono, monospace;
-        }
-
-        .env-cell {
-          font-size: 1.75rem;
         }
 
         .name-cell {
@@ -68,7 +57,7 @@ export class HelpEnvironment extends HTMLElement {
     <div class="container">
         <table>
           <thead>
-            <tr>
+            <tr class="header-row">
               <th>Environment</th>
               <th>Name</th>
               <th>About</th>
@@ -109,12 +98,15 @@ export class HelpEnvironment extends HTMLElement {
 
         const characterSpan = document.createElement('span');
         characterSpan.textContent = env.char;
-        characterSpan.style.display = 'inline-block';
+        characterSpan.style.display = 'inline-flex';
         characterSpan.style.width = '2ch';
         characterSpan.style.height = '2ch';
-        characterSpan.style.textAlign = 'center';
+        characterSpan.style.alignItems = 'center';
+        characterSpan.style.justifyContent = 'center';
+        characterSpan.style.fontFamily = `"${this.gameConfig.terminal.font}", monospace`;
         characterSpan.style.backgroundColor = env.bgCol;
         characterSpan.style.color = env.fgCol;
+        characterSpan.style.fontSize = '1.75rem';
 
         environmentCellElement.appendChild(characterSpan);
 

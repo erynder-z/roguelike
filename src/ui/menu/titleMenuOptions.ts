@@ -170,8 +170,11 @@ export class TitleMenuOptions extends HTMLElement {
             Current see<span class="underline">d</span>: ${this.gameConfig.seed}
           </button>
           <button id="current-font-button" class="current-font-display">
-            Current <span class="underline">f</span>ont:
-            ${this.gameConfig.terminal.font}
+            Current terminal <span class="underline">f</span>ont:
+            ${this.gameConfig.terminal.font} *
+            <div class="explanation">
+              * Add custom fonts by placing ttf-fonts in $APPDATA/fonts/
+            </div>
           </button>
           <button class="terminal-dimensions-button">
             Current terminal dimensions ( <span class="underline">w</span>idth x <span class="underline">h</span>eight ):

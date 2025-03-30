@@ -1,11 +1,31 @@
 @font-face {
   font-family: DejaVu Sans Mono;
-  src: url(../fonts/DejaVuSansMono.ttf) format('truetype');
+  src: url(../assets/fonts/DejaVuSansMono.ttf) format('truetype');
 }
 
 @font-face {
   font-family: UA Squared;
-  src: url(../fonts/UASQUARE.ttf) format('truetype');
+  src: url(../assets/fonts/UASQUARE.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 0xProto-Regular;
+  src: url(../assets/fonts/0xProto-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: GoodOldDOS;
+  src: url(../assets/fonts/GoodOldDOS.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: SimplyMono-Book;
+  src: url(../assets/fonts/SimplyMono-Book.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: TerminusTTF;
+  src: url(../assets/fonts/TerminusTTF.ttf) format('truetype');
 }
 
 ::-webkit-scrollbar {
@@ -49,7 +69,7 @@ html {
   background: var(--backgroundDefault);
   color: var(--white);
   overflow: hidden;
-  font-family: var(--game-font, 'DejaVu Sans Mono'), monospace;
+  font-family: 'DejaVu Sans Mono', monospace;
   font-size: small;
 }
 
@@ -58,6 +78,7 @@ canvas {
   width: 100%;
   max-width: 100%;
   max-height: 100%;
+  font-family: var(--game-font), monospace;
 }
 
 li {
@@ -103,7 +124,6 @@ li {
   display: grid;
   grid-template-rows: 100%;
   grid-template-columns: 15% 25% 60%;
-  column-gap: 1rem;
   grid-template-areas: 'image buffs equipment';
   height: 100%;
 }
@@ -111,7 +131,7 @@ li {
 .image-container {
   grid-area: image;
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: flex-start;
 }
 
@@ -133,12 +153,14 @@ li {
   grid-area: buffs;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .equipment-container {
   grid-area: equipment;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 @keyframes fade-in {

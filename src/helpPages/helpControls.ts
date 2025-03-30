@@ -31,17 +31,6 @@ export class HelpControls extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
-
-        * {
-          scrollbar-width: var(--scrollbar-width);
-          scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
-        }
-
         ::selection {
           color: var(--selection-color);
           background-color: var(--selection-background);
@@ -60,12 +49,10 @@ export class HelpControls extends HTMLElement {
         }
 
         .control-scheme-button {
-          font-family: 'UA Squared';
           padding: 0.5rem 1.25rem;
           background: none;
           border: none;
           color: var(--white);
-          font-size: 1.25rem;
           cursor: pointer;
         }
 
@@ -77,6 +64,7 @@ export class HelpControls extends HTMLElement {
           width: 100%;
           border-collapse: collapse;
           margin-top: 1rem;
+          font-family: DejaVu Sans Mono, monospace;
         }
 
         th, td {
@@ -87,10 +75,6 @@ export class HelpControls extends HTMLElement {
 
         th {
           background-color: var(--whiteTransparent);
-        }
-
-        tbody {
-          font: 1rem DejaVu Sans Mono, monospace;
         }
 
         .key-cell {

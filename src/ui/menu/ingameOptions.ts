@@ -170,7 +170,7 @@ export class IngameOptions extends HTMLElement {
             Current seed: ${this.gameConfig.seed} *
           </div>
           <div class="info-text">
-            Current font: ${this.gameConfig.terminal.font} *
+            Current terminal font: ${this.gameConfig.terminal.font} *
           </div>
           <div class="info-text">
             Current terminal dimensions: ${this.gameConfig.terminal.dimensions.width} x ${this.gameConfig.terminal.dimensions.height} *

@@ -18,12 +18,6 @@ export class EquipmentDisplay extends HTMLElement {
     const templateElement = document.createElement('template');
     templateElement.innerHTML = `
       <style>
-        * {
-          margin: var(--margin);
-          padding: var(--padding);
-          box-sizing: var(--box-sizing);
-        }
-
         ::-webkit-scrollbar {
           width: 0.25rem;
         }
@@ -49,14 +43,15 @@ export class EquipmentDisplay extends HTMLElement {
         }
 
         h1 {
-          margin: 0;
           text-align: center;
+          font-size: 1.5rem;
         }
 
         .hands,
         .body {
           display: flex;
           flex-direction: column;
+          gap: 0.25rem;
         }
 
         .equipment-slot {
@@ -70,7 +65,6 @@ export class EquipmentDisplay extends HTMLElement {
       </style>
 
       <h1>Equipment</h1>
-
       <div class="equipment-display">
         <div class="hands">
           <div class="equipment-slot">
@@ -82,7 +76,6 @@ export class EquipmentDisplay extends HTMLElement {
             <div id="OffHand">empty</div>
           </div>
         </div>
-
         <div class="body">
           <div class="equipment-slot">
             <div>Head:&nbsp;</div>
