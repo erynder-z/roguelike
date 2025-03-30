@@ -32,7 +32,7 @@
 body {
   background-color: var(--backgroundDefault);
   color: var(--white);
-  font-family: 'UA Squared';
+  font-family: 'UA Squared', monospace;
   margin: var(--margin);
   padding: var(--padding);
   scrollbar-width: var(--scrollbar-width);

@@ -17,10 +17,6 @@ export class EventManager {
     window.addEventListener('resize', this.handleResize.bind(this));
     this.handleResize();
     this.initTimer();
-
-    document.fonts.ready.then(() => {
-      this.handleFontChange();
-    });
   }
 
   /**
