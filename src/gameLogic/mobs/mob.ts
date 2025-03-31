@@ -8,7 +8,7 @@ import { WorldPoint } from '../../maps/mapModel/worldPoint';
  * Represents a mobile entity within the game world. Mob can be either a player or an NPC.
  */
 export class Mob {
-  public id: string = '';
+  public id: string;
   public pos: WorldPoint = new WorldPoint();
   public glyph: Glyph = Glyph.Unknown;
   public name: string = '?';
@@ -31,6 +31,7 @@ export class Mob {
     this.name = Glyph[glyph];
     this.pos.x = x;
     this.pos.y = y;
+    this.id = crypto.randomUUID();
   }
 
   public is(buff: Buff): boolean {

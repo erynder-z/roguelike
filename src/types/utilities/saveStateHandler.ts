@@ -117,6 +117,7 @@ export type SerializedItemData = {
   charges: number;
   desc: string;
   glyph: number;
+  id: string;
   level: number;
   slot: number;
   spell: number;
