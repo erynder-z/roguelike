@@ -27,7 +27,7 @@ export class UnequipCommand extends CommandBase {
 
     const equipment = <Equipment>game.equipment;
 
-    const obj: ItemObject | undefined = equipment.get(slot);
+    const obj: ItemObject | undefined = equipment.getItemInSlot(slot);
     if (!obj) throw 'obj is undefined';
 
     equipment.remove(slot);

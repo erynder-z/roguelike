@@ -71,7 +71,7 @@ export class EquipmentScreen extends BaseScreen {
   }[] {
     const data: { char: string; slot: string; description: string }[] = [];
     for (let slot = Slot.MainHand; slot < Slot.Last; ++slot) {
-      const item = this.equipment.get(slot);
+      const item = this.equipment.getItemInSlot(slot);
       data.push({
         char: this.slotToCharacter(slot),
         slot: Slot[slot],
@@ -124,7 +124,7 @@ export class EquipmentScreen extends BaseScreen {
    */
 
   private itemMenu(slot: Slot, stack: Stack): void {
-    const item: ItemObject | undefined = this.equipment.get(slot);
+    const item: ItemObject | undefined = this.equipment.getItemInSlot(slot);
 
     if (!item) return;
     const pos = this.CharacterToSlot(slot.toString());

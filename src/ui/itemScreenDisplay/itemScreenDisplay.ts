@@ -96,7 +96,9 @@ export class ItemScreenDisplay extends HTMLElement {
       optionsList.innerHTML = '';
       this.options.forEach(option => {
         const li = document.createElement('li');
-        li.textContent = `${option.key} - ${option.description}`;
+        const keyDescMsg = `${option.key} - ${option.description}`;
+        const descOnlyMsg = ` ${option.description}`;
+        li.textContent = option.key ? keyDescMsg : descOnlyMsg;
         optionsList.appendChild(li);
       });
     }

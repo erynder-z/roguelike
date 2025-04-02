@@ -123,7 +123,8 @@ export class EquipmentDisplay extends HTMLElement {
 
     slots.forEach(slot => {
       const slotElement = this.shadowRoot?.getElementById(Slot[slot]);
-      const itemDescription = equipment?.get(slot)?.description() ?? 'empty';
+      const itemDescription =
+        equipment?.getItemInSlot(slot)?.description() ?? 'empty';
 
       if (slotElement) {
         slotElement.textContent = itemDescription;
