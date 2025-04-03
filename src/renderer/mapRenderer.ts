@@ -355,10 +355,18 @@ export class MapRenderer {
   ): string {
     // If the cell is visible
     if (isVisible) {
-      // If the cell is a visible trap with a corpse return a yellow color
-      if (cell.env === Glyph.Visible_Trap && cell.corpse)
-        return ManipulateColors.darkenColor('#f9ff5b', 0.2);
+      const CORPSE_INTERACTING_GLYPHS = [
+        Glyph.Visible_Trap,
+        Glyph.Hidden_Trap,
+        Glyph.Spiky_Crystal,
+        Glyph.Lava,
+      ];
 
+      // If the cell is a potentially lethal env with a corpse return a darker version of the env color
+      if (CORPSE_INTERACTING_GLYPHS.includes(cell.env) && cell.corpse) {
+        const envColor = GlyphMap.getGlyphInfo(cell.env).fgCol;
+        return ManipulateColors.darkenColor(envColor, 0.2);
+      }
       // If the cell has an object with a spell, return the spell color
       /*   if (!cell.mob && cell.obj && cell.obj.spell !== Spell.None)
         return SpellColors.c[cell.obj.spell][0]; */
