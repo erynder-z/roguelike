@@ -3,18 +3,20 @@ import { Tile } from '../../../types/gameLogic/maps/mapGenerator/tile';
 
 export const OVERWORLD_LEVEL_TILES: Tile = {
   floor: [
-    { glyph: Glyph.Regular_Floor, occurrencePercentage: 95 },
-    { glyph: Glyph.Spiky_Crystal, occurrencePercentage: 1 },
-    { glyph: Glyph.Glowing_Mushroom, occurrencePercentage: 1 },
-    { glyph: Glyph.Poison_Mushroom, occurrencePercentage: 1 },
-    { glyph: Glyph.Confusion_Mushroom, occurrencePercentage: 1 },
-    { glyph: Glyph.Hidden_Trap, occurrencePercentage: 1 },
-    { glyph: Glyph.Arcane_Sigil, occurrencePercentage: 0.1 },
+    // Using weights, aiming for a rough base of 1000 for common things
+    { glyph: Glyph.Regular_Floor, relativeWeight: 950 }, // Very common
+    { glyph: Glyph.Spiky_Crystal, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Glowing_Mushroom, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Poison_Mushroom, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Confusion_Mushroom, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Hidden_Trap, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Arcane_Sigil, relativeWeight: 1 }, // Very rare
   ],
   wall: [
-    { glyph: Glyph.Wall, occurrencePercentage: 84 },
-    { glyph: Glyph.Rock, occurrencePercentage: 10.5 },
-    { glyph: Glyph.Obsidian, occurrencePercentage: 5 },
-    { glyph: Glyph.Magnetite, occurrencePercentage: 0.5 },
+    // Using weights, aiming for a rough base of 100 for common things
+    { glyph: Glyph.Wall, relativeWeight: 840 }, // Common
+    { glyph: Glyph.Rock, relativeWeight: 105 }, // Less common
+    { glyph: Glyph.Obsidian, relativeWeight: 50 }, // Uncommon
+    { glyph: Glyph.Magnetite, relativeWeight: 5 }, // Rare
   ],
 };
