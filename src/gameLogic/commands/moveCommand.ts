@@ -4,11 +4,11 @@ import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
+import { GlyphMap } from '../glyphs/glyphMap';
 import { ItemObject } from '../itemObjects/itemObject';
 import { Mob } from '../mobs/mob';
 import { StairCommand } from './stairCommand';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { GlyphMap } from '../glyphs/glyphMap';
 
 /**
  * Represents a move command that moves a mob in the game.

@@ -1,5 +1,5 @@
-import { PopupBoxBad } from '../ui/popup/popupBoxBad';
-import { PopupBoxGood } from '../ui/popup/popupBoxGood';
+import { PopupBoxBad } from './popupBoxBad';
+import { PopupBoxGood } from './popupBoxGood';
 
 /**
  * Handles showing informational popups to the user.

@@ -1,5 +1,5 @@
-import { RandomGenerator } from '../randomGenerator/randomGenerator';
-import { WorldPoint } from '../maps/mapModel/worldPoint';
+import { RandomGenerator } from '../../randomGenerator/randomGenerator';
+import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 export class IrregularShapeAreaGenerator {
   /**

@@ -1,4 +1,4 @@
-import { CanSee } from '../../utilities/canSee';
+import { CanSee } from '../../maps/helpers/canSee';
 import { CommandBase } from '../commands/commandBase';
 import { Cost } from '../../types/gameLogic/commands/cost';
 import { GameMap } from '../../maps/mapModel/gameMap';

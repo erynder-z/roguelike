@@ -1,5 +1,5 @@
 import { Buff } from '../gameLogic/buffs/buffEnum';
-import { CanSee } from '../utilities/canSee';
+import { CanSee } from '../maps/helpers/canSee';
 import { DrawableTerminal } from '../types/terminal/drawableTerminal';
 import { EnvEffect } from '../types/gameLogic/maps/mapModel/envEffect';
 import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
@@ -7,10 +7,10 @@ import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
-import { ManipulateColors } from '../utilities/colors/manipulateColors';
+import { ManipulateColors } from '../colors/manipulateColors';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { Spell } from '../gameLogic/spells/spell';
-import { SpellColors } from '../utilities/colors/spellColors';
+import { SpellColors } from '../colors/spellColors';
 import { TerminalPoint } from '../terminal/terminalPoint';
 import { WorldPoint } from '../maps/mapModel/worldPoint';
 

@@ -1,5 +1,5 @@
 import { AutoHeal } from './autoHeal';
-import { CanSee } from '../../utilities/canSee';
+import { CanSee } from '../../maps/helpers/canSee';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameMap } from '../../maps/mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';

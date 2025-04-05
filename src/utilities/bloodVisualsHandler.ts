@@ -1,4 +1,4 @@
-import { CanSee } from './canSee';
+import { CanSee } from '../maps/helpers/canSee';
 import { EnvironmentChecker } from '../gameLogic/environment/environmentChecker';
 import { gameConfigManager } from '../gameConfigManager/gameConfigManager';
 import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';

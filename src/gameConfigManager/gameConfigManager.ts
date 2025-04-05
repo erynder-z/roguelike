@@ -1,5 +1,5 @@
-import { FontHandler } from '../utilities/fontHandler';
-import { getRandomName } from '../utilities/getRandomName';
+import { FontHandler } from '../font/fontHandler';
+import { getRandomName } from '../randomGenerator/getRandomName';
 import { GameConfigType } from '../types/gameConfig/gameConfigType';
 import {
   BaseDirectory,

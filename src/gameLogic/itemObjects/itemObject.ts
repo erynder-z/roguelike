@@ -3,7 +3,7 @@ import { GlyphMap } from '../glyphs/glyphMap';
 import { ObjCategory } from './itemCategories';
 import { Slot } from './slot';
 import { Spell } from '../spells/spell';
-import { SpellColors } from '../../utilities/colors/spellColors';
+import { SpellColors } from '../../colors/spellColors';
 
 /**
  * Represents an item object in the game world.

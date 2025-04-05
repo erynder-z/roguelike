@@ -6,8 +6,8 @@ import { exit } from '@tauri-apps/plugin-process';
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { invoke } from '@tauri-apps/api/core';
-import { PopupHandler } from '../../utilities/popupHandler';
-import { SaveStateHandler } from '../../utilities/saveStateHandler';
+import { PopupHandler } from '../popup/popupHandler';
+import { SaveStateHandler } from '../../savestates/saveStateHandler';
 
 export class IngameMenu extends HTMLElement {
   private eventTracker = new EventListenerTracker();

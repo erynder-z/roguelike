@@ -3,7 +3,7 @@ import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
 import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EquipCommand } from '../commands/equipCommand';
-import { DetailViewHandler } from '../../utilities/detailViewHandler';
+import { DetailViewHandler } from '../../ui/detailVIewHandler/detailViewHandler';
 import { DropCommand } from '../commands/dropCommand';
 import { FindObjectSpell } from '../spells/findObjectSpells';
 import { GameState } from '../../types/gameBuilder/gameState';

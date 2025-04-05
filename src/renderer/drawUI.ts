@@ -10,7 +10,7 @@ import { GameState } from '../types/gameBuilder/gameState';
 import { Glyph } from '../gameLogic/glyphs/glyph';
 import { GlyphInfo } from '../gameLogic/glyphs/glyphInfo';
 import { GlyphMap } from '../gameLogic/glyphs/glyphMap';
-import { ImageHandler } from '../utilities/imageHandler/imageHandler';
+import { ImageHandler } from '../media/imageHandler/imageHandler';
 import { LevelInfo } from '../ui/levelInfo/levelInfo';
 import { MapCell } from '../maps/mapModel/mapCell';
 import { MapRenderer } from './mapRenderer';

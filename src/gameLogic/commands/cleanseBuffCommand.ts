@@ -3,7 +3,7 @@ import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Mob } from '../mobs/mob';
-import { MobMessagesHandler } from '../../utilities/mobMessagesHandler';
+import { MobMessagesHandler } from '../../ui/messages/mobMessagesHandler';
 
 /**
  * Represents a command that removes a given buff from the given mob.

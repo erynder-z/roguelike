@@ -1,10 +1,10 @@
-import { Corpse } from '../gameLogic/mobs/corpse';
-import { EntityInfoCard } from '../ui/entityInfoDisplay/entityInfoCard';
-import { Glyph } from '../gameLogic/glyphs/glyph';
-import { ItemObject } from '../gameLogic/itemObjects/itemObject';
-import { DetailViewEntity } from '../types/ui/detailViewEntity';
-import { MapCell } from '../maps/mapModel/mapCell';
-import { Mob } from '../gameLogic/mobs/mob';
+import { Corpse } from '../../gameLogic/mobs/corpse';
+import { EntityInfoCard } from '../entityInfoDisplay/entityInfoCard';
+import { Glyph } from '../../gameLogic/glyphs/glyph';
+import { ItemObject } from '../../gameLogic/itemObjects/itemObject';
+import { DetailViewEntity } from '../../types/ui/detailViewEntity';
+import { MapCell } from '../../maps/mapModel/mapCell';
+import { Mob } from '../../gameLogic/mobs/mob';
 
 export class DetailViewHandler {
   /**

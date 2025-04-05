@@ -1,4 +1,4 @@
-import { CanSee } from '../../utilities/canSee';
+import { CanSee } from '../../maps/helpers/canSee';
 import { GameMap } from '../../maps/mapModel/gameMap';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Mob } from './mob';
