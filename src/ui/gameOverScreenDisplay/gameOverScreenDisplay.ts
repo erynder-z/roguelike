@@ -1,4 +1,6 @@
+import { MessageLog } from '../../gameLogic/messages/messageLog';
 import { GameState } from '../../types/gameBuilder/gameState';
+import { handleLastMoments } from '../../utilities/handleLastMoments';
 import { PostMortem } from '../postMortem/postMortem';
 
 export class GameOverScreenDisplay extends HTMLElement {
@@ -6,6 +8,7 @@ export class GameOverScreenDisplay extends HTMLElement {
   public playerName: string = '';
   public playerColor: string = '';
   public info: string = '';
+  public log: MessageLog | null = null;
 
   constructor() {
     super();
@@ -57,6 +60,17 @@ export class GameOverScreenDisplay extends HTMLElement {
           font-size: 1.5em;
         }
 
+        .last-moments-message {
+          margin-top: 1rem;
+        }
+
+        .last-messages {
+          list-style: none;
+          font-weight: bold;
+          padding: 0;
+          text-align: center;
+        }
+
         .post-mortem-container {
           padding: 1em;
         }
@@ -86,6 +100,8 @@ export class GameOverScreenDisplay extends HTMLElement {
       <div class="game-over-screen">
         <div class="player-name"></div>
         <div class="death-message"></div>
+        <div class="last-moments-message">Your last moments:</div>
+        <ul class="last-messages"></ul>
         <div class="post-mortem-container"></div>
         <div class="footer"></div>
       </div>
@@ -135,5 +151,17 @@ export class GameOverScreenDisplay extends HTMLElement {
       deathMessageElement.innerHTML = `Your journey has ended...`;
 
     if (footerElement) footerElement.innerHTML = this.info;
+
+    if (this.log) {
+      const lastMessages = handleLastMoments(this.log);
+      const lastMessagesElement = this.shadowRoot.querySelector(
+        '.last-messages',
+      ) as HTMLElement;
+      lastMessages.forEach(message => {
+        const listItem = document.createElement('li');
+        listItem.textContent = message.message;
+        lastMessagesElement.appendChild(listItem);
+      });
+    }
   }
 }
