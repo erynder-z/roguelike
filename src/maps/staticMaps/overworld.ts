@@ -1,9 +1,9 @@
 import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
-import { FindFreeSpace } from '../../utilities/findFreeSpace';
+import { FindFreeSpace } from '../helpers/findFreeSpace';
 import { GameMap } from '../mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
-import { IrregularShapeAreaGenerator } from '../../utilities/irregularShapeAreaGenerator';
+import { IrregularShapeAreaGenerator } from '../helpers/irregularShapeAreaGenerator';
 import { OVERWORLD_LEVEL_TILES } from '../mapGenerator/generationData/overworldLevelTiles';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { RockGenerator } from '../mapGenerator/rockGenerator';

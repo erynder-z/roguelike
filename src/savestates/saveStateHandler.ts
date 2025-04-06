@@ -389,7 +389,7 @@ export class SaveStateHandler {
    * @returns {ItemObject} - The restored item object.
    */
   private restoreItemObject(serializedItem: SerializedItemData): ItemObject {
-    return new ItemObject(
+    const item = new ItemObject(
       serializedItem.glyph,
       serializedItem.slot,
       serializedItem.category.map(cat => cat),
@@ -398,6 +398,10 @@ export class SaveStateHandler {
       serializedItem.desc,
       serializedItem.charges,
     );
+
+    item.id = serializedItem.id;
+
+    return item;
   }
 
   /**

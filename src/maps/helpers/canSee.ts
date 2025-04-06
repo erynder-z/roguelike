@@ -1,8 +1,8 @@
 import { BresenhamIterator } from './bresenhamIterator';
-import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
-import { GameState } from '../types/gameBuilder/gameState';
-import { Mob } from '../gameLogic/mobs/mob';
-import { WorldPoint } from '../maps/mapModel/worldPoint';
+import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
+import { GameState } from '../../types/gameBuilder/gameState';
+import { Mob } from '../../gameLogic/mobs/mob';
+import { WorldPoint } from '../../maps/mapModel/worldPoint';
 
 /**
  * Provides methods to check visibility between points or entities on a map.

@@ -3,7 +3,7 @@ import { GameState } from '../../types/gameBuilder/gameState';
 import { ParsePlayer } from '../events/parsePlayer';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
-import { DetailViewHandler } from '../../utilities/detailViewHandler';
+import { DetailViewHandler } from '../../ui/detailVIewHandler/detailViewHandler';
 
 /**
  * Represents a game screen that extends the functionality of the base screen.

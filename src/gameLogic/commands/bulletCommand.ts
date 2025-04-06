@@ -5,7 +5,7 @@ import { DirectionStep } from '../stepper/directionStep';
 import { EventCategory } from '../messages/logMessage';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
-import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
+import { ImageHandler } from '../../media/imageHandler/imageHandler';
 import { Mob } from '../mobs/mob';
 import { RangedWeaponType } from '../stepper/damageStep';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';

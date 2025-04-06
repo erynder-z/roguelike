@@ -5,7 +5,7 @@ import { GameState } from '../../types/gameBuilder/gameState';
 import { GrammarHandler } from '../../utilities/grammarHandler';
 import { LogMessage } from '../messages/logMessage';
 import { Mob } from '../mobs/mob';
-import { MobMessagesHandler } from '../../utilities/mobMessagesHandler';
+import { MobMessagesHandler } from '../../ui/messages/mobMessagesHandler';
 
 /**
  * Handles managing buffs on a mob.

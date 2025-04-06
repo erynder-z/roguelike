@@ -1,3 +1,4 @@
+import { AttackAnimationScreen } from '../screens/attackAnimationScreen';
 import { CommandBase } from './commandBase';
 import { EnvironmentChecker } from '../environment/environmentChecker';
 import { EventCategory } from '../messages/logMessage';
@@ -10,7 +11,6 @@ import { Mob } from '../mobs/mob';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { Stack } from '../../types/terminal/stack';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';
-import { AttackAnimationScreen } from '../screens/attackAnimationScreen';
 
 /**
  * Represents a command to dig through rocks.

@@ -1,7 +1,7 @@
 import { BaseScreen } from './baseScreen';
 import { Buff } from '../buffs/buffEnum';
-import { CanSee } from '../../utilities/canSee';
-import { DetailViewHandler } from '../../utilities/detailViewHandler';
+import { CanSee } from '../../maps/helpers/canSee';
+import { DetailViewHandler } from '../../ui/detailVIewHandler/detailViewHandler';
 import { DrawableTerminal } from '../../types/terminal/drawableTerminal';
 import { DrawUI } from '../../renderer/drawUI';
 import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';

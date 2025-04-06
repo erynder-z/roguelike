@@ -1,6 +1,6 @@
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
-import { ImageHandler } from '../../utilities/imageHandler/imageHandler';
-import { images } from '../../utilities/imageHandler/imageIndex';
+import { ImageHandler } from '../../media/imageHandler/imageHandler';
+import { images } from '../../media/imageHandler/imageIndex';
 import { MessagesDisplay } from '../messages/messagesDisplay';
 import { MessageLog } from '../../gameLogic/messages/messageLog';
 

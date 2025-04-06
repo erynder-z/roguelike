@@ -1,4 +1,4 @@
-import { ScanlinesHandler } from '../renderer/scanlinesHandler';
+import { ScanlinesHandler } from '../../renderer/scanlinesHandler';
 
 export class GenerateMainUI {
   public static async generate() {

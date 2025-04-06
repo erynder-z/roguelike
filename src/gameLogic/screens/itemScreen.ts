@@ -3,7 +3,7 @@ import { Command } from '../../types/gameLogic/commands/command';
 import { CommandBase } from '../commands/commandBase';
 import { EntityInfoCard } from '../../ui/entityInfoDisplay/entityInfoCard';
 import { EquipCommand } from '../commands/equipCommand';
-import { DetailViewHandler } from '../../utilities/detailViewHandler';
+import { DetailViewHandler } from '../../ui/detailVIewHandler/detailViewHandler';
 import { DropCommand } from '../commands/dropCommand';
 import { FindObjectSpell } from '../spells/findObjectSpells';
 import { GameState } from '../../types/gameBuilder/gameState';
@@ -29,10 +29,10 @@ export class ItemScreen extends BaseScreen {
     private index: number,
     public game: GameState,
     public maker: ScreenMaker,
-    private isEquipped: boolean = false,
+    private isSlotOccupied: boolean = false,
   ) {
     super(game, maker);
-    this.isEquipped = game.equipment?.has(this.obj.slot) ?? false;
+    this.isSlotOccupied = game.equipment?.hasItemInSlot(this.obj.slot) ?? false;
   }
 
   /**
@@ -53,42 +53,56 @@ export class ItemScreen extends BaseScreen {
   }
 
   /**
-   * Generates and returns the list of options for the item screen, based on the type
-   * of item and whether it is equipped or not.
+   * Generates a list of menu options based on the properties and state of the current item.
    *
-   * @returns {Array<{ key: string; description: string }>} The list of options.
+   * This function evaluates various conditions like whether the item can be worn, equipped,
+   * fired, used, cast, or dropped, and whether the slot is occupied. It returns an array of
+   * objects, each containing a key and a description for possible actions that can be
+   * performed on the item.
+   *
+   * @returns {Array<{key: string, description: string}>} A list of menu options with keys and descriptions.
    */
   private getMenuOptions(): { key: string; description: string }[] {
     const options = [{ key: 'v', description: 'View' }];
-    const { category } = this.obj;
+    const { category, slot } = this.obj;
+    const equipment = this.game.equipment;
+    const equippedItem = equipment?.getItemInSlot(slot);
 
-    if (!this.isEquipped) {
-      if (category.includes(ObjCategory.Armor))
-        options.push({ key: 'w', description: 'Wear' });
-      if (category.includes(ObjCategory.MeleeWeapon))
-        options.push({ key: 'q', description: 'Equip' });
-      if (category.includes(ObjCategory.RangedWeapon))
-        options.push({ key: 'f', description: 'Fire' });
-      if (category.includes(ObjCategory.SpellItem))
-        options.push({ key: 'c', description: 'Cast' });
-      if (category.includes(ObjCategory.Consumable))
-        options.push({ key: 'u', description: 'Use' });
+    const itemCanBeWorn = category.includes(ObjCategory.Armor);
+    const itemCanBeEquipped = category.includes(ObjCategory.MeleeWeapon);
+    const itemCanBeFired = category.includes(ObjCategory.RangedWeapon);
+    const itemCanBeUsed = category.includes(ObjCategory.Consumable);
+    const itemCanBeCast = category.includes(ObjCategory.SpellItem);
+    const itemCanBeUnequipped =
+      equipment?.hasItemInSlot(slot) && equippedItem?.id === this.obj.id;
+    const itemCanBeDropped =
+      !equipment?.isItemEquipped(this.obj) &&
+      category.some(c =>
+        [
+          ObjCategory.Armor,
+          ObjCategory.MeleeWeapon,
+          ObjCategory.RangedWeapon,
+          ObjCategory.SpellItem,
+          ObjCategory.Consumable,
+        ].includes(c),
+      );
 
-      if (
-        category.some(c =>
-          [
-            ObjCategory.Armor,
-            ObjCategory.MeleeWeapon,
-            ObjCategory.RangedWeapon,
-            ObjCategory.SpellItem,
-            ObjCategory.Consumable,
-          ].includes(c),
-        )
-      ) {
-        options.push({ key: 'd', description: 'Drop' });
-      }
+    if (itemCanBeDropped) options.push({ key: 'd', description: 'Drop' });
+    if (!this.isSlotOccupied) {
+      if (itemCanBeWorn) options.push({ key: 'w', description: 'Wear' });
+      if (itemCanBeEquipped) options.push({ key: 'q', description: 'Equip' });
+      if (itemCanBeFired) options.push({ key: 'f', description: 'Fire' });
+      if (itemCanBeCast) options.push({ key: 'c', description: 'Cast' });
+      if (itemCanBeUsed) options.push({ key: 'u', description: 'Use' });
     } else {
-      options.push({ key: 'n', description: 'Unequip' });
+      if (itemCanBeUnequipped) {
+        options.push({ key: 'n', description: 'Unequip' });
+      } else {
+        options.push({
+          key: '',
+          description: `Need to unequip ${this.game.equipment?.getItemInSlot(this.obj.slot)?.description()} in order to equip this item`,
+        });
+      }
     }
 
     return options;
@@ -193,7 +207,7 @@ export class ItemScreen extends BaseScreen {
    * @returns {boolean} True if the item was successfully equipped, otherwise false.
    */
   private canWear(stack: Stack): boolean {
-    if (this.isEquipped) return false;
+    if (this.isSlotOccupied) return false;
 
     const ok = new EquipCommand(this.obj, this.index, this.game).turn();
     if (ok) {

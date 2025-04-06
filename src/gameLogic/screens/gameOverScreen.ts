@@ -10,6 +10,7 @@ import { Stack } from '../../types/terminal/stack';
 export class GameOverScreen extends BaseScreen {
   public name = 'gameover';
   private display: GameOverScreenDisplay | null = null;
+
   constructor(
     public game: GameState,
     public make: ScreenMaker,
@@ -40,6 +41,7 @@ export class GameOverScreen extends BaseScreen {
       this.display.game = this.game;
       this.display.playerName = `${this.game.player.name} ✝`;
       this.display.playerColor = this.gameConfig.player.color;
+      this.display.log = this.game.log;
 
       const menuKey = `<span class="emphasize">${this.activeControlScheme.menu.toString()}</span>`;
       this.display.info = `Press ${menuKey} to return to the title screen.`;

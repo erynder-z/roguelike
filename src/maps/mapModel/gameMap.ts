@@ -1,6 +1,6 @@
 import { Corpse } from '../../gameLogic/mobs/corpse';
 import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
-import { FindFreeSpace } from '../../utilities/findFreeSpace';
+import { FindFreeSpace } from '../helpers/findFreeSpace';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { GlyphMap } from '../../gameLogic/glyphs/glyphMap';

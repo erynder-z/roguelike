@@ -48,6 +48,7 @@ export class BuffsDisplay extends HTMLElement {
 
         ul {
           padding: 0;
+          margin: 0;
           display: flex;
           flex-wrap: wrap;
           gap: 1rem;

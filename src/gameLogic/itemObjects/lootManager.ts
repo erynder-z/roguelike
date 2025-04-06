@@ -1,7 +1,7 @@
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { EnvironmentChecker } from '../environment/environmentChecker';
-import { FindFreeSpace } from '../../utilities/findFreeSpace';
+import { FindFreeSpace } from '../../maps/helpers/findFreeSpace';
 import { ItemObjectManager } from './itemObjectManager';
 import { LogMessage, EventCategory } from '../messages/logMessage';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';

@@ -3,15 +3,17 @@ import { Tile } from '../../../types/gameLogic/maps/mapGenerator/tile';
 
 export const CAVE_LEVEL_TILES: Tile = {
   floor: [
-    { glyph: Glyph.Regular_Floor, occurrencePercentage: 96 },
-    { glyph: Glyph.Spiky_Crystal, occurrencePercentage: 1 },
-    { glyph: Glyph.Glowing_Mushroom, occurrencePercentage: 1 },
-    { glyph: Glyph.Poison_Mushroom, occurrencePercentage: 1 },
-    { glyph: Glyph.Confusion_Mushroom, occurrencePercentage: 1 },
-    { glyph: Glyph.Arcane_Sigil, occurrencePercentage: 0.1 },
+    // Using weights, aiming for a rough base of 1000 for common things
+    { glyph: Glyph.Regular_Floor, relativeWeight: 950 }, // Very common
+    { glyph: Glyph.Spiky_Crystal, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Glowing_Mushroom, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Poison_Mushroom, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Confusion_Mushroom, relativeWeight: 10 }, // Uncommon
+    { glyph: Glyph.Arcane_Sigil, relativeWeight: 1 }, // Very rare
   ],
   wall: [
-    { glyph: Glyph.Wall, occurrencePercentage: 50 },
-    { glyph: Glyph.Rock, occurrencePercentage: 50 },
+    // Using weights, aiming for a rough base of 1000 for common things
+    { glyph: Glyph.Wall, relativeWeight: 500 }, // Common
+    { glyph: Glyph.Rock, relativeWeight: 500 }, // Common
   ],
 };

@@ -1,5 +1,6 @@
 import { Buff } from '../buffs/buffEnum';
 import { BuffCommand } from '../commands/buffCommand';
+import { CanSee } from '../../maps/helpers/canSee';
 import { GameMap } from '../../maps/mapModel/gameMap';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Mob } from './mob';
@@ -11,7 +12,6 @@ import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { ScreenMaker } from '../../types/gameLogic/screens/ScreenMaker';
 import { SimpleSleepAI } from './simpleSleepAI';
 import { Stack } from '../../types/terminal/stack';
-import { CanSee } from '../../utilities/canSee';
 
 /**
  * An AI implementation for Mobs in an cast spells.

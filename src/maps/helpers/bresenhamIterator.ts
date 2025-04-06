@@ -1,4 +1,4 @@
-import { WorldPoint } from '../maps/mapModel/worldPoint';
+import { WorldPoint } from '../mapModel/worldPoint';
 
 /**
  * Represents an iterator for generating points along a line using Bresenham's algorithm.

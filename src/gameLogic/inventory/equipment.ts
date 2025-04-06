@@ -32,8 +32,18 @@ export class Equipment {
    * @param {Slot} s The slot to check.
    * @returns {boolean} True if the equipment has an item in the slot, false otherwise.
    */
-  public has(s: Slot): boolean {
+  public hasItemInSlot(s: Slot): boolean {
     return this._objs.has(s);
+  }
+
+  /**
+   * Checks if a specific item is currently equipped.
+   * @param {ItemObject} o The item to check.
+   * @returns {boolean} True if the item is equipped, false otherwise.
+   */
+
+  public isItemEquipped(o: ItemObject): boolean {
+    return [...this._objs.values()].some(item => item.id === o.id);
   }
 
   /**
@@ -49,7 +59,7 @@ export class Equipment {
    * @param {Slot} s The slot to retrieve the item from.
    * @returns {ItemObject | undefined} The item in the slot, or undefined if not found.
    */
-  public get(s: Slot): ItemObject | undefined {
+  public getItemInSlot(s: Slot): ItemObject | undefined {
     return this._objs.get(s);
   }
 
@@ -59,7 +69,7 @@ export class Equipment {
    * @throws {string} Throws an error if the slot does not exist.
    */
   private legalSlot(s: Slot): void {
-    if (!this.has(s)) {
+    if (!this.hasItemInSlot(s)) {
       console.error(this._objs);
       throw 'Slot does not exist!';
     }
@@ -124,7 +134,7 @@ export class Equipment {
    */
   public weapon(): ItemObject | undefined {
     for (const slot of Equipment.weapons) {
-      if (this.has(slot)) return this.get(slot);
+      if (this.hasItemInSlot(slot)) return this.getItemInSlot(slot);
     }
     return undefined;
   }

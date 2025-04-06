@@ -3,8 +3,10 @@ import { Tile } from '../../../types/gameLogic/maps/mapGenerator/tile';
 
 export const MAZE_LEVEL_TILES: Tile = {
   floor: [
-    { glyph: Glyph.Regular_Floor, occurrencePercentage: 100 },
-    { glyph: Glyph.Arcane_Sigil, occurrencePercentage: 0.1 },
+    // Using weights, aiming for a rough base of 1000 for common things
+    { glyph: Glyph.Regular_Floor, relativeWeight: 1000 }, // Common
+    { glyph: Glyph.Arcane_Sigil, relativeWeight: 1 }, // Very rare
   ],
-  wall: [{ glyph: Glyph.Obsidian, occurrencePercentage: 100 }],
+  // Using weights, aiming for a rough base of 1000 for common things
+  wall: [{ glyph: Glyph.Obsidian, relativeWeight: 1000 }], // Common
 };

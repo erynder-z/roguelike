@@ -3,12 +3,13 @@ import { GlyphMap } from '../glyphs/glyphMap';
 import { ObjCategory } from './itemCategories';
 import { Slot } from './slot';
 import { Spell } from '../spells/spell';
-import { SpellColors } from '../../utilities/colors/spellColors';
+import { SpellColors } from '../../colors/spellColors';
 
 /**
  * Represents an item object in the game world.
  */
 export class ItemObject {
+  public id: string;
   constructor(
     public glyph: Glyph,
     public slot: Slot,
@@ -17,7 +18,9 @@ export class ItemObject {
     public level: number = 1,
     public desc: string = 'some item without description',
     public charges: number = 1,
-  ) {}
+  ) {
+    this.id = crypto.randomUUID();
+  }
 
   /**
    * Generates a description of the item object.

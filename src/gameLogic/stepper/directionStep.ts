@@ -2,7 +2,7 @@ import { GameMap } from '../../maps/mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
-import { MagnetismHandler } from '../../utilities/magnetismHandler';
+import { MagnetismHandler } from '../../maps/helpers/magnetismHandler';
 import { Step } from '../../types/gameLogic/stepper/step';
 import { TimedStep } from './timedStep';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';

@@ -63,7 +63,7 @@ export class EquipCommand extends CommandBase {
   private isAlreadyEquipped(item: ItemObject): boolean {
     const { game } = this;
 
-    const alreadyEquipped = this.equipment.has(item.slot);
+    const alreadyEquipped = this.equipment.hasItemInSlot(item.slot);
 
     if (alreadyEquipped) {
       const label = Slot[item.slot];

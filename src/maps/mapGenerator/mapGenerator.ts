@@ -3,7 +3,7 @@ import { EnvironmentChecker } from '../../gameLogic/environment/environmentCheck
 import { GameMap } from '../mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
-import { IrregularShapeAreaGenerator } from '../../utilities/irregularShapeAreaGenerator';
+import { IrregularShapeAreaGenerator } from '../helpers/irregularShapeAreaGenerator';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
 import { RockGenerator } from './rockGenerator';
 import { WorldPoint } from '../mapModel/worldPoint';

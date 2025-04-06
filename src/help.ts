@@ -2,7 +2,7 @@ import './styles/cssReset.css';
 import './styles/style-help.css';
 import { ColorLoader } from './loaders/colorLoader';
 import { gameConfigManager } from './gameConfigManager/gameConfigManager';
-import { GenerateHelpUI } from './utilities/generateHelpUI';
+import { GenerateHelpUI } from './ui/uiGenerators/generateHelpUI';
 import { handleGlobalKeydown } from './utilities/handleGlobalKeyDown';
 import { invoke } from '@tauri-apps/api/core';
 

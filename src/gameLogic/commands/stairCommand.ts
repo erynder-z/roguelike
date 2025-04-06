@@ -1,6 +1,6 @@
 import { CommandBase } from './commandBase';
 import { EventCategory, LogMessage } from '../messages/logMessage';
-import { FindFreeSpace } from '../../utilities/findFreeSpace';
+import { FindFreeSpace } from '../../maps/helpers/findFreeSpace';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { WorldPoint } from '../../maps/mapModel/worldPoint';

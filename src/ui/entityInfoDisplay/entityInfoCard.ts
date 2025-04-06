@@ -2,7 +2,7 @@ import { GlyphMap } from '../../gameLogic/glyphs/glyphMap';
 import { Spell } from '../../gameLogic/spells/spell';
 import { EnvEffect } from '../../types/gameLogic/maps/mapModel/envEffect';
 import { DetailViewEntity } from '../../types/ui/detailViewEntity';
-import { SpellColors } from '../../utilities/colors/spellColors';
+import { SpellColors } from '../../colors/spellColors';
 
 export class EntityInfoCard extends HTMLElement {
   constructor() {

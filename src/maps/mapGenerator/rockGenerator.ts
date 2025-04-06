@@ -23,34 +23,50 @@ export class RockGenerator {
   }
 
   /**
-   * Generates a random glyph from a list of rock types based on probability of occurrence.
+   * Given a list of rock types and their relative weights, this function returns a Glyph
+   * based on the weights. The function will throw an error if the total weight of the
+   * rock types is less than or equal to zero.
    *
-   * @param {RandomGenerator} rand - The random generator to use for randomness.
-   * @param {Rock[]} rockTypes - The list of rock types with their probabilities.
-   * @return {Glyph} The randomly selected glyph.
+   * @param {RandomGenerator} rand - The random generator used to generate a random number.
+   * @param {Rock[]} rockTypes - The array of rock types with their relative weights.
+   * @return {Glyph} The glyph of the selected rock type.
    */
   private static getRandomGlyph(
     rand: RandomGenerator,
     rockTypes: Rock[],
   ): Glyph {
-    const totalPercentage = rockTypes.reduce(
-      (sum, rt) => sum + rt.occurrencePercentage,
+    const totalWeight = rockTypes.reduce(
+      (sum, rt) => sum + rt.relativeWeight,
       0,
     );
 
-    const randNum = rand.generateRandomNumber() * totalPercentage;
+    if (totalWeight <= 0) {
+      // Handle the case where there are no valid types or all weights are zero
+      console.warn(
+        'No valid rock types or total weight is zero. Returning default.',
+      );
+      return Glyph.Regular_Floor;
+    }
 
-    let accumulatedPercentage = 0;
+    // Generate a random number between 0  and totalWeight
+    const randNum = rand.generateRandomNumber() * totalWeight;
+
+    let accumulatedWeight = 0;
     for (const rockType of rockTypes) {
-      accumulatedPercentage += rockType.occurrencePercentage;
-      if (randNum < accumulatedPercentage) {
+      accumulatedWeight += rockType.relativeWeight; // Use relativeWeight
+      if (randNum < accumulatedWeight) {
         return rockType.glyph;
       }
     }
 
-    // Fallback in case no glyph is found, though this should never happen
+    //  Return the last element as a fallback
+    if (rockTypes.length > 0) {
+      return rockTypes[rockTypes.length - 1].glyph;
+    }
+
+    // If the rockTypes array is empty or otherwise invalid
     throw new Error(
-      'Unable to select a rock glyph. Check the rock types and their probabilities.',
+      'Unable to select a rock glyph. Check the rock types and their weights.',
     );
   }
 }

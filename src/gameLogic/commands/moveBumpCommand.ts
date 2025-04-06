@@ -4,7 +4,7 @@ import { CommandBase } from './commandBase';
 import { GameMap } from '../../maps/mapModel/gameMap';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { HitCommand } from './hitCommand';
-import { MagnetismHandler } from '../../utilities/magnetismHandler';
+import { MagnetismHandler } from '../../maps/helpers/magnetismHandler';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { Mob } from '../mobs/mob';
 import { MoveCommand } from './moveCommand';

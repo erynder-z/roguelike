@@ -1,7 +1,7 @@
 import { AISwitcher } from '../gameLogic/mobs/aiSwitcher';
 import { Build } from '../types/gameBuilder/build';
 import { GameConfigType } from '../types/gameConfig/gameConfigType';
-import { FindFreeSpace } from '../utilities/findFreeSpace';
+import { FindFreeSpace } from '../maps/helpers/findFreeSpace';
 import { Game } from './gameModel';
 import { GameMapType } from '../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../types/gameBuilder/gameState';
@@ -18,7 +18,7 @@ import { MoodAI } from '../gameLogic/mobs/moodAI';
 import { ObjCategory } from '../gameLogic/itemObjects/itemCategories';
 import { Overworld } from '../maps/staticMaps/overworld';
 import { RandomGenerator } from '../randomGenerator/randomGenerator';
-import { SaveStateHandler } from '../utilities/saveStateHandler';
+import { SaveStateHandler } from '../savestates/saveStateHandler';
 import { SerializedGameState } from '../types/utilities/saveStateHandler';
 import { Slot } from '../gameLogic/itemObjects/slot';
 import { Spell } from '../gameLogic/spells/spell';

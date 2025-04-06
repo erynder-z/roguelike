@@ -1,13 +1,13 @@
 import { gameConfigManager } from '../../gameConfigManager/gameConfigManager';
 import { GameConfigType } from '../../types/gameConfig/gameConfigType';
-import { getRandomColor } from '../../utilities/colors/getRandomColor';
+import { getRandomColor } from '../../randomGenerator/getRandomColor';
 import { EventListenerTracker } from '../../utilities/eventListenerTracker';
-import { getRandomUnicodeCharacter } from '../../utilities/getRandomAvatar';
-import { getRandomName } from '../../utilities/getRandomName';
+import { getRandomUnicodeCharacter } from '../../randomGenerator/getRandomAvatar';
+import { getRandomName } from '../../randomGenerator/getRandomName';
 import {
   girlishPortrait,
   boyishPortrait,
-} from '../../utilities/imageHandler/imageImports/portraitImages';
+} from '../../media/imageHandler/imageImports/portraitImages';
 
 export class PlayerSetup extends HTMLElement {
   private eventTracker = new EventListenerTracker();

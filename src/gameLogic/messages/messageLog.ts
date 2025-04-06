@@ -1,5 +1,5 @@
 import { LogMessage, EventCategory } from './logMessage';
-import { StartingMessageGenerator } from '../../utilities/startingMessageGenerator/startingMessageGenerator';
+import { StartingMessageGenerator } from '../../ui/messages/startingMessageGenerator/startingMessageGenerator';
 
 /**
  * The message log for storing and managing messages.
