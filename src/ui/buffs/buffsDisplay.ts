@@ -39,11 +39,7 @@ export class BuffsDisplay extends HTMLElement {
 
         .buffs-display {
           overflow: auto;
-        }
-
-        h1 {
-          text-align: center;
-          font-size: 1.5rem;
+          min-height: 2rem;
         }
 
         ul {
@@ -60,7 +56,6 @@ export class BuffsDisplay extends HTMLElement {
         }
       </style>
 
-      <h1>Buffs</h1>
 
       <div class="buffs-display"></div>
     `;
