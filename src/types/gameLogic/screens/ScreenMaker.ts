@@ -6,6 +6,6 @@ export type ScreenMaker = {
   newGame(): StackScreen;
   loadGame(saveState: SerializedGameState): StackScreen;
   titleScreen(): void;
-  gameOver(): StackScreen;
+  gameOver(game: GameState): StackScreen;
   something(game: GameState | null): StackScreen;
 };

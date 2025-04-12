@@ -122,7 +122,7 @@ export class BaseScreen implements StackScreen {
     const over = !this.game.player.isAlive();
     if (over) {
       s.pop();
-      s.push(this.make.gameOver());
+      s.push(this.make.gameOver(this.game));
     }
     return over;
   }
