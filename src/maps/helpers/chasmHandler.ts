@@ -10,7 +10,7 @@ export class ChasmHandler {
   /**
    * Handle moving on a chasm edge cell.
    *
-   * There is a one in three chance of falling into the chasm.
+   * There is a one in 4 chance of falling into the chasm.
    * If the mob is the player, a message is printed to the log.
    * Otherwise, the mob is moved to the center of the chasm.
    *
@@ -18,7 +18,7 @@ export class ChasmHandler {
    * @param game The current game state.
    */
   public static handleChasmEdge(mob: Mob, game: GameState): void {
-    const fallChance = game.rand.isOneIn(3);
+    const fallChance = game.rand.isOneIn(4);
 
     if (fallChance) {
       this.handleChasmCenter(mob, game);
@@ -34,10 +34,13 @@ export class ChasmHandler {
   }
 
   /**
-   * Handle moving on a chasm center cell.
+   * Handles a mob falling into the center of a chasm.
    *
-   * @param {Mob} mob - the current mob
-   * @return {void}
+   * A message is printed to the log, and the mob is either killed or removed
+   * depending on whether it is the player mob.
+   *
+   * @param mob The mob to handle.
+   * @param game The current game state.
    */
   public static handleChasmCenter(mob: Mob, game: GameState): void {
     const s = mob.isPlayer ? 'You fall' : `${mob.name} falls`;
@@ -46,6 +49,11 @@ export class ChasmHandler {
       EventCategory.playerDeath,
     );
     game.message(msg);
-    HealthAdjust.mobDeathWithoutCorpseAndLoot(mob, game, true);
+
+    if (mob.isPlayer) {
+      HealthAdjust.damage(mob, mob.hp, game, null);
+    } else {
+      HealthAdjust.mobDeathWithoutCorpseAndLoot(mob, game, true);
+    }
   }
 }
