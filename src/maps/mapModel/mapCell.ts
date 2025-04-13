@@ -291,12 +291,22 @@ export class MapCell {
   }
 
   /**
-   * Checks if the current cell is a chasm.
+   * Checks if the current cell is at the edge of a chasm.
    *
-   * @return {boolean} True if the cell is a chasm, false otherwise.
+   * @return {boolean} True if the cell is at the chasm edge, false otherwise.
    */
-  public isChasm(): boolean {
-    return this.env === Glyph.Chasm_Edge || this.env === Glyph.Chasm_Center;
+
+  public isChasmEdge(): boolean {
+    return this.env === Glyph.Chasm_Edge;
+  }
+
+  /**
+   * Checks if the current cell is the center of a chasm.
+   *
+   * @return {boolean} True if the cell is the center of a chasm, false otherwise.
+   */
+  public isChasmCenter(): boolean {
+    return this.env === Glyph.Chasm_Center;
   }
 
   /**

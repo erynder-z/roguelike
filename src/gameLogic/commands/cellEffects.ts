@@ -1,13 +1,11 @@
 import { Buff } from '../buffs/buffEnum';
 import { BuffCommand } from './buffCommand';
+import { ChasmHandler } from '../../maps/helpers/chasmHandler';
 import { CleanseBuffCommand } from './cleanseBuffCommand';
-import { EventCategory } from '../messages/logMessage';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
 import { HealCommand } from './healCommand';
-import { HealthAdjust } from './healthAdjust';
-import { LogMessage } from '../messages/logMessage';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { Mob } from '../mobs/mob';
 import { StatChangeBuffCommand } from './statChangeBuffCommand';
@@ -40,6 +38,7 @@ export class CellEffects {
           this.me,
           duration,
         ).execute();
+        if (!this.me.isAlive()) return;
       }
     }
     if (this.cell.isCausingBurn()) {
@@ -51,6 +50,7 @@ export class CellEffects {
         this.me,
         duration,
       ).execute();
+      if (!this.me.isAlive()) return;
     }
     if (this.cell.isCausingBleed()) {
       const duration = 5;
@@ -61,6 +61,7 @@ export class CellEffects {
         this.me,
         duration,
       ).execute();
+      if (!this.me.isAlive()) return;
     }
     if (this.cell.isCausingPoison()) {
       const duration = 5;
@@ -81,6 +82,7 @@ export class CellEffects {
         this.me,
         duration,
       ).execute();
+      if (!this.me.isAlive()) return;
     }
 
     if (this.cell.isCausingBlind()) {
@@ -92,6 +94,7 @@ export class CellEffects {
         this.me,
         duration,
       ).execute();
+      if (!this.me.isAlive()) return;
     }
 
     if (this.cell.isCausingAttackUp()) {
@@ -106,6 +109,7 @@ export class CellEffects {
         amount,
         duration,
       ).execute();
+      if (!this.me.isAlive()) return;
     }
 
     if (this.cell.isCausingAttackDown()) {
@@ -120,6 +124,7 @@ export class CellEffects {
         amount,
         duration,
       ).execute();
+      if (!this.me.isAlive()) return;
     }
 
     if (this.cell.isCausingDefenseUp()) {
@@ -134,6 +139,7 @@ export class CellEffects {
         amount,
         duration,
       ).execute();
+      if (!this.me.isAlive()) return;
     }
 
     if (this.cell.isCausingDefenseDown()) {
@@ -148,6 +154,7 @@ export class CellEffects {
         amount,
         duration,
       ).execute();
+      if (!this.me.isAlive()) return;
     }
 
     if (this.cell.isHealing()) {
@@ -155,8 +162,18 @@ export class CellEffects {
       new HealCommand(randomAmount, this.me, this.game).execute();
     }
 
-    if (this.cell.isWater()) this.handleWater(this.me);
-    if (this.cell.isChasm()) this.handleChasm(this.me);
+    if (this.cell.isWater()) {
+      this.handleWater(this.me);
+      if (!this.me.isAlive()) return;
+    }
+    if (this.cell.isChasmEdge()) {
+      ChasmHandler.handleChasmEdge(this.me, this.game);
+      if (!this.me.isAlive()) return;
+    }
+    if (this.cell.isChasmCenter()) {
+      ChasmHandler.handleChasmCenter(this.me, this.game);
+      if (!this.me.isAlive()) return;
+    }
   }
 
   /**
@@ -170,11 +187,12 @@ export class CellEffects {
    */
   private handleWater(mob: Mob): void {
     // remove .5 intensity of blood if mob is bloody
-    if (
-      mob.bloody.isBloody &&
-      (mob.bloody.intensity = Math.max(0, mob.bloody.intensity - 0.5)) === 0
-    )
-      mob.bloody.isBloody = false;
+    if (mob.bloody.isBloody) {
+      mob.bloody.intensity = Math.max(0, mob.bloody.intensity - 0.5);
+      if (mob.bloody.intensity === 0) {
+        mob.bloody.isBloody = false;
+      }
+    }
 
     const duration = 2;
     new BuffCommand(Buff.Slow, mob, this.game, mob, duration).execute();
@@ -187,21 +205,5 @@ export class CellEffects {
         new CleanseBuffCommand(buff, mob, this.game).execute();
       }
     });
-  }
-
-  /**
-   * Handle falling into a chasm.
-   *
-   * @param {Mob} mob - the current mob
-   * @return {void}
-   */
-  private handleChasm(mob: Mob): void {
-    const s = mob.isPlayer ? 'You fall' : `${mob.name} falls`;
-    const msg = new LogMessage(
-      `${s} into the abyss!`,
-      EventCategory.playerDeath,
-    );
-    this.game.message(msg);
-    HealthAdjust.killMob(mob, this.game);
   }
 }

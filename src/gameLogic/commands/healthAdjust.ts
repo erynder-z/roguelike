@@ -65,26 +65,16 @@ export class HealthAdjust {
 
     const shouldDisplayMessage = this.shouldDisplayMessage(game, mob, attacker);
 
-    if (mob.hp <= 0) this.mobDies(mob, game, shouldDisplayMessage);
+    if (mob.hp <= 0)
+      this.mobDeathWithCorpseAndLoot(mob, game, shouldDisplayMessage);
   }
 
   /**
-   * Kills the specified mob by dealing its full health as damage.
-   *
-   * @param {Mob} mob - The mob to be killed.
-   * @param {GameState} game - The game state object.
-   * @return {void} This function does not return anything.
-   */
-  public static killMob(mob: Mob, game: GameState): void {
-    this.damage(mob, mob.hp, game, null);
-  }
-
-  /**
-   * Handles the death of the specified mob.
+   * Handles the death of the specified mob by an damage action.
    * @param {Mob} mob - The mob that dies.
    * @param {GameState} game - The game object.
    */
-  private static mobDies(
+  private static mobDeathWithCorpseAndLoot(
     mob: Mob,
     game: GameState,
     shouldDisplayMessage: boolean,
@@ -102,6 +92,33 @@ export class HealthAdjust {
 
     map.mobToCorpse(mob);
     this.maybeDropLoot(mob, game);
+
+    if (!mob.isPlayer) game.stats.incrementMobKillCounter();
+  }
+
+  /**
+   * Handles the death of the specified mob by removing it from the map.
+   * @param {Mob} mob - The mob that dies.
+   * @param {GameState} game - The game object.
+   * @param {boolean} shouldDisplayMessage - Whether to message the death.
+   */
+  public static mobDeathWithoutCorpseAndLoot(
+    mob: Mob,
+    game: GameState,
+    shouldDisplayMessage: boolean,
+  ): void {
+    const map = <GameMapType>game.currentMap();
+
+    if (shouldDisplayMessage) {
+      const s = `${mob.name} dies.`;
+      const t = <EventCategory>EventCategory.mobDeath;
+      const msg = new LogMessage(s, t);
+      game.message(msg);
+      game.flash(msg);
+      game.addCurrentEvent(EventCategory.mobDeath);
+    }
+
+    map.removeMob(mob);
 
     if (!mob.isPlayer) game.stats.incrementMobKillCounter();
   }
