@@ -24,6 +24,7 @@ export enum EventCategory {
   use,
   mobSpawn,
   trap,
+  chasmDanger,
 }
 export class LogMessage {
   private static idCounter = 0;

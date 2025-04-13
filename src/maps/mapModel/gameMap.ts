@@ -128,10 +128,13 @@ export class GameMap implements GameMapType {
   }
 
   /**
-   * Transforms a mob into a corpse and updates the game state accordingly.
+   * Turns the given mob into a corpse. If the cell at the mob's
+   * position is not a valid place for a corpse, the mob is moved
+   * to an adjacent cell that is valid. If all adjacent cells are
+   * invalid, the mob is deleted.
    *
-   * @param {Mob} mob - the mob to be transformed into a corpse
-   * @return {void}
+   * @param {Mob} mob - The mob to be turned into a corpse.
+   * @returns {void}
    */
   public mobToCorpse(mob: Mob): void {
     this.queue.removeMob(mob);
@@ -142,22 +145,22 @@ export class GameMap implements GameMapType {
     const cell = this.cell(mob.pos);
     const canDrop = EnvironmentChecker.canCorpseBeDropped(cell);
 
-    if (!canDrop) {
-      const maxDropRadius = 5;
-      const np = FindFreeSpace.findFreeAdjacent(mob.pos, this, maxDropRadius);
-      if (np) {
-        const corpse = new Corpse(corpseGlyph, np.x, np.y).create();
-        const cell = this.cell(np);
-
-        cell.mob = undefined;
-        cell.corpse = corpse;
-      }
+    if (canDrop) {
+      const corpse = new Corpse(corpseGlyph, mob.pos.x, mob.pos.y).create();
+      cell.mob = undefined;
+      cell.corpse = corpse;
+      return;
     }
 
-    const corpse = new Corpse(corpseGlyph, mob.pos.x, mob.pos.y).create();
-
-    cell.mob = undefined;
-    cell.corpse = corpse;
+    const maxDropRadius = 3;
+    const np = FindFreeSpace.findFreeAdjacent(mob.pos, this, maxDropRadius);
+    if (np) {
+      const corpse = new Corpse(corpseGlyph, np.x, np.y).create();
+      const newCell = this.cell(np);
+      newCell.mob = undefined;
+      newCell.corpse = corpse;
+      return;
+    }
   }
 
   /**

@@ -37,21 +37,16 @@ export class EquipmentDisplay extends HTMLElement {
         }
 
         .equipment-display {
-          overflow: auto;
           display: flex;
           gap: 5rem;
-        }
-
-        h1 {
-          text-align: center;
-          font-size: 1.5rem;
+          height:100%; 
         }
 
         .hands,
         .body {
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
+
         }
 
         .equipment-slot {
@@ -64,7 +59,6 @@ export class EquipmentDisplay extends HTMLElement {
         }
       </style>
 
-      <h1>Equipment</h1>
       <div class="equipment-display">
         <div class="hands">
           <div class="equipment-slot">

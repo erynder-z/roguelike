@@ -125,7 +125,6 @@ li {
   grid-template-rows: 100%;
   grid-template-columns: 15% 25% 60%;
   grid-template-areas: 'image buffs equipment';
-  height: 100%;
 }
 
 .image-container {
@@ -158,9 +157,6 @@ li {
 
 .equipment-container {
   grid-area: equipment;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 @keyframes fade-in {

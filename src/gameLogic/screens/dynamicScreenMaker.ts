@@ -52,12 +52,13 @@ export class DynamicScreenMaker implements ScreenMaker {
   }
 
   /**
-   * Creates a game over screen.
+   * Generates a game over screen and inserts it at the start of the document.
    *
-   * @returns {StackScreen} A StackScreen representing the game over state.
+   * @param {GameState} game - The game state to display on the game over screen.
+   * @returns {StackScreen} A StackScreen representing the game over screen.
    */
-  public gameOver(): StackScreen {
-    return this.overScreen(<GameState>this.game, this);
+  public gameOver(game: GameState): StackScreen {
+    return this.overScreen(game, this);
   }
 
   public something(game: GameState | null): StackScreen {

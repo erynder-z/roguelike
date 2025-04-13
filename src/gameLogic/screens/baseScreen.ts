@@ -78,10 +78,12 @@ export class BaseScreen implements StackScreen {
 
     const { queue } = map;
 
+    this.finishPlayerTurn(queue, s);
+
+    if (queue.mobs.length <= 0) return;
+
     let m: Mob;
 
-    this.finishPlayerTurn(queue, s);
-    if (queue.mobs.length <= 0) return;
     for (m = queue.next(); !m.isPlayer && !this.over(s); m = queue.next()) {
       this.npcTurn(m, player, s);
     }
@@ -108,7 +110,9 @@ export class BaseScreen implements StackScreen {
     const currentCell = map.cell(m.pos);
 
     if (ai) ai.turn(m, ply, this.game, stack, this.make);
+    if (!m.isAlive()) return; // mob died during turn
     this.handleCellEffects(currentCell, m);
+    if (!m.isAlive()) return; // mob died during cell effects
     this.finishTurn(m);
   }
 
@@ -122,7 +126,7 @@ export class BaseScreen implements StackScreen {
     const over = !this.game.player.isAlive();
     if (over) {
       s.pop();
-      s.push(this.make.gameOver());
+      s.push(this.make.gameOver(this.game));
     }
     return over;
   }
