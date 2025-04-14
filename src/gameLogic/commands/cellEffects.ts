@@ -1,7 +1,6 @@
 import { Buff } from '../buffs/buffEnum';
 import { BuffCommand } from './buffCommand';
 import { ChasmHandler } from '../../maps/helpers/chasmHandler';
-import { CleanseBuffCommand } from './cleanseBuffCommand';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { GameState } from '../../types/gameBuilder/gameState';
 import { Glyph } from '../glyphs/glyph';
@@ -9,6 +8,7 @@ import { HealCommand } from './healCommand';
 import { MapCell } from '../../maps/mapModel/mapCell';
 import { Mob } from '../mobs/mob';
 import { StatChangeBuffCommand } from './statChangeBuffCommand';
+import { WaterHandler } from '../../maps/helpers/waterHandler';
 
 /**
  * Manages adding effects to a mob at a given position.
@@ -163,7 +163,7 @@ export class CellEffects {
     }
 
     if (this.cell.isWater()) {
-      this.handleWater(this.me);
+      WaterHandler.handleWaterCellEffect(this.me, this.game);
       if (!this.me.isAlive()) return;
     }
     if (this.cell.isChasmEdge()) {
@@ -174,36 +174,5 @@ export class CellEffects {
       ChasmHandler.handleChasmCenter(this.me, this.game);
       if (!this.me.isAlive()) return;
     }
-  }
-
-  /**
-   * Handles the effects of water on a mob.
-   *
-   * @param {Mob} mob - The mob to affect.
-   *
-   * If the mob is bloody, clears the blood.
-   * Applies a slow debuff for 2 turns.
-   * Removes any active burn or lava buffs.
-   */
-  private handleWater(mob: Mob): void {
-    // remove .5 intensity of blood if mob is bloody
-    if (mob.bloody.isBloody) {
-      mob.bloody.intensity = Math.max(0, mob.bloody.intensity - 0.5);
-      if (mob.bloody.intensity === 0) {
-        mob.bloody.isBloody = false;
-      }
-    }
-
-    const duration = 2;
-    new BuffCommand(Buff.Slow, mob, this.game, mob, duration).execute();
-
-    const fireBuffs = [Buff.Burn, Buff.Lava];
-    const activeBuffs = mob.buffs;
-
-    fireBuffs.forEach(buff => {
-      if (activeBuffs.is(buff)) {
-        new CleanseBuffCommand(buff, mob, this.game).execute();
-      }
-    });
   }
 }
