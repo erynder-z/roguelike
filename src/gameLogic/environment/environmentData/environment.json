@@ -584,6 +584,30 @@
         "show": true,
         "about": "A glowing sigil with unknown magical properties. Could be beneficial... or dangerous."
       }
+    },
+    {
+      "id": "Nebulous_Mist",
+      "char": "‷",
+      "bgCol": "#496181",
+      "fgCol": "#58749c",
+      "hasSolidBg": true,
+      "name": "Nebulous mist",
+      "description": "Thick hazy fog that obscures vision, making every step a venture into the unknown.",
+      "isOpaque": true,
+      "isBlockingMovement": false,
+      "isBlockingProjectiles": false,
+      "isDiggable": false,
+      "isCausingSlow": false,
+      "isCausingBurn": false,
+      "isMagnetic": false,
+      "isCausingBleed": false,
+      "isGlowing": false,
+      "isCausingPoison": false,
+      "isCausingConfusion": false,
+      "help": {
+        "show": true,
+        "about": "Thick hazy fog that obscures vision, making every step a venture into the unknown."
+      }
     }
   ]
 }
