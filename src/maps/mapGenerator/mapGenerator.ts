@@ -1,5 +1,4 @@
 import { DEFAULT_LEVEL_TILES } from './generationData/defaultLevelTiles';
-import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
 import { GameMap } from '../mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
@@ -13,7 +12,7 @@ import { WorldPoint } from '../mapModel/worldPoint';
  */
 export class MapGenerator1 {
   constructor(
-    public m: GameMapType,
+    public gameMap: GameMapType,
     public rand: RandomGenerator,
   ) {}
 
@@ -48,7 +47,7 @@ export class MapGenerator1 {
       Glyph.Mossy_Floor,
     );
 
-    this.processCells(m);
+    MapUtils.processCells(m);
     return m;
   }
 
@@ -63,7 +62,7 @@ export class MapGenerator1 {
   ): void {
     const { rand } = this;
 
-    const mapDimensions = this.m.dimensions;
+    const mapDimensions = this.gameMap.dimensions;
 
     roomDimensions.y = rand.randomIntegerClosedRange(4, 16);
     roomDimensions.x = rand.randomIntegerClosedRange(8, 24);
@@ -112,7 +111,7 @@ export class MapGenerator1 {
           : isSecondLayer
             ? RockGenerator.getWallRockTypes(rand, DEFAULT_LEVEL_TILES)
             : centerGlyph;
-        this.m.cell(currentPoint).env = glyph;
+        this.gameMap.cell(currentPoint).env = glyph;
         if (isSecondLayer) {
           doorPositions.push(currentPoint.copy());
         }
@@ -130,21 +129,7 @@ export class MapGenerator1 {
     for (let i = rand.randomInteger(1, 3); i >= 0; --i) {
       const index = rand.randomInteger(0, doorPositions.length);
       const position = doorPositions[index];
-      this.m.cell(position).env = Glyph.Door_Closed;
-    }
-  }
-
-  /**
-   * Loops over every cell on the map and applies any necessary modifications.
-   * @param {GameMapType} map The map to process.
-   */
-  private processCells(map: GameMapType): void {
-    for (let y = 0; y < map.dimensions.y; y++) {
-      for (let x = 0; x < map.dimensions.x; x++) {
-        const position = new WorldPoint(x, y);
-
-        EnvironmentChecker.addStaticCellEffects(map.cell(position));
-      }
+      this.gameMap.cell(position).env = Glyph.Door_Closed;
     }
   }
 

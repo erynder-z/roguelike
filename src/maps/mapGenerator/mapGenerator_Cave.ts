@@ -1,12 +1,10 @@
 import { CAVE_LEVEL_TILES } from './generationData/caveLevelTiles';
-import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
 import { GameMap } from '../mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
 import { IrregularShapeAreaGenerator } from '../helpers/irregularShapeAreaGenerator';
 import { MapUtils } from '../helpers/mapUtils';
 import { RandomGenerator } from '../../randomGenerator/randomGenerator';
-import { RockGenerator } from './rockGenerator';
 import { WeightedFeatureConfig } from '../../types/gameLogic/maps/helpers/weightedFeatures';
 import { WorldPoint } from '../mapModel/worldPoint';
 
@@ -38,6 +36,26 @@ export class MapGenerator_Cave {
   ) {}
 
   /**
+   * Generates a cave map using the given random generator and level number.
+   *
+   * This function creates a new instance of the MapGenerator_Cave class and
+   * calls its createCave method to generate the map.
+   *
+   * @param {RandomGenerator} rand - The random number generator.
+   * @param {number} level - The level number of the map.
+   * @return {GameMapType} The generated map.
+   */
+  public static generate(rand: RandomGenerator, level: number): GameMapType {
+    const mapDimensionsX = 128;
+    const mapDimensionsY = 64;
+    const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
+    const map = new GameMap(mapDimensions, Glyph.Rock, level);
+
+    const generator = new MapGenerator_Cave(map, rand);
+    return generator.createCave();
+  }
+
+  /**
    * Generates a cave-like map using the Drunkard's Walk algorithm and
    * adds various features and modifications.
    *
@@ -53,36 +71,29 @@ export class MapGenerator_Cave {
    * @return {GameMapType} The generated cave-like map.
    */
   public createCave(): GameMapType {
-    this.clearMap();
-    this.drunkardsWalk();
+    MapUtils.clearMap(this.map);
+
+    const wallProbability = 0.5;
+    const maxIterations = 10000;
+
+    MapUtils.drunkardsWalk(
+      this.map,
+      this.rand,
+      CAVE_LEVEL_TILES,
+      wallProbability,
+      maxIterations,
+    );
 
     const numberOfFeaturesToGenerate = 25;
     const mapDimensions = this.map.dimensions;
 
-    for (let i = 0; i < numberOfFeaturesToGenerate; i++) {
-      const selectedFeature = MapUtils.selectWeightedFeature(
-        caveFeatures,
-        this.rand,
-      );
-      if (selectedFeature) {
-        const featureSize = this.rand.randomIntegerClosedRange(
-          selectedFeature.minSize,
-          selectedFeature.maxSize,
-        );
-        const featureArea =
-          IrregularShapeAreaGenerator.generateIrregularShapeArea(
-            mapDimensions,
-            this.rand,
-            featureSize,
-            selectedFeature.iterations,
-          );
-        for (const p of featureArea) {
-          if (this.map.isLegalPoint(p)) {
-            this.map.cell(p).env = selectedFeature.glyph;
-          }
-        }
-      }
-    }
+    MapUtils.generateRandomFeatures(
+      numberOfFeaturesToGenerate,
+      this.map,
+      this.rand,
+      caveFeatures,
+      mapDimensions,
+    );
 
     MapUtils.applyTerrainModifier(
       this.map,
@@ -98,122 +109,14 @@ export class MapGenerator_Cave {
 
     this.addChasm();
 
-    this.processCells();
+    MapUtils.processCells(this.map);
 
     return this.map;
   }
 
   /**
-   * Uses the Drunkard's Walk algorithm to carve out a path in the map,
-   * leaving a trail of floor tiles and occasionally creating walls.
-   *
-   * The algorithm starts at the center of the map and takes a random
-   * step in one of the four cardinal directions. If the step is outside
-   * the map, it resets to the center and tries again. The algorithm
-   * repeats for a set number of iterations.
-   *
-   * During each iteration, the algorithm checks the surrounding cells
-   * and randomly selects some of them to be walls. The algorithm uses
-   * a set probability to decide whether to turn a cell into a wall.
-   *
-   * The algorithm is run on a map with all cells set to rock, and the
-   * generated path is then filled with floor tiles.
-   */
-  private drunkardsWalk(): void {
-    const wallProbability = 0.5;
-    const maxIterations = 5000;
-    const mapDimensions = this.map.dimensions;
-
-    let x = Math.floor(mapDimensions.x / 2);
-    let y = Math.floor(mapDimensions.y / 2);
-
-    for (let i = 0; i < maxIterations; i++) {
-      const currentPos = new WorldPoint(x, y);
-      if (
-        x > 1 &&
-        y > 1 &&
-        x < mapDimensions.x - 2 &&
-        y < mapDimensions.y - 2
-      ) {
-        this.map.cell(currentPos).env = RockGenerator.getFloorRockTypes(
-          this.rand,
-          CAVE_LEVEL_TILES,
-        );
-
-        for (let dx = -1; dx <= 1; dx++) {
-          for (let dy = -1; dy <= 1; dy++) {
-            if (dx === 0 && dy === 0) continue;
-            const wallPos = new WorldPoint(x + dx, y + dy);
-
-            if (
-              this.map.isLegalPoint(wallPos) &&
-              this.map.cell(wallPos).env === Glyph.Rock
-            ) {
-              if (this.rand.generateRandomNumber() < wallProbability) {
-                this.map.cell(wallPos).env = RockGenerator.getWallRockTypes(
-                  this.rand,
-                  CAVE_LEVEL_TILES,
-                );
-              }
-            }
-          }
-        }
-      } else {
-        x = Math.floor(mapDimensions.x / 2);
-        y = Math.floor(mapDimensions.y / 2);
-        continue;
-      }
-
-      const direction = this.randomDirection();
-      x += direction[0];
-      y += direction[1];
-
-      if (
-        x <= 1 ||
-        y <= 1 ||
-        x >= mapDimensions.x - 2 ||
-        y >= mapDimensions.y - 2
-      ) {
-        x = Math.floor(mapDimensions.x / 2);
-        y = Math.floor(mapDimensions.y / 2);
-      }
-    }
-  }
-
-  /**
    * Resets the map to all wall tiles, to be used before generation.
    */
-  private clearMap(): void {
-    for (let y = 0; y < this.map.dimensions.y; y++) {
-      for (let x = 0; x < this.map.dimensions.x; x++) {
-        const p = new WorldPoint(x, y);
-        if (this.map.isLegalPoint(p)) {
-          this.map.cell(p).env = Glyph.Rock;
-        }
-      }
-    }
-  }
-
-  /**
-   * Generates a random direction.
-   *
-   * @return {number[]} a length 2 array containing the x and y delta
-   *   values of the random direction. The possible values are:
-   *   - [0, 1] (up)
-   *   - [0, -1] (down)
-   *   - [1, 0] (right)
-   *   - [-1, 0] (left)
-   */
-  private randomDirection(): number[] {
-    const directions = [
-      [0, 1],
-      [0, -1],
-      [1, 0],
-      [-1, 0],
-    ];
-    const index = this.rand.randomInteger(0, directions.length);
-    return directions[index];
-  }
 
   /**
    * Adds a random number of chasm areas to the map.
@@ -322,41 +225,5 @@ export class MapGenerator_Cave {
         }
       }
     }
-  }
-
-  /**
-   * Loops over every cell on the map and applies any necessary modifications.
-   * This is mainly used to add static environmental effects to each cell.
-   * @return {void} This function does not return anything.
-   */
-  private processCells(): void {
-    for (let y = 0; y < this.map.dimensions.y; y++) {
-      for (let x = 0; x < this.map.dimensions.x; x++) {
-        const position = new WorldPoint(x, y);
-        if (this.map.isLegalPoint(position)) {
-          EnvironmentChecker.addStaticCellEffects(this.map.cell(position));
-        }
-      }
-    }
-  }
-
-  /**
-   * Generates a cave map using the given random generator and level number.
-   *
-   * This function creates a new instance of the MapGenerator_Cave class and
-   * calls its createCave method to generate the map.
-   *
-   * @param {RandomGenerator} rand - The random number generator.
-   * @param {number} level - The level number of the map.
-   * @return {GameMapType} The generated map.
-   */
-  public static generate(rand: RandomGenerator, level: number): GameMapType {
-    const mapDimensionsX = 128;
-    const mapDimensionsY = 64;
-    const mapDimensions = new WorldPoint(mapDimensionsX, mapDimensionsY);
-    const map = new GameMap(mapDimensions, Glyph.Rock, level);
-
-    const generator = new MapGenerator_Cave(map, rand);
-    return generator.createCave(); // Call instance method
   }
 }
