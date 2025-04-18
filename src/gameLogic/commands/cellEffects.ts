@@ -30,7 +30,7 @@ export class CellEffects {
     if (this.cell.isCausingSlow()) {
       if (this.cell.env !== Glyph.Shallow_Water) {
         // Shallow water is handled in this.handleWater()
-        const duration = 5;
+        const duration = this.cell.environment.defaultBuffDuration || 5;
         new BuffCommand(
           Buff.Slow,
           this.me,
@@ -42,7 +42,7 @@ export class CellEffects {
       }
     }
     if (this.cell.isCausingBurn()) {
-      const duration = 9;
+      const duration = this.cell.environment.defaultBuffDuration || 5;
       new BuffCommand(
         Buff.Lava,
         this.me,
@@ -53,7 +53,7 @@ export class CellEffects {
       if (!this.me.isAlive()) return;
     }
     if (this.cell.isCausingBleed()) {
-      const duration = 5;
+      const duration = this.cell.environment.defaultBuffDuration || 5;
       new BuffCommand(
         Buff.Bleed,
         this.me,
@@ -64,7 +64,7 @@ export class CellEffects {
       if (!this.me.isAlive()) return;
     }
     if (this.cell.isCausingPoison()) {
-      const duration = 5;
+      const duration = this.cell.environment.defaultBuffDuration || 5;
       new BuffCommand(
         Buff.Poison,
         this.me,
@@ -74,7 +74,7 @@ export class CellEffects {
       ).execute();
     }
     if (this.cell.isCausingConfusion()) {
-      const duration = 5;
+      const duration = this.cell.environment.defaultBuffDuration || 5;
       new BuffCommand(
         Buff.Confuse,
         this.me,
@@ -86,7 +86,7 @@ export class CellEffects {
     }
 
     if (this.cell.isCausingBlind()) {
-      const duration = 5;
+      const duration = this.cell.environment.defaultBuffDuration || 5;
       new BuffCommand(
         Buff.Blind,
         this.me,

@@ -235,7 +235,7 @@ export class GameMap implements GameMapType {
   }
 
   /**
-   * Sets the environment name and description for every cell.
+   * Sets the environment name, description and the default buff duration (if any) for every cell.
    */
   public setEnvironmentDescriptions(): void {
     this.forEachCell(cell => {
@@ -243,6 +243,8 @@ export class GameMap implements GameMapType {
       cell.environment.glyph = glyph;
       cell.environment.name = GlyphMap.getGlyphInfo(glyph).name;
       cell.environment.description = GlyphMap.getGlyphDescription(glyph);
+      cell.environment.defaultBuffDuration =
+        GlyphMap.getEnvDefaultBuffDuration(glyph);
     });
   }
 }
