@@ -47,7 +47,7 @@ export class MapGenerator1 {
       Glyph.Mossy_Floor,
     );
 
-    MapUtils.processCells(m);
+    MapUtils.applyStaticEffectsToCells(m);
     return m;
   }
 

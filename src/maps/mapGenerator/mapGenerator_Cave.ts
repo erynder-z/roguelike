@@ -109,7 +109,7 @@ export class MapGenerator_Cave {
 
     this.addChasm();
 
-    MapUtils.processCells(this.map);
+    MapUtils.applyStaticEffectsToCells(this.map);
 
     return this.map;
   }

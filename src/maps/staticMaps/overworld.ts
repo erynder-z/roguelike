@@ -1,4 +1,3 @@
-import { EnvironmentChecker } from '../../gameLogic/environment/environmentChecker';
 import { GameMap } from '../mapModel/gameMap';
 import { GameMapType } from '../../types/gameLogic/maps/mapModel/gameMapType';
 import { Glyph } from '../../gameLogic/glyphs/glyph';
@@ -47,33 +46,30 @@ export class Overworld {
     const dim = new WorldPoint(mapDimensionsX, mapDimensionsY);
     const gameMap = new GameMap(dim, Glyph.Wall, level);
 
-    for (let p = new WorldPoint(); p.y < mapDimensionsY; p.y++) {
-      for (p.x = 0; p.x < mapDimensionsX; p.x++) {
-        const edge = !(
-          p.x > 0 &&
-          p.x < mapDimensionsX - 1 &&
-          p.y > 0 &&
-          p.y < mapDimensionsY - 1
-        );
-        const chance = rand.isOneIn(4);
+    gameMap.forEachCell((_cell, p) => {
+      const edge = !(
+        p.x > 0 &&
+        p.x < mapDimensionsX - 1 &&
+        p.y > 0 &&
+        p.y < mapDimensionsY - 1
+      );
+      const chance = rand.isOneIn(4);
 
-        if (chance) {
-          gameMap.cell(p).env = RockGenerator.getWallRockTypes(
-            rand,
-            OVERWORLD_LEVEL_TILES,
-          );
-        } else {
-          gameMap.cell(p).env = RockGenerator.getFloorRockTypes(
-            rand,
-            OVERWORLD_LEVEL_TILES,
-          );
-        }
-        if (edge) {
-          gameMap.cell(p).env = Glyph.Rock;
-        }
-        EnvironmentChecker.addStaticCellEffects(gameMap.cell(p));
+      if (chance) {
+        gameMap.cell(p).env = RockGenerator.getWallRockTypes(
+          rand,
+          OVERWORLD_LEVEL_TILES,
+        );
+      } else {
+        gameMap.cell(p).env = RockGenerator.getFloorRockTypes(
+          rand,
+          OVERWORLD_LEVEL_TILES,
+        );
       }
-    }
+      if (edge) {
+        gameMap.cell(p).env = Glyph.Rock;
+      }
+    });
 
     const numberOfFeaturesToGenerate = 15;
 
@@ -106,6 +102,8 @@ export class Overworld {
       Glyph.Regular_Floor,
       Glyph.Mossy_Floor,
     );
+
+    MapUtils.applyStaticEffectsToCells(gameMap);
 
     return gameMap;
   }

@@ -17,7 +17,7 @@ export class MapGenerator_Maze {
 
   public generate(): GameMap {
     this.carveMaze();
-    MapUtils.processCells(this.map);
+    MapUtils.applyStaticEffectsToCells(this.map);
     return this.map;
   }
 

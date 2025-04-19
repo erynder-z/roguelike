@@ -118,19 +118,18 @@ export class MapUtils {
   }
 
   /**
-   * Modifies terrain in a map by replacing certain glyphs with another glyph,
-   * attempting to create irregularly shaped patches of the new glyph.
+   * Modifies terrain in a game map by randomly applying a result glyph to target glyphs in irregularly shaped patches.
    *
-   * @param {GameMapType} gameMap - The map to modify.
-   * @param {RandomGenerator} rand - The random generator used to generate patch sizes, positions, and shapes.
-   * @param {WorldPoint} dim - The dimensions of the map.
-   * @param {number} attempts - The number of patches to attempt to generate.
-   * @param {number} minPatchSize - The minimum size of a generated patch.
-   * @param {number} maxPatchSize - The maximum size of a generated patch.
-   * @param {number} iterations - The number of iterations to run for each patch.
-   * @param {Glyph | Glyph[]} targetGlyphs - The glyphs to replace with the result glyph.
-   * @param {Glyph} resultGlyph - The glyph to replace the target glyphs with.
-   * @return {GameMapType} The game map with the newly applied terrain modifier.
+   * @param {GameMapType} gameMap - The game map object to modify.
+   * @param {RandomGenerator} rand - The random generator used to generate random numbers.
+   * @param {WorldPoint} dim - The dimensions of the game map.
+   * @param {number} attempts - The number of times to attempt to apply the result glyph.
+   * @param {number} minPatchSize - The minimum size of an irregularly shaped patch of cells.
+   * @param {number} maxPatchSize - The maximum size of an irregularly shaped patch of cells.
+   * @param {number} iterations - The number of iterations to run the irregular shape generation algorithm.
+   * @param {Glyph | Glyph[]} targetGlyphs - A single glyph or an array of glyphs that are targets for modification.
+   * @param {Glyph} resultGlyph - The glyph to apply to the target glyphs.
+   * @return {GameMapType} The modified game map.
    */
   public static applyTerrainModifier(
     gameMap: GameMapType,
@@ -164,7 +163,6 @@ export class MapUtils {
 
           if (targets.includes(currentGlyph)) {
             gameMap.cell(p).env = resultGlyph;
-            EnvironmentChecker.addStaticCellEffects(gameMap.cell(p));
           }
         }
       }
@@ -173,21 +171,19 @@ export class MapUtils {
   }
 
   /**
-   * Generates random features on a game map based on specified configurations.
+   * Generates a specified number of features on a game map.
    *
-   * This function selects a number of features to generate on the map using
-   * weighted configurations. Each feature is randomly sized and iteratively
-   * generated as an irregular shape, then placed on the map if the position is legal.
-   * Static cell effects are also applied to each point of the feature.
+   * Each feature is selected based on its weight, and its size is randomly determined
+   * within the range specified in its configuration. The feature is then placed on the
+   * map using the irregular shape area generator.
    *
    * @param {number} numFeatures - The number of features to generate.
-   * @param {GameMapType} gameMap - The map where features will be generated.
-   * @param {RandomGenerator} rand - The random number generator for randomness.
-   * @param {WeightedFeatureConfig[]} featureConfigs - The configurations dictating feature weights and sizes.
+   * @param {GameMapType} gameMap - The map where the features will be generated.
+   * @param {RandomGenerator} rand - The random generator used to select features and determine sizes.
+   * @param {WeightedFeatureConfig[]} featureConfigs - The configurations for the features.
    * @param {WorldPoint} dimensions - The dimensions of the map.
    * @return {GameMapType} The game map with the newly generated features.
    */
-
   public static generateRandomFeatures(
     numFeatures: number,
     gameMap: GameMapType,
@@ -215,26 +211,23 @@ export class MapUtils {
             featureConfig.iterations,
           );
 
-        for (const point of featureArea) {
+        for (const point of featureArea)
           if (gameMap.isLegalPoint(point)) {
             gameMap.cell(point).env = featureConfig.glyph;
-            EnvironmentChecker.addStaticCellEffects(gameMap.cell(point));
           }
-        }
       }
     }
     return gameMap;
   }
 
   /**
-   * Generates a single feature on a game map using a weighted feature configuration.
+   * Generates a single feature on a game map using a given configuration.
    *
-   * This function takes a single weighted feature configuration and generates a feature on the map
-   * using the configuration's weights and sizes. The feature is randomly sized and iteratively
-   * generated as an irregular shape, then placed on the map if the position is legal.
-   * Static cell effects are also applied to each point of the feature.
+   * This function generates a single feature on the map by randomly sizing the feature
+   * and generating an irregular shape. It then places the feature on the map if the
+   * position is legal.
    *
-   * @param {WeightedFeatureConfig} featureConfig - The configuration dictating the feature's weights and sizes.
+   * @param {WeightedFeatureConfig} featureConfig - The configuration dictating feature weights and sizes.
    * @param {GameMapType} gameMap - The map where the feature will be generated.
    * @param {RandomGenerator} rand - The random number generator for randomness.
    * @param {WorldPoint} dimensions - The dimensions of the map.
@@ -258,12 +251,11 @@ export class MapUtils {
       featureConfig.iterations,
     );
 
-    for (const point of featureArea) {
+    for (const point of featureArea)
       if (gameMap.isLegalPoint(point)) {
         gameMap.cell(point).env = featureConfig.glyph;
-        EnvironmentChecker.addStaticCellEffects(gameMap.cell(point));
       }
-    }
+
     return gameMap;
   }
 
@@ -385,8 +377,7 @@ export class MapUtils {
    * @param {GameMap} gameMap - The game map object containing cells and dimensions.
    * @return {GameMapType} The game map with applied static environment effects to its cells.
    */
-
-  public static processCells(gameMap: GameMapType): GameMapType {
+  public static applyStaticEffectsToCells(gameMap: GameMapType): GameMapType {
     for (let y = 0; y < gameMap.dimensions.y; y++) {
       for (let x = 0; x < gameMap.dimensions.x; x++) {
         const position = new WorldPoint(x, y);
